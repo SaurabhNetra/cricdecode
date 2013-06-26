@@ -37,4 +37,7 @@
     <string name="description">Description</string>
     <string name="save">Save</string>
 
+    <!-- Match Date -->
+    <string name="match_date">Match Date</string>
+
 </resources>

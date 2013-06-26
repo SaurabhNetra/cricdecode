@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/txtMatchDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/match_date"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/txtMyTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/my_team" />
+
+    <EditText
+        android:id="@+id/txtVsTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/vs_team" />
+
+</LinearLayout>
