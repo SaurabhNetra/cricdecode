@@ -8,9 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
+    <com.google.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/publisher_id"
+        ads:loadAdOnCreate="true" />
 
 </RelativeLayout>
