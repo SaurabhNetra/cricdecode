@@ -6,11 +6,14 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends SherlockFragmentActivity {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		// setContentView(R.layout.activity_main);
+		 setContentView(R.layout.activity_profile);
+		// setContentView(R.layout.activity_goal);
+
 	}
 
 	@Override

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Profile -->
+    <string name="name">Name</string>
+    <string name="nickname">Nickname</string>
+    <string name="dob">Date of Birth</string>
+    <string name="age">Age</string>
+    <string name="profile_pic">Profile Picture</string>
+
+    <string-array name="spn_playing_role">
+        <item>Batsman</item>
+        <item>Bowler</item>
+    </string-array>
+    <string-array name="spn_batting_style">
+        <item>Right Hand Bat</item>
+        <item>Left Hand Bat</item>
+    </string-array>
+    <string-array name="spn_bowling_style">
+        <item>Right-arm fast</item>
+        <item>Right-arm fast medium</item>
+        <item>Right-arm medium fast</item>
+        <item>Right-arm medium</item>
+        <item>Left-arm fast</item>
+        <item>Left-arm fast medium</item>
+        <item>Left-arm medium fast</item>
+        <item>Left-arm medium</item>
+        <item>Off break (right-arm)</item>
+        <item>Leg break (right-arm)</item>
+        <item>Slow left-arm orthodox</item>
+        <item>Slow left-arm chinaman</item>
+    </string-array>
+
+    <!-- Goal -->
+    <string name="title">Title</string>
+    <string name="date_of_achievement">Date of Achievement</string>
+    <string name="description">Description</string>
+    <string name="save">Save</string>
+
+</resources>
