@@ -25,8 +25,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		(new Thread() {
 			public void run() {
 				Looper.prepare();
-				AdView adView = (AdView) ((SherlockFragmentActivity) mainAct)
-						.findViewById(R.id.adView);
+				AdView adView = (AdView) ((SherlockFragmentActivity) mainAct).findViewById(R.id.adView);
 				adView.loadAd(new AdRequest());
 			}
 		}).start();
@@ -35,12 +34,16 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		
+		// Google Analytics Start
 		EasyTracker.getInstance().activityStart(this);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
+		
+		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
 	}
 }
