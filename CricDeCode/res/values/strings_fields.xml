@@ -39,5 +39,7 @@
 
     <!-- Match Date -->
     <string name="match_date">Match Date</string>
+    <string name="my_team">My Team</string>
+    <string name="vs_team">Opponent</string>
 
 </resources>

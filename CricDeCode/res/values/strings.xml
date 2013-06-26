@@ -4,5 +4,6 @@
     <string name="app_name">CricDeCode</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="publisher_id">a151c9c34615465</string>
 
 </resources>
