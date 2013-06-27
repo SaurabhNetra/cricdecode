@@ -7,6 +7,13 @@
     <string name="dob">Date of Birth</string>
     <string name="age">Age</string>
     <string name="profile_pic">Profile Picture</string>
+    <string name="country">Country</string>
+    <string name="state">State</string>
+    <string name="club">Club</string>
+    <string name="university">University</string>
+    <string name="college">College</string>
+    <string name="school">School</string>
+    <string name="qualification">Educational Qualification</string>
 
     <string-array name="spn_playing_role">
         <item>Batsman</item>

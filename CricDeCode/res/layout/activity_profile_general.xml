@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/name"
+            android:inputType="text" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtNickame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/nickname"
+            android:inputType="text" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtDOB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/dob"
+            android:inputType="date" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/age"
+            android:inputType="number" >
+
+            <requestFocus />
+        </EditText>
+
+        <Spinner
+            android:id="@+id/spnPlayingRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_playing_role" />
+
+        <Spinner
+            android:id="@+id/spnBattingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_batting_style" />
+
+        <Spinner
+            android:id="@+id/spnBowlingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_bowling_style" />
+
+        <EditText
+            android:id="@+id/txtQualification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/qualification"
+            android:inputType="text" >
+        </EditText>
+
+        <ImageView
+            android:id="@+id/imgProfilePic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/profile_pic"
+            android:src="@drawable/ic_launcher" />
+
+        <EditText
+            android:id="@+id/txtCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/country"
+            android:inputType="text" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/state"
+            android:inputType="text" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtClub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/club"
+            android:inputType="text" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtUniversity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/university"
+            android:inputType="text" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtCollege"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/college"
+            android:inputType="text" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtSchool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/school"
+            android:inputType="text" >
+        </EditText>
+    </LinearLayout>
+
+</ScrollView>
