@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -25,7 +26,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	// Class Variables
 	private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
-	// private static final String TAG = "CricDeCode";
+	private static final String TAG = "CricDeCode";
 	private ProgressDialog mConnectionProgressDialog;
 	private PlusClient mPlusClient;
 	private ConnectionResult mConnectionResult;
@@ -129,6 +130,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 	@Override
 	public void onConnected(Bundle arg0) {
 		mConnectionProgressDialog.dismiss();
+		Log.d(TAG, "onConnected");
 	}
 
 	@Override
