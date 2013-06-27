@@ -78,6 +78,9 @@
     <string name="deep_runouts">Run Outs in Deep</string>
     <string name="stumpings">Stumpings</string>
     <string name="byes_given">Byes Given</string>
+    <string name="batting">Batting</string>
+    <string name="bowling">Bowling</string>
+    <string name="fielding">Fielding</string>
 
     <string-array name="spn_inning_no">
         <item>1st Innings</item>

@@ -4,55 +4,55 @@
     android:layout_height="wrap_content" >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <EditText
             android:id="@+id/txtMatchDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/match_date"
             android:inputType="date" />
 
         <EditText
             android:id="@+id/txtMyTeam"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/my_team"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/txtVsTeam"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/vs_team"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/txtVenue"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/venue"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/txtOvers"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/overs"
             android:inputType="number" />
 
         <EditText
             android:id="@+id/txtInnings"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/innings"
             android:inputType="number" />
 
         <Spinner
             android:id="@+id/spnResult"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/spn_result" />
     </LinearLayout>
