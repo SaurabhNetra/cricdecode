@@ -27,9 +27,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 	// Class Variables
 	private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
 	private static final String TAG = "CricDeCode";
-	private ProgressDialog mConnectionProgressDialog;
-	private PlusClient mPlusClient;
-	private ConnectionResult mConnectionResult;
+	private static ProgressDialog mConnectionProgressDialog;
+	private static PlusClient mPlusClient;
+	private static ConnectionResult mConnectionResult;
 	public static Context mainAct;
 
 	@Override
