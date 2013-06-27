@@ -41,5 +41,53 @@
     <string name="match_date">Match Date</string>
     <string name="my_team">My Team</string>
     <string name="vs_team">Opponent</string>
+    <string name="venue">Venue</string>
+    <string name="overs">Overs</string>
+    <string name="innings">Innings</string>
+    <string name="result">Result</string>
+
+    <string-array name="spn_result">
+        <item>Win</item>
+        <item>Loss</item>
+        <item>Draw</item>
+        <item>Tie</item>
+        <item>Abandoned</item>
+    </string-array>
+
+    <!-- Performance Insert -->
+    <string name="batting_no">Batting Number</string>
+    <string name="runs">Runs</string>
+    <string name="balls">Balls</string>
+    <string name="time_spent">Time Spent</string>
+    <string name="maidens">Maidens</string>
+    <string name="wickets">Wickets</string>
+    <string name="noballs">No Balls</string>
+    <string name="wides">Wides</string>
+    <string name="close_catches">Close Catches</string>
+    <string name="circle_catches">Catches in Circle</string>
+    <string name="deep_catches">Catches in Deep</string>
+    <string name="circle_runouts">Run Outs in Circle</string>
+    <string name="circle_direct_hit_runouts">Direct Hit Run Outs in Circle</string>
+    <string name="deep_runouts">Run Outs in Deep</string>
+    <string name="stumpings">Stumpings</string>
+    <string name="byes_given">Byes Given</string>
+
+    <string-array name="spn_inning_no">
+        <item>1st Innings</item>
+        <item>2nd Innings</item>
+    </string-array>
+    <string-array name="spn_how_out">
+        <item>Retired</item>
+        <item>Bowled</item>
+        <item>Timed Out</item>
+        <item>Caught</item>
+        <item>Handled the Ball</item>
+        <item>Hit the Ball Twiice</item>
+        <item>Hit Wicket</item>
+        <item>LBW</item>
+        <item>Obstructing the Field</item>
+        <item>Run Out</item>
+        <item>Stumped</item>
+    </string-array>
 
 </resources>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Spinner
+            android:id="@+id/spnInningNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_inning_no" />
+
+        <EditText
+            android:id="@+id/txtBatBattingNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/batting_no"
+            android:inputType="number" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtBatRuns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/runs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatBalls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/balls"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatTimeSpent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/time_spent"
+            android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/spnBatHowOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_how_out" />
+
+        <Spinner
+            android:id="@+id/txtBatBowlerType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_bowling_style" />
+
+        <EditText
+            android:id="@+id/txtBowlOvers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/overs"
+            android:inputType="number" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtBowlMaidens"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/maidens"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlRuns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/runs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlWickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/wickets"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlNoballs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/noballs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlWides"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/wides"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCloseCatches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/close_catches"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCircleCatches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/circle_catches"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldDeepCatches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/deep_catches"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCircleRunouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/circle_runouts"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCircleDirectHitRunouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/circle_direct_hit_runouts"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldDeepRunouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/deep_runouts"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldStumpings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/stumpings"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldByesGiven"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/byes_given"
+            android:inputType="number" />
+    </LinearLayout>
+
+</ScrollView>
