@@ -22,6 +22,8 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity
 
 		// Set up the action bar to show tabs.
 		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.performance_insert_actionbar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// For each of the sections in the app, add a tab to the action bar.
