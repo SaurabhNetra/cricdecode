@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/txtBatBattingNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/batting_no"
+            android:inputType="number" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtBatRuns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/runs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatBalls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/balls"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatTimeSpent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/time_spent"
+            android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/spnBatHowOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_how_out" />
+
+        <Spinner
+            android:id="@+id/txtBatBowlerType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_bowling_style" />
+    </LinearLayout>
+
+</ScrollView>
