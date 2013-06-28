@@ -25,7 +25,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		PlusClient.OnPersonLoadedListener {
 
 	// Class Variables
-	private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
+	private static final int REQUEST_CODE_RESOLVE_ERR = 271516;
 	private static final String TAG = "CricDeCode";
 	private static ProgressDialog mConnectionProgressDialog;
 	private static PlusClient mPlusClient;
@@ -54,6 +54,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 		mPlusClient = new PlusClient.Builder(this, this, this)
 				.setVisibleActivities("http://schemas.google.com/AddActivity",
 						"http://schemas.google.com/BuyActivity").build();
+		findViewById(R.id.sign_button).setOnClickListener(this);
+		mConnectionProgressDialog = new ProgressDialog(this);
+		mConnectionProgressDialog.setMessage("Signing in...");
 	}
 
 	@Override
@@ -80,16 +83,21 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onClick(View view) {
+		Log.d(TAG, "onClick Called");
+
 		// Google Plus Button
 		if (view.getId() == R.id.sign_button && !mPlusClient.isConnected()) {
+			Log.d(TAG, "Not Connected yet");
 			if (mConnectionResult == null) {
+				Log.d(TAG, "Connect Called");
 				mConnectionProgressDialog.show();
 			} else {
 				try {
 					mConnectionResult.startResolutionForResult(this,
 							REQUEST_CODE_RESOLVE_ERR);
 				} catch (SendIntentException e) {
-					// Try connecting again.
+					Log.d(TAG, "Try connecting again");
+					// Try connecting again
 					mConnectionResult = null;
 					mPlusClient.connect();
 				}
@@ -99,12 +107,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
+		Log.d(TAG, "Connection Failed");
 		if (mConnectionProgressDialog.isShowing()) {
 			// The user clicked the sign-in button already. Start to resolve
 			// connection errors. Wait until onConnected() to dismiss the
 			// connection dialog.
 			if (result.hasResolution()) {
+				Log.d(TAG, "hasResolution");
 				try {
+					Log.d(TAG, "Connection Try");
 					result.startResolutionForResult(this,
 							REQUEST_CODE_RESOLVE_ERR);
 				} catch (SendIntentException e) {
@@ -122,6 +133,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			Intent intent) {
 		if (requestCode == REQUEST_CODE_RESOLVE_ERR
 				&& responseCode == RESULT_OK) {
+			Log.d(TAG, "onActivityResult");
 			mConnectionResult = null;
 			mPlusClient.connect();
 		}
@@ -129,8 +141,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onConnected(Bundle arg0) {
+		String accountName = mPlusClient.getAccountName();
 		mConnectionProgressDialog.dismiss();
-		Log.d(TAG, "onConnected");
+		Log.d(TAG, accountName + " Connected");
 	}
 
 	@Override
