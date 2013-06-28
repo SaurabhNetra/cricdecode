@@ -5,12 +5,15 @@ import java.util.Calendar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class DatePickerFragment extends SherlockDialogFragment implements
 		android.app.DatePickerDialog.OnDateSetListener {
+	private View view_callee;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,5 +30,15 @@ public class DatePickerFragment extends SherlockDialogFragment implements
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,
 			int dayOfMonth) {
+		((TextView) view_callee).setText(dayOfMonth + "/" + monthOfYear + "/"
+				+ year);
+	}
+
+	public View getView_callee() {
+		return view_callee;
+	}
+
+	public void setView_callee(View view_callee) {
+		this.view_callee = view_callee;
 	}
 }

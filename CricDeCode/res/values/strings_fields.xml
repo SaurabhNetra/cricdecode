@@ -5,6 +5,8 @@
     <string name="name">Name</string>
     <string name="nickname">Nickname</string>
     <string name="dob">Date of Birth</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
     <string name="age">Age</string>
     <string name="profile_pic">Profile Picture</string>
     <string name="country">Country</string>

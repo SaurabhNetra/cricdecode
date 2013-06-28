@@ -15,8 +15,6 @@
             android:ems="10"
             android:hint="@string/name"
             android:inputType="text" >
-
-            <requestFocus />
         </EditText>
 
         <EditText
@@ -26,9 +24,25 @@
             android:ems="10"
             android:hint="@string/nickname"
             android:inputType="text" >
-
-            <requestFocus />
         </EditText>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/male" />
+
+            <RadioButton
+                android:id="@+id/female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female" />
+        </RadioGroup>
 
         <EditText
             android:id="@+id/txtDOB"
@@ -37,8 +51,6 @@
             android:ems="10"
             android:hint="@string/dob"
             android:inputType="date" >
-
-            <requestFocus />
         </EditText>
 
         <EditText
@@ -48,8 +60,6 @@
             android:ems="10"
             android:hint="@string/age"
             android:inputType="number" >
-
-            <requestFocus />
         </EditText>
 
         <Spinner
@@ -122,23 +132,29 @@
             android:inputType="text" >
         </EditText>
 
-        <EditText
-            android:id="@+id/txtCollege"
+        <RadioGroup
+            android:id="@+id/radioGroup1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/college"
-            android:inputType="text" >
-        </EditText>
+            android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/txtSchool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/school"
-            android:inputType="text" >
-        </EditText>
+            <EditText
+                android:id="@+id/txtCollege"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/college"
+                android:inputType="text" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/txtSchool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/school"
+                android:inputType="text" >
+            </EditText>
+        </RadioGroup>
     </LinearLayout>
 
 </ScrollView>
