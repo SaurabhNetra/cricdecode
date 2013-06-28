@@ -54,6 +54,7 @@
     <string name="overs">Overs</string>
     <string name="innings">Innings</string>
     <string name="result">Result</string>
+    <string name="create">Create</string>
 
     <string-array name="spn_result">
         <item>Win</item>
