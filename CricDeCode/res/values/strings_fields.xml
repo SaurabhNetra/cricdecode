@@ -5,6 +5,7 @@
     <string name="name">Name</string>
     <string name="nickname">Nickname</string>
     <string name="dob">Date of Birth</string>
+    <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="age">Age</string>
@@ -16,6 +17,11 @@
     <string name="college">College</string>
     <string name="school">School</string>
     <string name="qualification">Educational Qualification</string>
+    <string name="playing_role">Playing Role</string>
+    <string name="batting_style">Batting Style</string>
+    <string name="bowling_style">Bowling Style</string>
+    <string name="edit">Edit</string>
+    <string name="view">View</string>
 
     <string-array name="spn_playing_role">
         <item>Batsman</item>
