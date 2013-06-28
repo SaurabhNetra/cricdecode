@@ -6,5 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="publisher_id">a151c9c34615465</string>
     <string name="title_activity_performance_insertion">PerformanceInsertionActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="publisher_id">a151c9c34615465</string>
+    <string name="signin">Sign In!</string>
 
 </resources>
