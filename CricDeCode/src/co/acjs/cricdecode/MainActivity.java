@@ -24,33 +24,24 @@ import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailed
 import com.google.android.gms.plus.PlusClient;
 import com.google.android.gms.plus.model.people.Person;
 
-public class MainActivity extends SherlockFragmentActivity implements
-		ConnectionCallbacks, OnConnectionFailedListener, OnClickListener,
-		PlusClient.OnPersonLoadedListener {
+public class MainActivity extends SherlockFragmentActivity implements ConnectionCallbacks, OnConnectionFailedListener, OnClickListener, PlusClient.OnPersonLoadedListener {
 
 	// Class Variables
-	private static final int REQUEST_CODE_RESOLVE_ERR = 271516;
-	private static final String TAG = "CricDeCode";
-	private static ProgressDialog mConnectionProgressDialog;
-	private static PlusClient mPlusClient;
-	private static ConnectionResult mConnectionResult;
-	public static Context mainAct;
+	private static final int		REQUEST_CODE_RESOLVE_ERR	= 271516;
+	private static final String		TAG							= "CricDeCode";
+	private static ProgressDialog	mConnectionProgressDialog;
+	private static PlusClient		mPlusClient;
+	private static ConnectionResult	mConnectionResult;
+	public static Context			mainAct;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		viewFragment(new SignInFragment());
 
 		// Main Activity Context
 		mainAct = this;
-
-		// Add the Fragment
-		viewFragment(new ProfileFragment());
-
-		// Edit Profile Button
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.profile_actionbar);
 
 		// Look up the AdView as a resource and load a request.
 		(new Thread() {
@@ -66,7 +57,34 @@ public class MainActivity extends SherlockFragmentActivity implements
 		mPlusClient = new PlusClient.Builder(this, this, this)
 				.setVisibleActivities("http://schemas.google.com/AddActivity",
 						"http://schemas.google.com/BuyActivity").build();
-		findViewById(R.id.sign_button).setOnClickListener(this);
+		try {
+			findViewById(R.id.sign_button).setOnClickListener(
+					new View.OnClickListener() {
+						public void onClick(View v) {
+							// Google Plus Button
+							if (!mPlusClient.isConnected()) {
+								Log.d(TAG, "Not Connected yet");
+								if (mConnectionResult == null) {
+									Log.d(TAG, "Connect Called");
+									mConnectionProgressDialog.show();
+								} else {
+									try {
+										mConnectionResult
+												.startResolutionForResult(
+														(MainActivity) mainAct,
+														REQUEST_CODE_RESOLVE_ERR);
+									} catch (SendIntentException e) {
+										Log.d(TAG, "Try connecting again");
+										// Try connecting again
+										mConnectionResult = null;
+										mPlusClient.connect();
+									}
+								}
+							}
+						}
+					});
+		} catch (Exception e) {
+		}
 		mConnectionProgressDialog = new ProgressDialog(this);
 		mConnectionProgressDialog.setMessage("Signing in...");
 	}
@@ -98,49 +116,26 @@ public class MainActivity extends SherlockFragmentActivity implements
 		Log.d(TAG, "onClick Called");
 
 		switch (view.getId()) {
-		case R.id.sign_button:
-			// Google Plus Button
-			if (!mPlusClient.isConnected()) {
-				Log.d(TAG, "Not Connected yet");
-				if (mConnectionResult == null) {
-					Log.d(TAG, "Connect Called");
-					mConnectionProgressDialog.show();
+			case R.id.btnEditProfile:
+				String btn_str = ((Button) view).getText().toString();
+				if (btn_str.equals(getResources().getString(R.string.edit))) {
+					viewFragment(new ProfileEditFragment());
+					((Button) view).setText(getResources().getString(
+							R.string.view));
 				} else {
-					try {
-						mConnectionResult.startResolutionForResult(this,
-								REQUEST_CODE_RESOLVE_ERR);
-					} catch (SendIntentException e) {
-						Log.d(TAG, "Try connecting again");
-						// Try connecting again
-						mConnectionResult = null;
-						mPlusClient.connect();
-					}
+					viewFragment(new ProfileFragment());
+					((Button) view).setText(getResources().getString(
+							R.string.edit));
 				}
-			}
-			break;
-		case R.id.btnEditProfile:
-			String btn_str = ((Button) view).getText().toString();
-			if (btn_str.equals(getResources().getString(R.string.edit))) {
-				viewFragment(new ProfileEditFragment());
-				((Button) view)
-						.setText(getResources().getString(R.string.view));
-			} else {
-				viewFragment(new ProfileFragment());
-				((Button) view)
-						.setText(getResources().getString(R.string.edit));
-			}
-			break;
+				break;
 		}
-
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
 		Log.d(TAG, "Connection Failed");
 		if (mConnectionProgressDialog.isShowing()) {
-			// The user clicked the sign-in button already. Start to resolve
-			// connection errors. Wait until onConnected() to dismiss the
-			// connection dialog.
+			// The user clicked the sign-in button already. Start to resolve connection errors. Wait until onConnected() to dismiss the connection dialog.
 			if (result.hasResolution()) {
 				Log.d(TAG, "hasResolution");
 				try {
@@ -152,16 +147,13 @@ public class MainActivity extends SherlockFragmentActivity implements
 				}
 			}
 		}
-		// Save the intent so that we can start an activity when the user clicks
-		// the sign-in button.
+		// Save the intent so that we can start an activity when the user clicks the sign-in button.
 		mConnectionResult = result;
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int responseCode,
-			Intent intent) {
-		if (requestCode == REQUEST_CODE_RESOLVE_ERR
-				&& responseCode == RESULT_OK) {
+	protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+		if (requestCode == REQUEST_CODE_RESOLVE_ERR && responseCode == RESULT_OK) {
 			Log.d(TAG, "onActivityResult");
 			mConnectionResult = null;
 			mPlusClient.connect();
@@ -173,6 +165,14 @@ public class MainActivity extends SherlockFragmentActivity implements
 		String accountName = mPlusClient.getAccountName();
 		mConnectionProgressDialog.dismiss();
 		Log.d(TAG, accountName + " Connected");
+
+		// Add the Fragment
+		viewFragment(new ProfileFragment());
+
+		// Edit Profile Button
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.actionbar_profile);
 	}
 
 	@Override
@@ -192,10 +192,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
 
-		// Replace whatever is in the fragment_container view with this
-		// fragment,
-		// and add the transaction to the back stack so the user can navigate
-		// back
+		// Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack so the user can navigate back
 		transaction.replace(R.id.container_profile, fragment);
 		transaction.addToBackStack(null);
 

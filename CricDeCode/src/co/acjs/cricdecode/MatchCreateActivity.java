@@ -15,21 +15,21 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_match_create);
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.match_create_actionbar);
+		actionBar.setCustomView(R.layout.actionbar_match_create);
 	}
 
 	public void onClick(View view) {
 		switch (view.getId()) {
-		case R.id.txtMatchDate:
-			FragmentTransaction ft = getSupportFragmentManager()
-					.beginTransaction();
-			// Create and show the dialog.
-			DatePickerFragment newFragment = new DatePickerFragment();
-			newFragment.setView_callee(findViewById(R.id.txtMatchDate));
-			newFragment.show(ft, null);
-			break;
-		default:
-			break;
+			case R.id.txtMatchDate:
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+				// Create and show the dialog.
+				DatePickerFragment newFragment = new DatePickerFragment();
+				newFragment.setView_callee(findViewById(R.id.txtMatchDate));
+				newFragment.show(ft, null);
+				break;
+			default:
+				break;
 		}
 	}
 

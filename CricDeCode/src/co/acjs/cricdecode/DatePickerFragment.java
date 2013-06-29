@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
-public class DatePickerFragment extends SherlockDialogFragment implements
-		android.app.DatePickerDialog.OnDateSetListener {
-	private View view_callee;
+public class DatePickerFragment extends SherlockDialogFragment implements android.app.DatePickerDialog.OnDateSetListener {
+	private View	view_callee;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,10 +29,9 @@ public class DatePickerFragment extends SherlockDialogFragment implements
 	}
 
 	@Override
-	public void onDateSet(DatePicker view, int year, int monthOfYear,
-			int dayOfMonth) {
-		((TextView) view_callee).setText(dayOfMonth + "/" + monthOfYear + "/"
-				+ year);
+	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+		((TextView) view_callee)
+				.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
 	}
 
 	public View getView_callee() {

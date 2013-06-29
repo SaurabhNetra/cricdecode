@@ -1120,8 +1120,8 @@ containing a value of this type.
         public static final int abs__up=0x7f05000f;
         public static final int action_settings=0x7f05007b;
         public static final int adView=0x7f050038;
-        public static final int btnEditProfile=0x7f05007a;
-        public static final int container=0x7f050076;
+        public static final int btnEditProfile=0x7f050036;
+        public static final int container=0x7f050077;
         public static final int container_profile=0x7f050037;
         public static final int disableHome=0x7f05000d;
         public static final int edit_query=0x7f05002a;
@@ -1137,8 +1137,8 @@ containing a value of this type.
         public static final int lblCollege=0x7f050063;
         public static final int lblCountry=0x7f05005f;
         public static final int lblDOB=0x7f050058;
-        public static final int lblMatchDate=0x7f050077;
-        public static final int lblMyTeam=0x7f050078;
+        public static final int lblMatchDate=0x7f050078;
+        public static final int lblMyTeam=0x7f050079;
         public static final int lblName=0x7f050055;
         public static final int lblNickame=0x7f050056;
         public static final int lblPlayingRole=0x7f05005a;
@@ -1146,7 +1146,7 @@ containing a value of this type.
         public static final int lblSchool=0x7f050064;
         public static final int lblState=0x7f050060;
         public static final int lblUniversity=0x7f050062;
-        public static final int lblVsTeam=0x7f050079;
+        public static final int lblVsTeam=0x7f05007a;
         public static final int listMode=0x7f050006;
         public static final int male=0x7f050067;
         public static final int matchList=0x7f050040;
@@ -1158,7 +1158,7 @@ containing a value of this type.
         public static final int showCustom=0x7f05000c;
         public static final int showHome=0x7f050009;
         public static final int showTitle=0x7f05000b;
-        public static final int sign_button=0x7f050036;
+        public static final int sign_button=0x7f050076;
         public static final int spnBatHowOut=0x7f050045;
         public static final int spnBattingStyle=0x7f05006c;
         public static final int spnBowlingStyle=0x7f05006d;
@@ -1230,21 +1230,22 @@ containing a value of this type.
         public static final int abs__search_dropdown_item_icons_2line=0x7f030012;
         public static final int abs__search_view=0x7f030013;
         public static final int abs__simple_dropdown_hint=0x7f030014;
-        public static final int activity_main=0x7f030015;
-        public static final int activity_match_create=0x7f030016;
-        public static final int activity_match_list=0x7f030017;
-        public static final int activity_performance_insert_batting=0x7f030018;
-        public static final int activity_performance_insert_bowling=0x7f030019;
-        public static final int activity_performance_insert_fielding=0x7f03001a;
-        public static final int activity_profile_general=0x7f03001b;
-        public static final int activity_profile_general_edit=0x7f03001c;
-        public static final int element_container=0x7f03001d;
-        public static final int element_match=0x7f03001e;
-        public static final int match_create_actionbar=0x7f03001f;
-        public static final int performance_insert_actionbar=0x7f030020;
-        public static final int profile_actionbar=0x7f030021;
-        public static final int sherlock_spinner_dropdown_item=0x7f030022;
-        public static final int sherlock_spinner_item=0x7f030023;
+        public static final int actionbar_match_create=0x7f030015;
+        public static final int actionbar_performance_insert=0x7f030016;
+        public static final int actionbar_profile=0x7f030017;
+        public static final int activity_main=0x7f030018;
+        public static final int activity_match_create=0x7f030019;
+        public static final int activity_match_list=0x7f03001a;
+        public static final int activity_performance_insert_batting=0x7f03001b;
+        public static final int activity_performance_insert_bowling=0x7f03001c;
+        public static final int activity_performance_insert_fielding=0x7f03001d;
+        public static final int activity_profile_general=0x7f03001e;
+        public static final int activity_profile_general_edit=0x7f03001f;
+        public static final int activity_sign_in=0x7f030020;
+        public static final int element_container=0x7f030021;
+        public static final int element_match=0x7f030022;
+        public static final int sherlock_spinner_dropdown_item=0x7f030023;
+        public static final int sherlock_spinner_item=0x7f030024;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
