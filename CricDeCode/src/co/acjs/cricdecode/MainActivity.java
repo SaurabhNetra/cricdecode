@@ -41,10 +41,6 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Shared Preferences initialize
-		mPrefs = getSharedPreferences("CrecDeCode", Context.MODE_PRIVATE);
-		mPrefs.getString("userID", "");
-
 		// Main Activity Context
 		mainAct = this;
 
@@ -58,28 +54,17 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 			}
 		}).start();
 
-		// Display profile if needed
-		if (!"".equals(mPrefs.getString("userID", ""))) {
-			showProfile();
-		} else {
-			// Google Plus Sign In
-			mPlusClient = new PlusClient.Builder(this, this, this)
-					.setVisibleActivities(
-							"http://schemas.google.com/AddActivity",
-							"http://schemas.google.com/BuyActivity").build();
-			mConnectionProgressDialog = new ProgressDialog(this);
-			mConnectionProgressDialog.setMessage("Signing in...");
-		}
-	}
+		// Shared Preferences initialize
+		mPrefs = getSharedPreferences("CrecDeCode", Context.MODE_PRIVATE);
+		mPrefs.getString("userID", "");
 
-	private void showProfile() {
-		// Add the Fragment
-		viewFragment(new ProfileFragment());
+		// Google Plus Sign In
+		mPlusClient = new PlusClient.Builder(this, this, this)
+				.setVisibleActivities("http://schemas.google.com/AddActivity",
+						"http://schemas.google.com/BuyActivity").build();
+		mConnectionProgressDialog = new ProgressDialog(this);
+		mConnectionProgressDialog.setMessage("Signing in...");
 
-		// Edit Profile Button
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.actionbar_profile);
 	}
 
 	@Override
@@ -102,8 +87,13 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Google+ Button
 		mPlusClient.connect();
-		viewFragment(new SignInFragment());
 
+		// Display profile if needed
+		if (!"".equals(mPrefs.getString("userID", ""))) {
+			showProfile();
+		} else {
+			viewFragment(new SignInFragment());
+		}
 	}
 
 	@Override
@@ -204,6 +194,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		showProfile();
 	}
 
+	// Non overridden methods
 	public void viewFragment(SherlockFragment fragment) {
 
 		FragmentTransaction transaction = getSupportFragmentManager()
@@ -214,5 +205,15 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Commit the transaction
 		transaction.commit();
+	}
+
+	private void showProfile() {
+		// Add the Fragment
+		viewFragment(new ProfileFragment());
+
+		// Edit Profile Button
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.actionbar_profile);
 	}
 }
