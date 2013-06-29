@@ -39,6 +39,10 @@
             android:name="co.acjs.cricdecode.PerformanceInsertActivity"
             android:label="@string/title_activity_performance_insertion" >
         </activity>
+        <activity
+            android:name="co.acjs.cricdecode.GoalActivity"
+            android:label="@string/title_activity_goal" >
+        </activity>
     </application>
 
 </manifest>

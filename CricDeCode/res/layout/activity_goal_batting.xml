@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/txtBatInnings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/innings"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatRuns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/runs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatAverage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/average"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBatTopScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/top_score"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBat50s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/bat_50s" />
+
+        <EditText
+            android:id="@+id/txtBat100s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/bat_100s" />
+    </LinearLayout>
+
+</ScrollView>

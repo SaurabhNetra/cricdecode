@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/txtFieldCloseCatches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/close_catches"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCircleCatches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/circle_catches"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldDeepCatches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/deep_catches"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCircleRunouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/circle_runouts"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldCircleDirectHitRunouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/circle_direct_hit_runouts"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldDeepRunouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/deep_runouts"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldStumpings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/stumpings"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtFieldByesGiven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/byes_given"
+            android:inputType="number" />
+    </LinearLayout>
+
+</ScrollView>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -15,8 +14,6 @@ import android.widget.Button;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -38,55 +35,21 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		viewFragment(new SignInFragment());
 
 		// Main Activity Context
 		mainAct = this;
 
 		// Look up the AdView as a resource and load a request.
-		(new Thread() {
-			public void run() {
-				Looper.prepare();
-				AdView adView = (AdView) ((SherlockFragmentActivity) mainAct)
-						.findViewById(R.id.adView);
-				adView.loadAd(new AdRequest());
-			}
-		}).start();
+		/* (new Thread() { public void run() { Looper.prepare(); AdView adView = (AdView) ((SherlockFragmentActivity) mainAct) .findViewById(R.id.adView); adView.loadAd(new AdRequest()); } }).start(); */
 
 		// Google Plus Sign In
 		mPlusClient = new PlusClient.Builder(this, this, this)
 				.setVisibleActivities("http://schemas.google.com/AddActivity",
 						"http://schemas.google.com/BuyActivity").build();
-		try {
-			findViewById(R.id.sign_button).setOnClickListener(
-					new View.OnClickListener() {
-						public void onClick(View v) {
-							// Google Plus Button
-							if (!mPlusClient.isConnected()) {
-								Log.d(TAG, "Not Connected yet");
-								if (mConnectionResult == null) {
-									Log.d(TAG, "Connect Called");
-									mConnectionProgressDialog.show();
-								} else {
-									try {
-										mConnectionResult
-												.startResolutionForResult(
-														(MainActivity) mainAct,
-														REQUEST_CODE_RESOLVE_ERR);
-									} catch (SendIntentException e) {
-										Log.d(TAG, "Try connecting again");
-										// Try connecting again
-										mConnectionResult = null;
-										mPlusClient.connect();
-									}
-								}
-							}
-						}
-					});
-		} catch (Exception e) {
-		}
+
 		mConnectionProgressDialog = new ProgressDialog(this);
 		mConnectionProgressDialog.setMessage("Signing in...");
+
 	}
 
 	@Override
@@ -109,6 +72,8 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Google+ Button
 		mPlusClient.connect();
+		viewFragment(new SignInFragment());
+
 	}
 
 	@Override
@@ -127,6 +92,29 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 					((Button) view).setText(getResources().getString(
 							R.string.edit));
 				}
+				break;
+			case R.id.sign_button:
+				// Google Plus Button
+				if (!mPlusClient.isConnected()) {
+					Log.d(TAG, "Not Connected yet");
+					if (mConnectionResult == null) {
+						Log.d(TAG, "Connect Called");
+						mConnectionProgressDialog.show();
+					} else {
+						try {
+							mConnectionResult.startResolutionForResult(
+									(MainActivity) mainAct,
+									REQUEST_CODE_RESOLVE_ERR);
+						} catch (SendIntentException e) {
+							Log.d(TAG, "Try connecting again");
+							// Try connecting again
+							mConnectionResult = null;
+							mPlusClient.connect();
+						}
+					}
+				}
+				break;
+			default:
 				break;
 		}
 	}
@@ -194,7 +182,6 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack so the user can navigate back
 		transaction.replace(R.id.container_profile, fragment);
-		transaction.addToBackStack(null);
 
 		// Commit the transaction
 		transaction.commit();

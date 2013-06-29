@@ -111,4 +111,12 @@
         <item>Stumped</item>
     </string-array>
 
+    <!-- Goal -->
+    <string name="average">Average</string>
+    <string name="five_wickets">5 Wicket Hauls</string>
+    <string name="eco_rate">Economy Rate</string>
+    <string name="top_score">Highest Score</string>
+    <string name="bat_50s">50s</string>
+    <string name="bat_100s">100s</string>
+
 </resources>

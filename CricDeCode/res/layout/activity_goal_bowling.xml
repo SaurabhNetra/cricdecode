@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/txtInnings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/innings"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlOvers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/overs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlWickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/wickets"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowl5Wickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/five_wickets"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlMaidens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/maidens"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlAverage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/average"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlEcoRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/eco_rate"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlNoballs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/noballs"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtBowlWides"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/wides"
+            android:inputType="number" />
+    </LinearLayout>
+
+</ScrollView>
