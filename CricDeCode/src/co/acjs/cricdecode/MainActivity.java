@@ -3,8 +3,10 @@ package co.acjs.cricdecode;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.Button;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -29,6 +33,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	private static ProgressDialog	mConnectionProgressDialog;
 	private static PlusClient		mPlusClient;
 	private static ConnectionResult	mConnectionResult;
+	public static SharedPreferences	mPrefs;
 	public static Context			mainAct;
 
 	@Override
@@ -36,20 +41,45 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// Shared Preferences initialize
+		mPrefs = getSharedPreferences("CrecDeCode", Context.MODE_PRIVATE);
+		mPrefs.getString("userID", "");
+
 		// Main Activity Context
 		mainAct = this;
 
 		// Look up the AdView as a resource and load a request.
-		/* (new Thread() { public void run() { Looper.prepare(); AdView adView = (AdView) ((SherlockFragmentActivity) mainAct) .findViewById(R.id.adView); adView.loadAd(new AdRequest()); } }).start(); */
+		(new Thread() {
+			public void run() {
+				Looper.prepare();
+				AdView adView = (AdView) ((SherlockFragmentActivity) mainAct)
+						.findViewById(R.id.adView);
+				adView.loadAd(new AdRequest());
+			}
+		}).start();
 
-		// Google Plus Sign In
-		mPlusClient = new PlusClient.Builder(this, this, this)
-				.setVisibleActivities("http://schemas.google.com/AddActivity",
-						"http://schemas.google.com/BuyActivity").build();
+		// Display profile if needed
+		if (!"".equals(mPrefs.getString("userID", ""))) {
+			showProfile();
+		} else {
+			// Google Plus Sign In
+			mPlusClient = new PlusClient.Builder(this, this, this)
+					.setVisibleActivities(
+							"http://schemas.google.com/AddActivity",
+							"http://schemas.google.com/BuyActivity").build();
+			mConnectionProgressDialog = new ProgressDialog(this);
+			mConnectionProgressDialog.setMessage("Signing in...");
+		}
+	}
 
-		mConnectionProgressDialog = new ProgressDialog(this);
-		mConnectionProgressDialog.setMessage("Signing in...");
+	private void showProfile() {
+		// Add the Fragment
+		viewFragment(new ProfileFragment());
 
+		// Edit Profile Button
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.actionbar_profile);
 	}
 
 	@Override
@@ -154,13 +184,10 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		mConnectionProgressDialog.dismiss();
 		Log.d(TAG, accountName + " Connected");
 
-		// Add the Fragment
-		viewFragment(new ProfileFragment());
-
-		// Edit Profile Button
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.actionbar_profile);
+		if ("".equals(mPrefs.getString("userID", ""))) {
+			// Get My Profile
+			mPlusClient.loadPerson(this, "me");
+		}
 	}
 
 	@Override
@@ -170,9 +197,11 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	}
 
 	@Override
-	public void onPersonLoaded(ConnectionResult arg0, Person arg1) {
-		// TODO Auto-generated method stub
+	public void onPersonLoaded(ConnectionResult arg0, Person person) {
+		AccessSharedPreferences.setUserID(MainActivity.mainAct, person.getId());
 
+		// When my information is retrieved open profile page.
+		showProfile();
 	}
 
 	public void viewFragment(SherlockFragment fragment) {
