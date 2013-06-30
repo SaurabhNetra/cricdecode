@@ -49,7 +49,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	private static PlusClient		mPlusClient;
 	private static ConnectionResult	mConnectionResult;
 	public static SharedPreferences	mPrefs;
-	public static Context			mainAct;
+	public static MainActivity		mainAct;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		(new Thread() {
 			public void run() {
 				Looper.prepare();
-				AdView adView = (AdView) ((SherlockFragmentActivity) mainAct)
-						.findViewById(R.id.adView);
+				AdView adView = (AdView) (mainAct).findViewById(R.id.adView);
 				adView.loadAd(new AdRequest());
 			}
 		}).start();
@@ -137,13 +136,11 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 					viewFragment(new ProfileEditFragment());
 					((Button) view).setText(getResources().getString(
 							R.string.view));
-					onProfileEditing();
 				} else {
+					MainActivity.mainAct.saveEditedProfile();
 					viewFragment(new ProfileFragment());
 					((Button) view).setText(getResources().getString(
 							R.string.edit));
-					saveEditedProfile();
-					onProfileViewing();
 				}
 				break;
 			case R.id.sign_button:
@@ -292,12 +289,9 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	private void showProfile() {
 		// Add the Fragment
 		viewFragment(new ProfileFragment());
-
-		// Edit Profile Button
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_profile);
-		onProfileViewing();
 	}
 
 	public void onProfileEditing() {
@@ -348,6 +342,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				sex = "Other";
 				break;
 		}
+
 		((TextView) findViewById(R.id.lblName)).setText(mPrefs.getString(
 				"name", ""));
 		((TextView) findViewById(R.id.lblNickame)).setText(mPrefs.getString(
@@ -374,7 +369,10 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				"college", ""));
 		((TextView) findViewById(R.id.lblSchool)).setText(mPrefs.getString(
 				"school", ""));
-		((TextView) findViewById(R.id.lblAge)).setText(mPrefs.getInt("age", 0));
+		int age = mPrefs.getInt("age", 0);
+		if (age != 0) {
+			((TextView) findViewById(R.id.lblAge)).setText(age);
+		}
 		((TextView) findViewById(R.id.lblGender)).setText(sex);
 		try {
 			updateProfilePicture();
@@ -415,7 +413,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				((Spinner) findViewById(R.id.spnBowlingStyle))
 						.getSelectedItem().toString());
 		int sex = 1;
-		switch (((RadioGroup) findViewById(R.id.txtNickame))
+		switch (((RadioGroup) findViewById(R.id.rdgrpGender))
 				.getCheckedRadioButtonId()) {
 			case R.id.male:
 				sex = 0;

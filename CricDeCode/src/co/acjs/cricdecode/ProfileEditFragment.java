@@ -14,4 +14,11 @@ public class ProfileEditFragment extends SherlockFragment {
 		return inflater.inflate(R.layout.activity_profile_general_edit,
 				container, false);
 	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+		MainActivity.mainAct.onProfileEditing();
+	}
 }
