@@ -1,5 +1,6 @@
 package co.acjs.cricdecode;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -96,6 +97,17 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		// above is about to be closed. We need to make sure we are no
 		// longer using it.
 		dataAdapter.swapCursor(null);
+	}
+
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.btnNewMatch:
+				Intent intent = new Intent(this, MatchCreateActivity.class);
+				startActivity(intent);
+				break;
+			default:
+				break;
+		}
 	}
 
 }

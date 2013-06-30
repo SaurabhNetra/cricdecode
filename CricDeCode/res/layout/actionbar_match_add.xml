@@ -5,8 +5,10 @@
     android:orientation="horizontal" >
 
     <Button
+        android:id="@+id/btnNewMatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="@string/new_match" />
 
 </LinearLayout>
