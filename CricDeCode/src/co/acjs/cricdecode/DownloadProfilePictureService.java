@@ -36,7 +36,7 @@ public class DownloadProfilePictureService extends IntentService {
 				File extStore = Environment.getExternalStorageDirectory();
 				File myFile = new File(extStore.getAbsolutePath()
 						+ this.getResources().getString(R.string.profile_picture_image));
-				Log.d("Dlding pic", "" + extStore.getAbsolutePath()
+				Log.d("Downloading pic", "" + extStore.getAbsolutePath()
 						+ this.getResources().getString(R.string.profile_picture_image));
 				if (!myFile.exists()) {
 					try {

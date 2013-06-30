@@ -126,6 +126,6 @@
     <string name="signin">Sign In!</string>
     
     <!-- Profile Picture Constants -->
-    <string name="images">/Success/Images</string>
-    <string name="profile_picture_image">/Success/Images/pp</string>
+    <string name="images">/CricDeCode/Images</string>
+    <string name="profile_picture_image">/CricDeCode/Images/pp</string>
 </resources>
