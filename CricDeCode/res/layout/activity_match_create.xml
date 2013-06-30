@@ -12,9 +12,9 @@
             android:id="@+id/txtMatchDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:hint="@string/match_date"
-            android:onClick="onClick"
-            android:clickable="true" />
+            android:onClick="onClick" />
 
         <EditText
             android:id="@+id/txtMyTeam"
@@ -24,10 +24,10 @@
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/txtVsTeam"
+            android:id="@+id/txtOpponentTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/vs_team"
+            android:hint="@string/opponent_team"
             android:inputType="text" />
 
         <EditText

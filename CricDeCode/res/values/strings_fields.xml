@@ -55,12 +55,13 @@
     <!-- Match Date -->
     <string name="match_date">Match Date</string>
     <string name="my_team">My Team</string>
-    <string name="vs_team">Opponent</string>
+    <string name="opponent_team">Opponent</string>
     <string name="venue">Venue</string>
     <string name="overs">Overs</string>
     <string name="innings">Innings</string>
     <string name="result">Result</string>
     <string name="create">Create</string>
+    <string name="new_match">New Match</string>
 
     <string-array name="spn_result">
         <item>Win</item>

@@ -11,5 +11,6 @@
     <string name="signin">Sign In!</string>
     <string name="title_activity_match_create">MatchCreateActivity</string>
     <string name="title_activity_goal">GoalActivity</string>
+    <string name="title_activity_match">MatchActivity</string>
 
 </resources>
