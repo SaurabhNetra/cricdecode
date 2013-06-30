@@ -286,6 +286,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_profile);
+		onProfileViewing();
 	}
 
 	public void onProfileEditing() {
