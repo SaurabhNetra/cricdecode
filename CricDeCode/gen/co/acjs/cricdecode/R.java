@@ -1077,6 +1077,7 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020086;
         public static final int common_signin_btn_text_pressed_light=0x7f020087;
         public static final int ic_launcher=0x7f020088;
+        public static final int photo=0x7f020089;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050024;

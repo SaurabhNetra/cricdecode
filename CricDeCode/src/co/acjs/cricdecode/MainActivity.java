@@ -228,20 +228,31 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	/** Non overridden methods */
 	private void setProfile(Person person) {
 		// Set my Profile
-		Intent intent = new Intent(this, DownloadProfilePictureService.class);
-		intent.putExtra("PPImg", person.getImage().getUrl());
-		startService(intent);
+		if (person.hasImage()) {
+			Intent intent = new Intent(this,
+					DownloadProfilePictureService.class);
+			intent.putExtra("PPImg", person.getImage().getUrl());
+			startService(intent);
+		}
 		AccessSharedPreferences.setEMailID(MainActivity.mainAct,
 				mPlusClient.getAccountName());
-		AccessSharedPreferences.setName(MainActivity.mainAct,
-				person.getDisplayName());
-		AccessSharedPreferences.setNickName(MainActivity.mainAct,
-				person.getNickname());
-		AccessSharedPreferences
-				.setSex(MainActivity.mainAct, person.getGender());
-		AccessSharedPreferences.setDateOfBirth(MainActivity.mainAct,
-				person.getBirthday());
-		setAge(person);
+		if (person.hasDisplayName()) {
+			AccessSharedPreferences.setName(MainActivity.mainAct,
+					person.getDisplayName());
+		}
+		if (person.hasNickname()) {
+			AccessSharedPreferences.setNickName(MainActivity.mainAct,
+					person.getNickname());
+		}
+		if (person.hasGender()) {
+			AccessSharedPreferences.setSex(MainActivity.mainAct,
+					person.getGender());
+		}
+		if (person.hasBirthday()) {
+			AccessSharedPreferences.setDateOfBirth(MainActivity.mainAct,
+					person.getBirthday());
+			setAge(person);
+		}
 	}
 
 	@SuppressLint("SimpleDateFormat")
