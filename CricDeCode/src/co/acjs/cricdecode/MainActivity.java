@@ -260,16 +260,19 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 			dateOfBirth.setTime(sdf.parse(person.getBirthday()));
 		} catch (ParseException e) {
 		}
-		Calendar today = Calendar.getInstance();
-		int curYear = today.get(Calendar.YEAR);
-		int curMonth = today.get(Calendar.MONTH);
-		int curDay = today.get(Calendar.DAY_OF_MONTH);
 		int year = dateOfBirth.get(Calendar.YEAR);
 		int month = dateOfBirth.get(Calendar.MONTH);
 		int day = dateOfBirth.get(Calendar.DAY_OF_MONTH);
-		int age = curYear - year;
-		if (curMonth < month || (month == curMonth && curDay < day)) {
-			age--;
+		int age = 0;
+		if (year > 2000) {
+			Calendar today = Calendar.getInstance();
+			int curYear = today.get(Calendar.YEAR);
+			int curMonth = today.get(Calendar.MONTH);
+			int curDay = today.get(Calendar.DAY_OF_MONTH);
+			age = curYear - year;
+			if (curMonth < month || (month == curMonth && curDay < day)) {
+				age--;
+			}
 		}
 		AccessSharedPreferences.setAge(MainActivity.mainAct, age);
 	}
@@ -371,7 +374,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				"school", ""));
 		int age = mPrefs.getInt("age", 0);
 		if (age != 0) {
-			((TextView) findViewById(R.id.lblAge)).setText(age);
+			((TextView) findViewById(R.id.lblAge)).setText(age + "");
 		}
 		((TextView) findViewById(R.id.lblGender)).setText(sex);
 		try {
