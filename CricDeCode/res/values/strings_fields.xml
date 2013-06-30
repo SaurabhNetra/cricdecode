@@ -119,4 +119,13 @@
     <string name="bat_50s">50s</string>
     <string name="bat_100s">100s</string>
 
+    <!-- AdMob Constant -->
+    <string name="publisher_id">a151c9c34615465</string>
+    
+    <!-- Sign In Button -->
+    <string name="signin">Sign In!</string>
+    
+    <!-- Profile Picture Constants -->
+    <string name="images">/Success/Images</string>
+    <string name="profile_picture_image">/Success/Images/pp</string>
 </resources>

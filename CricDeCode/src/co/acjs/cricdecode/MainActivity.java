@@ -1,17 +1,32 @@
 package co.acjs.cricdecode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.IntentSender.SendIntentException;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -56,7 +71,22 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Shared Preferences initialize
 		mPrefs = getSharedPreferences("CrecDeCode", Context.MODE_PRIVATE);
-		mPrefs.getString("userID", "");
+		mPrefs.getString("eMailID", "");
+		mPrefs.getString("name", "");
+		mPrefs.getString("nickName", "");
+		mPrefs.getString("dateOfBirth", "");
+		mPrefs.getString("playingRole", "");
+		mPrefs.getString("battingStyle", "");
+		mPrefs.getString("bowlingStyle", "");
+		mPrefs.getString("qualification", "");
+		mPrefs.getString("country", "");
+		mPrefs.getString("state", "");
+		mPrefs.getString("club", "");
+		mPrefs.getString("university", "");
+		mPrefs.getString("college", "");
+		mPrefs.getString("school", "");
+		mPrefs.getInt("age", 0);
+		mPrefs.getInt("sex", 0);
 
 		// Google Plus Sign In
 		mPlusClient = new PlusClient.Builder(this, this, this)
@@ -89,7 +119,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		mPlusClient.connect();
 
 		// Display profile if needed
-		if (!"".equals(mPrefs.getString("userID", ""))) {
+		if (!"".equals(mPrefs.getString("eMailID", ""))) {
 			showProfile();
 		} else {
 			viewFragment(new SignInFragment());
@@ -107,10 +137,13 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 					viewFragment(new ProfileEditFragment());
 					((Button) view).setText(getResources().getString(
 							R.string.view));
+					onProfileEditing();
 				} else {
 					viewFragment(new ProfileFragment());
 					((Button) view).setText(getResources().getString(
 							R.string.edit));
+					saveEditedProfile();
+					onProfileViewing();
 				}
 				break;
 			case R.id.sign_button:
@@ -174,7 +207,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		mConnectionProgressDialog.dismiss();
 		Log.d(TAG, accountName + " Connected");
 
-		if ("".equals(mPrefs.getString("userID", ""))) {
+		if ("".equals(mPrefs.getString("eMailID", ""))) {
 			// Get My Profile
 			mPlusClient.loadPerson(this, "me");
 		}
@@ -182,19 +215,57 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 	@Override
 	public void onDisconnected() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onPersonLoaded(ConnectionResult arg0, Person person) {
-		AccessSharedPreferences.setUserID(MainActivity.mainAct, person.getId());
+		setProfile(person);
 
 		// When my information is retrieved open profile page.
 		showProfile();
 	}
 
-	// Non overridden methods
+	/** Non overridden methods */
+	private void setProfile(Person person) {
+		// Set my Profile
+		Intent intent = new Intent(this, DownloadProfilePictureService.class);
+		intent.putExtra("PPImg", person.getImage().getUrl());
+		startService(intent);
+		AccessSharedPreferences.setEMailID(MainActivity.mainAct,
+				mPlusClient.getAccountName());
+		AccessSharedPreferences.setName(MainActivity.mainAct,
+				person.getDisplayName());
+		AccessSharedPreferences.setNickName(MainActivity.mainAct,
+				person.getNickname());
+		AccessSharedPreferences
+				.setSex(MainActivity.mainAct, person.getGender());
+		AccessSharedPreferences.setDateOfBirth(MainActivity.mainAct,
+				person.getBirthday());
+		setAge(person);
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	private void setAge(Person person) {
+		Calendar dateOfBirth = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			dateOfBirth.setTime(sdf.parse(person.getBirthday()));
+		} catch (ParseException e) {
+		}
+		Calendar today = Calendar.getInstance();
+		int curYear = today.get(Calendar.YEAR);
+		int curMonth = today.get(Calendar.MONTH);
+		int curDay = today.get(Calendar.DAY_OF_MONTH);
+		int year = dateOfBirth.get(Calendar.YEAR);
+		int month = dateOfBirth.get(Calendar.MONTH);
+		int day = dateOfBirth.get(Calendar.DAY_OF_MONTH);
+		int age = curYear - year;
+		if (curMonth < month || (month == curMonth && curDay < day)) {
+			age--;
+		}
+		AccessSharedPreferences.setAge(MainActivity.mainAct, age);
+	}
+
 	public void viewFragment(SherlockFragment fragment) {
 
 		FragmentTransaction transaction = getSupportFragmentManager()
@@ -215,5 +286,149 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_profile);
+	}
+
+	public void onProfileEditing() {
+		((EditText) findViewById(R.id.txtNickame)).setText(mPrefs.getString(
+				"nickName", ""));
+		((EditText) findViewById(R.id.txtQualification)).setText(mPrefs
+				.getString("qualification", ""));
+		((EditText) findViewById(R.id.txtCountry)).setText(mPrefs.getString(
+				"country", ""));
+		((EditText) findViewById(R.id.txtState)).setText(mPrefs.getString(
+				"state", ""));
+		((EditText) findViewById(R.id.txtClub)).setText(mPrefs.getString(
+				"club", ""));
+		((EditText) findViewById(R.id.txtUniversity)).setText(mPrefs.getString(
+				"university", ""));
+		((EditText) findViewById(R.id.txtCollege)).setText(mPrefs.getString(
+				"college", ""));
+		((EditText) findViewById(R.id.txtSchool)).setText(mPrefs.getString(
+				"school", ""));
+		switch (mPrefs.getInt("sex", 0)) {
+			case 0:
+				((RadioButton) findViewById(R.id.male)).setChecked(true);
+				break;
+			case 1:
+				((RadioButton) findViewById(R.id.female)).setChecked(true);
+				break;
+			case 2:
+				break;
+		}
+		selectFromSpinner(R.id.spnPlayingRole,
+				mPrefs.getString("playingRole", ""));
+		selectFromSpinner(R.id.spnBattingStyle,
+				mPrefs.getString("battingStyle", ""));
+		selectFromSpinner(R.id.spnBowlingStyle,
+				mPrefs.getString("bowlingStyle", ""));
+	}
+
+	public void onProfileViewing() {
+		String sex = "";
+		switch (mPrefs.getInt("sex", 0)) {
+			case 0:
+				sex = "Male";
+				break;
+			case 1:
+				sex = "Female";
+				break;
+			case 2:
+				sex = "Other";
+				break;
+		}
+		((TextView) findViewById(R.id.lblName)).setText(mPrefs.getString(
+				"name", ""));
+		((TextView) findViewById(R.id.lblNickame)).setText(mPrefs.getString(
+				"nickName", ""));
+		((TextView) findViewById(R.id.lblDOB)).setText(mPrefs.getString(
+				"dateOfBirth", ""));
+		((TextView) findViewById(R.id.lblPlayingRole)).setText(mPrefs
+				.getString("playingRole", ""));
+		((TextView) findViewById(R.id.lblBattingStyle)).setText(mPrefs
+				.getString("battingStyle", ""));
+		((TextView) findViewById(R.id.lblBowlingStyle)).setText(mPrefs
+				.getString("bowlingStyle", ""));
+		((TextView) findViewById(R.id.lblQualification)).setText(mPrefs
+				.getString("qualification", ""));
+		((TextView) findViewById(R.id.lblCountry)).setText(mPrefs.getString(
+				"country", ""));
+		((TextView) findViewById(R.id.lblState)).setText(mPrefs.getString(
+				"state", ""));
+		((TextView) findViewById(R.id.lblClub)).setText(mPrefs.getString(
+				"club", ""));
+		((TextView) findViewById(R.id.lblUniversity)).setText(mPrefs.getString(
+				"university", ""));
+		((TextView) findViewById(R.id.lblCollege)).setText(mPrefs.getString(
+				"college", ""));
+		((TextView) findViewById(R.id.lblSchool)).setText(mPrefs.getString(
+				"school", ""));
+		((TextView) findViewById(R.id.lblAge)).setText(mPrefs.getInt("age", 0));
+		((TextView) findViewById(R.id.lblGender)).setText(sex);
+		try {
+			updateProfilePicture();
+		} catch (Exception e) {
+		}
+	}
+
+	public void saveEditedProfile() {
+		AccessSharedPreferences
+				.setNickName(mainAct,
+						((EditText) findViewById(R.id.txtNickame)).getText()
+								.toString());
+		AccessSharedPreferences.setQualification(mainAct,
+				((EditText) findViewById(R.id.txtQualification)).getText()
+						.toString());
+		AccessSharedPreferences
+				.setCountry(mainAct, ((EditText) findViewById(R.id.txtCountry))
+						.getText().toString());
+		AccessSharedPreferences.setState(mainAct,
+				((EditText) findViewById(R.id.txtState)).getText().toString());
+		AccessSharedPreferences.setClub(mainAct,
+				((EditText) findViewById(R.id.txtClub)).getText().toString());
+		AccessSharedPreferences.setUniversity(mainAct,
+				((EditText) findViewById(R.id.txtUniversity)).getText()
+						.toString());
+		AccessSharedPreferences
+				.setCollege(mainAct, ((EditText) findViewById(R.id.txtCollege))
+						.getText().toString());
+		AccessSharedPreferences.setSchool(mainAct,
+				((EditText) findViewById(R.id.txtSchool)).getText().toString());
+		AccessSharedPreferences.setPlayingRole(mainAct,
+				((Spinner) findViewById(R.id.spnPlayingRole)).getSelectedItem()
+						.toString());
+		AccessSharedPreferences.setBattingStyle(mainAct,
+				((Spinner) findViewById(R.id.spnBattingStyle))
+						.getSelectedItem().toString());
+		AccessSharedPreferences.setBowlingStyle(mainAct,
+				((Spinner) findViewById(R.id.spnBowlingStyle))
+						.getSelectedItem().toString());
+		int sex = 1;
+		switch (((RadioGroup) findViewById(R.id.txtNickame))
+				.getCheckedRadioButtonId()) {
+			case R.id.male:
+				sex = 0;
+				break;
+			case R.id.female:
+				sex = 1;
+				break;
+		}
+		AccessSharedPreferences.setSex(mainAct, sex);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void selectFromSpinner(int id, String selected) {
+		Spinner spinner = (Spinner) findViewById(id);
+		ArrayAdapter myAdap = (ArrayAdapter) spinner.getAdapter();
+		int spinnerPosition = myAdap.getPosition(selected);
+		spinner.setSelection(spinnerPosition);
+	}
+
+	public static void updateProfilePicture() {
+		Bitmap bm = BitmapFactory.decodeFile(Environment
+				.getExternalStorageDirectory().getAbsolutePath() + mainAct
+				.getResources().getString(R.string.profile_picture_image));
+		ImageView ProPic = (ImageView) ((MainActivity) mainAct)
+				.findViewById(R.id.imgProfilePic);
+		ProPic.setImageBitmap(bm);
 	}
 }
