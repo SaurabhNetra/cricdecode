@@ -69,7 +69,9 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
-
+				Intent intent = new Intent(MainActivity.mainAct,
+						PerformanceInsertActivity.class);
+				startActivity(intent);
 			}
 		});
 

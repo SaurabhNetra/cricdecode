@@ -22,6 +22,7 @@
     <string name="bowling_style">Bowling Style</string>
     <string name="edit">Edit</string>
     <string name="view">View</string>
+    <string name="current_matches">Matches</string>
 
     <string-array name="spn_playing_role">
         <item>Batsman</item>
@@ -122,11 +123,12 @@
 
     <!-- AdMob Constant -->
     <string name="publisher_id">a151c9c34615465</string>
-    
+
     <!-- Sign In Button -->
     <string name="signin">Sign In!</string>
-    
+
     <!-- Profile Picture Constants -->
     <string name="images">/CricDeCode/Images</string>
     <string name="profile_picture_image">/CricDeCode/Images/pp</string>
+
 </resources>

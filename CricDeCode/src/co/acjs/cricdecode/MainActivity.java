@@ -143,6 +143,10 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 							R.string.edit));
 				}
 				break;
+			case R.id.btnCurrentMatches:
+				Intent intent = new Intent(this, MatchActivity.class);
+				startActivity(intent);
+				break;
 			case R.id.sign_button:
 				// Google Plus Button
 				if (!mPlusClient.isConnected()) {

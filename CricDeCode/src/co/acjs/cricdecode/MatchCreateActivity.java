@@ -1,7 +1,6 @@
 package co.acjs.cricdecode;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -57,13 +56,13 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 
 				// check for blanks
 				if (matchDate_str.trim().equalsIgnoreCase("")) {
-					Toast.makeText(getBaseContext(), "Please ENTER MATCH DATE",
+					Toast.makeText(getBaseContext(), "Please enter MATCH DATE",
 							Toast.LENGTH_LONG).show();
 					return;
 				}
 				// check for blanks
 				if (myTeam_str.trim().equalsIgnoreCase("")) {
-					Toast.makeText(getBaseContext(), "Please ENTER YOUR TEAM",
+					Toast.makeText(getBaseContext(), "Please enter YOUR TEAM",
 							Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -71,14 +70,14 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				// check for blanks
 				if (opponentTeam_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(),
-							"Please ENTER OPPONENT TEAM", Toast.LENGTH_LONG)
+							"Please enter OPPONENT TEAM", Toast.LENGTH_LONG)
 							.show();
 					return;
 				}
 
 				// check for blanks
 				if (venue_str.trim().equalsIgnoreCase("")) {
-					Toast.makeText(getBaseContext(), "Please ENTER VENUE",
+					Toast.makeText(getBaseContext(), "Please enter VENUE",
 							Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -86,7 +85,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				// check for blanks
 				if (overs_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(),
-							"Please ENTER NUMBER OF OVERS IN AN INNINGS",
+							"Please enter NUMBER OF OVERS IN AN INNINGS",
 							Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -94,14 +93,15 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				// check for blanks
 				if (innings_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(),
-							"Please NUMBER OF INNINGS", Toast.LENGTH_LONG)
-							.show();
+							"Please enter the NUMBER OF INNINGS",
+							Toast.LENGTH_LONG).show();
 					return;
 				}
 
 				// check for blanks
 				if (result_str.trim().equalsIgnoreCase("")) {
-					Toast.makeText(getBaseContext(), "Please the MATCH RESULT",
+					Toast.makeText(getBaseContext(),
+							"Please enter RESULT of the MATCH",
 							Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -121,8 +121,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 						CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 
 				// Go to Match Activity
-				Intent intent = new Intent(this, MatchActivity.class);
-				startActivity(intent);
+				finish();
 				break;
 			default:
 				break;

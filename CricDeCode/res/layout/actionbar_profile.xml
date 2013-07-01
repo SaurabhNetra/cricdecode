@@ -11,4 +11,11 @@
         android:onClick="onClick"
         android:text="@string/edit" />
 
+    <Button
+        android:id="@+id/btnCurrentMatches"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="@string/current_matches" />
+
 </LinearLayout>
