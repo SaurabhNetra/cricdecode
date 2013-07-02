@@ -46,10 +46,10 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		Log.d("Debug", "displayListView called");
 
 		// The desired columns to be bound
-		String[] columns = new String[] { MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM };
+		String[] columns = new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM };
 
 		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id.lblMatchDate, R.id.lblMyTeam, R.id.lblOpponentTeam };
+		int[] to = new int[] { R.id.lblMatchId, R.id.lblInnings, R.id.lblMatchDate, R.id.lblMyTeam, R.id.lblOpponentTeam };
 
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(this, R.layout.element_match,
@@ -66,8 +66,16 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
-				Intent intent = new Intent(MainActivity.mainAct,
+				Intent intent = new Intent(getBaseContext(),
 						PerformanceInsertActivity.class);
+				Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+				String rowId = cursor.getString(cursor
+						.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
+				int innings = cursor.getInt(cursor
+						.getColumnIndexOrThrow(MatchDb.KEY_INNINGS));
+				intent.putExtra("rowId", rowId);
+				intent.putExtra("innings", innings);
 				startActivity(intent);
 			}
 		});
@@ -77,7 +85,7 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
-		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM };
+		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM };
 		CursorLoader cursorLoader = new CursorLoader(this,
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection, null,
 				null, null);

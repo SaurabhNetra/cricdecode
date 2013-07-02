@@ -33,6 +33,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 		overs = (EditText) findViewById(R.id.txtOvers);
 		innings = (EditText) findViewById(R.id.txtInnings);
 		result = (Spinner) findViewById(R.id.spnResult);
+
 	}
 
 	public void onClick(View view) {
