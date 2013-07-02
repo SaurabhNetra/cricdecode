@@ -25,9 +25,10 @@ public class MatchDb {
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);
 		db.execSQL(DATABASE_CREATE);
-		db.execSQL("insert into match values(1,'12/12/12','abc','def','lords',10,1,'Win','current')");
-		db.execSQL("insert into match values(2,'12/12/13','abcd','defg','eden',20,1,'Win','history')");
-		db.execSQL("insert into match values(3,'12/12/12','abc','def','lords',10,1,'Win','current')");
+		// Test Inserts
+		// db.execSQL("insert into match values(1,'12/12/12','abc','def','lords',10,1,'Win','current')");
+		// db.execSQL("insert into match values(2,'12/12/13','abcd','defg','eden',20,1,'Win','history')");
+		// db.execSQL("insert into match values(3,'12/12/12','abc','def','lords',10,1,'Win','current')");
 	}
 
 	public static void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

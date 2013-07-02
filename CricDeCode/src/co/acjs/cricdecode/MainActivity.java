@@ -286,7 +286,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
 
-		// Replace whatever is in the fragment_container view with this fragment, and add the transaction to the back stack so the user can navigate back
+		// Replace whatever is in the fragment_container view with this fragment
 		transaction.replace(R.id.container_profile, fragment);
 
 		// Commit the transaction

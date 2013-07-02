@@ -18,14 +18,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class MatchActivity extends SherlockFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	static MatchActivity		goalfragmentactivity;
-
 	private SimpleCursorAdapter	dataAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		goalfragmentactivity = this;
 
 		// Goal Setting Screen
 
