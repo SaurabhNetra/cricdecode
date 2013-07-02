@@ -3,50 +3,103 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lblBatInnings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/innings" />
 
         <EditText
             android:id="@+id/txtBatInnings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/innings"
+            android:layout_toRightOf="@id/lblBatInnings"
+            android:ems="5"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBatRuns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatInnings"
+            android:text="@string/runs" />
 
         <EditText
             android:id="@+id/txtBatRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/runs"
+            android:layout_below="@id/txtBatInnings"
+            android:layout_toRightOf="@id/lblBatRuns"
+            android:ems="5"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBatAverage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatRuns"
+            android:text="@string/average" />
 
         <EditText
             android:id="@+id/txtBatAverage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/average"
+            android:layout_below="@id/txtBatRuns"
+            android:layout_toRightOf="@id/lblBatAverage"
+            android:ems="5"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBatTopScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatAverage"
+            android:text="@string/top_score" />
 
         <EditText
             android:id="@+id/txtBatTopScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/top_score"
+            android:layout_below="@id/txtBatAverage"
+            android:layout_toRightOf="@id/lblBatTopScore"
+            android:ems="5"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBat50s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatTopScore"
+            android:text="@string/bat_50s" />
 
         <EditText
             android:id="@+id/txtBat50s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/bat_50s" />
+            android:layout_below="@id/txtBatTopScore"
+            android:layout_toRightOf="@id/lblBat50s"
+            android:ems="5"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBat100s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBat50s"
+            android:text="@string/bat_100s" />
 
         <EditText
             android:id="@+id/txtBat100s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/bat_100s" />
-    </LinearLayout>
+            android:layout_below="@id/txtBat50s"
+            android:layout_toRightOf="@id/lblBat100s"
+            android:ems="5"
+            android:inputType="number" />
+    </RelativeLayout>
 
 </ScrollView>
