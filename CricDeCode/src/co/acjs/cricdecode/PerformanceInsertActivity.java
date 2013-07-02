@@ -17,7 +17,6 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 
 	private static final String	STATE_SELECTED_NAVIGATION_ITEM	= "selected_navigation_item";
 
-	private String				rowId;
 	private int					innings;
 
 	@Override
@@ -40,18 +39,18 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 				.setTabListener(this));
 
 		Intent intent = getIntent();
-		rowId = intent.getStringExtra("rowId");
 		innings = intent.getIntExtra("innings", 0);
 
 		Spinner spinner = (Spinner) findViewById(R.id.spnInning_no);
-		ArrayAdapter<Integer> spinnerArrayAdapter;
+		ArrayAdapter<String> spinnerArrayAdapter;
 		if (innings == 1) {
-			spinnerArrayAdapter = new ArrayAdapter<Integer>(this,
-					android.R.layout.simple_spinner_item, new Integer[] { 1 });
-		} else {
-			spinnerArrayAdapter = new ArrayAdapter<Integer>(this,
+			spinnerArrayAdapter = new ArrayAdapter<String>(this,
 					android.R.layout.simple_spinner_item,
-					new Integer[] { 1, 2 });
+					new String[] { "1st Innings" });
+		} else {
+			spinnerArrayAdapter = new ArrayAdapter<String>(this,
+					android.R.layout.simple_spinner_item,
+					new String[] { "1st Innings", "2nd Innings" });
 		}
 
 		spinner.setAdapter(spinnerArrayAdapter);

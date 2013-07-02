@@ -2,6 +2,7 @@ package co.acjs.cricdecode;
 
 import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -10,9 +11,10 @@ public class AccessSharedPreferences {
 	public static SharedPreferences.Editor	editor;
 	static Semaphore						s	= new Semaphore(1, true);
 
+	@SuppressLint("CommitPrefEdits")
 	public static void init(Context ParentContext) {
 		Context context = ParentContext.getApplicationContext();
-		mPrefs = context.getSharedPreferences("CrecDeCode",
+		mPrefs = context.getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		editor = mPrefs.edit();
 	}

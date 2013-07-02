@@ -69,23 +69,10 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		}).start();
 
 		// Shared Preferences initialize
-		mPrefs = getSharedPreferences("CrecDeCode", Context.MODE_PRIVATE);
-		mPrefs.getString("eMailID", "");
-		mPrefs.getString("name", "");
-		mPrefs.getString("nickName", "");
-		mPrefs.getString("dateOfBirth", "");
-		mPrefs.getString("playingRole", "");
-		mPrefs.getString("battingStyle", "");
-		mPrefs.getString("bowlingStyle", "");
-		mPrefs.getString("qualification", "");
-		mPrefs.getString("country", "");
-		mPrefs.getString("state", "");
-		mPrefs.getString("club", "");
-		mPrefs.getString("university", "");
-		mPrefs.getString("college", "");
-		mPrefs.getString("school", "");
-		mPrefs.getInt("age", 0);
-		mPrefs.getInt("sex", 0);
+		mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+
+		/*
+		 * mPrefs.getString("eMailID", ""); mPrefs.getString("name", ""); mPrefs.getString("nickName", ""); mPrefs.getString("dateOfBirth", ""); mPrefs.getString("playingRole", ""); mPrefs.getString("battingStyle", ""); mPrefs.getString("bowlingStyle", ""); mPrefs.getString("qualification", ""); mPrefs.getString("country", ""); mPrefs.getString("state", ""); mPrefs.getString("club", ""); mPrefs.getString("university", ""); mPrefs.getString("college", ""); mPrefs.getString("school", ""); mPrefs.getInt("age", 0); mPrefs.getInt("sex", 0); */
 
 		// Google Plus Sign In
 		mPlusClient = new PlusClient.Builder(this, this, this)
@@ -325,7 +312,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 			case 1:
 				((RadioButton) findViewById(R.id.female)).setChecked(true);
 				break;
-			case 2:
+			default:
 				break;
 		}
 		selectFromSpinner(R.id.spnPlayingRole,
@@ -345,8 +332,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 			case 1:
 				sex = "Female";
 				break;
-			case 2:
-				sex = "Other";
+			default:
 				break;
 		}
 
@@ -427,6 +413,8 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				break;
 			case R.id.female:
 				sex = 1;
+				break;
+			default:
 				break;
 		}
 		AccessSharedPreferences.setSex(mainAct, sex);
