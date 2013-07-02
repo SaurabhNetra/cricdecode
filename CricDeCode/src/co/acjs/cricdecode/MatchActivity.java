@@ -79,6 +79,7 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Log.d("Debug", "on Create Loader");
 		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM };
 		CursorLoader cursorLoader = new CursorLoader(this,
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection, null,
@@ -90,6 +91,7 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
+		Log.d("Debug", "on Load Finished");
 		dataAdapter.swapCursor(data);
 	}
 
@@ -98,6 +100,7 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		// This is called when the last Cursor provided to onLoadFinished()
 		// above is about to be closed. We need to make sure we are no
 		// longer using it.
+		Log.d("Debug", "on Loader Reset");
 		dataAdapter.swapCursor(null);
 	}
 
