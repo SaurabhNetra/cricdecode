@@ -5,15 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -22,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -34,20 +28,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.plus.PlusClient;
-import com.google.android.gms.plus.model.people.Person;
 
-public class MainActivity extends SherlockFragmentActivity implements ConnectionCallbacks, OnConnectionFailedListener, OnClickListener, PlusClient.OnPersonLoadedListener {
+public class MainActivity extends SherlockFragmentActivity implements OnClickListener {
 
 	// Class Variables
-	private static final int		REQUEST_CODE_RESOLVE_ERR	= 271516;
-	private static final String		TAG							= "CricDeCode";
-	private static ProgressDialog	mConnectionProgressDialog;
-	private static PlusClient		mPlusClient;
-	private static ConnectionResult	mConnectionResult;
+	private static final String		TAG	= "CricDeCode";
 	public static SharedPreferences	mPrefs;
 	public static MainActivity		mainAct;
 
@@ -55,6 +40,11 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.actionbar_profile);
+		viewFragment(new ProfileEditFragment());
 
 		// Main Activity Context
 		mainAct = this;
@@ -71,27 +61,6 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		// Shared Preferences initialize
 		mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 
-		/*
-		 * mPrefs.getString("eMailID", ""); mPrefs.getString("name", ""); mPrefs.getString("nickName", ""); mPrefs.getString("dateOfBirth", ""); mPrefs.getString("playingRole", ""); mPrefs.getString("battingStyle", ""); mPrefs.getString("bowlingStyle", ""); mPrefs.getString("qualification", ""); mPrefs.getString("country", ""); mPrefs.getString("state", ""); mPrefs.getString("club", ""); mPrefs.getString("university", ""); mPrefs.getString("college", ""); mPrefs.getString("school", ""); mPrefs.getInt("age", 0); mPrefs.getInt("sex", 0); */
-
-		// Google Plus Sign In
-		mPlusClient = new PlusClient.Builder(this, this, this)
-				.setVisibleActivities("http://schemas.google.com/AddActivity",
-						"http://schemas.google.com/BuyActivity").build();
-		mConnectionProgressDialog = new ProgressDialog(this);
-		mConnectionProgressDialog.setMessage("Signing in...");
-
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
-		// Google Analytics Start
-		EasyTracker.getInstance().activityStart(this);
-
-		// Google+ Button
-		mPlusClient.disconnect();
 	}
 
 	@Override
@@ -100,16 +69,14 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
+	}
 
-		// Google+ Button
-		mPlusClient.connect();
+	@Override
+	protected void onStop() {
+		super.onStop();
 
-		// Display profile if needed
-		if (!"".equals(mPrefs.getString("eMailID", ""))) {
-			showProfile();
-		} else {
-			viewFragment(new SignInFragment());
-		}
+		// Google Analytics Start
+		EasyTracker.getInstance().activityStart(this);
 	}
 
 	@Override
@@ -134,121 +101,19 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				Intent intent = new Intent(this, MatchActivity.class);
 				startActivity(intent);
 				break;
-			case R.id.sign_button:
-				// Google Plus Button
-				if (!mPlusClient.isConnected()) {
-					Log.d(TAG, "Not Connected yet");
-					if (mConnectionResult == null) {
-						Log.d(TAG, "Connect Called");
-						mConnectionProgressDialog.show();
-					} else {
-						try {
-							mConnectionResult.startResolutionForResult(
-									(MainActivity) mainAct,
-									REQUEST_CODE_RESOLVE_ERR);
-						} catch (SendIntentException e) {
-							Log.d(TAG, "Try connecting again");
-							// Try connecting again
-							mConnectionResult = null;
-							mPlusClient.connect();
-						}
-					}
-				}
-				break;
 			default:
 				break;
 		}
 	}
 
-	@Override
-	public void onConnectionFailed(ConnectionResult result) {
-		Log.d(TAG, "Connection Failed");
-		if (mConnectionProgressDialog.isShowing()) {
-			// The user clicked the sign-in button already. Start to resolve connection errors. Wait until onConnected() to dismiss the connection dialog.
-			if (result.hasResolution()) {
-				Log.d(TAG, "hasResolution");
-				try {
-					Log.d(TAG, "Connection Try");
-					result.startResolutionForResult(this,
-							REQUEST_CODE_RESOLVE_ERR);
-				} catch (SendIntentException e) {
-					mPlusClient.connect();
-				}
-			}
-		}
-		// Save the intent so that we can start an activity when the user clicks the sign-in button.
-		mConnectionResult = result;
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
-		if (requestCode == REQUEST_CODE_RESOLVE_ERR && responseCode == RESULT_OK) {
-			Log.d(TAG, "onActivityResult");
-			mConnectionResult = null;
-			mPlusClient.connect();
-		}
-	}
-
-	@Override
-	public void onConnected(Bundle arg0) {
-		String accountName = mPlusClient.getAccountName();
-		mConnectionProgressDialog.dismiss();
-		Log.d(TAG, accountName + " Connected");
-
-		if ("".equals(mPrefs.getString("eMailID", ""))) {
-			// Get My Profile
-			mPlusClient.loadPerson(this, "me");
-		}
-	}
-
-	@Override
-	public void onDisconnected() {
-	}
-
-	@Override
-	public void onPersonLoaded(ConnectionResult arg0, Person person) {
-		setProfile(person);
-
-		// When my information is retrieved open profile page.
-		showProfile();
-	}
-
 	/** Non overridden methods */
-	private void setProfile(Person person) {
-		// Set my Profile
-		if (person.hasImage()) {
-			Intent intent = new Intent(this,
-					DownloadProfilePictureService.class);
-			intent.putExtra("PPImg", person.getImage().getUrl());
-			startService(intent);
-		}
-		AccessSharedPreferences.setEMailID(MainActivity.mainAct,
-				mPlusClient.getAccountName());
-		if (person.hasDisplayName()) {
-			AccessSharedPreferences.setName(MainActivity.mainAct,
-					person.getDisplayName());
-		}
-		if (person.hasNickname()) {
-			AccessSharedPreferences.setNickName(MainActivity.mainAct,
-					person.getNickname());
-		}
-		if (person.hasGender()) {
-			AccessSharedPreferences.setSex(MainActivity.mainAct,
-					person.getGender());
-		}
-		if (person.hasBirthday()) {
-			AccessSharedPreferences.setDateOfBirth(MainActivity.mainAct,
-					person.getBirthday());
-			setAge(person);
-		}
-	}
 
 	@SuppressLint("SimpleDateFormat")
-	private void setAge(Person person) {
+	private void setAge(String dateOfBirthString) {
 		Calendar dateOfBirth = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			dateOfBirth.setTime(sdf.parse(person.getBirthday()));
+			dateOfBirth.setTime(sdf.parse(dateOfBirthString));
 		} catch (ParseException e) {
 		}
 		int year = dateOfBirth.get(Calendar.YEAR);
@@ -278,14 +143,6 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 
 		// Commit the transaction
 		transaction.commit();
-	}
-
-	private void showProfile() {
-		// Add the Fragment
-		viewFragment(new ProfileFragment());
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.actionbar_profile);
 	}
 
 	public void onProfileEditing() {
@@ -362,15 +219,9 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 				"college", ""));
 		((TextView) findViewById(R.id.lblSchool)).setText(mPrefs.getString(
 				"school", ""));
-		int age = mPrefs.getInt("age", 0);
-		if (age != 0) {
-			((TextView) findViewById(R.id.lblAge)).setText(age + "");
-		}
+		((TextView) findViewById(R.id.lblAge))
+				.setText(mPrefs.getInt("age", 0) + "");
 		((TextView) findViewById(R.id.lblGender)).setText(sex);
-		try {
-			updateProfilePicture();
-		} catch (Exception e) {
-		}
 	}
 
 	public void saveEditedProfile() {
@@ -405,7 +256,7 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		AccessSharedPreferences.setBowlingStyle(mainAct,
 				((Spinner) findViewById(R.id.spnBowlingStyle))
 						.getSelectedItem().toString());
-		int sex = 1;
+		int sex = 0;
 		switch (((RadioGroup) findViewById(R.id.rdgrpGender))
 				.getCheckedRadioButtonId()) {
 			case R.id.male:
@@ -426,14 +277,5 @@ public class MainActivity extends SherlockFragmentActivity implements Connection
 		ArrayAdapter myAdap = (ArrayAdapter) spinner.getAdapter();
 		int spinnerPosition = myAdap.getPosition(selected);
 		spinner.setSelection(spinnerPosition);
-	}
-
-	public static void updateProfilePicture() {
-		Bitmap bm = BitmapFactory.decodeFile(Environment
-				.getExternalStorageDirectory().getAbsolutePath() + mainAct
-				.getResources().getString(R.string.profile_picture_image));
-		ImageView ProPic = (ImageView) ((MainActivity) mainAct)
-				.findViewById(R.id.imgProfilePic);
-		ProPic.setImageBitmap(bm);
 	}
 }
