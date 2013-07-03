@@ -33,6 +33,7 @@
         <item>Left Hand Bat</item>
     </string-array>
     <string-array name="spn_bowling_style">
+        <item></item>
         <item>Right-arm fast</item>
         <item>Right-arm fast medium</item>
         <item>Right-arm medium fast</item>
@@ -94,12 +95,17 @@
     <string name="fielding">Fielding</string>
     <string name="add">Add</string>
     <string name="finish">Finish</string>
+    <string name="bowler_type">Bowler Type</string>
+    <string name="how_out">How Out</string>
+    <string name="wickets_left">Left Handed Batsman Wickets</string>
+    <string name="wickets_right">Right Handed Batsman Wickets</string>
 
     <string-array name="spn_inning_no">
         <item>1st Innings</item>
         <item>2nd Innings</item>
     </string-array>
     <string-array name="spn_how_out">
+        <item>Not Out</item>
         <item>Retired</item>
         <item>Bowled</item>
         <item>Timed Out</item>

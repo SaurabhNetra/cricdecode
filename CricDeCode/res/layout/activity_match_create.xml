@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/txtMatchDate"
@@ -16,46 +15,100 @@
             android:hint="@string/match_date"
             android:onClick="onClick" />
 
+        <TextView
+            android:id="@+id/lblMyTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtMatchDate"
+            android:text="@string/my_team" />
+
         <EditText
             android:id="@+id/txtMyTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/my_team"
+            android:layout_below="@id/txtMatchDate"
+            android:layout_toRightOf="@id/lblMyTeam"
+            android:ems="10"
             android:inputType="text" />
+
+        <TextView
+            android:id="@+id/lblOpponentTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtMyTeam"
+            android:text="@string/opponent_team" />
 
         <EditText
             android:id="@+id/txtOpponentTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/opponent_team"
+            android:layout_below="@id/txtMyTeam"
+            android:layout_toRightOf="@id/lblOpponentTeam"
+            android:ems="10"
             android:inputType="text" />
+
+        <TextView
+            android:id="@+id/lblVenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtOpponentTeam"
+            android:text="@string/venue" />
 
         <EditText
             android:id="@+id/txtVenue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/venue"
+            android:layout_below="@id/txtOpponentTeam"
+            android:layout_toRightOf="@id/lblVenue"
+            android:ems="10"
             android:inputType="text" />
+
+        <TextView
+            android:id="@+id/lblOvers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtVenue"
+            android:text="@string/overs" />
 
         <EditText
             android:id="@+id/txtOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/overs"
+            android:layout_below="@id/txtVenue"
+            android:layout_toRightOf="@id/lblOvers"
+            android:ems="10"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblInnings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtOvers"
+            android:text="@string/innings" />
 
         <EditText
             android:id="@+id/txtInnings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/innings"
+            android:layout_below="@id/txtOvers"
+            android:layout_toRightOf="@id/lblInnings"
+            android:ems="2"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtInnings"
+            android:text="@string/result" />
 
         <Spinner
             android:id="@+id/spnResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/txtInnings"
+            android:layout_toRightOf="@id/lblResult"
             android:entries="@array/spn_result" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

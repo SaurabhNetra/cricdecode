@@ -3,53 +3,101 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lblBatBattingNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/batting_no" />
 
         <EditText
             android:id="@+id/txtBatBattingNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/batting_no"
-            android:inputType="number" >
+            android:layout_toRightOf="@id/lblBatBattingNo"
+            android:ems="2"
+            android:inputType="number" />
 
-            <requestFocus />
-        </EditText>
+        <TextView
+            android:id="@+id/lblBatRuns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatBattingNo"
+            android:text="@string/runs" />
 
         <EditText
             android:id="@+id/txtBatRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/runs"
+            android:layout_below="@id/txtBatBattingNo"
+            android:layout_toRightOf="@id/lblBatRuns"
+            android:ems="3"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBatBalls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatRuns"
+            android:text="@string/balls" />
 
         <EditText
             android:id="@+id/txtBatBalls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/balls"
+            android:layout_below="@id/txtBatRuns"
+            android:layout_toRightOf="@id/lblBatBalls"
+            android:ems="3"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBatTimeSpent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatBalls"
+            android:text="@string/time_spent" />
 
         <EditText
             android:id="@+id/txtBatTimeSpent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/time_spent"
+            android:layout_below="@id/txtBatBalls"
+            android:layout_toRightOf="@id/lblBatTimeSpent"
+            android:ems="3"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBatHowOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatTimeSpent"
+            android:text="@string/how_out" />
 
         <Spinner
             android:id="@+id/spnBatHowOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/txtBatTimeSpent"
+            android:layout_toRightOf="@id/lblBatHowOut"
             android:entries="@array/spn_how_out" />
 
-        <Spinner
-            android:id="@+id/txtBatBowlerType"
+        <TextView
+            android:id="@+id/lblBatBowlerType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/spnBatHowOut"
+            android:text="@string/bowler_type" />
+
+        <Spinner
+            android:id="@+id/spnBatBowlerType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spnBatHowOut"
+            android:layout_toRightOf="@id/lblBatBowlerType"
             android:entries="@array/spn_bowling_style" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

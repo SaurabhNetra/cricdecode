@@ -3,55 +3,119 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lblBowlOvers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/overs" />
 
         <EditText
             android:id="@+id/txtBowlOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/overs"
-            android:inputType="number" >
+            android:layout_toRightOf="@id/lblBowlOvers"
+            android:ems="3"
+            android:inputType="number" />
 
-            <requestFocus />
-        </EditText>
+        <TextView
+            android:id="@+id/lblBowlMaidens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlOvers"
+            android:text="@string/maidens" />
 
         <EditText
             android:id="@+id/txtBowlMaidens"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/maidens"
+            android:layout_below="@id/txtBowlOvers"
+            android:layout_toRightOf="@id/lblBowlMaidens"
+            android:ems="3"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBowlRuns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlMaidens"
+            android:text="@string/runs" />
 
         <EditText
             android:id="@+id/txtBowlRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/runs"
+            android:layout_below="@id/txtBowlMaidens"
+            android:layout_toRightOf="@id/lblBowlRuns"
+            android:ems="3"
             android:inputType="number" />
 
-        <EditText
-            android:id="@+id/txtBowlWickets"
+        <TextView
+            android:id="@+id/lblBowlWicketsLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/wickets"
+            android:layout_below="@id/txtBowlRuns"
+            android:text="@string/wickets_left" />
+
+        <EditText
+            android:id="@+id/txtBowlWicketsLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlRuns"
+            android:layout_toRightOf="@id/lblBowlWicketsLeft"
+            android:ems="2"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBowlWicketsRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlWicketsLeft"
+            android:text="@string/wickets_right" />
+
+        <EditText
+            android:id="@+id/txtBowlWicketsRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlWicketsLeft"
+            android:layout_toRightOf="@id/lblBowlWicketsRight"
+            android:ems="2"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBowlNoballs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlWicketsRight"
+            android:text="@string/noballs" />
 
         <EditText
             android:id="@+id/txtBowlNoballs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/noballs"
+            android:layout_below="@id/txtBowlWicketsRight"
+            android:layout_toRightOf="@id/lblBowlNoballs"
+            android:ems="2"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblBowlWides"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtBowlNoballs"
+            android:text="@string/wides" />
 
         <EditText
             android:id="@+id/txtBowlWides"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/wides"
+            android:layout_below="@id/txtBowlNoballs"
+            android:layout_toRightOf="@id/lblBowlWides"
+            android:ems="2"
             android:inputType="number" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>
