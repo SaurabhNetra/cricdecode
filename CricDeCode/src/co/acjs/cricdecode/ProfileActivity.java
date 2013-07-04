@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +23,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class ProfileActivity extends SherlockFragmentActivity implements OnClickListener {
+public class ProfileActivity extends SherlockFragmentActivity {
 
 	// Class Variables
 	private static final String		TAG					= "CricDeCode";
@@ -43,13 +42,33 @@ public class ProfileActivity extends SherlockFragmentActivity implements OnClick
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_profile);
 
-		viewFragment(new ProfileFragment());
+		if (savedInstanceState != null) {
+			String str = savedInstanceState.getString("fragment");
+			if (str.equals(getResources().getString(R.string.edit))) {
+				viewFragment(new ProfileFragment());
+			} else {
+				viewFragment(new ProfileEditFragment());
+				((Button) findViewById(R.id.btnEditProfile))
+						.setText(R.string.view);
+			}
+		} else {
+			viewFragment(new ProfileFragment());
+		}
 
 		// Main Activity Context
 		profileActivity = this;
 
 		// Shared Preferences initialize
 		mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		String str = ((Button) findViewById(R.id.btnEditProfile)).getText()
+				.toString();
+		outState.putString("fragment", str);
 
 	}
 
@@ -70,6 +89,33 @@ public class ProfileActivity extends SherlockFragmentActivity implements OnClick
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Log.d("Debug", "onActivityResult called");
+
+		// Case of Loading Image from Gallery
+		if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+			// Receive Image Path
+			Uri selectedImage = data.getData();
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+			Cursor cursor = getContentResolver().query(selectedImage,
+					filePathColumn, null, null, null);
+			cursor.moveToFirst();
+
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			String picturePath = cursor.getString(columnIndex);
+			cursor.close();
+			AccessSharedPreferences.setProfilePicPath(this, picturePath);
+			((ImageView) findViewById(R.id.imgProfilePicEdit))
+					.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+		}
+
+	}
+
+	/* Non overridden methods */
+
 	public void onClick(View view) {
 		Log.d(TAG, "onClick Called");
 
@@ -105,34 +151,6 @@ public class ProfileActivity extends SherlockFragmentActivity implements OnClick
 				break;
 		}
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Log.d("Debug", "onActivityResult called");
-
-		// Case of Loading Image from Gallery
-		if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-			// Receive Image Path
-			Uri selectedImage = data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-			Cursor cursor = getContentResolver().query(selectedImage,
-					filePathColumn, null, null, null);
-			cursor.moveToFirst();
-
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-			AccessSharedPreferences.setProfilePicPath(this, picturePath);
-			((ImageView) findViewById(R.id.imgProfilePicEdit))
-					.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-		}
-
-	}
-
-	/** Non overridden methods */
 
 	public void viewFragment(SherlockFragment fragment) {
 
@@ -210,7 +228,7 @@ public class ProfileActivity extends SherlockFragmentActivity implements OnClick
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void selectFromSpinner(int id, String selected) {
+	public void selectFromSpinner(int id, String selected) {
 		Spinner spinner = (Spinner) findViewById(id);
 		ArrayAdapter myAdap = (ArrayAdapter) spinner.getAdapter();
 		int spinnerPosition = myAdap.getPosition(selected);

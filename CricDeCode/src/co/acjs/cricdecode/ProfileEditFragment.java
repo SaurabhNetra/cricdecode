@@ -21,4 +21,5 @@ public class ProfileEditFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		ProfileActivity.profileActivity.onProfileEditing();
 	}
+
 }
