@@ -20,6 +20,6 @@ public class ProfileFragment extends SherlockFragment {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		// Edit Profile Button
-		MainActivity.mainAct.onProfileViewing();
+		ProfileActivity.profileActivity.onProfileViewing();
 	}
 }

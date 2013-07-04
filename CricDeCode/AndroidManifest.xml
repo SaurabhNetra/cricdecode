@@ -34,6 +34,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="co.acjs.cricdecode.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
+        <activity
             android:name="co.acjs.cricdecode.MatchCreateActivity"
             android:label="@string/title_activity_match_create" >
         </activity>

@@ -7,52 +7,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <ImageView
+            android:id="@+id/imgProfilePicEdit"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:clickable="true"
+            android:contentDescription="@string/profile_pic"
+            android:onClick="onClick"
+            android:src="@drawable/ic_launcher" />
+
         <TextView
-            android:id="@+id/lblNickame"
+            android:id="@+id/lblName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nickname" />
+            android:layout_below="@id/imgProfilePicEdit"
+            android:text="@string/name" />
 
         <EditText
-            android:id="@+id/txtNickame"
+            android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/lblNickame"
+            android:layout_below="@id/imgProfilePicEdit"
+            android:layout_toRightOf="@id/lblName"
             android:ems="10"
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/lblGender"
+            android:id="@+id/lblNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtNickame"
-            android:text="@string/gender" />
+            android:layout_below="@id/txtName"
+            android:text="@string/nickname" />
 
-        <RadioGroup
-            android:id="@+id/rdgrpGender"
+        <EditText
+            android:id="@+id/txtNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtNickame"
-            android:layout_toRightOf="@id/lblGender" >
+            android:layout_below="@id/txtName"
+            android:layout_toRightOf="@id/lblNickname"
+            android:ems="10"
+            android:inputType="text" />
 
-            <RadioButton
-                android:id="@+id/male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/male" />
+        <TextView
+            android:id="@+id/lbllblDOBEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNickname"
+            android:paddingRight="10dp"
+            android:text="@string/dob" />
 
-            <RadioButton
-                android:id="@+id/female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/female" />
-        </RadioGroup>
+        <TextView
+            android:id="@+id/lblDOBEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNickname"
+            android:layout_toRightOf="@id/lbllblDOBEdit"
+            android:clickable="true"
+            android:hint="@string/ddmmyyyy"
+            android:onClick="onClick" />
 
         <Spinner
             android:id="@+id/spnPlayingRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rdgrpGender"
+            android:layout_below="@id/lblDOBEdit"
             android:entries="@array/spn_playing_role" />
 
         <Spinner
@@ -68,69 +86,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spnBattingStyle"
             android:entries="@array/spn_bowling_style" />
-
-        <EditText
-            android:id="@+id/txtQualification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/spnBowlingStyle"
-            android:ems="10"
-            android:hint="@string/qualification"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/txtCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtQualification"
-            android:ems="10"
-            android:hint="@string/country"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/txtState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtCountry"
-            android:ems="10"
-            android:hint="@string/state"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/txtClub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtState"
-            android:ems="10"
-            android:hint="@string/club"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/txtUniversity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtClub"
-            android:ems="10"
-            android:hint="@string/university"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/txtCollege"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtUniversity"
-            android:ems="10"
-            android:hint="@string/college"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/txtSchool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtCollege"
-            android:ems="10"
-            android:hint="@string/school"
-            android:inputType="text" />
     </RelativeLayout>
 
 </ScrollView>

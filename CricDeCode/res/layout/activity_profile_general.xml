@@ -6,115 +6,69 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/lblName"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/name" />
+            android:layout_weight="0.5" >
 
-        <TextView
-            android:id="@+id/lblNickame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/nickname" />
+            <TextView
+                android:id="@+id/lblName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/name" />
 
-        <TextView
-            android:id="@+id/lblGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="@string/gender" />
+            <TextView
+                android:id="@+id/lblNickame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblName"
+                android:hint="@string/nickname" />
 
-        <TextView
-            android:id="@+id/lblDOB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/dob" />
+            <TextView
+                android:id="@+id/lblDOB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblNickame"
+                android:hint="@string/dob" />
 
-        <TextView
-            android:id="@+id/lblAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/age" />
+            <TextView
+                android:id="@+id/lblPlayingRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblDOB"
+                android:hint="@string/playing_role" />
 
-        <TextView
-            android:id="@+id/lblPlayingRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/playing_role" />
+            <TextView
+                android:id="@+id/lblBattingStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblPlayingRole"
+                android:hint="@string/batting_style" />
 
-        <TextView
-            android:id="@+id/lblBattingStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/batting_style" />
+            <TextView
+                android:id="@+id/lblBowlingStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblBattingStyle"
+                android:hint="@string/bowling_style" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/lblBowlingStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/bowling_style" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" >
 
-        <TextView
-            android:id="@+id/lblQualification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/qualification" />
-
-        <ImageView
-            android:id="@+id/imgProfilePic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/profile_pic" />
-
-        <TextView
-            android:id="@+id/lblCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/country" />
-
-        <TextView
-            android:id="@+id/lblState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/state" />
-
-        <TextView
-            android:id="@+id/lblClub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/club" />
-
-        <TextView
-            android:id="@+id/lblUniversity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/university" />
-
-        <TextView
-            android:id="@+id/lblCollege"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/college" />
-
-        <TextView
-            android:id="@+id/lblSchool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/school" />
+            <ImageView
+                android:id="@+id/imgProfilePic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/profile_pic"
+                android:src="@drawable/ic_launcher" />
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

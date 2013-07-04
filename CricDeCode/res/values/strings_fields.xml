@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Activity List -->
+    <string-array name="activity_list">
+        <item>Profile</item>
+        <item>Ongoing Matches</item>
+    </string-array>
+
     <!-- Profile -->
     <string name="name">Name</string>
     <string name="nickname">Nickname</string>
@@ -23,6 +29,7 @@
     <string name="edit">Edit</string>
     <string name="view">View</string>
     <string name="current_matches">Matches</string>
+    <string name="ddmmyyyy">dd/mm/yyyy</string>
 
     <string-array name="spn_playing_role">
         <item>Batsman</item>
@@ -33,7 +40,6 @@
         <item>Left Hand Bat</item>
     </string-array>
     <string-array name="spn_bowling_style">
-        <item></item>
         <item>Right-arm fast</item>
         <item>Right-arm fast medium</item>
         <item>Right-arm medium fast</item>

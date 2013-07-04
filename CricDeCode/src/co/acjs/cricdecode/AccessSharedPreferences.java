@@ -19,18 +19,6 @@ public class AccessSharedPreferences {
 		editor = mPrefs.edit();
 	}
 
-	public static void setEMailID(Context cont, String eMailID) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("eMailID", eMailID);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static void setName(Context cont, String name) {
 		try {
 			s.acquire();
@@ -47,19 +35,7 @@ public class AccessSharedPreferences {
 		try {
 			s.acquire();
 			init(cont);
-			editor.putString("nickName", nickName);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setSex(Context cont, int sex) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putInt("sex", sex);
+			editor.putString("nickname", nickName);
 			editor.commit();
 			s.release();
 		} catch (InterruptedException e) {
@@ -71,19 +47,7 @@ public class AccessSharedPreferences {
 		try {
 			s.acquire();
 			init(cont);
-			editor.putString("DateOfBirth", dateOfBirth);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setAge(Context cont, int age) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putInt("age", age);
+			editor.putString("dateOfBirth", dateOfBirth);
 			editor.commit();
 			s.release();
 		} catch (InterruptedException e) {
@@ -127,11 +91,11 @@ public class AccessSharedPreferences {
 		}
 	}
 
-	public static void setQualification(Context cont, String qualification) {
+	public static void setProfilePicPath(Context cont, String profilePicPath) {
 		try {
 			s.acquire();
 			init(cont);
-			editor.putString("qualification", qualification);
+			editor.putString("profilePicPath", profilePicPath);
 			editor.commit();
 			s.release();
 		} catch (InterruptedException e) {
@@ -139,75 +103,4 @@ public class AccessSharedPreferences {
 		}
 	}
 
-	public static void setCountry(Context cont, String country) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("country", country);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setState(Context cont, String state) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("state", state);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setClub(Context cont, String club) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("club", club);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setUniversity(Context cont, String university) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("university", university);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setCollege(Context cont, String college) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("college", college);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setSchool(Context cont, String school) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("school", school);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 }

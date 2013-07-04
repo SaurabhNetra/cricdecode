@@ -8,11 +8,19 @@
         android:layout_height="wrap_content" >
 
         <TextView
+            android:id="@+id/lblMatchDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:text="@string/match_date" />
+
+        <TextView
             android:id="@+id/txtMatchDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lblMatchDate"
             android:clickable="true"
-            android:hint="@string/match_date"
+            android:hint="@string/ddmmyyyy"
             android:onClick="onClick" />
 
         <TextView
