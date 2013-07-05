@@ -17,7 +17,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class MainActivity extends SherlockFragmentActivity {
 	public static MainActivity	mainActivity;
 
-	private static final int	POSITION_PROFILE	= 0, POSITION_MATCH = 1;
+	private static final int	POSITION_PROFILE	= 0, POSITION_MATCH = 1,
+			POSITION_NEW_MATCH = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,11 @@ public class MainActivity extends SherlockFragmentActivity {
 					case POSITION_MATCH:
 						intent = new Intent(getBaseContext(),
 								MatchActivity.class);
+						startActivity(intent);
+						break;
+					case POSITION_NEW_MATCH:
+						intent = new Intent(getBaseContext(),
+								MatchCreateActivity.class);
 						startActivity(intent);
 						break;
 					default:

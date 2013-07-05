@@ -5,6 +5,7 @@
     <string-array name="activity_list">
         <item>Profile</item>
         <item>Ongoing Matches</item>
+        <item>New Match</item>
     </string-array>
 
     <!-- Profile -->

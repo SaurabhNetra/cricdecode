@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class MatchActivity extends SherlockFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -27,9 +26,6 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		// Goal Setting Screen
 
 		setContentView(R.layout.activity_match_list);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.actionbar_match_add);
 
 		displayListView();
 	}
@@ -107,17 +103,6 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		// longer using it.
 		Log.d("Debug", "on Loader Reset");
 		dataAdapter.swapCursor(null);
-	}
-
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.btnNewMatch:
-				Intent intent = new Intent(this, MatchCreateActivity.class);
-				startActivity(intent);
-				break;
-			default:
-				break;
-		}
 	}
 
 }

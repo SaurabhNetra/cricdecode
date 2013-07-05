@@ -1,6 +1,7 @@
 package co.acjs.cricdecode;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -83,8 +84,15 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		// Serialize the current tab position.
-		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
-				.getSelectedNavigationIndex());
+		int index = getSupportActionBar().getSelectedNavigationIndex();
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, index);
+		saveInfo(index);
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		saveInfo(getSupportActionBar().getSelectedNavigationIndex());
 	}
 
 	@Override
@@ -103,34 +111,13 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 		switch (tab.getPosition()) {
 			case 0:
-				String str = ((EditText) findViewById(R.id.txtBatBattingNo))
-						.getText().toString();
-				if (!str.equals("")) {
-					bat_no = Integer.parseInt(str);
-				}
-				str = ((EditText) findViewById(R.id.txtBatRuns)).getText()
-						.toString();
-				if (!str.equals("")) {
-					bat_runs = Integer.parseInt(str);
-				}
-				str = ((EditText) findViewById(R.id.txtBatBalls)).getText()
-						.toString();
-				if (!str.equals("")) {
-					bat_balls = Integer.parseInt(str);
-				}
-				str = ((EditText) findViewById(R.id.txtBatTimeSpent)).getText()
-						.toString();
-				if (!str.equals("")) {
-					bat_time = Integer.parseInt(str);
-				}
-				how_out = ((Spinner) findViewById(R.id.spnBatHowOut))
-						.getSelectedItem().toString();
-				bowler_type = ((Spinner) findViewById(R.id.spnBatBowlerType))
-						.getSelectedItem().toString();
+				saveInfo(0);
 				break;
 			case 1:
+				saveInfo(1);
 				break;
 			case 2:
+				saveInfo(2);
 				break;
 			default:
 				break;
@@ -213,5 +200,42 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			}
 		}
 
+	}
+
+	public void saveInfo(int id) {
+		switch (id) {
+			case 0:
+				String str = ((EditText) findViewById(R.id.txtBatBattingNo))
+						.getText().toString();
+				if (!str.equals("")) {
+					bat_no = Integer.parseInt(str);
+				}
+				str = ((EditText) findViewById(R.id.txtBatRuns)).getText()
+						.toString();
+				if (!str.equals("")) {
+					bat_runs = Integer.parseInt(str);
+				}
+				str = ((EditText) findViewById(R.id.txtBatBalls)).getText()
+						.toString();
+				if (!str.equals("")) {
+					bat_balls = Integer.parseInt(str);
+				}
+				str = ((EditText) findViewById(R.id.txtBatTimeSpent)).getText()
+						.toString();
+				if (!str.equals("")) {
+					bat_time = Integer.parseInt(str);
+				}
+				how_out = ((Spinner) findViewById(R.id.spnBatHowOut))
+						.getSelectedItem().toString();
+				bowler_type = ((Spinner) findViewById(R.id.spnBatBowlerType))
+						.getSelectedItem().toString();
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			default:
+				break;
+		}
 	}
 }
