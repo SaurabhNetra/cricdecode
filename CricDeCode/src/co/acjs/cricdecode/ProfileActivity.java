@@ -30,6 +30,8 @@ public class ProfileActivity extends SherlockFragmentActivity {
 	public static SharedPreferences	mPrefs;
 	public static ProfileActivity	profileActivity;
 
+	private static String			btnEditProfile;
+
 	// Constants
 	static final int				RESULT_LOAD_IMAGE	= 1;
 
@@ -43,8 +45,8 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		actionBar.setCustomView(R.layout.actionbar_profile);
 
 		if (savedInstanceState != null) {
-			String str = savedInstanceState.getString("fragment");
-			if (str.equals(getResources().getString(R.string.edit))) {
+			btnEditProfile = savedInstanceState.getString("fragment");
+			if (btnEditProfile.equals(getResources().getString(R.string.edit))) {
 				viewFragment(new ProfileFragment());
 			} else {
 				viewFragment(new ProfileEditFragment());
@@ -69,7 +71,46 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		String str = ((Button) findViewById(R.id.btnEditProfile)).getText()
 				.toString();
 		outState.putString("fragment", str);
+		if (str.equals(getResources().getString(R.string.view))) {
+			outState.putString("name", ((EditText) findViewById(R.id.txtName))
+					.getText().toString());
+			outState.putString("nickname",
+					((EditText) findViewById(R.id.txtNickname)).getText()
+							.toString());
+			outState.putString("dateOfBirth",
+					((TextView) findViewById(R.id.lblDOBEdit)).getText()
+							.toString());
+			outState.putString("playingRole",
+					((Spinner) findViewById(R.id.spnPlayingRole))
+							.getSelectedItem().toString());
+			outState.putString("battingStyle",
+					((Spinner) findViewById(R.id.spnBattingStyle))
+							.getSelectedItem().toString());
+			outState.putString("bowlingStyle",
+					((Spinner) findViewById(R.id.spnBowlingStyle))
+							.getSelectedItem().toString());
+		}
 
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (savedInstanceState != null && btnEditProfile.equals(getResources()
+				.getString(R.string.view))) {
+			((EditText) findViewById(R.id.txtName)).setText(savedInstanceState
+					.getString("name"));
+			((EditText) findViewById(R.id.txtNickname))
+					.setText(savedInstanceState.getString("nickname"));
+			((TextView) findViewById(R.id.lblDOBEdit))
+					.setText(savedInstanceState.getString("dateOfBirth"));
+			selectFromSpinner(R.id.spnPlayingRole,
+					savedInstanceState.getString("playingRole"));
+			selectFromSpinner(R.id.spnBattingStyle,
+					savedInstanceState.getString("battingStyle"));
+			selectFromSpinner(R.id.spnBowlingStyle,
+					savedInstanceState.getString("bowlingStyle"));
+		}
 	}
 
 	@Override
