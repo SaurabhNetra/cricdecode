@@ -14,18 +14,20 @@ public class CricDeCodeContentProvider extends ContentProvider {
 
 	private CricDeCodeDatabaseHelper	dbHelper;
 
-	private static final int			SINGLE_MATCH		= 1;
-	private static final int			ALL_MATCHES			= 2;
+	private static final int			SINGLE_MATCH			= 1;
+	private static final int			ALL_MATCHES				= 2;
+	private static final int			SINGLE_PERFORMANCE		= 3;
 
 	// authority is the symbolic name of your provider
 	// To avoid conflicts with other providers, you should use
 	// Internet domain ownership (in reverse) as the basis of your provider
 	// authority.
-	private static final String			AUTHORITY			= "co.acjs.cricdecode.contentprovider";
+	private static final String			AUTHORITY				= "co.acjs.cricdecode.contentprovider";
 
 	// create content URIs from the authority by appending path to database
 	// table
-	public static final Uri				CONTENT_URI_MATCH	= Uri.parse("content://" + AUTHORITY + "/match");
+	public static final Uri				CONTENT_URI_MATCH		= Uri.parse("content://" + AUTHORITY + "/match");
+	public static final Uri				CONTENT_URI_PERFORMANCE	= Uri.parse("content://" + AUTHORITY + "/performance");
 
 	// a content URI pattern matches content URIs using wildcard characters:
 	// *: Matches a string of any valid characters of any length.
@@ -35,6 +37,7 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(AUTHORITY, "match", ALL_MATCHES);
 		uriMatcher.addURI(AUTHORITY, "match/#", SINGLE_MATCH);
+		uriMatcher.addURI(AUTHORITY, "performance/#", SINGLE_PERFORMANCE);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -64,16 +67,21 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		String table;
+		Uri content_uri;
 		switch (uriMatcher.match(uri)) {
 			case ALL_MATCHES:
 				table = MatchDb.SQLITE_TABLE;
+				content_uri = CONTENT_URI_MATCH;
 				break;
+			case SINGLE_PERFORMANCE:
+				table = PerformanceDb.SQLITE_TABLE;
+				content_uri = CONTENT_URI_PERFORMANCE;
 			default:
 				throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
 		long id = db.insert(table, null, values);
 		getContext().getContentResolver().notifyChange(uri, null);
-		return Uri.parse(CONTENT_URI_MATCH + "/" + id);
+		return Uri.parse(content_uri + "/" + id);
 
 	}
 

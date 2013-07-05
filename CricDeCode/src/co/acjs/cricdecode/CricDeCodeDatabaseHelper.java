@@ -16,12 +16,13 @@ public class CricDeCodeDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		MatchDb.onCreate(db);
+		PerformanceDb.onCreate(db);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		MatchDb.onUpgrade(db, oldVersion, newVersion);
-
+		PerformanceDb.onUpgrade(db, oldVersion, newVersion);
 	}
 
 }
