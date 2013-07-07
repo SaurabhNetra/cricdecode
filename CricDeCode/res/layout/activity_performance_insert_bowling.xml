@@ -11,6 +11,7 @@
             android:id="@+id/lblBowlOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="@string/overs" />
 
         <EditText
@@ -19,13 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lblBowlOvers"
             android:ems="3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBowlMaidens"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBowlOvers"
+            android:padding="10dp"
             android:text="@string/maidens" />
 
         <EditText
@@ -35,13 +38,15 @@
             android:layout_below="@id/txtBowlOvers"
             android:layout_toRightOf="@id/lblBowlMaidens"
             android:ems="3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBowlRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBowlMaidens"
+            android:padding="10dp"
             android:text="@string/runs" />
 
         <EditText
@@ -51,13 +56,15 @@
             android:layout_below="@id/txtBowlMaidens"
             android:layout_toRightOf="@id/lblBowlRuns"
             android:ems="3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBowlWicketsLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBowlRuns"
+            android:padding="10dp"
             android:text="@string/wickets_left" />
 
         <EditText
@@ -67,13 +74,15 @@
             android:layout_below="@id/txtBowlRuns"
             android:layout_toRightOf="@id/lblBowlWicketsLeft"
             android:ems="2"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBowlWicketsRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBowlWicketsLeft"
+            android:padding="10dp"
             android:text="@string/wickets_right" />
 
         <EditText
@@ -83,13 +92,15 @@
             android:layout_below="@id/txtBowlWicketsLeft"
             android:layout_toRightOf="@id/lblBowlWicketsRight"
             android:ems="2"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBowlNoballs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBowlWicketsRight"
+            android:padding="10dp"
             android:text="@string/noballs" />
 
         <EditText
@@ -99,13 +110,15 @@
             android:layout_below="@id/txtBowlWicketsRight"
             android:layout_toRightOf="@id/lblBowlNoballs"
             android:ems="2"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBowlWides"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBowlNoballs"
+            android:padding="10dp"
             android:text="@string/wides" />
 
         <EditText
@@ -115,7 +128,8 @@
             android:layout_below="@id/txtBowlNoballs"
             android:layout_toRightOf="@id/lblBowlWides"
             android:ems="2"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
     </RelativeLayout>
 
 </ScrollView>

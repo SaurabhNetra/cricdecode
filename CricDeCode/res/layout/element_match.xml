@@ -20,18 +20,27 @@
         android:id="@+id/lblMatchDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/match_date" />
+        android:hint="@string/match_date"
+        android:padding="2dp" />
 
     <TextView
         android:id="@+id/lblMyTeam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/my_team" />
+        android:hint="@string/my_team"
+        android:padding="2dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="@string/vs" />
 
     <TextView
         android:id="@+id/lblOpponentTeam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/opponent_team" />
+        android:hint="@string/opponent_team"
+        android:padding="2dp" />
 
 </LinearLayout>

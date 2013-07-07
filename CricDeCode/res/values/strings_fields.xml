@@ -61,7 +61,7 @@
     <string name="description">Description</string>
     <string name="save">Save</string>
 
-    <!-- Match Date -->
+    <!-- Match -->
     <string name="match_date">Match Date</string>
     <string name="my_team">My Team</string>
     <string name="opponent_team">Opponent</string>
@@ -71,6 +71,7 @@
     <string name="result">Result</string>
     <string name="create">Create</string>
     <string name="new_match">New Match</string>
+    <string name="vs"> vs </string>
 
     <string-array name="spn_result">
         <item>Win</item>
@@ -78,6 +79,10 @@
         <item>Draw</item>
         <item>Tie</item>
         <item>Abandoned</item>
+    </string-array>
+    <string-array name="spn_innings">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <!-- Performance Insert -->

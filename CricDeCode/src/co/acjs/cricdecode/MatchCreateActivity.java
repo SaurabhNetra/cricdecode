@@ -15,23 +15,23 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 public class MatchCreateActivity extends SherlockFragmentActivity {
 
 	TextView	matchDate;
-	EditText	myTeam, opponentTeam, venue, overs, innings;
-	Spinner		result;
+	EditText	myTeam, opponentTeam, venue, overs;
+	Spinner		result, innings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_match_create);
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_match_create);
+		actionBar.setDisplayShowCustomEnabled(true);
 
 		matchDate = (TextView) findViewById(R.id.txtMatchDate);
 		myTeam = (EditText) findViewById(R.id.txtMyTeam);
 		opponentTeam = (EditText) findViewById(R.id.txtOpponentTeam);
 		venue = (EditText) findViewById(R.id.txtVenue);
 		overs = (EditText) findViewById(R.id.txtOvers);
-		innings = (EditText) findViewById(R.id.txtInnings);
+		innings = (Spinner) findViewById(R.id.spn_innings);
 		result = (Spinner) findViewById(R.id.spnResult);
 
 	}
@@ -52,7 +52,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				String opponentTeam_str = opponentTeam.getText().toString();
 				String venue_str = venue.getText().toString();
 				String overs_str = overs.getText().toString();
-				String innings_str = innings.getText().toString();
+				String innings_str = innings.getSelectedItem().toString();
 				String result_str = result.getSelectedItem().toString();
 
 				// check for blanks
@@ -87,14 +87,6 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				if (overs_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(),
 							"Please enter NUMBER OF OVERS IN AN INNINGS",
-							Toast.LENGTH_LONG).show();
-					return;
-				}
-
-				// check for blanks
-				if (innings_str.trim().equalsIgnoreCase("")) {
-					Toast.makeText(getBaseContext(),
-							"Please enter the NUMBER OF INNINGS",
 							Toast.LENGTH_LONG).show();
 					return;
 				}

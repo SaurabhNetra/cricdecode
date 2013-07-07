@@ -11,6 +11,7 @@
             android:id="@+id/lblBatBattingNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="@string/batting_no" />
 
         <EditText
@@ -19,13 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lblBatBattingNo"
             android:ems="2"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBatRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBatBattingNo"
+            android:padding="10dp"
             android:text="@string/runs" />
 
         <EditText
@@ -35,13 +38,15 @@
             android:layout_below="@id/txtBatBattingNo"
             android:layout_toRightOf="@id/lblBatRuns"
             android:ems="3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBatBalls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBatRuns"
+            android:padding="10dp"
             android:text="@string/balls" />
 
         <EditText
@@ -51,13 +56,15 @@
             android:layout_below="@id/txtBatRuns"
             android:layout_toRightOf="@id/lblBatBalls"
             android:ems="3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBatTimeSpent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBatBalls"
+            android:padding="10dp"
             android:text="@string/time_spent" />
 
         <EditText
@@ -67,13 +74,15 @@
             android:layout_below="@id/txtBatBalls"
             android:layout_toRightOf="@id/lblBatTimeSpent"
             android:ems="3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBatHowOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBatTimeSpent"
+            android:padding="10dp"
             android:text="@string/how_out" />
 
         <Spinner
@@ -82,13 +91,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBatTimeSpent"
             android:layout_toRightOf="@id/lblBatHowOut"
-            android:entries="@array/spn_how_out" />
+            android:entries="@array/spn_how_out"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBatBowlerType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spnBatHowOut"
+            android:padding="10dp"
             android:text="@string/bowler_type" />
 
         <Spinner
@@ -97,7 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spnBatHowOut"
             android:layout_toRightOf="@id/lblBatBowlerType"
-            android:entries="@array/spn_bowling_style" />
+            android:entries="@array/spn_bowling_style"
+            android:padding="10dp" />
     </RelativeLayout>
 
 </ScrollView>

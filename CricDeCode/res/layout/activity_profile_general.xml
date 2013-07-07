@@ -18,42 +18,48 @@
                 android:id="@+id/lblName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/name" />
+                android:hint="@string/name"
+                android:padding="2dp" />
 
             <TextView
                 android:id="@+id/lblNickame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblName"
-                android:hint="@string/nickname" />
+                android:hint="@string/nickname"
+                android:padding="2dp" />
 
             <TextView
                 android:id="@+id/lblDOB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblNickame"
-                android:hint="@string/dob" />
+                android:hint="@string/dob"
+                android:padding="2dp" />
 
             <TextView
                 android:id="@+id/lblPlayingRole"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblDOB"
-                android:hint="@string/playing_role" />
+                android:hint="@string/playing_role"
+                android:padding="2dp" />
 
             <TextView
                 android:id="@+id/lblBattingStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblPlayingRole"
-                android:hint="@string/batting_style" />
+                android:hint="@string/batting_style"
+                android:padding="2dp" />
 
             <TextView
                 android:id="@+id/lblBowlingStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblBattingStyle"
-                android:hint="@string/bowling_style" />
+                android:hint="@string/bowling_style"
+                android:padding="2dp" />
         </RelativeLayout>
 
         <RelativeLayout

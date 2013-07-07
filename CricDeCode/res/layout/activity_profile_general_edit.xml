@@ -14,6 +14,7 @@
             android:clickable="true"
             android:contentDescription="@string/profile_pic"
             android:onClick="onClick"
+            android:padding="10dp"
             android:src="@drawable/ic_launcher" />
 
         <TextView
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/imgProfilePicEdit"
+            android:padding="10dp"
             android:text="@string/name" />
 
         <EditText
@@ -30,13 +32,15 @@
             android:layout_below="@id/imgProfilePicEdit"
             android:layout_toRightOf="@id/lblName"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="text"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtName"
+            android:padding="10dp"
             android:text="@string/nickname" />
 
         <EditText
@@ -46,13 +50,15 @@
             android:layout_below="@id/txtName"
             android:layout_toRightOf="@id/lblNickname"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="text"
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lbllblDOBEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtNickname"
+            android:padding="10dp"
             android:paddingRight="10dp"
             android:text="@string/dob" />
 
@@ -64,28 +70,32 @@
             android:layout_toRightOf="@id/lbllblDOBEdit"
             android:clickable="true"
             android:hint="@string/ddmmyyyy"
-            android:onClick="onClick" />
+            android:onClick="onClick"
+            android:padding="10dp" />
 
         <Spinner
             android:id="@+id/spnPlayingRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblDOBEdit"
-            android:entries="@array/spn_playing_role" />
+            android:entries="@array/spn_playing_role"
+            android:padding="10dp" />
 
         <Spinner
             android:id="@+id/spnBattingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spnPlayingRole"
-            android:entries="@array/spn_batting_style" />
+            android:entries="@array/spn_batting_style"
+            android:padding="10dp" />
 
         <Spinner
             android:id="@+id/spnBowlingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spnBattingStyle"
-            android:entries="@array/spn_bowling_style" />
+            android:entries="@array/spn_bowling_style"
+            android:padding="10dp" />
     </RelativeLayout>
 
 </ScrollView>

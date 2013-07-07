@@ -140,9 +140,62 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			Log.d("Debug", "Displaying for db " + c.getCount());
 			c.moveToFirst();
 			for (int i = 1; i <= innings; i++) {
+
 				bat_no[i - 1] = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_NUM));
-				Log.d("Debug", "Bat No. " + bat_no[i - 1]);
+				bat_runs[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_RUNS));
+				bat_balls[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BALLS));
+				bat_time[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_TIME));
+				how_out[i - 1] = c.getString(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_HOW_OUT));
+				bowler_type[i - 1] = c
+						.getString(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE));
+
+				overs[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_OVERS));
+				maidens[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS));
+				bowl_runs[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_RUNS));
+				wkts_left[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_LEFT));
+				wkts_right[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT));
+				noballs[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_NOBALLS));
+				wides[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WIDES));
+
+				close_catch[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CLOSE_CATCH));
+				circle_catch[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CIRCLE_CATCH));
+				deep_catch[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH));
+				circle_ro[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_CIRCLE));
+				direct_ro[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT));
+				deep_ro[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DEEP));
+				stumpings[i - 1] = c
+						.getInt(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_STUMPINGS));
+				byes[i - 1] = c.getInt(c
+						.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES));
+
 				c.moveToNext();
 			}
 		}

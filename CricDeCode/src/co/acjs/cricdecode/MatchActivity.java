@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class MatchActivity extends SherlockFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -23,11 +24,26 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		// Goal Setting Screen
 
 		setContentView(R.layout.activity_match_list);
 
 		displayListView();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				break;
+			default:
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

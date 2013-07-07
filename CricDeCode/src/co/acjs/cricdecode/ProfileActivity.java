@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class ProfileActivity extends SherlockFragmentActivity {
@@ -43,6 +44,8 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_profile);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState != null) {
 			btnEditProfile = savedInstanceState.getString("fragment");
@@ -63,6 +66,18 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		// Shared Preferences initialize
 		mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				break;
+			default:
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
