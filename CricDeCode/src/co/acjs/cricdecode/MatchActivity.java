@@ -66,12 +66,13 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 						PerformanceInsertActivity.class);
 				Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
-				String rowId = cursor.getString(cursor
+				int rowId = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 				int innings = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_INNINGS));
 				intent.putExtra("rowId", rowId);
 				intent.putExtra("innings", innings);
+				Log.d("Debug", "RowID " + rowId);
 				startActivity(intent);
 			}
 		});
