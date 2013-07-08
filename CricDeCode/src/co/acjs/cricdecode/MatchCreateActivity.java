@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class MatchCreateActivity extends SherlockFragmentActivity {
 
@@ -23,8 +24,8 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_match_create);
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setCustomView(R.layout.actionbar_match_create);
-		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		matchDate = (TextView) findViewById(R.id.txtMatchDate);
 		myTeam = (EditText) findViewById(R.id.txtMyTeam);
@@ -36,17 +37,10 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 
 	}
 
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.txtMatchDate:
-				FragmentTransaction ft = getSupportFragmentManager()
-						.beginTransaction();
-				// Create and show the dialog.
-				DatePickerFragment newFragment = new DatePickerFragment();
-				newFragment.setView_callee(findViewById(R.id.txtMatchDate));
-				newFragment.show(ft, null);
-				break;
-			case R.id.btnMatchCreate:
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
 				String matchDate_str = matchDate.getText().toString();
 				String myTeam_str = myTeam.getText().toString();
 				String opponentTeam_str = opponentTeam.getText().toString();
@@ -59,13 +53,13 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				if (matchDate_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(), "Please enter MATCH DATE",
 							Toast.LENGTH_LONG).show();
-					return;
+					break;
 				}
 				// check for blanks
 				if (myTeam_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(), "Please enter YOUR TEAM",
 							Toast.LENGTH_LONG).show();
-					return;
+					break;
 				}
 
 				// check for blanks
@@ -73,14 +67,14 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 					Toast.makeText(getBaseContext(),
 							"Please enter OPPONENT TEAM", Toast.LENGTH_LONG)
 							.show();
-					return;
+					break;
 				}
 
 				// check for blanks
 				if (venue_str.trim().equalsIgnoreCase("")) {
 					Toast.makeText(getBaseContext(), "Please enter VENUE",
 							Toast.LENGTH_LONG).show();
-					return;
+					break;
 				}
 
 				// check for blanks
@@ -88,7 +82,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 					Toast.makeText(getBaseContext(),
 							"Please enter NUMBER OF OVERS IN AN INNINGS",
 							Toast.LENGTH_LONG).show();
-					return;
+					break;
 				}
 
 				// check for blanks
@@ -96,7 +90,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 					Toast.makeText(getBaseContext(),
 							"Please enter RESULT of the MATCH",
 							Toast.LENGTH_LONG).show();
-					return;
+					break;
 				}
 
 				ContentValues values = new ContentValues();
@@ -107,14 +101,31 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				values.put(MatchDb.KEY_OVERS, Integer.parseInt(overs_str));
 				values.put(MatchDb.KEY_INNINGS, Integer.parseInt(innings_str));
 				values.put(MatchDb.KEY_RESULTS, result_str);
-				values.put(MatchDb.KEY_STATUS, MatchDb.CURRENT);
+				values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_CURRENT);
 
 				// insert a record
 				getContentResolver().insert(
 						CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 
 				// Go to Match Activity
+				Toast.makeText(this, "Match Created", Toast.LENGTH_LONG).show();
 				finish();
+				break;
+			default:
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.txtMatchDate:
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+				// Create and show the dialog.
+				DatePickerFragment newFragment = new DatePickerFragment();
+				newFragment.setView_callee(findViewById(R.id.txtMatchDate));
+				newFragment.show(ft, null);
 				break;
 			default:
 				break;

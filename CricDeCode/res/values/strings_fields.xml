@@ -89,7 +89,7 @@
     <string name="batting_no">Batting Number</string>
     <string name="runs">Runs</string>
     <string name="balls">Balls</string>
-    <string name="time_spent">Time Spent</string>
+    <string name="time_spent">Time Spent (mins)</string>
     <string name="maidens">Maidens</string>
     <string name="wickets">Wickets</string>
     <string name="noballs">No Balls</string>

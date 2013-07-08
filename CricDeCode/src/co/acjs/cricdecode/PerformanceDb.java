@@ -30,11 +30,12 @@ public class PerformanceDb {
 	public static final String	KEY_FIELD_RO_DEEP		= "field_ro_deep";
 	public static final String	KEY_FIELD_STUMPINGS		= "field_stumpings";
 	public static final String	KEY_FIELD_BYES			= "field_byes";
+	public static final String	KEY_STATUS				= "status";
 
 	private static final String	LOG_TAG					= "ProfileDb";
 	public static final String	SQLITE_TABLE			= "performance";
 
-	private static final String	DATABASE_CREATE			= "CREATE TABLE if not exists " + SQLITE_TABLE + " (" + KEY_ROWID + " integer," + KEY_INNING + " integer," + KEY_BAT_NUM + " integer," + KEY_BAT_RUNS + " integer," + KEY_BAT_BALLS + " integer," + KEY_BAT_TIME + " integer," + KEY_BAT_HOW_OUT + ", " + KEY_BAT_BOWLER_TYPE + ", " + KEY_BOWL_OVERS + " integer," + KEY_BOWL_MAIDENS + " integer," + KEY_BOWL_RUNS + " integer," + KEY_BOWL_WKTS_LEFT + " integer," + KEY_BOWL_WKTS_RIGHT + " integer," + KEY_BOWL_NOBALLS + " integer," + KEY_BOWL_WIDES + " integer," + KEY_FIELD_CLOSE_CATCH + " integer," + KEY_FIELD_CIRCLE_CATCH + " integer," + KEY_FIELD_DEEP_CATCH + " integer," + KEY_FIELD_RO_CIRCLE + " integer," + KEY_FIELD_RO_DIRECT + " integer," + KEY_FIELD_RO_DEEP + " integer," + KEY_FIELD_STUMPINGS + " integer," + KEY_FIELD_BYES + " integer);";
+	private static final String	DATABASE_CREATE			= "CREATE TABLE if not exists " + SQLITE_TABLE + " (" + KEY_ROWID + " integer," + KEY_INNING + " integer," + KEY_BAT_NUM + " integer," + KEY_BAT_RUNS + " integer," + KEY_BAT_BALLS + " integer," + KEY_BAT_TIME + " integer," + KEY_BAT_HOW_OUT + ", " + KEY_BAT_BOWLER_TYPE + ", " + KEY_BOWL_OVERS + " integer," + KEY_BOWL_MAIDENS + " integer," + KEY_BOWL_RUNS + " integer," + KEY_BOWL_WKTS_LEFT + " integer," + KEY_BOWL_WKTS_RIGHT + " integer," + KEY_BOWL_NOBALLS + " integer," + KEY_BOWL_WIDES + " integer," + KEY_FIELD_CLOSE_CATCH + " integer," + KEY_FIELD_CIRCLE_CATCH + " integer," + KEY_FIELD_DEEP_CATCH + " integer," + KEY_FIELD_RO_CIRCLE + " integer," + KEY_FIELD_RO_DIRECT + " integer," + KEY_FIELD_RO_DEEP + " integer," + KEY_FIELD_STUMPINGS + " integer," + KEY_FIELD_BYES + " integer," + KEY_STATUS + " );";
 
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);

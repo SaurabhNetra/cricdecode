@@ -1,7 +1,9 @@
 package co.acjs.cricdecode;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -11,7 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -88,7 +93,6 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 						.getColumnIndexOrThrow(MatchDb.KEY_INNINGS));
 				intent.putExtra("rowId", rowId);
 				intent.putExtra("innings", innings);
-				Log.d("Debug", "RowID " + rowId);
 				startActivity(intent);
 			}
 		});
@@ -120,6 +124,35 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 		// longer using it.
 		Log.d("Debug", "on Loader Reset");
 		dataAdapter.swapCursor(null);
+	}
+
+	public void onClick(View view) {
+		Log.d("Debug", "onClick of Match Save");
+		// get the row the clicked button is in
+		LinearLayout vwParentRow = (LinearLayout) view.getParent();
+
+		TextView child = (TextView) vwParentRow.getChildAt(0);
+		String str = child.getText().toString();
+		Uri uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str);
+		Cursor c = getContentResolver().query(uri,
+				new String[] { PerformanceDb.KEY_ROWID }, null, null, null);
+		if (c.getCount() == 0) {
+			c.close();
+			Toast.makeText(this, "First Save your Performance",
+					Toast.LENGTH_SHORT).show();
+		} else {
+			c.close();
+			uri = Uri
+					.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
+			ContentValues values = new ContentValues();
+			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+			// insert a record
+			getContentResolver().update(uri, values, null, null);
+			Toast.makeText(this, "Match Saved", Toast.LENGTH_LONG).show();
+			finish();
+			startActivity(getIntent());
+		}
 	}
 
 }

@@ -5,7 +5,8 @@ import android.util.Log;
 
 public class MatchDb {
 
-	public static final String	CURRENT				= "current";
+	public static final String	MATCH_CURRENT		= "current";
+	public static final String	MATCH_HISTORY		= "history";
 
 	public static final String	KEY_ROWID			= "_id";
 	public static final String	KEY_MATCH_DATE		= "match_date";

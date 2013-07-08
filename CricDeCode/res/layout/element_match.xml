@@ -43,4 +43,13 @@
         android:hint="@string/opponent_team"
         android:padding="2dp" />
 
+    <Button
+        android:id="@+id/btnMatchSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:onClick="onClick"
+        android:text="@string/save" >
+    </Button>
+
 </LinearLayout>

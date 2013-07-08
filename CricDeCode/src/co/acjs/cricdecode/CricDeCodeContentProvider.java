@@ -110,14 +110,14 @@ public class CricDeCodeContentProvider extends ContentProvider {
 			case ALL_MATCHES:
 				queryBuilder.setTables(MatchDb.SQLITE_TABLE);
 				queryBuilder
-						.appendWhere(MatchDb.KEY_STATUS + "=" + "'" + MatchDb.CURRENT + "'");
+						.appendWhere(MatchDb.KEY_STATUS + "=" + "'" + MatchDb.MATCH_CURRENT + "'");
 				break;
 			case SINGLE_MATCH:
 				queryBuilder.setTables(MatchDb.SQLITE_TABLE);
 				id = uri.getPathSegments().get(1);
 				queryBuilder.appendWhere(MatchDb.KEY_ROWID + "=" + id);
 				queryBuilder
-						.appendWhere(MatchDb.KEY_STATUS + "=" + "'" + MatchDb.CURRENT + "'");
+						.appendWhere(MatchDb.KEY_STATUS + "=" + "'" + MatchDb.MATCH_CURRENT + "'");
 				break;
 			case SINGLE_PERFORMANCE:
 				Log.d("Debug", "query Single Performance");

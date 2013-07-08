@@ -14,11 +14,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class PerformanceInsertActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
 
@@ -29,7 +31,8 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 	// Fields
 
 	// Batting
-	private int[]				bat_no, bat_runs, bat_balls, bat_time;
+	private int[]				bat_no							= { 1, 1 },
+			bat_runs, bat_balls, bat_time;
 	private String[]			how_out, bowler_type;
 
 	// Bowling
@@ -47,7 +50,6 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		Log.d("Debug", "On Create called");
 
 		// Initialize arrays
-		bat_no = new int[2];
 		bat_runs = new int[2];
 		bat_balls = new int[2];
 		bat_time = new int[2];
@@ -73,7 +75,9 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 
 		// Set up the action bar to show tabs.
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.actionbar_performance_insert);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -107,6 +111,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 					new String[] { "1st Innings", "2nd Innings" });
 		}
 
+		Log.d("Debug", "Spinner " + spinner);
 		spinner.setAdapter(spinnerArrayAdapter);
 
 		cur_inn = 0;
@@ -352,9 +357,41 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			Log.d("Debug", "On View Created called");
 			((PerformanceInsertActivity) getActivity()).viewInfo(getArguments()
 					.getInt(ARG_SECTION_NUMBER) - 1);
+			if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
+				((Spinner) getActivity().findViewById(R.id.spnBatHowOut))
+						.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+							public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+								String str = ((Spinner) getActivity()
+										.findViewById(R.id.spnBatHowOut))
+										.getSelectedItem().toString();
+								if (str.equals("Not Out") || str
+										.equals("Retired") || str
+										.equals("Timed Out") || str
+										.equals("Obstructing the Field") || str
+										.equals("Run Out")) {
+									((Spinner) getActivity().findViewById(
+											R.id.spnBatBowlerType))
+											.setVisibility(View.INVISIBLE);
+									((TextView) getActivity().findViewById(
+											R.id.lblBatBowlerType))
+											.setVisibility(View.INVISIBLE);
+								} else {
+									((Spinner) getActivity().findViewById(
+											R.id.spnBatBowlerType))
+											.setVisibility(View.VISIBLE);
+									((TextView) getActivity().findViewById(
+											R.id.lblBatBowlerType))
+											.setVisibility(View.VISIBLE);
+								}
+							}
+
+							public void onNothingSelected(AdapterView<?> adapterView) {
+								return;
+							}
+						});
+			}
 			Log.d("Debug", "On View Created finished");
 		}
-
 	}
 
 	public void saveInfo(int id) {
@@ -587,7 +624,8 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			c.close();
 			// not found in database
 			for (int i = 1; i <= innings; i++) {
-
+				values[i - 1].put(PerformanceDb.KEY_STATUS,
+						MatchDb.MATCH_CURRENT);
 				// insert a record
 				getContentResolver().insert(
 						CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
@@ -605,14 +643,17 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		}
 	}
 
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.btnPerformanceSave:
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
 				insertOrUpdate();
 				finish();
 				break;
 			default:
 				break;
 		}
+		return super.onOptionsItemSelected(item);
 	}
+
 }
