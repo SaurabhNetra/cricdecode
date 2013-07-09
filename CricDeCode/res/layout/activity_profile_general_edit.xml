@@ -73,29 +73,53 @@
             android:onClick="onClick"
             android:padding="10dp" />
 
+        <TextView
+            android:id="@+id/lblPlayingRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblDOBEdit"
+            android:padding="10dp"
+            android:text="@string/playing_role" />
+
         <Spinner
             android:id="@+id/spnPlayingRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblDOBEdit"
-            android:entries="@array/spn_playing_role"
-            android:padding="10dp" />
+            android:layout_toRightOf="@id/lblPlayingRole"
+            android:entries="@array/spn_playing_role" />
+
+        <TextView
+            android:id="@+id/lblBattingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spnPlayingRole"
+            android:padding="10dp"
+            android:text="@string/batting_style" />
 
         <Spinner
             android:id="@+id/spnBattingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spnPlayingRole"
-            android:entries="@array/spn_batting_style"
-            android:padding="10dp" />
+            android:layout_toRightOf="@id/lblBattingStyle"
+            android:entries="@array/spn_batting_style" />
+
+        <TextView
+            android:id="@+id/lblBowlingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spnBattingStyle"
+            android:padding="10dp"
+            android:text="@string/bowling_style" />
 
         <Spinner
             android:id="@+id/spnBowlingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spnBattingStyle"
-            android:entries="@array/spn_bowling_style"
-            android:padding="10dp" />
+            android:layout_toRightOf="@id/lblBowlingStyle"
+            android:entries="@array/spn_bowling_style" />
     </RelativeLayout>
 
 </ScrollView>

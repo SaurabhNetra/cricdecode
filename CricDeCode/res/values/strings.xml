@@ -5,9 +5,9 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_performance_insertion">PerformanceInsertionActivity</string>
-    <string name="title_activity_match_create">MatchCreateActivity</string>
+    <string name="title_activity_match_create">New Match</string>
     <string name="title_activity_goal">GoalActivity</string>
-    <string name="title_activity_match">MatchActivity</string>
-    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_match">Ongoing Matches</string>
+    <string name="title_activity_profile">Profile</string>
 
 </resources>

@@ -78,11 +78,18 @@
             android:inputType="text"
             android:padding="10dp" />
 
+        <Spinner
+            android:id="@+id/spnLimited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtVenue"
+            android:entries="@array/spn_limited" />
+
         <TextView
             android:id="@+id/lblOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtVenue"
+            android:layout_below="@id/spnLimited"
             android:padding="10dp"
             android:text="@string/overs" />
 
@@ -90,7 +97,7 @@
             android:id="@+id/txtOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtVenue"
+            android:layout_below="@id/spnLimited"
             android:layout_toRightOf="@id/lblOvers"
             android:ems="3"
             android:inputType="number"
@@ -119,7 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spn_innings"
             android:padding="10dp"
-            android:text="@string/result" />
+            android:text="@string/result"
+            android:visibility="invisible" />
 
         <Spinner
             android:id="@+id/spnResult"
@@ -128,7 +136,7 @@
             android:layout_below="@id/spn_innings"
             android:layout_toRightOf="@id/lblResult"
             android:entries="@array/spn_result"
-            android:padding="10dp" />
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </ScrollView>

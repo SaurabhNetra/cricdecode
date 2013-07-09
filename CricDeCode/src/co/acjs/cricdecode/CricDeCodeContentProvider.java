@@ -14,21 +14,22 @@ public class CricDeCodeContentProvider extends ContentProvider {
 
 	private CricDeCodeDatabaseHelper	dbHelper;
 
-	private static final int			SINGLE_MATCH			= 1;
-	private static final int			ALL_MATCHES				= 2;
-	private static final int			SINGLE_PERFORMANCE		= 3;
-	private static final int			ALL_PERFORMANCES		= 4;
+	private static final int			SINGLE_MATCH				= 1;
+	private static final int			ALL_MATCHES					= 2;
+	private static final int			SINGLE_PERFORMANCE			= 3;
+	private static final int			SINGLE_PERFORMANCE_UPDATE	= 5;
+	private static final int			ALL_PERFORMANCES			= 4;
 
 	// authority is the symbolic name of your provider
 	// To avoid conflicts with other providers, you should use
 	// Internet domain ownership (in reverse) as the basis of your provider
 	// authority.
-	private static final String			AUTHORITY				= "co.acjs.cricdecode.contentprovider";
+	private static final String			AUTHORITY					= "co.acjs.cricdecode.contentprovider";
 
 	// create content URIs from the authority by appending path to database
 	// table
-	public static final Uri				CONTENT_URI_MATCH		= Uri.parse("content://" + AUTHORITY + "/match");
-	public static final Uri				CONTENT_URI_PERFORMANCE	= Uri.parse("content://" + AUTHORITY + "/performance");
+	public static final Uri				CONTENT_URI_MATCH			= Uri.parse("content://" + AUTHORITY + "/match");
+	public static final Uri				CONTENT_URI_PERFORMANCE		= Uri.parse("content://" + AUTHORITY + "/performance");
 
 	// a content URI pattern matches content URIs using wildcard characters:
 	// *: Matches a string of any valid characters of any length.
@@ -40,7 +41,8 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		uriMatcher.addURI(AUTHORITY, "match/#", SINGLE_MATCH);
 		uriMatcher.addURI(AUTHORITY, "performance", ALL_PERFORMANCES);
 		uriMatcher.addURI(AUTHORITY, "performance/#", SINGLE_PERFORMANCE);
-
+		uriMatcher.addURI(AUTHORITY, "performance/update/#",
+				SINGLE_PERFORMANCE_UPDATE);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -167,6 +169,12 @@ public class CricDeCodeContentProvider extends ContentProvider {
 						.isEmpty(selection) ? " AND (" + selection + ')' : "");
 				selection = PerformanceDb.KEY_INNING + "=" + values
 						.getAsInteger(PerformanceDb.KEY_INNING).intValue() + (!TextUtils
+						.isEmpty(selection) ? " AND (" + selection + ')' : "");
+				break;
+			case SINGLE_PERFORMANCE_UPDATE:
+				table_name = PerformanceDb.SQLITE_TABLE;
+				id = uri.getPathSegments().get(2);
+				selection = PerformanceDb.KEY_ROWID + "=" + id + (!TextUtils
 						.isEmpty(selection) ? " AND (" + selection + ')' : "");
 				break;
 			default:

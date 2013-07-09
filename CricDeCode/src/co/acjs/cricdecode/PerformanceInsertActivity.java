@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 
 	private static final String	STATE_SELECTED_NAVIGATION_ITEM	= "selected_navigation_item";
 
-	private int					innings, row_id, cur_inn;
+	private int					innings, row_id, cur_inn, result;
 
 	// Fields
 
@@ -134,6 +135,17 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			}
 		});
 
+		spinner = (Spinner) findViewById(R.id.spnResult);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				result = i;
+			}
+
+			public void onNothingSelected(AdapterView<?> adapterView) {
+				return;
+			}
+		});
+
 		Uri uri = Uri
 				.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + row_id);
 
@@ -214,6 +226,9 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		Log.d("Debug", "On Restore Instance State called");
 		cur_inn = savedInstanceState.getInt("cur_inn");
 
+		result = savedInstanceState.getInt("result");
+		((Spinner) findViewById(R.id.spnResult)).setSelection(result);
+
 		bat_no = savedInstanceState.getIntArray("bat_no");
 		bat_runs = savedInstanceState.getIntArray("bat_runs");
 		bat_balls = savedInstanceState.getIntArray("bat_balls");
@@ -258,6 +273,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		outState.putInt("rowId", row_id);
 
 		outState.putInt("cur_inn", cur_inn);
+		outState.putInt("result", result);
 		saveInfo(index);
 
 		outState.putIntArray("bat_no", bat_no);
@@ -358,6 +374,13 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			((PerformanceInsertActivity) getActivity()).viewInfo(getArguments()
 					.getInt(ARG_SECTION_NUMBER) - 1);
 			if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
+
+				// Set inputFilters
+				EditText et = (EditText) getActivity().findViewById(
+						R.id.txtBatBattingNo);
+				et.setFilters(new InputFilter[] { new InputFilterMinMax("1",
+						"11") });
+
 				((Spinner) getActivity().findViewById(R.id.spnBatHowOut))
 						.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 							public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -574,6 +597,14 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 	public void insertOrUpdate() {
 		saveInfo(getSupportActionBar().getSelectedNavigationIndex());
 		Uri uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + row_id);
+		ContentValues matchvalues = new ContentValues();
+		matchvalues.put(MatchDb.KEY_RESULTS,
+				((Spinner) findViewById(R.id.spnResult)).getSelectedItem()
+						.toString());
+		// update a record
+		getContentResolver().update(uri, matchvalues, null, null);
+		uri = Uri
 				.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + row_id);
 		Cursor c = getContentResolver().query(uri,
 				new String[] { PerformanceDb.KEY_ROWID }, null, null, null);
@@ -654,6 +685,14 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void selectFromSpinner(int id, String selected) {
+		Spinner spinner = (Spinner) findViewById(id);
+		ArrayAdapter myAdap = (ArrayAdapter) spinner.getAdapter();
+		int spinnerPosition = myAdap.getPosition(selected);
+		spinner.setSelection(spinnerPosition);
 	}
 
 }

@@ -147,7 +147,10 @@ public class MatchActivity extends SherlockFragmentActivity implements LoaderMan
 					.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
 			ContentValues values = new ContentValues();
 			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-			// insert a record
+			// update a record
+			getContentResolver().update(uri, values, null, null);
+			uri = Uri
+					.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/update/" + str);
 			getContentResolver().update(uri, values, null, null);
 			Toast.makeText(this, "Match Saved", Toast.LENGTH_LONG).show();
 			finish();

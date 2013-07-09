@@ -68,11 +68,15 @@
     <string name="venue">Venue</string>
     <string name="overs">Overs</string>
     <string name="innings">Innings</string>
-    <string name="result">Result</string>
+    <string name="result">Match Result</string>
     <string name="create">Create</string>
     <string name="new_match">New Match</string>
     <string name="vs"> vs </string>
 
+    <string-array name="spn_limited">
+        <item>Limited Overs</item>
+        <item>Unlimited Overs</item>
+    </string-array>
     <string-array name="spn_result">
         <item>Win</item>
         <item>Loss</item>

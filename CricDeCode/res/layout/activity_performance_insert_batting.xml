@@ -21,7 +21,8 @@
             android:layout_toRightOf="@id/lblBatBattingNo"
             android:ems="2"
             android:inputType="number"
-            android:padding="10dp" />
+            android:padding="10dp" 
+            />
 
         <TextView
             android:id="@+id/lblBatRuns"

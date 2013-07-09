@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,9 +16,9 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MatchCreateActivity extends SherlockFragmentActivity {
 
-	TextView	matchDate;
+	TextView	matchDate, overs_text;
 	EditText	myTeam, opponentTeam, venue, overs;
-	Spinner		result, innings;
+	Spinner		result, innings, limited;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +29,45 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		matchDate = (TextView) findViewById(R.id.txtMatchDate);
+		overs_text = (TextView) findViewById(R.id.lblOvers);
 		myTeam = (EditText) findViewById(R.id.txtMyTeam);
 		opponentTeam = (EditText) findViewById(R.id.txtOpponentTeam);
 		venue = (EditText) findViewById(R.id.txtVenue);
 		overs = (EditText) findViewById(R.id.txtOvers);
 		innings = (Spinner) findViewById(R.id.spn_innings);
 		result = (Spinner) findViewById(R.id.spnResult);
+		limited = (Spinner) findViewById(R.id.spnLimited);
 
+		limited.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				if (i == 1) {
+					overs_text.setVisibility(View.INVISIBLE);
+					overs.setVisibility(View.INVISIBLE);
+				} else {
+					overs_text.setVisibility(View.VISIBLE);
+					overs.setVisibility(View.VISIBLE);
+				}
+			}
+
+			public void onNothingSelected(AdapterView<?> adapterView) {
+				return;
+			}
+		});
+
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("matchDate", matchDate.getText().toString());
+		outState.putInt("limited", limited.getSelectedItemPosition());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		matchDate.setText(savedInstanceState.getString("matchDate"));
+		limited.setSelection(savedInstanceState.getInt("limited"));
 	}
 
 	@Override
@@ -48,6 +81,7 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 				String overs_str = overs.getText().toString();
 				String innings_str = innings.getSelectedItem().toString();
 				String result_str = result.getSelectedItem().toString();
+				int limited_int = limited.getSelectedItemPosition();
 
 				// check for blanks
 				if (matchDate_str.trim().equalsIgnoreCase("")) {
@@ -79,10 +113,14 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 
 				// check for blanks
 				if (overs_str.trim().equalsIgnoreCase("")) {
-					Toast.makeText(getBaseContext(),
-							"Please enter NUMBER OF OVERS IN AN INNINGS",
-							Toast.LENGTH_LONG).show();
-					break;
+					if (limited_int == 1) {
+						overs_str = "-1";
+					} else {
+						Toast.makeText(getBaseContext(),
+								"Please enter NUMBER OF OVERS IN AN INNINGS",
+								Toast.LENGTH_LONG).show();
+						break;
+					}
 				}
 
 				// check for blanks
