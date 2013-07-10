@@ -42,10 +42,10 @@ public class ProfileActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_profile);
 
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(R.layout.actionbar_profile);
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.actionbar_profile);
 
 		if (savedInstanceState != null) {
 			btnEditProfile = savedInstanceState.getString("fragment");
