@@ -21,8 +21,7 @@
             android:layout_toRightOf="@id/lblBatBattingNo"
             android:ems="2"
             android:inputType="number"
-            android:padding="10dp" 
-            />
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/lblBatRuns"
@@ -92,8 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBatTimeSpent"
             android:layout_toRightOf="@id/lblBatHowOut"
-            android:entries="@array/spn_how_out"
-            android:padding="10dp" />
+            android:entries="@array/spn_how_out" />
 
         <TextView
             android:id="@+id/lblBatBowlerType"
@@ -109,8 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spnBatHowOut"
             android:layout_toRightOf="@id/lblBatBowlerType"
-            android:entries="@array/spn_bowling_style"
-            android:padding="10dp" />
+            android:entries="@array/spn_bowling_style" />
     </RelativeLayout>
 
 </ScrollView>
