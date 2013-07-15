@@ -24,7 +24,7 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	// To avoid conflicts with other providers, you should use
 	// Internet domain ownership (in reverse) as the basis of your provider
 	// authority.
-	private static final String			AUTHORITY					= "co.acjs.cricdecode.contentprovider";
+	static final String			AUTHORITY					= "co.acjs.cricdecode.contentprovider";
 
 	// create content URIs from the authority by appending path to database
 	// table
@@ -184,6 +184,14 @@ public class CricDeCodeContentProvider extends ContentProvider {
 				selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return updateCount;
+	}
+
+	public CricDeCodeDatabaseHelper getDbHelper() {
+		return dbHelper;
+	}
+
+	public void setDbHelper(CricDeCodeDatabaseHelper dbHelper) {
+		this.dbHelper = dbHelper;
 	}
 
 }

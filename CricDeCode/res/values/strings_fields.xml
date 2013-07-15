@@ -8,6 +8,15 @@
         <item>New Match</item>
     </string-array>
 
+    <!-- Career -->
+    <string name="matches">Matches</string>
+    <string name="not_outs">Not Outs</string>
+    <string name="highest">Highest</string>
+    <string name="balls_faced">Balls Faced</string>
+    <string name="strike_rate">Strike Rate</string>
+    <string name="h100s">100s</string>
+    <string name="f50s">50s</string>
+
     <!-- Profile -->
     <string name="name">Name</string>
     <string name="nickname">Nickname</string>
