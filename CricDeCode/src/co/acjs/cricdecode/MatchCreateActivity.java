@@ -41,8 +41,8 @@ public class MatchCreateActivity extends SherlockFragmentActivity {
 		limited.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 				if (i == 1) {
-					overs_text.setVisibility(View.INVISIBLE);
-					overs.setVisibility(View.INVISIBLE);
+					overs_text.setVisibility(View.GONE);
+					overs.setVisibility(View.GONE);
 				} else {
 					overs_text.setVisibility(View.VISIBLE);
 					overs.setVisibility(View.VISIBLE);

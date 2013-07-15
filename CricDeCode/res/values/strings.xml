@@ -9,5 +9,6 @@
     <string name="title_activity_goal">GoalActivity</string>
     <string name="title_activity_match">Ongoing Matches</string>
     <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_career">CareerActivity</string>
 
 </resources>

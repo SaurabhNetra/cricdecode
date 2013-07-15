@@ -15,7 +15,7 @@
             android:contentDescription="@string/profile_pic"
             android:onClick="onClick"
             android:padding="10dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/photo" />
 
         <TextView
             android:id="@+id/lblName"

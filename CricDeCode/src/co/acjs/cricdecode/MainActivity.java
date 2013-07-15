@@ -1,9 +1,6 @@
 package co.acjs.cricdecode;
 
-import android.content.ContentProviderClient;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
@@ -11,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.ads.AdRequest;
@@ -21,11 +17,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class MainActivity extends SherlockFragmentActivity {
 	public static MainActivity	mainActivity;
 
-	private static final int	POSITION_PROFILE	= 0, POSITION_MATCH = 1,
-			POSITION_NEW_MATCH = 2;
-
-	// Career data
-	private int					matches;
+	private static final int	POSITION_PROFILE	= 0, POSITION_MATCH = 2,
+			POSITION_NEW_MATCH = 3, POSITION_CAREER = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +52,11 @@ public class MainActivity extends SherlockFragmentActivity {
 								MatchCreateActivity.class);
 						startActivity(intent);
 						break;
+					case POSITION_CAREER:
+						intent = new Intent(getBaseContext(),
+								CareerActivity.class);
+						startActivity(intent);
+						break;
 					default:
 						break;
 				}
@@ -87,25 +85,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// Extract Career Data
-		ContentProviderClient client = getContentResolver()
-				.acquireContentProviderClient(
-						CricDeCodeContentProvider.AUTHORITY);
-		SQLiteDatabase dbHandle = ((CricDeCodeContentProvider) client
-				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
-
-		Cursor cursor = dbHandle
-				.rawQuery(
-						"select count(" + MatchDb.KEY_ROWID + ") from " + MatchDb.SQLITE_TABLE,
-						null);
-		cursor.moveToFirst();
-		matches = cursor.getInt(0);
-		cursor.close();
-
-		((TextView) findViewById(R.id.lblMatches)).setText(matches + "");
-
-		dbHandle.close();
-		client.release();
 	}
 
 	@Override
