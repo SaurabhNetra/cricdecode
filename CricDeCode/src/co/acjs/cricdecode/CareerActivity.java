@@ -1,51 +1,199 @@
 package co.acjs.cricdecode;
 
+import java.math.BigDecimal;
+
 import android.content.ContentProviderClient;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-public class CareerActivity extends SherlockFragmentActivity {
+public class CareerActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
+
+	private static final String		STATE_SELECTED_NAVIGATION_ITEM	= "selected_navigation_item";
 
 	private ContentProviderClient	client;
 	private SQLiteDatabase			dbHandle;
 
-	// Layouts
-	private RelativeLayout			batting;
+	// Fields
 
-	// Career data
-	private TextView				matches;
+	// Batting
+	private int						matches, bat_innings, bat_not_outs,
+			bat_runs, bat_highest, bat_balls, bat_100, bat_50;
+	private float					bat_avg, bat_str;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_career);
-		batting = (RelativeLayout) findViewById(R.id.layBatting);
+		setContentView(R.layout.career_container);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// Set up the action bar to show tabs.
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		// For each of the sections in the app, add a tab to the action bar.
+		actionBar.addTab(actionBar.newTab().setText(R.string.batting)
+				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(R.string.bowling)
+				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(R.string.fielding)
+				.setTabListener(this));
+
+		// Initialize Database Handles
 
 		client = getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider) client
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 
-		// Initialize Career Data
-		matches = ((TextView) findViewById(R.id.lblMatches));
+		// Initialize Fields
 		Cursor cursor = dbHandle
 				.rawQuery(
 						"select count(" + MatchDb.KEY_ROWID + ") from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
 						null);
 		cursor.moveToFirst();
-		matches.setText(cursor.getInt(0) + "");
+		matches = cursor.getInt(0);
 		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + "),sum(" + PerformanceDb.KEY_BAT_RUNS + "),max(" + PerformanceDb.KEY_BAT_RUNS + "),sum(" + PerformanceDb.KEY_BAT_BALLS + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or " + PerformanceDb.KEY_BAT_BALLS + "!=0)",
+						null);
+		cursor.moveToFirst();
+		bat_innings = cursor.getInt(0);
+		bat_runs = cursor.getInt(1);
+		bat_highest = cursor.getInt(2);
+		bat_balls = cursor.getInt(3);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'",
+						null);
+		cursor.moveToFirst();
+		int outs = cursor.getInt(0);
+		bat_not_outs = bat_innings - outs;
+		cursor.close();
+		if (outs != 0) {
+			bat_avg = (float) bat_runs / outs;
+			bat_avg = round(bat_avg, 2);
+		} else {
+			bat_avg = -1;
+		}
+		if (bat_balls != 0) {
+			bat_str = (float) bat_runs / bat_balls;
+			bat_str = round(bat_str, 2);
+		} else {
+			bat_str = -1;
+		}
 
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_RUNS + ">=100",
+						null);
+		cursor.moveToFirst();
+		bat_100 = cursor.getInt(0);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_RUNS + ">=50",
+						null);
+		cursor.moveToFirst();
+		bat_50 = cursor.getInt(0) - bat_100;
+		cursor.close();
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+			getSupportActionBar().setSelectedNavigationItem(
+					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+		}
+
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		int index = getSupportActionBar().getSelectedNavigationIndex();
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, index);
+
+	}
+
+	@Override
+	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+		// When the given tab is selected, show the tab contents in the
+		// container view.
+		Log.d("Debug", "On Tab Selected called " + tab.getPosition());
+		SherlockFragment fragment = new CareerSectionFragment();
+		Bundle args = new Bundle();
+		args.putInt(CareerSectionFragment.ARG_SECTION_NUMBER,
+				tab.getPosition() + 1);
+		fragment.setArguments(args);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.container, fragment).commit();
+		Log.d("Debug", "On Tab Selected finished");
+	}
+
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+		Log.d("Debug", "On Tab Unselected called");
+		Log.d("Debug", "Tab Position " + tab.getPosition() + "");
+		Log.d("Debug", "On Tab Unselected finished");
+	}
+
+	@Override
+	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+	}
+
+	public static class CareerSectionFragment extends SherlockFragment {
+		public static final String	ARG_SECTION_NUMBER	= "placeholder_text";
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			Log.d("Debug", "On Create Fragment called");
+			View view = null;
+			switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+
+				case 1:
+					view = inflater.inflate(R.layout.activity_career_batting,
+							container, false);
+					break;
+				case 2:
+					view = inflater.inflate(R.layout.activity_career_bowling,
+							container, false);
+					break;
+				case 3:
+					view = inflater.inflate(R.layout.activity_career_fielding,
+							container, false);
+					break;
+				default:
+					break;
+			}
+			Log.d("Debug", "On Create View finished");
+			return view;
+		}
+
+		@Override
+		public void onViewCreated(View view, Bundle savedInstanceState) {
+			super.onViewCreated(view, savedInstanceState);
+			Log.d("Debug", "On View Created called");
+			((CareerActivity) getActivity()).viewInfo(getArguments().getInt(
+					ARG_SECTION_NUMBER) - 1);
+			Log.d("Debug", "On View Created finished");
+		}
 	}
 
 	@Override
@@ -60,25 +208,57 @@ public class CareerActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.ttlBatting:
-				if (batting.getVisibility() == View.GONE) {
-					batting.setVisibility(View.VISIBLE);
-				} else {
-					batting.setVisibility(View.GONE);
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		dbHandle.close();
 		client.release();
+	}
+
+	public void viewInfo(int tab_index) {
+		Log.d("Debug", "On View Info called");
+		switch (tab_index) {
+			case 0:
+				((TextView) findViewById(R.id.lblMatches))
+						.setText(matches + "");
+				((TextView) findViewById(R.id.lblInnings))
+						.setText(bat_innings + "");
+				((TextView) findViewById(R.id.lblNO))
+						.setText(bat_not_outs + "");
+				((TextView) findViewById(R.id.lblRuns)).setText(bat_runs + "");
+				((TextView) findViewById(R.id.lblBalls))
+						.setText(bat_balls + "");
+				((TextView) findViewById(R.id.lblHS)).setText(bat_highest + "");
+				if (bat_avg != -1) {
+					((TextView) findViewById(R.id.lblAvg))
+							.setText(bat_avg + "");
+				} else {
+					((TextView) findViewById(R.id.lblAvg)).setText("NA");
+				}
+				if (bat_str != -1) {
+					((TextView) findViewById(R.id.lblSR)).setText(bat_str + "");
+				} else {
+					((TextView) findViewById(R.id.lblSR)).setText("NA");
+				}
+				((TextView) findViewById(R.id.lbl100s)).setText(bat_100 + "");
+				((TextView) findViewById(R.id.lbl50s)).setText(bat_50 + "");
+				break;
+			case 1:
+
+				break;
+			case 2:
+
+				break;
+			default:
+				break;
+		}
+		Log.d("Debug", "On View info Finished");
+	}
+
+	public static float round(float d, int decimalPlace) {
+		BigDecimal bd = new BigDecimal(Float.toString(d));
+		bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+		return bd.floatValue();
 	}
 
 }

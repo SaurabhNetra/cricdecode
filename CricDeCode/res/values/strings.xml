@@ -4,11 +4,11 @@
     <string name="app_name">CricDeCode</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_performance_insertion">PerformanceInsertionActivity</string>
+    <string name="title_activity_performance_insertion">Performance</string>
     <string name="title_activity_match_create">New Match</string>
-    <string name="title_activity_goal">GoalActivity</string>
+    <string name="title_activity_goal">Goals</string>
     <string name="title_activity_match">Ongoing Matches</string>
     <string name="title_activity_profile">Profile</string>
-    <string name="title_activity_career">CareerActivity</string>
+    <string name="title_activity_career">Career</string>
 
 </resources>
