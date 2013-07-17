@@ -20,7 +20,10 @@ public class InputFilterMinMax implements InputFilter {
 	@Override
 	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 		try {
-			int input = Integer.parseInt(dest.toString() + source.toString());
+			String textToCheck = dest.subSequence(0, dstart).toString() + source
+					.subSequence(start, end) + dest.subSequence(dend,
+					dest.length()).toString();
+			int input = Integer.parseInt(textToCheck);
 			if (isInRange(min, max, input)) return null;
 		} catch (NumberFormatException nfe) {
 		}

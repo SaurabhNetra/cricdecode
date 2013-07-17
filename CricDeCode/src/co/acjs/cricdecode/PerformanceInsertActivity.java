@@ -37,8 +37,9 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 	private String[]			how_out, bowler_type;
 
 	// Bowling
-	private int[]				overs, maidens, bowl_runs, wkts_left,
-			wkts_right, noballs, wides;
+	private int[]				maidens, bowl_runs, wkts_left, wkts_right,
+			noballs, wides;
+	private float[]				overs;
 
 	// Fielding
 	private int[]				close_catch, circle_catch, deep_catch,
@@ -57,7 +58,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		how_out = new String[2];
 		bowler_type = new String[2];
 
-		overs = new int[2];
+		overs = new float[2];
 		maidens = new int[2];
 		bowl_runs = new int[2];
 		wkts_left = new int[2];
@@ -172,7 +173,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 						.getString(c
 								.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE));
 
-				overs[i - 1] = c.getInt(c
+				overs[i - 1] = c.getFloat(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_OVERS));
 				maidens[i - 1] = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS));
@@ -236,7 +237,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		how_out = savedInstanceState.getStringArray("how_out");
 		bowler_type = savedInstanceState.getStringArray("bowler_type");
 
-		overs = savedInstanceState.getIntArray("overs");
+		overs = savedInstanceState.getFloatArray("overs");
 		maidens = savedInstanceState.getIntArray("maidens");
 		bowl_runs = savedInstanceState.getIntArray("bowl_runs");
 		wkts_left = savedInstanceState.getIntArray("wkts_left");
@@ -283,7 +284,7 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 		outState.putStringArray("how_out", how_out);
 		outState.putStringArray("bowler_type", bowler_type);
 
-		outState.putIntArray("overs", overs);
+		outState.putFloatArray("overs", overs);
 		outState.putIntArray("maidens", maidens);
 		outState.putIntArray("bowl_runs", bowl_runs);
 		outState.putIntArray("wkts_left", wkts_left);
@@ -412,6 +413,11 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 								return;
 							}
 						});
+			} else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
+				// Set Input Filter
+				EditText et = (EditText) getActivity().findViewById(
+						R.id.txtBowlOvers);
+				et.setFilters(new InputFilter[] { new OversInputFilter() });
 			}
 			Log.d("Debug", "On View Created finished");
 		}
@@ -426,21 +432,29 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 						.toString();
 				if (!str.equals("")) {
 					bat_no[cur_inn] = Integer.parseInt(str);
+				} else {
+					bat_no[cur_inn] = 1;
 				}
 				str = ((EditText) findViewById(R.id.txtBatRuns)).getText()
 						.toString();
 				if (!str.equals("")) {
 					bat_runs[cur_inn] = Integer.parseInt(str);
+				} else {
+					bat_runs[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBatBalls)).getText()
 						.toString();
 				if (!str.equals("")) {
 					bat_balls[cur_inn] = Integer.parseInt(str);
+				} else {
+					bat_balls[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBatTimeSpent)).getText()
 						.toString();
 				if (!str.equals("")) {
 					bat_time[cur_inn] = Integer.parseInt(str);
+				} else {
+					bat_time[cur_inn] = 0;
 				}
 				how_out[cur_inn] = ((Spinner) findViewById(R.id.spnBatHowOut))
 						.getSelectedItem().toString();
@@ -451,37 +465,51 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 				str = ((EditText) findViewById(R.id.txtBowlOvers)).getText()
 						.toString();
 				if (!str.equals("")) {
-					overs[cur_inn] = Integer.parseInt(str);
+					overs[cur_inn] = Float.parseFloat(str);
+				} else {
+					overs[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBowlMaidens)).getText()
 						.toString();
 				if (!str.equals("")) {
 					maidens[cur_inn] = Integer.parseInt(str);
+				} else {
+					maidens[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBowlRuns)).getText()
 						.toString();
 				if (!str.equals("")) {
 					bowl_runs[cur_inn] = Integer.parseInt(str);
+				} else {
+					bowl_runs[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBowlWicketsLeft))
 						.getText().toString();
 				if (!str.equals("")) {
 					wkts_left[cur_inn] = Integer.parseInt(str);
+				} else {
+					wkts_left[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBowlWicketsRight))
 						.getText().toString();
 				if (!str.equals("")) {
 					wkts_right[cur_inn] = Integer.parseInt(str);
+				} else {
+					wkts_right[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBowlNoballs)).getText()
 						.toString();
 				if (!str.equals("")) {
 					noballs[cur_inn] = Integer.parseInt(str);
+				} else {
+					noballs[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtBowlWides)).getText()
 						.toString();
 				if (!str.equals("")) {
 					wides[cur_inn] = Integer.parseInt(str);
+				} else {
+					wides[cur_inn] = 0;
 				}
 				break;
 			case 2:
@@ -489,41 +517,57 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 						.getText().toString();
 				if (!str.equals("")) {
 					close_catch[cur_inn] = Integer.parseInt(str);
+				} else {
+					close_catch[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldCircleCatches))
 						.getText().toString();
 				if (!str.equals("")) {
 					circle_catch[cur_inn] = Integer.parseInt(str);
+				} else {
+					circle_catch[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldDeepCatches))
 						.getText().toString();
 				if (!str.equals("")) {
 					deep_catch[cur_inn] = Integer.parseInt(str);
+				} else {
+					deep_catch[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldCircleRunouts))
 						.getText().toString();
 				if (!str.equals("")) {
 					circle_ro[cur_inn] = Integer.parseInt(str);
+				} else {
+					circle_ro[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldCircleDirectHitRunouts))
 						.getText().toString();
 				if (!str.equals("")) {
 					direct_ro[cur_inn] = Integer.parseInt(str);
+				} else {
+					direct_ro[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldDeepRunouts))
 						.getText().toString();
 				if (!str.equals("")) {
 					deep_ro[cur_inn] = Integer.parseInt(str);
+				} else {
+					deep_ro[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldStumpings))
 						.getText().toString();
 				if (!str.equals("")) {
 					stumpings[cur_inn] = Integer.parseInt(str);
+				} else {
+					stumpings[cur_inn] = 0;
 				}
 				str = ((EditText) findViewById(R.id.txtFieldByesGiven))
 						.getText().toString();
 				if (!str.equals("")) {
 					byes[cur_inn] = Integer.parseInt(str);
+				} else {
+					byes[cur_inn] = 0;
 				}
 				break;
 			default:

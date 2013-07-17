@@ -32,6 +32,11 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 			bat_runs, bat_highest, bat_balls, bat_100, bat_50;
 	private float					bat_avg, bat_str;
 
+	// Bowling
+
+	// Fielding
+	private int						catches, run_outs, stumpings;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,60 +62,8 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 				CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider) client
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
+		fireQueries();
 
-		// Initialize Fields
-		Cursor cursor = dbHandle
-				.rawQuery(
-						"select count(" + MatchDb.KEY_ROWID + ") from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
-						null);
-		cursor.moveToFirst();
-		matches = cursor.getInt(0);
-		cursor.close();
-		cursor = dbHandle
-				.rawQuery(
-						"select count(" + PerformanceDb.KEY_ROWID + "),sum(" + PerformanceDb.KEY_BAT_RUNS + "),max(" + PerformanceDb.KEY_BAT_RUNS + "),sum(" + PerformanceDb.KEY_BAT_BALLS + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or " + PerformanceDb.KEY_BAT_BALLS + "!=0)",
-						null);
-		cursor.moveToFirst();
-		bat_innings = cursor.getInt(0);
-		bat_runs = cursor.getInt(1);
-		bat_highest = cursor.getInt(2);
-		bat_balls = cursor.getInt(3);
-		cursor.close();
-		cursor = dbHandle
-				.rawQuery(
-						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'",
-						null);
-		cursor.moveToFirst();
-		int outs = cursor.getInt(0);
-		bat_not_outs = bat_innings - outs;
-		cursor.close();
-		if (outs != 0) {
-			bat_avg = (float) bat_runs / outs;
-			bat_avg = round(bat_avg, 2);
-		} else {
-			bat_avg = -1;
-		}
-		if (bat_balls != 0) {
-			bat_str = (float) bat_runs / bat_balls;
-			bat_str = round(bat_str, 2);
-		} else {
-			bat_str = -1;
-		}
-
-		cursor = dbHandle
-				.rawQuery(
-						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_RUNS + ">=100",
-						null);
-		cursor.moveToFirst();
-		bat_100 = cursor.getInt(0);
-		cursor.close();
-		cursor = dbHandle
-				.rawQuery(
-						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_RUNS + ">=50",
-						null);
-		cursor.moveToFirst();
-		bat_50 = cursor.getInt(0) - bat_100;
-		cursor.close();
 	}
 
 	@Override
@@ -247,12 +200,81 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 
 				break;
 			case 2:
-
+				((TextView) findViewById(R.id.lblMatches))
+						.setText(matches + "");
+				((TextView) findViewById(R.id.lblCT)).setText(catches + "");
+				((TextView) findViewById(R.id.lblRO)).setText(run_outs + "");
+				((TextView) findViewById(R.id.lblST)).setText(stumpings + "");
 				break;
 			default:
 				break;
 		}
 		Log.d("Debug", "On View info Finished");
+	}
+
+	public void fireQueries() {
+		// Initialize Fields
+		Cursor cursor = dbHandle
+				.rawQuery(
+						"select count(" + MatchDb.KEY_ROWID + ") from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
+		cursor.moveToFirst();
+		matches = cursor.getInt(0);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + "),sum(" + PerformanceDb.KEY_BAT_RUNS + "),max(" + PerformanceDb.KEY_BAT_RUNS + "),sum(" + PerformanceDb.KEY_BAT_BALLS + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or " + PerformanceDb.KEY_BAT_BALLS + "!=0)",
+						null);
+		cursor.moveToFirst();
+		bat_innings = cursor.getInt(0);
+		bat_runs = cursor.getInt(1);
+		bat_highest = cursor.getInt(2);
+		bat_balls = cursor.getInt(3);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'",
+						null);
+		cursor.moveToFirst();
+		int outs = cursor.getInt(0);
+		bat_not_outs = bat_innings - outs;
+		cursor.close();
+		if (outs != 0) {
+			bat_avg = (float) bat_runs / outs;
+			bat_avg = round(bat_avg, 2);
+		} else {
+			bat_avg = -1;
+		}
+		if (bat_balls != 0) {
+			bat_str = (float) bat_runs / bat_balls;
+			bat_str = round(bat_str, 2);
+		} else {
+			bat_str = -1;
+		}
+
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_RUNS + ">=100",
+						null);
+		cursor.moveToFirst();
+		bat_100 = cursor.getInt(0);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BAT_RUNS + ">=50",
+						null);
+		cursor.moveToFirst();
+		bat_50 = cursor.getInt(0) - bat_100;
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select sum(" + PerformanceDb.KEY_FIELD_CLOSE_CATCH + "),sum(" + PerformanceDb.KEY_FIELD_CIRCLE_CATCH + "),sum(" + PerformanceDb.KEY_FIELD_DEEP_CATCH + "),sum(" + PerformanceDb.KEY_FIELD_RO_CIRCLE + "),sum(" + PerformanceDb.KEY_FIELD_RO_DEEP + "),sum(" + PerformanceDb.KEY_FIELD_RO_DIRECT + "),sum(" + PerformanceDb.KEY_FIELD_STUMPINGS + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
+		cursor.moveToFirst();
+		catches = cursor.getInt(0) + cursor.getInt(1) + cursor.getInt(2);
+		run_outs = cursor.getInt(3) + cursor.getInt(4) + cursor.getInt(5);
+		stumpings = cursor.getInt(6);
+		cursor.close();
 	}
 
 	public static float round(float d, int decimalPlace) {

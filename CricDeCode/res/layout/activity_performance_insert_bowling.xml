@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lblBowlOvers"
             android:ems="3"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:padding="10dp" />
 
         <TextView

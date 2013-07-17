@@ -12,7 +12,7 @@
             android:id="@+id/lbllblMatches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="8"
+            android:ems="9"
             android:padding="10dp"
             android:text="@string/matches" />
 
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblMatches"
-            android:ems="8"
+            android:ems="9"
             android:padding="10dp"
             android:text="@string/innings" />
 
@@ -43,29 +43,29 @@
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbllblNO"
+            android:id="@+id/lbllblBalls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblInnings"
-            android:ems="8"
+            android:ems="9"
             android:padding="10dp"
-            android:text="@string/not_outs" />
+            android:text="@string/balls" />
 
         <TextView
-            android:id="@+id/lblNO"
+            android:id="@+id/lblBalls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblInnings"
-            android:layout_toRightOf="@id/lbllblNO"
-            android:hint="@string/not_outs"
+            android:layout_toRightOf="@id/lbllblBalls"
+            android:hint="@string/balls"
             android:padding="10dp" />
 
         <TextView
             android:id="@+id/lbllblRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblNO"
-            android:ems="8"
+            android:layout_below="@id/lblBalls"
+            android:ems="9"
             android:padding="10dp"
             android:text="@string/runs" />
 
@@ -73,35 +73,71 @@
             android:id="@+id/lblRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblNO"
+            android:layout_below="@id/lblBalls"
             android:layout_toRightOf="@id/lbllblRuns"
             android:hint="@string/runs"
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbllblHS"
+            android:id="@+id/lbllblWickets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblRuns"
-            android:ems="8"
+            android:ems="9"
             android:padding="10dp"
-            android:text="@string/highest" />
+            android:text="@string/wickets" />
 
         <TextView
-            android:id="@+id/lblHS"
+            android:id="@+id/lblWickets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblRuns"
-            android:layout_toRightOf="@id/lbllblHS"
-            android:hint="@string/highest"
+            android:layout_toRightOf="@id/lbllblWickets"
+            android:hint="@string/wickets"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbllblBBI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblWickets"
+            android:ems="9"
+            android:padding="10dp"
+            android:text="@string/bbi" />
+
+        <TextView
+            android:id="@+id/lblBBI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblWickets"
+            android:layout_toRightOf="@id/lbllblBBI"
+            android:hint="@string/bbi"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbllblBBM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblBBI"
+            android:ems="9"
+            android:padding="10dp"
+            android:text="@string/bbm" />
+
+        <TextView
+            android:id="@+id/lblBBM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblBBI"
+            android:layout_toRightOf="@id/lbllblBBM"
+            android:hint="@string/bbm"
             android:padding="10dp" />
 
         <TextView
             android:id="@+id/lbllblAvg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblHS"
-            android:ems="8"
+            android:layout_below="@id/lblBBM"
+            android:ems="9"
             android:padding="10dp"
             android:text="@string/average" />
 
@@ -109,35 +145,35 @@
             android:id="@+id/lblAvg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblHS"
+            android:layout_below="@id/lblBBM"
             android:layout_toRightOf="@id/lbllblAvg"
             android:hint="@string/average"
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbllblBalls"
+            android:id="@+id/lbllblEco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblAvg"
-            android:ems="8"
+            android:ems="9"
             android:padding="10dp"
-            android:text="@string/balls_faced" />
+            android:text="@string/eco_rate" />
 
         <TextView
-            android:id="@+id/lblBalls"
+            android:id="@+id/lblEco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblAvg"
-            android:layout_toRightOf="@id/lbllblBalls"
-            android:hint="@string/balls_faced"
+            android:layout_toRightOf="@id/lbllblEco"
+            android:hint="@string/eco_rate"
             android:padding="10dp" />
 
         <TextView
             android:id="@+id/lbllblSR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblBalls"
-            android:ems="8"
+            android:layout_below="@id/lblEco"
+            android:ems="9"
             android:padding="10dp"
             android:text="@string/strike_rate" />
 
@@ -145,45 +181,45 @@
             android:id="@+id/lblSR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblBalls"
+            android:layout_below="@id/lblEco"
             android:layout_toRightOf="@id/lbllblSR"
             android:hint="@string/strike_rate"
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbllbl100s"
+            android:id="@+id/lbllblFWI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblSR"
-            android:ems="8"
+            android:ems="9"
             android:padding="10dp"
-            android:text="@string/h100s" />
+            android:text="@string/fwi" />
 
         <TextView
-            android:id="@+id/lbl100s"
+            android:id="@+id/lblFWI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblSR"
-            android:layout_toRightOf="@id/lbllbl100s"
-            android:hint="@string/h100s"
+            android:layout_toRightOf="@id/lbllblFWI"
+            android:hint="@string/fwi"
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbllbl50s"
+            android:id="@+id/lbllblFWM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lbl100s"
-            android:ems="8"
+            android:layout_below="@id/lblFWI"
+            android:ems="9"
             android:padding="10dp"
-            android:text="@string/f50s" />
+            android:text="@string/fwm" />
 
         <TextView
-            android:id="@+id/lbl50s"
+            android:id="@+id/lblFWM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lbl100s"
-            android:layout_toRightOf="@id/lbllbl50s"
-            android:hint="@string/f50s"
+            android:layout_below="@id/lblFWI"
+            android:layout_toRightOf="@id/lbllblFWM"
+            android:hint="@string/fwm"
             android:padding="10dp" />
     </RelativeLayout>
 
