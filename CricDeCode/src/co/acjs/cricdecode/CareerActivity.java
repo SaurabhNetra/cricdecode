@@ -17,6 +17,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.internal.ec;
 
 public class CareerActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
 
@@ -33,6 +34,9 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 	private float					bat_avg, bat_str;
 
 	// Bowling
+	private int						bowl_innings, bowl_runs, wickets, fwh, twm;
+	private String					best_innings, best_match;
+	private float					bowl_avg, eco_rate, bowl_str, overs;
 
 	// Fielding
 	private int						catches, run_outs, stumpings;
@@ -197,7 +201,33 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 				((TextView) findViewById(R.id.lbl50s)).setText(bat_50 + "");
 				break;
 			case 1:
-
+				((TextView) findViewById(R.id.lblMatches))
+						.setText(matches + "");
+				((TextView) findViewById(R.id.lblInnings))
+						.setText(bowl_innings + "");
+				((TextView) findViewById(R.id.lblOvers)).setText(overs + "");
+				((TextView) findViewById(R.id.lblRuns)).setText(bowl_runs + "");
+				((TextView) findViewById(R.id.lblWickets))
+						.setText(wickets + "");
+				((TextView) findViewById(R.id.lblEco)).setText(eco_rate + "");
+				if (eco_rate != -1) {
+					((TextView) findViewById(R.id.lblEco))
+							.setText(eco_rate + "");
+				} else {
+					((TextView) findViewById(R.id.lblEco)).setText("NA");
+				}
+				if (bowl_avg != -1) {
+					((TextView) findViewById(R.id.lblAvg))
+							.setText(bowl_avg + "");
+				} else {
+					((TextView) findViewById(R.id.lblAvg)).setText("NA");
+				}
+				if (bowl_str != -1) {
+					((TextView) findViewById(R.id.lblSR))
+							.setText(bowl_str + "");
+				} else {
+					((TextView) findViewById(R.id.lblSR)).setText("NA");
+				}
 				break;
 			case 2:
 				((TextView) findViewById(R.id.lblMatches))
@@ -214,6 +244,8 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 
 	public void fireQueries() {
 		// Initialize Fields
+
+		// Batting
 		Cursor cursor = dbHandle
 				.rawQuery(
 						"select count(" + MatchDb.KEY_ROWID + ") from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
@@ -247,7 +279,7 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 		}
 		if (bat_balls != 0) {
 			bat_str = (float) bat_runs / bat_balls;
-			bat_str = round(bat_str, 2);
+			bat_str = round(bat_str, 2) * 100;
 		} else {
 			bat_str = -1;
 		}
@@ -266,6 +298,33 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 		cursor.moveToFirst();
 		bat_50 = cursor.getInt(0) - bat_100;
 		cursor.close();
+
+		// Bowling
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + "),sum(" + PerformanceDb.KEY_BOWL_OVERS + "),sum(" + PerformanceDb.KEY_BOWL_RUNS + "),sum(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "),sum(" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BOWL_OVERS + "!=0",
+						null);
+		cursor.moveToFirst();
+		bowl_innings = cursor.getInt(0);
+		int balls = cursor.getInt(1);
+		overs = balls / 6 + (float) (balls % 6) / 10;
+		bowl_runs = cursor.getInt(2);
+		wickets = cursor.getInt(3) + cursor.getInt(4);
+		if (balls != 0) {
+			eco_rate = round((float) bowl_runs / balls * 6, 2);
+		} else {
+			eco_rate = -1;
+		}
+		if (wickets != 0) {
+			bowl_str = round((float) balls / wickets, 2);
+			bowl_avg = round((float) bowl_runs / wickets, 2);
+		} else {
+			bowl_str = -1;
+			bowl_avg = -1;
+		}
+		cursor.close();
+
+		// Fielding
 		cursor = dbHandle
 				.rawQuery(
 						"select sum(" + PerformanceDb.KEY_FIELD_CLOSE_CATCH + "),sum(" + PerformanceDb.KEY_FIELD_CIRCLE_CATCH + "),sum(" + PerformanceDb.KEY_FIELD_DEEP_CATCH + "),sum(" + PerformanceDb.KEY_FIELD_RO_CIRCLE + "),sum(" + PerformanceDb.KEY_FIELD_RO_DEEP + "),sum(" + PerformanceDb.KEY_FIELD_RO_DIRECT + "),sum(" + PerformanceDb.KEY_FIELD_STUMPINGS + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",

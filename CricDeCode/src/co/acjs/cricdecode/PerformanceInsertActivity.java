@@ -173,8 +173,9 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 						.getString(c
 								.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE));
 
-				overs[i - 1] = c.getFloat(c
+				int balls = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_OVERS));
+				overs[i - 1] = balls / 6 + (float) (balls % 6) / 10;
 				maidens[i - 1] = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS));
 				bowl_runs[i - 1] = c.getInt(c
@@ -667,7 +668,14 @@ public class PerformanceInsertActivity extends SherlockFragmentActivity implemen
 			values[i - 1].put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
 					bowler_type[i - 1]);
 
-			values[i - 1].put(PerformanceDb.KEY_BOWL_OVERS, overs[i - 1]);
+			overs[i - 1] = CareerActivity.round(overs[i - 1], 1);
+			int full_overs = (int) overs[i - 1];
+			float balls = (overs[i - 1] - full_overs) * 10;
+			values[i - 1].put(PerformanceDb.KEY_BOWL_OVERS,
+					full_overs * 6 + (int) CareerActivity.round(balls, 1));
+			Log.d("Debug",
+					"Overs " + overs[i - 1] + " " + full_overs + " " + balls);
+			
 			values[i - 1].put(PerformanceDb.KEY_BOWL_MAIDENS, maidens[i - 1]);
 			values[i - 1].put(PerformanceDb.KEY_BOWL_RUNS, bowl_runs[i - 1]);
 			values[i - 1].put(PerformanceDb.KEY_BOWL_WKTS_LEFT,

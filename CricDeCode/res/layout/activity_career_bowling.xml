@@ -43,28 +43,28 @@
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbllblBalls"
+            android:id="@+id/lbllblOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblInnings"
             android:ems="9"
             android:padding="10dp"
-            android:text="@string/balls" />
+            android:text="@string/overs" />
 
         <TextView
-            android:id="@+id/lblBalls"
+            android:id="@+id/lblOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblInnings"
-            android:layout_toRightOf="@id/lbllblBalls"
-            android:hint="@string/balls"
+            android:layout_toRightOf="@id/lbllblOvers"
+            android:hint="@string/overs"
             android:padding="10dp" />
 
         <TextView
             android:id="@+id/lbllblRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblBalls"
+            android:layout_below="@id/lblOvers"
             android:ems="9"
             android:padding="10dp"
             android:text="@string/runs" />
@@ -73,7 +73,7 @@
             android:id="@+id/lblRuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblBalls"
+            android:layout_below="@id/lblOvers"
             android:layout_toRightOf="@id/lbllblRuns"
             android:hint="@string/runs"
             android:padding="10dp" />
