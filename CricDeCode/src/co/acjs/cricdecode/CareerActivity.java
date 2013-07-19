@@ -228,6 +228,8 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 				} else {
 					((TextView) findViewById(R.id.lblSR)).setText("NA");
 				}
+				((TextView) findViewById(R.id.lblFWI)).setText(fwh + "");
+				((TextView) findViewById(R.id.lblFWM)).setText(twm + "");
 				break;
 			case 2:
 				((TextView) findViewById(R.id.lblMatches))
@@ -322,6 +324,19 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 			bowl_str = -1;
 			bowl_avg = -1;
 		}
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select count(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ">=5",
+						null);
+		cursor.moveToFirst();
+		fwh = cursor.getInt(0);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select sum(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as sumtotal from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' group by " + PerformanceDb.KEY_ROWID + " having sumtotal>=10",
+						null);
+		twm = cursor.getCount();
 		cursor.close();
 
 		// Fielding
