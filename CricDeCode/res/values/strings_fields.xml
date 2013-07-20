@@ -9,6 +9,19 @@
         <item>New Match</item>
     </string-array>
 
+    <!-- Auto Complete Suggestions -->
+    <string-array name="auto_overs">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>70</item>
+        <item>90</item>
+    </string-array>
+
     <!-- Career -->
     <string name="matches">Matches</string>
     <string name="not_outs">Not Outs</string>
@@ -43,7 +56,7 @@
     <string name="batting_style">Batting Style</string>
     <string name="bowling_style">Bowling Style</string>
     <string name="edit">Edit</string>
-    <string name="view">View</string>
+    <string name="view">Save</string>
     <string name="current_matches">Matches</string>
     <string name="ddmmyyyy">dd/mm/yyyy</string>
 
@@ -77,6 +90,7 @@
     <string name="save">Save</string>
 
     <!-- Match -->
+    <string name="add_to_career">Add to Career</string>
     <string name="match_date">Match Date</string>
     <string name="my_team">My Team</string>
     <string name="opponent_team">Opponent</string>

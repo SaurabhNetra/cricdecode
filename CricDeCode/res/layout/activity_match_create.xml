@@ -32,7 +32,7 @@
             android:padding="10dp"
             android:text="@string/my_team" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/txtMyTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,8 @@
             android:layout_toRightOf="@id/lblMyTeam"
             android:ems="10"
             android:inputType="text"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@android:color/primary_text_light" />
 
         <TextView
             android:id="@+id/lblOpponentTeam"
@@ -50,7 +51,7 @@
             android:padding="10dp"
             android:text="@string/opponent_team" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/txtOpponentTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +59,8 @@
             android:layout_toRightOf="@id/lblOpponentTeam"
             android:ems="10"
             android:inputType="text"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@android:color/primary_text_light" />
 
         <TextView
             android:id="@+id/lblVenue"
@@ -68,7 +70,7 @@
             android:padding="10dp"
             android:text="@string/venue" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/txtVenue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +78,8 @@
             android:layout_toRightOf="@id/lblVenue"
             android:ems="10"
             android:inputType="text"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@android:color/primary_text_light" />
 
         <Spinner
             android:id="@+id/spnLimited"
@@ -93,7 +96,7 @@
             android:padding="10dp"
             android:text="@string/overs" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/txtOvers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,7 +104,8 @@
             android:layout_toRightOf="@id/lblOvers"
             android:ems="3"
             android:inputType="number"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@android:color/primary_text_light" />
 
         <TextView
             android:id="@+id/lblInnings"
