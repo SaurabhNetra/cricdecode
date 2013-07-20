@@ -17,7 +17,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.internal.ec;
 
 public class CareerActivity extends SherlockFragmentActivity implements ActionBar.TabListener {
 
@@ -230,6 +229,8 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 				}
 				((TextView) findViewById(R.id.lblFWI)).setText(fwh + "");
 				((TextView) findViewById(R.id.lblFWM)).setText(twm + "");
+				((TextView) findViewById(R.id.lblBBI)).setText(best_innings);
+				((TextView) findViewById(R.id.lblBBM)).setText(best_match);
 				break;
 			case 2:
 				((TextView) findViewById(R.id.lblMatches))
@@ -337,6 +338,38 @@ public class CareerActivity extends SherlockFragmentActivity implements ActionBa
 						"select sum(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as sumtotal from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' group by " + PerformanceDb.KEY_ROWID + " having sumtotal>=10",
 						null);
 		twm = cursor.getCount();
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select max(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
+		cursor.moveToFirst();
+		Log.d("Debug", "Length " + cursor.getCount());
+		int max = cursor.getInt(0);
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select (" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts," + PerformanceDb.KEY_BOWL_RUNS + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and wkts=" + max + " order by " + PerformanceDb.KEY_BOWL_RUNS,
+						null);
+		if (cursor.getCount() != 0) {
+			cursor.moveToFirst();
+			best_innings = cursor.getInt(0) + "/" + cursor.getInt(1);
+		} else {
+			best_innings = "NA";
+		}
+		cursor.close();
+		cursor = dbHandle
+				.rawQuery(
+						"select sum(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+" + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,sum(" + PerformanceDb.KEY_BOWL_RUNS + ") as runs from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' group by " + PerformanceDb.KEY_ROWID + " order by wkts desc,runs asc",
+						null);
+		cursor.moveToFirst();
+		Log.d("Debug", "Length " + cursor.getCount());
+		if (cursor.getCount() != 0) {
+			cursor.moveToFirst();
+			best_match = cursor.getInt(0) + "/" + cursor.getInt(1);
+		} else {
+			best_match = "NA";
+		}
 		cursor.close();
 
 		// Fielding

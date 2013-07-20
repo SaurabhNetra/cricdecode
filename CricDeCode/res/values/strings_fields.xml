@@ -17,7 +17,7 @@
     <string name="strike_rate">Strike Rate</string>
     <string name="h100s">100s</string>
     <string name="f50s">50s</string>
-    <string name="bbi">Best Inning</string>
+    <string name="bbi">Best Innings</string>
     <string name="bbm">Best Match</string>
     <string name="fwi">5 Wicket Innings</string>
     <string name="fwm">10 Wicket Matches</string>
