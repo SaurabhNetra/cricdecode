@@ -1,73 +1,137 @@
 package co.acjs.cricdecode;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
+import android.content.ContentProviderClient;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends SherlockFragmentActivity {
-	public static MainActivity	mainActivity;
 
-	private static final int	POSITION_PROFILE	= 0, POSITION_MATCH = 2,
-			POSITION_NEW_MATCH = 3, POSITION_CAREER = 1;
+	// Declare Variables
+	DrawerLayout mDrawerLayout;
+	ListView mDrawerList;
+	ActionBarDrawerToggle mDrawerToggle;
+	MenuListAdapter mMenuAdapter;
+	String[] title;
+	int currentFragment;
+
+	static ContentProviderClient client;
+
+	// Declare Constants
+	static final int PROFILE_FRAGMENT = 0, ONGOING_MATCHES_FRAGMENT = 2,
+			MATCH_CREATION_FRAGMENT = 3, PERFORMANCE_FRAGMENT = 4;
+
+	static {
+		Log.d("Debug", "Static Initializer");
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.drawer_main);
 
-		mainActivity = this;
+		client = getContentResolver().acquireContentProviderClient(
+				CricDeCodeContentProvider.AUTHORITY);
 
-		ListView listView = (ListView) findViewById(R.id.activityList);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getResources()
-						.getStringArray(R.array.activity_list));
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
-				Intent intent;
-				switch (position) {
-					case POSITION_PROFILE:
-						intent = new Intent(getBaseContext(),
-								ProfileActivity.class);
-						startActivity(intent);
-						break;
-					case POSITION_MATCH:
-						intent = new Intent(getBaseContext(),
-								MatchActivity.class);
-						startActivity(intent);
-						break;
-					case POSITION_NEW_MATCH:
-						intent = new Intent(getBaseContext(),
-								MatchCreateActivity.class);
-						startActivity(intent);
-						break;
-					case POSITION_CAREER:
-						intent = new Intent(getBaseContext(),
-								CareerActivity.class);
-						startActivity(intent);
-						break;
-					default:
-						break;
-				}
+		// Generate title
+		title = getResources().getStringArray(R.array.drawer_list_item);
+
+		// Locate DrawerLayout in drawer_main.xml
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+		// Locate ListView in drawer_main.xml
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+		// Set a custom shadow that overlays the main content when the drawer
+		// opens
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
+
+		// Pass results to MenuListAdapter Class
+		mMenuAdapter = new MenuListAdapter(this, title);
+
+		// Set the MenuListAdapter to the ListView
+		mDrawerList.setAdapter(mMenuAdapter);
+
+		// Capture button clicks on side menu
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+		// Enable ActionBar app icon to behave as action to toggle nav drawer
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		// ActionBarDrawerToggle ties together the the proper interactions
+		// between the sliding drawer and the action bar app icon
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
+
+			public void onDrawerClosed(View view) {
+				// TODO Auto-generated method stub
+				super.onDrawerClosed(view);
 			}
-		});
 
-		// Look up the AdView as a resource and load a request.
+			public void onDrawerOpened(View drawerView) {
+				// TODO Auto-generated method stub
+				super.onDrawerOpened(drawerView);
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		if (savedInstanceState == null) {
+			Log.d("Debug", "Saved is null");
+			currentFragment = PROFILE_FRAGMENT;
+			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+			selectItem(currentFragment, true);
+		} else {
+
+			currentFragment = savedInstanceState.getInt("currentFragment");
+			switch (currentFragment) {
+			case PROFILE_FRAGMENT:
+				ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
+			case MATCH_CREATION_FRAGMENT:
+				MatchCreationFragment.matchCreationFragment = (MatchCreationFragment) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
+			case PERFORMANCE_FRAGMENT:
+				PerformanceFragment.performanceFragment = (PerformanceFragment) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
+			default:
+				break;
+			}
+			Log.d("Debug", "currentFragment " + currentFragment);
+			selectItem(currentFragment, false);
+		}
+
+		// Look up the AdView as a resource and load a request. final AdView
+
+		final AdView adView = (AdView) findViewById(R.id.adView);
 		(new Thread() {
 			public void run() {
 				Looper.prepare();
-				AdView adView = (AdView) mainActivity.findViewById(R.id.adView);
 				adView.loadAd(new AdRequest());
 			}
 		}).start();
@@ -83,8 +147,168 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
+		switch (currentFragment) {
+		case PROFILE_FRAGMENT:
+			if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
+				menu.add(Menu.NONE, R.string.edit_profile, Menu.NONE,
+						R.string.edit_profile);
+			} else {
+				menu.add(Menu.NONE, R.string.save_profile, Menu.NONE,
+						R.string.save_profile);
+			}
+			break;
+		case PERFORMANCE_FRAGMENT:
+			menu.add(Menu.NONE, R.string.save_performance, Menu.NONE,
+					R.string.save_performance);
+			break;
+		default:
+			break;
+		}
+		getSupportMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@SuppressLint("NewApi")
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d("Debug", "On option item selected");
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+				mDrawerLayout.closeDrawer(mDrawerList);
+			} else {
+				mDrawerLayout.openDrawer(mDrawerList);
+			}
+			break;
+		case R.string.edit_profile:
+			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_EDIT_FRAGMENT;
+			ProfileFragment.profileFragment.viewFragment();
+			break;
+		case R.string.save_profile:
+			ProfileEditFragment.profileEditFragment.saveEditedProfile();
+			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+			ProfileFragment.profileFragment.viewFragment();
+			break;
+		case R.string.save_performance:
+			PerformanceFragment.performanceFragment.insertOrUpdate();
+			break;
+		default:
+			break;
+
+		}
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			invalidateOptionsMenu();
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	// The click listener for ListView in the navigation drawer
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (currentFragment != position) {
+				currentFragment = position;
+				selectItem(position, true);
+			} else {
+				// Close drawer
+				mDrawerLayout.closeDrawer(mDrawerList);
+			}
+		}
+	}
+
+	public void selectItem(int position, boolean newInstance) {
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		// Locate Position
+		switch (position) {
+		case PROFILE_FRAGMENT:
+			Log.d("Debug", "Select Profile");
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new ProfileFragment());
+			} else {
+				ft.replace(R.id.content_frame, ProfileFragment.profileFragment);
+			}
+			break;
+		case ONGOING_MATCHES_FRAGMENT:
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new OngoingMatchesFragment());
+			} else {
+				ft.replace(R.id.content_frame,
+						OngoingMatchesFragment.ongoingMatchesFragment);
+			}
+			break;
+		case MATCH_CREATION_FRAGMENT:
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new MatchCreationFragment());
+			} else {
+				ft.replace(R.id.content_frame,
+						MatchCreationFragment.matchCreationFragment);
+			}
+			break;
+		case PERFORMANCE_FRAGMENT:
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new PerformanceFragment());
+			} else {
+				ft.replace(R.id.content_frame,
+						PerformanceFragment.performanceFragment);
+			}
+			break;
+		default:
+			break;
+		}
+		ft.commit();
+		mDrawerList.setItemChecked(position, true);
+		// Close drawer
+		mDrawerLayout.closeDrawer(mDrawerList);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggles
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.d("Debug", "Save currentFragment " + currentFragment);
+		outState.putInt("currentFragment", currentFragment);
+		switch (currentFragment) {
+		case PROFILE_FRAGMENT:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance", ProfileFragment.profileFragment);
+			break;
+		case ONGOING_MATCHES_FRAGMENT:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance",
+					OngoingMatchesFragment.ongoingMatchesFragment);
+			break;
+		case MATCH_CREATION_FRAGMENT:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance",
+					MatchCreationFragment.matchCreationFragment);
+			break;
+		case PERFORMANCE_FRAGMENT:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance",
+					PerformanceFragment.performanceFragment);
+		default:
+			break;
+		}
+
 	}
 
 	@Override
@@ -93,6 +317,33 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		// Google Analytics Start
 		EasyTracker.getInstance().activityStart(this);
+	}
+
+	public void onClick(View view) {
+		switch (view.getId()) {
+		case R.id.date_of_birth:
+			showDatePicker(findViewById(R.id.date_of_birth));
+			break;
+		case R.id.date_of_match:
+			showDatePicker(findViewById(R.id.date_of_match));
+			break;
+		case R.id.profile_picture:
+			ProfileEditFragment.profileEditFragment.getProfilePicture();
+			break;
+		case R.id.create_match:
+			MatchCreationFragment.matchCreationFragment.insertMatch();
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void showDatePicker(View view_callee) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		// Create and show the dialog.
+		DatePickerFragment datePickerFragment = new DatePickerFragment();
+		datePickerFragment.setView_callee(view_callee);
+		datePickerFragment.show(ft, null);
 	}
 
 }

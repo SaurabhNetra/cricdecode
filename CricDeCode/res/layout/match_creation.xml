@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lbl_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/match_date" />
+
+        <TextView
+            android:id="@+id/date_of_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lbl_date"
+            android:clickable="true"
+            android:hint="@string/date_format"
+            android:onClick="onClick"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_my_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_of_match"
+            android:padding="10dp"
+            android:text="@string/my_team" />
+
+        <AutoCompleteTextView
+            android:id="@+id/my_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_of_match"
+            android:layout_toRightOf="@id/lbl_my_team"
+            android:inputType="text"
+            android:minWidth="200dp"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_opponent_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_team"
+            android:padding="10dp"
+            android:text="@string/opponent_team" />
+
+        <AutoCompleteTextView
+            android:id="@+id/opponent_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_team"
+            android:layout_toRightOf="@id/lbl_opponent_team"
+            android:inputType="text"
+            android:minWidth="200dp"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_venue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/opponent_team"
+            android:padding="10dp"
+            android:text="@string/venue" />
+
+        <AutoCompleteTextView
+            android:id="@+id/venue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/opponent_team"
+            android:layout_toRightOf="@id/lbl_venue"
+            android:inputType="text"
+            android:minWidth="200dp"
+            android:padding="10dp" />
+
+        <Spinner
+            android:id="@+id/over_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/venue"
+            android:entries="@array/over_limit" />
+
+        <TextView
+            android:id="@+id/lbl_overs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/over_limit"
+            android:padding="10dp"
+            android:text="@string/overs" />
+
+        <AutoCompleteTextView
+            android:id="@+id/overs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/over_limit"
+            android:layout_toRightOf="@id/lbl_overs"
+            android:ems="3"
+            android:inputType="number"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_innings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overs"
+            android:padding="10dp"
+            android:text="@string/innings" />
+
+        <Spinner
+            android:id="@+id/innings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overs"
+            android:layout_toRightOf="@id/lbl_innings"
+            android:entries="@array/innings" />
+
+        <Button
+            android:id="@+id/create_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/innings"
+            android:onClick="onClick"
+            android:text="@string/create_match" />
+    </RelativeLayout>
+
+</ScrollView>

@@ -4,11 +4,195 @@
     <string name="app_name">CricDeCode</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_performance_insertion">Performance</string>
-    <string name="title_activity_match_create">New Match</string>
-    <string name="title_activity_goal">Goals</string>
-    <string name="title_activity_match">Ongoing Matches</string>
-    <string name="title_activity_profile">Profile</string>
-    <string name="title_activity_career">Career</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- AdMob Constant -->
+    <string name="publisher_id">a151c9c34615465</string>
+
+    <!-- Drawer List Item -->
+    <string-array name="drawer_list_item">
+        <item>Profile</item>
+        <item>Career</item>
+        <item>Ongoing Matches</item>
+        <item>New Match</item>
+    </string-array>
+
+    <!-- Profile -->
+    <string name="profile_picture">Profile Picture</string>
+    <string name="profile_picture_size">100dp</string>
+    <string name="name">Name</string>
+    <string name="nickname">Nickname</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="role">Role</string>
+    <string name="batting_style">Batting Style</string>
+    <string name="bowling_style">Bowling Style</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="save_profile">Save Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <string-array name="role">
+        <item>Batsman</item>
+        <item>Bowler</item>
+        <item>All-Rounder</item>
+    </string-array>
+    <string-array name="batting_style">
+        <item>Right Hand Bat</item>
+        <item>Left Hand Bat</item>
+    </string-array>
+    <string-array name="bowling_style">
+        <item>Right-arm fast</item>
+        <item>Right-arm fast medium</item>
+        <item>Right-arm medium fast</item>
+        <item>Right-arm medium</item>
+        <item>Left-arm fast</item>
+        <item>Left-arm fast medium</item>
+        <item>Left-arm medium fast</item>
+        <item>Left-arm medium</item>
+        <item>Off break (right-arm)</item>
+        <item>Leg break (right-arm)</item>
+        <item>Slow left-arm orthodox</item>
+        <item>Slow left-arm chinaman</item>
+    </string-array>
+
+    <!-- Match -->
+    <string name="match_date">Match Date</string>
+    <string name="date_format">MMMM dd, yyyy</string>
+    <string name="my_team">My Team</string>
+    <string name="opponent_team">Opponent</string>
+    <string name="venue">Venue</string>
+    <string name="overs">Overs</string>
+    <string name="innings">Innings</string>
+    <string name="result">Match Result</string>
+    <string name="new_match">New Match</string>
+    <string name="create_match">Create Match</string>
+    <string name="vs">vs</string>
+    <string name="add_to_career">Add to Career</string>
+    <string name="match_result">Match Result</string>
+
+    <string-array name="over_limit">
+        <item>Limited Overs</item>
+        <item>Unlimited Overs</item>
+    </string-array>
+    <string-array name="match_result">
+        <item>Win</item>
+        <item>Loss</item>
+        <item>Draw</item>
+        <item>Tie</item>
+        <item>Abandoned</item>
+    </string-array>
+    <string-array name="innings">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="overs">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>70</item>
+        <item>90</item>
+    </string-array>
+
+    <!-- Performance -->
+
+
+    <!-- Batting -->
+    <string name="batting_no">Batting Number</string>
+    <string name="runs">Runs</string>
+    <string name="balls">Balls</string>
+    <string name="time_spent">Time Spent</string>
+    <string name="fours">Fours</string>
+    <string name="sixes">Sixes</string>
+    <string name="how_out">How Out</string>
+    <string name="bowler_type">Bowler Type</string>
+    <string name="fielding_pos">Fielding Position</string>
+    <string name="lives">Lives</string>
+
+    <string-array name="how_out">
+        <item>Not Out</item>
+        <item>Retired</item>
+        <item>Bowled</item>
+        <item>Timed Out</item>
+        <item>Caught</item>
+        <item>Handled the Ball</item>
+        <item>Hit the Ball Twiice</item>
+        <item>Hit Wicket</item>
+        <item>LBW</item>
+        <item>Obstructing the Field</item>
+        <item>Run Out</item>
+        <item>Stumped</item>
+    </string-array>
+    <string-array name="fielding_pos">
+        <item>Wicket Keeper</item>
+        <item>1st Slip</item>
+        <item>2nd Slip</item>
+        <item>3rd Slip</item>
+        <item>4th Slip</item>
+        <item>Leg Slip</item>
+        <item>Fly Slip</item>
+        <item>Gully</item>
+        <item>Silly Point</item>
+        <item>Silly Mid Off</item>
+        <item>Short Mid Off</item>
+        <item>Short Leg</item>
+        <item>Silly Mid On</item>
+        <item>Third Man</item>
+        <item>Backward Point</item>
+        <item>Point</item>
+        <item>Cover Point</item>
+        <item>Cover</item>
+        <item>Sweeper</item>
+        <item>Extra Cover</item>
+        <item>Deep Cover</item>
+        <item>Deep Extra Cover</item>
+        <item>Mid Off</item>
+        <item>Long Off</item>
+        <item>Bowler</item>
+        <item>Mid On</item>
+        <item>Long On</item>
+        <item>Cow Corner</item>
+        <item>Mid Wicket</item>
+        <item>Deep Mid Wicket</item>
+        <item>Square Leg</item>
+        <item>Deep Square Leg</item>
+        <item>Short Backward Square Leg</item>
+        <item>Deep Backward Square Leg</item>
+        <item>Short Fine Leg</item>
+        <item>Long Leg</item>
+        <item>Fine Leg</item>
+        <item>Long Stop</item>
+    </string-array>
+
+    <!-- Bowling -->
+    <string name="spells">Spells</string>
+    <string name="maidens">Maidens</string>
+    <string name="wickets_left">Left Handed Batsman Wickets</string>
+    <string name="wickets_right">Right Handed Batsman Wickets</string>
+    <string name="catches_dropped_bowling">Catches Dropped of my Bowling</string>
+    <string name="noballs">No Balls</string>
+    <string name="wides">Wides</string>
+
+    <!-- Fielding -->
+    <string name="slip_catches">Slip Catches</string>
+    <string name="close_catches">Close Catches</string>
+    <string name="circle_catches">Catches on Circle</string>
+    <string name="deep_catches">Catches in Deep</string>
+    <string name="circle_runouts">Run Outs in Circle</string>
+    <string name="circle_runouts_direct">Direct Hit Run Outs in Circle</string>
+    <string name="deep_runouts">Run Outs in Deep</string>
+    <string name="deep_runouts_direct">Direct Hit Run Outs in Deep</string>
+    <string name="stumpings">Stumpings (Wicket Keeper)</string>
+    <string name="byes">Byes Given (Wicket Keeper)</string>
+    <string name="misfields">Misfields</string>
+    <string name="catches_dropped_fielding">Catches Dropped</string>
+
+    <!-- General -->
+    <string name="save_performance">Save Performance</string>
 
 </resources>

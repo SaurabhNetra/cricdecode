@@ -12,37 +12,39 @@ import android.util.Log;
 
 public class CricDeCodeContentProvider extends ContentProvider {
 
-	private CricDeCodeDatabaseHelper	dbHelper;
+	private CricDeCodeDatabaseHelper dbHelper;
 
-	private static final int			SINGLE_MATCH				= 1;
-	private static final int			ALL_MATCHES					= 2;
-	private static final int			SINGLE_PERFORMANCE			= 3;
-	private static final int			SINGLE_PERFORMANCE_UPDATE	= 5;
-	private static final int			ALL_PERFORMANCES			= 4;
+	private static final int MATCH = 1;
+	private static final int SINGLE_MATCH = 2;
+	private static final int SINGLE_PERFORMANCE = 3;
+	// private static final int SINGLE_PERFORMANCE_UPDATE = 5;
+	private static final int PERFORMANCE = 4;
 
 	// authority is the symbolic name of your provider
 	// To avoid conflicts with other providers, you should use
 	// Internet domain ownership (in reverse) as the basis of your provider
 	// authority.
-	static final String			AUTHORITY					= "co.acjs.cricdecode.contentprovider";
+	static final String AUTHORITY = "co.acjs.cricdecode.contentprovider";
 
 	// create content URIs from the authority by appending path to database
 	// table
-	public static final Uri				CONTENT_URI_MATCH			= Uri.parse("content://" + AUTHORITY + "/match");
-	public static final Uri				CONTENT_URI_PERFORMANCE		= Uri.parse("content://" + AUTHORITY + "/performance");
+	public static final Uri CONTENT_URI_MATCH = Uri.parse("content://"
+			+ AUTHORITY + "/match");
+	public static final Uri CONTENT_URI_PERFORMANCE = Uri.parse("content://"
+			+ AUTHORITY + "/performance");
 
 	// a content URI pattern matches content URIs using wildcard characters:
 	// *: Matches a string of any valid characters of any length.
 	// #: Matches a string of numeric characters of any length.
-	private static final UriMatcher		uriMatcher;
+	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, "match", ALL_MATCHES);
+		uriMatcher.addURI(AUTHORITY, "match", MATCH);
 		uriMatcher.addURI(AUTHORITY, "match/#", SINGLE_MATCH);
-		uriMatcher.addURI(AUTHORITY, "performance", ALL_PERFORMANCES);
+		uriMatcher.addURI(AUTHORITY, "performance", PERFORMANCE);
 		uriMatcher.addURI(AUTHORITY, "performance/#", SINGLE_PERFORMANCE);
-		uriMatcher.addURI(AUTHORITY, "performance/update/#",
-				SINGLE_PERFORMANCE_UPDATE);
+		// uriMatcher.addURI(AUTHORITY, "performance/update/#",
+		// SINGLE_PERFORMANCE_UPDATE);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -73,18 +75,18 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		String table;
 		Uri content_uri;
-		Log.d("Debug", "Insert Uri " + uriMatcher.match(uri));
+		// Log.d("Debug", "Insert Uri " + uriMatcher.match(uri));
 		switch (uriMatcher.match(uri)) {
-			case ALL_MATCHES:
-				table = MatchDb.SQLITE_TABLE;
-				content_uri = CONTENT_URI_MATCH;
-				break;
-			case ALL_PERFORMANCES:
-				table = PerformanceDb.SQLITE_TABLE;
-				content_uri = CONTENT_URI_PERFORMANCE;
-				break;
-			default:
-				throw new IllegalArgumentException("Unsupported URI: " + uri);
+		case MATCH:
+			table = MatchDb.SQLITE_TABLE;
+			content_uri = CONTENT_URI_MATCH;
+			break;
+		case PERFORMANCE:
+			table = PerformanceDb.SQLITE_TABLE;
+			content_uri = CONTENT_URI_PERFORMANCE;
+			break;
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
 		long id = db.insert(table, null, values);
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -103,33 +105,42 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	// only
 	// if an internal error occurred during the query process.
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		String id;
 		switch (uriMatcher.match(uri)) {
-			case ALL_MATCHES:
-				queryBuilder.setTables(MatchDb.SQLITE_TABLE);
-				queryBuilder
-						.appendWhere(MatchDb.KEY_STATUS + "=" + "'" + MatchDb.MATCH_CURRENT + "'");
-				break;
-			case SINGLE_MATCH:
-				queryBuilder.setTables(MatchDb.SQLITE_TABLE);
-				id = uri.getPathSegments().get(1);
-				queryBuilder.appendWhere(MatchDb.KEY_ROWID + "=" + id);
-				queryBuilder
-						.appendWhere(MatchDb.KEY_STATUS + "=" + "'" + MatchDb.MATCH_CURRENT + "'");
-				break;
-			case SINGLE_PERFORMANCE:
-				Log.d("Debug", "query Single Performance");
-				queryBuilder.setTables(PerformanceDb.SQLITE_TABLE);
-				id = uri.getPathSegments().get(1);
-				queryBuilder.appendWhere(PerformanceDb.KEY_ROWID + "=" + id);
-				Log.d("Debug", "query Single Performance");
-				break;
-			default:
-				throw new IllegalArgumentException("Unsupported URI: " + uri);
+		case MATCH:
+			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
+			queryBuilder.appendWhere(MatchDb.KEY_STATUS + "=" + "'"
+					+ MatchDb.MATCH_CURRENT + "'");
+			break;
+		case SINGLE_MATCH:
+			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
+			id = uri.getPathSegments().get(1);
+			selection = MatchDb.KEY_ROWID
+					+ "="
+					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			selection = MatchDb.KEY_STATUS
+					+ "='"
+					+ MatchDb.MATCH_CURRENT
+					+ "'"
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			break;
+		case SINGLE_PERFORMANCE:
+			Log.d("Debug", "query Single Performance");
+			queryBuilder.setTables(PerformanceDb.SQLITE_TABLE);
+			id = uri.getPathSegments().get(1);
+			queryBuilder.appendWhere(PerformanceDb.KEY_MATCHID + "=" + id);
+			Log.d("Debug", "query Single Performance");
+			break;
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
 
 		Cursor cursor = queryBuilder.query(db, projection, selection,
@@ -152,38 +163,53 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	// based on the selection or a single row if the row id is provided. The
 	// update method returns the number of updated rows.
 	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		String table_name, id;
+
 		switch (uriMatcher.match(uri)) {
-			case SINGLE_MATCH:
-				table_name = MatchDb.SQLITE_TABLE;
-				id = uri.getPathSegments().get(1);
-				selection = MatchDb.KEY_ROWID + "=" + id + (!TextUtils
-						.isEmpty(selection) ? " AND (" + selection + ')' : "");
-				break;
-			case SINGLE_PERFORMANCE:
-				table_name = PerformanceDb.SQLITE_TABLE;
-				id = uri.getPathSegments().get(1);
-				selection = PerformanceDb.KEY_ROWID + "=" + id + (!TextUtils
-						.isEmpty(selection) ? " AND (" + selection + ')' : "");
-				selection = PerformanceDb.KEY_INNING + "=" + values
-						.getAsInteger(PerformanceDb.KEY_INNING).intValue() + (!TextUtils
-						.isEmpty(selection) ? " AND (" + selection + ')' : "");
-				break;
-			case SINGLE_PERFORMANCE_UPDATE:
-				table_name = PerformanceDb.SQLITE_TABLE;
-				id = uri.getPathSegments().get(2);
-				selection = PerformanceDb.KEY_ROWID + "=" + id + (!TextUtils
-						.isEmpty(selection) ? " AND (" + selection + ')' : "");
-				break;
-			default:
-				throw new IllegalArgumentException("Unsupported URI: " + uri);
+		case SINGLE_MATCH:
+			table_name = MatchDb.SQLITE_TABLE;
+			id = uri.getPathSegments().get(1);
+			selection = MatchDb.KEY_ROWID
+					+ "="
+					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			break;
+		case SINGLE_PERFORMANCE:
+			table_name = PerformanceDb.SQLITE_TABLE;
+			id = uri.getPathSegments().get(1);
+			selection = PerformanceDb.KEY_MATCHID
+					+ "="
+					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			selection = PerformanceDb.KEY_INNING
+					+ "="
+					+ values.getAsInteger(PerformanceDb.KEY_INNING).intValue()
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			break;
+		/*
+		 * case SINGLE_PERFORMANCE_UPDATE: table_name =
+		 * PerformanceDb.SQLITE_TABLE; id = uri.getPathSegments().get(2);
+		 * selection = PerformanceDb.KEY_ROWID + "=" + id +
+		 * (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
+		 * break;
+		 */
+
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
+
 		int updateCount = db.update(table_name, values, selection,
 				selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return updateCount;
+
 	}
 
 	public CricDeCodeDatabaseHelper getDbHelper() {

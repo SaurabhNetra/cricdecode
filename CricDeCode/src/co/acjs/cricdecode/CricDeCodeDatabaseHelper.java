@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CricDeCodeDatabaseHelper extends SQLiteOpenHelper {
 
-	private static final String	DATABASE_NAME		= "cricDeCode";
-	private static final int	DATABASE_VERSION	= 1;
+	private static final String DATABASE_NAME = "CricDeCode";
+	private static final int DATABASE_VERSION = 1;
 
 	CricDeCodeDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
