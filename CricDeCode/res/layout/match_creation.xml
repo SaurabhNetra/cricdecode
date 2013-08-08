@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/date_of_match"
             android:layout_toRightOf="@id/lbl_my_team"
+            android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
             android:padding="10dp" />
@@ -56,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/my_team"
             android:layout_toRightOf="@id/lbl_opponent_team"
+            android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
             android:padding="10dp" />
@@ -74,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/opponent_team"
             android:layout_toRightOf="@id/lbl_venue"
+            android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
             android:padding="10dp" />
@@ -100,6 +103,7 @@
             android:layout_below="@id/over_limit"
             android:layout_toRightOf="@id/lbl_overs"
             android:ems="3"
+            android:imeOptions="actionNext"
             android:inputType="number"
             android:padding="10dp" />
 
