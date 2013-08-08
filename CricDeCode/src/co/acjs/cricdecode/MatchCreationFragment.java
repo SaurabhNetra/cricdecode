@@ -30,7 +30,7 @@ public class MatchCreationFragment extends SherlockFragment {
 	private static SQLiteDatabase dbHandle;
 	private static String queryStr;
 
-	TextView date_of_match;
+	TextView date_of_match, lbl_overs;
 	AutoCompleteTextView myTeam, opponentTeam, venue, overs;
 	Spinner innings, limited;
 
@@ -75,6 +75,7 @@ public class MatchCreationFragment extends SherlockFragment {
 				.findViewById(R.id.opponent_team);
 		venue = (AutoCompleteTextView) view.findViewById(R.id.venue);
 		limited = (Spinner) view.findViewById(R.id.over_limit);
+		lbl_overs = (TextView) view.findViewById(R.id.lbl_overs);
 		overs = (AutoCompleteTextView) view.findViewById(R.id.overs);
 		innings = (Spinner) view.findViewById(R.id.innings);
 
@@ -87,9 +88,11 @@ public class MatchCreationFragment extends SherlockFragment {
 			public void onItemSelected(AdapterView<?> adapterView, View view,
 					int i, long l) {
 				if (i == 1) {
-					overs.setEnabled(false);
+					overs.setVisibility(View.GONE);
+					lbl_overs.setVisibility(View.GONE);
 				} else {
-					overs.setEnabled(true);
+					overs.setVisibility(View.VISIBLE);
+					lbl_overs.setVisibility(View.VISIBLE);
 				}
 			}
 
