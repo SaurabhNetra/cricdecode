@@ -28,10 +28,11 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class MatchCreationFragment extends SherlockFragment {
 	static MatchCreationFragment matchCreationFragment;
 	private static SQLiteDatabase dbHandle;
-	private static String queryStr;
+	private static String queryStr, field_str;
 
 	TextView date_of_match, lbl_overs;
-	AutoCompleteTextView myTeam, opponentTeam, venue, overs;
+	AutoCompleteTextView myTeam, opponentTeam, venue, overs,
+			autoCompleteTextView;
 	Spinner innings, limited;
 
 	@Override
@@ -204,6 +205,8 @@ public class MatchCreationFragment extends SherlockFragment {
 		// and set it as the OnItemClickListener for that field.
 		queryStr = "select distinct " + MatchDb.KEY_MY_TEAM + " as _id from "
 				+ MatchDb.SQLITE_TABLE;
+		autoCompleteTextView = myTeam;
+		field_str = MatchDb.KEY_MY_TEAM;
 		MyCursorAdapter mAdapter = this.new MyCursorAdapter(
 				getSherlockActivity(), null, true);
 		myTeam.setAdapter(mAdapter);
@@ -211,12 +214,16 @@ public class MatchCreationFragment extends SherlockFragment {
 
 		queryStr = "select distinct " + MatchDb.KEY_OPPONENT_TEAM
 				+ " as _id from " + MatchDb.SQLITE_TABLE;
+		autoCompleteTextView = opponentTeam;
+		field_str = MatchDb.KEY_OPPONENT_TEAM;
 		mAdapter = this.new MyCursorAdapter(getSherlockActivity(), null, true);
 		opponentTeam.setAdapter(mAdapter);
 		opponentTeam.setThreshold(1);
 
 		queryStr = "select distinct " + MatchDb.KEY_VENUE + " as _id from "
 				+ MatchDb.SQLITE_TABLE;
+		autoCompleteTextView = venue;
+		field_str = MatchDb.KEY_VENUE;
 		mAdapter = this.new MyCursorAdapter(getSherlockActivity(), null, true);
 		venue.setAdapter(mAdapter);
 		venue.setThreshold(1);
@@ -224,12 +231,14 @@ public class MatchCreationFragment extends SherlockFragment {
 	}
 
 	class MyCursorAdapter extends CursorAdapter {
-		String query_str;
+		String query, field;
+		AutoCompleteTextView textView;
 
 		public MyCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 			super(context, c, autoRequery);
-			query_str = queryStr;
-
+			query = queryStr;
+			textView = autoCompleteTextView;
+			field = field_str;
 		}
 
 		@Override
@@ -239,7 +248,9 @@ public class MatchCreationFragment extends SherlockFragment {
 
 		@Override
 		public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-			return dbHandle.rawQuery(query_str, null);
+			String str = textView.getText().toString();
+			str = " where " + field + " like '%" + str + "%'";
+			return dbHandle.rawQuery(query + str, null);
 		}
 
 		@Override
