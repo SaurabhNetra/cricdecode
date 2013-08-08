@@ -49,6 +49,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);
 
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 		client = getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
 
