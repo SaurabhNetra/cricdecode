@@ -17,7 +17,6 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	private static final int MATCH = 1;
 	private static final int SINGLE_MATCH = 2;
 	private static final int SINGLE_PERFORMANCE = 3;
-	// private static final int SINGLE_PERFORMANCE_UPDATE = 5;
 	private static final int PERFORMANCE = 4;
 
 	// authority is the symbolic name of your provider
@@ -43,8 +42,6 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		uriMatcher.addURI(AUTHORITY, "match/#", SINGLE_MATCH);
 		uriMatcher.addURI(AUTHORITY, "performance", PERFORMANCE);
 		uriMatcher.addURI(AUTHORITY, "performance/#", SINGLE_PERFORMANCE);
-		// uriMatcher.addURI(AUTHORITY, "performance/update/#",
-		// SINGLE_PERFORMANCE_UPDATE);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -114,8 +111,7 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		switch (uriMatcher.match(uri)) {
 		case MATCH:
 			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
-			queryBuilder.appendWhere(MatchDb.KEY_STATUS + "=" + "'"
-					+ MatchDb.MATCH_CURRENT + "'");
+
 			break;
 		case SINGLE_MATCH:
 			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
@@ -123,12 +119,6 @@ public class CricDeCodeContentProvider extends ContentProvider {
 			selection = MatchDb.KEY_ROWID
 					+ "="
 					+ id
-					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
-							+ ')' : "");
-			selection = MatchDb.KEY_STATUS
-					+ "='"
-					+ MatchDb.MATCH_CURRENT
-					+ "'"
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
 							+ ')' : "");
 			break;
@@ -187,19 +177,15 @@ public class CricDeCodeContentProvider extends ContentProvider {
 					+ id
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
 							+ ')' : "");
-			selection = PerformanceDb.KEY_INNING
-					+ "="
-					+ values.getAsInteger(PerformanceDb.KEY_INNING).intValue()
-					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
-							+ ')' : "");
+			if (values.containsKey(PerformanceDb.KEY_INNING)) {
+				selection = PerformanceDb.KEY_INNING
+						+ "="
+						+ values.getAsInteger(PerformanceDb.KEY_INNING)
+								.intValue()
+						+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+								+ ')' : "");
+			}
 			break;
-		/*
-		 * case SINGLE_PERFORMANCE_UPDATE: table_name =
-		 * PerformanceDb.SQLITE_TABLE; id = uri.getPathSegments().get(2);
-		 * selection = PerformanceDb.KEY_ROWID + "=" + id +
-		 * (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
-		 * break;
-		 */
 
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);

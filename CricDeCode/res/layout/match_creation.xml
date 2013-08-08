@@ -118,14 +118,6 @@
             android:layout_below="@id/overs"
             android:layout_toRightOf="@id/lbl_innings"
             android:entries="@array/innings" />
-
-        <Button
-            android:id="@+id/create_match"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/innings"
-            android:onClick="onClick"
-            android:text="@string/create_match" />
     </RelativeLayout>
 
 </ScrollView>

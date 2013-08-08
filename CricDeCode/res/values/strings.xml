@@ -14,6 +14,7 @@
     <string-array name="drawer_list_item">
         <item>Profile</item>
         <item>Career</item>
+        <item>Match Diary</item>
         <item>Ongoing Matches</item>
         <item>New Match</item>
     </string-array>
@@ -71,6 +72,7 @@
     <string name="vs">vs</string>
     <string name="add_to_career">Add to Career</string>
     <string name="match_result">Match Result</string>
+    <string name="match_review">Match Review</string>
 
     <string-array name="over_limit">
         <item>Limited Overs</item>

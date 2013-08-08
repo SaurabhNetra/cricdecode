@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -30,12 +31,14 @@ public class MainActivity extends SherlockFragmentActivity {
 	MenuListAdapter mMenuAdapter;
 	String[] title;
 	int currentFragment;
+	Menu current_menu;
 
 	static ContentProviderClient client;
 
 	// Declare Constants
-	static final int PROFILE_FRAGMENT = 0, ONGOING_MATCHES_FRAGMENT = 2,
-			MATCH_CREATION_FRAGMENT = 3, PERFORMANCE_FRAGMENT = 4;
+	static final int PROFILE_FRAGMENT = 0, DIARY_MATCHES_FRAGMENT = 2,
+			ONGOING_MATCHES_FRAGMENT = 3, MATCH_CREATION_FRAGMENT = 4,
+			PERFORMANCE_FRAGMENT_EDIT = 5, PERFORMANCE_FRAGMENT_VIEW = 6;
 
 	static {
 		Log.d("Debug", "Static Initializer");
@@ -101,7 +104,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
 			selectItem(currentFragment, true);
 		} else {
-
 			currentFragment = savedInstanceState.getInt("currentFragment");
 			switch (currentFragment) {
 			case PROFILE_FRAGMENT:
@@ -114,8 +116,13 @@ public class MainActivity extends SherlockFragmentActivity {
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
-			case PERFORMANCE_FRAGMENT:
-				PerformanceFragment.performanceFragment = (PerformanceFragment) getSupportFragmentManager()
+			case PERFORMANCE_FRAGMENT_EDIT:
+				PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
@@ -147,6 +154,38 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.clear();
+		switch (currentFragment) {
+		case PROFILE_FRAGMENT:
+			if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
+				menu.add(Menu.NONE, R.string.edit_profile, Menu.NONE,
+						R.string.edit_profile);
+				menu.findItem(R.string.edit_profile).setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+			} else {
+				menu.add(Menu.NONE, R.string.save_profile, Menu.NONE,
+						R.string.save_profile);
+				menu.findItem(R.string.save_profile).setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			}
+			break;
+		case PERFORMANCE_FRAGMENT_EDIT:
+			menu.add(Menu.NONE, R.string.save_performance, Menu.NONE,
+					R.string.save_performance);
+			menu.findItem(R.string.save_performance).setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			break;
+		default:
+			break;
+		}
+		current_menu = menu;
+		getSupportMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
 		switch (currentFragment) {
@@ -154,18 +193,32 @@ public class MainActivity extends SherlockFragmentActivity {
 			if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
 				menu.add(Menu.NONE, R.string.edit_profile, Menu.NONE,
 						R.string.edit_profile);
+				menu.findItem(R.string.edit_profile).setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
 			} else {
 				menu.add(Menu.NONE, R.string.save_profile, Menu.NONE,
 						R.string.save_profile);
+				menu.findItem(R.string.save_profile).setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM);
 			}
 			break;
-		case PERFORMANCE_FRAGMENT:
+		case MATCH_CREATION_FRAGMENT:
+			menu.add(Menu.NONE, R.string.create_match, Menu.NONE,
+					R.string.create_match);
+			menu.findItem(R.string.create_match).setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_ALWAYS);
+			break;
+		case PERFORMANCE_FRAGMENT_EDIT:
 			menu.add(Menu.NONE, R.string.save_performance, Menu.NONE,
 					R.string.save_performance);
+			menu.findItem(R.string.save_performance).setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_ALWAYS);
 			break;
 		default:
 			break;
 		}
+		current_menu = menu;
 		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -184,15 +237,22 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case R.string.edit_profile:
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_EDIT_FRAGMENT;
+			onPrepareOptionsMenu(current_menu);
 			ProfileFragment.profileFragment.viewFragment();
 			break;
 		case R.string.save_profile:
 			ProfileEditFragment.profileEditFragment.saveEditedProfile();
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+			onPrepareOptionsMenu(current_menu);
 			ProfileFragment.profileFragment.viewFragment();
 			break;
+		case R.string.create_match:
+			MatchCreationFragment.matchCreationFragment.insertMatch();
+			onPrepareOptionsMenu(current_menu);
+			break;
 		case R.string.save_performance:
-			PerformanceFragment.performanceFragment.insertOrUpdate();
+			PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
+			onPrepareOptionsMenu(current_menu);
 			break;
 		default:
 			break;
@@ -213,6 +273,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				long id) {
 			if (currentFragment != position) {
 				currentFragment = position;
+				onPrepareOptionsMenu(current_menu);
 				selectItem(position, true);
 			} else {
 				// Close drawer
@@ -242,6 +303,14 @@ public class MainActivity extends SherlockFragmentActivity {
 						OngoingMatchesFragment.ongoingMatchesFragment);
 			}
 			break;
+		case DIARY_MATCHES_FRAGMENT:
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new DiaryMatchesFragment());
+			} else {
+				ft.replace(R.id.content_frame,
+						DiaryMatchesFragment.diaryMatchesFragment);
+			}
+			break;
 		case MATCH_CREATION_FRAGMENT:
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new MatchCreationFragment());
@@ -250,12 +319,20 @@ public class MainActivity extends SherlockFragmentActivity {
 						MatchCreationFragment.matchCreationFragment);
 			}
 			break;
-		case PERFORMANCE_FRAGMENT:
+		case PERFORMANCE_FRAGMENT_EDIT:
 			if (newInstance) {
-				ft.replace(R.id.content_frame, new PerformanceFragment());
+				ft.replace(R.id.content_frame, new PerformanceFragmentEdit());
 			} else {
 				ft.replace(R.id.content_frame,
-						PerformanceFragment.performanceFragment);
+						PerformanceFragmentEdit.performanceFragmentEdit);
+			}
+			break;
+		case PERFORMANCE_FRAGMENT_VIEW:
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new PerformanceFragmentView());
+			} else {
+				ft.replace(R.id.content_frame,
+						PerformanceFragmentView.performanceFragmentView);
 			}
 			break;
 		default:
@@ -286,6 +363,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onSaveInstanceState(outState);
 		Log.d("Debug", "Save currentFragment " + currentFragment);
 		outState.putInt("currentFragment", currentFragment);
+
 		switch (currentFragment) {
 		case PROFILE_FRAGMENT:
 			getSupportFragmentManager().putFragment(outState,
@@ -296,15 +374,26 @@ public class MainActivity extends SherlockFragmentActivity {
 					"currentFragmentInstance",
 					OngoingMatchesFragment.ongoingMatchesFragment);
 			break;
+		case DIARY_MATCHES_FRAGMENT:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance",
+					DiaryMatchesFragment.diaryMatchesFragment);
+			break;
 		case MATCH_CREATION_FRAGMENT:
 			getSupportFragmentManager().putFragment(outState,
 					"currentFragmentInstance",
 					MatchCreationFragment.matchCreationFragment);
 			break;
-		case PERFORMANCE_FRAGMENT:
+		case PERFORMANCE_FRAGMENT_EDIT:
 			getSupportFragmentManager().putFragment(outState,
 					"currentFragmentInstance",
-					PerformanceFragment.performanceFragment);
+					PerformanceFragmentEdit.performanceFragmentEdit);
+			break;
+		case PERFORMANCE_FRAGMENT_VIEW:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance",
+					PerformanceFragmentView.performanceFragmentView);
+			break;
 		default:
 			break;
 		}
@@ -322,28 +411,31 @@ public class MainActivity extends SherlockFragmentActivity {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.date_of_birth:
-			showDatePicker(findViewById(R.id.date_of_birth));
+			showDatePicker(R.id.date_of_birth);
 			break;
 		case R.id.date_of_match:
-			showDatePicker(findViewById(R.id.date_of_match));
+			showDatePicker(R.id.date_of_match);
 			break;
 		case R.id.profile_picture:
 			ProfileEditFragment.profileEditFragment.getProfilePicture();
 			break;
-		case R.id.create_match:
-			MatchCreationFragment.matchCreationFragment.insertMatch();
+		case R.id.add_to_career:
+			OngoingMatchesFragment.ongoingMatchesFragment.addToCareer(view);
 			break;
 		default:
 			break;
 		}
 	}
 
-	public void showDatePicker(View view_callee) {
+	public void showDatePicker(int view_callee) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		// Create and show the dialog.
-		DatePickerFragment datePickerFragment = new DatePickerFragment();
-		datePickerFragment.setView_callee(view_callee);
-		datePickerFragment.show(ft, null);
+		DatePickerFragment.datePickerFragment = new DatePickerFragment();
+		DatePickerFragment.datePickerFragment.setView_callee(view_callee);
+		DatePickerFragment.datePickerFragment
+				.setDate_str(((TextView) findViewById(view_callee)).getText()
+						.toString());
+		DatePickerFragment.datePickerFragment.show(ft, null);
 	}
 
 }

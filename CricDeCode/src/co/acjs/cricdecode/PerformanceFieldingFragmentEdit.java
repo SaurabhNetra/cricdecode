@@ -8,8 +8,8 @@ import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class PerformanceFieldingFragment extends SherlockFragment {
-	static PerformanceFieldingFragment performanceFieldingFragment;
+public class PerformanceFieldingFragmentEdit extends SherlockFragment {
+	static PerformanceFieldingFragmentEdit performanceFieldingFragmentEdit;
 
 	EditText slip_catches, close_catches, circle_catches, deep_catches,
 			circle_runouts, circle_runouts_direct, deep_runouts,
@@ -18,9 +18,9 @@ public class PerformanceFieldingFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		performanceFieldingFragment = this;
-		View view = inflater.inflate(R.layout.performance_fielding, container,
-				false);
+		performanceFieldingFragmentEdit = this;
+		View view = inflater.inflate(R.layout.performance_fielding_edit,
+				container, false);
 		return view;
 	}
 
@@ -28,8 +28,8 @@ public class PerformanceFieldingFragment extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
-		((PerformanceFragment) getParentFragment())
-				.viewInfo(PerformanceFragment.FIELDING);
+		((PerformanceFragmentEdit) getParentFragment())
+				.viewInfo(PerformanceFragmentEdit.FIELDING);
 	}
 
 	public void init(View view) {

@@ -11,8 +11,8 @@ import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class PerformanceBattingFragment extends SherlockFragment {
-	static PerformanceBattingFragment performanceBattingFragment;
+public class PerformanceBattingFragmentEdit extends SherlockFragment {
+	static PerformanceBattingFragmentEdit performanceBattingFragmentEdit;
 
 	EditText batting_no, runs, balls, time_spent, fours, sixes, lives;
 	Spinner how_out, bowler_type, fielding_pos;
@@ -20,9 +20,9 @@ public class PerformanceBattingFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		performanceBattingFragment = this;
-		View view = inflater.inflate(R.layout.performance_batting, container,
-				false);
+		performanceBattingFragmentEdit = this;
+		View view = inflater.inflate(R.layout.performance_batting_edit,
+				container, false);
 		return view;
 	}
 
@@ -30,8 +30,8 @@ public class PerformanceBattingFragment extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
-		((PerformanceFragment) getParentFragment())
-				.viewInfo(PerformanceFragment.BATTING);
+		((PerformanceFragmentEdit) getParentFragment())
+				.viewInfo(PerformanceFragmentEdit.BATTING);
 		// Set inputFilters
 		batting_no.setFilters(new InputFilter[] { new InputFilterMinMax("1",
 				"11") });

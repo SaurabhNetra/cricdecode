@@ -1,11 +1,17 @@
 package co.acjs.cricdecode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +30,7 @@ public class MatchCreationFragment extends SherlockFragment {
 	private static SQLiteDatabase dbHandle;
 	private static String queryStr;
 
-	TextView date_of_match, overs_text;
+	TextView date_of_match;
 	AutoCompleteTextView myTeam, opponentTeam, venue, overs;
 	Spinner innings, limited;
 
@@ -69,8 +75,6 @@ public class MatchCreationFragment extends SherlockFragment {
 				.findViewById(R.id.opponent_team);
 		venue = (AutoCompleteTextView) view.findViewById(R.id.venue);
 		limited = (Spinner) view.findViewById(R.id.over_limit);
-		overs_text = (TextView) getSherlockActivity().findViewById(
-				R.id.lbl_overs);
 		overs = (AutoCompleteTextView) view.findViewById(R.id.overs);
 		innings = (Spinner) view.findViewById(R.id.innings);
 
@@ -83,11 +87,9 @@ public class MatchCreationFragment extends SherlockFragment {
 			public void onItemSelected(AdapterView<?> adapterView, View view,
 					int i, long l) {
 				if (i == 1) {
-					overs_text.setVisibility(View.GONE);
-					overs.setVisibility(View.GONE);
+					overs.setEnabled(false);
 				} else {
-					overs_text.setVisibility(View.VISIBLE);
-					overs.setVisibility(View.VISIBLE);
+					overs.setEnabled(true);
 				}
 			}
 
@@ -105,6 +107,7 @@ public class MatchCreationFragment extends SherlockFragment {
 		String overs_str = overs.getText().toString();
 		String innings_str = innings.getSelectedItem().toString();
 		String result_str = "";
+		String review_str = "";
 		int limited_int = limited.getSelectedItemPosition();
 
 		// check for blanks
@@ -113,6 +116,7 @@ public class MatchCreationFragment extends SherlockFragment {
 					Toast.LENGTH_LONG).show();
 			return;
 		}
+
 		// check for blanks
 		if (myTeam_str.trim().equalsIgnoreCase("")) {
 			Toast.makeText(getSherlockActivity(), "Please enter YOUR TEAM",
@@ -146,14 +150,27 @@ public class MatchCreationFragment extends SherlockFragment {
 			}
 		}
 
+		SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy",
+				Locale.getDefault());
+
+		Date date = new Date();
+		try {
+			date = sdf.parse(matchDate_str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Log.d("Debug", "Date Exception");
+		}
+
 		ContentValues values = new ContentValues();
-		values.put(MatchDb.KEY_MATCH_DATE, matchDate_str);
+		values.put(MatchDb.KEY_MATCH_DATE, DateFormat
+				.format("yyyy-MM-dd", date).toString());
 		values.put(MatchDb.KEY_MY_TEAM, myTeam_str);
 		values.put(MatchDb.KEY_OPPONENT_TEAM, opponentTeam_str);
 		values.put(MatchDb.KEY_VENUE, venue_str);
 		values.put(MatchDb.KEY_OVERS, Integer.parseInt(overs_str));
 		values.put(MatchDb.KEY_INNINGS, Integer.parseInt(innings_str));
 		values.put(MatchDb.KEY_RESULT, result_str);
+		values.put(MatchDb.KEY_REVIEW, review_str);
 		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_CURRENT);
 
 		// insert a record

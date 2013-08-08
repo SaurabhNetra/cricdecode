@@ -9,8 +9,8 @@ import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class PerformanceBowlingFragment extends SherlockFragment {
-	static PerformanceBowlingFragment performanceBowlingFragment;
+public class PerformanceBowlingFragmentEdit extends SherlockFragment {
+	static PerformanceBowlingFragmentEdit performanceBowlingFragmentEdit;
 
 	EditText overs, spells, maidens, runs, fours, sixes, wkts_left, wkts_right,
 			catches_dropped, noballs, wides;
@@ -18,9 +18,9 @@ public class PerformanceBowlingFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		performanceBowlingFragment = this;
-		View view = inflater.inflate(R.layout.performance_bowling, container,
-				false);
+		performanceBowlingFragmentEdit = this;
+		View view = inflater.inflate(R.layout.performance_bowling_edit,
+				container, false);
 		return view;
 	}
 
@@ -28,8 +28,8 @@ public class PerformanceBowlingFragment extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
-		((PerformanceFragment) getParentFragment())
-				.viewInfo(PerformanceFragment.BOWLING);
+		((PerformanceFragmentEdit) getParentFragment())
+				.viewInfo(PerformanceFragmentEdit.BOWLING);
 		// Set Input Filter
 		overs.setFilters(new InputFilter[] { new OversInputFilter() });
 	}

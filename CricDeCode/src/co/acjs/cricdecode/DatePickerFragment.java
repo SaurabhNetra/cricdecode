@@ -10,7 +10,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
-import android.view.View;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -18,7 +18,9 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class DatePickerFragment extends SherlockDialogFragment implements
 		android.app.DatePickerDialog.OnDateSetListener {
-	private View view_callee;
+	static DatePickerFragment datePickerFragment;
+	private int view_callee;
+	private String date_str;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,7 +28,11 @@ public class DatePickerFragment extends SherlockDialogFragment implements
 		final Calendar c = Calendar.getInstance();
 		int year, month, day;
 
-		String date_str = ((TextView) view_callee).getText().toString();
+		if (savedInstanceState != null) {
+			Log.d("Debug", "Date Picker Restored");
+			date_str = savedInstanceState.getString("date_str");
+			view_callee = savedInstanceState.getInt("view_callee");
+		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy",
 				Locale.getDefault());
@@ -50,15 +56,34 @@ public class DatePickerFragment extends SherlockDialogFragment implements
 		Time chosenDate = new Time();
 		chosenDate.set(dayOfMonth, monthOfYear, year);
 		long dtDob = chosenDate.toMillis(true);
-		((TextView) view_callee).setText(DateFormat.format("MMMM dd, yyyy",
-				dtDob));
+		TextView textView = ((TextView) getSherlockActivity().findViewById(
+				view_callee));
+		if (textView != null) {
+			textView.setText(DateFormat.format("MMMM dd, yyyy", dtDob));
+		}
 	}
 
-	public View getView_callee() {
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putString("date_str", date_str);
+		savedInstanceState.putInt("view_callee", view_callee);
+		Log.d("Debug", "Date Picker Save Instance");
+	}
+
+	public int getView_callee() {
 		return view_callee;
 	}
 
-	public void setView_callee(View view_callee) {
+	public void setView_callee(int view_callee) {
 		this.view_callee = view_callee;
+	}
+
+	public String getDate_str() {
+		return date_str;
+	}
+
+	public void setDate_str(String date_str) {
+		this.date_str = date_str;
 	}
 }

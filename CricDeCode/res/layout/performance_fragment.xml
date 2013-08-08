@@ -19,12 +19,6 @@
                 android:layout_height="wrap_content" >
 
                 <Spinner
-                    android:id="@+id/match_result"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/match_result" />
-
-                <Spinner
                     android:id="@+id/inning_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -1,8 +1,6 @@
 package co.acjs.cricdecode;
 
-import android.content.ContentValues;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -15,22 +13,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class OngoingMatchesFragment extends SherlockFragment implements
+public class DiaryMatchesFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
-	static OngoingMatchesFragment ongoingMatchesFragment;
+	static DiaryMatchesFragment diaryMatchesFragment;
 
 	private SimpleCursorAdapter dataAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ongoingMatchesFragment = this;
+		diaryMatchesFragment = this;
 		View rootView = inflater.inflate(R.layout.list_container, container,
 				false);
 		return rootView;
@@ -65,7 +60,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(getSherlockActivity(),
-				R.layout.ongoing_match_list_item, null, columns, to, 0);
+				R.layout.diary_match_list_item, null, columns, to, 0);
 
 		// get reference to the ListView
 		ListView listView = (ListView) view.findViewById(R.id.content_list);
@@ -89,19 +84,19 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 				int innings = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_INNINGS));
 
-				PerformanceFragmentEdit.performanceFragmentEdit = new PerformanceFragmentEdit();
+				PerformanceFragmentView.performanceFragmentView = new PerformanceFragmentView();
 				Bundle bundle = new Bundle();
 				bundle.putInt("rowId", rowId);
 				bundle.putInt("innings", innings);
-				PerformanceFragmentEdit.performanceFragmentEdit
+				PerformanceFragmentView.performanceFragmentView
 						.setArguments(bundle);
-				((MainActivity) getSherlockActivity()).currentFragment = MainActivity.PERFORMANCE_FRAGMENT_EDIT;
+				((MainActivity) getSherlockActivity()).currentFragment = MainActivity.PERFORMANCE_FRAGMENT_VIEW;
 
 				((MainActivity) getSherlockActivity())
 						.onPrepareOptionsMenu(((MainActivity) getSherlockActivity()).current_menu);
 
 				((MainActivity) getSherlockActivity()).selectItem(
-						MainActivity.PERFORMANCE_FRAGMENT_EDIT, false);
+						MainActivity.PERFORMANCE_FRAGMENT_VIEW, false);
 			}
 		});
 
@@ -115,7 +110,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 				MatchDb.KEY_OPPONENT_TEAM };
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
-				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_CURRENT + "'", null,
+				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'", null,
 				null);
 		return cursorLoader;
 	}
@@ -137,37 +132,4 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		dataAdapter.swapCursor(null);
 	}
 
-	public void addToCareer(View view) {
-		RelativeLayout vwParentRow = (RelativeLayout) view.getParent();
-
-		TextView child = (TextView) vwParentRow.getChildAt(0);
-		String str = child.getText().toString();
-		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + str);
-		Cursor c = getSherlockActivity().getContentResolver().query(uri,
-				new String[] { PerformanceDb.KEY_MATCHID }, null, null, null);
-		if (c.getCount() == 0) {
-			c.close();
-			Toast.makeText(getSherlockActivity(),
-					"First Save your Performance", Toast.LENGTH_SHORT).show();
-		} else {
-			c.close();
-			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-					+ str);
-			ContentValues values = new ContentValues();
-			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-
-			getSherlockActivity().getContentResolver().update(uri, values,
-					null, null);
-			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-					+ "/" + str);
-			getSherlockActivity().getContentResolver().update(uri, values,
-					null, null);
-			Toast.makeText(getSherlockActivity(), "Match added to Career",
-					Toast.LENGTH_LONG).show();
-
-			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
-					null, this);
-		}
-	}
 }

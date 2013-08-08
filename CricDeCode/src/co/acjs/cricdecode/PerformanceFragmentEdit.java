@@ -25,17 +25,21 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class PerformanceFragment extends SherlockFragment implements
+public class PerformanceFragmentEdit extends SherlockFragment implements
 		TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
-	public static final int BATTING = 0, BOWLING = 1, FIELDING = 2;
+	public static final int GENERAL = 0, BATTING = 1, BOWLING = 2,
+			FIELDING = 3;
 
-	static PerformanceFragment performanceFragment;
+	static PerformanceFragmentEdit performanceFragmentEdit;
 
 	// Declare Fields
 	// Match
-	Spinner inning_no, match_result;
-	private int match_id, innings, result, current_innings, current_position;
+	Spinner inning_no;
+	private int match_id, innings, current_innings, current_position;
+
+	// General
+	private String result, review;
 
 	// Batting
 	private int[] batting_no = { 1, 1 }, bat_runs, bat_balls, time_spent,
@@ -55,13 +59,16 @@ public class PerformanceFragment extends SherlockFragment implements
 
 	private TabHost mTabHost;
 	private ViewPager mViewPager;
-	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, PerformanceFragment.TabInfo>();
+	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, PerformanceFragmentEdit.TabInfo>();
 	private CricDeCodePagerAdapter mPagerAdapter;
 
 	private class TabInfo {
 		private String tag;
+		@SuppressWarnings("unused")
 		private Class<?> clss;
+		@SuppressWarnings("unused")
 		private Bundle args;
+		@SuppressWarnings("unused")
 		private SherlockFragment fragment;
 
 		TabInfo(String tag, Class<?> clazz, Bundle args) {
@@ -92,7 +99,7 @@ public class PerformanceFragment extends SherlockFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		performanceFragment = this;
+		performanceFragmentEdit = this;
 		View view = inflater.inflate(R.layout.performance_fragment, container,
 				false);
 		return view;
@@ -167,19 +174,6 @@ public class PerformanceFragment extends SherlockFragment implements
 							viewInfo(index);
 							Log.d("Debug", "On Selected Item finished");
 						}
-					}
-
-					public void onNothingSelected(AdapterView<?> adapterView) {
-						return;
-					}
-				});
-
-		match_result = (Spinner) view.findViewById(R.id.match_result);
-		match_result
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> adapterView,
-							View view, int i, long l) {
-						result = i;
 					}
 
 					public void onNothingSelected(AdapterView<?> adapterView) {
@@ -327,14 +321,14 @@ public class PerformanceFragment extends SherlockFragment implements
 			}
 		}
 		c.close();
-
 		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
 				+ match_id);
 		c = getSherlockActivity().getContentResolver().query(uri,
-				new String[] { MatchDb.KEY_RESULT }, null, null, null);
+				new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW }, null,
+				null, null);
 		c.moveToFirst();
-		ProfileEditFragment.selectFromSpinner(match_result,
-				c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT)));
+		result = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT));
+		review = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_REVIEW));
 		c.close();
 	}
 
@@ -348,8 +342,9 @@ public class PerformanceFragment extends SherlockFragment implements
 
 			current_innings = savedInstanceState.getInt("current_innings");
 			inning_no.setSelection(current_innings);
-			result = savedInstanceState.getInt("result");
-			match_result.setSelection(result);
+
+			result = savedInstanceState.getString("result");
+			review = savedInstanceState.getString("review");
 
 			batting_no = savedInstanceState.getIntArray("batting_no");
 			bat_runs = savedInstanceState.getIntArray("bat_runs");
@@ -405,8 +400,11 @@ public class PerformanceFragment extends SherlockFragment implements
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 
 		outState.putInt("current_innings", current_innings);
-		outState.putInt("result", result);
+
 		saveInfo(mTabHost.getCurrentTab());
+
+		outState.putString("result", result);
+		outState.putString("review", review);
 
 		outState.putIntArray("batting_no", batting_no);
 		outState.putIntArray("bat_runs", bat_runs);
@@ -451,13 +449,16 @@ public class PerformanceFragment extends SherlockFragment implements
 		List<SherlockFragment> fragments = new Vector<SherlockFragment>();
 		fragments.add((SherlockFragment) SherlockFragment.instantiate(
 				getSherlockActivity(),
-				PerformanceBattingFragment.class.getName()));
+				PerformanceGeneralFragmentEdit.class.getName()));
 		fragments.add((SherlockFragment) SherlockFragment.instantiate(
 				getSherlockActivity(),
-				PerformanceBowlingFragment.class.getName()));
+				PerformanceBattingFragmentEdit.class.getName()));
 		fragments.add((SherlockFragment) SherlockFragment.instantiate(
 				getSherlockActivity(),
-				PerformanceFieldingFragment.class.getName()));
+				PerformanceBowlingFragmentEdit.class.getName()));
+		fragments.add((SherlockFragment) SherlockFragment.instantiate(
+				getSherlockActivity(),
+				PerformanceFieldingFragmentEdit.class.getName()));
 
 		this.mPagerAdapter = new CricDeCodePagerAdapter(
 				getChildFragmentManager(), fragments);
@@ -473,20 +474,25 @@ public class PerformanceFragment extends SherlockFragment implements
 		mTabHost = (TabHost) view.findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 		TabInfo tabInfo = null;
-		PerformanceFragment.AddTab(this, this.mTabHost, this.mTabHost
+		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
+				.newTabSpec("General").setIndicator("General"),
+				(tabInfo = new TabInfo("General",
+						PerformanceBattingFragmentEdit.class, args)));
+		this.mapTabInfo.put(tabInfo.tag, tabInfo);
+		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
 				.newTabSpec("Batting").setIndicator("Batting"),
 				(tabInfo = new TabInfo("Batting",
-						PerformanceBattingFragment.class, args)));
+						PerformanceBattingFragmentEdit.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		PerformanceFragment.AddTab(this, this.mTabHost, this.mTabHost
+		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
 				.newTabSpec("Bowling").setIndicator("Bowling"),
 				(tabInfo = new TabInfo("Bowling",
-						PerformanceBowlingFragment.class, args)));
+						PerformanceBowlingFragmentEdit.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		PerformanceFragment.AddTab(this, this.mTabHost, this.mTabHost
+		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
 				.newTabSpec("Fielding").setIndicator("Fielding"),
 				(tabInfo = new TabInfo("Fielding",
-						PerformanceFieldingFragment.class, args)));
+						PerformanceFieldingFragmentEdit.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
 		if (args != null) {
@@ -495,7 +501,7 @@ public class PerformanceFragment extends SherlockFragment implements
 		mTabHost.setOnTabChangedListener(this);
 	}
 
-	private static void AddTab(PerformanceFragment performanceFragment,
+	private static void AddTab(PerformanceFragmentEdit performanceFragment,
 			TabHost tabHost, TabHost.TabSpec tabSpec, TabInfo tabInfo) {
 		// Attach a Tab view factory to the spec
 		tabSpec.setContent(performanceFragment.new TabFactory(
@@ -536,135 +542,141 @@ public class PerformanceFragment extends SherlockFragment implements
 		String str;
 		Log.d("Debug", "Save Info " + id);
 		switch (id) {
+		case GENERAL:
+			result = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_result
+					.getSelectedItem().toString();
+			review = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_review
+					.getText().toString();
+			break;
 		case BATTING:
-			str = PerformanceBattingFragment.performanceBattingFragment.batting_no
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_no
 					.getText().toString();
 			if (!str.equals("")) {
 				batting_no[current_innings] = Integer.parseInt(str);
 			} else {
 				batting_no[current_innings] = 1;
 			}
-			str = PerformanceBattingFragment.performanceBattingFragment.runs
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.runs
 					.getText().toString();
 			if (!str.equals("")) {
 				bat_runs[current_innings] = Integer.parseInt(str);
 			} else {
 				bat_runs[current_innings] = 0;
 			}
-			str = PerformanceBattingFragment.performanceBattingFragment.balls
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.balls
 					.getText().toString();
 			if (!str.equals("")) {
 				bat_balls[current_innings] = Integer.parseInt(str);
 			} else {
 				bat_balls[current_innings] = 0;
 			}
-			str = PerformanceBattingFragment.performanceBattingFragment.time_spent
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.time_spent
 					.getText().toString();
 			if (!str.equals("")) {
 				time_spent[current_innings] = Integer.parseInt(str);
 			} else {
 				time_spent[current_innings] = 0;
 			}
-			str = PerformanceBattingFragment.performanceBattingFragment.fours
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.fours
 					.getText().toString();
 			if (!str.equals("")) {
 				bat_fours[current_innings] = Integer.parseInt(str);
 			} else {
 				bat_fours[current_innings] = 0;
 			}
-			str = PerformanceBattingFragment.performanceBattingFragment.sixes
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.sixes
 					.getText().toString();
 			if (!str.equals("")) {
 				bat_sixes[current_innings] = Integer.parseInt(str);
 			} else {
 				bat_sixes[current_innings] = 0;
 			}
-			str = PerformanceBattingFragment.performanceBattingFragment.lives
+			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.lives
 					.getText().toString();
 			if (!str.equals("")) {
 				lives[current_innings] = Integer.parseInt(str);
 			} else {
 				lives[current_innings] = 0;
 			}
-			how_out[current_innings] = PerformanceBattingFragment.performanceBattingFragment.how_out
+			how_out[current_innings] = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.how_out
 					.getSelectedItem().toString();
-			bowler_type[current_innings] = PerformanceBattingFragment.performanceBattingFragment.bowler_type
+			bowler_type[current_innings] = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bowler_type
 					.getSelectedItem().toString();
-			fielding_pos[current_innings] = PerformanceBattingFragment.performanceBattingFragment.fielding_pos
+			fielding_pos[current_innings] = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.fielding_pos
 					.getSelectedItem().toString();
 			break;
 		case BOWLING:
-			str = PerformanceBowlingFragment.performanceBowlingFragment.overs
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
 					.getText().toString();
 			if (!str.equals("")) {
 				overs[current_innings] = Float.parseFloat(str);
 			} else {
 				overs[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.spells
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.spells
 					.getText().toString();
 			if (!str.equals("")) {
 				spells[current_innings] = Integer.parseInt(str);
 			} else {
 				spells[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.maidens
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.maidens
 					.getText().toString();
 			if (!str.equals("")) {
 				maidens[current_innings] = Integer.parseInt(str);
 			} else {
 				maidens[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.runs
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.runs
 					.getText().toString();
 			if (!str.equals("")) {
 				bowl_runs[current_innings] = Integer.parseInt(str);
 			} else {
 				bowl_runs[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.fours
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.fours
 					.getText().toString();
 			if (!str.equals("")) {
 				bowl_fours[current_innings] = Integer.parseInt(str);
 			} else {
 				bowl_fours[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.sixes
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.sixes
 					.getText().toString();
 			if (!str.equals("")) {
 				bowl_sixes[current_innings] = Integer.parseInt(str);
 			} else {
 				bowl_sixes[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.wkts_left
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wkts_left
 					.getText().toString();
 			if (!str.equals("")) {
 				wkts_left[current_innings] = Integer.parseInt(str);
 			} else {
 				wkts_left[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.wkts_right
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wkts_right
 					.getText().toString();
 			if (!str.equals("")) {
 				wkts_right[current_innings] = Integer.parseInt(str);
 			} else {
 				wkts_right[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.catches_dropped
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.catches_dropped
 					.getText().toString();
 			if (!str.equals("")) {
 				bowl_catches_dropped[current_innings] = Integer.parseInt(str);
 			} else {
 				bowl_catches_dropped[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.noballs
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.noballs
 					.getText().toString();
 			if (!str.equals("")) {
 				noballs[current_innings] = Integer.parseInt(str);
 			} else {
 				noballs[current_innings] = 0;
 			}
-			str = PerformanceBowlingFragment.performanceBowlingFragment.wides
+			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wides
 					.getText().toString();
 			if (!str.equals("")) {
 				wides[current_innings] = Integer.parseInt(str);
@@ -673,84 +685,84 @@ public class PerformanceFragment extends SherlockFragment implements
 			}
 			break;
 		case FIELDING:
-			str = PerformanceFieldingFragment.performanceFieldingFragment.slip_catches
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.slip_catches
 					.getText().toString();
 			if (!str.equals("")) {
 				slip_catches[current_innings] = Integer.parseInt(str);
 			} else {
 				slip_catches[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.close_catches
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.close_catches
 					.getText().toString();
 			if (!str.equals("")) {
 				close_catches[current_innings] = Integer.parseInt(str);
 			} else {
 				close_catches[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.circle_catches
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.circle_catches
 					.getText().toString();
 			if (!str.equals("")) {
 				circle_catches[current_innings] = Integer.parseInt(str);
 			} else {
 				circle_catches[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.deep_catches
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.deep_catches
 					.getText().toString();
 			if (!str.equals("")) {
 				deep_catches[current_innings] = Integer.parseInt(str);
 			} else {
 				deep_catches[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.circle_runouts
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.circle_runouts
 					.getText().toString();
 			if (!str.equals("")) {
 				circle_runouts[current_innings] = Integer.parseInt(str);
 			} else {
 				circle_runouts[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.circle_runouts_direct
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.circle_runouts_direct
 					.getText().toString();
 			if (!str.equals("")) {
 				circle_runouts_direct[current_innings] = Integer.parseInt(str);
 			} else {
 				circle_runouts_direct[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.deep_runouts
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.deep_runouts
 					.getText().toString();
 			if (!str.equals("")) {
 				deep_runouts[current_innings] = Integer.parseInt(str);
 			} else {
 				deep_runouts[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.deep_runouts_direct
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.deep_runouts_direct
 					.getText().toString();
 			if (!str.equals("")) {
 				deep_runouts_direct[current_innings] = Integer.parseInt(str);
 			} else {
 				deep_runouts_direct[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.stumpings
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.stumpings
 					.getText().toString();
 			if (!str.equals("")) {
 				stumpings[current_innings] = Integer.parseInt(str);
 			} else {
 				stumpings[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.byes
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.byes
 					.getText().toString();
 			if (!str.equals("")) {
 				byes[current_innings] = Integer.parseInt(str);
 			} else {
 				byes[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.misfields
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.misfields
 					.getText().toString();
 			if (!str.equals("")) {
 				misfields[current_innings] = Integer.parseInt(str);
 			} else {
 				misfields[current_innings] = 0;
 			}
-			str = PerformanceFieldingFragment.performanceFieldingFragment.catches_dropped
+			str = PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.catches_dropped
 					.getText().toString();
 			if (!str.equals("")) {
 				field_catches_dropped[current_innings] = Integer.parseInt(str);
@@ -768,82 +780,90 @@ public class PerformanceFragment extends SherlockFragment implements
 	public void viewInfo(int tab_index) {
 		Log.d("Debug", "On View Info called " + tab_index);
 		switch (tab_index) {
-		case BATTING:
-			PerformanceBattingFragment.performanceBattingFragment.batting_no
-					.setText(batting_no[current_innings] + "");
-			PerformanceBattingFragment.performanceBattingFragment.runs
-					.setText(bat_runs[current_innings] + "");
-			PerformanceBattingFragment.performanceBattingFragment.balls
-					.setText(bat_balls[current_innings] + "");
-			PerformanceBattingFragment.performanceBattingFragment.time_spent
-					.setText(time_spent[current_innings] + "");
-			PerformanceBattingFragment.performanceBattingFragment.fours
-					.setText(bat_fours[current_innings] + "");
-			PerformanceBattingFragment.performanceBattingFragment.sixes
-					.setText(bat_sixes[current_innings] + "");
-			PerformanceBattingFragment.performanceBattingFragment.lives
-					.setText(lives[current_innings] + "");
-			Spinner spinner = PerformanceBattingFragment.performanceBattingFragment.how_out;
+		case GENERAL:
+			Spinner spinner = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_result;
 			ArrayAdapter myAdap = (ArrayAdapter) spinner.getAdapter();
-			int spinnerPosition = myAdap.getPosition(how_out[current_innings]);
+			int spinnerPosition = myAdap.getPosition(result);
 			spinner.setSelection(spinnerPosition);
-			spinner = PerformanceBattingFragment.performanceBattingFragment.bowler_type;
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_review
+					.setText(review);
+			break;
+		case BATTING:
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_no
+					.setText(batting_no[current_innings] + "");
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.runs
+					.setText(bat_runs[current_innings] + "");
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.balls
+					.setText(bat_balls[current_innings] + "");
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.time_spent
+					.setText(time_spent[current_innings] + "");
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.fours
+					.setText(bat_fours[current_innings] + "");
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.sixes
+					.setText(bat_sixes[current_innings] + "");
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.lives
+					.setText(lives[current_innings] + "");
+			spinner = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.how_out;
+			myAdap = (ArrayAdapter) spinner.getAdapter();
+			spinnerPosition = myAdap.getPosition(how_out[current_innings]);
+			spinner.setSelection(spinnerPosition);
+			spinner = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bowler_type;
 			myAdap = (ArrayAdapter) spinner.getAdapter();
 			spinnerPosition = myAdap.getPosition(bowler_type[current_innings]);
 			spinner.setSelection(spinnerPosition);
-			spinner = PerformanceBattingFragment.performanceBattingFragment.fielding_pos;
+			spinner = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.fielding_pos;
 			myAdap = (ArrayAdapter) spinner.getAdapter();
 			spinnerPosition = myAdap.getPosition(fielding_pos[current_innings]);
 			spinner.setSelection(spinnerPosition);
 			break;
 		case BOWLING:
-			PerformanceBowlingFragment.performanceBowlingFragment.overs
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
 					.setText(overs[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.spells
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.spells
 					.setText(spells[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.maidens
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.maidens
 					.setText(maidens[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.runs
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.runs
 					.setText(bowl_runs[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.fours
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.fours
 					.setText(bowl_fours[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.sixes
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.sixes
 					.setText(bowl_sixes[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.wkts_left
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wkts_left
 					.setText(wkts_left[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.wkts_right
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wkts_right
 					.setText(wkts_right[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.catches_dropped
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.catches_dropped
 					.setText(bowl_catches_dropped[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.noballs
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.noballs
 					.setText(noballs[current_innings] + "");
-			PerformanceBowlingFragment.performanceBowlingFragment.wides
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wides
 					.setText(wides[current_innings] + "");
 			break;
 		case FIELDING:
-			PerformanceFieldingFragment.performanceFieldingFragment.slip_catches
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.slip_catches
 					.setText(slip_catches[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.close_catches
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.close_catches
 					.setText(close_catches[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.circle_catches
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.circle_catches
 					.setText(circle_catches[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.deep_catches
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.deep_catches
 					.setText(deep_catches[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.circle_runouts
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.circle_runouts
 					.setText(circle_runouts[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.circle_runouts_direct
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.circle_runouts_direct
 					.setText(circle_runouts_direct[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.deep_runouts
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.deep_runouts
 					.setText(deep_runouts[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.deep_runouts_direct
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.deep_runouts_direct
 					.setText(deep_runouts_direct[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.stumpings
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.stumpings
 					.setText(stumpings[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.byes
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.byes
 					.setText(byes[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.misfields
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.misfields
 					.setText(misfields[current_innings] + "");
-			PerformanceFieldingFragment.performanceFieldingFragment.catches_dropped
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.catches_dropped
 					.setText(field_catches_dropped[current_innings] + "");
 			break;
 		default:
@@ -857,8 +877,9 @@ public class PerformanceFragment extends SherlockFragment implements
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
 				+ match_id);
 		ContentValues matchvalues = new ContentValues();
-		matchvalues.put(MatchDb.KEY_RESULT, match_result.getSelectedItem()
-				.toString());
+		matchvalues.put(MatchDb.KEY_RESULT, result);
+		matchvalues.put(MatchDb.KEY_REVIEW, review);
+
 		// update a record
 		getSherlockActivity().getContentResolver().update(uri, matchvalues,
 				null, null);
