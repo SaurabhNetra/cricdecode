@@ -51,6 +51,7 @@ public class ProfileData {
 			editor.putString("nickname", nickname);
 			editor.commit();
 			s.release();
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

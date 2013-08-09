@@ -4,96 +4,87 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/profile_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/profile_data"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:baselineAligned="false"
-            android:orientation="vertical" >
+            android:hint="@string/name"
+            android:padding="3dp"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/name"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/nickname"
+            android:padding="3dp"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/nickname"
-                android:padding="3dp" />
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/photo" />
 
-            <TextView
-                android:id="@+id/date_of_birth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/date_of_birth"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/role"
+            android:padding="3dp"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/role"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/role"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/date_of_birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_of_birth"
+            android:padding="3dp" />
 
-            <TextView
-                android:id="@+id/batting_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/batting_style"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/batting_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/batting_style"
+            android:padding="3dp" />
 
-            <TextView
-                android:id="@+id/bowling_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/bowling_style"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/bowling_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/bowling_style"
+            android:padding="3dp" />
 
-            <TextView
-                android:id="@+id/city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/city"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/city"
+            android:padding="3dp"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/state"
-                android:padding="3dp" />
+        <TextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/state"
+            android:padding="3dp"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/country"
-                android:padding="3dp" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5" >
-
-            <ImageView
-                android:id="@+id/profile_picture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/profile_picture"
-                android:src="@drawable/photo" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/country"
+            android:padding="3dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>

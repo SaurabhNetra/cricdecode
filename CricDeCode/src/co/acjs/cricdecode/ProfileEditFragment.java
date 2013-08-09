@@ -159,6 +159,7 @@ public class ProfileEditFragment extends SherlockFragment {
 		ProfileData.setName(getSherlockActivity(), name.getText().toString());
 		ProfileData.setNickname(getSherlockActivity(), nickname.getText()
 				.toString());
+		
 		String dob_str = date_of_birth.getText().toString();
 		ProfileData.setDateOfBirth(getSherlockActivity(), dob_str);
 		ProfileData.setRole(getSherlockActivity(), role.getSelectedItem()
