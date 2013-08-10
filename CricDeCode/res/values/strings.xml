@@ -198,4 +198,8 @@
     <!-- General -->
     <string name="save_performance">Save Performance</string>
 
+    <!-- Filter Dialog -->
+    <string name="filter">Filter</string>
+    <string name="okay">OK</string>
+
 </resources>

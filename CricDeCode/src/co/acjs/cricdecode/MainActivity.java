@@ -1,8 +1,10 @@
 package co.acjs.cricdecode;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -11,7 +13,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +36,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	String[] title;
 	int currentFragment;
 	Menu current_menu;
+	static SQLiteDatabase dbHandle;
 
 	static ContentProviderClient client;
 
@@ -53,6 +58,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		client = getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
+
+		dbHandle = ((CricDeCodeContentProvider) client
+				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 
 		// Generate title
 		title = getResources().getStringArray(R.array.drawer_list_item);
@@ -156,38 +164,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.clear();
-		switch (currentFragment) {
-		case PROFILE_FRAGMENT:
-			if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
-				menu.add(Menu.NONE, R.string.edit_profile, Menu.NONE,
-						R.string.edit_profile);
-				menu.findItem(R.string.edit_profile).setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-			} else {
-				menu.add(Menu.NONE, R.string.save_profile, Menu.NONE,
-						R.string.save_profile);
-				menu.findItem(R.string.save_profile).setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM);
-			}
-			break;
-		case PERFORMANCE_FRAGMENT_EDIT:
-			menu.add(Menu.NONE, R.string.save_performance, Menu.NONE,
-					R.string.save_performance);
-			menu.findItem(R.string.save_performance).setShowAsAction(
-					MenuItem.SHOW_AS_ACTION_IF_ROOM);
-			break;
-		default:
-			break;
-		}
-		current_menu = menu;
-		getSupportMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
 		switch (currentFragment) {
@@ -210,6 +186,11 @@ public class MainActivity extends SherlockFragmentActivity {
 					R.string.create_match);
 			menu.findItem(R.string.create_match).setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_ALWAYS);
+			break;
+		case DIARY_MATCHES_FRAGMENT:
+			menu.add(Menu.NONE, R.string.filter, Menu.NONE, R.string.filter);
+			menu.findItem(R.string.filter).setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_IF_ROOM);
 			break;
 		case PERFORMANCE_FRAGMENT_EDIT:
 			menu.add(Menu.NONE, R.string.save_performance, Menu.NONE,
@@ -255,6 +236,77 @@ public class MainActivity extends SherlockFragmentActivity {
 		case R.string.save_performance:
 			PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
 			onPrepareOptionsMenu(current_menu);
+			break;
+		case R.string.filter:
+			// custom dialog
+			final Dialog dialog = new Dialog(this);
+			dialog.setContentView(R.layout.filter_general);
+			dialog.setTitle("Filter");
+
+			final MultiSelectSpinner my_team_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.my_team_list);
+			my_team_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
+			my_team_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected);
+			my_team_spinner._proxyAdapter.clear();
+			my_team_spinner._proxyAdapter.add(my_team_spinner
+					.buildSelectedItemString());
+			my_team_spinner.setSelection(0);
+
+			final MultiSelectSpinner opponent_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.opponent_list);
+			opponent_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
+			opponent_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected);
+			opponent_spinner._proxyAdapter.clear();
+			opponent_spinner._proxyAdapter.add(opponent_spinner
+					.buildSelectedItemString());
+			opponent_spinner.setSelection(0);
+
+			Button dialogButton = (Button) dialog.findViewById(R.id.okay);
+			// if button is clicked, close the custom dialog
+			dialogButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected = my_team_spinner
+							.getSelectedStrings();
+					String str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.myteam_whereClause = " and "
+								+ MatchDb.KEY_MY_TEAM + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.myteam_whereClause = " and "
+								+ MatchDb.KEY_MY_TEAM + " in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected = opponent_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.opponent_whereClause = " and "
+								+ MatchDb.KEY_OPPONENT_TEAM
+								+ " in("
+								+ str
+								+ ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.opponent_whereClause = " and "
+								+ MatchDb.KEY_OPPONENT_TEAM + " in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment
+							.getSherlockActivity()
+							.getSupportLoaderManager()
+							.restartLoader(0, null,
+									DiaryMatchesFragment.diaryMatchesFragment);
+					dialog.dismiss();
+				}
+			});
+			dialog.show();
 			break;
 		default:
 			break;
@@ -447,5 +499,4 @@ public class MainActivity extends SherlockFragmentActivity {
 						.toString());
 		DatePickerFragment.datePickerFragment.show(ft, null);
 	}
-
 }
