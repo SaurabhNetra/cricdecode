@@ -21,7 +21,8 @@
 
     <!-- Profile -->
     <string name="profile_picture">Profile Picture</string>
-    <string name="profile_picture_size">100dp</string>
+    <string name="profile_picture_size_view">250</string>
+    <string name="profile_picture_size_edit">100</string>
     <string name="name">Name</string>
     <string name="nickname">Nickname</string>
     <string name="date_of_birth">Date of Birth</string>

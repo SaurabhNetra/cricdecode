@@ -1347,7 +1347,7 @@ containing a value of this type.
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f06001c;
         public static final int action_settings=0x7f060024;
-        public static final int add_to_career=0x7f060041;
+        public static final int add_to_career=0x7f060042;
         public static final int app_name=0x7f060023;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
@@ -1358,22 +1358,22 @@ containing a value of this type.
         /**   Requested by string saying which app requested the notification. [CHAR LIMIT=42] 
          */
         public static final int auth_client_requested_by_msg=0x7f060011;
-        public static final int balls=0x7f060046;
+        public static final int balls=0x7f060047;
         /**  Performance 
  Batting 
          */
-        public static final int batting_no=0x7f060044;
-        public static final int batting_style=0x7f06002f;
-        public static final int bowler_type=0x7f06004b;
-        public static final int bowling_style=0x7f060030;
-        public static final int byes=0x7f06005e;
-        public static final int catches_dropped_bowling=0x7f060052;
-        public static final int catches_dropped_fielding=0x7f060060;
-        public static final int circle_catches=0x7f060057;
-        public static final int circle_runouts=0x7f060059;
-        public static final int circle_runouts_direct=0x7f06005a;
-        public static final int city=0x7f060031;
-        public static final int close_catches=0x7f060056;
+        public static final int batting_no=0x7f060045;
+        public static final int batting_style=0x7f060030;
+        public static final int bowler_type=0x7f06004c;
+        public static final int bowling_style=0x7f060031;
+        public static final int byes=0x7f06005f;
+        public static final int catches_dropped_bowling=0x7f060053;
+        public static final int catches_dropped_fielding=0x7f060061;
+        public static final int circle_catches=0x7f060058;
+        public static final int circle_runouts=0x7f06005a;
+        public static final int circle_runouts_direct=0x7f06005b;
+        public static final int city=0x7f060032;
+        public static final int close_catches=0x7f060057;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1429,23 +1429,23 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000e;
-        public static final int country=0x7f060033;
-        public static final int create_match=0x7f06003f;
-        public static final int date_format=0x7f060037;
-        public static final int date_of_birth=0x7f06002d;
-        public static final int deep_catches=0x7f060058;
-        public static final int deep_runouts=0x7f06005b;
-        public static final int deep_runouts_direct=0x7f06005c;
+        public static final int country=0x7f060034;
+        public static final int create_match=0x7f060040;
+        public static final int date_format=0x7f060038;
+        public static final int date_of_birth=0x7f06002e;
+        public static final int deep_catches=0x7f060059;
+        public static final int deep_runouts=0x7f06005c;
+        public static final int deep_runouts_direct=0x7f06005d;
         public static final int drawer_close=0x7f060027;
         public static final int drawer_open=0x7f060026;
-        public static final int edit_profile=0x7f060035;
-        public static final int fielding_pos=0x7f06004c;
-        public static final int fours=0x7f060048;
+        public static final int edit_profile=0x7f060036;
+        public static final int fielding_pos=0x7f06004d;
+        public static final int fours=0x7f060049;
         public static final int ga_trackingId=0x7f060022;
         public static final int hello_world=0x7f060025;
-        public static final int how_out=0x7f06004a;
-        public static final int innings=0x7f06003c;
-        public static final int lives=0x7f06004d;
+        public static final int how_out=0x7f06004b;
+        public static final int innings=0x7f06003d;
+        public static final int lives=0x7f06004e;
         /**  Location client code resources (prefix with location_client) 
 
         Begin strings for location.reporting
@@ -1457,49 +1457,50 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f060012;
         public static final int location_client_ulr_inactive_age_unknown=0x7f060013;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f060014;
-        public static final int maidens=0x7f06004f;
+        public static final int maidens=0x7f060050;
         /**  Match 
          */
-        public static final int match_date=0x7f060036;
-        public static final int match_result=0x7f060042;
-        public static final int match_review=0x7f060043;
-        public static final int misfields=0x7f06005f;
-        public static final int my_team=0x7f060038;
-        public static final int name=0x7f06002b;
-        public static final int new_match=0x7f06003e;
-        public static final int nickname=0x7f06002c;
-        public static final int noballs=0x7f060053;
-        public static final int opponent_team=0x7f060039;
-        public static final int overs=0x7f06003b;
+        public static final int match_date=0x7f060037;
+        public static final int match_result=0x7f060043;
+        public static final int match_review=0x7f060044;
+        public static final int misfields=0x7f060060;
+        public static final int my_team=0x7f060039;
+        public static final int name=0x7f06002c;
+        public static final int new_match=0x7f06003f;
+        public static final int nickname=0x7f06002d;
+        public static final int noballs=0x7f060054;
+        public static final int opponent_team=0x7f06003a;
+        public static final int overs=0x7f06003c;
         /**  Profile 
          */
         public static final int profile_picture=0x7f060029;
-        public static final int profile_picture_size=0x7f06002a;
+        public static final int profile_picture_size_edit=0x7f06002b;
+        public static final int profile_picture_size_view=0x7f06002a;
         /**  AdMob Constant 
          */
         public static final int publisher_id=0x7f060028;
-        public static final int result=0x7f06003d;
-        public static final int role=0x7f06002e;
-        public static final int runs=0x7f060045;
+        public static final int result=0x7f06003e;
+        public static final int role=0x7f06002f;
+        public static final int runs=0x7f060046;
         /**  General 
          */
-        public static final int save_performance=0x7f060061;
-        public static final int save_profile=0x7f060034;
-        public static final int sixes=0x7f060049;
+        public static final int save_performance=0x7f060062;
+        public static final int save_profile=0x7f060035;
+        public static final int sixes=0x7f06004a;
         /**  Fielding 
          */
-        public static final int slip_catches=0x7f060055;
+        public static final int slip_catches=0x7f060056;
         /**  Bowling 
          */
-        public static final int spells=0x7f06004e;
-        public static final int state=0x7f060032;
-        public static final int stumpings=0x7f06005d;
-        public static final int time_spent=0x7f060047;
-        public static final int venue=0x7f06003a;
-        public static final int vs=0x7f060040;
-        public static final int wickets_left=0x7f060050;
-        public static final int wickets_right=0x7f060051;
-        public static final int wides=0x7f060054;
+        public static final int spells=0x7f06004f;
+        public static final int state=0x7f060033;
+        public static final int stumpings=0x7f06005e;
+        public static final int time_spent=0x7f060048;
+        public static final int venue=0x7f06003b;
+        public static final int vs=0x7f060041;
+        public static final int wickets_left=0x7f060051;
+        public static final int wickets_right=0x7f060052;
+        public static final int wides=0x7f060055;
     }
     public static final class style {
         /** 

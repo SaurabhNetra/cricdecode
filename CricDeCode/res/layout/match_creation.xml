@@ -41,7 +41,8 @@
             android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@color/abs__primary_text_holo_light" />
 
         <TextView
             android:id="@+id/lbl_opponent_team"
@@ -60,7 +61,8 @@
             android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@color/abs__primary_text_holo_light" />
 
         <TextView
             android:id="@+id/lbl_venue"
@@ -79,7 +81,8 @@
             android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@color/abs__primary_text_holo_light" />
 
         <Spinner
             android:id="@+id/over_limit"
@@ -105,7 +108,8 @@
             android:ems="3"
             android:imeOptions="actionNext"
             android:inputType="number"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@color/abs__primary_text_holo_light" />
 
         <TextView
             android:id="@+id/lbl_innings"

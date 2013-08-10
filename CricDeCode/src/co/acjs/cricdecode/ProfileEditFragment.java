@@ -72,7 +72,10 @@ public class ProfileEditFragment extends SherlockFragment {
 		profilePicturePath = savedInstanceState.getString("profilePicturePath");
 		if (!profilePicturePath.equals("")) {
 			BitmapWorkerTask task = new BitmapWorkerTask(profile_picture);
-			task.execute(profilePicturePath);
+			task.execute(
+					profilePicturePath,
+					getSherlockActivity().getResources().getString(
+							R.string.profile_picture_size_edit));
 		}
 		date_of_birth.setText(savedInstanceState.getString("date_of_birth"));
 		Log.d("Debug",
@@ -116,7 +119,10 @@ public class ProfileEditFragment extends SherlockFragment {
 			profilePicturePath = cursor.getString(columnIndex);
 			cursor.close();
 			BitmapWorkerTask task = new BitmapWorkerTask(profile_picture);
-			task.execute(profilePicturePath);
+			task.execute(
+					profilePicturePath,
+					getSherlockActivity().getResources().getString(
+							R.string.profile_picture_size_edit));
 		}
 
 	}
@@ -159,7 +165,7 @@ public class ProfileEditFragment extends SherlockFragment {
 		ProfileData.setName(getSherlockActivity(), name.getText().toString());
 		ProfileData.setNickname(getSherlockActivity(), nickname.getText()
 				.toString());
-		
+
 		String dob_str = date_of_birth.getText().toString();
 		ProfileData.setDateOfBirth(getSherlockActivity(), dob_str);
 		ProfileData.setRole(getSherlockActivity(), role.getSelectedItem()

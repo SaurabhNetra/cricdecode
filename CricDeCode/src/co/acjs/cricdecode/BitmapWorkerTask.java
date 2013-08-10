@@ -20,12 +20,13 @@ class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 	@Override
 	protected Bitmap doInBackground(String... params) {
 		picturePath = params[0];
+		int size = Integer.parseInt(params[1]);
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(picturePath, options);
 
 		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, 100, 100);
+		options.inSampleSize = calculateInSampleSize(options, size, size);
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;

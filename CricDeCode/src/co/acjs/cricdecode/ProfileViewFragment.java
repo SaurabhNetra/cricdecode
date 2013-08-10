@@ -38,7 +38,10 @@ public class ProfileViewFragment extends SherlockFragment {
 		if (!profilePicturePath.equals("")) {
 			BitmapWorkerTask task = new BitmapWorkerTask(
 					((ImageView) view.findViewById(R.id.profile_picture)));
-			task.execute(profilePicturePath);
+			task.execute(
+					profilePicturePath,
+					getSherlockActivity().getResources().getString(
+							R.string.profile_picture_size_view));
 		}
 		((TextView) view.findViewById(R.id.name)).setText(ProfileData.mPrefs
 				.getString("name", ""));
