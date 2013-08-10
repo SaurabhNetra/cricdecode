@@ -51,7 +51,7 @@ public class ProfileData {
 			editor.putString("nickname", nickname);
 			editor.commit();
 			s.release();
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -98,42 +98,6 @@ public class ProfileData {
 			s.acquire();
 			init(cont);
 			editor.putString("bowlingStyle", bowlingStyle);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setCity(Context cont, String city) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("city", city);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setState(Context cont, String state) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("state", state);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setCountry(Context cont, String country) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("country", country);
 			editor.commit();
 			s.release();
 		} catch (InterruptedException e) {

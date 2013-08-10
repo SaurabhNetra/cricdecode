@@ -55,11 +55,5 @@ public class ProfileViewFragment extends SherlockFragment {
 				.setText(ProfileData.mPrefs.getString("battingStyle", ""));
 		((TextView) view.findViewById(R.id.bowling_style))
 				.setText(ProfileData.mPrefs.getString("bowlingStyle", ""));
-		((TextView) view.findViewById(R.id.city)).setText(ProfileData.mPrefs
-				.getString("city", ""));
-		((TextView) view.findViewById(R.id.state)).setText(ProfileData.mPrefs
-				.getString("state", ""));
-		((TextView) view.findViewById(R.id.country)).setText(ProfileData.mPrefs
-				.getString("country", ""));
 	}
 }

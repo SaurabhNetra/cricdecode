@@ -26,7 +26,7 @@ public class ProfileEditFragment extends SherlockFragment {
 	// Declare Variables
 	String profilePicturePath;
 	ImageView profile_picture;
-	EditText name, nickname, city, state, country;
+	EditText name, nickname;
 	TextView date_of_birth;
 	Spinner role, batting_style, bowling_style;
 
@@ -63,9 +63,6 @@ public class ProfileEditFragment extends SherlockFragment {
 		role = (Spinner) view.findViewById(R.id.role);
 		batting_style = (Spinner) view.findViewById(R.id.batting_style);
 		bowling_style = (Spinner) view.findViewById(R.id.bowling_style);
-		city = (EditText) view.findViewById(R.id.city);
-		state = (EditText) view.findViewById(R.id.state);
-		country = (EditText) view.findViewById(R.id.country);
 	}
 
 	public void restoreInstanceState(Bundle savedInstanceState) {
@@ -81,9 +78,6 @@ public class ProfileEditFragment extends SherlockFragment {
 		Log.d("Debug",
 				"profilePicturePath " + profilePicturePath + " date_of_birth"
 						+ savedInstanceState.getString("date_of_birth"));
-		// role.setSelection(savedInstanceState.getInt("role"));
-		// batting_style.setSelection(savedInstanceState.getInt("batting_style"));
-		// bowling_style.setSelection(savedInstanceState.getInt("bowling_style"));
 	}
 
 	@Override
@@ -92,11 +86,6 @@ public class ProfileEditFragment extends SherlockFragment {
 		outState.putString("profilePicturePath", profilePicturePath);
 		outState.putString("date_of_birth", date_of_birth.getText().toString());
 		Log.d("Debug", "On Profile Saved Instance");
-		// outState.putInt("role", role.getSelectedItemPosition());
-		// outState.putInt("batting_style",
-		// batting_style.getSelectedItemPosition());
-		// outState.putInt("bowling_style",
-		// bowling_style.getSelectedItemPosition());
 	}
 
 	@Override
@@ -154,9 +143,6 @@ public class ProfileEditFragment extends SherlockFragment {
 				ProfileData.mPrefs.getString("battingStyle", ""));
 		selectFromSpinner(bowling_style,
 				ProfileData.mPrefs.getString("bowlingStyle", ""));
-		city.setText(ProfileData.mPrefs.getString("city", ""));
-		state.setText(ProfileData.mPrefs.getString("state", ""));
-		country.setText(ProfileData.mPrefs.getString("country", ""));
 	}
 
 	public void saveEditedProfile() {
@@ -174,10 +160,6 @@ public class ProfileEditFragment extends SherlockFragment {
 				.getSelectedItem().toString());
 		ProfileData.setBowlingStyle(getSherlockActivity(), bowling_style
 				.getSelectedItem().toString());
-		ProfileData.setCity(getSherlockActivity(), city.getText().toString());
-		ProfileData.setState(getSherlockActivity(), state.getText().toString());
-		ProfileData.setCountry(getSherlockActivity(), country.getText()
-				.toString());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

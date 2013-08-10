@@ -61,30 +61,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/bowling_style"
             android:padding="3dp" />
-
-        <TextView
-            android:id="@+id/city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/city"
-            android:padding="3dp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/state"
-            android:padding="3dp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/country"
-            android:padding="3dp"
-            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>
