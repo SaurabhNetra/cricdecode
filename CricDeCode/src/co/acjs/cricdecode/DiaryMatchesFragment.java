@@ -111,7 +111,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'", null,
-				null);
+				MatchDb.KEY_MATCH_DATE + " DESC");
 		return cursorLoader;
 	}
 
