@@ -25,10 +25,11 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 	// Filter Variables
 	List<String> my_team_list, my_team_list_selected, opponent_list,
-			opponent_list_selected;
+			opponent_list_selected, venue_list, venue_list_selected;
 
 	private SimpleCursorAdapter dataAdapter;
-	String myteam_whereClause = "", opponent_whereClause = "";
+	String myteam_whereClause = "", opponent_whereClause = "",
+			venue_whereClause = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +50,9 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 		opponent_list = new ArrayList<String>();
 		opponent_list_selected = new ArrayList<String>();
+
+		venue_list = new ArrayList<String>();
+		venue_list_selected = new ArrayList<String>();
 
 		fetchFromDb();
 	}
@@ -127,8 +131,9 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
-						+ myteam_whereClause + opponent_whereClause, null,
-				MatchDb.KEY_MATCH_DATE + " DESC");
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause, null, MatchDb.KEY_MATCH_DATE
+						+ " DESC");
 		return cursorLoader;
 	}
 
@@ -175,6 +180,20 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 			do {
 				opponent_list.add(c.getString(0));
 				opponent_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_VENUE + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				venue_list.add(c.getString(0));
+				venue_list_selected.add(c.getString(0));
 			} while (c.moveToNext());
 		}
 		c.close();

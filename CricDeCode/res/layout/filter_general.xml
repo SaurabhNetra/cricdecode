@@ -7,6 +7,7 @@
         android:id="@+id/lbl_my_team_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/my_team" />
 
     <co.acjs.cricdecode.MultiSelectSpinner
@@ -20,20 +21,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/my_team_list"
+        android:padding="10dp"
         android:text="@string/opponent_team" />
 
     <co.acjs.cricdecode.MultiSelectSpinner
         android:id="@+id/opponent_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/my_team_list"
         android:layout_below="@id/my_team_list"
         android:layout_toRightOf="@id/lbl_opponent_list" />
+
+    <TextView
+        android:id="@+id/lbl_venue_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opponent_list"
+        android:padding="10dp"
+        android:text="@string/venue" />
+
+    <co.acjs.cricdecode.MultiSelectSpinner
+        android:id="@+id/venue_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/opponent_list"
+        android:layout_below="@id/opponent_list"
+        android:layout_toRightOf="@id/lbl_venue_list" />
 
     <Button
         android:id="@+id/okay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/opponent_list"
+        android:layout_below="@id/venue_list"
+        android:layout_centerHorizontal="true"
         android:text="@string/okay" />
 
 </RelativeLayout>

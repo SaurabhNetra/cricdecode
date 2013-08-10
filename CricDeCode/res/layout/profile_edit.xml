@@ -61,30 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/bowling_style" />
-
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/city"
-            android:inputType="text"
-            android:padding="10dp" />
-
-        <EditText
-            android:id="@+id/state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/state"
-            android:inputType="text"
-            android:padding="10dp" />
-
-        <EditText
-            android:id="@+id/country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/country"
-            android:inputType="text"
-            android:padding="10dp" />
     </LinearLayout>
 
 </ScrollView>

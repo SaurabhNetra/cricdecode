@@ -265,6 +265,17 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			opponent_spinner.setSelection(0);
 
+			final MultiSelectSpinner venue_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.venue_list);
+			venue_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
+			venue_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected);
+			venue_spinner._proxyAdapter.clear();
+			venue_spinner._proxyAdapter.add(venue_spinner
+					.buildSelectedItemString());
+			venue_spinner.setSelection(0);
+
 			Button dialogButton = (Button) dialog.findViewById(R.id.okay);
 			// if button is clicked, close the custom dialog
 			dialogButton.setOnClickListener(new OnClickListener() {
@@ -296,6 +307,18 @@ public class MainActivity extends SherlockFragmentActivity {
 					} else {
 						DiaryMatchesFragment.diaryMatchesFragment.opponent_whereClause = " and "
 								+ MatchDb.KEY_OPPONENT_TEAM + " in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected = venue_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
+								+ MatchDb.KEY_VENUE + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
+								+ MatchDb.KEY_VENUE + " in('')";
 					}
 
 					DiaryMatchesFragment.diaryMatchesFragment
