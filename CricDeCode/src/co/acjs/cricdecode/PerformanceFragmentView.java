@@ -142,7 +142,8 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		innings = getArguments().getInt("innings");
 		Log.d("Debug", "innings " + innings);
 
-		inning_no = (Spinner) view.findViewById(R.id.inning_no);
+		inning_no = (Spinner) getSherlockActivity().getSupportActionBar()
+				.getCustomView().findViewById(R.id.inning_no);
 		ArrayAdapter<String> spinnerArrayAdapter;
 		if (innings == 1) {
 			spinnerArrayAdapter = new ArrayAdapter<String>(

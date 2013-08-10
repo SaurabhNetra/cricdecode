@@ -14,17 +14,6 @@
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <Spinner
-                    android:id="@+id/inning_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true" />
-            </RelativeLayout>
-
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"

@@ -291,6 +291,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		switch (position) {
 		case PROFILE_FRAGMENT:
 			Log.d("Debug", "Select Profile");
+			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new ProfileFragment());
 			} else {
@@ -298,6 +299,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case ONGOING_MATCHES_FRAGMENT:
+			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new OngoingMatchesFragment());
 			} else {
@@ -306,6 +308,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case DIARY_MATCHES_FRAGMENT:
+			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new DiaryMatchesFragment());
 			} else {
@@ -314,6 +317,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case MATCH_CREATION_FRAGMENT:
+			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new MatchCreationFragment());
 			} else {
@@ -322,6 +326,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_EDIT:
+			getSupportActionBar().setDisplayShowCustomEnabled(true);
+			getSupportActionBar().setCustomView(R.layout.innings_spinner);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentEdit());
 			} else {
@@ -330,6 +336,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_VIEW:
+			getSupportActionBar().setDisplayShowCustomEnabled(true);
+			getSupportActionBar().setCustomView(R.layout.innings_spinner);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentView());
 			} else {
