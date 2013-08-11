@@ -560,6 +560,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	public void onClick(View view) {
+		final Dialog dialog;
+		final View finalview;
 		switch (view.getId()) {
 		case R.id.date_of_birth:
 			showDatePicker(R.id.date_of_birth);
@@ -571,13 +573,101 @@ public class MainActivity extends SherlockFragmentActivity {
 			ProfileEditFragment.profileEditFragment.getProfilePicture();
 			break;
 		case R.id.add_to_career:
-			OngoingMatchesFragment.ongoingMatchesFragment.addToCareer(view);
+			dialog = new Dialog(this);
+			finalview = view;
+			dialog.setContentView(R.layout.dialog_confirmation);
+			dialog.setTitle("Add to Career");
+
+			TextView dialogText = (TextView) dialog
+					.findViewById(R.id.dialog_text);
+			dialogText
+					.setText("Are you sure you want to Add this Match to your Career?");
+
+			Button yes = (Button) dialog.findViewById(R.id.yes);
+			yes.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					OngoingMatchesFragment.ongoingMatchesFragment
+							.addToCareer(finalview);
+					dialog.dismiss();
+				}
+			});
+
+			Button no = (Button) dialog.findViewById(R.id.no);
+			no.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+
+			dialog.show();
+
 			break;
 		case R.id.delete_ongoing:
-			OngoingMatchesFragment.ongoingMatchesFragment.deleteMatch(view);
+			dialog = new Dialog(this);
+			finalview = view;
+			dialog.setContentView(R.layout.dialog_confirmation);
+			dialog.setTitle("Add to Career");
+
+			dialogText = (TextView) dialog.findViewById(R.id.dialog_text);
+			dialogText.setText("Are you sure you want to Delete this Match?");
+
+			yes = (Button) dialog.findViewById(R.id.yes);
+			yes.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					OngoingMatchesFragment.ongoingMatchesFragment
+							.deleteMatch(finalview);
+					dialog.dismiss();
+				}
+			});
+
+			no = (Button) dialog.findViewById(R.id.no);
+			no.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+
+			dialog.show();
 			break;
 		case R.id.delete_diary:
-			DiaryMatchesFragment.diaryMatchesFragment.deleteMatch(view);
+			dialog = new Dialog(this);
+			finalview = view;
+			dialog.setContentView(R.layout.dialog_confirmation);
+			dialog.setTitle("Add to Career");
+
+			dialogText = (TextView) dialog.findViewById(R.id.dialog_text);
+			dialogText
+					.setText("Are you sure you want to Delete this Match from your Career?");
+
+			yes = (Button) dialog.findViewById(R.id.yes);
+			yes.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					DiaryMatchesFragment.diaryMatchesFragment
+							.deleteMatch(finalview);
+					dialog.dismiss();
+				}
+			});
+
+			no = (Button) dialog.findViewById(R.id.no);
+			no.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+
+			dialog.show();
 			break;
 		default:
 			break;

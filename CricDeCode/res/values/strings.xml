@@ -203,4 +203,9 @@
     <string name="filter">Filter</string>
     <string name="okay">OK</string>
 
+    <!-- Confirmation Dialog -->
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 </resources>
