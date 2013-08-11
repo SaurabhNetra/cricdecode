@@ -610,7 +610,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			dialog = new Dialog(this);
 			finalview = view;
 			dialog.setContentView(R.layout.dialog_confirmation);
-			dialog.setTitle("Add to Career");
+			dialog.setTitle("Delete Match");
 
 			dialogText = (TextView) dialog.findViewById(R.id.dialog_text);
 			dialogText.setText("Are you sure you want to Delete this Match?");
@@ -641,7 +641,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			dialog = new Dialog(this);
 			finalview = view;
 			dialog.setContentView(R.layout.dialog_confirmation);
-			dialog.setTitle("Add to Career");
+			dialog.setTitle("Delete Match");
 
 			dialogText = (TextView) dialog.findViewById(R.id.dialog_text);
 			dialogText
