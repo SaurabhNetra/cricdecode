@@ -566,7 +566,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		case R.id.date_of_birth:
 			showDatePicker(R.id.date_of_birth);
 			break;
-		case R.id.date_of_match:
+		case R.id.date_of_match_row:
 			showDatePicker(R.id.date_of_match);
 			break;
 		case R.id.profile_picture:
