@@ -33,7 +33,7 @@ public class MatchCreationFragment extends SherlockFragment {
 	TextView date_of_match, lbl_overs;
 	AutoCompleteTextView myTeam, opponentTeam, venue, overs,
 			autoCompleteTextView;
-	Spinner innings, limited;
+	Spinner innings, limited, level;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +75,7 @@ public class MatchCreationFragment extends SherlockFragment {
 		opponentTeam = (AutoCompleteTextView) view
 				.findViewById(R.id.opponent_team);
 		venue = (AutoCompleteTextView) view.findViewById(R.id.venue);
+		level = (Spinner) view.findViewById(R.id.level);
 		limited = (Spinner) view.findViewById(R.id.over_limit);
 		lbl_overs = (TextView) view.findViewById(R.id.lbl_overs);
 		overs = (AutoCompleteTextView) view.findViewById(R.id.overs);
@@ -108,10 +109,13 @@ public class MatchCreationFragment extends SherlockFragment {
 		String myTeam_str = myTeam.getText().toString();
 		String opponentTeam_str = opponentTeam.getText().toString();
 		String venue_str = venue.getText().toString();
+		String level_str = level.getSelectedItem().toString();
 		String overs_str = overs.getText().toString();
 		String innings_str = innings.getSelectedItem().toString();
 		String result_str = "";
 		String review_str = "";
+		String first_action_str = "";
+		String duration_str = "";
 		int limited_int = limited.getSelectedItemPosition();
 
 		// check for blanks
@@ -171,10 +175,13 @@ public class MatchCreationFragment extends SherlockFragment {
 		values.put(MatchDb.KEY_MY_TEAM, myTeam_str);
 		values.put(MatchDb.KEY_OPPONENT_TEAM, opponentTeam_str);
 		values.put(MatchDb.KEY_VENUE, venue_str);
+		values.put(MatchDb.KEY_LEVEL, level_str);
 		values.put(MatchDb.KEY_OVERS, Integer.parseInt(overs_str));
 		values.put(MatchDb.KEY_INNINGS, Integer.parseInt(innings_str));
 		values.put(MatchDb.KEY_RESULT, result_str);
 		values.put(MatchDb.KEY_REVIEW, review_str);
+		values.put(MatchDb.KEY_DURATION, duration_str);
+		values.put(MatchDb.KEY_FIRST_ACTION, first_action_str);
 		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_CURRENT);
 
 		// insert a record

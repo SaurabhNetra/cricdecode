@@ -39,7 +39,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	private int match_id, innings, current_innings, current_position;
 
 	// General
-	private String result, review;
+	private String result, review, duration, first, my_team, opponent_team,
+			venue, level, date, match_overs;
 
 	// Batting
 	private int[] batting_no = { 1, 1 }, bat_runs, bat_balls, time_spent,
@@ -324,12 +325,29 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		c.close();
 		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
 				+ match_id);
-		c = getSherlockActivity().getContentResolver().query(uri,
-				new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW }, null,
+		c = getSherlockActivity().getContentResolver().query(
+				uri,
+				new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW,
+						MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
+						MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
+						MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL,
+						MatchDb.KEY_MATCH_DATE, MatchDb.KEY_OVERS }, null,
 				null, null);
 		c.moveToFirst();
 		result = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT));
 		review = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_REVIEW));
+		duration = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_DURATION));
+		first = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION));
+		my_team = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MY_TEAM));
+		opponent_team = c.getString(c
+				.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM));
+		venue = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_VENUE));
+		level = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_LEVEL));
+		date = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE));
+		match_overs = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_OVERS));
+		if (match_overs.equals("-1")) {
+			match_overs = "Unlimited";
+		}
 		c.close();
 	}
 
@@ -344,8 +362,16 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			current_innings = savedInstanceState.getInt("current_innings");
 			inning_no.setSelection(current_innings);
 
+			match_overs = savedInstanceState.getString("match_overs");
 			result = savedInstanceState.getString("result");
 			review = savedInstanceState.getString("review");
+			duration = savedInstanceState.getString("duration");
+			first = savedInstanceState.getString("first");
+			my_team = savedInstanceState.getString("my_team");
+			opponent_team = savedInstanceState.getString("opponent_team");
+			venue = savedInstanceState.getString("venue");
+			level = savedInstanceState.getString("level");
+			date = savedInstanceState.getString("date");
 
 			batting_no = savedInstanceState.getIntArray("batting_no");
 			bat_runs = savedInstanceState.getIntArray("bat_runs");
@@ -405,7 +431,15 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		saveInfo(mTabHost.getCurrentTab());
 
 		outState.putString("result", result);
+		outState.putString("match_overs", match_overs);
 		outState.putString("review", review);
+		outState.putString("duration", duration);
+		outState.putString("first", first);
+		outState.putString("my_team", my_team);
+		outState.putString("opponent_team", opponent_team);
+		outState.putString("venue", venue);
+		outState.putString("level", level);
+		outState.putString("date", date);
 
 		outState.putIntArray("batting_no", batting_no);
 		outState.putIntArray("bat_runs", bat_runs);
@@ -547,6 +581,22 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			result = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_result
 					.getSelectedItem().toString();
 			review = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_review
+					.getText().toString();
+			duration = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.duration
+					.getSelectedItem().toString();
+			first = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.first
+					.getSelectedItem().toString();
+			my_team = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.my_team
+					.getText().toString();
+			opponent_team = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.opponent_team
+					.getText().toString();
+			venue = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.venue
+					.getText().toString();
+			level = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.level
+					.getText().toString();
+			date = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.date
+					.getText().toString();
+			match_overs = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_overs
 					.getText().toString();
 			break;
 		case BATTING:
@@ -788,6 +838,26 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			spinner.setSelection(spinnerPosition);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_review
 					.setText(review);
+			spinner = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.duration;
+			myAdap = (ArrayAdapter) spinner.getAdapter();
+			spinnerPosition = myAdap.getPosition(duration);
+			spinner.setSelection(spinnerPosition);
+			spinner = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.first;
+			myAdap = (ArrayAdapter) spinner.getAdapter();
+			spinnerPosition = myAdap.getPosition(first);
+			spinner.setSelection(spinnerPosition);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.my_team
+					.setText(my_team);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.opponent_team
+					.setText(opponent_team);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.venue
+					.setText(venue);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.date
+					.setText(date);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.level
+					.setText(level);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_overs
+					.setText(match_overs);
 			break;
 		case BATTING:
 			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_no
@@ -880,6 +950,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		ContentValues matchvalues = new ContentValues();
 		matchvalues.put(MatchDb.KEY_RESULT, result);
 		matchvalues.put(MatchDb.KEY_REVIEW, review);
+		matchvalues.put(MatchDb.KEY_DURATION, duration);
+		matchvalues.put(MatchDb.KEY_FIRST_ACTION, first);
 
 		// update a record
 		getSherlockActivity().getContentResolver().update(uri, matchvalues,

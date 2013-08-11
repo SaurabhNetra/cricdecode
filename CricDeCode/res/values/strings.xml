@@ -71,14 +71,27 @@
     <string name="new_match">New Match</string>
     <string name="create_match">Create Match</string>
     <string name="vs">vs</string>
+    <string name="at">At</string>
     <string name="add_to_career">Add</string>
     <string name="delete">Del</string>
     <string name="match_result">Match Result</string>
     <string name="match_review">Match Review</string>
+    <string name="level">Level</string>
+    <string name="duration">Duration</string>
+    <string name="first">First</string>
 
     <string-array name="over_limit">
         <item>Limited Overs</item>
         <item>Unlimited Overs</item>
+    </string-array>
+    <string-array name="first">
+        <item>Batting</item>
+        <item>Fielding</item>
+    </string-array>
+    <string-array name="match_duration">
+        <item>Day</item>
+        <item>Night</item>
+        <item>Day and Night</item>
     </string-array>
     <string-array name="match_result">
         <item>Win</item>
@@ -101,6 +114,22 @@
         <item>50</item>
         <item>70</item>
         <item>90</item>
+    </string-array>
+    <string-array name="level">
+        <item>International</item>
+        <item>Zonal</item>
+        <item>State</item>
+        <item>Junior International</item>
+        <item>Junior Zonal</item>
+        <item>Junior State</item>
+        <item>Junior Local</item>
+        <item>Corporate</item>
+        <item>Club</item>
+        <item>University</item>
+        <item>College</item>
+        <item>School</item>
+        <item>Practice</item>
+        <item>Other Private</item>
     </string-array>
 
     <!-- Performance -->

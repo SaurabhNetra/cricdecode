@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -13,7 +14,8 @@ public class PerformanceGeneralFragmentEdit extends SherlockFragment {
 	static PerformanceGeneralFragmentEdit performanceGeneralFragmentEdit;
 
 	EditText match_review;
-	Spinner match_result;
+	TextView my_team, opponent_team, venue, date, level, match_overs;
+	Spinner match_result, duration, first;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +36,15 @@ public class PerformanceGeneralFragmentEdit extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		date = (TextView) view.findViewById(R.id.match_date);
+		my_team = (TextView) view.findViewById(R.id.my_team);
+		opponent_team = (TextView) view.findViewById(R.id.opponent_team);
+		venue = (TextView) view.findViewById(R.id.venue);
+		level = (TextView) view.findViewById(R.id.level);
 		match_review = (EditText) view.findViewById(R.id.match_review);
 		match_result = (Spinner) view.findViewById(R.id.match_result);
+		duration = (Spinner) view.findViewById(R.id.duration);
+		first = (Spinner) view.findViewById(R.id.first_action);
+		match_overs = (TextView) view.findViewById(R.id.overs);
 	}
 }

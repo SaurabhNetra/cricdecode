@@ -117,6 +117,28 @@
             android:layout_marginRight="10dip"
             android:background="#282828" />
 
+        <TextView
+            android:id="@+id/lbl_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/level" />
+
+        <Spinner
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:entries="@array/level" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
+
         <Spinner
             android:id="@+id/over_limit"
             android:layout_width="wrap_content"
