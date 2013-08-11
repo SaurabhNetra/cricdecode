@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/lbl_date"
@@ -18,17 +19,23 @@
             android:id="@+id/date_of_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/lbl_date"
             android:clickable="true"
             android:hint="@string/date_format"
             android:onClick="onClick"
-            android:padding="10dp" />
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
 
         <TextView
             android:id="@+id/lbl_my_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/date_of_match"
             android:padding="10dp"
             android:text="@string/my_team" />
 
@@ -36,19 +43,25 @@
             android:id="@+id/my_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/date_of_match"
-            android:layout_toRightOf="@id/lbl_my_team"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
+
         <TextView
             android:id="@+id/lbl_opponent_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/my_team"
             android:padding="10dp"
             android:text="@string/opponent_team" />
 
@@ -56,19 +69,25 @@
             android:id="@+id/opponent_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/my_team"
-            android:layout_toRightOf="@id/lbl_opponent_team"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
+
         <TextView
             android:id="@+id/lbl_venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/opponent_team"
             android:padding="10dp"
             android:text="@string/venue" />
 
@@ -76,26 +95,41 @@
             android:id="@+id/venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/opponent_team"
-            android:layout_toRightOf="@id/lbl_venue"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:minWidth="200dp"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
+
         <Spinner
             android:id="@+id/over_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/venue"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:entries="@array/over_limit" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
 
         <TextView
             android:id="@+id/lbl_overs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/over_limit"
             android:padding="10dp"
             android:text="@string/overs" />
 
@@ -103,19 +137,25 @@
             android:id="@+id/overs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/over_limit"
-            android:layout_toRightOf="@id/lbl_overs"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:ems="3"
             android:imeOptions="actionNext"
             android:inputType="number"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
+
         <TextView
             android:id="@+id/lbl_innings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/overs"
             android:padding="10dp"
             android:text="@string/innings" />
 
@@ -123,9 +163,9 @@
             android:id="@+id/innings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/overs"
-            android:layout_toRightOf="@id/lbl_innings"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:entries="@array/innings" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>

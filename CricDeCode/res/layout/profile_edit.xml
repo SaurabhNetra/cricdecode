@@ -4,24 +4,26 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingLeft="60dip" >
 
         <ImageView
             android:id="@+id/profile_picture"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginBottom="25dip"
+            android:layout_marginTop="25dip"
             android:clickable="true"
             android:contentDescription="@string/profile_picture"
             android:onClick="onClick"
-            android:padding="10dp"
             android:src="@drawable/photo" />
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="200dip"
             android:layout_height="wrap_content"
             android:hint="@string/name"
             android:inputType="text"
@@ -29,7 +31,7 @@
 
         <EditText
             android:id="@+id/nickname"
-            android:layout_width="wrap_content"
+            android:layout_width="200dip"
             android:layout_height="wrap_content"
             android:hint="@string/nickname"
             android:inputType="text"
@@ -46,19 +48,19 @@
 
         <Spinner
             android:id="@+id/role"
-            android:layout_width="wrap_content"
+            android:layout_width="170dip"
             android:layout_height="wrap_content"
             android:entries="@array/role" />
 
         <Spinner
             android:id="@+id/batting_style"
-            android:layout_width="wrap_content"
+            android:layout_width="170dip"
             android:layout_height="wrap_content"
             android:entries="@array/batting_style" />
 
         <Spinner
             android:id="@+id/bowling_style"
-            android:layout_width="wrap_content"
+            android:layout_width="170dip"
             android:layout_height="wrap_content"
             android:entries="@array/bowling_style" />
     </LinearLayout>
