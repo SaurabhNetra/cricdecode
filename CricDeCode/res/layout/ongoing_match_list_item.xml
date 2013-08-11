@@ -7,13 +7,21 @@
         android:id="@+id/_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/innings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/match_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="5dp" />
 
     <RelativeLayout
         android:id="@+id/match_data"
@@ -22,18 +30,9 @@
         android:layout_centerHorizontal="true" >
 
         <TextView
-            android:id="@+id/match_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/match_date"
-            android:padding="5dp" />
-
-        <TextView
             android:id="@+id/my_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/match_date"
-            android:hint="@string/my_team"
             android:padding="5dp" />
 
         <TextView
@@ -49,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/vs"
-            android:hint="@string/opponent_team"
             android:padding="5dp" />
     </RelativeLayout>
 
