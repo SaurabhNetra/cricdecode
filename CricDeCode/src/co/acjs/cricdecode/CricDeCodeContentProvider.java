@@ -146,7 +146,26 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	// physically then just update a flag here.
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		throw new IllegalArgumentException("Unsupported URI: " + uri);
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		String table_name, id;
+		int deleteCount;
+		switch (uriMatcher.match(uri)) {
+		case SINGLE_MATCH:
+			table_name = MatchDb.SQLITE_TABLE;
+			id = uri.getPathSegments().get(1);
+			selection = MatchDb.KEY_ROWID + "=" + id;
+			break;
+		case SINGLE_PERFORMANCE:
+			table_name = PerformanceDb.SQLITE_TABLE;
+			id = uri.getPathSegments().get(1);
+			selection = PerformanceDb.KEY_MATCHID + "=" + id;
+			break;
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
+		}
+		deleteCount = db.delete(table_name, selection, selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return deleteCount;
 	}
 
 	// The update method() is same as delete() which updates multiple rows

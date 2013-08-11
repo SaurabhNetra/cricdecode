@@ -72,6 +72,7 @@
     <string name="create_match">Create Match</string>
     <string name="vs">vs</string>
     <string name="add_to_career">Add to Career</string>
+    <string name="delete">Delete</string>
     <string name="match_result">Match Result</string>
     <string name="match_review">Match Review</string>
 

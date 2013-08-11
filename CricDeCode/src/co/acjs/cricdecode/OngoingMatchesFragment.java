@@ -138,7 +138,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	}
 
 	public void addToCareer(View view) {
-		RelativeLayout vwParentRow = (RelativeLayout) view.getParent();
+		RelativeLayout vwParentRow = (RelativeLayout) view.getParent()
+				.getParent();
 
 		TextView child = (TextView) vwParentRow.getChildAt(0);
 		String str = child.getText().toString();
@@ -169,5 +170,22 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
 					null, this);
 		}
+	}
+
+	public void deleteMatch(View view) {
+		RelativeLayout vwParentRow = (RelativeLayout) view.getParent()
+				.getParent();
+
+		TextView child = (TextView) vwParentRow.getChildAt(0);
+		String str = child.getText().toString();
+		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+				+ "/" + str);
+		getSherlockActivity().getContentResolver().delete(uri, null, null);
+		uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
+		getSherlockActivity().getContentResolver().delete(uri, null, null);
+
+		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,
+				this);
 	}
 }

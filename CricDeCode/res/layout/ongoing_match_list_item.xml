@@ -53,15 +53,30 @@
             android:padding="5dp" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/add_to_career"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/match_data"
-        android:layout_centerHorizontal="true"
-        android:focusable="false"
-        android:onClick="onClick"
-        android:text="@string/add_to_career" >
-    </Button>
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/add_to_career"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:onClick="onClick"
+            android:text="@string/add_to_career" >
+        </Button>
+
+        <Button
+            android:id="@+id/delete_ongoing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/add_to_career"
+            android:focusable="false"
+            android:onClick="onClick"
+            android:text="@string/delete" >
+        </Button>
+    </RelativeLayout>
 
 </RelativeLayout>

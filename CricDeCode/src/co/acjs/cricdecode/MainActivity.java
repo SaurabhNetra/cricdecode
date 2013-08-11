@@ -126,6 +126,16 @@ public class MainActivity extends SherlockFragmentActivity {
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
+			case DIARY_MATCHES_FRAGMENT:
+				DiaryMatchesFragment.diaryMatchesFragment = (DiaryMatchesFragment) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
+			case ONGOING_MATCHES_FRAGMENT:
+				OngoingMatchesFragment.ongoingMatchesFragment = (OngoingMatchesFragment) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
 			case PERFORMANCE_FRAGMENT_EDIT:
 				PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
@@ -276,6 +286,28 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			venue_spinner.setSelection(0);
 
+			final MultiSelectSpinner overs_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.overs_list);
+			overs_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
+			overs_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected);
+			overs_spinner._proxyAdapter.clear();
+			overs_spinner._proxyAdapter.add(overs_spinner
+					.buildSelectedItemString());
+			overs_spinner.setSelection(0);
+
+			final MultiSelectSpinner innings_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.innings_list);
+			innings_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
+			innings_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected);
+			innings_spinner._proxyAdapter.clear();
+			innings_spinner._proxyAdapter.add(innings_spinner
+					.buildSelectedItemString());
+			innings_spinner.setSelection(0);
+
 			Button dialogButton = (Button) dialog.findViewById(R.id.okay);
 			// if button is clicked, close the custom dialog
 			dialogButton.setOnClickListener(new OnClickListener() {
@@ -285,7 +317,9 @@ public class MainActivity extends SherlockFragmentActivity {
 					DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected = my_team_spinner
 							.getSelectedStrings();
 					String str = DiaryMatchesFragment.diaryMatchesFragment
-							.buildSelectedItemString(DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected);
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected,
+									false);
 					if (!str.equals("")) {
 						DiaryMatchesFragment.diaryMatchesFragment.myteam_whereClause = " and "
 								+ MatchDb.KEY_MY_TEAM + " in(" + str + ")";
@@ -297,7 +331,9 @@ public class MainActivity extends SherlockFragmentActivity {
 					DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected = opponent_spinner
 							.getSelectedStrings();
 					str = DiaryMatchesFragment.diaryMatchesFragment
-							.buildSelectedItemString(DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected);
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected,
+									false);
 					if (!str.equals("")) {
 						DiaryMatchesFragment.diaryMatchesFragment.opponent_whereClause = " and "
 								+ MatchDb.KEY_OPPONENT_TEAM
@@ -312,13 +348,43 @@ public class MainActivity extends SherlockFragmentActivity {
 					DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected = venue_spinner
 							.getSelectedStrings();
 					str = DiaryMatchesFragment.diaryMatchesFragment
-							.buildSelectedItemString(DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected);
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected,
+									false);
 					if (!str.equals("")) {
 						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
 								+ MatchDb.KEY_VENUE + " in(" + str + ")";
 					} else {
 						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
 								+ MatchDb.KEY_VENUE + " in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected = overs_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected,
+									true);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.overs_whereClause = " and "
+								+ MatchDb.KEY_OVERS + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.overs_whereClause = " and "
+								+ MatchDb.KEY_OVERS + " in(-2)";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected = innings_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected,
+									true);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.innings_whereClause = " and "
+								+ MatchDb.KEY_INNINGS + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.innings_whereClause = " and "
+								+ MatchDb.KEY_INNINGS + " in(-2)";
 					}
 
 					DiaryMatchesFragment.diaryMatchesFragment
@@ -506,6 +572,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case R.id.add_to_career:
 			OngoingMatchesFragment.ongoingMatchesFragment.addToCareer(view);
+			break;
+		case R.id.delete_ongoing:
+			OngoingMatchesFragment.ongoingMatchesFragment.deleteMatch(view);
+			break;
+		case R.id.delete_diary:
+			DiaryMatchesFragment.diaryMatchesFragment.deleteMatch(view);
 			break;
 		default:
 			break;

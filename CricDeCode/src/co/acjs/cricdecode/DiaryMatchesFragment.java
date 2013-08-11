@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -14,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -24,12 +27,15 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 	static DiaryMatchesFragment diaryMatchesFragment;
 
 	// Filter Variables
-	List<String> my_team_list, my_team_list_selected, opponent_list,
-			opponent_list_selected, venue_list, venue_list_selected;
+	ArrayList<String> my_team_list, my_team_list_selected, opponent_list,
+			opponent_list_selected, venue_list, venue_list_selected,
+			overs_list, overs_list_selected, innings_list,
+			innings_list_selected;
 
 	private SimpleCursorAdapter dataAdapter;
 	String myteam_whereClause = "", opponent_whereClause = "",
-			venue_whereClause = "";
+			venue_whereClause = "", overs_whereClause = "",
+			innings_whereClause = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,18 +49,95 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		if (savedInstanceState == null) {
+
+			my_team_list = new ArrayList<String>();
+			my_team_list_selected = new ArrayList<String>();
+
+			opponent_list = new ArrayList<String>();
+			opponent_list_selected = new ArrayList<String>();
+
+			venue_list = new ArrayList<String>();
+			venue_list_selected = new ArrayList<String>();
+
+			overs_list = new ArrayList<String>();
+			overs_list_selected = new ArrayList<String>();
+
+			innings_list = new ArrayList<String>();
+			innings_list_selected = new ArrayList<String>();
+
+			fetchFromDb();
+		} else {
+			my_team_list = savedInstanceState
+					.getStringArrayList("my_team_list");
+			my_team_list_selected = savedInstanceState
+					.getStringArrayList("my_team_list_selected");
+
+			opponent_list = savedInstanceState
+					.getStringArrayList("opponent_list");
+			opponent_list_selected = savedInstanceState
+					.getStringArrayList("opponent_list_selected");
+
+			venue_list = savedInstanceState.getStringArrayList("venue_list");
+			venue_list_selected = savedInstanceState
+					.getStringArrayList("venue_list_selected");
+
+			overs_list = savedInstanceState.getStringArrayList("overs_list");
+			overs_list_selected = savedInstanceState
+					.getStringArrayList("overs_list_selected");
+
+			innings_list = savedInstanceState
+					.getStringArrayList("innings_list");
+			innings_list_selected = savedInstanceState
+					.getStringArrayList("innings_list_selected");
+
+			myteam_whereClause = savedInstanceState
+					.getString("myteam_whereClause");
+			opponent_whereClause = savedInstanceState
+					.getString("opponent_whereClause");
+			venue_whereClause = savedInstanceState
+					.getString("venue_whereClause");
+			overs_whereClause = savedInstanceState
+					.getString("overs_whereClause");
+			innings_whereClause = savedInstanceState
+					.getString("innings_whereClause");
+
+			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
+					null, this);
+
+		}
 		displayListView(view);
+	}
 
-		my_team_list = new ArrayList<String>();
-		my_team_list_selected = new ArrayList<String>();
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putStringArrayList("my_team_list",
+				(ArrayList<String>) my_team_list);
+		outState.putStringArrayList("opponent_list",
+				(ArrayList<String>) opponent_list);
+		outState.putStringArrayList("venue_list",
+				(ArrayList<String>) venue_list);
+		outState.putStringArrayList("overs_list",
+				(ArrayList<String>) overs_list);
+		outState.putStringArrayList("innings_list",
+				(ArrayList<String>) innings_list);
+		outState.putStringArrayList("my_team_list_selected",
+				(ArrayList<String>) my_team_list_selected);
+		outState.putStringArrayList("opponent_list_selected",
+				(ArrayList<String>) opponent_list_selected);
+		outState.putStringArrayList("venue_list_selected",
+				(ArrayList<String>) venue_list_selected);
+		outState.putStringArrayList("overs_list_selected",
+				(ArrayList<String>) overs_list_selected);
+		outState.putStringArrayList("innings_list_selected",
+				(ArrayList<String>) innings_list_selected);
+		outState.putString("myteam_whereClause", myteam_whereClause);
+		outState.putString("opponent_whereClause", opponent_whereClause);
+		outState.putString("venue_whereClause", venue_whereClause);
+		outState.putString("overs_whereClause", overs_whereClause);
+		outState.putString("innings_whereClause", innings_whereClause);
 
-		opponent_list = new ArrayList<String>();
-		opponent_list_selected = new ArrayList<String>();
-
-		venue_list = new ArrayList<String>();
-		venue_list_selected = new ArrayList<String>();
-
-		fetchFromDb();
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -132,7 +215,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
 						+ myteam_whereClause + opponent_whereClause
-						+ venue_whereClause, null, MatchDb.KEY_MATCH_DATE
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause, null, MatchDb.KEY_MATCH_DATE
 						+ " DESC");
 		return cursorLoader;
 	}
@@ -197,15 +281,53 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 			} while (c.moveToNext());
 		}
 		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_OVERS + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				int temp = c.getInt(0);
+				if (temp == -1) {
+					overs_list.add("Unlimited");
+					overs_list_selected.add("Unlimited");
+				} else {
+					overs_list.add(c.getInt(0) + "");
+					overs_list_selected.add(c.getInt(0) + "");
+				}
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_INNINGS + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				innings_list.add(c.getInt(0) + "");
+				innings_list_selected.add(c.getInt(0) + "");
+			} while (c.moveToNext());
+		}
+		c.close();
 	}
 
-	String buildSelectedItemString(List<String> items) {
+	String buildSelectedItemString(List<String> items, boolean isInt) {
 		String[] _items = items.toArray(new String[items.size()]);
 		StringBuilder sb = new StringBuilder();
 		boolean foundOne = false;
 
 		for (int i = 0; i < _items.length; ++i) {
-			_items[i] = "'" + _items[i] + "'";
+			if (!isInt) {
+				_items[i] = "'" + _items[i] + "'";
+			} else if (_items[i].equals("Unlimited")) {
+				_items[i] = "-1";
+			}
 			if (foundOne) {
 				sb.append(", ");
 			}
@@ -217,4 +339,20 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		return sb.toString();
 	}
 
+	public void deleteMatch(View view) {
+		RelativeLayout vwParentRow = (RelativeLayout) view.getParent()
+				.getParent();
+
+		TextView child = (TextView) vwParentRow.getChildAt(0);
+		String str = child.getText().toString();
+		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+				+ "/" + str);
+		getSherlockActivity().getContentResolver().delete(uri, null, null);
+		uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
+		getSherlockActivity().getContentResolver().delete(uri, null, null);
+
+		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,
+				this);
+	}
 }

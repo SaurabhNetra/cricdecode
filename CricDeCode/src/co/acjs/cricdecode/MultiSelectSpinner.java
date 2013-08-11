@@ -1,8 +1,7 @@
 package co.acjs.cricdecode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -109,7 +108,7 @@ public class MultiSelectSpinner extends Spinner implements
 	 * 
 	 * @param items
 	 */
-	public void setItems(List<String> items) {
+	public void setItems(ArrayList<String> items) {
 		_items = items.toArray(new String[items.size()]);
 		_selection = new boolean[_items.length];
 
@@ -136,7 +135,7 @@ public class MultiSelectSpinner extends Spinner implements
 	 * 
 	 * @param selection
 	 */
-	public void setSelection(List<String> selection) {
+	public void setSelection(ArrayList<String> selection) {
 		for (String sel : selection) {
 			for (int j = 0; j < _items.length; ++j) {
 				if (_items[j].equals(sel)) {
@@ -167,8 +166,8 @@ public class MultiSelectSpinner extends Spinner implements
 	 * 
 	 * @return
 	 */
-	public List<String> getSelectedStrings() {
-		List<String> selection = new LinkedList<String>();
+	public ArrayList<String> getSelectedStrings() {
+		ArrayList<String> selection = new ArrayList<String>();
 		for (int i = 0; i < _items.length; ++i) {
 			if (_selection[i]) {
 				selection.add(_items[i]);
@@ -182,8 +181,8 @@ public class MultiSelectSpinner extends Spinner implements
 	 * 
 	 * @return
 	 */
-	public List<Integer> getSelectedIndicies() {
-		List<Integer> selection = new LinkedList<Integer>();
+	public ArrayList<Integer> getSelectedIndicies() {
+		ArrayList<Integer> selection = new ArrayList<Integer>();
 		for (int i = 0; i < _items.length; ++i) {
 			if (_selection[i]) {
 				selection.add(i);
@@ -209,6 +208,7 @@ public class MultiSelectSpinner extends Spinner implements
 				foundOne = true;
 
 				sb.append(_items[i]);
+
 			}
 		}
 
