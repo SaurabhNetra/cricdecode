@@ -32,13 +32,15 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 			overs_list, overs_list_selected, innings_list,
 			innings_list_selected, level_list, level_list_selected,
 			duration_list, duration_list_selected, first_list,
-			first_list_selected;
+			first_list_selected, season_list, season_list_selected,
+			result_list, result_list_selected;
 
 	private SimpleCursorAdapter dataAdapter;
 	String myteam_whereClause = "", opponent_whereClause = "",
 			venue_whereClause = "", overs_whereClause = "",
 			innings_whereClause = "", level_whereClause = "",
-			duration_whereClause = "", first_whereClause = "";
+			duration_whereClause = "", first_whereClause = "",
+			season_whereClause = "", result_whereClause = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,9 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		super.onViewCreated(view, savedInstanceState);
 		if (savedInstanceState == null) {
 
+			season_list = new ArrayList<String>();
+			season_list_selected = new ArrayList<String>();
+
 			my_team_list = new ArrayList<String>();
 			my_team_list_selected = new ArrayList<String>();
 
@@ -62,6 +67,9 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 			venue_list = new ArrayList<String>();
 			venue_list_selected = new ArrayList<String>();
+
+			result_list = new ArrayList<String>();
+			result_list_selected = new ArrayList<String>();
 
 			level_list = new ArrayList<String>();
 			level_list_selected = new ArrayList<String>();
@@ -80,6 +88,11 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 			fetchFromDb();
 		} else {
+
+			season_list = savedInstanceState.getStringArrayList("season_list");
+			season_list_selected = savedInstanceState
+					.getStringArrayList("season_list_selected");
+
 			my_team_list = savedInstanceState
 					.getStringArrayList("my_team_list");
 			my_team_list_selected = savedInstanceState
@@ -93,6 +106,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 			venue_list = savedInstanceState.getStringArrayList("venue_list");
 			venue_list_selected = savedInstanceState
 					.getStringArrayList("venue_list_selected");
+
+			result_list = savedInstanceState.getStringArrayList("result_list");
+			result_list_selected = savedInstanceState
+					.getStringArrayList("result_list_selected");
 
 			level_list = savedInstanceState.getStringArrayList("level_list");
 			level_list_selected = savedInstanceState
@@ -132,6 +149,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 					.getString("duration_whereClause");
 			first_whereClause = savedInstanceState
 					.getString("first_whereClause");
+			season_whereClause = savedInstanceState
+					.getString("season_whereClause");
+			result_whereClause = savedInstanceState
+					.getString("result_whereClause");
 
 			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
 					null, this);
@@ -142,6 +163,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		outState.putStringArrayList("season_list",
+				(ArrayList<String>) season_list);
+		outState.putStringArrayList("result_list",
+				(ArrayList<String>) result_list);
 		outState.putStringArrayList("my_team_list",
 				(ArrayList<String>) my_team_list);
 		outState.putStringArrayList("opponent_list",
@@ -158,6 +183,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 				(ArrayList<String>) duration_list);
 		outState.putStringArrayList("first_list",
 				(ArrayList<String>) first_list);
+		outState.putStringArrayList("season_list_selected",
+				(ArrayList<String>) season_list_selected);
+		outState.putStringArrayList("result_list_selected",
+				(ArrayList<String>) result_list_selected);
 		outState.putStringArrayList("my_team_list_selected",
 				(ArrayList<String>) my_team_list_selected);
 		outState.putStringArrayList("opponent_list_selected",
@@ -182,6 +211,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		outState.putString("innings_whereClause", innings_whereClause);
 		outState.putString("duration_whereClause", duration_whereClause);
 		outState.putString("first_whereClause", first_whereClause);
+		outState.putString("season_whereClause", season_whereClause);
+		outState.putString("result_whereClause", result_whereClause);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -262,7 +293,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 						+ myteam_whereClause + opponent_whereClause
 						+ venue_whereClause + overs_whereClause
 						+ innings_whereClause + level_whereClause
-						+ duration_whereClause + first_whereClause, null,
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause, null,
 				MatchDb.KEY_MATCH_DATE + " DESC");
 		return cursorLoader;
 	}
@@ -286,11 +318,26 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 	public void fetchFromDb() {
 
-		Cursor c = MainActivity.dbHandle.rawQuery("select distinct "
+		Cursor c = MainActivity.dbHandle.rawQuery(
+				"select distinct strftime('%Y'," + MatchDb.KEY_MATCH_DATE
+						+ ") as _id from " + MatchDb.SQLITE_TABLE + " where "
+						+ MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+						+ "'", null);
+		int count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				season_list.add(c.getString(0));
+				season_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
 				+ MatchDb.KEY_MY_TEAM + " as _id from " + MatchDb.SQLITE_TABLE
 				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
 				+ "'", null);
-		int count = c.getCount();
+		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
 			do {
@@ -324,6 +371,20 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 			do {
 				venue_list.add(c.getString(0));
 				venue_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_RESULT + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				result_list.add(c.getString(0));
+				result_list_selected.add(c.getString(0));
 			} while (c.moveToNext());
 		}
 		c.close();

@@ -8,9 +8,23 @@
         android:layout_height="wrap_content" >
 
         <TextView
+            android:id="@+id/lbl_season_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/season" />
+
+        <co.acjs.cricdecode.MultiSelectSpinner
+            android:id="@+id/season_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lbl_season_list" />
+
+        <TextView
             android:id="@+id/lbl_my_team_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/season_list"
             android:padding="10dp"
             android:text="@string/my_team" />
 
@@ -18,6 +32,8 @@
             android:id="@+id/my_team_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="@id/season_list"
+            android:layout_below="@id/season_list"
             android:layout_toRightOf="@id/lbl_my_team_list" />
 
         <TextView
@@ -53,10 +69,26 @@
             android:layout_toRightOf="@id/lbl_venue_list" />
 
         <TextView
-            android:id="@+id/lbl_level_list"
+            android:id="@+id/lbl_result_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/venue_list"
+            android:padding="10dp"
+            android:text="@string/result" />
+
+        <co.acjs.cricdecode.MultiSelectSpinner
+            android:id="@+id/result_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/venue_list"
+            android:layout_below="@id/venue_list"
+            android:layout_toRightOf="@id/lbl_result_list" />
+
+        <TextView
+            android:id="@+id/lbl_level_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/result_list"
             android:padding="10dp"
             android:text="@string/level" />
 
@@ -64,8 +96,8 @@
             android:id="@+id/level_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/venue_list"
-            android:layout_below="@id/venue_list"
+            android:layout_alignLeft="@id/result_list"
+            android:layout_below="@id/result_list"
             android:layout_toRightOf="@id/lbl_level_list" />
 
         <TextView

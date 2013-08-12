@@ -253,6 +253,17 @@ public class MainActivity extends SherlockFragmentActivity {
 			dialog.setContentView(R.layout.filter_general);
 			dialog.setTitle("Filter");
 
+			final MultiSelectSpinner season_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.season_list);
+			season_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.season_list);
+			season_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.season_list_selected);
+			season_spinner._proxyAdapter.clear();
+			season_spinner._proxyAdapter.add(season_spinner
+					.buildSelectedItemString());
+			season_spinner.setSelection(0);
+
 			final MultiSelectSpinner my_team_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.my_team_list);
 			my_team_spinner
@@ -285,6 +296,17 @@ public class MainActivity extends SherlockFragmentActivity {
 			venue_spinner._proxyAdapter.add(venue_spinner
 					.buildSelectedItemString());
 			venue_spinner.setSelection(0);
+
+			final MultiSelectSpinner result_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.result_list);
+			result_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.result_list);
+			result_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.result_list_selected);
+			result_spinner._proxyAdapter.clear();
+			result_spinner._proxyAdapter.add(result_spinner
+					.buildSelectedItemString());
+			result_spinner.setSelection(0);
 
 			final MultiSelectSpinner level_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.level_list);
@@ -347,9 +369,23 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 
-					DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected = my_team_spinner
+					DiaryMatchesFragment.diaryMatchesFragment.season_list_selected = season_spinner
 							.getSelectedStrings();
 					String str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.season_list_selected,
+									false);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.season_whereClause = " and strftime('%Y',"
+								+ MatchDb.KEY_MATCH_DATE + ") in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.season_whereClause = " and strftime('%Y',"
+								+ MatchDb.KEY_MATCH_DATE + ") in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected = my_team_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
 							.buildSelectedItemString(
 									DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected,
 									false);
@@ -390,6 +426,20 @@ public class MainActivity extends SherlockFragmentActivity {
 					} else {
 						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
 								+ MatchDb.KEY_VENUE + " in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.result_list_selected = result_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.result_list_selected,
+									false);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.result_whereClause = " and "
+								+ MatchDb.KEY_RESULT + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.result_whereClause = " and "
+								+ MatchDb.KEY_RESULT + " in('')";
 					}
 
 					DiaryMatchesFragment.diaryMatchesFragment.level_list_selected = level_spinner
