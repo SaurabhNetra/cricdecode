@@ -115,9 +115,21 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		bat_fours = new int[2];
 		bat_sixes = new int[2];
 		lives = new int[2];
-		how_out = new String[2];
-		bowler_type = new String[2];
-		fielding_pos = new String[2];
+		how_out = new String[] {
+				getSherlockActivity().getResources().getStringArray(
+						R.array.how_out)[0],
+				getSherlockActivity().getResources().getStringArray(
+						R.array.how_out)[0] };
+		bowler_type = new String[] {
+				getSherlockActivity().getResources().getStringArray(
+						R.array.bowling_style)[0],
+				getSherlockActivity().getResources().getStringArray(
+						R.array.bowling_style)[0] };
+		fielding_pos = new String[] {
+				getSherlockActivity().getResources().getStringArray(
+						R.array.fielding_pos)[0],
+				getSherlockActivity().getResources().getStringArray(
+						R.array.fielding_pos)[0] };
 
 		overs = new float[2];
 		spells = new int[2];

@@ -8,9 +8,127 @@
         android:layout_height="wrap_content" >
 
         <TextView
+            android:id="@+id/match_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/match_date"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/my_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/match_date"
+            android:hint="@string/my_team"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/vs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/my_team"
+            android:padding="10dp"
+            android:text="@string/vs" />
+
+        <TextView
+            android:id="@+id/opponent_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/vs"
+            android:hint="@string/opponent_team"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_team"
+            android:padding="10dp"
+            android:text="@string/at" />
+
+        <TextView
+            android:id="@+id/venue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_team"
+            android:layout_toRightOf="@id/at"
+            android:hint="@string/venue"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_team"
+            android:layout_toRightOf="@id/venue"
+            android:hint="@string/level"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_team"
+            android:layout_toRightOf="@id/level"
+            android:padding="10dp"
+            android:text="@string/level" />
+
+        <TextView
+            android:id="@+id/overs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/venue"
+            android:hint="@string/overs"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/overs_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/venue"
+            android:layout_toRightOf="@id/overs"
+            android:padding="10dp"
+            android:text="@string/overs" />
+
+        <TextView
+            android:id="@+id/lbl_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overs"
+            android:padding="10dp"
+            android:text="@string/duration" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overs"
+            android:layout_toRightOf="@id/lbl_duration"
+            android:hint="@string/duration"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_first_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duration"
+            android:padding="10dp"
+            android:text="@string/first" />
+
+        <TextView
+            android:id="@+id/first_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duration"
+            android:layout_toRightOf="@id/lbl_first_action"
+            android:hint="@string/first"
+            android:padding="10dp" />
+
+        <TextView
             android:id="@+id/lbl_match_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/first_action"
             android:padding="10dp"
             android:text="@string/match_result" />
 
@@ -18,6 +136,7 @@
             android:id="@+id/match_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/first_action"
             android:layout_toRightOf="@id/lbl_match_result"
             android:padding="10dp" />
 

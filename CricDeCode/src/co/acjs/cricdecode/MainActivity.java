@@ -286,6 +286,17 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			venue_spinner.setSelection(0);
 
+			final MultiSelectSpinner level_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.level_list);
+			level_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.level_list);
+			level_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.level_list_selected);
+			level_spinner._proxyAdapter.clear();
+			level_spinner._proxyAdapter.add(level_spinner
+					.buildSelectedItemString());
+			level_spinner.setSelection(0);
+
 			final MultiSelectSpinner overs_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.overs_list);
 			overs_spinner
@@ -307,6 +318,28 @@ public class MainActivity extends SherlockFragmentActivity {
 			innings_spinner._proxyAdapter.add(innings_spinner
 					.buildSelectedItemString());
 			innings_spinner.setSelection(0);
+
+			final MultiSelectSpinner duration_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.duration_list);
+			duration_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
+			duration_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected);
+			duration_spinner._proxyAdapter.clear();
+			duration_spinner._proxyAdapter.add(duration_spinner
+					.buildSelectedItemString());
+			duration_spinner.setSelection(0);
+
+			final MultiSelectSpinner first_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.first_list);
+			first_spinner
+					.setItems(DiaryMatchesFragment.diaryMatchesFragment.first_list);
+			first_spinner
+					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.first_list_selected);
+			first_spinner._proxyAdapter.clear();
+			first_spinner._proxyAdapter.add(first_spinner
+					.buildSelectedItemString());
+			first_spinner.setSelection(0);
 
 			Button dialogButton = (Button) dialog.findViewById(R.id.okay);
 			// if button is clicked, close the custom dialog
@@ -359,6 +392,20 @@ public class MainActivity extends SherlockFragmentActivity {
 								+ MatchDb.KEY_VENUE + " in('')";
 					}
 
+					DiaryMatchesFragment.diaryMatchesFragment.level_list_selected = level_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.level_list_selected,
+									false);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.level_whereClause = " and "
+								+ MatchDb.KEY_LEVEL + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.level_whereClause = " and "
+								+ MatchDb.KEY_LEVEL + " in('')";
+					}
+
 					DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected = overs_spinner
 							.getSelectedStrings();
 					str = DiaryMatchesFragment.diaryMatchesFragment
@@ -385,6 +432,34 @@ public class MainActivity extends SherlockFragmentActivity {
 					} else {
 						DiaryMatchesFragment.diaryMatchesFragment.innings_whereClause = " and "
 								+ MatchDb.KEY_INNINGS + " in(-2)";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected = duration_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected,
+									false);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.duration_whereClause = " and "
+								+ MatchDb.KEY_DURATION + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.duration_whereClause = " and "
+								+ MatchDb.KEY_DURATION + " in('')";
+					}
+
+					DiaryMatchesFragment.diaryMatchesFragment.first_list_selected = first_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.diaryMatchesFragment
+							.buildSelectedItemString(
+									DiaryMatchesFragment.diaryMatchesFragment.first_list_selected,
+									false);
+					if (!str.equals("")) {
+						DiaryMatchesFragment.diaryMatchesFragment.first_whereClause = " and "
+								+ MatchDb.KEY_FIRST_ACTION + " in(" + str + ")";
+					} else {
+						DiaryMatchesFragment.diaryMatchesFragment.first_whereClause = " and "
+								+ MatchDb.KEY_FIRST_ACTION + " in('')";
 					}
 
 					DiaryMatchesFragment.diaryMatchesFragment
