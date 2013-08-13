@@ -1092,9 +1092,10 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020089;
         public static final int common_signin_btn_text_pressed_light=0x7f02008a;
         public static final int drawer_shadow=0x7f02008b;
-        public static final int ic_drawer=0x7f02008c;
-        public static final int ic_launcher=0x7f02008d;
-        public static final int photo=0x7f02008e;
+        public static final int ic_actionbar=0x7f02008c;
+        public static final int ic_drawer=0x7f02008d;
+        public static final int ic_launcher=0x7f02008e;
+        public static final int photo=0x7f02008f;
     }
     public static final class id {
         public static final int _id=0x7f05003a;
