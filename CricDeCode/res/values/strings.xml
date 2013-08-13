@@ -238,4 +238,35 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <!-- Career -->
+
+
+    <!-- General -->
+    <string name="matches">Matches</string>
+    <string name="wins">Wins</string>
+    <string name="win_per">Win %</string>
+    <string name="losses">Losses</string>
+    <string name="ties">Ties</string>
+    <string name="no_result">No Result</string>
+
+    <!-- Batting -->
+    <string name="not_outs">Not Outs</string>
+    <string name="highest">Highest</string>
+    <string name="average">Average</string>
+    <string name="strike_rate">Strike Rate</string>
+    <string name="fifties">50s</string>
+    <string name="hundreds">100s</string>
+
+    <!-- Bowling -->
+    <string name="wickets">Wickets</string>
+    <string name="economy_rate">Economy Rate</string>
+    <string name="fwi">5 Wicket Innings</string>
+    <string name="twm">10 Wicket Matches</string>
+    <string name="bbi">Best Inning Figures</string>
+    <string name="bbm">Best Match Figures</string>
+
+    <!-- Fielding -->
+    <string name="catches">Catches</string>
+    <string name="runouts">Run Outs</string>
+
 </resources>

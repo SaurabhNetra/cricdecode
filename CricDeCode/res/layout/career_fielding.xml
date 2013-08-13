@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lbl_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/catches" />
+
+        <TextView
+            android:id="@+id/catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lbl_catches"
+            android:hint="@string/catches"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_slip_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/catches"
+            android:padding="10dp"
+            android:text="@string/slip_catches" />
+
+        <TextView
+            android:id="@+id/slip_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/catches"
+            android:layout_toRightOf="@id/lbl_slip_catches"
+            android:hint="@string/slip_catches"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_close_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/slip_catches"
+            android:padding="10dp"
+            android:text="@string/close_catches" />
+
+        <TextView
+            android:id="@+id/close_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/slip_catches"
+            android:layout_toRightOf="@id/lbl_close_catches"
+            android:hint="@string/close_catches"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_circle_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/close_catches"
+            android:padding="10dp"
+            android:text="@string/circle_catches" />
+
+        <TextView
+            android:id="@+id/circle_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/close_catches"
+            android:layout_toRightOf="@id/lbl_circle_catches"
+            android:hint="@string/circle_catches"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_deep_catches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_catches"
+            android:padding="10dp"
+            android:text="@string/deep_catches" />
+
+        <TextView
+            android:id="@+id/deep_catches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_catches"
+            android:layout_toRightOf="@id/lbl_deep_catches"
+            android:hint="@string/deep_catches"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_runouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deep_catches"
+            android:padding="10dp"
+            android:text="@string/runouts" />
+
+        <TextView
+            android:id="@+id/runouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deep_catches"
+            android:layout_toRightOf="@id/lbl_runouts"
+            android:hint="@string/runouts"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_circle_runouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/runouts"
+            android:padding="10dp"
+            android:text="@string/circle_runouts" />
+
+        <TextView
+            android:id="@+id/circle_runouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/runouts"
+            android:layout_toRightOf="@id/lbl_circle_runouts"
+            android:hint="@string/circle_runouts"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_circle_runouts_direct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_runouts"
+            android:padding="10dp"
+            android:text="@string/circle_runouts_direct" />
+
+        <TextView
+            android:id="@+id/circle_runouts_direct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_runouts"
+            android:layout_toRightOf="@id/lbl_circle_runouts_direct"
+            android:hint="@string/circle_runouts_direct"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_deep_runouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_runouts_direct"
+            android:padding="10dp"
+            android:text="@string/deep_runouts" />
+
+        <TextView
+            android:id="@+id/deep_runouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/circle_runouts_direct"
+            android:layout_toRightOf="@id/lbl_deep_runouts"
+            android:hint="@string/deep_runouts"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_deep_runouts_direct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deep_runouts"
+            android:padding="10dp"
+            android:text="@string/deep_runouts_direct" />
+
+        <TextView
+            android:id="@+id/deep_runouts_direct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deep_runouts"
+            android:layout_toRightOf="@id/lbl_deep_runouts_direct"
+            android:hint="@string/deep_runouts_direct"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_stumpings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deep_runouts_direct"
+            android:padding="10dp"
+            android:text="@string/stumpings" />
+
+        <TextView
+            android:id="@+id/stumpings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deep_runouts_direct"
+            android:layout_toRightOf="@id/lbl_stumpings"
+            android:hint="@string/stumpings"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_byes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stumpings"
+            android:padding="10dp"
+            android:text="@string/byes" />
+
+        <TextView
+            android:id="@+id/byes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stumpings"
+            android:layout_toRightOf="@id/lbl_byes"
+            android:hint="@string/byes"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_misfields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/byes"
+            android:padding="10dp"
+            android:text="@string/misfields" />
+
+        <TextView
+            android:id="@+id/misfields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/byes"
+            android:layout_toRightOf="@id/lbl_misfields"
+            android:hint="@string/misfields"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_catches_dropped_fielding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/misfields"
+            android:padding="10dp"
+            android:text="@string/catches_dropped_fielding" />
+
+        <TextView
+            android:id="@+id/catches_dropped_fielding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/misfields"
+            android:layout_toRightOf="@id/lbl_catches_dropped_fielding"
+            android:hint="@string/catches_dropped_fielding"
+            android:padding="10dp" />
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lbl_matches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/matches" />
+
+        <TextView
+            android:id="@+id/matches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lbl_matches"
+            android:hint="@string/matches"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_wins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matches"
+            android:padding="10dp"
+            android:text="@string/wins" />
+
+        <TextView
+            android:id="@+id/wins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/matches"
+            android:layout_toRightOf="@id/lbl_wins"
+            android:hint="@string/wins"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_losses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wins"
+            android:padding="10dp"
+            android:text="@string/losses" />
+
+        <TextView
+            android:id="@+id/losses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wins"
+            android:layout_toRightOf="@id/lbl_losses"
+            android:hint="@string/losses"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_ties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/losses"
+            android:padding="10dp"
+            android:text="@string/ties" />
+
+        <TextView
+            android:id="@+id/ties"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/losses"
+            android:layout_toRightOf="@id/lbl_ties"
+            android:hint="@string/ties"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_no_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ties"
+            android:padding="10dp"
+            android:text="@string/no_result" />
+
+        <TextView
+            android:id="@+id/no_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ties"
+            android:layout_toRightOf="@id/lbl_no_result"
+            android:hint="@string/no_result"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/lbl_win_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/no_result"
+            android:padding="10dp"
+            android:text="@string/win_per" />
+
+        <TextView
+            android:id="@+id/win_per"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/no_result"
+            android:layout_toRightOf="@id/lbl_win_per"
+            android:hint="@string/win_per"
+            android:padding="10dp" />
+    </RelativeLayout>
+
+</ScrollView>
