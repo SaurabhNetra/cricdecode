@@ -41,9 +41,10 @@ public class MainActivity extends SherlockFragmentActivity {
 	static ContentProviderClient client;
 
 	// Declare Constants
-	static final int PROFILE_FRAGMENT = 0, DIARY_MATCHES_FRAGMENT = 2,
-			ONGOING_MATCHES_FRAGMENT = 3, MATCH_CREATION_FRAGMENT = 4,
-			PERFORMANCE_FRAGMENT_EDIT = 5, PERFORMANCE_FRAGMENT_VIEW = 6;
+	static final int PROFILE_FRAGMENT = 0, CAREER_FRAGMENT = 1,
+			DIARY_MATCHES_FRAGMENT = 2, ONGOING_MATCHES_FRAGMENT = 3,
+			MATCH_CREATION_FRAGMENT = 4, PERFORMANCE_FRAGMENT_EDIT = 5,
+			PERFORMANCE_FRAGMENT_VIEW = 6;
 
 	static {
 		Log.d("Debug", "Static Initializer");
@@ -118,6 +119,11 @@ public class MainActivity extends SherlockFragmentActivity {
 			switch (currentFragment) {
 			case PROFILE_FRAGMENT:
 				ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
+						.getFragment(savedInstanceState,
+								"currentFragmentInstance");
+				break;
+			case CAREER_FRAGMENT:
+				CareerFragment.careerFragment = (CareerFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
@@ -564,6 +570,14 @@ public class MainActivity extends SherlockFragmentActivity {
 				ft.replace(R.id.content_frame, ProfileFragment.profileFragment);
 			}
 			break;
+		case CAREER_FRAGMENT:
+			getSupportActionBar().setDisplayShowCustomEnabled(false);
+			if (newInstance) {
+				ft.replace(R.id.content_frame, new CareerFragment());
+			} else {
+				ft.replace(R.id.content_frame, CareerFragment.careerFragment);
+			}
+			break;
 		case ONGOING_MATCHES_FRAGMENT:
 			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
@@ -644,6 +658,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		case PROFILE_FRAGMENT:
 			getSupportFragmentManager().putFragment(outState,
 					"currentFragmentInstance", ProfileFragment.profileFragment);
+			break;
+		case CAREER_FRAGMENT:
+			getSupportFragmentManager().putFragment(outState,
+					"currentFragmentInstance", CareerFragment.careerFragment);
 			break;
 		case ONGOING_MATCHES_FRAGMENT:
 			getSupportFragmentManager().putFragment(outState,

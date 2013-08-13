@@ -159,27 +159,10 @@
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/lbl_time_spent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/catches_dropped_bowling"
-            android:padding="10dp"
-            android:text="@string/time_spent" />
-
-        <TextView
-            android:id="@+id/time_spent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/catches_dropped_bowling"
-            android:layout_toRightOf="@id/lbl_time_spent"
-            android:hint="@string/time_spent"
-            android:padding="10dp" />
-
-        <TextView
             android:id="@+id/lbl_economy_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/time_spent"
+            android:layout_below="@id/catches_dropped_bowling"
             android:padding="10dp"
             android:text="@string/economy_rate" />
 
@@ -187,7 +170,7 @@
             android:id="@+id/economy_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/time_spent"
+            android:layout_below="@id/catches_dropped_bowling"
             android:layout_toRightOf="@id/lbl_economy_rate"
             android:hint="@string/economy_rate"
             android:padding="10dp" />
