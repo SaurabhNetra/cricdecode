@@ -343,27 +343,29 @@ public class CareerFragment extends SherlockFragment implements
 				+ MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='"
 				+ MatchDb.MATCH_HISTORY + "'" + " group by "
 				+ MatchDb.KEY_RESULT, null);
-		cursor.moveToFirst();
-		int temp;
-		String str;
-		do {
-			temp = cursor.getInt(0);
-			str = cursor.getString(1);
-			matches += temp;
-			if (str.equals("Win")) {
-				wins += temp;
-			} else if (str.equals("Loss")) {
-				losses += temp;
-			} else if (str.equals("Tie")) {
-				ties += temp;
-			} else {
-				no_results += temp;
-			}
-			cursor.moveToNext();
-		} while (!cursor.isAfterLast());
-		cursor.close();
-		win_per = PerformanceFragmentEdit
-				.round((float) 100 * wins / matches, 2);
+		if (cursor.getCount() != 0) {
+			cursor.moveToFirst();
+			int temp;
+			String str;
+			do {
+				temp = cursor.getInt(0);
+				str = cursor.getString(1);
+				matches += temp;
+				if (str.equals("Win")) {
+					wins += temp;
+				} else if (str.equals("Loss")) {
+					losses += temp;
+				} else if (str.equals("Tie")) {
+					ties += temp;
+				} else {
+					no_results += temp;
+				}
+				cursor.moveToNext();
+			} while (!cursor.isAfterLast());
+			cursor.close();
+			win_per = PerformanceFragmentEdit.round((float) 100 * wins
+					/ matches, 2);
+		}
 
 		// Batting
 		cursor = MainActivity.dbHandle.rawQuery("select count("
