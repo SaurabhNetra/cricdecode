@@ -1,6 +1,7 @@
 package co.acjs.cricdecode;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class CareerFieldingFragment extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
+		Log.d("Debug", "Career Fielding Fragment Created");
 		((CareerFragment) getParentFragment())
 				.viewInfo(PerformanceFragmentEdit.FIELDING);
 

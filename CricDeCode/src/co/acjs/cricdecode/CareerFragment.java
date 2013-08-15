@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -95,6 +96,7 @@ public class CareerFragment extends SherlockFragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		fireQueries();
 		this.initialiseTabHost(view, savedInstanceState);
 		this.intialiseViewPager(view);
 		TabPatchView tabPatchView = new TabPatchView(getSherlockActivity());
@@ -215,12 +217,21 @@ public class CareerFragment extends SherlockFragment implements
 					+ "");
 			CareerBattingFragment.careerBattingFragment.highest.setText(highest
 					+ "");
-			CareerBattingFragment.careerBattingFragment.avg.setText(bat_avg
-					+ "");
+			if (bat_avg == -1) {
+				CareerBattingFragment.careerBattingFragment.avg.setText("NA");
+			} else {
+				CareerBattingFragment.careerBattingFragment.avg.setText(bat_avg
+						+ "");
+			}
 			CareerBattingFragment.careerBattingFragment.balls.setText(bat_balls
 					+ "");
-			CareerBattingFragment.careerBattingFragment.str_rate
-					.setText(bat_str + "");
+			if (bat_str == -1) {
+				CareerBattingFragment.careerBattingFragment.str_rate
+						.setText("NA");
+			} else {
+				CareerBattingFragment.careerBattingFragment.str_rate
+						.setText(bat_str + "");
+			}
 			CareerBattingFragment.careerBattingFragment.fifties.setText(bat_50
 					+ "");
 			CareerBattingFragment.careerBattingFragment.hundreds
@@ -253,12 +264,26 @@ public class CareerFragment extends SherlockFragment implements
 					.setText(wickets_right + "");
 			CareerBowlingFragment.careerBowlingFragment.catches_dropped
 					.setText(bowl_catches_dropped + "");
-			CareerBowlingFragment.careerBowlingFragment.eco_rate
-					.setText(eco_rate + "");
-			CareerBowlingFragment.careerBowlingFragment.str_rate
-					.setText(bowl_str + "");
-			CareerBowlingFragment.careerBowlingFragment.avg.setText(bowl_avg
-					+ "");
+			if (eco_rate == -1) {
+				CareerBowlingFragment.careerBowlingFragment.eco_rate
+						.setText("NA");
+			} else {
+				CareerBowlingFragment.careerBowlingFragment.eco_rate
+						.setText(eco_rate + "");
+			}
+			if (bowl_str == -1) {
+				CareerBowlingFragment.careerBowlingFragment.str_rate
+						.setText("NA");
+			} else {
+				CareerBowlingFragment.careerBowlingFragment.str_rate
+						.setText(bowl_str + "");
+			}
+			if (bowl_avg == -1) {
+				CareerBowlingFragment.careerBowlingFragment.avg.setText("NA");
+			} else {
+				CareerBowlingFragment.careerBowlingFragment.avg
+						.setText(bowl_avg + "");
+			}
 			CareerBowlingFragment.careerBowlingFragment.fwi.setText(fwh + "");
 			CareerBowlingFragment.careerBowlingFragment.twm.setText(twm + "");
 			CareerBowlingFragment.careerBowlingFragment.bbi
@@ -309,4 +334,246 @@ public class CareerFragment extends SherlockFragment implements
 		}
 	}
 
+	public void fireQueries() {
+
+		// General
+		matches = wins = losses = ties = no_results = 0;
+		Cursor cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ MatchDb.KEY_ROWID + ")," + MatchDb.KEY_RESULT + " from "
+				+ MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'" + " group by "
+				+ MatchDb.KEY_RESULT, null);
+		cursor.moveToFirst();
+		int temp;
+		String str;
+		do {
+			temp = cursor.getInt(0);
+			str = cursor.getString(1);
+			matches += temp;
+			if (str.equals("Win")) {
+				wins += temp;
+			} else if (str.equals("Loss")) {
+				losses += temp;
+			} else if (str.equals("Tie")) {
+				ties += temp;
+			} else {
+				no_results += temp;
+			}
+			cursor.moveToNext();
+		} while (!cursor.isAfterLast());
+		cursor.close();
+		win_per = PerformanceFragmentEdit
+				.round((float) 100 * wins / matches, 2);
+
+		// Batting
+		cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ PerformanceDb.KEY_ROWID + "),sum("
+				+ PerformanceDb.KEY_BAT_RUNS + "),max("
+				+ PerformanceDb.KEY_BAT_RUNS + "),sum("
+				+ PerformanceDb.KEY_BAT_BALLS + "),sum("
+				+ PerformanceDb.KEY_BAT_TIME + "),sum("
+				+ PerformanceDb.KEY_BAT_FOURS + "),sum("
+				+ PerformanceDb.KEY_BAT_SIXES + "),sum("
+				+ PerformanceDb.KEY_BAT_CHANCES + ") from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or "
+				+ PerformanceDb.KEY_BAT_BALLS + "!=0)", null);
+		cursor.moveToFirst();
+		bat_innings = cursor.getInt(0);
+		bat_runs = cursor.getInt(1);
+		highest = cursor.getInt(2);
+		bat_balls = cursor.getInt(3);
+		time_spent = cursor.getInt(4);
+		bat_fours = cursor.getInt(5);
+		bat_sixes = cursor.getInt(6);
+		lives = cursor.getInt(7);
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ PerformanceDb.KEY_ROWID + ") from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and " + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'",
+				null);
+		cursor.moveToFirst();
+		int outs = cursor.getInt(0);
+		bat_not_outs = bat_innings - outs;
+		cursor.close();
+		if (outs != 0) {
+			bat_avg = (float) bat_runs / outs;
+			bat_avg = PerformanceFragmentEdit.round(bat_avg, 2);
+		} else {
+			bat_avg = -1;
+		}
+		if (bat_balls != 0) {
+			bat_str = (float) bat_runs / bat_balls;
+			bat_str = PerformanceFragmentEdit.round(bat_str, 2) * 100;
+		} else {
+			bat_str = -1;
+		}
+
+		cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ PerformanceDb.KEY_ROWID + ") from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and " + PerformanceDb.KEY_BAT_RUNS + ">=100", null);
+		cursor.moveToFirst();
+		bat_100 = cursor.getInt(0);
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ PerformanceDb.KEY_ROWID + ") from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and " + PerformanceDb.KEY_BAT_RUNS + ">=50", null);
+		cursor.moveToFirst();
+		bat_50 = cursor.getInt(0) - bat_100;
+		cursor.close();
+
+		// Bowling
+		cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ PerformanceDb.KEY_ROWID + "),sum("
+				+ PerformanceDb.KEY_BOWL_BALLS + "),sum("
+				+ PerformanceDb.KEY_BOWL_RUNS + "),sum("
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "),sum("
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + "),sum("
+				+ PerformanceDb.KEY_BOWL_CATCHES_DROPPED + "),sum("
+				+ PerformanceDb.KEY_BOWL_SPELLS + "),sum("
+				+ PerformanceDb.KEY_BOWL_MAIDENS + "),sum("
+				+ PerformanceDb.KEY_BOWL_FOURS + "),sum("
+				+ PerformanceDb.KEY_BOWL_SIXES + "),sum("
+				+ PerformanceDb.KEY_BOWL_NOBALLS + "),sum("
+				+ PerformanceDb.KEY_BOWL_WIDES + ") from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and " + PerformanceDb.KEY_BOWL_BALLS + "!=0", null);
+		cursor.moveToFirst();
+		bowl_innings = cursor.getInt(0);
+		int balls = cursor.getInt(1);
+		overs = balls / 6 + (float) (balls % 6) / 10;
+		bowl_runs = cursor.getInt(2);
+		wickets = (wickets_left = cursor.getInt(3))
+				+ (wickets_right = cursor.getInt(4));
+		bowl_catches_dropped = cursor.getInt(5);
+		spells = cursor.getInt(6);
+		maidens = cursor.getInt(7);
+		bowl_fours = cursor.getInt(8);
+		bowl_sixes = cursor.getInt(9);
+		noballs = cursor.getInt(10);
+		wides = cursor.getInt(11);
+		if (balls != 0) {
+			eco_rate = PerformanceFragmentEdit.round((float) bowl_runs / balls
+					* 6, 2);
+		} else {
+			eco_rate = -1;
+		}
+		if (wickets != 0) {
+			bowl_str = PerformanceFragmentEdit
+					.round((float) balls / wickets, 2);
+			bowl_avg = PerformanceFragmentEdit.round((float) bowl_runs
+					/ wickets, 2);
+		} else {
+			bowl_str = -1;
+			bowl_avg = -1;
+		}
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery("select count("
+				+ PerformanceDb.KEY_ROWID + ") from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and " + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ">=5", null);
+		cursor.moveToFirst();
+		fwh = cursor.getInt(0);
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery("select sum("
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as sumtotal from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' group by " + PerformanceDb.KEY_MATCHID
+				+ " having sumtotal>=10", null);
+		twm = cursor.getCount();
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery(
+				"select max(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+						+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " where "
+						+ PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'", null);
+		cursor.moveToFirst();
+		Log.d("Debug", "Length " + cursor.getCount());
+		int max = cursor.getInt(0);
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery("select ("
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,"
+				+ PerformanceDb.KEY_BOWL_RUNS + " from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and wkts=" + max + " order by "
+				+ PerformanceDb.KEY_BOWL_RUNS, null);
+		if (cursor.getCount() != 0) {
+			cursor.moveToFirst();
+			best_innings = cursor.getInt(0) + "/" + cursor.getInt(1);
+		} else {
+			best_innings = "NA";
+		}
+		cursor.close();
+
+		cursor = MainActivity.dbHandle.rawQuery("select sum("
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,sum("
+				+ PerformanceDb.KEY_BOWL_RUNS + ") as runs from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' group by " + PerformanceDb.KEY_MATCHID
+				+ " order by wkts desc,runs asc", null);
+		cursor.moveToFirst();
+		Log.d("Debug", "Length " + cursor.getCount());
+		if (cursor.getCount() != 0) {
+			cursor.moveToFirst();
+			best_match = cursor.getInt(0) + "/" + cursor.getInt(1);
+		} else {
+			best_match = "NA";
+		}
+		cursor.close();
+
+		// Fielding
+		cursor = MainActivity.dbHandle.rawQuery(
+				"select sum(" + PerformanceDb.KEY_FIELD_SLIP_CATCH + "),sum("
+						+ PerformanceDb.KEY_FIELD_CLOSE_CATCH + "),sum("
+						+ PerformanceDb.KEY_FIELD_CIRCLE_CATCH + "),sum("
+						+ PerformanceDb.KEY_FIELD_DEEP_CATCH + "),sum("
+						+ PerformanceDb.KEY_FIELD_RO_CIRCLE + "),sum("
+						+ PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE + "),sum("
+						+ PerformanceDb.KEY_FIELD_RO_DEEP + "),sum("
+						+ PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP + "),sum("
+						+ PerformanceDb.KEY_FIELD_STUMPINGS + "),sum("
+						+ PerformanceDb.KEY_FIELD_BYES + "),sum("
+						+ PerformanceDb.KEY_FIELD_MISFIELDS + "),sum("
+						+ PerformanceDb.KEY_FIELD_CATCHES_DROPPED + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " where "
+						+ PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'", null);
+		cursor.moveToFirst();
+		catches = (slip_catches = cursor.getInt(0))
+				+ (close_catches = cursor.getInt(1))
+				+ (circle_catches = cursor.getInt(2))
+				+ (deep_catches = cursor.getInt(3));
+		run_outs = (circle_run_outs = cursor.getInt(4))
+				+ (circle_run_outs_direct = cursor.getInt(5))
+				+ (deep_run_outs = cursor.getInt(6))
+				+ (deep_run_outs_direct = cursor.getInt(7));
+		stumpings = cursor.getInt(8);
+		byes = cursor.getInt(9);
+		misfields = cursor.getInt(10);
+		field_catches_dropped = cursor.getInt(11);
+		cursor.close();
+	}
 }
