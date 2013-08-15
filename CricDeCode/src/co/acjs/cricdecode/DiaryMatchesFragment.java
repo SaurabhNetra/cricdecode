@@ -466,7 +466,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		c.close();
 	}
 
-	String buildSelectedItemString(List<String> items, boolean isInt) {
+	static String buildSelectedItemString(List<String> items, boolean isInt) {
 		String[] _items = items.toArray(new String[items.size()]);
 		StringBuilder sb = new StringBuilder();
 		boolean foundOne = false;
