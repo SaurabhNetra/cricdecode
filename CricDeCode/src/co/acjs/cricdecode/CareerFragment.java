@@ -368,19 +368,22 @@ public class CareerFragment extends SherlockFragment implements
 		}
 
 		// Batting
-		cursor = MainActivity.dbHandle.rawQuery("select count("
-				+ PerformanceDb.KEY_ROWID + "),sum("
-				+ PerformanceDb.KEY_BAT_RUNS + "),max("
-				+ PerformanceDb.KEY_BAT_RUNS + "),sum("
-				+ PerformanceDb.KEY_BAT_BALLS + "),sum("
-				+ PerformanceDb.KEY_BAT_TIME + "),sum("
-				+ PerformanceDb.KEY_BAT_FOURS + "),sum("
-				+ PerformanceDb.KEY_BAT_SIXES + "),sum("
+		cursor = MainActivity.dbHandle.rawQuery("select count(p."
+				+ PerformanceDb.KEY_ROWID + "),sum(p."
+				+ PerformanceDb.KEY_BAT_RUNS + "),max(p."
+				+ PerformanceDb.KEY_BAT_RUNS + "),sum(p."
+				+ PerformanceDb.KEY_BAT_BALLS + "),sum(p."
+				+ PerformanceDb.KEY_BAT_TIME + "),sum(p."
+				+ PerformanceDb.KEY_BAT_FOURS + "),sum(p."
+				+ PerformanceDb.KEY_BAT_SIXES + "),sum(p."
 				+ PerformanceDb.KEY_BAT_CHANCES + ") from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or "
-				+ PerformanceDb.KEY_BAT_BALLS + "!=0)", null);
+				+ "' and (p." + PerformanceDb.KEY_BAT_HOW_OUT
+				+ "!='Not Out' or p." + PerformanceDb.KEY_BAT_BALLS + "!=0)",
+				null);
 		cursor.moveToFirst();
 		bat_innings = cursor.getInt(0);
 		bat_runs = cursor.getInt(1);
@@ -392,11 +395,13 @@ public class CareerFragment extends SherlockFragment implements
 		lives = cursor.getInt(7);
 		cursor.close();
 
-		cursor = MainActivity.dbHandle.rawQuery("select count("
+		cursor = MainActivity.dbHandle.rawQuery("select count(p."
 				+ PerformanceDb.KEY_ROWID + ") from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and " + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'",
+				+ "' and p." + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'",
 				null);
 		cursor.moveToFirst();
 		int outs = cursor.getInt(0);
@@ -415,41 +420,47 @@ public class CareerFragment extends SherlockFragment implements
 			bat_str = -1;
 		}
 
-		cursor = MainActivity.dbHandle.rawQuery("select count("
+		cursor = MainActivity.dbHandle.rawQuery("select count(p."
 				+ PerformanceDb.KEY_ROWID + ") from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and " + PerformanceDb.KEY_BAT_RUNS + ">=100", null);
+				+ "' and p." + PerformanceDb.KEY_BAT_RUNS + ">=100", null);
 		cursor.moveToFirst();
 		bat_100 = cursor.getInt(0);
 		cursor.close();
 
-		cursor = MainActivity.dbHandle.rawQuery("select count("
+		cursor = MainActivity.dbHandle.rawQuery("select count(p."
 				+ PerformanceDb.KEY_ROWID + ") from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and " + PerformanceDb.KEY_BAT_RUNS + ">=50", null);
+				+ "' and p." + PerformanceDb.KEY_BAT_RUNS + ">=50", null);
 		cursor.moveToFirst();
 		bat_50 = cursor.getInt(0) - bat_100;
 		cursor.close();
 
 		// Bowling
-		cursor = MainActivity.dbHandle.rawQuery("select count("
-				+ PerformanceDb.KEY_ROWID + "),sum("
-				+ PerformanceDb.KEY_BOWL_BALLS + "),sum("
-				+ PerformanceDb.KEY_BOWL_RUNS + "),sum("
-				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "),sum("
-				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + "),sum("
-				+ PerformanceDb.KEY_BOWL_CATCHES_DROPPED + "),sum("
-				+ PerformanceDb.KEY_BOWL_SPELLS + "),sum("
-				+ PerformanceDb.KEY_BOWL_MAIDENS + "),sum("
-				+ PerformanceDb.KEY_BOWL_FOURS + "),sum("
-				+ PerformanceDb.KEY_BOWL_SIXES + "),sum("
-				+ PerformanceDb.KEY_BOWL_NOBALLS + "),sum("
+		cursor = MainActivity.dbHandle.rawQuery("select count(p."
+				+ PerformanceDb.KEY_ROWID + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_BALLS + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_RUNS + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_CATCHES_DROPPED + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_SPELLS + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_MAIDENS + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_FOURS + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_SIXES + "),sum(p."
+				+ PerformanceDb.KEY_BOWL_NOBALLS + "),sum(p."
 				+ PerformanceDb.KEY_BOWL_WIDES + ") from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and " + PerformanceDb.KEY_BOWL_BALLS + "!=0", null);
+				+ "' and p." + PerformanceDb.KEY_BOWL_BALLS + "!=0", null);
 		cursor.moveToFirst();
 		bowl_innings = cursor.getInt(0);
 		int balls = cursor.getInt(1);
@@ -481,44 +492,52 @@ public class CareerFragment extends SherlockFragment implements
 		}
 		cursor.close();
 
-		cursor = MainActivity.dbHandle.rawQuery("select count("
+		cursor = MainActivity.dbHandle.rawQuery("select count(p."
 				+ PerformanceDb.KEY_ROWID + ") from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and " + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+				+ "' and p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
 				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ">=5", null);
 		cursor.moveToFirst();
 		fwh = cursor.getInt(0);
 		cursor.close();
 
-		cursor = MainActivity.dbHandle.rawQuery("select sum("
-				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+		cursor = MainActivity.dbHandle.rawQuery("select sum(p."
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
 				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as sumtotal from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' group by " + PerformanceDb.KEY_MATCHID
+				+ "' group by p." + PerformanceDb.KEY_MATCHID
 				+ " having sumtotal>=10", null);
 		twm = cursor.getCount();
 		cursor.close();
 
 		cursor = MainActivity.dbHandle.rawQuery(
-				"select max(" + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
+				"select max(p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
 						+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") from "
-						+ PerformanceDb.SQLITE_TABLE + " where "
-						+ PerformanceDb.KEY_STATUS + "='"
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
 						+ MatchDb.MATCH_HISTORY + "'", null);
 		cursor.moveToFirst();
 		Log.d("Debug", "Length " + cursor.getCount());
 		int max = cursor.getInt(0);
 		cursor.close();
 
-		cursor = MainActivity.dbHandle.rawQuery("select ("
-				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
-				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,"
+		cursor = MainActivity.dbHandle.rawQuery("select (p."
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,p."
 				+ PerformanceDb.KEY_BOWL_RUNS + " from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and wkts=" + max + " order by "
+				+ "' and wkts=" + max + " order by p."
 				+ PerformanceDb.KEY_BOWL_RUNS, null);
 		if (cursor.getCount() != 0) {
 			cursor.moveToFirst();
@@ -528,13 +547,15 @@ public class CareerFragment extends SherlockFragment implements
 		}
 		cursor.close();
 
-		cursor = MainActivity.dbHandle.rawQuery("select sum("
-				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+"
-				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,sum("
+		cursor = MainActivity.dbHandle.rawQuery("select sum(p."
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
+				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as wkts,sum(p."
 				+ PerformanceDb.KEY_BOWL_RUNS + ") as runs from "
-				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.SQLITE_TABLE + " p inner join "
+				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
+				+ "=m." + MatchDb.KEY_ROWID + " where p."
 				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' group by " + PerformanceDb.KEY_MATCHID
+				+ "' group by p." + PerformanceDb.KEY_MATCHID
 				+ " order by wkts desc,runs asc", null);
 		cursor.moveToFirst();
 		Log.d("Debug", "Length " + cursor.getCount());
@@ -548,20 +569,22 @@ public class CareerFragment extends SherlockFragment implements
 
 		// Fielding
 		cursor = MainActivity.dbHandle.rawQuery(
-				"select sum(" + PerformanceDb.KEY_FIELD_SLIP_CATCH + "),sum("
-						+ PerformanceDb.KEY_FIELD_CLOSE_CATCH + "),sum("
-						+ PerformanceDb.KEY_FIELD_CIRCLE_CATCH + "),sum("
-						+ PerformanceDb.KEY_FIELD_DEEP_CATCH + "),sum("
-						+ PerformanceDb.KEY_FIELD_RO_CIRCLE + "),sum("
-						+ PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE + "),sum("
-						+ PerformanceDb.KEY_FIELD_RO_DEEP + "),sum("
-						+ PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP + "),sum("
-						+ PerformanceDb.KEY_FIELD_STUMPINGS + "),sum("
-						+ PerformanceDb.KEY_FIELD_BYES + "),sum("
-						+ PerformanceDb.KEY_FIELD_MISFIELDS + "),sum("
-						+ PerformanceDb.KEY_FIELD_CATCHES_DROPPED + ") from "
-						+ PerformanceDb.SQLITE_TABLE + " where "
-						+ PerformanceDb.KEY_STATUS + "='"
+				"select sum(p." + PerformanceDb.KEY_FIELD_SLIP_CATCH
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_CLOSE_CATCH
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_CIRCLE_CATCH
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_DEEP_CATCH
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_RO_CIRCLE
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_RO_DEEP
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_STUMPINGS
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_BYES
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_MISFIELDS
+						+ "),sum(p." + PerformanceDb.KEY_FIELD_CATCHES_DROPPED
+						+ ") from " + PerformanceDb.SQLITE_TABLE
+						+ " p inner join " + MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
 						+ MatchDb.MATCH_HISTORY + "'", null);
 		cursor.moveToFirst();
 		catches = (slip_catches = cursor.getInt(0))
