@@ -106,9 +106,17 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		return view;
 	}
 
-	public void init(final View view) {
+	public void init() {
 
 		// Initialize arrays
+		result = getSherlockActivity().getResources().getStringArray(
+				R.array.match_result)[0];
+		Log.d("Debug", "Result init " + result);
+		duration = getSherlockActivity().getResources().getStringArray(
+				R.array.match_duration)[0];
+		first = getSherlockActivity().getResources().getStringArray(
+				R.array.first)[0];
+
 		bat_runs = new int[2];
 		bat_balls = new int[2];
 		time_spent = new int[2];
@@ -346,10 +354,19 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 						MatchDb.KEY_MATCH_DATE, MatchDb.KEY_OVERS }, null,
 				null, null);
 		c.moveToFirst();
-		result = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT));
+		String temp = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT));
+		if (!temp.equals("")) {
+			result = temp;
+		}
 		review = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_REVIEW));
-		duration = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_DURATION));
-		first = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION));
+		temp = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_DURATION));
+		if (!temp.equals("")) {
+			duration = temp;
+		}
+		temp = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION));
+		if (!temp.equals("")) {
+			first = temp;
+		}
 		my_team = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MY_TEAM));
 		opponent_team = c.getString(c
 				.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM));
@@ -366,7 +383,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		init(view);
+		init();
 		if (savedInstanceState != null) {
 			// Restore the previously serialized current tab position.
 			Log.d("Debug", "On Restore Instance State called");
@@ -847,6 +864,9 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			Spinner spinner = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_result;
 			ArrayAdapter myAdap = (ArrayAdapter) spinner.getAdapter();
 			int spinnerPosition = myAdap.getPosition(result);
+			Log.d("Debug", "Spinner Position " + spinnerPosition
+					+ " ArrayAdapter " + myAdap.getCount() + " result "
+					+ result);
 			spinner.setSelection(spinnerPosition);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_review
 					.setText(review);
