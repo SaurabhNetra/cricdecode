@@ -232,9 +232,11 @@
     <!-- Filter Dialog -->
     <string name="filter">Filter</string>
     <string name="okay">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Confirmation Dialog -->
     <string name="are_you_sure">Are you sure?</string>
+    <string name="definition">Definition</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -268,5 +270,21 @@
     <!-- Fielding -->
     <string name="catches">Catches</string>
     <string name="runouts">Run Outs</string>
+
+    <!-- Analysis -->
+    <string name="Xaxis">X-axis</string>
+
+    <string-array name="Yaxis">
+        <item>Season</item>
+        <item>My Team</item>
+        <item>Opponent</item>
+        <item>Venue</item>
+        <item>Match Result</item>
+        <item>Level</item>
+        <item>Overs</item>
+        <item>Innings</item>
+        <item>Duration</item>
+        <item>First</item>
+    </string-array>
 
 </resources>

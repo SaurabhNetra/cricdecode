@@ -11,6 +11,8 @@
             android:id="@+id/lbl_matches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/matches" />
 
@@ -27,6 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/matches"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/wins" />
 
@@ -44,6 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wins"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/losses" />
 
@@ -61,6 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/losses"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/ties" />
 
@@ -78,6 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ties"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/no_result" />
 
@@ -95,6 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/no_result"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/win_per" />
 

@@ -11,6 +11,8 @@
             android:id="@+id/lbl_innings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/innings" />
 
@@ -27,6 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/innings"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/overs" />
 
@@ -44,6 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/overs"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/spells" />
 
@@ -61,6 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/spells"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/runs" />
 
@@ -78,6 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/runs"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/maidens" />
 
@@ -95,6 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/maidens"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/wickets" />
 
@@ -112,6 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wickets"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/wickets_left" />
 
@@ -129,6 +143,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wickets_left"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/wickets_right" />
 
@@ -146,6 +162,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wickets_right"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/catches_dropped_bowling" />
 
@@ -163,6 +181,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/catches_dropped_bowling"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/economy_rate" />
 
@@ -180,6 +200,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/economy_rate"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/strike_rate" />
 
@@ -197,6 +219,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/strike_rate"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/average" />
 
@@ -214,6 +238,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/average"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/fwi" />
 
@@ -231,6 +257,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fwi"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/twm" />
 
@@ -248,6 +276,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/twm"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/bbi" />
 
@@ -265,6 +295,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bbi"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/bbm" />
 
@@ -282,6 +314,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bbm"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/fours" />
 
@@ -299,6 +333,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fours"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/sixes" />
 
@@ -316,6 +352,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/sixes"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/noballs" />
 
@@ -333,6 +371,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/noballs"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/wides" />
 

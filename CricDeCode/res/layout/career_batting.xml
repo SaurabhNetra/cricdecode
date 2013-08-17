@@ -11,6 +11,8 @@
             android:id="@+id/lbl_innings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/innings" />
 
@@ -27,6 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/innings"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/not_outs" />
 
@@ -44,6 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/not_outs"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/runs" />
 
@@ -61,6 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/runs"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/highest" />
 
@@ -78,6 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/highest"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/average" />
 
@@ -95,6 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/average"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/balls" />
 
@@ -112,6 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/balls"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/strike_rate" />
 
@@ -129,6 +143,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/strike_rate"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/fifties" />
 
@@ -146,6 +162,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fifties"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/hundreds" />
 
@@ -163,6 +181,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hundreds"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/time_spent" />
 
@@ -180,6 +200,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/time_spent"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/fours" />
 
@@ -197,6 +219,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fours"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/sixes" />
 
@@ -214,6 +238,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/sixes"
+            android:clickable="true"
+            android:onClick="onClick"
             android:padding="10dp"
             android:text="@string/lives" />
 
