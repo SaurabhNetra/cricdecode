@@ -435,71 +435,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		final Dialog dialog;
 		final View finalview;
 		switch (view.getId()) {
-		case R.id.lbl_matches:
-		case R.id.lbl_wins:
-		case R.id.lbl_losses:
-		case R.id.lbl_ties:
-		case R.id.lbl_no_result:
-		case R.id.lbl_win_per:
-		case R.id.lbl_innings:
-		case R.id.lbl_not_outs:
-		case R.id.lbl_runs:
-		case R.id.lbl_highest:
-		case R.id.lbl_average:
-		case R.id.lbl_balls:
-		case R.id.lbl_strike_rate:
-		case R.id.lbl_fifties:
-		case R.id.lbl_hundreds:
-		case R.id.lbl_time_spent:
-		case R.id.lbl_fours:
-		case R.id.lbl_sixes:
-		case R.id.lbl_overs:
-		case R.id.lbl_spells:
-		case R.id.lbl_maidens:
-		case R.id.lbl_wickets_left:
-		case R.id.lbl_wickets_right:
-		case R.id.lbl_catches_dropped_bowling:
-		case R.id.lbl_economy_rate:
-		case R.id.lbl_fwi:
-		case R.id.lbl_twm:
-		case R.id.lbl_bbi:
-		case R.id.lbl_bbm:
-		case R.id.lbl_noballs:
-		case R.id.lbl_wides:
-		case R.id.lbl_catches:
-		case R.id.lbl_slip_catches:
-		case R.id.lbl_close_catches:
-		case R.id.lbl_circle_catches:
-		case R.id.lbl_deep_catches:
-		case R.id.lbl_runouts:
-		case R.id.lbl_circle_runouts:
-		case R.id.lbl_circle_runouts_direct:
-		case R.id.lbl_deep_runouts:
-		case R.id.lbl_deep_runouts_direct:
-		case R.id.lbl_stumpings:
-		case R.id.lbl_byes:
-		case R.id.lbl_misfields:
-		case R.id.lbl_catches_dropped_fielding:
-			dialog = new Dialog(this);
-			finalview = view;
-			dialog.setContentView(R.layout.dialog_definition);
-			dialog.setTitle(((TextView) view).getText());
-
-			TextView dialogText = (TextView) dialog
-					.findViewById(R.id.dialog_text);
-			dialogText.setText("Definition");
-
-			Button okay = (Button) dialog.findViewById(R.id.okay);
-			okay.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-				}
-			});
-
-			dialog.show();
-			break;
 		case R.id.date_of_birth:
 			showDatePicker(R.id.date_of_birth);
 			break;
@@ -515,7 +450,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			dialog.setContentView(R.layout.dialog_confirmation);
 			dialog.setTitle("Add to Career");
 
-			dialogText = (TextView) dialog.findViewById(R.id.dialog_text);
+			TextView dialogText = (TextView) dialog
+					.findViewById(R.id.dialog_text);
 			dialogText
 					.setText("Are you sure you want to Add this Match to your Career?");
 

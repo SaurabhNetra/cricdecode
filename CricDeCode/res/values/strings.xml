@@ -271,20 +271,4 @@
     <string name="catches">Catches</string>
     <string name="runouts">Run Outs</string>
 
-    <!-- Analysis -->
-    <string name="Xaxis">X-axis</string>
-
-    <string-array name="Yaxis">
-        <item>Season</item>
-        <item>My Team</item>
-        <item>Opponent</item>
-        <item>Venue</item>
-        <item>Match Result</item>
-        <item>Level</item>
-        <item>Overs</item>
-        <item>Innings</item>
-        <item>Duration</item>
-        <item>First</item>
-    </string-array>
-
 </resources>
