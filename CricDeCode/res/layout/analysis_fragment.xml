@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Spinner
+            android:id="@+id/graph_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/graph_type" />
+
+        <Spinner
+            android:id="@+id/graph_facet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/graph_facet" />
+
+        <RelativeLayout
+            android:id="@+id/graph_category_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/graph_param1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/graph_param1"
+                android:text="@string/vs" />
+
+            <Spinner
+                android:id="@+id/graph_param2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/vs" />
+
+            <Button
+                android:id="@+id/make_graph_category_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/graph_param1"
+                android:onClick="onClick"
+                android:text="@string/generate_graph" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/graph_category_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/graph_param_pie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/make_graph_category_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/graph_param_pie"
+                android:onClick="onClick"
+                android:text="@string/generate_graph" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -14,6 +14,7 @@
     <string-array name="drawer_list_item">
         <item>Profile</item>
         <item>Career</item>
+        <item>Analysis</item>
         <item>Match Diary</item>
         <item>Ongoing Matches</item>
         <item>New Match</item>
@@ -270,5 +271,100 @@
     <!-- Fielding -->
     <string name="catches">Catches</string>
     <string name="runouts">Run Outs</string>
+
+    <!-- Analysis -->
+    <string-array name="graph_type">
+        <item>X-Y plot</item>
+        <item>Pie Chart</item>
+    </string-array>
+    <string-array name="graph_facet">
+        <item>General</item>
+        <item>Batting</item>
+        <item>Bowling</item>
+        <item>Fielding</item>
+    </string-array>
+    <string-array name="graph_param1_general">
+        <item>Matches</item>
+    </string-array>
+    <string-array name="graph_param1_batting">
+        <item>Innings</item>
+        <item>Not Outs</item>
+        <item>Runs Scored</item>
+        <item>Highest Score</item>
+        <item>Average</item>
+        <item>Balls Faced</item>
+        <item>Strike Rate</item>
+        <item>50s</item>
+        <item>100s</item>
+        <item>Time Spent</item>
+        <item>Time Spent</item>
+        <item>Fours</item>
+        <item>Sixes</item>
+        <item>Lives</item>
+    </string-array>
+    <string-array name="graph_param1_bowling">
+        <item>Innings</item>
+        <item>Overs</item>
+        <item>Spells</item>
+        <item>Runs Given</item>
+        <item>Average</item>
+        <item>Maidens</item>
+        <item>Left Handed Batsman Wickets</item>
+        <item>Right Handed Batsman Wickets</item>
+        <item>Total Wickets</item>
+        <item>Catches Dropped of Bowling</item>
+        <item>Economy Rate</item>
+        <item>Strike Rate</item>
+        <item>Average</item>
+        <item>5 Wickets in an Innings</item>
+        <item>10 Wickets in a Match</item>
+        <item>Fours Given</item>
+        <item>Sixes Given</item>
+        <item>No Balls</item>
+        <item>Wides</item>
+    </string-array>
+    <string-array name="graph_param1_fielding">
+        <item>Slip Catches</item>
+        <item>Close Catches</item>
+        <item>Circle Catches</item>
+        <item>Deep Catches</item>
+        <item>Total Catches</item>
+        <item>Direct Hit Run Outs in Circle</item>
+        <item>Run Outs in Circle</item>
+        <item>Direct Hit Run Out in Deep</item>
+        <item>Run Outs in Deep</item>
+        <item>Total Run Outs</item>
+        <item>Stumpings(Wicket Keeper)</item>
+        <item>Byes Given(Wicket Keeper)</item>
+        <item>Misfields</item>
+        <item>Catches Dropped</item>
+    </string-array>
+    <string-array name="graph_param2">
+        <item>Seasons</item>
+        <item>My Teams</item>
+        <item>Opponents</item>
+        <item>Venues</item>
+        <item>Match Results</item>
+        <item>Match Levels</item>
+        <item>Overs in an Inning</item>
+        <item>Number of Innings in a Match</item>
+        <item>Match Duration</item>
+        <item>Batting/Fielding First</item>
+    </string-array>
+    <string-array name="graph_param_pie_general">
+        <item>Match Result</item>
+    </string-array>
+    <string-array name="graph_param_pie_batting">
+        <item>How Out</item>
+    </string-array>
+    <string-array name="graph_param_pie_bowling">
+        <item>Wickets</item>
+    </string-array>
+    <string-array name="graph_param_pie_fielding">
+        <item>Catches</item>
+        <item>Run Outs</item>
+    </string-array>
+
+    <string name="generate_graph">Generate Graph</string>
 
 </resources>
