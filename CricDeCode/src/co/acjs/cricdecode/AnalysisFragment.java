@@ -24,6 +24,19 @@ public class AnalysisFragment extends SherlockFragment {
 
 	public static final int XY_PLOT = 0, PIE_CHART = 1;
 
+	// XY GRAPH CONSTANTS
+	// PARAM1
+	// GENERAL
+	public static final int MATCHES = 0;
+	// BATTING
+	public static final int BAT_INNINGS = 0, NO = 1, BAT_RUNS = 2, HIGHEST = 3,
+			BAT_AVG = 4, BAT_BALL = 5, BAT_STR = 6, BAT_50 = 7, BAT_100 = 8,
+			TIME_SPENT = 9, BAT_FOURS = 10, BAT_SIXES = 11, LIVES = 12;
+	// PARAM2
+	public static final int SEASONS = 0, MY_TEAM = 1, OPPONENTS = 2,
+			VENUES = 3, RESULTS = 4, LEVELS = 5, OVERS = 6, INNINGS = 7,
+			DURATION = 8, FIRST = 9;
+
 	// PIE CHART CONSTANTS
 	// GENERAL
 	public static final int MATCH_RESULT = 0;
@@ -469,6 +482,360 @@ public class AnalysisFragment extends SherlockFragment {
 
 	public void generateXYGraph() {
 		Log.d("Debug", "generateXYGraph() called");
+		Cursor cursor = null;
+		String column2 = null;
+		String[] label = null;
+		int[] values = null;
+		switch (graph_param2.getSelectedItemPosition()) {
+		case SEASONS:
+			column2 = "strftime('%Y',m." + MatchDb.KEY_MATCH_DATE + ")";
+			break;
+		case MY_TEAM:
+			column2 = "m." + MatchDb.KEY_MY_TEAM;
+			break;
+		case OPPONENTS:
+			column2 = "m." + MatchDb.KEY_OPPONENT_TEAM;
+			break;
+		case VENUES:
+			column2 = "m." + MatchDb.KEY_VENUE;
+			break;
+		case RESULTS:
+			column2 = "m." + MatchDb.KEY_RESULT;
+			break;
+		case LEVELS:
+			column2 = "m." + MatchDb.KEY_LEVEL;
+			break;
+		case OVERS:
+			column2 = "m." + MatchDb.KEY_OVERS;
+			break;
+		case INNINGS:
+			column2 = "m." + MatchDb.KEY_INNINGS;
+			break;
+		case DURATION:
+			column2 = "m." + MatchDb.KEY_DURATION;
+			break;
+		case FIRST:
+			column2 = "m." + MatchDb.KEY_FIRST_ACTION;
+			break;
+		default:
+			break;
+		}
+
+		switch (graph_facet.getSelectedItemPosition()) {
+		case PerformanceFragmentEdit.GENERAL:
+			Log.d("Debug", "generateXYGraph() GENERAL");
+			switch (graph_param1.getSelectedItemPosition()) {
+			case MATCHES:
+				cursor = MainActivity.dbHandle.rawQuery("select count(m."
+						+ MatchDb.KEY_ROWID + ")," + column2 + " from "
+						+ MatchDb.SQLITE_TABLE + " m where m."
+						+ MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+						+ "'" + myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(1);
+						values[i] = cursor.getInt(0);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
+			default:
+				break;
+			}
+			break;
+		case PerformanceFragmentEdit.BATTING:
+			Log.d("Debug", "generateXYGraph() BATTING");
+			String column1 = null;
+			switch (graph_param1.getSelectedItemPosition()) {
+			case BAT_INNINGS:
+			case NO:
+			case BAT_AVG:
+				column1 = "count(p." + PerformanceDb.KEY_ROWID + ")";
+				break;
+			case BAT_RUNS:
+				column1 = "sum(p." + PerformanceDb.KEY_BAT_RUNS + ")";
+				break;
+			case HIGHEST:
+				column1 = "max(p." + PerformanceDb.KEY_BAT_RUNS + ")";
+				break;
+			case BAT_BALL:
+				column1 = "sum(p." + PerformanceDb.KEY_BAT_BALLS + ")";
+				break;
+			case TIME_SPENT:
+				column1 = "sum(p." + PerformanceDb.KEY_BAT_TIME + ")";
+				break;
+			case BAT_FOURS:
+				column1 = "sum(p." + PerformanceDb.KEY_BAT_FOURS + ")";
+				break;
+			case BAT_SIXES:
+				column1 = "sum(p." + PerformanceDb.KEY_BAT_SIXES + ")";
+				break;
+			case LIVES:
+				column1 = "sum(p." + PerformanceDb.KEY_BAT_CHANCES + ")";
+				break;
+			default:
+				break;
+			}
+			if (column1 != null) {
+				Log.d("Debug", "generateXYGraph() BATTING PART1 Query");
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ "," + column1 + " from " + PerformanceDb.SQLITE_TABLE
+						+ " p inner join " + MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and (p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or p."
+						+ PerformanceDb.KEY_BAT_BALLS + "!=0)"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				Log.d("Debug", graph_param1.getSelectedItemPosition() + " "
+						+ BAT_STR);
+				if (graph_param1.getSelectedItemPosition() != NO
+						&& graph_param1.getSelectedItemPosition() != BAT_AVG) {
+					Log.d("Debug", "generateXYGraph() BATTING BREAK");
+					break;
+				}
+			}
+			Log.d("Debug", "generateXYGraph() BATTING PART2");
+			switch (graph_param1.getSelectedItemPosition()) {
+			case NO:
+			case BAT_AVG:
+				int[] bat_innings = values;
+				int[] outs = null;
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ ",count(p." + PerformanceDb.KEY_ROWID + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					outs = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						outs[i] = cursor.getInt(1);
+						values[i] = bat_innings[i] - cursor.getInt(1);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				if (graph_param1.getSelectedItemPosition() != BAT_AVG) {
+					break;
+				}
+				Log.d("Debug", "AVERAGE LOOP");
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ ",sum(p." + PerformanceDb.KEY_BAT_RUNS + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and (p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or p."
+						+ PerformanceDb.KEY_BAT_BALLS + "!=0)"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1);
+						if (outs[i] == 0) {
+							values[i] = 0;
+						} else {
+							values[i] = values[i] / outs[i];
+						}
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
+			case BAT_STR:
+				Log.d("Debug", "generateXYGraph() BATTING STR");
+				if (cursor != null) {
+					Log.d("Debug", "Leaky Cursor");
+					cursor.close();
+				}
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ ",sum(p." + PerformanceDb.KEY_BAT_RUNS + "),sum(p."
+						+ PerformanceDb.KEY_BAT_BALLS + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and (p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or p."
+						+ PerformanceDb.KEY_BAT_BALLS + "!=0)"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						if (cursor.getInt(2) == 0) {
+							values[i] = 0;
+						} else {
+							float temp = (float) cursor.getInt(1)
+									/ cursor.getInt(2) * 100;
+							values[i] = (int) temp;
+						}
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
+			case BAT_50:
+			case BAT_100:
+				if (cursor != null) {
+					Log.d("Debug", "Leaky Cursor");
+					cursor.close();
+				}
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ ",count(p." + PerformanceDb.KEY_ROWID + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BAT_RUNS + ">=100"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				Log.d("Debug", "100 cursor Count " + cursor.getCount());
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				if (graph_param1.getSelectedItemPosition() != BAT_50) {
+					break;
+				}
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ ",count(p." + PerformanceDb.KEY_ROWID + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BAT_RUNS + ">=50"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					int[] bat_100s = values;
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1) - bat_100s[i];
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+			default:
+				break;
+			}
+			break;
+		case PerformanceFragmentEdit.BOWLING:
+			switch (graph_param1.getSelectedItemPosition()) {
+			default:
+				break;
+			}
+			break;
+		case PerformanceFragmentEdit.FIELDING:
+			switch (graph_param1.getSelectedItemPosition()) {
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+		if (label != null) {
+			for (int index = 0; index < label.length; index++) {
+				if (label[index].equals("-1")) {
+					label[index] = "Unlimited";
+				}
+			}
+			Toast.makeText(getSherlockActivity(),
+					Arrays.toString(label) + " " + Arrays.toString(values),
+					Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(getSherlockActivity(), "No Data Available ",
+					Toast.LENGTH_LONG).show();
+		}
 	}
 
 	public void generatePieGraph() {
@@ -566,6 +933,7 @@ public class AnalysisFragment extends SherlockFragment {
 				label = new String[] { "Left Handed Batsman",
 						"Right Handed Batsman" };
 				values = new int[] { cursor.getInt(0), cursor.getInt(1) };
+				cursor.close();
 				break;
 			default:
 				break;
@@ -594,6 +962,7 @@ public class AnalysisFragment extends SherlockFragment {
 						"Catches on the Circle", "Catches in the Deep" };
 				values = new int[] { cursor.getInt(0), cursor.getInt(1),
 						cursor.getInt(2), cursor.getInt(3) };
+				cursor.close();
 				break;
 			case RUNOUTS:
 				cursor = MainActivity.dbHandle.rawQuery("select sum(p."
@@ -618,6 +987,7 @@ public class AnalysisFragment extends SherlockFragment {
 						"Direct Hit Run Outs from the Deep" };
 				values = new int[] { cursor.getInt(0), cursor.getInt(1),
 						cursor.getInt(2), cursor.getInt(3) };
+				cursor.close();
 				break;
 			default:
 				break;
