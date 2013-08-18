@@ -1,6 +1,7 @@
 package co.acjs.cricdecode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -21,6 +23,16 @@ public class AnalysisFragment extends SherlockFragment {
 	static AnalysisFragment analysisFragment;
 
 	public static final int XY_PLOT = 0, PIE_CHART = 1;
+
+	// PIE CHART CONSTANTS
+	// GENERAL
+	public static final int MATCH_RESULT = 0;
+	// BATTING
+	public static final int HOW_OUT = 0;
+	// BOWLING
+	public static final int WICKETS = 0;
+	// FIELDING
+	public static final int CATCHES = 0, RUNOUTS = 1;
 
 	// Layout Fields
 	Spinner graph_facet, graph_type, graph_param1, graph_param2,
@@ -461,6 +473,166 @@ public class AnalysisFragment extends SherlockFragment {
 
 	public void generatePieGraph() {
 		Log.d("Debug", "generatePieGraph() called");
+		Cursor cursor;
+		String[] label = null;
+		int[] values = null;
+		switch (graph_facet.getSelectedItemPosition()) {
+		case PerformanceFragmentEdit.GENERAL:
+			switch (graph_param_pie.getSelectedItemPosition()) {
+			case MATCH_RESULT:
+				cursor = MainActivity.dbHandle.rawQuery("select count("
+						+ MatchDb.KEY_ROWID + ")," + MatchDb.KEY_RESULT
+						+ " from " + MatchDb.SQLITE_TABLE + " m where "
+						+ MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+						+ "'" + myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + MatchDb.KEY_RESULT, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(1);
+						values[i] = cursor.getInt(0);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
+			default:
+				break;
+			}
+			break;
+		case PerformanceFragmentEdit.BATTING:
+			switch (graph_param_pie.getSelectedItemPosition()) {
+			case HOW_OUT:
+				cursor = MainActivity.dbHandle.rawQuery("select p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + ",count(p."
+						+ PerformanceDb.KEY_ROWID + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and (p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or p."
+						+ PerformanceDb.KEY_BAT_BALLS + "!=0)"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by p." + PerformanceDb.KEY_BAT_HOW_OUT, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
+			default:
+				break;
+			}
+			break;
+		case PerformanceFragmentEdit.BOWLING:
+			switch (graph_param_pie.getSelectedItemPosition()) {
+			case WICKETS:
+				cursor = MainActivity.dbHandle.rawQuery("select sum(p."
+						+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "),sum(p."
+						+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BOWL_BALLS + "!=0"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause, null);
+				cursor.moveToFirst();
+				label = new String[] { "Left Handed Batsman",
+						"Right Handed Batsman" };
+				values = new int[] { cursor.getInt(0), cursor.getInt(1) };
+				break;
+			default:
+				break;
+			}
+			break;
+		case PerformanceFragmentEdit.FIELDING:
+			switch (graph_param_pie.getSelectedItemPosition()) {
+			case CATCHES:
+				cursor = MainActivity.dbHandle.rawQuery("select sum(p."
+						+ PerformanceDb.KEY_FIELD_SLIP_CATCH + "),sum(p."
+						+ PerformanceDb.KEY_FIELD_CLOSE_CATCH + "),sum(p."
+						+ PerformanceDb.KEY_FIELD_CIRCLE_CATCH + "),sum(p."
+						+ PerformanceDb.KEY_FIELD_DEEP_CATCH + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'" + myteam_whereClause
+						+ opponent_whereClause + venue_whereClause
+						+ overs_whereClause + innings_whereClause
+						+ level_whereClause + duration_whereClause
+						+ first_whereClause + season_whereClause
+						+ result_whereClause, null);
+				cursor.moveToFirst();
+				label = new String[] { "Slip Catches", "Close Catches",
+						"Catches on the Circle", "Catches in the Deep" };
+				values = new int[] { cursor.getInt(0), cursor.getInt(1),
+						cursor.getInt(2), cursor.getInt(3) };
+				break;
+			case RUNOUTS:
+				cursor = MainActivity.dbHandle.rawQuery("select sum(p."
+						+ PerformanceDb.KEY_FIELD_RO_CIRCLE + "),sum(p."
+						+ PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE + "),sum(p."
+						+ PerformanceDb.KEY_FIELD_RO_DEEP + "),sum(p."
+						+ PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'" + myteam_whereClause
+						+ opponent_whereClause + venue_whereClause
+						+ overs_whereClause + innings_whereClause
+						+ level_whereClause + duration_whereClause
+						+ first_whereClause + season_whereClause
+						+ result_whereClause, null);
+				cursor.moveToFirst();
+				label = new String[] { "Run Outs in Circle",
+						"Direct Hit Run Outs in Circle",
+						"Run Outs from the Deep",
+						"Direct Hit Run Outs from the Deep" };
+				values = new int[] { cursor.getInt(0), cursor.getInt(1),
+						cursor.getInt(2), cursor.getInt(3) };
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+		if (label != null) {
+			Toast.makeText(getSherlockActivity(),
+					Arrays.toString(label) + " " + Arrays.toString(values),
+					Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(getSherlockActivity(), "No Data Available ",
+					Toast.LENGTH_LONG).show();
+		}
 	}
-
 }
