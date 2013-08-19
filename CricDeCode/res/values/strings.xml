@@ -306,7 +306,6 @@
         <item>Overs</item>
         <item>Spells</item>
         <item>Runs Given</item>
-        <item>Average</item>
         <item>Maidens</item>
         <item>Left Handed Batsman Wickets</item>
         <item>Right Handed Batsman Wickets</item>
@@ -315,8 +314,6 @@
         <item>Economy Rate</item>
         <item>Strike Rate</item>
         <item>Average</item>
-        <item>5 Wickets in an Innings</item>
-        <item>10 Wickets in a Match</item>
         <item>Fours Given</item>
         <item>Sixes Given</item>
         <item>No Balls</item>

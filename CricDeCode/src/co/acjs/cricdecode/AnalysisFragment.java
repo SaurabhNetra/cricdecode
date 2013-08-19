@@ -32,6 +32,16 @@ public class AnalysisFragment extends SherlockFragment {
 	public static final int BAT_INNINGS = 0, NO = 1, BAT_RUNS = 2, HIGHEST = 3,
 			BAT_AVG = 4, BAT_BALL = 5, BAT_STR = 6, BAT_50 = 7, BAT_100 = 8,
 			TIME_SPENT = 9, BAT_FOURS = 10, BAT_SIXES = 11, LIVES = 12;
+	// BOWLING
+	public static final int BOWL_INNINGS = 0, BOWL_OVERS = 1, SPELLS = 2,
+			BOWL_RUNS = 3, MAIDENS = 4, WKTS_LEFT = 5, WKTS_RIGHT = 6,
+			WKTS = 7, BOWL_DROPPED = 8, ECO = 9, BOWL_STR = 10, BOWL_AVG = 11,
+			BOWL_FOURS = 12, BOWL_SIXES = 13, NOBALLS = 14, WIDES = 15;
+	// FIELDING
+	public static final int SLIP = 0, CLOSE = 1, CIRCLE = 2, DEEP = 3,
+			TOTCATCHES = 4, CIR_RO_DI = 5, CIR_RO = 6, DEEP_RO_DI = 7,
+			DEEP_RO = 8, TOT_RO = 9, STUMP = 10, BYES = 11, MISFIELD = 12,
+			CATCH_DROP = 13;
 	// PARAM2
 	public static final int SEASONS = 0, MY_TEAM = 1, OPPONENTS = 2,
 			VENUES = 3, RESULTS = 4, LEVELS = 5, OVERS = 6, INNINGS = 7,
@@ -72,11 +82,11 @@ public class AnalysisFragment extends SherlockFragment {
 		analysisFragment = this;
 		View rootView = inflater.inflate(R.layout.analysis_fragment, container,
 				false);
-		init(rootView);
+		init(rootView, savedInstanceState);
 		return rootView;
 	}
 
-	public void init(View view) {
+	public void init(View view, Bundle bundle) {
 		graph_facet = (Spinner) view.findViewById(R.id.graph_facet);
 		graph_type = (Spinner) view.findViewById(R.id.graph_type);
 		graph_param1 = (Spinner) view.findViewById(R.id.graph_param1);
@@ -166,6 +176,7 @@ public class AnalysisFragment extends SherlockFragment {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+
 	}
 
 	@Override
@@ -277,6 +288,11 @@ public class AnalysisFragment extends SherlockFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		outState.putInt("param1_sel", graph_param1.getSelectedItemPosition());
+		outState.putInt("param2_sel", graph_param2.getSelectedItemPosition());
+		outState.putInt("param_pie_sel",
+				graph_param_pie.getSelectedItemPosition());
+
 		outState.putStringArrayList("season_list",
 				(ArrayList<String>) season_list);
 		outState.putStringArrayList("result_list",
@@ -804,20 +820,233 @@ public class AnalysisFragment extends SherlockFragment {
 					} while (!cursor.isAfterLast());
 				}
 				cursor.close();
+				break;
 			default:
 				break;
 			}
 			break;
 		case PerformanceFragmentEdit.BOWLING:
+			column1 = null;
 			switch (graph_param1.getSelectedItemPosition()) {
+			case BOWL_INNINGS:
+				column1 = "count(p." + PerformanceDb.KEY_ROWID + ")";
+				break;
+			case BOWL_OVERS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_BALLS + ")";
+				break;
+			case BOWL_RUNS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_RUNS + ")";
+				break;
+			case WKTS_LEFT:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + ")";
+				break;
+			case WKTS_RIGHT:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ")";
+				break;
+			case BOWL_STR:
+			case BOWL_AVG:
+			case WKTS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
+						+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ")";
+				break;
+			case BOWL_DROPPED:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_CATCHES_DROPPED
+						+ ")";
+				break;
+			case SPELLS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_SPELLS + ")";
+				break;
+			case MAIDENS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_MAIDENS + ")";
+				break;
+			case BOWL_FOURS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_FOURS + ")";
+				break;
+			case BOWL_SIXES:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_SIXES + ")";
+				break;
+			case NOBALLS:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_NOBALLS + ")";
+				break;
+			case WIDES:
+				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WIDES + ")";
+				break;
+			default:
+				break;
+			}
+			if (column1 != null) {
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ "," + column1 + " from " + PerformanceDb.SQLITE_TABLE
+						+ " p inner join " + MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BOWL_BALLS + "!=0"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						if (graph_param1.getSelectedItemPosition() == BOWL_OVERS) {
+							values[i] = cursor.getInt(1) / 6;
+						} else {
+							values[i] = cursor.getInt(1);
+						}
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				if (graph_param1.getSelectedItemPosition() != BOWL_STR
+						&& graph_param1.getSelectedItemPosition() != BOWL_AVG) {
+					break;
+				}
+			}
+			switch (graph_param1.getSelectedItemPosition()) {
+			case BOWL_STR:
+			case BOWL_AVG:
+			case ECO:
+				cursor = MainActivity.dbHandle.rawQuery("select " + column2
+						+ ",sum(p." + PerformanceDb.KEY_BOWL_RUNS + "),sum(p."
+						+ PerformanceDb.KEY_BOWL_BALLS + ")" + " from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BOWL_BALLS + "!=0"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ " group by " + column2, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					if (graph_param1.getSelectedItemPosition() == ECO) {
+						values = new int[cursor.getCount()];
+					}
+
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						if (graph_param1.getSelectedItemPosition() == ECO) {
+							if (cursor.getInt(2) == 0) {
+								values[i] = 0;
+							} else {
+								values[i] = cursor.getInt(1) * 6
+										/ cursor.getInt(2);
+							}
+						} else if (graph_param1.getSelectedItemPosition() == BOWL_STR) {
+							if (values[i] != 0) {
+								values[i] = cursor.getInt(2) / values[i];
+							}
+						} else {
+							if (values[i] != 0) {
+								values[i] = cursor.getInt(1) / values[i];
+							}
+						}
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
 			default:
 				break;
 			}
 			break;
 		case PerformanceFragmentEdit.FIELDING:
+			column1 = null;
 			switch (graph_param1.getSelectedItemPosition()) {
+			case SLIP:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_SLIP_CATCH + ")";
+				break;
+			case CLOSE:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_CLOSE_CATCH + ")";
+				break;
+			case CIRCLE:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_CIRCLE_CATCH + ")";
+				break;
+			case DEEP:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_DEEP_CATCH + ")";
+				break;
+			case TOTCATCHES:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_SLIP_CATCH + "+p."
+						+ PerformanceDb.KEY_FIELD_CLOSE_CATCH + "+p."
+						+ PerformanceDb.KEY_FIELD_CIRCLE_CATCH + "+p."
+						+ PerformanceDb.KEY_FIELD_DEEP_CATCH + ")";
+				break;
+			case CIR_RO_DI:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE
+						+ ")";
+				break;
+			case CIR_RO:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_CIRCLE + ")";
+				break;
+			case DEEP_RO_DI:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP
+						+ ")";
+				break;
+			case DEEP_RO:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DEEP + ")";
+				break;
+			case TOT_RO:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE
+						+ "+p." + PerformanceDb.KEY_FIELD_RO_CIRCLE + "+p."
+						+ PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP + "+p."
+						+ PerformanceDb.KEY_FIELD_RO_DEEP + ")";
+				break;
+			case STUMP:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_STUMPINGS + ")";
+				break;
+			case BYES:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_BYES + ")";
+				break;
+			case MISFIELD:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_MISFIELDS + ")";
+				break;
+			case CATCH_DROP:
+				column1 = "sum(p." + PerformanceDb.KEY_FIELD_CATCHES_DROPPED
+						+ ")";
+				break;
 			default:
 				break;
+			}
+			cursor = MainActivity.dbHandle.rawQuery("select " + column2 + ","
+					+ column1 + " from " + PerformanceDb.SQLITE_TABLE
+					+ " p inner join " + MatchDb.SQLITE_TABLE + " m on p."
+					+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+					+ " where p." + PerformanceDb.KEY_STATUS + "='"
+					+ MatchDb.MATCH_HISTORY + "'" + myteam_whereClause
+					+ opponent_whereClause + venue_whereClause
+					+ overs_whereClause + innings_whereClause
+					+ level_whereClause + duration_whereClause
+					+ first_whereClause + season_whereClause
+					+ result_whereClause + " group by " + column2, null);
+			if (column1 != null) {
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
 			}
 			break;
 		default:
