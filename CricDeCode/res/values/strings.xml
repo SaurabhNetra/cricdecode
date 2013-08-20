@@ -362,5 +362,6 @@
     </string-array>
 
     <string name="generate_graph">Generate Graph</string>
+    <string name="chart_title">&quot;&quot;</string>
 
 </resources>
