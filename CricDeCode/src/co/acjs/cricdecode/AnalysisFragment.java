@@ -666,6 +666,9 @@ public class AnalysisFragment extends SherlockFragment {
 					label = new String[cursor.getCount()];
 					values = new int[cursor.getCount()];
 					outs = new int[cursor.getCount()];
+					Log.d("Debug",
+							cursor.getCount() + " OUTS "
+									+ Arrays.toString(outs));
 					int i = 0;
 					do {
 						label[i] = cursor.getString(0);
@@ -679,7 +682,12 @@ public class AnalysisFragment extends SherlockFragment {
 				if (graph_param1.getSelectedItemPosition() != BAT_AVG) {
 					break;
 				}
-				Log.d("Debug", "AVERAGE LOOP");
+				if (outs == null) {
+					label = null;
+					values = null;
+					break;
+				}
+				Log.d("Debug", "AVERAGE LOOP " + Arrays.toString(outs));
 				cursor = MainActivity.dbHandle.rawQuery("select " + column2
 						+ ",sum(p." + PerformanceDb.KEY_BAT_RUNS + ") from "
 						+ PerformanceDb.SQLITE_TABLE + " p inner join "
@@ -810,7 +818,12 @@ public class AnalysisFragment extends SherlockFragment {
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
 					label = new String[cursor.getCount()];
-					int[] bat_100s = values;
+					int[] bat_100s;
+					if (values == null) {
+						bat_100s = new int[cursor.getCount()];
+					} else {
+						bat_100s = values;
+					}
 					values = new int[cursor.getCount()];
 					int i = 0;
 					do {
