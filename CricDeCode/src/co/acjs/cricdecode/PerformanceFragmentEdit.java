@@ -36,7 +36,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	// Declare Fields
 	// Match
 	Spinner inning_no;
-	private int match_id, innings, current_innings, current_position;
+	int match_id, innings, current_innings, current_position;
 
 	// General
 	private String result, review, duration, first, my_team, opponent_team,
@@ -918,6 +918,21 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			myAdap = (ArrayAdapter) spinner.getAdapter();
 			spinnerPosition = myAdap.getPosition(fielding_pos[current_innings]);
 			spinner.setSelection(spinnerPosition);
+
+			if (PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.how_out
+					.getSelectedItemPosition() == 0
+					&& PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.balls
+							.getText().toString().equals("0")) {
+				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
+						.setVisibility(View.GONE);
+				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
+						.setChecked(false);
+			} else {
+				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
+						.setVisibility(View.VISIBLE);
+				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
+						.setChecked(true);
+			}
 			break;
 		case BOWLING:
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs

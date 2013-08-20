@@ -7,177 +7,192 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_batting_no"
+        <ToggleButton
+            android:id="@+id/bat_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/batting_no" />
+            android:layout_alignParentRight="true"
+            android:checked="true"
+            android:textOff="Did Not Bat"
+            android:textOn="Batted" />
 
-        <EditText
-            android:id="@+id/batting_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/lbl_batting_no"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+        <RelativeLayout
+            android:id="@+id/batting_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lblruns"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/batting_no"
-            android:padding="10dp"
-            android:text="@string/runs" />
+            <TextView
+                android:id="@+id/lbl_batting_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/batting_no" />
 
-        <EditText
-            android:id="@+id/runs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/batting_no"
-            android:layout_toRightOf="@id/lblruns"
-            android:ems="3"
-            android:inputType="number"
-            android:padding="10dp" />
+            <EditText
+                android:id="@+id/batting_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/lbl_batting_no"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
 
-        <TextView
-            android:id="@+id/lbl_balls"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/runs"
-            android:padding="10dp"
-            android:text="@string/balls" />
+            <TextView
+                android:id="@+id/lblruns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/batting_no"
+                android:padding="10dp"
+                android:text="@string/runs" />
 
-        <EditText
-            android:id="@+id/balls"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/runs"
-            android:layout_toRightOf="@id/lbl_balls"
-            android:ems="3"
-            android:inputType="number"
-            android:padding="10dp" />
+            <EditText
+                android:id="@+id/runs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/batting_no"
+                android:layout_toRightOf="@id/lblruns"
+                android:ems="3"
+                android:inputType="number"
+                android:padding="10dp" />
 
-        <TextView
-            android:id="@+id/lbl_time_spent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/balls"
-            android:padding="10dp"
-            android:text="@string/time_spent" />
+            <TextView
+                android:id="@+id/lbl_balls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/runs"
+                android:padding="10dp"
+                android:text="@string/balls" />
 
-        <EditText
-            android:id="@+id/time_spent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/balls"
-            android:layout_toRightOf="@id/lbl_time_spent"
-            android:ems="3"
-            android:inputType="number"
-            android:padding="10dp" />
+            <EditText
+                android:id="@+id/balls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/runs"
+                android:layout_toRightOf="@id/lbl_balls"
+                android:ems="3"
+                android:inputType="number"
+                android:padding="10dp" />
 
-        <TextView
-            android:id="@+id/lbl_fours"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time_spent"
-            android:padding="10dp"
-            android:text="@string/fours" />
+            <TextView
+                android:id="@+id/lbl_time_spent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/balls"
+                android:padding="10dp"
+                android:text="@string/time_spent" />
 
-        <EditText
-            android:id="@+id/fours"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time_spent"
-            android:layout_toRightOf="@id/lbl_fours"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <EditText
+                android:id="@+id/time_spent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/balls"
+                android:layout_toRightOf="@id/lbl_time_spent"
+                android:ems="3"
+                android:inputType="number"
+                android:padding="10dp" />
 
-        <TextView
-            android:id="@+id/lbl_sixes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fours"
-            android:padding="10dp"
-            android:text="@string/sixes" />
+            <TextView
+                android:id="@+id/lbl_fours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_spent"
+                android:padding="10dp"
+                android:text="@string/fours" />
 
-        <EditText
-            android:id="@+id/sixes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fours"
-            android:layout_toRightOf="@id/lbl_sixes"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <EditText
+                android:id="@+id/fours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_spent"
+                android:layout_toRightOf="@id/lbl_fours"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
 
-        <TextView
-            android:id="@+id/lbl_how_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sixes"
-            android:padding="10dp"
-            android:text="@string/how_out" />
+            <TextView
+                android:id="@+id/lbl_sixes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fours"
+                android:padding="10dp"
+                android:text="@string/sixes" />
 
-        <Spinner
-            android:id="@+id/how_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sixes"
-            android:layout_toRightOf="@id/lbl_how_out"
-            android:entries="@array/how_out" />
+            <EditText
+                android:id="@+id/sixes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fours"
+                android:layout_toRightOf="@id/lbl_sixes"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
 
-        <TextView
-            android:id="@+id/lbl_bowler_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/how_out"
-            android:padding="10dp"
-            android:text="@string/bowler_type" />
+            <TextView
+                android:id="@+id/lbl_how_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sixes"
+                android:padding="10dp"
+                android:text="@string/how_out" />
 
-        <Spinner
-            android:id="@+id/bowler_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/how_out"
-            android:layout_toRightOf="@id/lbl_bowler_type"
-            android:entries="@array/bowling_style" />
+            <Spinner
+                android:id="@+id/how_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sixes"
+                android:layout_toRightOf="@id/lbl_how_out"
+                android:entries="@array/how_out" />
 
-        <TextView
-            android:id="@+id/lbl_fielding_pos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bowler_type"
-            android:padding="10dp"
-            android:text="@string/fielding_pos" />
+            <TextView
+                android:id="@+id/lbl_bowler_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/how_out"
+                android:padding="10dp"
+                android:text="@string/bowler_type" />
 
-        <Spinner
-            android:id="@+id/fielding_pos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bowler_type"
-            android:layout_toRightOf="@id/lbl_fielding_pos"
-            android:entries="@array/fielding_pos" />
+            <Spinner
+                android:id="@+id/bowler_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/how_out"
+                android:layout_toRightOf="@id/lbl_bowler_type"
+                android:entries="@array/bowling_style" />
 
-        <TextView
-            android:id="@+id/lbl_lives"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fielding_pos"
-            android:padding="10dp"
-            android:text="@string/lives" />
+            <TextView
+                android:id="@+id/lbl_fielding_pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bowler_type"
+                android:padding="10dp"
+                android:text="@string/fielding_pos" />
 
-        <EditText
-            android:id="@+id/lives"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fielding_pos"
-            android:layout_toRightOf="@id/lbl_lives"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <Spinner
+                android:id="@+id/fielding_pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bowler_type"
+                android:layout_toRightOf="@id/lbl_fielding_pos"
+                android:entries="@array/fielding_pos" />
+
+            <TextView
+                android:id="@+id/lbl_lives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fielding_pos"
+                android:padding="10dp"
+                android:text="@string/lives" />
+
+            <EditText
+                android:id="@+id/lives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fielding_pos"
+                android:layout_toRightOf="@id/lbl_lives"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

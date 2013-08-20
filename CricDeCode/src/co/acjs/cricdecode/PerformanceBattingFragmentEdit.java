@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -16,6 +20,8 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 
 	EditText batting_no, runs, balls, time_spent, fours, sixes, lives;
 	Spinner how_out, bowler_type, fielding_pos;
+	ToggleButton bat_toggle;
+	RelativeLayout batting_info;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,9 +38,25 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 		init(view);
 		((PerformanceFragmentEdit) getParentFragment())
 				.viewInfo(PerformanceFragmentEdit.BATTING);
+
 		// Set inputFilters
 		batting_no.setFilters(new InputFilter[] { new InputFilterMinMax("1",
 				"11") });
+
+		bat_toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					batting_info.setVisibility(View.VISIBLE);
+				} else {
+					batting_info.setVisibility(View.GONE);
+					how_out.setSelection(0);
+					balls.setText("0");
+				}
+			}
+		});
 
 		how_out.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> adapterView, View view,
@@ -68,6 +90,7 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		batting_info = (RelativeLayout) view.findViewById(R.id.batting_info);
 		batting_no = (EditText) view.findViewById(R.id.batting_no);
 		runs = (EditText) view.findViewById(R.id.runs);
 		balls = (EditText) view.findViewById(R.id.balls);
@@ -78,5 +101,8 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 		how_out = (Spinner) view.findViewById(R.id.how_out);
 		bowler_type = (Spinner) view.findViewById(R.id.bowler_type);
 		fielding_pos = (Spinner) view.findViewById(R.id.fielding_pos);
+
+		bat_toggle = (ToggleButton) view.findViewById(R.id.bat_toggle);
 	}
+
 }
