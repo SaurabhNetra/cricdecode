@@ -946,7 +946,8 @@ public class AnalysisFragment extends SherlockFragment {
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
 					label = new String[cursor.getCount()];
-					if (graph_param1.getSelectedItemPosition() == ECO) {
+					if (graph_param1.getSelectedItemPosition() == ECO
+							|| values == null) {
 						values = new int[cursor.getCount()];
 					}
 

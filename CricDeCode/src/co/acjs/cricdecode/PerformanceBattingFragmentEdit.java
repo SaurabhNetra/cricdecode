@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -93,11 +94,95 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 		batting_info = (RelativeLayout) view.findViewById(R.id.batting_info);
 		batting_no = (EditText) view.findViewById(R.id.batting_no);
 		runs = (EditText) view.findViewById(R.id.runs);
+		runs.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					if (runs.getText().toString().equals("0")) {
+						runs.setText("");
+					}
+				} else {
+					if (runs.getText().toString().equals("")) {
+						runs.setText("0");
+					}
+				}
+			}
+		});
 		balls = (EditText) view.findViewById(R.id.balls);
+		balls.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					if (balls.getText().toString().equals("0")) {
+						balls.setText("");
+					}
+				} else {
+					if (balls.getText().toString().equals("")) {
+						balls.setText("0");
+					}
+				}
+			}
+		});
 		time_spent = (EditText) view.findViewById(R.id.time_spent);
+		time_spent.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					if (time_spent.getText().toString().equals("0")) {
+						time_spent.setText("");
+					}
+				} else {
+					if (time_spent.getText().toString().equals("")) {
+						time_spent.setText("0");
+					}
+				}
+			}
+		});
 		fours = (EditText) view.findViewById(R.id.fours);
+		fours.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					if (fours.getText().toString().equals("0")) {
+						fours.setText("");
+					}
+				} else {
+					if (fours.getText().toString().equals("")) {
+						fours.setText("0");
+					}
+				}
+			}
+		});
 		sixes = (EditText) view.findViewById(R.id.sixes);
+		sixes.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					if (sixes.getText().toString().equals("0")) {
+						sixes.setText("");
+					}
+				} else {
+					if (sixes.getText().toString().equals("")) {
+						sixes.setText("0");
+					}
+				}
+			}
+		});
 		lives = (EditText) view.findViewById(R.id.lives);
+		lives.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					if (lives.getText().toString().equals("0")) {
+						lives.setText("");
+					}
+				} else {
+					if (lives.getText().toString().equals("")) {
+						lives.setText("0");
+					}
+				}
+			}
+		});
 		how_out = (Spinner) view.findViewById(R.id.how_out);
 		bowler_type = (Spinner) view.findViewById(R.id.bowler_type);
 		fielding_pos = (Spinner) view.findViewById(R.id.fielding_pos);

@@ -957,6 +957,19 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setText(noballs[current_innings] + "");
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wides
 					.setText(wides[current_innings] + "");
+			if (Float
+					.parseFloat(PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
+							.getText().toString()) == 0) {
+				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
+						.setVisibility(View.GONE);
+				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
+						.setChecked(false);
+			} else {
+				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
+						.setVisibility(View.VISIBLE);
+				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
+						.setChecked(true);
+			}
 			break;
 		case FIELDING:
 			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.slip_catches
