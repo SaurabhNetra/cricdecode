@@ -28,7 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name="co.acjs.cricdecode.DisplayPieChart" >
+        <activity android:name="co.acjs.cricdecode.DisplayPieChart" >
+        </activity>
+        <activity android:name="co.acjs.cricdecode.DisplayLineChart" >
         </activity>
         <activity
             android:name="com.google.ads.AdActivity"

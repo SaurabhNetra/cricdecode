@@ -1072,9 +1072,16 @@ public class AnalysisFragment extends SherlockFragment {
 					label[index] = "Unlimited";
 				}
 			}
-			Toast.makeText(getSherlockActivity(),
-					Arrays.toString(label) + " " + Arrays.toString(values),
-					Toast.LENGTH_LONG).show();
+			Log.w("Label vs Values",
+					"" + Arrays.toString(label) + " " + Arrays.toString(values));
+			Intent intent = new Intent(getActivity(), DisplayLineChart.class);
+			double d[] = new double[label.length];
+			for (int i = 0; i < label.length; i++) {
+				d[i] = values[i];
+			}
+			intent.putExtra("labels", label);
+			intent.putExtra("values", d);
+			startActivity(intent);
 		} else {
 			Toast.makeText(getSherlockActivity(), "No Data Available ",
 					Toast.LENGTH_LONG).show();
