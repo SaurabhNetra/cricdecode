@@ -825,8 +825,13 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		case PerformanceFragmentEdit.GENERAL:
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_result
 					.setText(result);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
-					.setText(review);
+			if (review.equals("")) {
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
+						.setText("LEFT BLANK");
+			} else {
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
+						.setText(review);
+			}
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.first
 					.setText(first);
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.duration
@@ -892,6 +897,15 @@ public class PerformanceFragmentView extends SherlockFragment implements
 						.setVisibility(View.GONE);
 
 			}
+			if (PerformanceBattingFragmentView.performanceBattingFragmentView.how_out
+					.getText().toString().equals("Not Out")
+					&& PerformanceBattingFragmentView.performanceBattingFragmentView.balls
+							.getText().toString().equals("0")) {
+				PerformanceBattingFragmentView.performanceBattingFragmentView.batting_info
+						.setVisibility(View.GONE);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.batted
+						.setVisibility(View.VISIBLE);
+			}
 			break;
 		case PerformanceFragmentEdit.BOWLING:
 			PerformanceBowlingFragmentView.performanceBowlingFragmentView.overs
@@ -916,6 +930,14 @@ public class PerformanceFragmentView extends SherlockFragment implements
 					.setText(noballs[current_innings] + "");
 			PerformanceBowlingFragmentView.performanceBowlingFragmentView.wides
 					.setText(wides[current_innings] + "");
+			if (Float
+					.parseFloat(PerformanceBowlingFragmentView.performanceBowlingFragmentView.overs
+							.getText().toString()) == 0) {
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowling_info
+						.setVisibility(View.GONE);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowled
+						.setVisibility(View.VISIBLE);
+			}
 			break;
 		case PerformanceFragmentEdit.FIELDING:
 			PerformanceFieldingFragmentView.performanceFieldingFragmentView.slip_catches

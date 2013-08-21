@@ -138,6 +138,7 @@
 
 
     <!-- Batting -->
+    <string name="dnb">Did Not Bat</string>
     <string name="batting_no">Batting Number</string>
     <string name="runs">Runs</string>
     <string name="balls">Balls</string>
@@ -205,6 +206,7 @@
     </string-array>
 
     <!-- Bowling -->
+    <string name="dnbowl">Did Not Bowl</string>
     <string name="spells">Spells</string>
     <string name="maidens">Maidens</string>
     <string name="wickets_left">Left Handed Batsman Wickets</string>

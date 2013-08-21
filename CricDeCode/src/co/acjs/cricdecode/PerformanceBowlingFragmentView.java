@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -12,7 +13,8 @@ public class PerformanceBowlingFragmentView extends SherlockFragment {
 	static PerformanceBowlingFragmentView performanceBowlingFragmentView;
 
 	TextView overs, spells, maidens, runs, fours, sixes, wkts_left, wkts_right,
-			catches_dropped, noballs, wides;
+			catches_dropped, noballs, wides, bowled;
+	RelativeLayout bowling_info;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +34,8 @@ public class PerformanceBowlingFragmentView extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		bowling_info = (RelativeLayout) view.findViewById(R.id.bowling_info);
+		bowled = (TextView) view.findViewById(R.id.bowled);
 		overs = (TextView) view.findViewById(R.id.overs);
 		spells = (TextView) view.findViewById(R.id.spells);
 		maidens = (TextView) view.findViewById(R.id.maidens);
