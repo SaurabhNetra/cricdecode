@@ -705,20 +705,32 @@ public class AnalysisFragment extends SherlockFragment {
 						+ " group by " + column2, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
-					label = new String[cursor.getCount()];
+					String[] bat_label = new String[cursor.getCount()];
 					values = new int[cursor.getCount()];
 					int i = 0;
 					do {
-						label[i] = cursor.getString(0);
+						bat_label[i] = cursor.getString(0);
 						values[i] = cursor.getInt(1);
-						if (outs[i] == 0) {
-							values[i] = 0;
-						} else {
-							values[i] = values[i] / outs[i];
-						}
+						// if (outs[i] == 0) {
+						// values[i] = 0;
+						// } else {
+						// values[i] = values[i] / outs[i];
+						// }
 						i++;
 						cursor.moveToNext();
 					} while (!cursor.isAfterLast());
+					for (int j = 0; j < bat_label.length; j++) {
+						for (int k = 0; k < label.length; k++) {
+							if (bat_label[j].equals(label[k])) {
+								if (outs[k] == 0) {
+									values[j] = 0;
+								} else {
+									values[j] = values[j] / outs[k];
+								}
+							}
+						}
+					}
+					label = bat_label;
 				}
 				cursor.close();
 				break;
