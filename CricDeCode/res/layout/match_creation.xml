@@ -53,7 +53,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:minWidth="200dp"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
@@ -79,7 +79,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:minWidth="200dp"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
@@ -105,7 +105,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:minWidth="200dp"
             android:padding="10dp"
             android:textColor="@color/abs__primary_text_holo_light" />
