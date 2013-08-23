@@ -23,7 +23,7 @@ public class MultiSelectSpinner extends Spinner implements
 	String[] _items = null;
 	boolean[] _selection = null;
 
-	AlertDialog alert;
+	AlertDialog.Builder builder;
 
 	ArrayAdapter<String> _proxyAdapter;
 
@@ -62,11 +62,15 @@ public class MultiSelectSpinner extends Spinner implements
 		Log.d("Debug", "OnClick which=" + which + " isChecked=" + isChecked);
 		if (_selection != null && which < _selection.length) {
 			if (which == 0) {
-				for (int i = 0; i < _items.length; i++) {
+				for (int i = 0; i < _selection.length; i++) {
 					_selection[i] = isChecked;
+					((AlertDialog) dialog).getListView().setItemChecked(i,
+							isChecked);
 				}
 			} else {
 				_selection[which] = isChecked;
+				((AlertDialog) dialog).getListView().setItemChecked(which,
+						isChecked);
 				if (isChecked) {
 					int i = 1;
 					for (; i < _selection.length; i++) {
@@ -76,16 +80,19 @@ public class MultiSelectSpinner extends Spinner implements
 					}
 					if (i == _selection.length) {
 						_selection[0] = true;
+						((AlertDialog) dialog).getListView().setItemChecked(0,
+								true);
 					}
 				} else {
 					_selection[0] = false;
+					((AlertDialog) dialog).getListView().setItemChecked(0,
+							false);
 				}
 			}
-
+			Log.d("Debug", Arrays.toString(_selection));
 			_proxyAdapter.clear();
 			_proxyAdapter.add(buildSelectedItemString());
 			setSelection(0);
-			performClick();
 		} else {
 			throw new IllegalArgumentException(
 					"Argument 'which' is out of bounds.");
@@ -98,13 +105,9 @@ public class MultiSelectSpinner extends Spinner implements
 	@Override
 	public boolean performClick() {
 		Log.d("Debug", "On Perform Click");
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder = new AlertDialog.Builder(getContext());
 		builder.setMultiChoiceItems(_items, _selection, this);
-		if (alert != null) {
-			alert.dismiss();
-		}
-		alert = builder.create();
-		alert.show();
+		builder.show();
 		return true;
 	}
 

@@ -633,6 +633,7 @@ public class AnalysisFragment extends SherlockFragment {
 					} while (!cursor.isAfterLast());
 				}
 				cursor.close();
+				Log.d("Debug", "Label " + Arrays.toString(label));
 				Log.d("Debug", graph_param1.getSelectedItemPosition() + " "
 						+ BAT_STR);
 				if (graph_param1.getSelectedItemPosition() != NO
@@ -645,8 +646,10 @@ public class AnalysisFragment extends SherlockFragment {
 			switch (graph_param1.getSelectedItemPosition()) {
 			case NO:
 			case BAT_AVG:
+				String[] bat_labels = label;
 				int[] bat_innings = values;
 				int[] outs = null;
+				String[] out_label = null;
 				cursor = MainActivity.dbHandle.rawQuery("select " + column2
 						+ ",count(p." + PerformanceDb.KEY_ROWID + ") from "
 						+ PerformanceDb.SQLITE_TABLE + " p inner join "
@@ -666,6 +669,7 @@ public class AnalysisFragment extends SherlockFragment {
 					label = new String[cursor.getCount()];
 					values = new int[cursor.getCount()];
 					outs = new int[cursor.getCount()];
+					out_label = new String[cursor.getCount()];
 					Log.d("Debug",
 							cursor.getCount() + " OUTS "
 									+ Arrays.toString(outs));
@@ -673,12 +677,23 @@ public class AnalysisFragment extends SherlockFragment {
 					do {
 						label[i] = cursor.getString(0);
 						outs[i] = cursor.getInt(1);
-						values[i] = bat_innings[i] - cursor.getInt(1);
+						int j = 0;
+						for (; j < bat_labels.length; j++) {
+							if (bat_labels[j].equals(label[i])) {
+								break;
+							}
+						}
+						Log.d("Debug", "Matched Labels " + bat_labels[j]);
+						bat_innings[j] = bat_innings[j] - cursor.getInt(1);
 						i++;
 						cursor.moveToNext();
 					} while (!cursor.isAfterLast());
+					values = bat_innings;
+					out_label = label;
+					label = bat_labels;
 				}
 				cursor.close();
+				Log.d("Debug", "Label " + Arrays.toString(label));
 				if (graph_param1.getSelectedItemPosition() != BAT_AVG) {
 					break;
 				}
@@ -720,14 +735,20 @@ public class AnalysisFragment extends SherlockFragment {
 						cursor.moveToNext();
 					} while (!cursor.isAfterLast());
 					for (int j = 0; j < bat_label.length; j++) {
-						for (int k = 0; k < label.length; k++) {
-							if (bat_label[j].equals(label[k])) {
+						int k = 0;
+						for (; k < out_label.length; k++) {
+							if (bat_label[j].equals(out_label[k])) {
 								if (outs[k] == 0) {
 									values[j] = 0;
 								} else {
-									values[j] = values[j] / outs[k];
+									values[j] = (int) Math
+											.round((double) values[j] / outs[k]);
 								}
+								break;
 							}
+						}
+						if (k == out_label.length) {
+							values[j] = -1;
 						}
 					}
 					label = bat_label;
@@ -764,11 +785,11 @@ public class AnalysisFragment extends SherlockFragment {
 					do {
 						label[i] = cursor.getString(0);
 						if (cursor.getInt(2) == 0) {
-							values[i] = 0;
+							values[i] = -1;
 						} else {
 							float temp = (float) cursor.getInt(1)
 									/ cursor.getInt(2) * 100;
-							values[i] = (int) temp;
+							values[i] = (int) Math.round(temp);
 						}
 						i++;
 						cursor.moveToNext();
@@ -922,7 +943,8 @@ public class AnalysisFragment extends SherlockFragment {
 					do {
 						label[i] = cursor.getString(0);
 						if (graph_param1.getSelectedItemPosition() == BOWL_OVERS) {
-							values[i] = cursor.getInt(1) / 6;
+							values[i] = (int) Math.round((double) cursor
+									.getInt(1) / 6);
 						} else {
 							values[i] = cursor.getInt(1);
 						}
@@ -968,18 +990,24 @@ public class AnalysisFragment extends SherlockFragment {
 						label[i] = cursor.getString(0);
 						if (graph_param1.getSelectedItemPosition() == ECO) {
 							if (cursor.getInt(2) == 0) {
-								values[i] = 0;
+								values[i] = -1;
 							} else {
-								values[i] = cursor.getInt(1) * 6
-										/ cursor.getInt(2);
+								values[i] = (int) Math.round((double) cursor
+										.getInt(1) * 6 / cursor.getInt(2));
 							}
 						} else if (graph_param1.getSelectedItemPosition() == BOWL_STR) {
 							if (values[i] != 0) {
-								values[i] = cursor.getInt(2) / values[i];
+								values[i] = (int) Math.round((double) cursor
+										.getInt(2) / values[i]);
+							} else {
+								values[i] = -1;
 							}
 						} else {
 							if (values[i] != 0) {
-								values[i] = cursor.getInt(1) / values[i];
+								values[i] = (int) Math.round((double) cursor
+										.getInt(1) / values[i]);
+							} else {
+								values[i] = -1;
 							}
 						}
 						i++;
@@ -1088,11 +1116,24 @@ public class AnalysisFragment extends SherlockFragment {
 			Log.w("Label vs Values",
 					"" + Arrays.toString(label) + " " + Arrays.toString(values));
 			Intent intent = new Intent(getActivity(), DisplayLineChart.class);
-			double d[] = new double[label.length];
-			for (int i = 0; i < label.length; i++) {
-				d[i] = values[i];
+
+			int count = 0;
+			for (int i = 0; i < values.length; i++) {
+				if (values[i] == -1) {
+					count++;
+				}
 			}
-			intent.putExtra("labels", label);
+
+			String[] fin_label = new String[label.length - count];
+			double d[] = new double[label.length - count];
+			int j = 0;
+			for (int i = 0; i < label.length; i++) {
+				if (values[i] != -1) {
+					d[j] = values[i];
+					fin_label[j++] = label[i];
+				}
+			}
+			intent.putExtra("labels", fin_label);
 			intent.putExtra("values", d);
 			startActivity(intent);
 		} else {
