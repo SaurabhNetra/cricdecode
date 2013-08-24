@@ -25,6 +25,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class DiaryMatchesFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	static DiaryMatchesFragment diaryMatchesFragment;
+	RelativeLayout no_matches;
+	ListView listView;
 
 	// Filter Variables
 	ArrayList<String> my_team_list, my_team_list_selected, opponent_list,
@@ -242,8 +244,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 				R.layout.diary_match_list_item, null, columns, to, 0);
 
 		// get reference to the ListView
-		ListView listView = (ListView) view.findViewById(R.id.content_list);
-
+		listView = (ListView) view.findViewById(R.id.content_list);
+		no_matches = (RelativeLayout) view.findViewById(R.id.no_matches);
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
 		// Ensures a loader is initialized and active.
@@ -305,6 +307,14 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		// old cursor once we return.)
 		Log.d("Debug", "on Load Finished");
 		dataAdapter.swapCursor(data);
+		Log.d("Debug", "List Count " + listView.getCount());
+		if (listView != null) {
+			if (listView.getCount() == 0) {
+				no_matches.setVisibility(View.VISIBLE);
+			} else {
+				no_matches.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	@Override

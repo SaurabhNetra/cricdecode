@@ -26,6 +26,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	static OngoingMatchesFragment ongoingMatchesFragment;
 
 	private SimpleCursorAdapter dataAdapter;
+	RelativeLayout no_matches;
+	ListView listView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +70,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 				R.layout.ongoing_match_list_item, null, columns, to, 0);
 
 		// get reference to the ListView
-		ListView listView = (ListView) view.findViewById(R.id.content_list);
+		listView = (ListView) view.findViewById(R.id.content_list);
+		no_matches = (RelativeLayout) view.findViewById(R.id.no_matches);
 
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
@@ -126,6 +129,14 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		// old cursor once we return.)
 		Log.d("Debug", "on Load Finished");
 		dataAdapter.swapCursor(data);
+		Log.d("Debug", "List Count " + listView.getCount());
+		if (listView != null) {
+			if (listView.getCount() == 0) {
+				no_matches.setVisibility(View.VISIBLE);
+			} else {
+				no_matches.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	@Override

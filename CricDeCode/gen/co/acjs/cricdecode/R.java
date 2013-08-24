@@ -1151,24 +1151,24 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_settings=0x7f0500f5;
+        public static final int action_settings=0x7f0500f7;
         public static final int adView=0x7f0500ad;
-        public static final int add_to_career=0x7f0500cf;
-        public static final int at=0x7f0500e2;
+        public static final int add_to_career=0x7f0500d1;
+        public static final int at=0x7f0500e4;
         public static final int average=0x7f05004a;
         public static final int balls=0x7f05004c;
-        public static final int bat_toggle=0x7f0500d1;
-        public static final int batted=0x7f0500dc;
-        public static final int batting_info=0x7f0500d2;
-        public static final int batting_no=0x7f0500d4;
-        public static final int batting_style=0x7f0500f1;
+        public static final int bat_toggle=0x7f0500d3;
+        public static final int batted=0x7f0500de;
+        public static final int batting_info=0x7f0500d4;
+        public static final int batting_no=0x7f0500d6;
+        public static final int batting_style=0x7f0500f3;
         public static final int bbi=0x7f050070;
         public static final int bbm=0x7f050072;
-        public static final int bowl_toggle=0x7f0500dd;
-        public static final int bowled=0x7f0500df;
-        public static final int bowler_type=0x7f0500d9;
-        public static final int bowling_info=0x7f0500de;
-        public static final int bowling_style=0x7f0500f2;
+        public static final int bowl_toggle=0x7f0500df;
+        public static final int bowled=0x7f0500e1;
+        public static final int bowler_type=0x7f0500db;
+        public static final int bowling_info=0x7f0500e0;
+        public static final int bowling_style=0x7f0500f4;
         public static final int byes=0x7f05008e;
         public static final int catches=0x7f050078;
         public static final int catches_dropped_bowling=0x7f050068;
@@ -1179,26 +1179,26 @@ containing a value of this type.
         public static final int circle_runouts_direct=0x7f050086;
         public static final int close_catches=0x7f05007c;
         public static final int content_frame=0x7f0500ac;
-        public static final int content_list=0x7f0500c4;
-        public static final int content_profile=0x7f0500f3;
-        public static final int date_of_birth=0x7f0500ef;
-        public static final int date_of_match=0x7f0500c7;
-        public static final int date_of_match_row=0x7f0500c5;
+        public static final int content_list=0x7f0500c6;
+        public static final int content_profile=0x7f0500f5;
+        public static final int date_of_birth=0x7f0500f1;
+        public static final int date_of_match=0x7f0500c9;
+        public static final int date_of_match_row=0x7f0500c7;
         public static final int deep_catches=0x7f050080;
         public static final int deep_runouts=0x7f050088;
         public static final int deep_runouts_direct=0x7f05008a;
         public static final int delete_diary=0x7f0500a8;
-        public static final int delete_ongoing=0x7f0500d0;
+        public static final int delete_ongoing=0x7f0500d2;
         public static final int dialog_text=0x7f05009f;
         public static final int disableHome=0x7f05000d;
         public static final int drawer_layout=0x7f0500ab;
-        public static final int duration=0x7f0500e5;
+        public static final int duration=0x7f0500e7;
         public static final int duration_list=0x7f0500c0;
         public static final int economy_rate=0x7f05006a;
         public static final int edit_query=0x7f05002a;
-        public static final int fielding_pos=0x7f0500db;
+        public static final int fielding_pos=0x7f0500dd;
         public static final int fifties=0x7f050050;
-        public static final int first_action=0x7f0500e7;
+        public static final int first_action=0x7f0500e9;
         public static final int first_list=0x7f0500c2;
         public static final int fours=0x7f050056;
         public static final int fwi=0x7f05006c;
@@ -1211,7 +1211,7 @@ containing a value of this type.
         public static final int graph_type=0x7f050036;
         public static final int highest=0x7f050048;
         public static final int homeAsUp=0x7f05000a;
-        public static final int how_out=0x7f0500d7;
+        public static final int how_out=0x7f0500d9;
         public static final int hundreds=0x7f050052;
         public static final int hybrid=0x7f050004;
         public static final int inning_no=0x7f0500c3;
@@ -1219,10 +1219,10 @@ containing a value of this type.
         public static final int innings_list=0x7f0500be;
         public static final int lbl_average=0x7f050049;
         public static final int lbl_balls=0x7f05004b;
-        public static final int lbl_batting_no=0x7f0500d3;
+        public static final int lbl_batting_no=0x7f0500d5;
         public static final int lbl_bbi=0x7f05006f;
         public static final int lbl_bbm=0x7f050071;
-        public static final int lbl_bowler_type=0x7f0500d8;
+        public static final int lbl_bowler_type=0x7f0500da;
         public static final int lbl_byes=0x7f05008d;
         public static final int lbl_catches=0x7f050077;
         public static final int lbl_catches_dropped_bowling=0x7f050067;
@@ -1231,40 +1231,40 @@ containing a value of this type.
         public static final int lbl_circle_runouts=0x7f050083;
         public static final int lbl_circle_runouts_direct=0x7f050085;
         public static final int lbl_close_catches=0x7f05007b;
-        public static final int lbl_date=0x7f0500c6;
+        public static final int lbl_date=0x7f0500c8;
         public static final int lbl_deep_catches=0x7f05007f;
         public static final int lbl_deep_runouts=0x7f050087;
         public static final int lbl_deep_runouts_direct=0x7f050089;
-        public static final int lbl_duration=0x7f0500e4;
+        public static final int lbl_duration=0x7f0500e6;
         public static final int lbl_duration_list=0x7f0500bf;
         public static final int lbl_economy_rate=0x7f050069;
-        public static final int lbl_fielding_pos=0x7f0500da;
+        public static final int lbl_fielding_pos=0x7f0500dc;
         public static final int lbl_fifties=0x7f05004f;
-        public static final int lbl_first_action=0x7f0500e6;
+        public static final int lbl_first_action=0x7f0500e8;
         public static final int lbl_first_list=0x7f0500c1;
         public static final int lbl_fours=0x7f050055;
         public static final int lbl_fwi=0x7f05006b;
         public static final int lbl_highest=0x7f050047;
-        public static final int lbl_how_out=0x7f0500d6;
+        public static final int lbl_how_out=0x7f0500d8;
         public static final int lbl_hundreds=0x7f050051;
         public static final int lbl_innings=0x7f050041;
         public static final int lbl_innings_list=0x7f0500bd;
-        public static final int lbl_level=0x7f0500cc;
+        public static final int lbl_level=0x7f0500ce;
         public static final int lbl_level_list=0x7f0500b9;
         public static final int lbl_lives=0x7f050059;
         public static final int lbl_losses=0x7f050097;
         public static final int lbl_maidens=0x7f05005f;
-        public static final int lbl_match_result=0x7f0500e8;
-        public static final int lbl_match_review=0x7f0500ea;
+        public static final int lbl_match_result=0x7f0500ea;
+        public static final int lbl_match_review=0x7f0500ec;
         public static final int lbl_matches=0x7f050093;
         public static final int lbl_misfields=0x7f05008f;
-        public static final int lbl_my_team=0x7f0500c8;
+        public static final int lbl_my_team=0x7f0500ca;
         public static final int lbl_my_team_list=0x7f0500b1;
         public static final int lbl_no_result=0x7f05009b;
         public static final int lbl_noballs=0x7f050073;
         public static final int lbl_not_outs=0x7f050043;
         public static final int lbl_opponent_list=0x7f0500b3;
-        public static final int lbl_opponent_team=0x7f0500c9;
+        public static final int lbl_opponent_team=0x7f0500cb;
         public static final int lbl_overs=0x7f05005b;
         public static final int lbl_overs_list=0x7f0500bb;
         public static final int lbl_result_list=0x7f0500b7;
@@ -1279,7 +1279,7 @@ containing a value of this type.
         public static final int lbl_ties=0x7f050099;
         public static final int lbl_time_spent=0x7f050053;
         public static final int lbl_twm=0x7f05006d;
-        public static final int lbl_venue=0x7f0500ca;
+        public static final int lbl_venue=0x7f0500cc;
         public static final int lbl_venue_list=0x7f0500b5;
         public static final int lbl_wickets=0x7f050061;
         public static final int lbl_wickets_left=0x7f050063;
@@ -1287,9 +1287,9 @@ containing a value of this type.
         public static final int lbl_wides=0x7f050075;
         public static final int lbl_win_per=0x7f05009d;
         public static final int lbl_wins=0x7f050095;
-        public static final int lblruns=0x7f0500d5;
+        public static final int lblruns=0x7f0500d7;
         public static final int left_drawer=0x7f0500ae;
-        public static final int level=0x7f0500cd;
+        public static final int level=0x7f0500cf;
         public static final int level_list=0x7f0500ba;
         public static final int listMode=0x7f050006;
         public static final int lives=0x7f05005a;
@@ -1299,15 +1299,17 @@ containing a value of this type.
         public static final int make_graph_category_2=0x7f05003f;
         public static final int match_data=0x7f0500a4;
         public static final int match_date=0x7f0500a5;
-        public static final int match_result=0x7f0500e9;
-        public static final int match_review=0x7f0500eb;
+        public static final int match_result=0x7f0500eb;
+        public static final int match_review=0x7f0500ed;
         public static final int matches=0x7f050094;
         public static final int misfields=0x7f050090;
         public static final int my_team=0x7f0500a6;
         public static final int my_team_list=0x7f0500b2;
-        public static final int name=0x7f0500ed;
-        public static final int nickname=0x7f0500ee;
+        public static final int name=0x7f0500ef;
+        public static final int nickname=0x7f0500f0;
         public static final int no=0x7f0500a1;
+        public static final int no_match_text=0x7f0500c5;
+        public static final int no_matches=0x7f0500c4;
         public static final int no_result=0x7f05009c;
         public static final int noballs=0x7f050074;
         public static final int none=0x7f050000;
@@ -1316,15 +1318,15 @@ containing a value of this type.
         public static final int okay=0x7f0500a2;
         public static final int opponent_list=0x7f0500b4;
         public static final int opponent_team=0x7f0500a7;
-        public static final int over_limit=0x7f0500ce;
+        public static final int over_limit=0x7f0500d0;
         public static final int overs=0x7f05005c;
-        public static final int overs_limit=0x7f0500e3;
+        public static final int overs_limit=0x7f0500e5;
         public static final int overs_list=0x7f0500bc;
-        public static final int performance_fragment_layout=0x7f0500e0;
-        public static final int profile_data=0x7f0500f4;
-        public static final int profile_picture=0x7f0500ec;
+        public static final int performance_fragment_layout=0x7f0500e2;
+        public static final int profile_data=0x7f0500f6;
+        public static final int profile_picture=0x7f0500ee;
         public static final int result_list=0x7f0500b8;
-        public static final int role=0x7f0500f0;
+        public static final int role=0x7f0500f2;
         public static final int runouts=0x7f050082;
         public static final int runs=0x7f050046;
         public static final int satellite=0x7f050002;
@@ -1345,9 +1347,9 @@ containing a value of this type.
         public static final int title=0x7f0500aa;
         public static final int twm=0x7f05006e;
         public static final int useLogo=0x7f050008;
-        public static final int venue=0x7f0500cb;
+        public static final int venue=0x7f0500cd;
         public static final int venue_list=0x7f0500b6;
-        public static final int viewpager=0x7f0500e1;
+        public static final int viewpager=0x7f0500e3;
         public static final int vs=0x7f05003a;
         public static final int wickets=0x7f050062;
         public static final int wickets_left=0x7f050064;
@@ -1462,12 +1464,12 @@ containing a value of this type.
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f06001c;
         public static final int action_settings=0x7f060024;
-        public static final int add_to_career=0x7f060044;
+        public static final int add_to_career=0x7f060045;
         public static final int app_name=0x7f060023;
         /**  Confirmation Dialog 
          */
-        public static final int are_you_sure=0x7f06006e;
-        public static final int at=0x7f060043;
+        public static final int are_you_sure=0x7f06006f;
+        public static final int at=0x7f060044;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
         public static final int auth_client_availability_notification_title=0x7f06000f;
@@ -1477,27 +1479,27 @@ containing a value of this type.
         /**   Requested by string saying which app requested the notification. [CHAR LIMIT=42] 
          */
         public static final int auth_client_requested_by_msg=0x7f060011;
-        public static final int average=0x7f06007a;
-        public static final int balls=0x7f06004e;
-        public static final int batting_no=0x7f06004c;
+        public static final int average=0x7f06007b;
+        public static final int balls=0x7f06004f;
+        public static final int batting_no=0x7f06004d;
         public static final int batting_style=0x7f060030;
-        public static final int bbi=0x7f060082;
-        public static final int bbm=0x7f060083;
-        public static final int bowler_type=0x7f060053;
+        public static final int bbi=0x7f060083;
+        public static final int bbm=0x7f060084;
+        public static final int bowler_type=0x7f060054;
         public static final int bowling_style=0x7f060031;
-        public static final int byes=0x7f060067;
-        public static final int cancel=0x7f06006d;
+        public static final int byes=0x7f060068;
+        public static final int cancel=0x7f06006e;
         /**  Fielding 
          */
-        public static final int catches=0x7f060084;
-        public static final int catches_dropped_bowling=0x7f06005b;
-        public static final int catches_dropped_fielding=0x7f060069;
-        public static final int chart_title=0x7f060087;
-        public static final int circle_catches=0x7f060060;
-        public static final int circle_runouts=0x7f060062;
-        public static final int circle_runouts_direct=0x7f060063;
+        public static final int catches=0x7f060085;
+        public static final int catches_dropped_bowling=0x7f06005c;
+        public static final int catches_dropped_fielding=0x7f06006a;
+        public static final int chart_title=0x7f060088;
+        public static final int circle_catches=0x7f060061;
+        public static final int circle_runouts=0x7f060063;
+        public static final int circle_runouts_direct=0x7f060064;
         public static final int city=0x7f060032;
-        public static final int close_catches=0x7f06005f;
+        public static final int close_catches=0x7f060060;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1554,43 +1556,43 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f06000e;
         public static final int country=0x7f060034;
-        public static final int create_match=0x7f060041;
-        public static final int date_format=0x7f060039;
+        public static final int create_match=0x7f060042;
+        public static final int date_format=0x7f06003a;
         public static final int date_of_birth=0x7f06002e;
-        public static final int deep_catches=0x7f060061;
-        public static final int deep_runouts=0x7f060064;
-        public static final int deep_runouts_direct=0x7f060065;
-        public static final int definition=0x7f06006f;
-        public static final int delete=0x7f060045;
+        public static final int deep_catches=0x7f060062;
+        public static final int deep_runouts=0x7f060065;
+        public static final int deep_runouts_direct=0x7f060066;
+        public static final int definition=0x7f060070;
+        public static final int delete=0x7f060046;
         /**  Performance 
  Batting 
          */
-        public static final int dnb=0x7f06004b;
+        public static final int dnb=0x7f06004c;
         /**  Bowling 
          */
-        public static final int dnbowl=0x7f060056;
+        public static final int dnbowl=0x7f060057;
         public static final int drawer_close=0x7f060027;
         public static final int drawer_open=0x7f060026;
-        public static final int duration=0x7f060049;
-        public static final int economy_rate=0x7f06007f;
+        public static final int duration=0x7f06004a;
+        public static final int economy_rate=0x7f060080;
         public static final int edit_profile=0x7f060036;
-        public static final int fielding_pos=0x7f060054;
-        public static final int fifties=0x7f06007c;
+        public static final int fielding_pos=0x7f060055;
+        public static final int fifties=0x7f06007d;
         /**  Filter Dialog 
          */
-        public static final int filter=0x7f06006b;
-        public static final int first=0x7f06004a;
-        public static final int fours=0x7f060050;
-        public static final int fwi=0x7f060080;
+        public static final int filter=0x7f06006c;
+        public static final int first=0x7f06004b;
+        public static final int fours=0x7f060051;
+        public static final int fwi=0x7f060081;
         public static final int ga_trackingId=0x7f060022;
-        public static final int generate_graph=0x7f060086;
+        public static final int generate_graph=0x7f060087;
         public static final int hello_world=0x7f060025;
-        public static final int highest=0x7f060079;
-        public static final int how_out=0x7f060052;
-        public static final int hundreds=0x7f06007d;
-        public static final int innings=0x7f06003e;
-        public static final int level=0x7f060048;
-        public static final int lives=0x7f060055;
+        public static final int highest=0x7f06007a;
+        public static final int how_out=0x7f060053;
+        public static final int hundreds=0x7f06007e;
+        public static final int innings=0x7f06003f;
+        public static final int level=0x7f060049;
+        public static final int lives=0x7f060056;
         /**  Location client code resources (prefix with location_client) 
 
         Begin strings for location.reporting
@@ -1602,31 +1604,32 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f060012;
         public static final int location_client_ulr_inactive_age_unknown=0x7f060013;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f060014;
-        public static final int losses=0x7f060075;
-        public static final int maidens=0x7f060058;
-        /**  Match 
-         */
-        public static final int match_date=0x7f060037;
-        public static final int match_result=0x7f060046;
-        public static final int match_review=0x7f060047;
+        public static final int losses=0x7f060076;
+        public static final int maidens=0x7f060059;
+        public static final int match_date=0x7f060038;
+        public static final int match_result=0x7f060047;
+        public static final int match_review=0x7f060048;
         /**  Career 
  General 
          */
-        public static final int matches=0x7f060072;
-        public static final int misfields=0x7f060068;
-        public static final int my_team=0x7f06003a;
+        public static final int matches=0x7f060073;
+        public static final int misfields=0x7f060069;
+        public static final int my_team=0x7f06003b;
         public static final int name=0x7f06002c;
-        public static final int new_match=0x7f060040;
+        public static final int new_match=0x7f060041;
         public static final int nickname=0x7f06002d;
-        public static final int no=0x7f060071;
-        public static final int no_result=0x7f060077;
-        public static final int noballs=0x7f06005c;
+        public static final int no=0x7f060072;
+        /**  Match 
+         */
+        public static final int no_matches=0x7f060037;
+        public static final int no_result=0x7f060078;
+        public static final int noballs=0x7f06005d;
         /**  Batting 
          */
-        public static final int not_outs=0x7f060078;
-        public static final int okay=0x7f06006c;
-        public static final int opponent_team=0x7f06003b;
-        public static final int overs=0x7f06003d;
+        public static final int not_outs=0x7f060079;
+        public static final int okay=0x7f06006d;
+        public static final int opponent_team=0x7f06003c;
+        public static final int overs=0x7f06003e;
         /**  Profile 
          */
         public static final int profile_picture=0x7f060029;
@@ -1635,37 +1638,37 @@ containing a value of this type.
         /**  AdMob Constant 
          */
         public static final int publisher_id=0x7f060028;
-        public static final int result=0x7f06003f;
+        public static final int result=0x7f060040;
         public static final int role=0x7f06002f;
-        public static final int runouts=0x7f060085;
-        public static final int runs=0x7f06004d;
+        public static final int runouts=0x7f060086;
+        public static final int runs=0x7f06004e;
         /**  General 
          */
-        public static final int save_performance=0x7f06006a;
+        public static final int save_performance=0x7f06006b;
         public static final int save_profile=0x7f060035;
-        public static final int season=0x7f060038;
-        public static final int sixes=0x7f060051;
+        public static final int season=0x7f060039;
+        public static final int sixes=0x7f060052;
         /**  Fielding 
          */
-        public static final int slip_catches=0x7f06005e;
-        public static final int spells=0x7f060057;
+        public static final int slip_catches=0x7f06005f;
+        public static final int spells=0x7f060058;
         public static final int state=0x7f060033;
-        public static final int strike_rate=0x7f06007b;
-        public static final int stumpings=0x7f060066;
-        public static final int ties=0x7f060076;
-        public static final int time_spent=0x7f06004f;
-        public static final int twm=0x7f060081;
-        public static final int venue=0x7f06003c;
-        public static final int vs=0x7f060042;
+        public static final int strike_rate=0x7f06007c;
+        public static final int stumpings=0x7f060067;
+        public static final int ties=0x7f060077;
+        public static final int time_spent=0x7f060050;
+        public static final int twm=0x7f060082;
+        public static final int venue=0x7f06003d;
+        public static final int vs=0x7f060043;
         /**  Bowling 
          */
-        public static final int wickets=0x7f06007e;
-        public static final int wickets_left=0x7f060059;
-        public static final int wickets_right=0x7f06005a;
-        public static final int wides=0x7f06005d;
-        public static final int win_per=0x7f060074;
-        public static final int wins=0x7f060073;
-        public static final int yes=0x7f060070;
+        public static final int wickets=0x7f06007f;
+        public static final int wickets_left=0x7f06005a;
+        public static final int wickets_right=0x7f06005b;
+        public static final int wides=0x7f06005e;
+        public static final int win_per=0x7f060075;
+        public static final int wins=0x7f060074;
+        public static final int yes=0x7f060071;
     }
     public static final class style {
         /** 

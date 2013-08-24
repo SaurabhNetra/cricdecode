@@ -60,6 +60,7 @@
     </string-array>
 
     <!-- Match -->
+    <string name="no_matches">No Matches</string>
     <string name="match_date">Match Date</string>
     <string name="season">Season</string>
     <string name="date_format">MMMM dd, yyyy</string>
