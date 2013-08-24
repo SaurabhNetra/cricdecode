@@ -46,7 +46,7 @@ public class AnalysisFragment extends SherlockFragment {
 	// PARAM2
 	public static final int SEASONS = 0, MY_TEAM = 1, OPPONENTS = 2,
 			VENUES = 3, RESULTS = 4, LEVELS = 5, OVERS = 6, INNINGS = 7,
-			DURATION = 8, FIRST = 9;
+			DURATION = 8, FIRST = 9, BATTING_NO = 10, HOW_OUT_P2 = 11;
 
 	// PIE CHART CONSTANTS
 	// GENERAL
@@ -70,12 +70,14 @@ public class AnalysisFragment extends SherlockFragment {
 			innings_list_selected, level_list, level_list_selected,
 			duration_list, duration_list_selected, first_list,
 			first_list_selected, season_list, season_list_selected,
-			result_list, result_list_selected;
+			result_list, result_list_selected, batting_no_list,
+			batting_no_list_selected, how_out_list, how_out_list_selected;
 	String myteam_whereClause = "", opponent_whereClause = "",
 			venue_whereClause = "", overs_whereClause = "",
 			innings_whereClause = "", level_whereClause = "",
 			duration_whereClause = "", first_whereClause = "",
-			season_whereClause = "", result_whereClause = "";
+			season_whereClause = "", result_whereClause = "",
+			batting_no_whereClause = "", how_out_whereClause = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -185,6 +187,12 @@ public class AnalysisFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		if (savedInstanceState == null) {
 
+			batting_no_list = new ArrayList<String>();
+			batting_no_list_selected = new ArrayList<String>();
+
+			how_out_list = new ArrayList<String>();
+			how_out_list_selected = new ArrayList<String>();
+
 			season_list = new ArrayList<String>();
 			season_list_selected = new ArrayList<String>();
 
@@ -218,6 +226,16 @@ public class AnalysisFragment extends SherlockFragment {
 			fetchFromDb();
 
 		} else {
+
+			batting_no_list = savedInstanceState
+					.getStringArrayList("batting_no_list");
+			batting_no_list_selected = savedInstanceState
+					.getStringArrayList("batting_no_list_selected");
+
+			how_out_list = savedInstanceState
+					.getStringArrayList("how_out_list");
+			how_out_list_selected = savedInstanceState
+					.getStringArrayList("how_out_list_selected");
 
 			season_list = savedInstanceState.getStringArrayList("season_list");
 			season_list_selected = savedInstanceState
@@ -263,6 +281,10 @@ public class AnalysisFragment extends SherlockFragment {
 			first_list_selected = savedInstanceState
 					.getStringArrayList("first_list_selected");
 
+			batting_no_whereClause = savedInstanceState
+					.getString("batting_no_whereClause");
+			how_out_whereClause = savedInstanceState
+					.getString("how_out_whereClause");
 			myteam_whereClause = savedInstanceState
 					.getString("myteam_whereClause");
 			opponent_whereClause = savedInstanceState
@@ -294,6 +316,10 @@ public class AnalysisFragment extends SherlockFragment {
 		outState.putInt("param_pie_sel",
 				graph_param_pie.getSelectedItemPosition());
 
+		outState.putStringArrayList("batting_no_list",
+				(ArrayList<String>) batting_no_list);
+		outState.putStringArrayList("how_out_list",
+				(ArrayList<String>) how_out_list);
 		outState.putStringArrayList("season_list",
 				(ArrayList<String>) season_list);
 		outState.putStringArrayList("result_list",
@@ -314,6 +340,10 @@ public class AnalysisFragment extends SherlockFragment {
 				(ArrayList<String>) duration_list);
 		outState.putStringArrayList("first_list",
 				(ArrayList<String>) first_list);
+		outState.putStringArrayList("batting_no_list_selected",
+				(ArrayList<String>) batting_no_list_selected);
+		outState.putStringArrayList("how_out_list_selected",
+				(ArrayList<String>) how_out_list_selected);
 		outState.putStringArrayList("season_list_selected",
 				(ArrayList<String>) season_list_selected);
 		outState.putStringArrayList("result_list_selected",
@@ -334,6 +364,8 @@ public class AnalysisFragment extends SherlockFragment {
 				(ArrayList<String>) duration_list_selected);
 		outState.putStringArrayList("first_list_selected",
 				(ArrayList<String>) first_list_selected);
+		outState.putString("batting_no_whereClause", batting_no_whereClause);
+		outState.putString("how_out_whereClause", how_out_whereClause);
 		outState.putString("myteam_whereClause", myteam_whereClause);
 		outState.putString("opponent_whereClause", opponent_whereClause);
 		outState.putString("venue_whereClause", venue_whereClause);
@@ -495,6 +527,37 @@ public class AnalysisFragment extends SherlockFragment {
 			} while (c.moveToNext());
 		}
 		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ PerformanceDb.KEY_BAT_NUM + " as _id from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or "
+				+ PerformanceDb.KEY_BAT_BALLS + "!=0)", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				batting_no_list.add(c.getString(0));
+				batting_no_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery(
+				"select distinct " + PerformanceDb.KEY_BAT_HOW_OUT
+						+ " as _id from " + PerformanceDb.SQLITE_TABLE
+						+ " where " + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				how_out_list.add(c.getString(0));
+				how_out_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
 	}
 
 	public void generateXYGraph() {
@@ -504,6 +567,28 @@ public class AnalysisFragment extends SherlockFragment {
 		String[] label = null;
 		int[] values = null;
 		switch (graph_param2.getSelectedItemPosition()) {
+		case BATTING_NO:
+			column2 = "p." + PerformanceDb.KEY_BAT_NUM;
+			if (graph_facet.getSelectedItemPosition() != PerformanceFragmentEdit.BATTING) {
+				Toast.makeText(
+						getSherlockActivity(),
+						"Batting Number Cannot be Applied to "
+								+ graph_facet.getSelectedItem(),
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			break;
+		case HOW_OUT_P2:
+			column2 = "p." + PerformanceDb.KEY_BAT_HOW_OUT;
+			if (graph_facet.getSelectedItemPosition() != PerformanceFragmentEdit.BATTING) {
+				Toast.makeText(
+						getSherlockActivity(),
+						"How Out Cannot be Applied to "
+								+ graph_facet.getSelectedItem(),
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			break;
 		case SEASONS:
 			column2 = "strftime('%Y',m." + MatchDb.KEY_MATCH_DATE + ")";
 			break;
@@ -619,6 +704,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by " + column2, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
@@ -663,6 +749,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by " + column2, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
@@ -717,6 +804,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by " + column2, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
@@ -776,6 +864,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by " + column2, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
@@ -816,6 +905,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by " + column2, null);
 				Log.d("Debug", "100 cursor Count " + cursor.getCount());
 				if (cursor.getCount() != 0) {
@@ -847,6 +937,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by " + column2, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
@@ -1197,6 +1288,7 @@ public class AnalysisFragment extends SherlockFragment {
 						+ innings_whereClause + level_whereClause
 						+ duration_whereClause + first_whereClause
 						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
 						+ " group by p." + PerformanceDb.KEY_BAT_HOW_OUT, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();

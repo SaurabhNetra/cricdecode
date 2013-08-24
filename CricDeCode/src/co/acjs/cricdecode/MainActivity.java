@@ -250,6 +250,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		case R.string.new_match:
 			currentFragment = MATCH_CREATION_FRAGMENT;
 			selectItem(MATCH_CREATION_FRAGMENT, true);
+			onPrepareOptionsMenu(current_menu);
 			break;
 		case R.string.edit_profile:
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_EDIT_FRAGMENT;
@@ -598,9 +599,14 @@ public class MainActivity extends SherlockFragmentActivity {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.filter_general);
 		dialog.setTitle("Filter");
-		final MultiSelectSpinner season_spinner, my_team_spinner, opponent_spinner, venue_spinner, result_spinner, level_spinner, overs_spinner, innings_spinner, duration_spinner, first_spinner;
+		final MultiSelectSpinner season_spinner, my_team_spinner, opponent_spinner, venue_spinner, result_spinner, level_spinner, overs_spinner, innings_spinner, duration_spinner, first_spinner, batting_no_spinner, how_out_spinner;
 		switch (id) {
 		case DIARY_MATCHES_FRAGMENT:
+			dialog.findViewById(R.id.lbl_batting_no_list).setVisibility(
+					View.GONE);
+			dialog.findViewById(R.id.batting_no_list).setVisibility(View.GONE);
+			dialog.findViewById(R.id.lbl_how_out_list).setVisibility(View.GONE);
+			dialog.findViewById(R.id.how_out_list).setVisibility(View.GONE);
 			season_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.season_list);
 			season_spinner
@@ -870,6 +876,29 @@ public class MainActivity extends SherlockFragmentActivity {
 			});
 			break;
 		case CAREER_FRAGMENT:
+
+			batting_no_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.batting_no_list);
+			batting_no_spinner
+					.setItems(CareerFragment.careerFragment.batting_no_list);
+			batting_no_spinner
+					.setSelection(CareerFragment.careerFragment.batting_no_list_selected);
+			batting_no_spinner._proxyAdapter.clear();
+			batting_no_spinner._proxyAdapter.add(batting_no_spinner
+					.buildSelectedItemString());
+			batting_no_spinner.setSelection(0);
+
+			how_out_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.how_out_list);
+			how_out_spinner
+					.setItems(CareerFragment.careerFragment.how_out_list);
+			how_out_spinner
+					.setSelection(CareerFragment.careerFragment.how_out_list_selected);
+			how_out_spinner._proxyAdapter.clear();
+			how_out_spinner._proxyAdapter.add(how_out_spinner
+					.buildSelectedItemString());
+			how_out_spinner.setSelection(0);
+
 			season_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.season_list);
 			season_spinner.setItems(CareerFragment.careerFragment.season_list);
@@ -980,9 +1009,43 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 
+					CareerFragment.careerFragment.batting_no_list_selected = batting_no_spinner
+							.getSelectedStrings();
+					String str = DiaryMatchesFragment
+							.buildSelectedItemString(
+									CareerFragment.careerFragment.batting_no_list_selected,
+									false);
+					if (!str.equals("")) {
+						CareerFragment.careerFragment.batting_no_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_NUM
+								+ " in("
+								+ str
+								+ ")";
+					} else {
+						CareerFragment.careerFragment.batting_no_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_NUM + " in('')";
+					}
+
+					CareerFragment.careerFragment.how_out_list_selected = how_out_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment
+							.buildSelectedItemString(
+									CareerFragment.careerFragment.how_out_list_selected,
+									false);
+					if (!str.equals("")) {
+						CareerFragment.careerFragment.how_out_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_HOW_OUT
+								+ " in("
+								+ str
+								+ ")";
+					} else {
+						CareerFragment.careerFragment.how_out_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_HOW_OUT + " in('')";
+					}
+
 					CareerFragment.careerFragment.season_list_selected = season_spinner
 							.getSelectedStrings();
-					String str = DiaryMatchesFragment.buildSelectedItemString(
+					str = DiaryMatchesFragment.buildSelectedItemString(
 							CareerFragment.careerFragment.season_list_selected,
 							false);
 					if (!str.equals("")) {
@@ -1128,6 +1191,29 @@ public class MainActivity extends SherlockFragmentActivity {
 			});
 			break;
 		case ANALYSIS_FRAGMENT:
+
+			batting_no_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.batting_no_list);
+			batting_no_spinner
+					.setItems(AnalysisFragment.analysisFragment.batting_no_list);
+			batting_no_spinner
+					.setSelection(AnalysisFragment.analysisFragment.batting_no_list_selected);
+			batting_no_spinner._proxyAdapter.clear();
+			batting_no_spinner._proxyAdapter.add(batting_no_spinner
+					.buildSelectedItemString());
+			batting_no_spinner.setSelection(0);
+
+			how_out_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.how_out_list);
+			how_out_spinner
+					.setItems(AnalysisFragment.analysisFragment.how_out_list);
+			how_out_spinner
+					.setSelection(AnalysisFragment.analysisFragment.how_out_list_selected);
+			how_out_spinner._proxyAdapter.clear();
+			how_out_spinner._proxyAdapter.add(how_out_spinner
+					.buildSelectedItemString());
+			how_out_spinner.setSelection(0);
+
 			season_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.season_list);
 			season_spinner
@@ -1244,9 +1330,43 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 
-					AnalysisFragment.analysisFragment.season_list_selected = season_spinner
+					AnalysisFragment.analysisFragment.batting_no_list_selected = batting_no_spinner
 							.getSelectedStrings();
 					String str = DiaryMatchesFragment
+							.buildSelectedItemString(
+									AnalysisFragment.analysisFragment.batting_no_list_selected,
+									false);
+					if (!str.equals("")) {
+						AnalysisFragment.analysisFragment.batting_no_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_NUM
+								+ " in("
+								+ str
+								+ ")";
+					} else {
+						AnalysisFragment.analysisFragment.batting_no_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_NUM + " in('')";
+					}
+
+					AnalysisFragment.analysisFragment.how_out_list_selected = how_out_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment
+							.buildSelectedItemString(
+									AnalysisFragment.analysisFragment.how_out_list_selected,
+									false);
+					if (!str.equals("")) {
+						AnalysisFragment.analysisFragment.how_out_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_HOW_OUT
+								+ " in("
+								+ str
+								+ ")";
+					} else {
+						AnalysisFragment.analysisFragment.how_out_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_HOW_OUT + " in('')";
+					}
+
+					AnalysisFragment.analysisFragment.season_list_selected = season_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment
 							.buildSelectedItemString(
 									AnalysisFragment.analysisFragment.season_list_selected,
 									false);

@@ -32,7 +32,6 @@
             android:id="@+id/my_team_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="@id/season_list"
             android:layout_below="@id/season_list"
             android:layout_toRightOf="@id/lbl_my_team_list" />
 
@@ -48,7 +47,6 @@
             android:id="@+id/opponent_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/my_team_list"
             android:layout_below="@id/my_team_list"
             android:layout_toRightOf="@id/lbl_opponent_list" />
 
@@ -64,7 +62,6 @@
             android:id="@+id/venue_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/opponent_list"
             android:layout_below="@id/opponent_list"
             android:layout_toRightOf="@id/lbl_venue_list" />
 
@@ -80,7 +77,6 @@
             android:id="@+id/result_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/venue_list"
             android:layout_below="@id/venue_list"
             android:layout_toRightOf="@id/lbl_result_list" />
 
@@ -96,7 +92,6 @@
             android:id="@+id/level_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/result_list"
             android:layout_below="@id/result_list"
             android:layout_toRightOf="@id/lbl_level_list" />
 
@@ -112,7 +107,6 @@
             android:id="@+id/overs_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/level_list"
             android:layout_below="@id/level_list"
             android:layout_toRightOf="@id/lbl_overs_list" />
 
@@ -128,7 +122,6 @@
             android:id="@+id/innings_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/overs_list"
             android:layout_below="@id/overs_list"
             android:layout_toRightOf="@id/lbl_innings_list" />
 
@@ -144,7 +137,6 @@
             android:id="@+id/duration_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/innings_list"
             android:layout_below="@id/innings_list"
             android:layout_toRightOf="@id/lbl_duration_list" />
 
@@ -160,15 +152,44 @@
             android:id="@+id/first_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/duration_list"
             android:layout_below="@id/duration_list"
             android:layout_toRightOf="@id/lbl_first_list" />
+
+        <TextView
+            android:id="@+id/lbl_batting_no_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/first_list"
+            android:padding="10dp"
+            android:text="@string/batting_no" />
+
+        <co.acjs.cricdecode.MultiSelectSpinner
+            android:id="@+id/batting_no_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/first_list"
+            android:layout_toRightOf="@id/lbl_batting_no_list" />
+
+        <TextView
+            android:id="@+id/lbl_how_out_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/batting_no_list"
+            android:padding="10dp"
+            android:text="@string/how_out" />
+
+        <co.acjs.cricdecode.MultiSelectSpinner
+            android:id="@+id/how_out_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/batting_no_list"
+            android:layout_toRightOf="@id/lbl_how_out_list" />
 
         <Button
             android:id="@+id/okay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/first_list"
+            android:layout_below="@id/how_out_list"
             android:layout_centerHorizontal="true"
             android:text="@string/okay" />
     </RelativeLayout>

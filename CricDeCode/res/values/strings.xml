@@ -348,6 +348,8 @@
         <item>Number of Innings in a Match</item>
         <item>Match Duration</item>
         <item>Batting/Fielding First</item>
+        <item>Batting Number</item>
+        <item>How Out</item>
     </string-array>
     <string-array name="graph_param_pie_general">
         <item>Match Result</item>

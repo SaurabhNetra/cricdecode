@@ -36,12 +36,14 @@ public class CareerFragment extends SherlockFragment implements
 			innings_list_selected, level_list, level_list_selected,
 			duration_list, duration_list_selected, first_list,
 			first_list_selected, season_list, season_list_selected,
-			result_list, result_list_selected;
+			result_list, result_list_selected, batting_no_list,
+			batting_no_list_selected, how_out_list, how_out_list_selected;
 	String myteam_whereClause = "", opponent_whereClause = "",
 			venue_whereClause = "", overs_whereClause = "",
 			innings_whereClause = "", level_whereClause = "",
 			duration_whereClause = "", first_whereClause = "",
-			season_whereClause = "", result_whereClause = "";
+			season_whereClause = "", result_whereClause = "",
+			batting_no_whereClause = "", how_out_whereClause = "";
 
 	// General
 	private int matches, wins, losses, ties, no_results;
@@ -113,6 +115,12 @@ public class CareerFragment extends SherlockFragment implements
 		super.onViewCreated(view, savedInstanceState);
 		if (savedInstanceState == null) {
 
+			batting_no_list = new ArrayList<String>();
+			batting_no_list_selected = new ArrayList<String>();
+
+			how_out_list = new ArrayList<String>();
+			how_out_list_selected = new ArrayList<String>();
+
 			season_list = new ArrayList<String>();
 			season_list_selected = new ArrayList<String>();
 
@@ -146,6 +154,16 @@ public class CareerFragment extends SherlockFragment implements
 			fetchFromDb();
 
 		} else {
+
+			batting_no_list = savedInstanceState
+					.getStringArrayList("batting_no_list");
+			batting_no_list_selected = savedInstanceState
+					.getStringArrayList("batting_no_list_selected");
+
+			how_out_list = savedInstanceState
+					.getStringArrayList("how_out_list");
+			how_out_list_selected = savedInstanceState
+					.getStringArrayList("how_out_list_selected");
 
 			season_list = savedInstanceState.getStringArrayList("season_list");
 			season_list_selected = savedInstanceState
@@ -191,6 +209,10 @@ public class CareerFragment extends SherlockFragment implements
 			first_list_selected = savedInstanceState
 					.getStringArrayList("first_list_selected");
 
+			batting_no_whereClause = savedInstanceState
+					.getString("batting_no_whereClause");
+			how_out_whereClause = savedInstanceState
+					.getString("how_out_whereClause");
 			myteam_whereClause = savedInstanceState
 					.getString("myteam_whereClause");
 			opponent_whereClause = savedInstanceState
@@ -226,6 +248,10 @@ public class CareerFragment extends SherlockFragment implements
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString("tab", mTabHost.getCurrentTabTag());
+		outState.putStringArrayList("batting_no_list",
+				(ArrayList<String>) batting_no_list);
+		outState.putStringArrayList("how_out_list",
+				(ArrayList<String>) how_out_list);
 		outState.putStringArrayList("season_list",
 				(ArrayList<String>) season_list);
 		outState.putStringArrayList("result_list",
@@ -246,6 +272,10 @@ public class CareerFragment extends SherlockFragment implements
 				(ArrayList<String>) duration_list);
 		outState.putStringArrayList("first_list",
 				(ArrayList<String>) first_list);
+		outState.putStringArrayList("batting_no_list_selected",
+				(ArrayList<String>) batting_no_list_selected);
+		outState.putStringArrayList("how_out_list_selected",
+				(ArrayList<String>) how_out_list_selected);
 		outState.putStringArrayList("season_list_selected",
 				(ArrayList<String>) season_list_selected);
 		outState.putStringArrayList("result_list_selected",
@@ -266,6 +296,8 @@ public class CareerFragment extends SherlockFragment implements
 				(ArrayList<String>) duration_list_selected);
 		outState.putStringArrayList("first_list_selected",
 				(ArrayList<String>) first_list_selected);
+		outState.putString("batting_no_whereClause", batting_no_whereClause);
+		outState.putString("how_out_whereClause", how_out_whereClause);
 		outState.putString("myteam_whereClause", myteam_whereClause);
 		outState.putString("opponent_whereClause", opponent_whereClause);
 		outState.putString("venue_whereClause", venue_whereClause);
@@ -558,7 +590,8 @@ public class CareerFragment extends SherlockFragment implements
 				+ myteam_whereClause + opponent_whereClause + venue_whereClause
 				+ overs_whereClause + innings_whereClause + level_whereClause
 				+ duration_whereClause + first_whereClause + season_whereClause
-				+ result_whereClause, null);
+				+ result_whereClause + batting_no_whereClause
+				+ how_out_whereClause, null);
 		cursor.moveToFirst();
 		bat_innings = cursor.getInt(0);
 		bat_runs = cursor.getInt(1);
@@ -580,7 +613,8 @@ public class CareerFragment extends SherlockFragment implements
 				+ myteam_whereClause + opponent_whereClause + venue_whereClause
 				+ overs_whereClause + innings_whereClause + level_whereClause
 				+ duration_whereClause + first_whereClause + season_whereClause
-				+ result_whereClause, null);
+				+ result_whereClause + batting_no_whereClause
+				+ how_out_whereClause, null);
 		cursor.moveToFirst();
 		int outs = cursor.getInt(0);
 		bat_not_outs = bat_innings - outs;
@@ -608,7 +642,8 @@ public class CareerFragment extends SherlockFragment implements
 				+ myteam_whereClause + opponent_whereClause + venue_whereClause
 				+ overs_whereClause + innings_whereClause + level_whereClause
 				+ duration_whereClause + first_whereClause + season_whereClause
-				+ result_whereClause, null);
+				+ result_whereClause + batting_no_whereClause
+				+ how_out_whereClause, null);
 		cursor.moveToFirst();
 		bat_100 = cursor.getInt(0);
 		cursor.close();
@@ -623,7 +658,8 @@ public class CareerFragment extends SherlockFragment implements
 				+ myteam_whereClause + opponent_whereClause + venue_whereClause
 				+ overs_whereClause + innings_whereClause + level_whereClause
 				+ duration_whereClause + first_whereClause + season_whereClause
-				+ result_whereClause, null);
+				+ result_whereClause + batting_no_whereClause
+				+ how_out_whereClause, null);
 		cursor.moveToFirst();
 		bat_50 = cursor.getInt(0) - bat_100;
 		cursor.close();
@@ -958,6 +994,37 @@ public class CareerFragment extends SherlockFragment implements
 			do {
 				first_list.add(c.getString(0));
 				first_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ PerformanceDb.KEY_BAT_NUM + " as _id from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or "
+				+ PerformanceDb.KEY_BAT_BALLS + "!=0)", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				batting_no_list.add(c.getString(0));
+				batting_no_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery(
+				"select distinct " + PerformanceDb.KEY_BAT_HOW_OUT
+						+ " as _id from " + PerformanceDb.SQLITE_TABLE
+						+ " where " + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				how_out_list.add(c.getString(0));
+				how_out_list_selected.add(c.getString(0));
 			} while (c.moveToNext());
 		}
 		c.close();
