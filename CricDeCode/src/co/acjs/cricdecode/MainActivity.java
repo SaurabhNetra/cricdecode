@@ -208,6 +208,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			menu.findItem(R.string.create_match).setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_ALWAYS);
 			break;
+		case ONGOING_MATCHES_FRAGMENT:
+			menu.add(Menu.NONE, R.string.new_match, Menu.NONE,
+					R.string.new_match);
+			menu.findItem(R.string.new_match).setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_ALWAYS);
+			break;
 		case ANALYSIS_FRAGMENT:
 		case DIARY_MATCHES_FRAGMENT:
 		case CAREER_FRAGMENT:
@@ -240,6 +246,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			} else {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
+			break;
+		case R.string.new_match:
+			currentFragment = MATCH_CREATION_FRAGMENT;
+			selectItem(MATCH_CREATION_FRAGMENT, true);
 			break;
 		case R.string.edit_profile:
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_EDIT_FRAGMENT;
@@ -455,10 +465,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		final Dialog dialog;
 		final View finalview;
 		switch (view.getId()) {
-		case R.id.new_match:
-			currentFragment = MATCH_CREATION_FRAGMENT;
-			selectItem(MATCH_CREATION_FRAGMENT, true);
-			break;
 		case R.id.make_graph_category_1:
 			AnalysisFragment.analysisFragment.generateXYGraph();
 			break;

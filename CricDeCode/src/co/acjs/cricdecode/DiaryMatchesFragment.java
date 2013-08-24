@@ -48,7 +48,6 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		diaryMatchesFragment = this;
 		View rootView = inflater.inflate(R.layout.list_container, container,
 				false);
-		rootView.findViewById(R.id.new_match).setVisibility(View.GONE);
 		return rootView;
 	}
 
