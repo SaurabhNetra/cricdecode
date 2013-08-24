@@ -455,6 +455,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		final Dialog dialog;
 		final View finalview;
 		switch (view.getId()) {
+		case R.id.new_match:
+			currentFragment = MATCH_CREATION_FRAGMENT;
+			selectItem(MATCH_CREATION_FRAGMENT, true);
+			break;
 		case R.id.make_graph_category_1:
 			AnalysisFragment.analysisFragment.generateXYGraph();
 			break;
