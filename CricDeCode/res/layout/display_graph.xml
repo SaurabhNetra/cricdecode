@@ -5,15 +5,23 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/chart_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/chart_title" />
+        android:layout_gravity="center"
+        android:background="@color/black"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:text="@string/chart_title"
+        android:textColor="@color/light_grey"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/chart"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
+        android:background="@color/black"
         android:orientation="horizontal" />
 
 </LinearLayout>

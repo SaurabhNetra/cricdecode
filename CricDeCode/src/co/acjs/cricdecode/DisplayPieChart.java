@@ -9,9 +9,11 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -29,14 +31,20 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.display_graph);
+		setContentView(R.layout.display_graph);	
+		getSupportActionBar().setDisplayShowTitleEnabled(false);		
+		//mRenderer.setChartTitle(getIntent().getExtras().getString("X-Axis")+" vs "+getIntent().getExtras().getString("Y-Axis"));
+		((TextView)findViewById(R.id.chart_title)).setText("How Out vs Opponents");
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		mRenderer.setZoomButtonsVisible(true);
-		mRenderer.setStartAngle(180);
-		mRenderer.setFitLegend(true);
-		mRenderer.setMargins(new int[] { 20, 30, 15, 20 });
+		mRenderer.setStartAngle(45);
+		mRenderer.setFitLegend(true);		
+		mRenderer.setMargins(new int[] { 2, 50, 20, 50 });
 		mRenderer.setDisplayValues(true);
 		String labels[] = getIntent().getExtras().getStringArray("labels");
 		double values[] = getIntent().getExtras().getDoubleArray("values");
+
+		Log.w("DisplayPieChart", "onCreate called");
 
 		for (int i = 0; i < labels.length; i++) {
 			mSeries.add(labels[i], values[i]);
@@ -51,11 +59,14 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 		mChartView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
 				SeriesSelection seriesSelection = mChartView
 						.getCurrentSeriesAndPoint();
 				if (seriesSelection == null) {
+
 				} else {
 					for (int i = 0; i < mSeries.getItemCount(); i++) {
+						Log.w("Not Null", "" + seriesSelection.getPointIndex());
 						mRenderer.getSeriesRendererAt(i).setHighlighted(
 								i == seriesSelection.getPointIndex());
 					}
