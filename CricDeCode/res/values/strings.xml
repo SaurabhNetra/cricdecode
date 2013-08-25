@@ -356,6 +356,7 @@
     </string-array>
     <string-array name="graph_param_pie_batting">
         <item>How Out</item>
+        <item>Where Out(Caught)</item>
     </string-array>
     <string-array name="graph_param_pie_bowling">
         <item>Wickets</item>

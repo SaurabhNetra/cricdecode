@@ -25,6 +25,8 @@ public class AnalysisFragment extends SherlockFragment {
 
 	public static final int XY_PLOT = 0, PIE_CHART = 1;
 
+	int param_pos, param_save_count;
+
 	// XY GRAPH CONSTANTS
 	// PARAM1
 	// GENERAL
@@ -52,7 +54,7 @@ public class AnalysisFragment extends SherlockFragment {
 	// GENERAL
 	public static final int MATCH_RESULT = 0;
 	// BATTING
-	public static final int HOW_OUT = 0;
+	public static final int HOW_OUT = 0, WHERE_OUT_CAUGHT = 1;
 	// BOWLING
 	public static final int WICKETS = 0;
 	// FIELDING
@@ -90,6 +92,19 @@ public class AnalysisFragment extends SherlockFragment {
 	}
 
 	public void init(View view, Bundle bundle) {
+
+		if (bundle != null) {
+
+			param_pos = bundle.getInt("param_pos");
+			if (param_pos == 0) {
+				param_save_count = 1;
+			} else {
+				param_save_count = 2;
+			}
+		} else {
+			param_save_count = 0;
+		}
+
 		graph_facet = (Spinner) view.findViewById(R.id.graph_facet);
 		graph_type = (Spinner) view.findViewById(R.id.graph_type);
 		graph_param1 = (Spinner) view.findViewById(R.id.graph_param1);
@@ -148,6 +163,17 @@ public class AnalysisFragment extends SherlockFragment {
 				adapter = new ArrayAdapter<String>(getSherlockActivity(),
 						android.R.layout.simple_spinner_item, arr2);
 				graph_param_pie.setAdapter(adapter);
+
+				if (param_save_count != 0) {
+					param_save_count--;
+					if (param_save_count == 0) {
+						if (graph_type.getSelectedItemPosition() == XY_PLOT) {
+							graph_param1.setSelection(param_pos);
+						} else {
+							graph_param_pie.setSelection(param_pos);
+						}
+					}
+				}
 			}
 
 			@Override
@@ -311,6 +337,14 @@ public class AnalysisFragment extends SherlockFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+
+		if (graph_type.getSelectedItemPosition() == XY_PLOT) {
+			outState.putInt("param_pos", graph_param1.getSelectedItemPosition());
+		} else {
+			outState.putInt("param_pos",
+					graph_param_pie.getSelectedItemPosition());
+		}
+
 		outState.putInt("param1_sel", graph_param1.getSelectedItemPosition());
 		outState.putInt("param2_sel", graph_param2.getSelectedItemPosition());
 		outState.putInt("param_pie_sel",
@@ -1290,6 +1324,38 @@ public class AnalysisFragment extends SherlockFragment {
 						+ season_whereClause + result_whereClause
 						+ batting_no_whereClause + how_out_whereClause
 						+ " group by p." + PerformanceDb.KEY_BAT_HOW_OUT, null);
+				if (cursor.getCount() != 0) {
+					cursor.moveToFirst();
+					label = new String[cursor.getCount()];
+					values = new int[cursor.getCount()];
+					int i = 0;
+					do {
+						label[i] = cursor.getString(0);
+						values[i] = cursor.getInt(1);
+						i++;
+						cursor.moveToNext();
+					} while (!cursor.isAfterLast());
+				}
+				cursor.close();
+				break;
+			case WHERE_OUT_CAUGHT:
+				cursor = MainActivity.dbHandle.rawQuery("select p."
+						+ PerformanceDb.KEY_BAT_FIELDING_POSITION + ",count(p."
+						+ PerformanceDb.KEY_ROWID + ") from "
+						+ PerformanceDb.SQLITE_TABLE + " p inner join "
+						+ MatchDb.SQLITE_TABLE + " m on p."
+						+ PerformanceDb.KEY_MATCHID + "=m." + MatchDb.KEY_ROWID
+						+ " where p." + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "' and p."
+						+ PerformanceDb.KEY_BAT_HOW_OUT + "='Caught'"
+						+ myteam_whereClause + opponent_whereClause
+						+ venue_whereClause + overs_whereClause
+						+ innings_whereClause + level_whereClause
+						+ duration_whereClause + first_whereClause
+						+ season_whereClause + result_whereClause
+						+ batting_no_whereClause + how_out_whereClause
+						+ " group by p."
+						+ PerformanceDb.KEY_BAT_FIELDING_POSITION, null);
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
 					label = new String[cursor.getCount()];
