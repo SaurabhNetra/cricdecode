@@ -216,7 +216,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			menu.findItem(R.string.new_match).setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_ALWAYS);
 			break;
-		case ANALYSIS_FRAGMENT:
 		case DIARY_MATCHES_FRAGMENT:
 		case CAREER_FRAGMENT:
 			menu.add(Menu.NONE, R.string.filter, Menu.NONE, R.string.filter);
@@ -471,6 +470,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		final Dialog dialog;
 		final View finalview;
 		switch (view.getId()) {
+		case R.id.filter:
+			showFilterDialog(currentFragment);
+			break;
 		case R.id.make_graph_category_1:
 			AnalysisFragment.analysisFragment.generateXYGraph();
 			break;

@@ -113,8 +113,11 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
-		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS,
-				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
+		String[] projection = {
+				MatchDb.KEY_ROWID,
+				MatchDb.KEY_INNINGS,
+				"strftime('%d-%m-%Y'," + MatchDb.KEY_MATCH_DATE + ") as "
+						+ MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
 				MatchDb.KEY_OPPONENT_TEAM };
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
