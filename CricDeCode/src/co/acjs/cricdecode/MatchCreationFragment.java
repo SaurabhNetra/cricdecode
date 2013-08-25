@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.text.format.DateFormat;
@@ -185,7 +186,7 @@ public class MatchCreationFragment extends SherlockFragment {
 		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_CURRENT);
 
 		// insert a record
-		getSherlockActivity().getContentResolver().insert(
+		Uri uri = getSherlockActivity().getContentResolver().insert(
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 
 		// Go to Match Activity
@@ -193,9 +194,27 @@ public class MatchCreationFragment extends SherlockFragment {
 				Toast.LENGTH_LONG).show();
 
 		// Go to Ongoing Matches
-		((MainActivity) getSherlockActivity()).currentFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
-		((MainActivity) getSherlockActivity()).selectItem(
-				MainActivity.ONGOING_MATCHES_FRAGMENT, true);
+		Date d = new Date();
+		if (date.after(d) || date.equals(d)) {
+			((MainActivity) getSherlockActivity()).currentFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
+			((MainActivity) getSherlockActivity()).preFragment = MainActivity.MATCH_CREATION_FRAGMENT;
+			((MainActivity) getSherlockActivity()).selectItem(
+					MainActivity.ONGOING_MATCHES_FRAGMENT, true);
+		} else if (date.before(d)) {
+			PerformanceFragmentEdit.performanceFragmentEdit = new PerformanceFragmentEdit();
+			Bundle bundle = new Bundle();
+			bundle.putInt("rowId",
+					Integer.parseInt(uri.getPathSegments().get(1)));
+			bundle.putInt("innings", Integer.parseInt(innings_str));
+			PerformanceFragmentEdit.performanceFragmentEdit
+					.setArguments(bundle);
+			((MainActivity) getSherlockActivity()).currentFragment = MainActivity.PERFORMANCE_FRAGMENT_EDIT;
+			((MainActivity) getSherlockActivity()).preFragment = MainActivity.MATCH_CREATION_FRAGMENT;
+			((MainActivity) getSherlockActivity())
+					.onPrepareOptionsMenu(((MainActivity) getSherlockActivity()).current_menu);
+			((MainActivity) getSherlockActivity()).selectItem(
+					MainActivity.PERFORMANCE_FRAGMENT_EDIT, false);
+		}
 	}
 
 	public void setAutoSuggestions() {

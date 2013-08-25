@@ -99,7 +99,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 				PerformanceFragmentEdit.performanceFragmentEdit
 						.setArguments(bundle);
 				((MainActivity) getSherlockActivity()).currentFragment = MainActivity.PERFORMANCE_FRAGMENT_EDIT;
-
+				((MainActivity) getSherlockActivity()).preFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
 				((MainActivity) getSherlockActivity())
 						.onPrepareOptionsMenu(((MainActivity) getSherlockActivity()).current_menu);
 

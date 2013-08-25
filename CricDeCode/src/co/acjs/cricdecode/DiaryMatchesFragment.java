@@ -272,7 +272,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 				PerformanceFragmentView.performanceFragmentView
 						.setArguments(bundle);
 				((MainActivity) getSherlockActivity()).currentFragment = MainActivity.PERFORMANCE_FRAGMENT_VIEW;
-
+				((MainActivity) getSherlockActivity()).preFragment = MainActivity.DIARY_MATCHES_FRAGMENT;
 				((MainActivity) getSherlockActivity())
 						.onPrepareOptionsMenu(((MainActivity) getSherlockActivity()).current_menu);
 
