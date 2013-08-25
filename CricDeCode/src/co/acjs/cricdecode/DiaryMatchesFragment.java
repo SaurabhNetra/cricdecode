@@ -1,15 +1,21 @@
 package co.acjs.cricdecode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -306,7 +312,32 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
 		Log.d("Debug", "on Load Finished");
-		dataAdapter.swapCursor(data);
+		MatrixCursor mc = new MatrixCursor(data.getColumnNames(),
+				data.getCount());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+				Locale.getDefault());
+		Date date = new Date();
+		data.moveToFirst();
+		do {
+			String[] values = new String[data.getColumnCount()];
+			for (int i = 0; i < data.getColumnCount(); i++) {
+				if (i == data.getColumnIndex(MatchDb.KEY_MATCH_DATE)) {
+					try {
+						date = sdf.parse(data.getString(i));
+					} catch (ParseException e) {
+						e.printStackTrace();
+						Log.d("Debug", "Date Exception");
+					}
+					values[i] = DateFormat.format("MMMM dd, yyyy", date)
+							.toString();
+				} else {
+					values[i] = data.getString(i);
+				}
+			}
+			mc.addRow(values);
+			data.moveToNext();
+		} while (!data.isAfterLast());
+		dataAdapter.swapCursor(mc);
 		Log.d("Debug", "List Count " + listView.getCount());
 		if (listView != null) {
 			if (listView.getCount() == 0) {

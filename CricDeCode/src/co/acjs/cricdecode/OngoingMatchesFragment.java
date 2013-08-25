@@ -1,13 +1,21 @@
 package co.acjs.cricdecode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
+
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,11 +121,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
-		String[] projection = {
-				MatchDb.KEY_ROWID,
-				MatchDb.KEY_INNINGS,
-				"strftime('%d-%m-%Y'," + MatchDb.KEY_MATCH_DATE + ") as "
-						+ MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
+		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS,
+				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
 				MatchDb.KEY_OPPONENT_TEAM };
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
@@ -130,9 +135,35 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
-		Log.d("Debug", "on Load Finished");
-		dataAdapter.swapCursor(data);
-		Log.d("Debug", "List Count " + listView.getCount());
+		Log.d("Debug",
+				"on Load Finished" + " cursor columns "
+						+ Arrays.toString(data.getColumnNames()));
+		MatrixCursor mc = new MatrixCursor(data.getColumnNames(),
+				data.getCount());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+				Locale.getDefault());
+		Date date = new Date();
+		data.moveToFirst();
+		do {
+			String[] values = new String[data.getColumnCount()];
+			for (int i = 0; i < data.getColumnCount(); i++) {
+				if (i == data.getColumnIndex(MatchDb.KEY_MATCH_DATE)) {
+					try {
+						date = sdf.parse(data.getString(i));
+					} catch (ParseException e) {
+						e.printStackTrace();
+						Log.d("Debug", "Date Exception");
+					}
+					values[i] = DateFormat.format("MMMM dd, yyyy", date)
+							.toString();
+				} else {
+					values[i] = data.getString(i);
+				}
+			}
+			mc.addRow(values);
+			data.moveToNext();
+		} while (!data.isAfterLast());
+		dataAdapter.swapCursor(mc);
 		if (listView != null) {
 			if (listView.getCount() == 0) {
 				no_matches.setVisibility(View.VISIBLE);
