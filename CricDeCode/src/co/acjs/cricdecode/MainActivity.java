@@ -1,5 +1,7 @@
 package co.acjs.cricdecode;
 
+import java.util.Stack;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
@@ -34,11 +36,14 @@ public class MainActivity extends SherlockFragmentActivity {
 	ActionBarDrawerToggle mDrawerToggle;
 	MenuListAdapter mMenuAdapter;
 	String[] title;
-	int currentFragment;
+	int currentFragment, prevcurrentfragment;
 	Menu current_menu;
 	static SQLiteDatabase dbHandle;
 
 	static ContentProviderClient client;
+
+	// Back Stack
+	static Stack<Integer> fragment_stack = new Stack<Integer>();
 
 	// Declare Constants
 	static final int PROFILE_FRAGMENT = 0, CAREER_FRAGMENT = 1,
@@ -112,10 +117,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (savedInstanceState == null) {
 			Log.d("Debug", "Saved is null");
 			currentFragment = PROFILE_FRAGMENT;
+			prevcurrentfragment = currentFragment;
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
 			selectItem(currentFragment, true);
 		} else {
 			currentFragment = savedInstanceState.getInt("currentFragment");
+			prevcurrentfragment = savedInstanceState
+					.getInt("prevcurrentfragment");
 			switch (currentFragment) {
 			case PROFILE_FRAGMENT:
 				ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
@@ -161,7 +169,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				break;
 			}
 			Log.d("Debug", "currentFragment " + currentFragment);
-			selectItem(currentFragment, false);
 		}
 
 		// Look up the AdView as a resource and load a request. final AdView
@@ -248,6 +255,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case R.string.new_match:
+			prevcurrentfragment = currentFragment;
 			currentFragment = MATCH_CREATION_FRAGMENT;
 			selectItem(MATCH_CREATION_FRAGMENT, true);
 			onPrepareOptionsMenu(current_menu);
@@ -292,6 +300,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			if (currentFragment != position) {
+				prevcurrentfragment = currentFragment;
 				currentFragment = position;
 				onPrepareOptionsMenu(current_menu);
 				selectItem(position, true);
@@ -318,6 +327,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case CAREER_FRAGMENT:
 			getSupportActionBar().setDisplayShowCustomEnabled(false);
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new CareerFragment());
 			} else {
@@ -326,6 +339,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case ANALYSIS_FRAGMENT:
 			getSupportActionBar().setDisplayShowCustomEnabled(false);
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new AnalysisFragment());
 			} else {
@@ -335,6 +352,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case ONGOING_MATCHES_FRAGMENT:
 			getSupportActionBar().setDisplayShowCustomEnabled(false);
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new OngoingMatchesFragment());
 			} else {
@@ -344,6 +365,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case DIARY_MATCHES_FRAGMENT:
 			getSupportActionBar().setDisplayShowCustomEnabled(false);
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new DiaryMatchesFragment());
 			} else {
@@ -353,6 +378,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case MATCH_CREATION_FRAGMENT:
 			getSupportActionBar().setDisplayShowCustomEnabled(false);
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new MatchCreationFragment());
 			} else {
@@ -363,6 +392,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		case PERFORMANCE_FRAGMENT_EDIT:
 			getSupportActionBar().setDisplayShowCustomEnabled(true);
 			getSupportActionBar().setCustomView(R.layout.innings_spinner);
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentEdit());
 			} else {
@@ -371,6 +404,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_VIEW:
+			if (currentFragment != prevcurrentfragment) {
+				fragment_stack.push(prevcurrentfragment);
+			}
+			ft.addToBackStack(null);
 			getSupportActionBar().setDisplayShowCustomEnabled(true);
 			getSupportActionBar().setCustomView(R.layout.innings_spinner);
 			if (newInstance) {
@@ -408,6 +445,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onSaveInstanceState(outState);
 		Log.d("Debug", "Save currentFragment " + currentFragment);
 		outState.putInt("currentFragment", currentFragment);
+		outState.putInt("prevcurrentfragment", prevcurrentfragment);
 
 		switch (currentFragment) {
 		case PROFILE_FRAGMENT:
@@ -1515,5 +1553,17 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		}
 		dialog.show();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (currentFragment != PROFILE_FRAGMENT) {
+			currentFragment = (int) fragment_stack.pop();
+			if (currentFragment == PERFORMANCE_FRAGMENT_EDIT
+					|| currentFragment == PERFORMANCE_FRAGMENT_VIEW) {
+				getSupportActionBar().setDisplayShowCustomEnabled(false);
+			}
+		}
+		super.onBackPressed();
 	}
 }
