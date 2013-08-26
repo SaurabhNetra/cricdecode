@@ -317,27 +317,31 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
 				Locale.getDefault());
 		Date date = new Date();
-		data.moveToFirst();
-		do {
-			String[] values = new String[data.getColumnCount()];
-			for (int i = 0; i < data.getColumnCount(); i++) {
-				if (i == data.getColumnIndex(MatchDb.KEY_MATCH_DATE)) {
-					try {
-						date = sdf.parse(data.getString(i));
-					} catch (ParseException e) {
-						e.printStackTrace();
-						Log.d("Debug", "Date Exception");
+		if (data.getCount() != 0) {
+			data.moveToFirst();
+			do {
+				String[] values = new String[data.getColumnCount()];
+				for (int i = 0; i < data.getColumnCount(); i++) {
+					if (i == data.getColumnIndex(MatchDb.KEY_MATCH_DATE)) {
+						try {
+							date = sdf.parse(data.getString(i));
+						} catch (ParseException e) {
+							e.printStackTrace();
+							Log.d("Debug", "Date Exception");
+						}
+						values[i] = DateFormat.format("MMMM dd, yyyy", date)
+								.toString();
+					} else {
+						values[i] = data.getString(i);
 					}
-					values[i] = DateFormat.format("MMMM dd, yyyy", date)
-							.toString();
-				} else {
-					values[i] = data.getString(i);
 				}
-			}
-			mc.addRow(values);
-			data.moveToNext();
-		} while (!data.isAfterLast());
-		dataAdapter.swapCursor(mc);
+				mc.addRow(values);
+				data.moveToNext();
+			} while (!data.isAfterLast());
+			dataAdapter.swapCursor(mc);
+		} else {
+			dataAdapter.swapCursor(data);
+		}
 		Log.d("Debug", "List Count " + listView.getCount());
 		if (listView != null) {
 			if (listView.getCount() == 0) {
