@@ -14,11 +14,25 @@
             android:layout_height="wrap_content"
             android:entries="@array/graph_type" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
+
         <Spinner
             android:id="@+id/graph_facet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/graph_facet" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
 
         <Button
             android:id="@+id/filter"
@@ -26,6 +40,13 @@
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="@string/filter" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="#282828" />
 
         <RelativeLayout
             android:id="@+id/graph_category_1"
@@ -50,6 +71,13 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/vs" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:background="#282828" />
+
             <Button
                 android:id="@+id/make_graph_category_1"
                 android:layout_width="wrap_content"
@@ -68,6 +96,7 @@
                 android:id="@+id/graph_param_pie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
 
             <Button
                 android:id="@+id/make_graph_category_2"

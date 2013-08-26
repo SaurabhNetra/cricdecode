@@ -15,31 +15,33 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/match_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:padding="5dp" />
-
     <RelativeLayout
         android:id="@+id/match_data"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" >
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/match_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="5dp"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp" />
+            android:layout_toRightOf="@id/match_date"
+            android:padding="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/vs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/my_team"
+            android:layout_toRightOf="@+id/my_team"
             android:padding="5dp"
             android:text="@string/vs" />
 
@@ -48,7 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/vs"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
