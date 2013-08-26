@@ -969,6 +969,13 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
 						.setChecked(true);
 			}
+			if (batted[current_innings]) {
+				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
+						.setVisibility(View.VISIBLE);
+			} else {
+				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
+						.setVisibility(View.GONE);
+			}
 			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
 					.setChecked(batted[current_innings]);
 			break;
@@ -1007,6 +1014,14 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 						.setVisibility(View.VISIBLE);
 				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
 						.setChecked(true);
+			}
+			if (bowled[current_innings]) {
+				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
+						.setVisibility(View.VISIBLE);
+
+			} else {
+				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
+						.setVisibility(View.GONE);
 			}
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
 					.setChecked(bowled[current_innings]);
