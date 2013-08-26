@@ -26,16 +26,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:hint="@string/match_date"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/match_date"
-            android:hint="@string/my_team"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/vs"
@@ -50,8 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/vs"
-            android:hint="@string/opponent_team"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout

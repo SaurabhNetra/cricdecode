@@ -7,219 +7,380 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_slip_catches"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lty_slip_catches"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/slip_catches" />
+            android:layout_marginTop="10dip"
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/slip_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/lbl_slip_catches"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/lbl_slip_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/slip_catches" />
 
-        <TextView
-            android:id="@+id/lbl_close_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/slip_catches"
-            android:padding="10dp"
-            android:text="@string/close_catches" />
+            <EditText
+                android:id="@+id/slip_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/close_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/slip_catches"
-            android:layout_toRightOf="@id/lbl_close_catches"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_slip_catches"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
 
-        <TextView
-            android:id="@+id/lbl_circle_catches"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lty_close_catches"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/close_catches"
-            android:padding="10dp"
-            android:text="@string/circle_catches" />
+            android:layout_below="@+id/line1"
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/circle_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/close_catches"
-            android:layout_toRightOf="@+id/lbl_circle_catches"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/lbl_close_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/close_catches" />
 
-        <TextView
-            android:id="@+id/lbl_deep_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_catches"
-            android:padding="10dp"
-            android:text="@string/deep_catches" />
+            <EditText
+                android:id="@+id/close_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/deep_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_catches"
-            android:layout_toRightOf="@id/lbl_deep_catches"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+        <LinearLayout
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_close_catches"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
 
-        <TextView
-            android:id="@+id/lbl_circle_runouts"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lty_circle_catches"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/deep_catches"
-            android:padding="10dp"
-            android:text="@string/circle_runouts" />
+            android:layout_below="@+id/line2"
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/circle_runouts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_catches"
-            android:layout_toRightOf="@id/lbl_circle_runouts"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/lbl_circle_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/circle_catches" />
 
-        <TextView
-            android:id="@+id/lbl_circle_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts"
-            android:padding="10dp"
-            android:text="@string/circle_runouts_direct" />
+            <EditText
+                android:id="@+id/circle_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/circle_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts"
-            android:layout_toRightOf="@id/lbl_circle_runouts_direct"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+        <LinearLayout
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_circle_catches"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
 
-        <TextView
-            android:id="@+id/lbl_deep_runouts"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lty_deep_catches"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts_direct"
-            android:padding="10dp"
-            android:text="@string/deep_runouts" />
+            android:layout_below="@+id/line3"
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/deep_runouts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts_direct"
-            android:layout_toRightOf="@id/lbl_deep_runouts"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/lbl_deep_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/deep_catches" />
 
-        <TextView
-            android:id="@+id/lbl_deep_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts"
-            android:padding="10dp"
-            android:text="@string/deep_runouts_direct" />
+            <EditText
+                android:id="@+id/deep_catches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/deep_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts"
-            android:layout_toRightOf="@id/lbl_deep_runouts_direct"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+        <LinearLayout
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_deep_catches"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
 
-        <TextView
-            android:id="@+id/lbl_stumpings"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lty_circle_runouts"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts_direct"
-            android:padding="10dp"
-            android:text="@string/stumpings" />
+            android:layout_below="@+id/line4"
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/stumpings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts_direct"
-            android:layout_toRightOf="@id/lbl_stumpings"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/lbl_circle_runouts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/circle_runouts" />
 
-        <TextView
-            android:id="@+id/lbl_byes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/stumpings"
-            android:padding="10dp"
-            android:text="@string/byes" />
+            <EditText
+                android:id="@+id/circle_runouts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/byes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/stumpings"
-            android:layout_toRightOf="@id/lbl_byes"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+        <LinearLayout
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_circle_runouts"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
 
-        <TextView
-            android:id="@+id/lbl_misfields"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lty_circle_runouts_direct"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/byes"
-            android:padding="10dp"
-            android:text="@string/misfields" />
+            android:layout_below="@+id/line5"
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/misfields"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/byes"
-            android:layout_toRightOf="@id/lbl_misfields"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/lbl_circle_runouts_direct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/circle_runouts_direct" />
 
-        <TextView
-            android:id="@+id/lbl_catches_dropped_fielding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/misfields"
-            android:padding="10dp"
-            android:text="@string/catches_dropped_fielding" />
+            <EditText
+                android:id="@+id/circle_runouts_direct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/catches_dropped_fielding"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/line6"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_circle_runouts_direct"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/lty_deep_runouts"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/misfields"
-            android:layout_toRightOf="@id/lbl_catches_dropped_fielding"
-            android:ems="2"
-            android:inputType="number"
-            android:padding="10dp" />
+            android:layout_below="@+id/line6"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lbl_deep_runouts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/deep_runouts" />
+
+            <EditText
+                android:id="@+id/deep_runouts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line7"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_deep_runouts"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/lty_deep_runouts_direct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line7"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lbl_deep_runouts_direct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/deep_runouts_direct" />
+
+            <EditText
+                android:id="@+id/deep_runouts_direct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line8"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_deep_runouts_direct"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/lty_stumpings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line8"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lbl_stumpings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/stumpings" />
+
+            <EditText
+                android:id="@+id/stumpings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line9"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_stumpings"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/lty_byes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line9"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lbl_byes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/byes" />
+
+            <EditText
+                android:id="@+id/byes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line10"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_byes"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/lty_misfields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line10"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lbl_misfields"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/misfields" />
+
+            <EditText
+                android:id="@+id/misfields"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line11"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/lty_misfields"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/lty_catches_dropped_fielding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line11"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lbl_catches_dropped_fielding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/catches_dropped_fielding" />
+
+            <EditText
+                android:id="@+id/catches_dropped_fielding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:inputType="number"
+                android:padding="10dp" />
+        </LinearLayout>
     </RelativeLayout>
 
 </ScrollView>

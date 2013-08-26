@@ -11,15 +11,27 @@
             android:id="@+id/bowl_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dip"
             android:checked="false"
             android:textOff="Did Not Bowl"
             android:textOn="Bowled" />
+
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/bowl_toggle"
+            android:layout_margin="10dip"
+            android:background="#282828"
+            android:orientation="horizontal" />
 
         <RelativeLayout
             android:id="@+id/bowling_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/line1"
             android:visibility="gone" >
 
             <TextView

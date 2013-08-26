@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lbl_matches"
-            android:hint="@string/matches"
             android:padding="10dp" />
 
         <TextView
@@ -36,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/matches"
             android:layout_toRightOf="@id/lbl_wins"
-            android:hint="@string/wins"
             android:padding="10dp" />
 
         <TextView
@@ -53,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/wins"
             android:layout_toRightOf="@id/lbl_losses"
-            android:hint="@string/losses"
             android:padding="10dp" />
 
         <TextView
@@ -70,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/losses"
             android:layout_toRightOf="@id/lbl_ties"
-            android:hint="@string/ties"
             android:padding="10dp" />
 
         <TextView
@@ -87,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ties"
             android:layout_toRightOf="@id/lbl_no_result"
-            android:hint="@string/no_result"
             android:padding="10dp" />
 
         <TextView
@@ -104,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/no_result"
             android:layout_toRightOf="@id/lbl_win_per"
-            android:hint="@string/win_per"
             android:padding="10dp" />
     </RelativeLayout>
 

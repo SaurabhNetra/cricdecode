@@ -33,6 +33,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/dark_red"
+        android:cacheColorHint="@color/dark_red"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="15dp"

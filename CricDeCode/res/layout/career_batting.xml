@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lbl_innings"
-            android:hint="@string/innings"
             android:padding="10dp" />
 
         <TextView
@@ -36,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/innings"
             android:layout_toRightOf="@id/lbl_not_outs"
-            android:hint="@string/not_outs"
             android:padding="10dp" />
 
         <TextView
@@ -53,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/not_outs"
             android:layout_toRightOf="@id/lbl_runs"
-            android:hint="@string/runs"
             android:padding="10dp" />
 
         <TextView
@@ -70,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/runs"
             android:layout_toRightOf="@id/lbl_highest"
-            android:hint="@string/highest"
             android:padding="10dp" />
 
         <TextView
@@ -87,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/highest"
             android:layout_toRightOf="@id/lbl_average"
-            android:hint="@string/average"
             android:padding="10dp" />
 
         <TextView
@@ -104,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/average"
             android:layout_toRightOf="@id/lbl_balls"
-            android:hint="@string/balls"
             android:padding="10dp" />
 
         <TextView
@@ -121,7 +115,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/balls"
             android:layout_toRightOf="@id/lbl_strike_rate"
-            android:hint="@string/strike_rate"
             android:padding="10dp" />
 
         <TextView
@@ -138,7 +131,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/strike_rate"
             android:layout_toRightOf="@id/lbl_fifties"
-            android:hint="@string/fifties"
             android:padding="10dp" />
 
         <TextView
@@ -155,7 +147,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fifties"
             android:layout_toRightOf="@id/lbl_hundreds"
-            android:hint="@string/hundreds"
             android:padding="10dp" />
 
         <TextView
@@ -172,7 +163,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/hundreds"
             android:layout_toRightOf="@id/lbl_time_spent"
-            android:hint="@string/time_spent"
             android:padding="10dp" />
 
         <TextView
@@ -189,7 +179,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/time_spent"
             android:layout_toRightOf="@id/lbl_fours"
-            android:hint="@string/fours"
             android:padding="10dp" />
 
         <TextView
@@ -206,7 +195,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fours"
             android:layout_toRightOf="@id/lbl_sixes"
-            android:hint="@string/sixes"
             android:padding="10dp" />
 
         <TextView
@@ -223,7 +211,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/sixes"
             android:layout_toRightOf="@id/lbl_lives"
-            android:hint="@string/lives"
             android:padding="10dp" />
     </RelativeLayout>
 

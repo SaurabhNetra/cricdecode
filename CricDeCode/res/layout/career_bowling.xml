@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lbl_innings"
-            android:hint="@string/innings"
             android:padding="10dp" />
 
         <TextView
@@ -36,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/innings"
             android:layout_toRightOf="@id/lbl_overs"
-            android:hint="@string/overs"
             android:padding="10dp" />
 
         <TextView
@@ -53,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/overs"
             android:layout_toRightOf="@id/lbl_spells"
-            android:hint="@string/spells"
             android:padding="10dp" />
 
         <TextView
@@ -70,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spells"
             android:layout_toRightOf="@id/lbl_runs"
-            android:hint="@string/runs"
             android:padding="10dp" />
 
         <TextView
@@ -87,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/runs"
             android:layout_toRightOf="@id/lbl_maidens"
-            android:hint="@string/maidens"
             android:padding="10dp" />
 
         <TextView
@@ -104,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/maidens"
             android:layout_toRightOf="@id/lbl_wickets"
-            android:hint="@string/wickets"
             android:padding="10dp" />
 
         <TextView
@@ -121,7 +115,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/wickets"
             android:layout_toRightOf="@id/lbl_wickets_left"
-            android:hint="@string/wickets_left"
             android:padding="10dp" />
 
         <TextView
@@ -138,7 +131,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/wickets_left"
             android:layout_toRightOf="@id/lbl_wickets_right"
-            android:hint="@string/wickets_right"
             android:padding="10dp" />
 
         <TextView
@@ -155,7 +147,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/wickets_right"
             android:layout_toRightOf="@id/lbl_catches_dropped_bowling"
-            android:hint="@string/catches_dropped_bowling"
             android:padding="10dp" />
 
         <TextView
@@ -172,7 +163,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/catches_dropped_bowling"
             android:layout_toRightOf="@id/lbl_economy_rate"
-            android:hint="@string/economy_rate"
             android:padding="10dp" />
 
         <TextView
@@ -189,7 +179,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/economy_rate"
             android:layout_toRightOf="@id/lbl_strike_rate"
-            android:hint="@string/strike_rate"
             android:padding="10dp" />
 
         <TextView
@@ -206,7 +195,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/strike_rate"
             android:layout_toRightOf="@id/lbl_average"
-            android:hint="@string/average"
             android:padding="10dp" />
 
         <TextView
@@ -223,7 +211,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/average"
             android:layout_toRightOf="@id/lbl_fwi"
-            android:hint="@string/fwi"
             android:padding="10dp" />
 
         <TextView
@@ -240,7 +227,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fwi"
             android:layout_toRightOf="@id/lbl_twm"
-            android:hint="@string/twm"
             android:padding="10dp" />
 
         <TextView
@@ -257,7 +243,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/twm"
             android:layout_toRightOf="@id/lbl_bbi"
-            android:hint="@string/bbi"
             android:padding="10dp" />
 
         <TextView
@@ -274,7 +259,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bbi"
             android:layout_toRightOf="@id/lbl_bbm"
-            android:hint="@string/bbm"
             android:padding="10dp" />
 
         <TextView
@@ -291,7 +275,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bbm"
             android:layout_toRightOf="@id/lbl_fours"
-            android:hint="@string/fours"
             android:padding="10dp" />
 
         <TextView
@@ -308,7 +291,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fours"
             android:layout_toRightOf="@id/lbl_sixes"
-            android:hint="@string/sixes"
             android:padding="10dp" />
 
         <TextView
@@ -325,7 +307,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/sixes"
             android:layout_toRightOf="@id/lbl_noballs"
-            android:hint="@string/noballs"
             android:padding="10dp" />
 
         <TextView
@@ -342,7 +323,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/noballs"
             android:layout_toRightOf="@id/lbl_wides"
-            android:hint="@string/wides"
             android:padding="10dp" />
     </RelativeLayout>
 
