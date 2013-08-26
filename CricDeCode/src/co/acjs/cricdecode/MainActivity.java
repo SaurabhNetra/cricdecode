@@ -1531,9 +1531,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case MATCH_CREATION_FRAGMENT:
 		case PERFORMANCE_FRAGMENT_EDIT:
-			currentFragment = ONGOING_MATCHES_FRAGMENT;
-			preFragment = CAREER_FRAGMENT;
-			selectItem(currentFragment, true);
+			PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
 			onPrepareOptionsMenu(current_menu);
 			return;
 		case PERFORMANCE_FRAGMENT_VIEW:
@@ -1542,6 +1540,15 @@ public class MainActivity extends SherlockFragmentActivity {
 			selectItem(currentFragment, true);
 			onPrepareOptionsMenu(current_menu);
 			return;
+		case PROFILE_FRAGMENT:
+			if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT) {
+				Log.d("Debug", "Profile Edit Hi");
+				ProfileEditFragment.profileEditFragment.saveEditedProfile();
+				ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+				onPrepareOptionsMenu(current_menu);
+				ProfileFragment.profileFragment.viewFragment();
+				return;
+			}
 		default:
 			switch (preFragment) {
 			case PROFILE_FRAGMENT:

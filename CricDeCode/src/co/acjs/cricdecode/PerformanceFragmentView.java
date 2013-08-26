@@ -1,8 +1,12 @@
 package co.acjs.cricdecode;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import android.content.Context;
@@ -10,6 +14,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -842,8 +847,17 @@ public class PerformanceFragmentView extends SherlockFragment implements
 					.setText(opponent_team);
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.venue
 					.setText(venue);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+					Locale.getDefault());
+			Date d = new Date();
+			try {
+				d = sdf.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Log.d("Debug", "Date Exception");
+			}
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.date
-					.setText(date);
+					.setText(DateFormat.format("MMMM dd, yyyy", d).toString());
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.level
 					.setText(level);
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_overs

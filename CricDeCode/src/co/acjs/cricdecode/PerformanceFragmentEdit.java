@@ -1,8 +1,12 @@
 package co.acjs.cricdecode;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import android.content.ContentValues;
@@ -11,6 +15,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -884,8 +889,17 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setText(opponent_team);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.venue
 					.setText(venue);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+					Locale.getDefault());
+			Date d = new Date();
+			try {
+				d = sdf.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Log.d("Debug", "Date Exception");
+			}
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.date
-					.setText(date);
+					.setText(DateFormat.format("MMMM dd, yyyy", d).toString());
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.level
 					.setText(level);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_overs
@@ -1113,6 +1127,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 		// Go to Ongoing Matches
 		((MainActivity) getSherlockActivity()).currentFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
+		((MainActivity) getSherlockActivity()).preFragment = MainActivity.CAREER_FRAGMENT;
 		((MainActivity) getSherlockActivity()).selectItem(
 				MainActivity.ONGOING_MATCHES_FRAGMENT, true);
 
