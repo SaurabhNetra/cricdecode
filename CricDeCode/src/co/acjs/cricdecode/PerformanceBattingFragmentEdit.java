@@ -2,6 +2,7 @@ package co.acjs.cricdecode;
 
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -49,6 +50,7 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
+				Log.d("Debug", "On Check Changed " + isChecked);
 				if (isChecked) {
 					batting_info.setVisibility(View.VISIBLE);
 				} else {

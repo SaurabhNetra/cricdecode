@@ -50,12 +50,14 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	// Batting
 	private int[] batting_no = { 1, 1 }, bat_runs, bat_balls, time_spent,
 			bat_fours, bat_sixes, lives;
+	private boolean[] batted;
 	private String[] how_out, bowler_type, fielding_pos;
 
 	// Bowling
 	private int[] spells, maidens, bowl_runs, bowl_fours, bowl_sixes,
 			wkts_left, wkts_right, bowl_catches_dropped, noballs, wides;
 	private float[] overs;
+	private boolean[] bowled;
 
 	// Fielding
 	private int[] slip_catches, close_catches, circle_catches, deep_catches,
@@ -122,6 +124,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		first = getSherlockActivity().getResources().getStringArray(
 				R.array.first)[0];
 
+		batted = new boolean[2];
 		bat_runs = new int[2];
 		bat_balls = new int[2];
 		time_spent = new int[2];
@@ -144,6 +147,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				getSherlockActivity().getResources().getStringArray(
 						R.array.fielding_pos)[0] };
 
+		bowled = new boolean[2];
 		overs = new float[2];
 		spells = new int[2];
 		maidens = new int[2];
@@ -407,6 +411,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			level = savedInstanceState.getString("level");
 			date = savedInstanceState.getString("date");
 
+			batted = savedInstanceState.getBooleanArray("batted");
 			batting_no = savedInstanceState.getIntArray("batting_no");
 			bat_runs = savedInstanceState.getIntArray("bat_runs");
 			bat_balls = savedInstanceState.getIntArray("bat_balls");
@@ -417,6 +422,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			bowler_type = savedInstanceState.getStringArray("bowler_type");
 			fielding_pos = savedInstanceState.getStringArray("fielding_pos");
 
+			bowled = savedInstanceState.getBooleanArray("bowled");
 			overs = savedInstanceState.getFloatArray("overs");
 			spells = savedInstanceState.getIntArray("spells");
 			maidens = savedInstanceState.getIntArray("maidens");
@@ -461,6 +467,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 
 		outState.putInt("current_innings", current_innings);
+		outState.putBooleanArray("batted", batted);
+		outState.putBooleanArray("bowled", bowled);
 
 		saveInfo(mTabHost.getCurrentTab());
 
@@ -630,10 +638,22 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.getText().toString();
 			date = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.date
 					.getText().toString();
+			SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd,yyyy",
+					Locale.getDefault());
+			Date d = new Date();
+			try {
+				d = sdf.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Log.d("Debug", "Date Exception");
+			}
+			date = DateFormat.format("yyyy-MM-dd", d).toString();
 			match_overs = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_overs
 					.getText().toString();
 			break;
 		case BATTING:
+			batted[current_innings] = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
+					.isChecked();
 			str = PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_no
 					.getText().toString();
 			if (!str.equals("")) {
@@ -691,6 +711,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.getSelectedItem().toString();
 			break;
 		case BOWLING:
+			bowled[current_innings] = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
+					.isChecked();
 			str = PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
 					.getText().toString();
 			if (!str.equals("")) {
@@ -947,6 +969,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
 						.setChecked(true);
 			}
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
+					.setChecked(batted[current_innings]);
 			break;
 		case BOWLING:
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
@@ -984,6 +1008,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
 						.setChecked(true);
 			}
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
+					.setChecked(bowled[current_innings]);
 			break;
 		case FIELDING:
 			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.slip_catches

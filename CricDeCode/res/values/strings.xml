@@ -39,6 +39,7 @@
         <item>Batsman</item>
         <item>Bowler</item>
         <item>All-Rounder</item>
+        <item>Wicket Keeper</item>
     </string-array>
     <string-array name="batting_style">
         <item>Right Hand Bat</item>

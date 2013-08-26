@@ -151,11 +151,15 @@ public class MainActivity extends SherlockFragmentActivity {
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_EDIT:
+				getSupportActionBar().setDisplayShowCustomEnabled(true);
+				getSupportActionBar().setCustomView(R.layout.innings_spinner);
 				PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_VIEW:
+				getSupportActionBar().setDisplayShowCustomEnabled(true);
+				getSupportActionBar().setCustomView(R.layout.innings_spinner);
 				PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
