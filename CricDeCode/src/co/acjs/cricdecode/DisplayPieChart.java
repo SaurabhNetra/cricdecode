@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class DisplayPieChart extends SherlockFragmentActivity {
 	/** Colors to be used for the pie slices. */
@@ -32,6 +33,10 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		((TextView) findViewById(R.id.cht_ttl)).setText(getIntent().getExtras()
 				.getString("Y-Axis"));
@@ -77,6 +82,18 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 		layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		mChartView.repaint();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +34,7 @@ import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class CropPic extends SherlockFragmentActivity {
 	private ImageView imageView;
@@ -45,11 +47,15 @@ public class CropPic extends SherlockFragmentActivity {
 	private int width;
 	private int height;
 
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.crop_pic);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		width = ProfileData.mPrefs.getInt("width", 0);
 		height = ProfileData.mPrefs.getInt("height", 0);
@@ -150,6 +156,18 @@ public class CropPic extends SherlockFragmentActivity {
 		}
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	public void createZoomControls() {
 		ZoomButtonsController zoomButtonsController = new ZoomButtonsController(
 				imageView);
@@ -178,7 +196,8 @@ public class CropPic extends SherlockFragmentActivity {
 
 		zoomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		zoomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		zoomLayoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.imageViewCrop);
+		zoomLayoutParams.addRule(RelativeLayout.ALIGN_BOTTOM,
+				R.id.imageViewCrop);
 
 		viewManager.addView(zoomButtonsController.getContainer(),
 				zoomLayoutParams);

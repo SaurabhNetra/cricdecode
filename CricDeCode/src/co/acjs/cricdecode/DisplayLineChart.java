@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class DisplayLineChart extends SherlockFragmentActivity {
 	private GraphicalView mChartView;
@@ -34,6 +35,10 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		// ((TextView)findViewById(R.id.chart_title)).setText("How Out vs Opponents");
 		labels = getIntent().getExtras().getStringArray("labels");
 		values = getIntent().getExtras().getDoubleArray("values");
@@ -41,8 +46,10 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE };
 		renderer = buildRenderer(colors, styles);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		((TextView)findViewById(R.id.cht_ttl)).setText(getIntent().getExtras().getString("Y-Axis")
-				+ " vs " + getIntent().getExtras().getString("X-Axis"));
+		((TextView) findViewById(R.id.cht_ttl)).setText(getIntent().getExtras()
+				.getString("Y-Axis")
+				+ " vs "
+				+ getIntent().getExtras().getString("X-Axis"));
 
 		int length = renderer.getSeriesRendererCount();
 		for (int i = 0; i < length; i++) {
@@ -81,6 +88,18 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 			mChartView.repaint();
 
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private XYMultipleSeriesDataset mDataset(String[] titles,
