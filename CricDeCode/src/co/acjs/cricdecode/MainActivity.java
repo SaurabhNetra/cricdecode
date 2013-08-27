@@ -1534,6 +1534,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		case CAREER_FRAGMENT:
 			break;
 		case MATCH_CREATION_FRAGMENT:
+			currentFragment = ONGOING_MATCHES_FRAGMENT;
+			preFragment = CAREER_FRAGMENT;
+			selectItem(currentFragment, true);
+			onPrepareOptionsMenu(current_menu);
+			return;
 		case PERFORMANCE_FRAGMENT_EDIT:
 			PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
 			onPrepareOptionsMenu(current_menu);
