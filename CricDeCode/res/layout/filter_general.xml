@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dip"
+    android:background="@color/light_grey" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip" >
 
         <TextView
             android:id="@+id/lbl_season_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/season" />
+            android:text="@string/season"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/season_list"
@@ -26,7 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/season_list"
             android:padding="10dp"
-            android:text="@string/my_team" />
+            android:text="@string/my_team"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/my_team_list"
@@ -41,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/my_team_list"
             android:padding="10dp"
-            android:text="@string/opponent_team" />
+            android:text="@string/opponent_team"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/opponent_list"
@@ -56,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/opponent_list"
             android:padding="10dp"
-            android:text="@string/venue" />
+            android:text="@string/venue"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/venue_list"
@@ -71,7 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/venue_list"
             android:padding="10dp"
-            android:text="@string/result" />
+            android:text="@string/result"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/result_list"
@@ -86,7 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/result_list"
             android:padding="10dp"
-            android:text="@string/level" />
+            android:text="@string/level"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/level_list"
@@ -101,7 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/level_list"
             android:padding="10dp"
-            android:text="@string/overs" />
+            android:text="@string/overs"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/overs_list"
@@ -116,7 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/overs_list"
             android:padding="10dp"
-            android:text="@string/innings" />
+            android:text="@string/innings"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/innings_list"
@@ -131,7 +142,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/innings_list"
             android:padding="10dp"
-            android:text="@string/duration" />
+            android:text="@string/duration"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/duration_list"
@@ -146,7 +158,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_list"
             android:padding="10dp"
-            android:text="@string/first" />
+            android:text="@string/first"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/first_list"
@@ -161,7 +174,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/first_list"
             android:padding="10dp"
-            android:text="@string/batting_no" />
+            android:text="@string/batting_no"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/batting_no_list"
@@ -176,7 +190,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/batting_no_list"
             android:padding="10dp"
-            android:text="@string/how_out" />
+            android:text="@string/how_out"
+            android:textColor="@color/dark_red" />
 
         <co.acjs.cricdecode.MultiSelectSpinner
             android:id="@+id/how_out_list"
@@ -191,7 +206,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/how_out_list"
             android:layout_centerHorizontal="true"
-            android:text="@string/okay" />
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="20dip"
+            android:background="@color/dark_red"
+            android:padding="20dip"
+            android:text="@string/okay"
+            
+            android:textColor="@color/light_grey"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </ScrollView>

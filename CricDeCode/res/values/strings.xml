@@ -235,7 +235,7 @@
 
     <!-- Filter Dialog -->
     <string name="filter">Filter</string>
-    <string name="okay">OK</string>
+    <string name="okay">Set Filter</string>
     <string name="cancel">Cancel</string>
 
     <!-- Confirmation Dialog -->
