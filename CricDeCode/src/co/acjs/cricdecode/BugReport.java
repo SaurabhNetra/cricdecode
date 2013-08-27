@@ -6,16 +6,11 @@ import org.acra.annotation.ReportsCrashes;
 import android.app.Application;
 import android.util.Log;
 
-@ReportsCrashes(formKey = "", formUri = "http://buggs.acjs.co/report/")
+@ReportsCrashes(formKey = "", formUri = "http://buggs.acjs.co/report/index.php")
 public class BugReport extends Application {
-	@SuppressWarnings("null")
 	@Override
 	public void onCreate() {
-		super.onCreate();
-		// The following line triggers the initialization of ACRA
-		ACRA.init(this);
-		
-		//int a[]= new int[4];
-		//Log.w("",""+a[10]);			
+		super.onCreate();		
+		ACRA.init(this);	
 	}
 }

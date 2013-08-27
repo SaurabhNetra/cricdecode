@@ -1162,7 +1162,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				getSherlockActivity().getContentResolver().update(uri,
 						values[i - 1], null, null);
 			}
-			Toast.makeText(getSherlockActivity(), "Performed Updated",
+			Toast.makeText(getSherlockActivity(), "Performance Saved",
 					Toast.LENGTH_LONG).show();
 		}
 

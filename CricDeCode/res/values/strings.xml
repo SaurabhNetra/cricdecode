@@ -369,5 +369,8 @@
 
     <string name="generate_graph">Generate Graph</string>
     <string name="chart_title">&quot;&quot;</string>
+    <string name="graph_typ">Graph Type</string>
+    <string name="set_filter">Set Filter</string>
+    <string name="select_data">Select Data</string>
 
 </resources>
