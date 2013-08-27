@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingBottom="40dip" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonPick"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="buttonPickClick"
+            android:text="Pick" />
+
+        <Button
+            android:id="@+id/buttonClick"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="buttonCameraClick"
+            android:text="Click" />
+
+        <Button
+            android:id="@+id/buttonCrop"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="buttonCropClick"
+            android:text="Save" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewCrop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dip"
+        android:background="@color/white"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_crop" />
+
+    <TextView
+        android:id="@+id/adjust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewCrop"
+        android:layout_marginTop="5dip"
+        android:text="@string/adjust"
+        android:textColor="@color/light_grey"
+        android:textSize="12sp" />
+
+</RelativeLayout>

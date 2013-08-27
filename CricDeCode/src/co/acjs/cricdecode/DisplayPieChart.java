@@ -31,14 +31,14 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.display_graph);	
-		getSupportActionBar().setDisplayShowTitleEnabled(false);		
-		//mRenderer.setChartTitle(getIntent().getExtras().getString("X-Axis")+" vs "+getIntent().getExtras().getString("Y-Axis"));
-		((TextView)findViewById(R.id.chart_title)).setText("How Out vs Opponents");
+		setContentView(R.layout.display_graph);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		((TextView) findViewById(R.id.cht_ttl)).setText(getIntent().getExtras()
+				.getString("Y-Axis"));
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		mRenderer.setZoomButtonsVisible(true);
 		mRenderer.setStartAngle(45);
-		mRenderer.setFitLegend(true);		
+		mRenderer.setFitLegend(true);
 		mRenderer.setMargins(new int[] { 2, 50, 20, 50 });
 		mRenderer.setDisplayValues(true);
 		String labels[] = getIntent().getExtras().getStringArray("labels");

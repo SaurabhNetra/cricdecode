@@ -1,16 +1,21 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +42,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	int currentFragment, preFragment;
 	Menu current_menu;
 	static SQLiteDatabase dbHandle;
+	public static Context main_context;
 
 	static ContentProviderClient client;
 
@@ -56,13 +62,37 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);
 
+		main_context = this;
+
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+	
+
+		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
+				Context.MODE_PRIVATE);
+		ProfileData.mPrefs.getInt("height", 0);
+		ProfileData.mPrefs.getInt("width", 0);
+		if (ProfileData.mPrefs.getInt("height", 0) == 0) {
+			ProfileData.setScr_Height(main_context, ProfileData.mPrefs.getInt(
+					"height", displaymetrics.heightPixels));
+		}
+
+		if (ProfileData.mPrefs.getInt("width", 0) == 0) {
+			ProfileData.setScr_Width(main_context, ProfileData.mPrefs.getInt(
+					"width", displaymetrics.widthPixels));
+		}
+		
+		Log.w("Width and Height","Display: "+displaymetrics.heightPixels+" "+displaymetrics.widthPixels);
 
 		client = getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
 
 		dbHandle = ((CricDeCodeContentProvider) client
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
+
+		make_directory();
 
 		// Generate title
 		title = getResources().getStringArray(R.array.drawer_list_item);
@@ -1534,11 +1564,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		case CAREER_FRAGMENT:
 			break;
 		case MATCH_CREATION_FRAGMENT:
-			currentFragment = ONGOING_MATCHES_FRAGMENT;
-			preFragment = CAREER_FRAGMENT;
-			selectItem(currentFragment, true);
-			onPrepareOptionsMenu(current_menu);
-			return;
 		case PERFORMANCE_FRAGMENT_EDIT:
 			PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
 			onPrepareOptionsMenu(current_menu);
@@ -1575,4 +1600,25 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		super.onBackPressed();
 	}
+
+	public void make_directory() {
+
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			try {
+				File extStore = Environment.getExternalStorageDirectory();
+				File projDir = new File(extStore.getAbsolutePath() + "/"
+						+ getResources().getString(R.string.cricdecode_dir));
+				if (!projDir.exists())
+					projDir.mkdirs();
+
+				Log.w("MainActivity", "Creating Directory");
+
+			} catch (Exception e) {
+
+			}
+		}
+	}
+
 }

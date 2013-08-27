@@ -34,15 +34,15 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
-		((TextView)findViewById(R.id.chart_title)).setText("How Out vs Opponents");
+		// ((TextView)findViewById(R.id.chart_title)).setText("How Out vs Opponents");
 		labels = getIntent().getExtras().getStringArray("labels");
 		values = getIntent().getExtras().getDoubleArray("values");
 		int[] colors = new int[] { Color.GREEN };
 		PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE };
 		renderer = buildRenderer(colors, styles);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);		
-		//mRenderer.setChartTitle(getIntent().getExtras().getString("X-Axis")+" vs "+getIntent().getExtras().getString("Y-Axis"));
-		
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		((TextView)findViewById(R.id.cht_ttl)).setText(getIntent().getExtras().getString("Y-Axis")
+				+ " vs " + getIntent().getExtras().getString("X-Axis"));
 
 		int length = renderer.getSeriesRendererCount();
 		for (int i = 0; i < length; i++) {
@@ -121,7 +121,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 			PointStyle[] styles) {
 		// TODO Auto-generated method stub
 		renderer2.setAxisTitleTextSize(16);
-		renderer2.setChartTitleTextSize(20);
 		renderer2.setLabelsTextSize(12);
 		renderer2.setLegendTextSize(15);
 		renderer2.setPointSize(5f);
@@ -138,11 +137,10 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		renderer2.setXLabelsAngle(45);
 		renderer2.setZoomButtonsVisible(true);
 		renderer2.setZoomEnabled(false, true);
-		renderer2.setYAxisMin(-1*1.0);		
-		renderer2.setYAxisMax(renderer2.getYAxisMax()+1);
-		renderer2.setXAxisMin(-1*0.05);	
-		
-		
+		renderer2.setYAxisMin(-1 * 1.0);
+		renderer2.setYAxisMax(renderer2.getYAxisMax() + 1);
+		renderer2.setXAxisMin(-1 * 0.05);
+
 		if (getWindowManager().getDefaultDisplay().getRotation() == Surface.ROTATION_0) {
 			renderer2.setXAxisMax(5);
 			renderer2.setYLabels(7);
@@ -151,7 +149,7 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 			renderer2.setYLabels(5);
 		}
 
-		renderer2.setMargins(new int[] { 2, 50, 20, 50 });
+		renderer2.setMargins(new int[] { 5, 30, 20, 20 });
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
@@ -159,7 +157,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 			r.setPointStyle(styles[i]);
 			renderer2.addSeriesRenderer(r);
 		}
-		
 
 	}
 

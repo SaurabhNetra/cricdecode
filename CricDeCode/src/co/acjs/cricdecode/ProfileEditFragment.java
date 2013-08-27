@@ -24,8 +24,8 @@ public class ProfileEditFragment extends SherlockFragment {
 	static ProfileEditFragment profileEditFragment;
 
 	// Declare Variables
-	String profilePicturePath;
-	ImageView profile_picture;
+	public static  String profilePicturePath;
+	public static ImageView profile_picture;
 	EditText name, nickname;
 	TextView date_of_birth;
 	Spinner role, batting_style, bowling_style;
@@ -47,11 +47,11 @@ public class ProfileEditFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		Log.d("Debug", "On Activity Created called EditProfile");
 		init(view);
-		if (savedInstanceState != null) {
-			restoreInstanceState(savedInstanceState);
-		} else {
+		//if (savedInstanceState != null) {
+		//	restoreInstanceState(savedInstanceState);
+		//} else {
 			onProfileEditing();
-		}
+		//}
 	}
 
 	public void init(View view) {
@@ -65,7 +65,7 @@ public class ProfileEditFragment extends SherlockFragment {
 		bowling_style = (Spinner) view.findViewById(R.id.bowling_style);
 	}
 
-	public void restoreInstanceState(Bundle savedInstanceState) {
+	/*public void restoreInstanceState(Bundle savedInstanceState) {
 		profilePicturePath = savedInstanceState.getString("profilePicturePath");
 		if (!profilePicturePath.equals("")) {
 			BitmapWorkerTask task = new BitmapWorkerTask(profile_picture);
@@ -86,9 +86,9 @@ public class ProfileEditFragment extends SherlockFragment {
 		outState.putString("profilePicturePath", profilePicturePath);
 		outState.putString("date_of_birth", date_of_birth.getText().toString());
 		Log.d("Debug", "On Profile Saved Instance");
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Log.d("Debug", "On Activity Result called");
@@ -114,12 +114,15 @@ public class ProfileEditFragment extends SherlockFragment {
 							R.string.profile_picture_size_edit));
 		}
 
-	}
+	}*/
 
 	public void getProfilePicture() {
-		Intent i = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(i, RESULT_LOAD_IMAGE);
+		//Intent i = new Intent(Intent.ACTION_PICK,
+			//	android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		//startActivityForResult(i, RESULT_LOAD_IMAGE);
+		
+		Intent i = new Intent(MainActivity.main_context,CropPic.class);
+		startActivity(i);
 	}
 
 	public void onProfileEditing() {

@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/profile_picture"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/profile_picture"
             android:src="@drawable/photo" />
 

@@ -350,7 +350,7 @@
         <item>Match Duration</item>
         <item>Batting/Fielding First</item>
         <item>Batting Number</item>
-        <item>How Out</item>
+        <item>Dismissal</item>
     </string-array>
     <string-array name="graph_param_pie_general">
         <item>Match Result</item>
@@ -372,5 +372,7 @@
     <string name="graph_typ">Graph Type</string>
     <string name="set_filter">Set Filter</string>
     <string name="select_data">Select Data</string>
+    <string name="cricdecode_dir">CricDeCode</string>
+    <string name="adjust">Touch To Move/Zoom Image</string>
 
 </resources>

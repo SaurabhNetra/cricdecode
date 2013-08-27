@@ -12,7 +12,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/matches" />
+            android:text="@string/matches"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/matches"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/matches"
             android:padding="10dp"
-            android:text="@string/wins" />
+            android:text="@string/wins"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/wins"
@@ -43,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/wins"
             android:padding="10dp"
-            android:text="@string/losses" />
+            android:text="@string/losses"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/losses"
@@ -59,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/losses"
             android:padding="10dp"
-            android:text="@string/ties" />
+            android:text="@string/ties"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ties"
@@ -75,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ties"
             android:padding="10dp"
-            android:text="@string/no_result" />
+            android:text="@string/no_result"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/no_result"
@@ -91,7 +96,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/no_result"
             android:padding="10dp"
-            android:text="@string/win_per" />
+            android:text="@string/win_per"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/win_per"

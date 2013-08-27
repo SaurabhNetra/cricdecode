@@ -13,6 +13,9 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class ProfileViewFragment extends SherlockFragment {
 	static ProfileViewFragment profileViewFragment;
+	ImageView iv;
+	int width, height;
+	int size;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +38,17 @@ public class ProfileViewFragment extends SherlockFragment {
 				"CricDeCode", Context.MODE_PRIVATE);
 		String profilePicturePath = ProfileData.mPrefs.getString(
 				"profilePicturePath", "");
+
+		width = ProfileData.mPrefs.getInt("width", 0);
+		height = ProfileData.mPrefs.getInt("height", 0);
+		size = width < height ? width : height;
+		size -= 50;
+
+		iv = (ImageView) view.findViewById(R.id.profile_picture);
+
+		iv.getLayoutParams().width = size;
+		iv.getLayoutParams().height = size;
+
 		if (!profilePicturePath.equals("")) {
 			BitmapWorkerTask task = new BitmapWorkerTask(
 					((ImageView) view.findViewById(R.id.profile_picture)));

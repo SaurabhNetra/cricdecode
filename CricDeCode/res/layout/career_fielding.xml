@@ -12,7 +12,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/catches" />
+            android:text="@string/catches"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/catches"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/catches"
             android:padding="10dp"
-            android:text="@string/slip_catches" />
+            android:text="@string/slip_catches"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/slip_catches"
@@ -43,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/slip_catches"
             android:padding="10dp"
-            android:text="@string/close_catches" />
+            android:text="@string/close_catches"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/close_catches"
@@ -59,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/close_catches"
             android:padding="10dp"
-            android:text="@string/circle_catches" />
+            android:text="@string/circle_catches"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/circle_catches"
@@ -75,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_catches"
             android:padding="10dp"
-            android:text="@string/deep_catches" />
+            android:text="@string/deep_catches"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/deep_catches"
@@ -91,7 +96,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_catches"
             android:padding="10dp"
-            android:text="@string/runouts" />
+            android:text="@string/runouts"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/runouts"
@@ -107,7 +113,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/runouts"
             android:padding="10dp"
-            android:text="@string/circle_runouts" />
+            android:text="@string/circle_runouts"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/circle_runouts"
@@ -123,7 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_runouts"
             android:padding="10dp"
-            android:text="@string/circle_runouts_direct" />
+            android:text="@string/circle_runouts_direct"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/circle_runouts_direct"
@@ -139,7 +147,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_runouts_direct"
             android:padding="10dp"
-            android:text="@string/deep_runouts" />
+            android:text="@string/deep_runouts"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/deep_runouts"
@@ -155,7 +164,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_runouts"
             android:padding="10dp"
-            android:text="@string/deep_runouts_direct" />
+            android:text="@string/deep_runouts_direct"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/deep_runouts_direct"
@@ -171,7 +181,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_runouts_direct"
             android:padding="10dp"
-            android:text="@string/stumpings" />
+            android:text="@string/stumpings"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stumpings"
@@ -187,7 +198,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/stumpings"
             android:padding="10dp"
-            android:text="@string/byes" />
+            android:text="@string/byes"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/byes"
@@ -203,7 +215,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/byes"
             android:padding="10dp"
-            android:text="@string/misfields" />
+            android:text="@string/misfields"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/misfields"
@@ -219,7 +232,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/misfields"
             android:padding="10dp"
-            android:text="@string/catches_dropped_fielding" />
+            android:text="@string/catches_dropped_fielding"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/catches_dropped_fielding"

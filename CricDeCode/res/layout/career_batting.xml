@@ -12,7 +12,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/innings" />
+            android:text="@string/innings"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/innings"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/innings"
             android:padding="10dp"
-            android:text="@string/not_outs" />
+            android:text="@string/not_outs"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/not_outs"
@@ -43,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/not_outs"
             android:padding="10dp"
-            android:text="@string/runs" />
+            android:text="@string/runs"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/runs"
@@ -59,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/runs"
             android:padding="10dp"
-            android:text="@string/highest" />
+            android:text="@string/highest"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/highest"
@@ -75,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/highest"
             android:padding="10dp"
-            android:text="@string/average" />
+            android:text="@string/average"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/average"
@@ -91,7 +96,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/average"
             android:padding="10dp"
-            android:text="@string/balls" />
+            android:text="@string/balls"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/balls"
@@ -107,7 +113,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/balls"
             android:padding="10dp"
-            android:text="@string/strike_rate" />
+            android:text="@string/strike_rate"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/strike_rate"
@@ -123,7 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/strike_rate"
             android:padding="10dp"
-            android:text="@string/fifties" />
+            android:text="@string/fifties"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/fifties"
@@ -139,7 +147,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fifties"
             android:padding="10dp"
-            android:text="@string/hundreds" />
+            android:text="@string/hundreds"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/hundreds"
@@ -155,7 +164,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/hundreds"
             android:padding="10dp"
-            android:text="@string/time_spent" />
+            android:text="@string/time_spent"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/time_spent"
@@ -171,7 +181,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/time_spent"
             android:padding="10dp"
-            android:text="@string/fours" />
+            android:text="@string/fours"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/fours"
@@ -187,7 +198,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fours"
             android:padding="10dp"
-            android:text="@string/sixes" />
+            android:text="@string/sixes"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/sixes"
@@ -203,7 +215,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/sixes"
             android:padding="10dp"
-            android:text="@string/lives" />
+            android:text="@string/lives"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lives"

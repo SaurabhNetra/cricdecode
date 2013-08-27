@@ -57,6 +57,32 @@ public class ProfileData {
 		}
 	}
 
+	public static void setScr_Width(Context cont, int w) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putInt("width", w);
+			editor.commit();
+			s.release();
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void setScr_Height(Context cont, int h) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putInt("height", h);
+			editor.commit();
+			s.release();
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void setDateOfBirth(Context cont, String dateOfBirth) {
 		try {
 			s.acquire();

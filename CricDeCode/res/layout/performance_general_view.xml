@@ -64,14 +64,16 @@
                 android:id="@+id/overs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/overs_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="@string/overs" />
+                android:text="@string/overs"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,14 +96,16 @@
                 android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/lbl_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="@string/level" />
+                android:text="@string/level"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -148,7 +152,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
-                android:text="@string/duration" />
+                android:text="@string/duration"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/duration"
@@ -178,7 +183,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
-                android:text="@string/first" />
+                android:text="@string/first"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/first_action"
@@ -208,15 +214,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
-                android:text="@string/match_result" />
+                android:text="@string/match_result"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/match_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp" />
-            
-          </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/line7"
@@ -239,7 +245,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="@string/match_review" />
+                android:text="@string/match_review"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/match_review"
@@ -251,9 +258,7 @@
                 android:lines="5"
                 android:padding="10dp"
                 android:scrollHorizontally="false" />
-
-            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
-
 
 </ScrollView>
