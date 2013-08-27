@@ -208,10 +208,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dip"
             android:layout_marginTop="20dip"
-            android:background="@color/dark_red"
+            android:background="@drawable/button_rounded"
             android:padding="20dip"
             android:text="@string/okay"
-            
             android:textColor="@color/light_grey"
             android:textStyle="bold" />
     </RelativeLayout>
