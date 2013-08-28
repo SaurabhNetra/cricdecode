@@ -216,8 +216,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onStop() {
+		super.onStop();
 
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
@@ -496,8 +496,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onStart() {
+		super.onStart();
 
 		// Google Analytics Start
 		EasyTracker.getInstance().activityStart(this);
