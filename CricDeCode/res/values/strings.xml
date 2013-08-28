@@ -374,5 +374,8 @@
     <string name="select_data">Select Data</string>
     <string name="cricdecode_dir">CricDeCode</string>
     <string name="adjust">Touch To Move/Zoom Image</string>
+    
+    <!-- Actionbar -->
+    <string name="home_icon">Icon Here</string>
 
 </resources>

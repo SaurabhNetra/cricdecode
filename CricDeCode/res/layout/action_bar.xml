@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/gradient_action_bar" />
+
+    <RelativeLayout
+        android:id="@+id/ll_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:onClick="showNavigationDrawer"
+        android:paddingBottom="@dimen/icon_padding"
+        android:paddingTop="@dimen/icon_padding" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/home_icon"
+            android:paddingLeft="0dp"
+            android:src="@drawable/ic_drawer" />
+
+        <ImageView
+            android:id="@+id/icon_main"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/home_icon"
+            android:paddingLeft="@dimen/icon_padding_left"
+            android:src="@drawable/ic_actionbar" />
+    </RelativeLayout>
+
+</RelativeLayout>
