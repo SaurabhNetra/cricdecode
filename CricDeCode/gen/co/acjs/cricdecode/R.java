@@ -1156,7 +1156,6 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_settings=0x7f050126;
         public static final int adView=0x7f0500bc;
         public static final int add_to_career=0x7f0500e4;
         public static final int adjust=0x7f0500ac;
