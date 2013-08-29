@@ -330,6 +330,7 @@ public class CareerFragment extends SherlockFragment implements
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setCurrentItem(mTabHost.getCurrentTab());
 		this.mViewPager.setOnPageChangeListener(this);
+		this.mViewPager.setOffscreenPageLimit(3);
 	}
 
 	private void initialiseTabHost(View view, Bundle args) {

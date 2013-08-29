@@ -545,6 +545,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		this.mViewPager.setCurrentItem(mTabHost.getCurrentTab());
 		current_position = mTabHost.getCurrentTab();
 		this.mViewPager.setOnPageChangeListener(this);
+		this.mViewPager.setOffscreenPageLimit(3);
 	}
 
 	private void initialiseTabHost(View view, Bundle args) {

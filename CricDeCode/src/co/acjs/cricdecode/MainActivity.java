@@ -17,16 +17,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -96,6 +99,13 @@ public class MainActivity extends SherlockFragmentActivity {
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 
 		make_directory();
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.action_bar, null);
+		actionBar.setCustomView(view);
 
 		// Generate title
 		title = getResources().getStringArray(R.array.drawer_list_item);
@@ -120,24 +130,21 @@ public class MainActivity extends SherlockFragmentActivity {
 		// Capture button clicks on side menu
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-		// Enable ActionBar app icon to behave as action to toggle nav drawer
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
+			ImageView icon = (ImageView) findViewById(R.id.icon);
 
 			public void onDrawerClosed(View view) {
-				// TODO Auto-generated method stub
 				super.onDrawerClosed(view);
+				icon.setPadding(0, 0, 0, 0);
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				// TODO Auto-generated method stub
 				super.onDrawerOpened(drawerView);
+				icon.setPadding(R.dimen.drawer_open_hamberger_padding, 0, 0, 0);
 			}
 		};
 
@@ -184,14 +191,12 @@ public class MainActivity extends SherlockFragmentActivity {
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_EDIT:
-				getSupportActionBar().setDisplayShowCustomEnabled(true);
 				getSupportActionBar().setCustomView(R.layout.innings_spinner);
 				PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_VIEW:
-				getSupportActionBar().setDisplayShowCustomEnabled(true);
 				getSupportActionBar().setCustomView(R.layout.innings_spinner);
 				PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
@@ -212,12 +217,11 @@ public class MainActivity extends SherlockFragmentActivity {
 				adView.loadAd(new AdRequest());
 			}
 		}).start();
-
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onStop() {
+		super.onStop();
 
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
@@ -349,7 +353,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		switch (position) {
 		case PROFILE_FRAGMENT:
 			Log.d("Debug", "Select Profile");
-			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new ProfileFragment());
 			} else {
@@ -357,7 +360,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case CAREER_FRAGMENT:
-			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new CareerFragment());
 			} else {
@@ -365,7 +367,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case ANALYSIS_FRAGMENT:
-			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new AnalysisFragment());
 			} else {
@@ -374,7 +375,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case ONGOING_MATCHES_FRAGMENT:
-			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new OngoingMatchesFragment());
 			} else {
@@ -383,7 +383,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case DIARY_MATCHES_FRAGMENT:
-			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new DiaryMatchesFragment());
 			} else {
@@ -392,7 +391,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case MATCH_CREATION_FRAGMENT:
-			getSupportActionBar().setDisplayShowCustomEnabled(false);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new MatchCreationFragment());
 			} else {
@@ -401,7 +399,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_EDIT:
-			getSupportActionBar().setDisplayShowCustomEnabled(true);
 			getSupportActionBar().setCustomView(R.layout.innings_spinner);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentEdit());
@@ -411,7 +408,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_VIEW:
-			getSupportActionBar().setDisplayShowCustomEnabled(true);
 			getSupportActionBar().setCustomView(R.layout.innings_spinner);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentView());
@@ -496,8 +492,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onStart() {
+		super.onStart();
 
 		// Google Analytics Start
 		EasyTracker.getInstance().activityStart(this);
@@ -1582,6 +1578,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		case CAREER_FRAGMENT:
 			break;
 		case MATCH_CREATION_FRAGMENT:
+			currentFragment = ONGOING_MATCHES_FRAGMENT;
+			preFragment = CAREER_FRAGMENT;
+			selectItem(ONGOING_MATCHES_FRAGMENT, true);
+			onPrepareOptionsMenu(current_menu);
+			return;
 		case PERFORMANCE_FRAGMENT_EDIT:
 			PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
 			onPrepareOptionsMenu(current_menu);
@@ -1638,4 +1639,17 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		}
 	}
+
+	public void showNavigationDrawer(View view) {
+		toggleNavigationDrawer();
+	}
+
+	private void toggleNavigationDrawer() {
+		if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+		} else {
+			mDrawerLayout.openDrawer(mDrawerList);
+		}
+	}
+
 }
