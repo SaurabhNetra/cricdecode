@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	DrawerLayout mDrawerLayout;
 	ListView mDrawerList;
 	ActionBarDrawerToggle mDrawerToggle;
+	Spinner spinner;
 	MenuListAdapter mMenuAdapter;
 	String[] title;
 	int currentFragment, preFragment;
@@ -69,8 +71,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.drawer_main);
 
 		main_context = this;
-
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -99,13 +99,19 @@ public class MainActivity extends SherlockFragmentActivity {
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 
 		make_directory();
+		
+		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.action_bar, null);
 		actionBar.setCustomView(view);
+		
+		// Spinner
+		spinner = (Spinner) findViewById(R.id.inning_no);
 
 		// Generate title
 		title = getResources().getStringArray(R.array.drawer_list_item);
@@ -144,7 +150,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				icon.setPadding(R.dimen.drawer_open_hamberger_padding, 0, 0, 0);
+				icon.setPadding(-7, 0, 0, 0);
 			}
 		};
 
@@ -161,43 +167,49 @@ public class MainActivity extends SherlockFragmentActivity {
 			preFragment = savedInstanceState.getInt("preFragment");
 			switch (currentFragment) {
 			case PROFILE_FRAGMENT:
+				spinner.setVisibility(View.GONE);
 				ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case CAREER_FRAGMENT:
+				spinner.setVisibility(View.GONE);
 				CareerFragment.careerFragment = (CareerFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case ANALYSIS_FRAGMENT:
+				spinner.setVisibility(View.GONE);
 				AnalysisFragment.analysisFragment = (AnalysisFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case MATCH_CREATION_FRAGMENT:
+				spinner.setVisibility(View.GONE);
 				MatchCreationFragment.matchCreationFragment = (MatchCreationFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case DIARY_MATCHES_FRAGMENT:
+				spinner.setVisibility(View.GONE);
 				DiaryMatchesFragment.diaryMatchesFragment = (DiaryMatchesFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case ONGOING_MATCHES_FRAGMENT:
+				spinner.setVisibility(View.GONE);
 				OngoingMatchesFragment.ongoingMatchesFragment = (OngoingMatchesFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_EDIT:
-				getSupportActionBar().setCustomView(R.layout.innings_spinner);
+				spinner.setVisibility(View.VISIBLE);
 				PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_VIEW:
-				getSupportActionBar().setCustomView(R.layout.innings_spinner);
+				spinner.setVisibility(View.VISIBLE);
 				PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
@@ -352,6 +364,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		// Locate Position
 		switch (position) {
 		case PROFILE_FRAGMENT:
+			spinner.setVisibility(View.GONE);
 			Log.d("Debug", "Select Profile");
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new ProfileFragment());
@@ -360,6 +373,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case CAREER_FRAGMENT:
+			spinner.setVisibility(View.GONE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new CareerFragment());
 			} else {
@@ -367,6 +381,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case ANALYSIS_FRAGMENT:
+			spinner.setVisibility(View.GONE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new AnalysisFragment());
 			} else {
@@ -375,6 +390,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case ONGOING_MATCHES_FRAGMENT:
+			spinner.setVisibility(View.GONE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new OngoingMatchesFragment());
 			} else {
@@ -383,6 +399,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case DIARY_MATCHES_FRAGMENT:
+			spinner.setVisibility(View.GONE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new DiaryMatchesFragment());
 			} else {
@@ -391,6 +408,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case MATCH_CREATION_FRAGMENT:
+			spinner.setVisibility(View.GONE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new MatchCreationFragment());
 			} else {
@@ -399,7 +417,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_EDIT:
-			getSupportActionBar().setCustomView(R.layout.innings_spinner);
+			spinner.setVisibility(View.VISIBLE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentEdit());
 			} else {
@@ -408,7 +426,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			break;
 		case PERFORMANCE_FRAGMENT_VIEW:
-			getSupportActionBar().setCustomView(R.layout.innings_spinner);
+			spinner.setVisibility(View.VISIBLE);
 			if (newInstance) {
 				ft.replace(R.id.content_frame, new PerformanceFragmentView());
 			} else {

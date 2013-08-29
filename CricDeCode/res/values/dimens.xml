@@ -5,6 +5,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="icon_padding">4dp</dimen>
     <dimen name="icon_padding_left">7dp</dimen>
-    <dimen name="drawer_open_hamberger_padding">-5dp</dimen>
 
 </resources>
