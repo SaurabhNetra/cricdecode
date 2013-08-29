@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="fill_horizontal"
-        android:background="@drawable/gradient_action_bar" >
+    android:background="@drawable/gradient_action_bar" >
 
     <View
         android:layout_width="match_parent"
@@ -42,8 +42,8 @@
         android:id="@+id/inning_no"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_toRightOf="@id/ll_icon" />
+        android:layout_toRightOf="@id/ll_icon"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button_menu"
