@@ -388,7 +388,7 @@ public class CareerFragment extends SherlockFragment implements
 	@Override
 	public void onPageSelected(int position) {
 		this.mTabHost.setCurrentTab(position);
-		viewInfo(position);
+		// viewInfo(position);
 	}
 
 	@Override

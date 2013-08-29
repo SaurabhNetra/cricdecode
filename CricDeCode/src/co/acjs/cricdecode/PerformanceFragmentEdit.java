@@ -199,10 +199,13 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 							View v, int i, long l) {
 						if (current_innings != i) {
 							Log.d("Debug", "On Selected Item called");
-							int index = mTabHost.getCurrentTab();
-							saveInfo(index);
+							saveInfo(PerformanceFragmentEdit.BATTING);
+							saveInfo(PerformanceFragmentEdit.BOWLING);
+							saveInfo(PerformanceFragmentEdit.FIELDING);
 							current_innings = i;
-							viewInfo(index);
+							viewInfo(PerformanceFragmentEdit.BATTING);
+							viewInfo(PerformanceFragmentEdit.BOWLING);
+							viewInfo(PerformanceFragmentEdit.FIELDING);
 							Log.d("Debug", "On Selected Item finished");
 						}
 					}
@@ -284,11 +287,17 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				fielding_pos[i - 1] = c
 						.getString(c
 								.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FIELDING_POSITION));
+				if (bat_balls[i - 1] != 0 || !how_out[i - 1].equals("Not Out")) {
+					batted[i - 1] = true;
+				}
 
 				spells[i - 1] = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SPELLS));
 				int balls = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_BALLS));
+				if (balls != 0) {
+					bowled[i - 1] = true;
+				}
 				overs[i - 1] = balls / 6 + (float) (balls % 6) / 10;
 				maidens[i - 1] = c.getInt(c
 						.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS));
@@ -604,9 +613,9 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	@Override
 	public void onPageSelected(int position) {
 		// TODO Auto-generated method stub
-		saveInfo(current_position);
+		// saveInfo(current_position);
 		current_position = position;
-		viewInfo(current_position);
+		// viewInfo(current_position);
 		this.mTabHost.setCurrentTab(position);
 	}
 
@@ -956,20 +965,25 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			spinnerPosition = myAdap.getPosition(fielding_pos[current_innings]);
 			spinner.setSelection(spinnerPosition);
 
-			if (PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.how_out
-					.getSelectedItemPosition() == 0
-					&& PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.balls
-							.getText().toString().equals("0")) {
-				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
-						.setVisibility(View.GONE);
-				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
-						.setChecked(false);
-			} else {
-				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
-						.setVisibility(View.VISIBLE);
-				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
-						.setChecked(true);
-			}
+			/*
+			 * if
+			 * (PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.
+			 * how_out .getSelectedItemPosition() == 0 &&
+			 * PerformanceBattingFragmentEdit
+			 * .performanceBattingFragmentEdit.balls
+			 * .getText().toString().equals("0")) {
+			 * PerformanceBattingFragmentEdit
+			 * .performanceBattingFragmentEdit.batting_info
+			 * .setVisibility(View.GONE);
+			 * PerformanceBattingFragmentEdit.performanceBattingFragmentEdit
+			 * .bat_toggle .setChecked(false); } else {
+			 * PerformanceBattingFragmentEdit
+			 * .performanceBattingFragmentEdit.batting_info
+			 * .setVisibility(View.VISIBLE);
+			 * PerformanceBattingFragmentEdit.performanceBattingFragmentEdit
+			 * .bat_toggle .setChecked(true); }
+			 */
+
 			if (batted[current_innings]) {
 				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
 						.setVisibility(View.VISIBLE);
@@ -1003,19 +1017,19 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setText(noballs[current_innings] + "");
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wides
 					.setText(wides[current_innings] + "");
-			if (Float
-					.parseFloat(PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
-							.getText().toString()) == 0) {
-				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
-						.setVisibility(View.GONE);
-				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
-						.setChecked(false);
-			} else {
-				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
-						.setVisibility(View.VISIBLE);
-				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
-						.setChecked(true);
-			}
+			/*
+			 * if (Float .parseFloat(PerformanceBowlingFragmentEdit.
+			 * performanceBowlingFragmentEdit.overs .getText().toString()) == 0)
+			 * { PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.
+			 * bowling_info .setVisibility(View.GONE);
+			 * PerformanceBowlingFragmentEdit
+			 * .performanceBowlingFragmentEdit.bowl_toggle .setChecked(false); }
+			 * else {
+			 * PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit
+			 * .bowling_info .setVisibility(View.VISIBLE);
+			 * PerformanceBowlingFragmentEdit
+			 * .performanceBowlingFragmentEdit.bowl_toggle .setChecked(true); }
+			 */
 			if (bowled[current_innings]) {
 				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
 						.setVisibility(View.VISIBLE);
