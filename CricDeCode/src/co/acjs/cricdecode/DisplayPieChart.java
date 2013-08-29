@@ -23,8 +23,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class DisplayPieChart extends SherlockFragmentActivity {
 	/** Colors to be used for the pie slices. */
-	private static int[] COLORS = new int[] { Color.GREEN, Color.BLUE,
-			Color.MAGENTA, Color.CYAN, Color.RED, Color.YELLOW, Color.BLACK };
+	private static int[] COLORS = new int[] {Color.BLUE, Color.YELLOW,
+			Color.MAGENTA, Color.CYAN, Color.RED, Color.GREEN, Color.WHITE };
 	/** The main series that will include all the data. */
 	private CategorySeries mSeries = new CategorySeries("");
 	/** The main renderer for the main dataset. */
