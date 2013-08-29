@@ -38,4 +38,11 @@
             android:src="@drawable/ic_actionbar" />
     </RelativeLayout>
 
+    <Spinner
+        android:id="@+id/inning_no"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_toRightOf="@id/ll_icon" />
+
 </RelativeLayout>
