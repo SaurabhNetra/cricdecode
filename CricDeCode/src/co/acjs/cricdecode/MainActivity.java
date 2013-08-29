@@ -24,8 +24,10 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -249,10 +251,16 @@ public class MainActivity extends SherlockFragmentActivity {
 				// R.string.edit_profile);
 				// menu.findItem(R.string.edit_profile).setShowAsAction(
 				// MenuItem.SHOW_AS_ACTION_IF_ROOM);
-				Button button = (Button) getSupportActionBar().getCustomView()
-						.findViewById(R.id.button_menu);
-				button.setText(getResources().getString(R.string.edit_profile));
-				button.setVisibility(View.VISIBLE);
+				ImageButton button = (ImageButton) getSupportActionBar()
+						.getCustomView().findViewById(R.id.button_menu);
+				button.setImageDrawable(getResources().getDrawable(
+						R.drawable.edit));
+				button.setContentDescription(getResources().getString(
+						R.string.edit_profile));
+				// button.setText(getResources().getString(R.string.edit_profile));
+
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.VISIBLE);
 
 			} else {
 				/*
@@ -261,10 +269,15 @@ public class MainActivity extends SherlockFragmentActivity {
 				 * menu.findItem(R.string.save_profile).setShowAsAction(
 				 * MenuItem.SHOW_AS_ACTION_IF_ROOM);
 				 */
-				Button button = (Button) getSupportActionBar().getCustomView()
-						.findViewById(R.id.button_menu);
-				button.setText(getResources().getString(R.string.save_profile));
-				button.setVisibility(View.VISIBLE);
+				ImageButton button = (ImageButton) getSupportActionBar()
+						.getCustomView().findViewById(R.id.button_menu);
+				button.setImageDrawable(getResources().getDrawable(
+						R.drawable.save));
+				button.setContentDescription(getResources().getString(
+						R.string.save_profile));
+				// button.setText(getResources().getString(R.string.save_profile));
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.VISIBLE);
 			}
 			break;
 		case MATCH_CREATION_FRAGMENT:
@@ -274,10 +287,14 @@ public class MainActivity extends SherlockFragmentActivity {
 			 * menu.findItem(R.string.create_match).setShowAsAction(
 			 * MenuItem.SHOW_AS_ACTION_ALWAYS);
 			 */
-			Button button = (Button) getSupportActionBar().getCustomView()
-					.findViewById(R.id.button_menu);
-			button.setText(getResources().getString(R.string.create_match));
-			button.setVisibility(View.VISIBLE);
+			ImageButton button = (ImageButton) getSupportActionBar()
+					.getCustomView().findViewById(R.id.button_menu);
+			button.setImageDrawable(getResources().getDrawable(R.drawable.save));
+			button.setContentDescription(getResources().getString(
+					R.string.create_match));
+			// button.setText(getResources().getString(R.string.create_match));
+			((RelativeLayout) findViewById(R.id.rl_button))
+					.setVisibility(View.VISIBLE);
 			break;
 		case ONGOING_MATCHES_FRAGMENT:
 			/*
@@ -286,10 +303,14 @@ public class MainActivity extends SherlockFragmentActivity {
 			 * menu.findItem(R.string.new_match).setShowAsAction(
 			 * MenuItem.SHOW_AS_ACTION_ALWAYS);
 			 */
-			button = (Button) getSupportActionBar().getCustomView()
+			button = (ImageButton) getSupportActionBar().getCustomView()
 					.findViewById(R.id.button_menu);
-			button.setText(getResources().getString(R.string.new_match));
-			button.setVisibility(View.VISIBLE);
+			button.setImageDrawable(getResources().getDrawable(R.drawable.add));
+			button.setContentDescription(getResources().getString(
+					R.string.new_match));
+			// button.setText(getResources().getString(R.string.new_match));
+			((RelativeLayout) findViewById(R.id.rl_button))
+					.setVisibility(View.VISIBLE);
 			break;
 		case DIARY_MATCHES_FRAGMENT:
 		case CAREER_FRAGMENT:
@@ -298,10 +319,15 @@ public class MainActivity extends SherlockFragmentActivity {
 			 * menu.findItem(R.string.filter).setShowAsAction(
 			 * MenuItem.SHOW_AS_ACTION_IF_ROOM);
 			 */
-			button = (Button) getSupportActionBar().getCustomView()
+			button = (ImageButton) getSupportActionBar().getCustomView()
 					.findViewById(R.id.button_menu);
-			button.setText(getResources().getString(R.string.filter));
-			button.setVisibility(View.VISIBLE);
+			button.setImageDrawable(getResources().getDrawable(
+					R.drawable.filter));
+			button.setContentDescription(getResources().getString(
+					R.string.filter));
+			// button.setText(getResources().getString(R.string.filter));
+			((RelativeLayout) findViewById(R.id.rl_button))
+					.setVisibility(View.VISIBLE);
 			break;
 		case PERFORMANCE_FRAGMENT_EDIT:
 			/*
@@ -310,15 +336,18 @@ public class MainActivity extends SherlockFragmentActivity {
 			 * menu.findItem(R.string.save_performance).setShowAsAction(
 			 * MenuItem.SHOW_AS_ACTION_ALWAYS);
 			 */
-			button = (Button) getSupportActionBar().getCustomView()
+			button = (ImageButton) getSupportActionBar().getCustomView()
 					.findViewById(R.id.button_menu);
-			button.setText(getResources().getString(R.string.save_performance));
-			button.setVisibility(View.VISIBLE);
+			button.setContentDescription(getResources().getString(
+					R.string.save_performance));
+			button.setImageDrawable(getResources().getDrawable(R.drawable.save));
+			// button.setText(getResources().getString(R.string.save_performance));
+			((RelativeLayout) findViewById(R.id.rl_button))
+					.setVisibility(View.VISIBLE);
 			break;
 		default:
-			button = (Button) getSupportActionBar().getCustomView()
-					.findViewById(R.id.button_menu);
-			button.setVisibility(View.GONE);
+			((RelativeLayout) findViewById(R.id.rl_button))
+					.setVisibility(View.GONE);
 			break;
 		}
 		current_menu = menu;
@@ -1703,7 +1732,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	public void onMenuButtonClick(View v) {
-		String str = ((Button) v).getText().toString();
+
+		String str = ((ImageButton)v).getContentDescription().toString();
 		if (str.equals(getResources().getString(R.string.new_match))) {
 			preFragment = currentFragment;
 			currentFragment = MATCH_CREATION_FRAGMENT;

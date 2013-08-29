@@ -7,14 +7,17 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -33,14 +36,16 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
-
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.action_bar_others, null);
+		actionBar.setCustomView(view);
 		((TextView) findViewById(R.id.cht_ttl)).setText(getIntent().getExtras()
 				.getString("Y-Axis"));
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		mRenderer.setZoomButtonsVisible(true);
 		mRenderer.setStartAngle(45);
 		mRenderer.setFitLegend(true);
@@ -115,5 +120,9 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	protected void onResume() {
 		super.onResume();
 		mChartView.repaint();
+	}
+
+	public void endMe(View v) {
+		finish();
 	}
 }

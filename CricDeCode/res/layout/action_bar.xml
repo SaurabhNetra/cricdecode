@@ -15,6 +15,7 @@
         android:id="@+id/ll_icon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@drawable/button_selector"
         android:onClick="showNavigationDrawer"
         android:paddingBottom="@dimen/icon_padding"
         android:paddingTop="@dimen/icon_padding" >
@@ -45,13 +46,34 @@
         android:layout_toRightOf="@id/ll_icon"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/button_menu"
+    <RelativeLayout
+        android:id="@+id/rl_button"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:onClick="onMenuButtonClick"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/divide"
+            android:layout_width="@dimen/divider_padding"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/divider_padding"
+            android:layout_marginTop="@dimen/divider_padding"
+            android:layout_toLeftOf="@+id/button_menu"
+            android:background="@color/light_red"
+            android:orientation="horizontal" />
+
+        <ImageButton
+            android:id="@+id/button_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_selector"
+            android:onClick="onMenuButtonClick"
+            android:contentDescription="Button"
+            android:paddingLeft="@dimen/menu_padding"
+            android:paddingRight="@dimen/menu_padding"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
 </RelativeLayout>

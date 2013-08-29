@@ -12,15 +12,19 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Surface;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -36,8 +40,14 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.action_bar_others, null);
+		actionBar.setCustomView(view);
 
 		// ((TextView)findViewById(R.id.chart_title)).setText("How Out vs Opponents");
 		labels = getIntent().getExtras().getStringArray("labels");
@@ -45,7 +55,7 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		int[] colors = new int[] { Color.GREEN };
 		PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE };
 		renderer = buildRenderer(colors, styles);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 		((TextView) findViewById(R.id.cht_ttl)).setText(getIntent().getExtras()
 				.getString("Y-Axis")
 				+ " vs "
@@ -183,6 +193,10 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	protected void onResume() {
 		super.onResume();
 		mChartView.repaint();
+	}
+
+	public void endMe(View v) {
+		finish();
 	}
 
 }
