@@ -150,7 +150,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				icon.setPadding(-7, 0, 0, 0);
+				icon.setPadding(-5, 0, 0, 0);
 			}
 		};
 
