@@ -379,11 +379,11 @@ public class CareerFragment extends SherlockFragment implements
 		if (args != null) {
 			mTabHost.setCurrentTabByTag(args.getString("tab"));
 		}
-		// customizeTabs();
+		 customizeTabs();
 		mTabHost.setOnTabChangedListener(this);
 	}
 
-/*	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void customizeTabs() {
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
@@ -391,20 +391,19 @@ public class CareerFragment extends SherlockFragment implements
 				mTabHost.getTabWidget()
 						.getChildTabViewAt(i)
 						.setBackgroundDrawable(
-								(Drawable) getResources().getLayout(
-										R.layout.tab_background));
+								(Drawable) getResources().getDrawable(
+										R.drawable.tab_bg));
 			} else {
 
 				mTabHost.getTabWidget()
 						.getChildTabViewAt(i)
 						.setBackground(
-								(Drawable) getResources().getLayout(
-										R.layout.tab_background));
+								(Drawable) getResources().getDrawable(R.drawable.tab_bg));
 			}
 		}
 
 	}
-*/
+
 	private static void AddTab(CareerFragment careerFragment, TabHost tabHost,
 			TabHost.TabSpec tabSpec, TabInfo tabInfo) {
 		// Attach a Tab view factory to the spec
