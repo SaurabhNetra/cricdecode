@@ -120,8 +120,9 @@ public class AnalysisFragment extends SherlockFragment {
 
 		String[] arr = getResources().getStringArray(R.array.graph_param2);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getSherlockActivity(), android.R.layout.simple_spinner_dropdown_item,
+				getSherlockActivity(), android.R.layout.simple_spinner_item,
 				arr);
+		adapter.setDropDownViewResource(R.layout.drop_down_menu_item);
 		graph_param2.setAdapter(adapter);
 
 		graph_facet.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -161,10 +162,13 @@ public class AnalysisFragment extends SherlockFragment {
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						getSherlockActivity(),
-						android.R.layout.simple_spinner_dropdown_item, arr);
+						android.R.layout.simple_spinner_item, arr);
+				adapter.setDropDownViewResource(R.layout.drop_down_menu_item);
 				graph_param1.setAdapter(adapter);
 				adapter = new ArrayAdapter<String>(getSherlockActivity(),
-						android.R.layout.simple_spinner_dropdown_item, arr2);
+						android.R.layout.simple_spinner_item, arr2);
+				adapter.setDropDownViewResource(R.layout.drop_down_menu_item);
+				
 				graph_param_pie.setAdapter(adapter);
 
 				if (param_save_count != 0) {
