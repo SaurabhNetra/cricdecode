@@ -154,14 +154,15 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		if (innings == 1) {
 			spinnerArrayAdapter = new ArrayAdapter<String>(
 					getSherlockActivity(),
-					android.R.layout.simple_spinner_dropdown_item,
+					android.R.layout.simple_spinner_item,
 					new String[] { "1st Innings" });
 		} else {
 			spinnerArrayAdapter = new ArrayAdapter<String>(
 					getSherlockActivity(),
-					android.R.layout.simple_spinner_dropdown_item, new String[] {
+					android.R.layout.simple_spinner_item, new String[] {
 							"1st Innings", "2nd Innings" });
 		}
+		spinnerArrayAdapter.setDropDownViewResource(R.layout.drop_down_menu_item);
 		inning_no.setAdapter(spinnerArrayAdapter);
 		current_innings = 0;
 		inning_no
