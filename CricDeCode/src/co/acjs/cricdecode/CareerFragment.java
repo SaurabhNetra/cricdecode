@@ -379,30 +379,11 @@ public class CareerFragment extends SherlockFragment implements
 		if (args != null) {
 			mTabHost.setCurrentTabByTag(args.getString("tab"));
 		}
-		 customizeTabs();
+		 MainActivity.customizeTabs(mTabHost);
 		mTabHost.setOnTabChangedListener(this);
 	}
 
-	@SuppressWarnings("deprecation")
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private void customizeTabs() {
-		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-			if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-				mTabHost.getTabWidget()
-						.getChildTabViewAt(i)
-						.setBackgroundDrawable(
-								(Drawable) getResources().getDrawable(
-										R.drawable.tab_bg));
-			} else {
-
-				mTabHost.getTabWidget()
-						.getChildTabViewAt(i)
-						.setBackground(
-								(Drawable) getResources().getDrawable(R.drawable.tab_bg));
-			}
-		}
-
-	}
+	
 
 	private static void AddTab(CareerFragment careerFragment, TabHost tabHost,
 			TabHost.TabSpec tabSpec, TabInfo tabInfo) {

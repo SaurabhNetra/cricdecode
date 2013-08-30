@@ -20,7 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_ten_dp"
-            android:entries="@array/graph_type" />
+            android:entries="@array/graph_type"
+            android:popupBackground="@drawable/button_selector"
+            android:spinnerMode="dropdown" />
 
         <LinearLayout
             android:layout_width="match_parent"

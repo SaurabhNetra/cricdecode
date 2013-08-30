@@ -3,11 +3,14 @@ package co.acjs.cricdecode;
 import java.io.File;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
@@ -29,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -1758,5 +1762,26 @@ public class MainActivity extends SherlockFragmentActivity {
 		} else if (str.equals(getResources().getString(R.string.filter))) {
 			showFilterDialog(currentFragment);
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public static void customizeTabs(TabHost mTabHost) {
+		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+			if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+				mTabHost.getTabWidget()
+						.getChildTabViewAt(i)
+						.setBackgroundDrawable(
+								(Drawable)main_context.getResources().getDrawable(
+										R.drawable.tab_bg));
+			} else {
+
+				mTabHost.getTabWidget()
+						.getChildTabViewAt(i)
+						.setBackground(
+								(Drawable) main_context.getResources().getDrawable(R.drawable.tab_bg));
+			}
+		}
+
 	}
 }

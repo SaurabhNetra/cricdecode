@@ -183,12 +183,12 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		if (innings == 1) {
 			spinnerArrayAdapter = new ArrayAdapter<String>(
 					getSherlockActivity(),
-					android.R.layout.simple_spinner_item,
+					android.R.layout.simple_spinner_dropdown_item,
 					new String[] { "1st Innings" });
 		} else {
 			spinnerArrayAdapter = new ArrayAdapter<String>(
 					getSherlockActivity(),
-					android.R.layout.simple_spinner_item, new String[] {
+					android.R.layout.simple_spinner_dropdown_item, new String[] {
 							"1st Innings", "2nd Innings" });
 		}
 		inning_no.setAdapter(spinnerArrayAdapter);
@@ -216,6 +216,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				});
 
 		initFetchFromDb();
+
 
 	}
 
@@ -585,7 +586,9 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		if (args != null) {
 			mTabHost.setCurrentTabByTag(args.getString("tab"));
 		}
+		MainActivity.customizeTabs(mTabHost);
 		mTabHost.setOnTabChangedListener(this);
+	
 	}
 
 	private static void AddTab(PerformanceFragmentEdit performanceFragment,
