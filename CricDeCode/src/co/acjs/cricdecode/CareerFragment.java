@@ -1,35 +1,27 @@
 package co.acjs.cricdecode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TabHost;
-import android.widget.TabHost.TabContentFactory;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class CareerFragment extends SherlockFragment implements
-		TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+		ViewPager.OnPageChangeListener {
 
 	static CareerFragment careerFragment;
 
-	TabHost mTabHost;
-	private ViewPager mViewPager;
-	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, CareerFragment.TabInfo>();
+	int current_position;
+
+	ViewPager mViewPager;
 	private CricDeCodePagerAdapter mPagerAdapter;
 
 	// Filter Variables
@@ -69,40 +61,6 @@ public class CareerFragment extends SherlockFragment implements
 			deep_catches, run_outs, circle_run_outs, circle_run_outs_direct,
 			deep_run_outs, deep_run_outs_direct, stumpings, byes, misfields,
 			field_catches_dropped;
-
-	private class TabInfo {
-		private String tag;
-		@SuppressWarnings("unused")
-		private Class<?> clss;
-		@SuppressWarnings("unused")
-		private Bundle args;
-		@SuppressWarnings("unused")
-		private SherlockFragment fragment;
-
-		TabInfo(String tag, Class<?> clazz, Bundle args) {
-			this.tag = tag;
-			this.clss = clazz;
-			this.args = args;
-		}
-
-	}
-
-	class TabFactory implements TabContentFactory {
-
-		private final Context mContext;
-
-		public TabFactory(Context context) {
-			mContext = context;
-		}
-
-		public View createTabContent(String tag) {
-			View v = new View(mContext);
-			v.setMinimumWidth(0);
-			v.setMinimumHeight(0);
-			return v;
-		}
-
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,6 +115,8 @@ public class CareerFragment extends SherlockFragment implements
 			fetchFromDb();
 
 		} else {
+
+			current_position = savedInstanceState.getInt("current_position");
 
 			batting_no_list = savedInstanceState
 					.getStringArrayList("batting_no_list");
@@ -239,18 +199,12 @@ public class CareerFragment extends SherlockFragment implements
 
 		}
 		fireQueries();
-		this.initialiseTabHost(view, savedInstanceState);
 		this.intialiseViewPager(view);
-		TabPatchView tabPatchView = new TabPatchView(getSherlockActivity());
-		RelativeLayout relativeLayout = (RelativeLayout) view
-				.findViewById(R.id.performance_fragment_layout);
-		relativeLayout.addView(tabPatchView);
-
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putString("tab", mTabHost.getCurrentTabTag());
+		outState.putInt("current_position", mViewPager.getCurrentItem());
 		outState.putStringArrayList("batting_no_list",
 				(ArrayList<String>) batting_no_list);
 		outState.putStringArrayList("how_out_list",
@@ -331,73 +285,9 @@ public class CareerFragment extends SherlockFragment implements
 
 		this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		this.mViewPager.setAdapter(this.mPagerAdapter);
-		this.mViewPager.setCurrentItem(mTabHost.getCurrentTab());
+		this.mViewPager.setCurrentItem(current_position);
 		this.mViewPager.setOnPageChangeListener(this);
 		this.mViewPager.setOffscreenPageLimit(3);
-	}
-
-	private void initialiseTabHost(View view, Bundle args) {
-		mTabHost = (TabHost) view.findViewById(android.R.id.tabhost);
-		mTabHost.setup();
-		TabInfo tabInfo = null;
-		CareerFragment.AddTab(
-				this,
-				this.mTabHost,
-				this.mTabHost.newTabSpec("General").	
-				setIndicator("General",
-						getResources().getDrawable(R.drawable.tab_bg)),
-				(tabInfo = new TabInfo("General", CareerGeneralFragment.class,
-						args)));				
-				
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		CareerFragment.AddTab(
-				this,
-				this.mTabHost,
-				this.mTabHost.newTabSpec("Batting").setIndicator("Batting",
-						getResources().getDrawable(R.drawable.tab_bg)),
-						
-				(tabInfo = new TabInfo("Batting", CareerBattingFragment.class,
-						args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		CareerFragment.AddTab(
-				this,
-				this.mTabHost,
-				this.mTabHost.newTabSpec("Bowling").setIndicator("Bowling",
-						getResources().getDrawable(R.drawable.tab_bg)),
-				(tabInfo = new TabInfo("Bowling", CareerBowlingFragment.class,
-						args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		CareerFragment.AddTab(
-				this,
-				this.mTabHost,
-				this.mTabHost.newTabSpec("Fielding").setIndicator("Fielding",
-						getResources().getDrawable(R.drawable.tab_bg)),
-				(tabInfo = new TabInfo("Fielding",
-						CareerFieldingFragment.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-
-		if (args != null) {
-			mTabHost.setCurrentTabByTag(args.getString("tab"));
-		}
-		 MainActivity.customizeTabs(mTabHost);
-		mTabHost.setOnTabChangedListener(this);
-	}
-
-	
-
-	private static void AddTab(CareerFragment careerFragment, TabHost tabHost,
-			TabHost.TabSpec tabSpec, TabInfo tabInfo) {
-		// Attach a Tab view factory to the spec
-		tabSpec.setContent(careerFragment.new TabFactory(careerFragment
-				.getSherlockActivity()));
-		tabHost.addTab(tabSpec);
-	}
-
-	public void onTabChanged(String tag) {
-		// TabInfo newTab = this.mapTabInfo.get(tag);
-		int pos = this.mTabHost.getCurrentTab();
-		Log.d("Debug", "Position " + pos);
-		this.mViewPager.setCurrentItem(pos);
 	}
 
 	@Override
@@ -408,8 +298,7 @@ public class CareerFragment extends SherlockFragment implements
 
 	@Override
 	public void onPageSelected(int position) {
-		this.mTabHost.setCurrentTab(position);
-		// viewInfo(position);
+		current_position = position;
 	}
 
 	@Override

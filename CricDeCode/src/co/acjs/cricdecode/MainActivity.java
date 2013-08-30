@@ -586,6 +586,78 @@ public class MainActivity extends SherlockFragmentActivity {
 		final Dialog dialog;
 		final View finalview;
 		switch (view.getId()) {
+		case R.id.gen_tab:
+			switch (currentFragment) {
+			case CAREER_FRAGMENT:
+				CareerFragment.careerFragment.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.GENERAL);
+				break;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				PerformanceFragmentEdit.performanceFragmentEdit.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.GENERAL);
+				break;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				PerformanceFragmentView.performanceFragmentView.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.GENERAL);
+				break;
+			default:
+				break;
+			}
+			break;
+		case R.id.bat_tab:
+			switch (currentFragment) {
+			case CAREER_FRAGMENT:
+				CareerFragment.careerFragment.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.BATTING);
+				break;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				PerformanceFragmentEdit.performanceFragmentEdit.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.BATTING);
+				break;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				PerformanceFragmentView.performanceFragmentView.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.BATTING);
+				break;
+			default:
+				break;
+			}
+			break;
+		case R.id.bowl_tab:
+			switch (currentFragment) {
+			case CAREER_FRAGMENT:
+				CareerFragment.careerFragment.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.BOWLING);
+				break;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				PerformanceFragmentEdit.performanceFragmentEdit.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.BOWLING);
+				break;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				PerformanceFragmentView.performanceFragmentView.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.BOWLING);
+				break;
+			default:
+				break;
+			}
+			break;
+		case R.id.field_tab:
+			switch (currentFragment) {
+			case CAREER_FRAGMENT:
+				CareerFragment.careerFragment.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.FIELDING);
+				break;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				PerformanceFragmentEdit.performanceFragmentEdit.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.FIELDING);
+				break;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				PerformanceFragmentView.performanceFragmentView.mViewPager
+						.setCurrentItem(PerformanceFragmentEdit.FIELDING);
+				break;
+			default:
+				break;
+			}
+			break;
 		case R.id.filter:
 			showFilterDialog(currentFragment);
 			break;
@@ -1321,8 +1393,8 @@ public class MainActivity extends SherlockFragmentActivity {
 					// view Info
 					CareerFragment.careerFragment.fireQueries();
 					CareerFragment.careerFragment
-							.viewInfo(CareerFragment.careerFragment.mTabHost
-									.getCurrentTab());
+							.viewInfo(CareerFragment.careerFragment.mViewPager
+									.getCurrentItem());
 
 					dialog.dismiss();
 				}
@@ -1737,7 +1809,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void onMenuButtonClick(View v) {
 
-		String str = ((ImageButton)v).getContentDescription().toString();
+		String str = ((ImageButton) v).getContentDescription().toString();
 		if (str.equals(getResources().getString(R.string.new_match))) {
 			preFragment = currentFragment;
 			currentFragment = MATCH_CREATION_FRAGMENT;
@@ -1763,7 +1835,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			showFilterDialog(currentFragment);
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public static void customizeTabs(TabHost mTabHost) {
@@ -1772,14 +1844,15 @@ public class MainActivity extends SherlockFragmentActivity {
 				mTabHost.getTabWidget()
 						.getChildTabViewAt(i)
 						.setBackgroundDrawable(
-								(Drawable)main_context.getResources().getDrawable(
-										R.drawable.tab_bg));
+								(Drawable) main_context.getResources()
+										.getDrawable(R.drawable.tab_bg));
 			} else {
 
 				mTabHost.getTabWidget()
 						.getChildTabViewAt(i)
 						.setBackground(
-								(Drawable) main_context.getResources().getDrawable(R.drawable.tab_bg));
+								(Drawable) main_context.getResources()
+										.getDrawable(R.drawable.tab_bg));
 			}
 		}
 

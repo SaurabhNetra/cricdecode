@@ -4,13 +4,11 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,16 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TabHost;
-import android.widget.TabHost.TabContentFactory;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class PerformanceFragmentEdit extends SherlockFragment implements
-		TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+		ViewPager.OnPageChangeListener {
 
 	public static final int GENERAL = 0, BATTING = 1, BOWLING = 2,
 			FIELDING = 3;
@@ -65,44 +60,8 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			deep_runouts_direct, stumpings, byes, misfields,
 			field_catches_dropped;
 
-	private TabHost mTabHost;
-	private ViewPager mViewPager;
-	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, PerformanceFragmentEdit.TabInfo>();
+	ViewPager mViewPager;
 	private CricDeCodePagerAdapter mPagerAdapter;
-
-	private class TabInfo {
-		private String tag;
-		@SuppressWarnings("unused")
-		private Class<?> clss;
-		@SuppressWarnings("unused")
-		private Bundle args;
-		@SuppressWarnings("unused")
-		private SherlockFragment fragment;
-
-		TabInfo(String tag, Class<?> clazz, Bundle args) {
-			this.tag = tag;
-			this.clss = clazz;
-			this.args = args;
-		}
-
-	}
-
-	class TabFactory implements TabContentFactory {
-
-		private final Context mContext;
-
-		public TabFactory(Context context) {
-			mContext = context;
-		}
-
-		public View createTabContent(String tag) {
-			View v = new View(mContext);
-			v.setMinimumWidth(0);
-			v.setMinimumHeight(0);
-			return v;
-		}
-
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -408,6 +367,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			// Restore the previously serialized current tab position.
 			Log.d("Debug", "On Restore Instance State called");
 
+			current_position = savedInstanceState.getInt("current_position");
 			current_innings = savedInstanceState.getInt("current_innings");
 			inning_no.setSelection(current_innings);
 
@@ -465,23 +425,18 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 			Log.d("Debug", "On Restore Instance State finished");
 		}
-		this.initialiseTabHost(view, savedInstanceState);
 		this.intialiseViewPager(view);
-		TabPatchView tabPatchView = new TabPatchView(getSherlockActivity());
-		RelativeLayout relativeLayout = (RelativeLayout) view
-				.findViewById(R.id.performance_fragment_layout);
-		relativeLayout.addView(tabPatchView);
 	}
 
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("tab", mTabHost.getCurrentTabTag());
+		outState.putInt("current_position", mViewPager.getCurrentItem());
 
 		outState.putInt("current_innings", current_innings);
 		outState.putBooleanArray("batted", batted);
 		outState.putBooleanArray("bowled", bowled);
 
-		saveInfo(mTabHost.getCurrentTab());
+		saveInfo(mViewPager.getCurrentItem());
 
 		outState.putString("result", result);
 		outState.putString("match_overs", match_overs);
@@ -553,58 +508,9 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 		this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		this.mViewPager.setAdapter(this.mPagerAdapter);
-		this.mViewPager.setCurrentItem(mTabHost.getCurrentTab());
-		current_position = mTabHost.getCurrentTab();
+		this.mViewPager.setCurrentItem(current_position);
 		this.mViewPager.setOnPageChangeListener(this);
 		this.mViewPager.setOffscreenPageLimit(3);
-	}
-
-	private void initialiseTabHost(View view, Bundle args) {
-		mTabHost = (TabHost) view.findViewById(android.R.id.tabhost);
-		mTabHost.setup();
-		TabInfo tabInfo = null;
-		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
-				.newTabSpec("General").setIndicator("General"),
-				(tabInfo = new TabInfo("General",
-						PerformanceBattingFragmentEdit.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
-				.newTabSpec("Batting").setIndicator("Batting"),
-				(tabInfo = new TabInfo("Batting",
-						PerformanceBattingFragmentEdit.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
-				.newTabSpec("Bowling").setIndicator("Bowling"),
-				(tabInfo = new TabInfo("Bowling",
-						PerformanceBowlingFragmentEdit.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		PerformanceFragmentEdit.AddTab(this, this.mTabHost, this.mTabHost
-				.newTabSpec("Fielding").setIndicator("Fielding"),
-				(tabInfo = new TabInfo("Fielding",
-						PerformanceFieldingFragmentEdit.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-
-		if (args != null) {
-			mTabHost.setCurrentTabByTag(args.getString("tab"));
-		}
-		MainActivity.customizeTabs(mTabHost);
-		mTabHost.setOnTabChangedListener(this);
-
-	}
-
-	private static void AddTab(PerformanceFragmentEdit performanceFragment,
-			TabHost tabHost, TabHost.TabSpec tabSpec, TabInfo tabInfo) {
-		// Attach a Tab view factory to the spec
-		tabSpec.setContent(performanceFragment.new TabFactory(
-				performanceFragment.getSherlockActivity()));
-		tabHost.addTab(tabSpec);
-	}
-
-	public void onTabChanged(String tag) {
-		// TabInfo newTab = this.mapTabInfo.get(tag);
-		int pos = this.mTabHost.getCurrentTab();
-		Log.d("Debug", "Position " + pos);
-		this.mViewPager.setCurrentItem(pos);
 	}
 
 	@Override
@@ -616,11 +522,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 	@Override
 	public void onPageSelected(int position) {
-		// TODO Auto-generated method stub
-		// saveInfo(current_position);
 		current_position = position;
-		// viewInfo(current_position);
-		this.mTabHost.setCurrentTab(position);
 	}
 
 	@Override
@@ -969,25 +871,6 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			spinnerPosition = myAdap.getPosition(fielding_pos[current_innings]);
 			spinner.setSelection(spinnerPosition);
 
-			/*
-			 * if
-			 * (PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.
-			 * how_out .getSelectedItemPosition() == 0 &&
-			 * PerformanceBattingFragmentEdit
-			 * .performanceBattingFragmentEdit.balls
-			 * .getText().toString().equals("0")) {
-			 * PerformanceBattingFragmentEdit
-			 * .performanceBattingFragmentEdit.batting_info
-			 * .setVisibility(View.GONE);
-			 * PerformanceBattingFragmentEdit.performanceBattingFragmentEdit
-			 * .bat_toggle .setChecked(false); } else {
-			 * PerformanceBattingFragmentEdit
-			 * .performanceBattingFragmentEdit.batting_info
-			 * .setVisibility(View.VISIBLE);
-			 * PerformanceBattingFragmentEdit.performanceBattingFragmentEdit
-			 * .bat_toggle .setChecked(true); }
-			 */
-
 			if (batted[current_innings]) {
 				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
 						.setVisibility(View.VISIBLE);
@@ -1021,19 +904,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setText(noballs[current_innings] + "");
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wides
 					.setText(wides[current_innings] + "");
-			/*
-			 * if (Float .parseFloat(PerformanceBowlingFragmentEdit.
-			 * performanceBowlingFragmentEdit.overs .getText().toString()) == 0)
-			 * { PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.
-			 * bowling_info .setVisibility(View.GONE);
-			 * PerformanceBowlingFragmentEdit
-			 * .performanceBowlingFragmentEdit.bowl_toggle .setChecked(false); }
-			 * else {
-			 * PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit
-			 * .bowling_info .setVisibility(View.VISIBLE);
-			 * PerformanceBowlingFragmentEdit
-			 * .performanceBowlingFragmentEdit.bowl_toggle .setChecked(true); }
-			 */
+
 			if (bowled[current_innings]) {
 				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
 						.setVisibility(View.VISIBLE);
@@ -1078,7 +949,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	}
 
 	public void insertOrUpdate() {
-		saveInfo(mTabHost.getCurrentTab());
+		saveInfo(mViewPager.getCurrentItem());
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
 				+ match_id);
 		ContentValues matchvalues = new ContentValues();

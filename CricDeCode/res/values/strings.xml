@@ -10,6 +10,12 @@
     <!-- AdMob Constant -->
     <string name="publisher_id">a151c9c34615465</string>
 
+    <!-- Tab Strings -->
+    <string name="general">General</string>
+    <string name="batting">Batting</string>
+    <string name="bowling">Bowling</string>
+    <string name="fielding">Fielding</string>
+
     <!-- Drawer List Item -->
     <string-array name="drawer_list_item">
         <item>Profile</item>
@@ -374,7 +380,7 @@
     <string name="select_data">Select Data</string>
     <string name="cricdecode_dir">CricDeCode</string>
     <string name="adjust">Touch To Move/Zoom Image</string>
-    
+
     <!-- Actionbar -->
     <string name="home_icon">Icon Here</string>
 
