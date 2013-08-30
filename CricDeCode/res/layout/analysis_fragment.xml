@@ -12,69 +12,69 @@
             android:id="@+id/graphtype"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
+            android:layout_margin="@dimen/margin_ten_dp"
             android:text="@string/graph_typ" />
 
         <Spinner
             android:id="@+id/graph_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_marginLeft="@dimen/margin_ten_dp"
             android:entries="@array/graph_type" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_margin="10dip"
-            android:background="#282828" />
+            android:layout_height="@dimen/separator_height_two"
+            android:layout_margin="@dimen/margin_ten_dp"
+            android:background="@color/separator_color" />
 
         <Spinner
             android:id="@+id/graph_facet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_marginLeft="@dimen/margin_ten_dp"
             android:entries="@array/graph_facet" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_margin="10dip"
-            android:background="#282828" />
+            android:layout_height="@dimen/separator_height_two"
+            android:layout_margin="@dimen/margin_ten_dp"
+            android:background="@color/separator_color" />
 
         <TextView
             android:id="@+id/txt_set_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-            android:layout_marginLeft="10dip"
+            android:layout_marginBottom="@dimen/margin_ten_dp"
+            android:layout_marginLeft="@dimen/margin_ten_dp"
             android:text="@string/set_filter" />
 
         <Button
             android:id="@+id/filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_marginLeft="@dimen/margin_ten_dp"
             android:onClick="onClick"
             android:text="@string/filter" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_margin="10dip"
-            android:background="#282828" />
+            android:layout_height="@dimen/separator_height_two"
+            android:layout_margin="@dimen/margin_ten_dp"
+            android:background="@color/separator_color" />
 
         <RelativeLayout
             android:id="@+id/graph_category_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dip" >
+            android:layout_marginBottom="@dimen/margin_twenty_dp" >
 
             <TextView
                 android:id="@+id/txt_select_data1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip"
-                android:layout_marginLeft="10dip"
+                android:layout_marginBottom="@dimen/margin_ten_dp"
+                android:layout_marginLeft="@dimen/margin_ten_dp"
                 android:text="@string/select_data" />
 
             <RelativeLayout
@@ -87,13 +87,13 @@
                     android:id="@+id/graph_param1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip" />
+                    android:layout_marginLeft="@dimen/margin_ten_dp" />
 
                 <TextView
                     android:id="@+id/vs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
                     android:layout_toRightOf="@id/graph_param1"
                     android:text="@string/vs" />
 
@@ -101,17 +101,17 @@
                     android:id="@+id/graph_param2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
                     android:layout_toRightOf="@id/vs" />
             </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/line2"
                 android:layout_width="match_parent"
-                android:layout_height="2dip"
+                android:layout_height="@dimen/separator_height_two"
                 android:layout_below="@id/rel_data"
-                android:layout_margin="10dip"
-                android:background="#282828"
+                android:layout_margin="@dimen/margin_ten_dp"
+                android:background="@color/separator_color"
                 android:orientation="horizontal" />
 
             <Button
@@ -120,12 +120,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/line2"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dip"
-                android:layout_marginTop="20dip"
+                android:layout_marginBottom="@dimen/margin_twenty_dp"
+                android:layout_marginTop="@dimen/margin_twenty_dp"
                 android:onClick="onClick"
-                android:padding="20dip"
+                android:padding="@dimen/padding_twenty_dp"
                 android:text="@string/generate_graph"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_size_twenty_sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -133,14 +133,14 @@
             android:id="@+id/graph_category_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dip" >
+            android:layout_marginBottom="@dimen/margin_twenty_dp" >
 
             <TextView
                 android:id="@+id/txt_select_data2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip"
-                android:layout_marginLeft="10dip"
+                android:layout_marginBottom="@dimen/margin_ten_dp"
+                android:layout_marginLeft="@dimen/margin_ten_dp"
                 android:text="@string/select_data" />
 
             <Spinner
@@ -148,15 +148,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_select_data2"
-                android:layout_marginLeft="10dip" />
+                android:layout_marginLeft="@dimen/margin_ten_dp" />
 
             <LinearLayout
                 android:id="@+id/line1"
                 android:layout_width="match_parent"
-                android:layout_height="2dip"
+                android:layout_height="@dimen/separator_height_two"
                 android:layout_below="@+id/graph_param_pie"
-                android:layout_margin="10dip"
-                android:background="#282828"
+                android:layout_margin="@dimen/margin_ten_dp"
+                android:background="@color/separator_color"
                 android:orientation="horizontal" />
 
             <Button
@@ -165,11 +165,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/line1"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dip"
+                android:layout_marginTop="@dimen/margin_twenty_dp"
                 android:onClick="onClick"
-                android:padding="20dip"
+                android:padding="@dimen/padding_twenty_dp"
                 android:text="@string/generate_graph"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_size_twenty_sp"
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>

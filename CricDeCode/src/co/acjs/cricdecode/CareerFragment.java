@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -361,6 +362,21 @@ public class CareerFragment extends SherlockFragment implements
 		if (args != null) {
 			mTabHost.setCurrentTabByTag(args.getString("tab"));
 		}
+
+		/*for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+			if (i == 0)
+				mTabHost.getTabWidget()
+						.getChildAt(i).
+						
+						.setBackgroundColor(
+								getResources().getColor(R.color.dark_red));
+
+			else
+				mTabHost.getTabWidget()
+						.getChildAt(i)
+						.setBackgroundColor(
+								getResources().getColor(R.color.light_red));
+		}*/
 		mTabHost.setOnTabChangedListener(this);
 	}
 

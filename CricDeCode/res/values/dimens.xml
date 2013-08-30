@@ -7,5 +7,11 @@
     <dimen name="icon_padding_left">10dp</dimen>
     <dimen name="menu_padding">5dp</dimen>
     <dimen name="divider_padding">2dp</dimen>
+    <dimen name="margin_ten_dp">10dp</dimen>
+    <dimen name="margin_twenty_dp">20dp</dimen>
+    <dimen name="separator_height_two">2dp</dimen>
+    <dimen name="padding_twenty_dp">20dp</dimen>
+    <dimen name="padding_ten_dp">10dp</dimen>
+    <dimen name="text_size_twenty_sp">20sp</dimen>
 
 </resources>
