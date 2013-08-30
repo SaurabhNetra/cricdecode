@@ -836,12 +836,12 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f04000f;
         public static final int abs__bright_foreground_holo_dark=0x7f04000c;
         public static final int abs__bright_foreground_holo_light=0x7f04000d;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f040016;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f040017;
-        public static final int abs__primary_text_holo_dark=0x7f040018;
-        public static final int abs__primary_text_holo_light=0x7f040019;
-        public static final int black=0x7f040013;
-        public static final int blue=0x7f040012;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f040018;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f040019;
+        public static final int abs__primary_text_holo_dark=0x7f04001a;
+        public static final int abs__primary_text_holo_light=0x7f04001b;
+        public static final int black=0x7f040014;
+        public static final int blue=0x7f040013;
         public static final int common_action_bar_splitter=0x7f040009;
         /**  Sign-in Button Colors 
          */
@@ -854,12 +854,14 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f040006;
         public static final int common_signin_btn_light_text_focused=0x7f040007;
         public static final int common_signin_btn_light_text_pressed=0x7f040005;
-        public static final int common_signin_btn_text_dark=0x7f04001a;
-        public static final int common_signin_btn_text_light=0x7f04001b;
+        public static final int common_signin_btn_text_dark=0x7f04001c;
+        public static final int common_signin_btn_text_light=0x7f04001d;
         public static final int dark_red=0x7f040010;
-        public static final int light_grey=0x7f040014;
+        public static final int faint_red=0x7f040012;
+        public static final int light_grey=0x7f040015;
         public static final int light_red=0x7f040011;
-        public static final int white=0x7f040015;
+        public static final int separator_color=0x7f040017;
+        public static final int white=0x7f040016;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -969,7 +971,15 @@ containing a value of this type.
         public static final int divider_padding=0x7f080014;
         public static final int icon_padding=0x7f080011;
         public static final int icon_padding_left=0x7f080012;
+        public static final int margin_ten_dp=0x7f080015;
+        public static final int margin_twenty_dp=0x7f080016;
         public static final int menu_padding=0x7f080013;
+        public static final int padding_ten_dp=0x7f080019;
+        public static final int padding_twenty_dp=0x7f080018;
+        public static final int selected_tab=0x7f08001c;
+        public static final int separator_height_two=0x7f080017;
+        public static final int text_size_twenty_sp=0x7f08001a;
+        public static final int unselected_tab=0x7f08001b;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -1121,7 +1131,11 @@ containing a value of this type.
         public static final int photo=0x7f020092;
         public static final int picture_bg=0x7f020093;
         public static final int save=0x7f020094;
-        public static final int up=0x7f020095;
+        public static final int tab_bg=0x7f020095;
+        public static final int tab_press=0x7f020096;
+        public static final int tab_select=0x7f020097;
+        public static final int tab_unselect=0x7f020098;
+        public static final int up=0x7f020099;
     }
     public static final class id {
         public static final int _id=0x7f0500b8;
@@ -1486,6 +1500,7 @@ containing a value of this type.
         public static final int profile_view=0x7f030036;
         public static final int sherlock_spinner_dropdown_item=0x7f030037;
         public static final int sherlock_spinner_item=0x7f030038;
+        public static final int trial=0x7f030039;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
