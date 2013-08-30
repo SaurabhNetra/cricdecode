@@ -120,7 +120,7 @@ public class AnalysisFragment extends SherlockFragment {
 
 		String[] arr = getResources().getStringArray(R.array.graph_param2);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getSherlockActivity(), android.R.layout.simple_spinner_item,
+				getSherlockActivity(), android.R.layout.simple_spinner_dropdown_item,
 				arr);
 		graph_param2.setAdapter(adapter);
 
@@ -161,10 +161,10 @@ public class AnalysisFragment extends SherlockFragment {
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						getSherlockActivity(),
-						android.R.layout.simple_spinner_item, arr);
+						android.R.layout.simple_spinner_dropdown_item, arr);
 				graph_param1.setAdapter(adapter);
 				adapter = new ArrayAdapter<String>(getSherlockActivity(),
-						android.R.layout.simple_spinner_item, arr2);
+						android.R.layout.simple_spinner_dropdown_item, arr2);
 				graph_param_pie.setAdapter(adapter);
 
 				if (param_save_count != 0) {

@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -337,23 +340,38 @@ public class CareerFragment extends SherlockFragment implements
 		mTabHost = (TabHost) view.findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 		TabInfo tabInfo = null;
-		CareerFragment.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("General").setIndicator("General"),
+		CareerFragment.AddTab(
+				this,
+				this.mTabHost,
+				this.mTabHost.newTabSpec("General").	
+				setIndicator("General",
+						getResources().getDrawable(R.drawable.tab_bg)),
 				(tabInfo = new TabInfo("General", CareerGeneralFragment.class,
-						args)));
+						args)));				
+				
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		CareerFragment.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Batting").setIndicator("Batting"),
+		CareerFragment.AddTab(
+				this,
+				this.mTabHost,
+				this.mTabHost.newTabSpec("Batting").setIndicator("Batting",
+						getResources().getDrawable(R.drawable.tab_bg)),
+						
 				(tabInfo = new TabInfo("Batting", CareerBattingFragment.class,
 						args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		CareerFragment.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Bowling").setIndicator("Bowling"),
+		CareerFragment.AddTab(
+				this,
+				this.mTabHost,
+				this.mTabHost.newTabSpec("Bowling").setIndicator("Bowling",
+						getResources().getDrawable(R.drawable.tab_bg)),
 				(tabInfo = new TabInfo("Bowling", CareerBowlingFragment.class,
 						args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		CareerFragment.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Fielding").setIndicator("Fielding"),
+		CareerFragment.AddTab(
+				this,
+				this.mTabHost,
+				this.mTabHost.newTabSpec("Fielding").setIndicator("Fielding",
+						getResources().getDrawable(R.drawable.tab_bg)),
 				(tabInfo = new TabInfo("Fielding",
 						CareerFieldingFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
@@ -361,8 +379,11 @@ public class CareerFragment extends SherlockFragment implements
 		if (args != null) {
 			mTabHost.setCurrentTabByTag(args.getString("tab"));
 		}
+		 MainActivity.customizeTabs(mTabHost);
 		mTabHost.setOnTabChangedListener(this);
 	}
+
+	
 
 	private static void AddTab(CareerFragment careerFragment, TabHost tabHost,
 			TabHost.TabSpec tabSpec, TabInfo tabInfo) {

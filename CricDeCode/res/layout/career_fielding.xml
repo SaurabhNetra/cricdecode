@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="100dip"
+        android:background="@color/white"
+        android:paddingBottom="100dip" >
 
         <TextView
             android:id="@+id/lbl_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/catches"
             android:textStyle="bold" />
 
@@ -20,14 +28,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lbl_catches"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_slip_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/catches"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/slip_catches"
             android:textStyle="bold" />
 
@@ -37,14 +45,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/catches"
             android:layout_toRightOf="@id/lbl_slip_catches"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_close_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/slip_catches"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/close_catches"
             android:textStyle="bold" />
 
@@ -54,14 +62,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/slip_catches"
             android:layout_toRightOf="@id/lbl_close_catches"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_circle_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/close_catches"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/circle_catches"
             android:textStyle="bold" />
 
@@ -71,14 +79,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/close_catches"
             android:layout_toRightOf="@id/lbl_circle_catches"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_deep_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_catches"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/deep_catches"
             android:textStyle="bold" />
 
@@ -88,14 +96,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_catches"
             android:layout_toRightOf="@id/lbl_deep_catches"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_runouts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_catches"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/runouts"
             android:textStyle="bold" />
 
@@ -105,14 +113,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_catches"
             android:layout_toRightOf="@id/lbl_runouts"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_circle_runouts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/runouts"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/circle_runouts"
             android:textStyle="bold" />
 
@@ -122,14 +130,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/runouts"
             android:layout_toRightOf="@id/lbl_circle_runouts"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_circle_runouts_direct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_runouts"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/circle_runouts_direct"
             android:textStyle="bold" />
 
@@ -139,14 +147,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_runouts"
             android:layout_toRightOf="@id/lbl_circle_runouts_direct"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_deep_runouts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_runouts_direct"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/deep_runouts"
             android:textStyle="bold" />
 
@@ -156,14 +164,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_runouts_direct"
             android:layout_toRightOf="@id/lbl_deep_runouts"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_deep_runouts_direct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_runouts"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/deep_runouts_direct"
             android:textStyle="bold" />
 
@@ -173,14 +181,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_runouts"
             android:layout_toRightOf="@id/lbl_deep_runouts_direct"
-            android:padding="10dp" />
+            android:padding="@dimen/padding_ten_dp" />
 
         <TextView
             android:id="@+id/lbl_stumpings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/deep_runouts_direct"
-            android:padding="10dp"
+            android:padding="@dimen/padding_ten_dp"
             android:text="@string/stumpings"
             android:textStyle="bold" />
 

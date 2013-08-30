@@ -143,7 +143,7 @@
     <string name="batting_no">Batting Number</string>
     <string name="runs">Runs</string>
     <string name="balls">Balls</string>
-    <string name="time_spent">Time Spent(minutes)</string>
+    <string name="time_spent">Time Spent (minutes)</string>
     <string name="fours">Fours</string>
     <string name="sixes">Sixes</string>
     <string name="how_out">Dismissal</string>

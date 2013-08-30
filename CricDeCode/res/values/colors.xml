@@ -1,9 +1,12 @@
+<resources>
 
-    <resources>
-        <color name="dark_red">#bf2b22</color>
-        <color name="light_red">#f85858</color>
-        <color name="blue">#ffff00</color>
-        <color name="black">#000000</color>
-        <color name="light_grey">#a6a1a1</color>
-        <color name="white">#ffffff</color>
-    </resources>
+    <color name="dark_red">#bf2b22</color>
+    <color name="light_red">#f85858</color>
+    <color name="faint_red">#f89898</color>
+    <color name="blue">#ffff00</color>
+    <color name="black">#000000</color>
+    <color name="light_grey">#a6a1a1</color>
+    <color name="white">#ffffff</color>
+    <color name="separator_color">#282828</color>
+
+</resources>
