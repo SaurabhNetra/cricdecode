@@ -13,5 +13,7 @@
     <dimen name="padding_twenty_dp">20dp</dimen>
     <dimen name="padding_ten_dp">10dp</dimen>
     <dimen name="text_size_twenty_sp">20sp</dimen>
+    <dimen name="unselected_tab">2dp</dimen>
+    <dimen name="selected_tab">4dp</dimen>
 
 </resources>
