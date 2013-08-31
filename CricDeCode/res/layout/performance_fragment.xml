@@ -3,6 +3,7 @@
     android:id="@+id/performance_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/haze"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -14,8 +15,9 @@
         <RelativeLayout
             android:id="@+id/gen_tab"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tab_height"
             android:layout_weight="0.25"
+            android:background="@drawable/tab_selected_selector"
             android:clickable="true"
             android:onClick="onClick" >
 
@@ -29,8 +31,9 @@
         <RelativeLayout
             android:id="@+id/bat_tab"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tab_height"
             android:layout_weight="0.25"
+            android:background="@drawable/tab_unselected_selector"
             android:clickable="true"
             android:onClick="onClick" >
 
@@ -44,8 +47,9 @@
         <RelativeLayout
             android:id="@+id/bowl_tab"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tab_height"
             android:layout_weight="0.25"
+            android:background="@drawable/tab_unselected_selector"
             android:clickable="true"
             android:onClick="onClick" >
 
@@ -59,8 +63,9 @@
         <RelativeLayout
             android:id="@+id/field_tab"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tab_height"
             android:layout_weight="0.25"
+            android:background="@drawable/tab_unselected_selector"
             android:clickable="true"
             android:onClick="onClick" >
 

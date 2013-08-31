@@ -15,5 +15,6 @@
     <dimen name="text_size_twenty_sp">20sp</dimen>
     <dimen name="unselected_tab">2dp</dimen>
     <dimen name="selected_tab">4dp</dimen>
+    <dimen name="tab_height">48dp</dimen>
 
 </resources>

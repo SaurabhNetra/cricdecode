@@ -582,9 +582,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		EasyTracker.getInstance().activityStart(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onClick(View view) {
 		final Dialog dialog;
 		final View finalview;
+		
 		switch (view.getId()) {
 		case R.id.gen_tab:
 			switch (currentFragment) {
@@ -603,6 +605,23 @@ public class MainActivity extends SherlockFragmentActivity {
 			default:
 				break;
 			}
+			
+			if(android.os.Build.VERSION.SDK_INT<16)
+			{
+			((RelativeLayout)findViewById(R.id.gen_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_selected_selector));
+			((RelativeLayout)findViewById(R.id.bat_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.bowl_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.field_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			}
+			else
+			{
+				((RelativeLayout)findViewById(R.id.gen_tab)).setBackground(getResources().getDrawable(R.drawable.tab_selected_selector));
+				((RelativeLayout)findViewById(R.id.bat_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.bowl_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.field_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				
+			}
+			
 			break;
 		case R.id.bat_tab:
 			switch (currentFragment) {
@@ -621,6 +640,22 @@ public class MainActivity extends SherlockFragmentActivity {
 			default:
 				break;
 			}
+			
+			if(android.os.Build.VERSION.SDK_INT<16)
+			{
+			((RelativeLayout)findViewById(R.id.gen_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.bat_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_selected_selector));
+			((RelativeLayout)findViewById(R.id.bowl_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.field_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			}
+			else
+			{
+				((RelativeLayout)findViewById(R.id.gen_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.bat_tab)).setBackground(getResources().getDrawable(R.drawable.tab_selected_selector));
+				((RelativeLayout)findViewById(R.id.bowl_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.field_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			}
+			
 			break;
 		case R.id.bowl_tab:
 			switch (currentFragment) {
@@ -639,7 +674,24 @@ public class MainActivity extends SherlockFragmentActivity {
 			default:
 				break;
 			}
+			
+			if(android.os.Build.VERSION.SDK_INT<16)
+			{
+			((RelativeLayout)findViewById(R.id.gen_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.bat_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.bowl_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_selected_selector));
+			((RelativeLayout)findViewById(R.id.field_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			}
+			else
+			{
+				((RelativeLayout)findViewById(R.id.gen_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.bat_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.bowl_tab)).setBackground(getResources().getDrawable(R.drawable.tab_selected_selector));
+				((RelativeLayout)findViewById(R.id.field_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				
+			}
 			break;
+			
 		case R.id.field_tab:
 			switch (currentFragment) {
 			case CAREER_FRAGMENT:
@@ -657,6 +709,22 @@ public class MainActivity extends SherlockFragmentActivity {
 			default:
 				break;
 			}
+			
+			if(android.os.Build.VERSION.SDK_INT<16)
+			{
+			((RelativeLayout)findViewById(R.id.gen_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.bat_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.bowl_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_unselected_selector));
+			((RelativeLayout)findViewById(R.id.field_tab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_selected_selector));
+			}
+			else
+			{
+				((RelativeLayout)findViewById(R.id.gen_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.bat_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.bowl_tab)).setBackground(getResources().getDrawable(R.drawable.tab_unselected_selector));
+				((RelativeLayout)findViewById(R.id.field_tab)).setBackground(getResources().getDrawable(R.drawable.tab_selected_selector));
+			}
+			
 			break;
 		case R.id.filter:
 			showFilterDialog(currentFragment);
