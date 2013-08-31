@@ -1,4 +1,6 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-  android:shape="rectangle" >
-  <solid android:color="#ff00ff" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:drawable="@color/faint_red"/>
+    <item android:drawable="@color/dark_red" android:top="42dp"/>
+
+</layer-list>

@@ -1,13 +1,6 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <shape android:shape="rectangle" >
-        <solid android:color="#ffffff" />
-    </shape>
-    <shape android:shape="rectangle" >
-        <size android:height="@dimen/selected_tab" />
+    <item android:drawable="@color/white"/>
+    <item android:drawable="@color/dark_red" android:top="42dp"/>
 
-        <solid android:color="@color/dark_red" />
-    </shape>
-
-</shape>
+</layer-list>
