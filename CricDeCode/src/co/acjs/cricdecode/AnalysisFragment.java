@@ -13,8 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -24,6 +25,7 @@ public class AnalysisFragment extends SherlockFragment {
 	static AnalysisFragment analysisFragment;
 
 	public static final int XY_PLOT = 0, PIE_CHART = 1;
+	public static int type_sel = 0;
 
 	int param_pos, param_save_count;
 	String XAxis = "", YAxis = "";
@@ -64,7 +66,7 @@ public class AnalysisFragment extends SherlockFragment {
 	// Layout Fields
 	Spinner graph_facet, graph_type, graph_param1, graph_param2,
 			graph_param_pie;
-	RelativeLayout graph_category_1, graph_category_2;
+	LinearLayout line_params;
 
 	// Filter Variables
 	ArrayList<String> my_team_list, my_team_list_selected, opponent_list,
@@ -113,10 +115,7 @@ public class AnalysisFragment extends SherlockFragment {
 		graph_param1 = (Spinner) view.findViewById(R.id.graph_param1);
 		graph_param2 = (Spinner) view.findViewById(R.id.graph_param2);
 		graph_param_pie = (Spinner) view.findViewById(R.id.graph_param_pie);
-		graph_category_1 = (RelativeLayout) view
-				.findViewById(R.id.graph_category_1);
-		graph_category_2 = (RelativeLayout) view
-				.findViewById(R.id.graph_category_2);
+		line_params = (LinearLayout) view.findViewById(R.id.line_graph_params);
 
 		String[] arr = getResources().getStringArray(R.array.graph_param2);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -168,7 +167,7 @@ public class AnalysisFragment extends SherlockFragment {
 				adapter = new ArrayAdapter<String>(getSherlockActivity(),
 						android.R.layout.simple_spinner_item, arr2);
 				adapter.setDropDownViewResource(R.layout.drop_down_menu_item);
-				
+
 				graph_param_pie.setAdapter(adapter);
 
 				if (param_save_count != 0) {
@@ -195,12 +194,14 @@ public class AnalysisFragment extends SherlockFragment {
 					int position, long arg3) {
 				switch (position) {
 				case XY_PLOT:
-					graph_category_1.setVisibility(View.VISIBLE);
-					graph_category_2.setVisibility(View.GONE);
+					line_params.setVisibility(View.VISIBLE);
+					graph_param_pie.setVisibility(View.INVISIBLE);
+					AnalysisFragment.type_sel = 0;
 					break;
 				case PIE_CHART:
-					graph_category_1.setVisibility(View.GONE);
-					graph_category_2.setVisibility(View.VISIBLE);
+					line_params.setVisibility(View.INVISIBLE);
+					graph_param_pie.setVisibility(View.VISIBLE);
+					AnalysisFragment.type_sel = 1;
 					break;
 				default:
 					break;
@@ -625,13 +626,12 @@ public class AnalysisFragment extends SherlockFragment {
 						"Batting Number Cannot be Applied to "
 								+ graph_facet.getSelectedItem(),
 						Toast.LENGTH_LONG).show();
-				XAxis="";
-				YAxis="";
+				XAxis = "";
+				YAxis = "";
 				return;
 			}
-			if("".equals(XAxis))
-			{
-			XAxis = "Batting No.";
+			if ("".equals(XAxis)) {
+				XAxis = "Batting No.";
 			}
 			break;
 		case HOW_OUT_P2:
@@ -642,83 +642,72 @@ public class AnalysisFragment extends SherlockFragment {
 						"How Out Cannot be Applied to "
 								+ graph_facet.getSelectedItem(),
 						Toast.LENGTH_LONG).show();
-				XAxis="";
-				YAxis="";
+				XAxis = "";
+				YAxis = "";
 				return;
 			}
-			if("".equals(XAxis))
-			{
-			XAxis = "Dismissal";
+			if ("".equals(XAxis)) {
+				XAxis = "Dismissal";
 			}
 			break;
 		case SEASONS:
 			column2 = "strftime('%Y',m." + MatchDb.KEY_MATCH_DATE + ")";
-			if("".equals(XAxis))
-			{			
-			XAxis = "Seasons";
+			if ("".equals(XAxis)) {
+				XAxis = "Seasons";
 			}
 			break;
 		case MY_TEAM:
 			column2 = "m." + MatchDb.KEY_MY_TEAM;
-			if("".equals(XAxis))
-			{
-			XAxis = "My Team";
+			if ("".equals(XAxis)) {
+				XAxis = "My Team";
 			}
 			break;
 		case OPPONENTS:
 			column2 = "m." + MatchDb.KEY_OPPONENT_TEAM;
-			if("".equals(XAxis))
-			{
-			XAxis = "Opponents";
+			if ("".equals(XAxis)) {
+				XAxis = "Opponents";
 			}
 			break;
 		case VENUES:
 			column2 = "m." + MatchDb.KEY_VENUE;
-			if("".equals(XAxis))
-			{
-			XAxis = "Venue";
+			if ("".equals(XAxis)) {
+				XAxis = "Venue";
 			}
 			break;
 		case RESULTS:
 			column2 = "m." + MatchDb.KEY_RESULT;
-			if("".equals(XAxis))
-			{
-			XAxis = "Results";
+			if ("".equals(XAxis)) {
+				XAxis = "Results";
 			}
 			break;
 		case LEVELS:
 			column2 = "m." + MatchDb.KEY_LEVEL;
-			if("".equals(XAxis))
-			{
-			XAxis = "Levels";
+			if ("".equals(XAxis)) {
+				XAxis = "Levels";
 			}
 			break;
 		case OVERS:
 			column2 = "m." + MatchDb.KEY_OVERS;
-			if("".equals(XAxis))
-			{
-			XAxis = "Overs";
+			if ("".equals(XAxis)) {
+				XAxis = "Overs";
 			}
 			break;
 		case INNINGS:
 			column2 = "m." + MatchDb.KEY_INNINGS;
-			if("".equals(XAxis))
-			{
-			XAxis = "Innings";
+			if ("".equals(XAxis)) {
+				XAxis = "Innings";
 			}
 			break;
 		case DURATION:
 			column2 = "m." + MatchDb.KEY_DURATION;
-			if("".equals(XAxis))
-			{
-			XAxis = "Duration";
+			if ("".equals(XAxis)) {
+				XAxis = "Duration";
 			}
 			break;
 		case FIRST:
 			column2 = "m." + MatchDb.KEY_FIRST_ACTION;
-			if("".equals(XAxis))
-			{
-			XAxis = "First";
+			if ("".equals(XAxis)) {
+				XAxis = "First";
 			}
 			break;
 		default:
@@ -753,10 +742,9 @@ public class AnalysisFragment extends SherlockFragment {
 					} while (!cursor.isAfterLast());
 				}
 				cursor.close();
-				
-				if("".equals(YAxis))
-				{
-				YAxis = "Matches";
+
+				if ("".equals(YAxis)) {
+					YAxis = "Matches";
 				}
 
 				break;
@@ -769,69 +757,59 @@ public class AnalysisFragment extends SherlockFragment {
 			String column1 = null;
 			switch (graph_param1.getSelectedItemPosition()) {
 			case BAT_INNINGS:
-				if("".equals(YAxis))
-				{
-				YAxis = "Innings";
+				if ("".equals(YAxis)) {
+					YAxis = "Innings";
 				}
 			case NO:
-				if("".equals(YAxis))
-				{
-				YAxis = "Not Out";
+				if ("".equals(YAxis)) {
+					YAxis = "Not Out";
 				}
 			case BAT_AVG:
 				column1 = "count(p." + PerformanceDb.KEY_ROWID + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Avg";
+				if ("".equals(YAxis)) {
+					YAxis = "Avg";
 				}
 				break;
 			case BAT_RUNS:
 				column1 = "sum(p." + PerformanceDb.KEY_BAT_RUNS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Runs";
+				if ("".equals(YAxis)) {
+					YAxis = "Runs";
 				}
 				break;
 			case HIGHEST:
 				column1 = "max(p." + PerformanceDb.KEY_BAT_RUNS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "HS";
+				if ("".equals(YAxis)) {
+					YAxis = "HS";
 				}
 				break;
 			case BAT_BALL:
 				column1 = "sum(p." + PerformanceDb.KEY_BAT_BALLS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Balls";
+				if ("".equals(YAxis)) {
+					YAxis = "Balls";
 				}
 				break;
 			case TIME_SPENT:
 				column1 = "sum(p." + PerformanceDb.KEY_BAT_TIME + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Time(min)";
+				if ("".equals(YAxis)) {
+					YAxis = "Time(min)";
 				}
 				break;
 			case BAT_FOURS:
 				column1 = "sum(p." + PerformanceDb.KEY_BAT_FOURS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "4s";
+				if ("".equals(YAxis)) {
+					YAxis = "4s";
 				}
 				break;
 			case BAT_SIXES:
 				column1 = "sum(p." + PerformanceDb.KEY_BAT_SIXES + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "6s";
+				if ("".equals(YAxis)) {
+					YAxis = "6s";
 				}
 				break;
 			case LIVES:
 				column1 = "sum(p." + PerformanceDb.KEY_BAT_CHANCES + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Lives";
+				if ("".equals(YAxis)) {
+					YAxis = "Lives";
 				}
 				break;
 			default:
@@ -879,9 +857,8 @@ public class AnalysisFragment extends SherlockFragment {
 			Log.d("Debug", "generateXYGraph() BATTING PART2");
 			switch (graph_param1.getSelectedItemPosition()) {
 			case NO:
-				if("".equals(YAxis))
-				{
-				YAxis = "Not Out";
+				if ("".equals(YAxis)) {
+					YAxis = "Not Out";
 				}
 			case BAT_AVG:
 				String[] bat_labels = label;
@@ -994,9 +971,8 @@ public class AnalysisFragment extends SherlockFragment {
 					label = bat_label;
 				}
 				cursor.close();
-				if("".equals(YAxis))
-				{
-				YAxis = "Avg";
+				if ("".equals(YAxis)) {
+					YAxis = "Avg";
 				}
 				break;
 			case BAT_STR:
@@ -1041,15 +1017,13 @@ public class AnalysisFragment extends SherlockFragment {
 					} while (!cursor.isAfterLast());
 				}
 				cursor.close();
-				if("".equals(YAxis))
-				{
-				YAxis = "SR";
+				if ("".equals(YAxis)) {
+					YAxis = "SR";
 				}
 				break;
 			case BAT_50:
-				if("".equals(YAxis))
-				{
-				YAxis = "50s";
+				if ("".equals(YAxis)) {
+					YAxis = "50s";
 				}
 			case BAT_100:
 				if (cursor != null) {
@@ -1126,9 +1100,8 @@ public class AnalysisFragment extends SherlockFragment {
 			default:
 				break;
 			}
-			if("".equals(YAxis))
-			{
-			YAxis = "100s";
+			if ("".equals(YAxis)) {
+				YAxis = "100s";
 			}
 			break;
 		case PerformanceFragmentEdit.BOWLING:
@@ -1136,105 +1109,90 @@ public class AnalysisFragment extends SherlockFragment {
 			switch (graph_param1.getSelectedItemPosition()) {
 			case BOWL_INNINGS:
 				column1 = "count(p." + PerformanceDb.KEY_ROWID + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Innings";
+				if ("".equals(YAxis)) {
+					YAxis = "Innings";
 				}
 				break;
 			case BOWL_OVERS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_BALLS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Overs";
+				if ("".equals(YAxis)) {
+					YAxis = "Overs";
 				}
 				break;
 			case BOWL_RUNS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_RUNS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Runs Given";
+				if ("".equals(YAxis)) {
+					YAxis = "Runs Given";
 				}
 				break;
 			case WKTS_LEFT:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Left Bat Wkt";
+				if ("".equals(YAxis)) {
+					YAxis = "Left Bat Wkt";
 				}
 				break;
 			case WKTS_RIGHT:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WKTS_RIGHT + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Right Bat Wkt";
+				if ("".equals(YAxis)) {
+					YAxis = "Right Bat Wkt";
 				}
 				break;
 			case BOWL_STR:
-				if("".equals(YAxis))
-				{
-				YAxis = "SR";
+				if ("".equals(YAxis)) {
+					YAxis = "SR";
 				}
 			case BOWL_AVG:
-				if("".equals(YAxis))
-				{
-				YAxis = "Avg";
+				if ("".equals(YAxis)) {
+					YAxis = "Avg";
 				}
 			case WKTS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
 						+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Wkts";
+				if ("".equals(YAxis)) {
+					YAxis = "Wkts";
 				}
 				break;
 			case BOWL_DROPPED:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_CATCHES_DROPPED
 						+ ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Dropped";
+				if ("".equals(YAxis)) {
+					YAxis = "Dropped";
 				}
 				break;
 			case SPELLS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_SPELLS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Spells";
+				if ("".equals(YAxis)) {
+					YAxis = "Spells";
 				}
 				break;
 			case MAIDENS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_MAIDENS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Maidens";
+				if ("".equals(YAxis)) {
+					YAxis = "Maidens";
 				}
 				break;
 			case BOWL_FOURS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_FOURS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "4s given";
+				if ("".equals(YAxis)) {
+					YAxis = "4s given";
 				}
 				break;
 			case BOWL_SIXES:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_SIXES + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "6s Given";
+				if ("".equals(YAxis)) {
+					YAxis = "6s Given";
 				}
 				break;
 			case NOBALLS:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_NOBALLS + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "No Balls";
+				if ("".equals(YAxis)) {
+					YAxis = "No Balls";
 				}
 				break;
 			case WIDES:
 				column1 = "sum(p." + PerformanceDb.KEY_BOWL_WIDES + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Wides";
+				if ("".equals(YAxis)) {
+					YAxis = "Wides";
 				}
 				break;
 			default:
@@ -1279,19 +1237,16 @@ public class AnalysisFragment extends SherlockFragment {
 			}
 			switch (graph_param1.getSelectedItemPosition()) {
 			case BOWL_STR:
-				if("".equals(YAxis))
-				{
-				YAxis = "SR";
+				if ("".equals(YAxis)) {
+					YAxis = "SR";
 				}
 			case BOWL_AVG:
-				if("".equals(YAxis))
-				{
-				YAxis = "Avg";
+				if ("".equals(YAxis)) {
+					YAxis = "Avg";
 				}
 			case ECO:
-				if("".equals(YAxis))
-				{
-				YAxis = "Economy";
+				if ("".equals(YAxis)) {
+					YAxis = "Economy";
 				}
 				cursor = MainActivity.dbHandle.rawQuery("select " + column2
 						+ ",sum(p." + PerformanceDb.KEY_BOWL_RUNS + "),sum(p."
@@ -1356,36 +1311,31 @@ public class AnalysisFragment extends SherlockFragment {
 			switch (graph_param1.getSelectedItemPosition()) {
 			case SLIP:
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_SLIP_CATCH + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Slip Catches";
+				if ("".equals(YAxis)) {
+					YAxis = "Slip Catches";
 				}
 				break;
 			case CLOSE:
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_CLOSE_CATCH + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Close Catches";
+				if ("".equals(YAxis)) {
+					YAxis = "Close Catches";
 				}
 				break;
 			case CIRCLE:
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_CIRCLE_CATCH + ")";
-				if("".equals(YAxis))
-				{
-				YAxis = "Circle Catches";
+				if ("".equals(YAxis)) {
+					YAxis = "Circle Catches";
 				}
 				break;
 			case DEEP:
-				if("".equals(YAxis))
-				{
-				YAxis = "Deep Catches";
+				if ("".equals(YAxis)) {
+					YAxis = "Deep Catches";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_DEEP_CATCH + ")";
 				break;
 			case TOTCATCHES:
-				if("".equals(YAxis))
-				{
-				YAxis = "Total Catches";
+				if ("".equals(YAxis)) {
+					YAxis = "Total Catches";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_SLIP_CATCH + "+p."
 						+ PerformanceDb.KEY_FIELD_CLOSE_CATCH + "+p."
@@ -1393,40 +1343,35 @@ public class AnalysisFragment extends SherlockFragment {
 						+ PerformanceDb.KEY_FIELD_DEEP_CATCH + ")";
 				break;
 			case CIR_RO_DI:
-				if("".equals(YAxis))
-				{
-				YAxis = "Direct Runout in Circle";
+				if ("".equals(YAxis)) {
+					YAxis = "Direct Runout in Circle";
 				}
 
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE
 						+ ")";
 				break;
 			case CIR_RO:
-				if("".equals(YAxis))
-				{
-				YAxis = "Runout in Circle";
+				if ("".equals(YAxis)) {
+					YAxis = "Runout in Circle";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_CIRCLE + ")";
 				break;
 			case DEEP_RO_DI:
-				if("".equals(YAxis))
-				{
-				YAxis = "Direct Runout in Deep";
+				if ("".equals(YAxis)) {
+					YAxis = "Direct Runout in Deep";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP
 						+ ")";
 				break;
 			case DEEP_RO:
-				if("".equals(YAxis))
-				{
-				YAxis = "Runout in Deep";
+				if ("".equals(YAxis)) {
+					YAxis = "Runout in Deep";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DEEP + ")";
 				break;
 			case TOT_RO:
-				if("".equals(YAxis))
-				{
-				YAxis = "Total Runout";
+				if ("".equals(YAxis)) {
+					YAxis = "Total Runout";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE
 						+ "+p." + PerformanceDb.KEY_FIELD_RO_CIRCLE + "+p."
@@ -1434,30 +1379,26 @@ public class AnalysisFragment extends SherlockFragment {
 						+ PerformanceDb.KEY_FIELD_RO_DEEP + ")";
 				break;
 			case STUMP:
-				if("".equals(YAxis))
-				{
-				YAxis = "Stumpings";
+				if ("".equals(YAxis)) {
+					YAxis = "Stumpings";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_STUMPINGS + ")";
 				break;
 			case BYES:
-				if("".equals(YAxis))
-				{
-				YAxis = "Byes";
+				if ("".equals(YAxis)) {
+					YAxis = "Byes";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_BYES + ")";
 				break;
 			case MISFIELD:
-				if("".equals(YAxis))
-				{
-				YAxis = "Misfields";
+				if ("".equals(YAxis)) {
+					YAxis = "Misfields";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_MISFIELDS + ")";
 				break;
 			case CATCH_DROP:
-				if("".equals(YAxis))
-				{
-				YAxis = "Catches Drop";
+				if ("".equals(YAxis)) {
+					YAxis = "Catches Drop";
 				}
 				column1 = "sum(p." + PerformanceDb.KEY_FIELD_CATCHES_DROPPED
 						+ ")";
@@ -1529,8 +1470,8 @@ public class AnalysisFragment extends SherlockFragment {
 		} else {
 			Toast.makeText(getSherlockActivity(), "No Data Available ",
 					Toast.LENGTH_LONG).show();
-			XAxis="";
-			YAxis="";
+			XAxis = "";
+			YAxis = "";
 		}
 	}
 
@@ -1605,9 +1546,8 @@ public class AnalysisFragment extends SherlockFragment {
 					} while (!cursor.isAfterLast());
 				}
 				cursor.close();
-				if("".equals(YAxis))
-				{
-				YAxis = "Dismissal";
+				if ("".equals(YAxis)) {
+					YAxis = "Dismissal";
 				}
 				break;
 			case WHERE_OUT_CAUGHT:
@@ -1640,9 +1580,8 @@ public class AnalysisFragment extends SherlockFragment {
 						cursor.moveToNext();
 					} while (!cursor.isAfterLast());
 				}
-				if("".equals(YAxis))
-				{
-				YAxis = "Caught Out At";
+				if ("".equals(YAxis)) {
+					YAxis = "Caught Out At";
 				}
 				cursor.close();
 				break;
@@ -1672,9 +1611,8 @@ public class AnalysisFragment extends SherlockFragment {
 						"Right Handed Batsman" };
 				values = new int[] { cursor.getInt(0), cursor.getInt(1) };
 				cursor.close();
-				if("".equals(YAxis))
-				{
-				YAxis = "Wkts";
+				if ("".equals(YAxis)) {
+					YAxis = "Wkts";
 				}
 				break;
 			default:
@@ -1704,9 +1642,8 @@ public class AnalysisFragment extends SherlockFragment {
 						"Catches on the Circle", "Catches in the Deep" };
 				values = new int[] { cursor.getInt(0), cursor.getInt(1),
 						cursor.getInt(2), cursor.getInt(3) };
-				if("".equals(YAxis))
-				{
-				YAxis = "Catches";
+				if ("".equals(YAxis)) {
+					YAxis = "Catches";
 				}
 				cursor.close();
 				break;
@@ -1733,9 +1670,8 @@ public class AnalysisFragment extends SherlockFragment {
 						"Direct Hit Run Outs from the Deep" };
 				values = new int[] { cursor.getInt(0), cursor.getInt(1),
 						cursor.getInt(2), cursor.getInt(3) };
-				if("".equals(YAxis))
-				{
-				YAxis = "Run Outs";
+				if ("".equals(YAxis)) {
+					YAxis = "Run Outs";
 				}
 				cursor.close();
 				break;
@@ -1764,8 +1700,8 @@ public class AnalysisFragment extends SherlockFragment {
 		} else {
 			Toast.makeText(getSherlockActivity(), "No Data Available ",
 					Toast.LENGTH_LONG).show();
-			XAxis="";
-			YAxis="";
+			XAxis = "";
+			YAxis = "";
 		}
 	}
 }

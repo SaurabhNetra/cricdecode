@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -509,7 +510,25 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setCurrentItem(current_position);
-		this.mViewPager.setOnPageChangeListener(this);
+		this.mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				Log.d("PerformanceFragmentView", "**** onPageSelected = "
+						+ position);
+				current_position = position;
+				MainActivity.changeTabLayout(position);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
 		this.mViewPager.setOffscreenPageLimit(3);
 	}
 

@@ -836,10 +836,10 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f04000f;
         public static final int abs__bright_foreground_holo_dark=0x7f04000c;
         public static final int abs__bright_foreground_holo_light=0x7f04000d;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f040019;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f04001a;
-        public static final int abs__primary_text_holo_dark=0x7f04001b;
-        public static final int abs__primary_text_holo_light=0x7f04001c;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f04001b;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f04001c;
+        public static final int abs__primary_text_holo_dark=0x7f04001d;
+        public static final int abs__primary_text_holo_light=0x7f04001e;
         public static final int black=0x7f040014;
         public static final int blue=0x7f040013;
         public static final int common_action_bar_splitter=0x7f040009;
@@ -854,15 +854,17 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f040006;
         public static final int common_signin_btn_light_text_focused=0x7f040007;
         public static final int common_signin_btn_light_text_pressed=0x7f040005;
-        public static final int common_signin_btn_text_dark=0x7f04001d;
-        public static final int common_signin_btn_text_light=0x7f04001e;
+        public static final int common_signin_btn_text_dark=0x7f04001f;
+        public static final int common_signin_btn_text_light=0x7f040020;
         public static final int dark_red=0x7f040010;
-        public static final int faint_grey=0x7f040018;
+        public static final int faint_grey=0x7f040019;
         public static final int faint_red=0x7f040012;
         public static final int light_grey=0x7f040015;
         public static final int light_red=0x7f040011;
-        public static final int separator_color=0x7f040017;
-        public static final int white=0x7f040016;
+        public static final int separator_color=0x7f040018;
+        public static final int trans_dark_grey=0x7f040016;
+        public static final int transparent=0x7f04001a;
+        public static final int white=0x7f040017;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -977,8 +979,12 @@ containing a value of this type.
         public static final int menu_padding=0x7f080013;
         public static final int padding_ten_dp=0x7f080019;
         public static final int padding_twenty_dp=0x7f080018;
+        public static final int separator_height_one_dp=0x7f08001e;
         public static final int separator_height_two=0x7f080017;
         public static final int tab_height=0x7f08001b;
+        public static final int text_size_career_lbl=0x7f08001c;
+        public static final int text_size_career_num=0x7f08001d;
+        public static final int text_size_lower_row=0x7f08001f;
         public static final int text_size_twenty_sp=0x7f08001a;
     }
     public static final class drawable {
@@ -1097,52 +1103,58 @@ containing a value of this type.
         public static final int add=0x7f020070;
         public static final int button_rounded=0x7f020071;
         public static final int button_selector=0x7f020072;
-        public static final int common_signin_btn_icon_dark=0x7f020073;
-        public static final int common_signin_btn_icon_disabled_dark=0x7f020074;
-        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f020075;
-        public static final int common_signin_btn_icon_disabled_focus_light=0x7f020076;
-        public static final int common_signin_btn_icon_disabled_light=0x7f020077;
-        public static final int common_signin_btn_icon_focus_dark=0x7f020078;
-        public static final int common_signin_btn_icon_focus_light=0x7f020079;
-        public static final int common_signin_btn_icon_light=0x7f02007a;
-        public static final int common_signin_btn_icon_normal_dark=0x7f02007b;
-        public static final int common_signin_btn_icon_normal_light=0x7f02007c;
-        public static final int common_signin_btn_icon_pressed_dark=0x7f02007d;
-        public static final int common_signin_btn_icon_pressed_light=0x7f02007e;
-        public static final int common_signin_btn_text_dark=0x7f02007f;
-        public static final int common_signin_btn_text_disabled_dark=0x7f020080;
-        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020081;
-        public static final int common_signin_btn_text_disabled_focus_light=0x7f020082;
-        public static final int common_signin_btn_text_disabled_light=0x7f020083;
-        public static final int common_signin_btn_text_focus_dark=0x7f020084;
-        public static final int common_signin_btn_text_focus_light=0x7f020085;
-        public static final int common_signin_btn_text_light=0x7f020086;
-        public static final int common_signin_btn_text_normal_dark=0x7f020087;
-        public static final int common_signin_btn_text_normal_light=0x7f020088;
-        public static final int common_signin_btn_text_pressed_dark=0x7f020089;
-        public static final int common_signin_btn_text_pressed_light=0x7f02008a;
-        public static final int drawer_shadow=0x7f02008b;
-        public static final int edit=0x7f02008c;
-        public static final int filter=0x7f02008d;
-        public static final int gradient_action_bar=0x7f02008e;
-        public static final int haze=0x7f02008f;
-        public static final int ic_actionbar=0x7f020090;
-        public static final int ic_drawer=0x7f020091;
-        public static final int ic_launcher=0x7f020092;
-        public static final int photo=0x7f020093;
-        public static final int picture_bg=0x7f020094;
-        public static final int save=0x7f020095;
-        public static final int tab_selected_focussed=0x7f020096;
-        public static final int tab_selected_normal=0x7f020097;
-        public static final int tab_selected_pressed=0x7f020098;
-        public static final int tab_selected_selector=0x7f020099;
-        public static final int tab_unselected_focussed=0x7f02009a;
-        public static final int tab_unselected_normal=0x7f02009b;
-        public static final int tab_unselected_selector=0x7f02009c;
-        public static final int up=0x7f02009d;
+        public static final int cards_bg=0x7f020073;
+        public static final int cir_balling=0x7f020074;
+        public static final int cir_batting=0x7f020075;
+        public static final int cir_fielding=0x7f020076;
+        public static final int cir_general=0x7f020077;
+        public static final int circle_gradient=0x7f020078;
+        public static final int common_signin_btn_icon_dark=0x7f020079;
+        public static final int common_signin_btn_icon_disabled_dark=0x7f02007a;
+        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f02007b;
+        public static final int common_signin_btn_icon_disabled_focus_light=0x7f02007c;
+        public static final int common_signin_btn_icon_disabled_light=0x7f02007d;
+        public static final int common_signin_btn_icon_focus_dark=0x7f02007e;
+        public static final int common_signin_btn_icon_focus_light=0x7f02007f;
+        public static final int common_signin_btn_icon_light=0x7f020080;
+        public static final int common_signin_btn_icon_normal_dark=0x7f020081;
+        public static final int common_signin_btn_icon_normal_light=0x7f020082;
+        public static final int common_signin_btn_icon_pressed_dark=0x7f020083;
+        public static final int common_signin_btn_icon_pressed_light=0x7f020084;
+        public static final int common_signin_btn_text_dark=0x7f020085;
+        public static final int common_signin_btn_text_disabled_dark=0x7f020086;
+        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020087;
+        public static final int common_signin_btn_text_disabled_focus_light=0x7f020088;
+        public static final int common_signin_btn_text_disabled_light=0x7f020089;
+        public static final int common_signin_btn_text_focus_dark=0x7f02008a;
+        public static final int common_signin_btn_text_focus_light=0x7f02008b;
+        public static final int common_signin_btn_text_light=0x7f02008c;
+        public static final int common_signin_btn_text_normal_dark=0x7f02008d;
+        public static final int common_signin_btn_text_normal_light=0x7f02008e;
+        public static final int common_signin_btn_text_pressed_dark=0x7f02008f;
+        public static final int common_signin_btn_text_pressed_light=0x7f020090;
+        public static final int drawer_shadow=0x7f020091;
+        public static final int edit=0x7f020092;
+        public static final int filter=0x7f020093;
+        public static final int gradient_action_bar=0x7f020094;
+        public static final int haze=0x7f020095;
+        public static final int ic_actionbar=0x7f020096;
+        public static final int ic_drawer=0x7f020097;
+        public static final int ic_launcher=0x7f020098;
+        public static final int photo=0x7f020099;
+        public static final int picture_bg=0x7f02009a;
+        public static final int save=0x7f02009b;
+        public static final int tab_selected_focussed=0x7f02009c;
+        public static final int tab_selected_normal=0x7f02009d;
+        public static final int tab_selected_pressed=0x7f02009e;
+        public static final int tab_selected_selector=0x7f02009f;
+        public static final int tab_unselected_focussed=0x7f0200a0;
+        public static final int tab_unselected_normal=0x7f0200a1;
+        public static final int tab_unselected_selector=0x7f0200a2;
+        public static final int up=0x7f0200a3;
     }
     public static final class id {
-        public static final int _id=0x7f0500ba;
+        public static final int _id=0x7f0500ec;
         public static final int abs__action_bar=0x7f050024;
         public static final int abs__action_bar_container=0x7f050023;
         public static final int abs__action_bar_subtitle=0x7f050015;
@@ -1182,273 +1194,325 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int adView=0x7f0500c5;
-        public static final int add_to_career=0x7f0500ec;
-        public static final int adjust=0x7f0500b5;
-        public static final int average=0x7f05005b;
-        public static final int balls=0x7f05005d;
-        public static final int bat_tab=0x7f050115;
-        public static final int bat_toggle=0x7f0500ee;
-        public static final int batted=0x7f0500f9;
-        public static final int batting_info=0x7f0500ef;
-        public static final int batting_no=0x7f0500f1;
-        public static final int batting_no_list=0x7f0500dc;
-        public static final int batting_style=0x7f05012f;
-        public static final int bbi=0x7f050081;
-        public static final int bbm=0x7f050083;
-        public static final int bowl_tab=0x7f050116;
-        public static final int bowl_toggle=0x7f0500fa;
-        public static final int bowled=0x7f0500fc;
-        public static final int bowler_type=0x7f0500f6;
-        public static final int bowling_info=0x7f0500fb;
-        public static final int bowling_style=0x7f050130;
-        public static final int buttonClick=0x7f0500b2;
-        public static final int buttonCrop=0x7f0500b3;
-        public static final int buttonPick=0x7f0500b1;
+        public static final int adView=0x7f0500f7;
+        public static final int add_to_career=0x7f05011e;
+        public static final int adjust=0x7f0500e7;
+        public static final int average=0x7f050060;
+        public static final int balls=0x7f050063;
+        public static final int bat_tab=0x7f050149;
+        public static final int bat_toggle=0x7f050120;
+        public static final int batted=0x7f05012c;
+        public static final int batting_info=0x7f050122;
+        public static final int batting_no=0x7f050124;
+        public static final int batting_no_list=0x7f05010e;
+        public static final int batting_style=0x7f050163;
+        public static final int bbi=0x7f05009e;
+        public static final int bbm=0x7f0500a3;
+        public static final int bowl_tab=0x7f05014a;
+        public static final int bowl_toggle=0x7f05012d;
+        public static final int bowled=0x7f05012f;
+        public static final int bowler_type=0x7f050129;
+        public static final int bowling_info=0x7f05012e;
+        public static final int bowling_style=0x7f050164;
+        public static final int buttonClick=0x7f0500e4;
+        public static final int buttonCrop=0x7f0500e5;
+        public static final int buttonPick=0x7f0500e3;
         public static final int button_menu=0x7f05003c;
-        public static final int byes=0x7f05009f;
-        public static final int catches=0x7f050089;
-        public static final int catches_dropped_bowling=0x7f050079;
-        public static final int catches_dropped_fielding=0x7f0500a3;
-        public static final int chart=0x7f0500c1;
-        public static final int cht_ttl=0x7f0500c0;
-        public static final int circle_catches=0x7f05008f;
-        public static final int circle_runouts=0x7f050095;
-        public static final int circle_runouts_direct=0x7f050097;
-        public static final int close_catches=0x7f05008d;
-        public static final int content_frame=0x7f0500c4;
-        public static final int content_list=0x7f0500e1;
-        public static final int content_profile=0x7f050131;
-        public static final int date_of_birth=0x7f05012d;
-        public static final int date_of_match=0x7f0500e4;
-        public static final int date_of_match_row=0x7f0500e2;
-        public static final int deep_catches=0x7f050091;
-        public static final int deep_runouts=0x7f050099;
-        public static final int deep_runouts_direct=0x7f05009b;
-        public static final int delete_diary=0x7f0500bf;
-        public static final int delete_ongoing=0x7f0500ed;
-        public static final int dialog_text=0x7f0500b6;
+        public static final int byes=0x7f0500cf;
+        public static final int catches=0x7f0500af;
+        public static final int catches_dropped_bowling=0x7f05008f;
+        public static final int catches_dropped_fielding=0x7f0500d4;
+        public static final int chart=0x7f0500f3;
+        public static final int cht_ttl=0x7f0500f2;
+        public static final int cir=0x7f05007b;
+        public static final int circle_catches=0x7f0500b7;
+        public static final int circle_runouts=0x7f0500c0;
+        public static final int circle_runouts_direct=0x7f0500c3;
+        public static final int close_catches=0x7f0500b4;
+        public static final int content_frame=0x7f0500f6;
+        public static final int content_list=0x7f050113;
+        public static final int content_profile=0x7f050165;
+        public static final int date_of_birth=0x7f050161;
+        public static final int date_of_match=0x7f050116;
+        public static final int date_of_match_row=0x7f050114;
+        public static final int deep_catches=0x7f0500ba;
+        public static final int deep_runouts=0x7f0500c6;
+        public static final int deep_runouts_direct=0x7f0500c9;
+        public static final int delete_diary=0x7f0500f1;
+        public static final int delete_ongoing=0x7f05011f;
+        public static final int dialog_text=0x7f0500e8;
         public static final int disableHome=0x7f05000d;
         public static final int divide=0x7f05003b;
-        public static final int drawer_layout=0x7f0500c3;
-        public static final int duration=0x7f050120;
-        public static final int duration_list=0x7f0500d8;
-        public static final int economy_rate=0x7f05007b;
+        public static final int drawer_layout=0x7f0500f5;
+        public static final int dropped=0x7f0500d5;
+        public static final int duration=0x7f050154;
+        public static final int duration_list=0x7f05010a;
+        public static final int economy_rate=0x7f050093;
         public static final int edit_query=0x7f05002a;
-        public static final int field_tab=0x7f050117;
-        public static final int fielding_pos=0x7f0500f8;
-        public static final int fifties=0x7f050061;
-        public static final int filter=0x7f050041;
-        public static final int first_action=0x7f050123;
-        public static final int first_list=0x7f0500da;
-        public static final int fours=0x7f050067;
-        public static final int fwi=0x7f05007d;
-        public static final int gen_tab=0x7f050113;
-        public static final int graph_category_1=0x7f050042;
-        public static final int graph_category_2=0x7f05004a;
-        public static final int graph_facet=0x7f05003f;
-        public static final int graph_param1=0x7f050045;
-        public static final int graph_param2=0x7f050047;
-        public static final int graph_param_pie=0x7f05004c;
-        public static final int graph_type=0x7f05003e;
-        public static final int graphtype=0x7f05003d;
-        public static final int highest=0x7f050059;
+        public static final int field_tab=0x7f05014b;
+        public static final int fielding_pos=0x7f05012b;
+        public static final int fifties=0x7f050069;
+        public static final int filter=0x7f050045;
+        public static final int first_action=0x7f050157;
+        public static final int first_list=0x7f05010c;
+        public static final int fours=0x7f050074;
+        public static final int fwi=0x7f050095;
+        public static final int gamefacet=0x7f050042;
+        public static final int gen_tab=0x7f050147;
+        public static final int generate_graph=0x7f05004f;
+        public static final int graph_facet=0x7f050043;
+        public static final int graph_param1=0x7f05004a;
+        public static final int graph_param2=0x7f05004c;
+        public static final int graph_param_pie=0x7f05004d;
+        public static final int graph_type=0x7f050041;
+        public static final int graphtype=0x7f050040;
+        public static final int highest=0x7f05005d;
         public static final int homeAsUp=0x7f05000a;
-        public static final int how_out=0x7f0500f4;
-        public static final int how_out_list=0x7f0500de;
-        public static final int hundreds=0x7f050063;
+        public static final int how_out=0x7f050127;
+        public static final int how_out_list=0x7f050110;
+        public static final int hundreds=0x7f05006c;
         public static final int hybrid=0x7f050004;
         public static final int icon=0x7f050037;
         public static final int icon_main=0x7f050038;
-        public static final int imageViewCrop=0x7f0500b4;
+        public static final int imageViewCrop=0x7f0500e6;
         public static final int inning_no=0x7f050039;
-        public static final int innings=0x7f050053;
-        public static final int innings_list=0x7f0500d6;
-        public static final int lbl_average=0x7f05005a;
-        public static final int lbl_balls=0x7f05005c;
-        public static final int lbl_batting_no=0x7f0500f0;
-        public static final int lbl_batting_no_list=0x7f0500db;
-        public static final int lbl_bbi=0x7f050080;
-        public static final int lbl_bbm=0x7f050082;
-        public static final int lbl_bowler_type=0x7f0500f5;
-        public static final int lbl_byes=0x7f05009e;
-        public static final int lbl_catches=0x7f050088;
-        public static final int lbl_catches_dropped_bowling=0x7f050078;
-        public static final int lbl_catches_dropped_fielding=0x7f0500a2;
-        public static final int lbl_circle_catches=0x7f05008e;
-        public static final int lbl_circle_runouts=0x7f050094;
-        public static final int lbl_circle_runouts_direct=0x7f050096;
-        public static final int lbl_close_catches=0x7f05008c;
-        public static final int lbl_date=0x7f0500e3;
-        public static final int lbl_deep_catches=0x7f050090;
-        public static final int lbl_deep_runouts=0x7f050098;
-        public static final int lbl_deep_runouts_direct=0x7f05009a;
-        public static final int lbl_duration=0x7f05011f;
-        public static final int lbl_duration_list=0x7f0500d7;
-        public static final int lbl_economy_rate=0x7f05007a;
-        public static final int lbl_fielding_pos=0x7f0500f7;
-        public static final int lbl_fifties=0x7f050060;
-        public static final int lbl_first_action=0x7f050122;
-        public static final int lbl_first_list=0x7f0500d9;
-        public static final int lbl_fours=0x7f050066;
-        public static final int lbl_fwi=0x7f05007c;
-        public static final int lbl_highest=0x7f050058;
-        public static final int lbl_how_out=0x7f0500f3;
-        public static final int lbl_how_out_list=0x7f0500dd;
-        public static final int lbl_hundreds=0x7f050062;
-        public static final int lbl_innings=0x7f050052;
-        public static final int lbl_innings_list=0x7f0500d5;
-        public static final int lbl_level=0x7f0500e9;
-        public static final int lbl_level_list=0x7f0500d1;
-        public static final int lbl_lives=0x7f05006a;
-        public static final int lbl_losses=0x7f0500a8;
-        public static final int lbl_maidens=0x7f050070;
-        public static final int lbl_match_result=0x7f050125;
-        public static final int lbl_match_review=0x7f050128;
-        public static final int lbl_matches=0x7f0500a4;
-        public static final int lbl_misfields=0x7f0500a0;
-        public static final int lbl_my_team=0x7f0500e5;
-        public static final int lbl_my_team_list=0x7f0500c9;
-        public static final int lbl_no_result=0x7f0500ac;
-        public static final int lbl_noballs=0x7f050084;
-        public static final int lbl_not_outs=0x7f050054;
-        public static final int lbl_opponent_list=0x7f0500cb;
-        public static final int lbl_opponent_team=0x7f0500e6;
-        public static final int lbl_overs=0x7f05006c;
-        public static final int lbl_overs_list=0x7f0500d3;
-        public static final int lbl_result_list=0x7f0500cf;
-        public static final int lbl_runouts=0x7f050092;
-        public static final int lbl_runs=0x7f050056;
-        public static final int lbl_season_list=0x7f0500c7;
-        public static final int lbl_sixes=0x7f050068;
-        public static final int lbl_slip_catches=0x7f05008a;
-        public static final int lbl_spells=0x7f05006e;
-        public static final int lbl_strike_rate=0x7f05005e;
-        public static final int lbl_stumpings=0x7f05009c;
-        public static final int lbl_ties=0x7f0500aa;
-        public static final int lbl_time_spent=0x7f050064;
-        public static final int lbl_twm=0x7f05007e;
-        public static final int lbl_venue=0x7f0500e7;
-        public static final int lbl_venue_list=0x7f0500cd;
-        public static final int lbl_wickets=0x7f050072;
-        public static final int lbl_wickets_left=0x7f050074;
-        public static final int lbl_wickets_right=0x7f050076;
-        public static final int lbl_wides=0x7f050086;
-        public static final int lbl_win_per=0x7f0500ae;
-        public static final int lbl_wins=0x7f0500a6;
-        public static final int lblruns=0x7f0500f2;
-        public static final int left_drawer=0x7f0500c6;
-        public static final int level=0x7f0500ea;
-        public static final int level_list=0x7f0500d2;
-        public static final int line1=0x7f05004d;
-        public static final int line10=0x7f05010e;
-        public static final int line11=0x7f050110;
-        public static final int line2=0x7f050048;
-        public static final int line3=0x7f050100;
-        public static final int line4=0x7f050102;
-        public static final int line5=0x7f050104;
-        public static final int line6=0x7f050106;
-        public static final int line7=0x7f050108;
-        public static final int line8=0x7f05010a;
-        public static final int line9=0x7f05010c;
-        public static final int linearLayout=0x7f0500b0;
+        public static final int innings=0x7f050054;
+        public static final int innings_list=0x7f050108;
+        public static final int lbl_average=0x7f05005f;
+        public static final int lbl_balls=0x7f050062;
+        public static final int lbl_batting_no=0x7f050123;
+        public static final int lbl_batting_no_list=0x7f05010d;
+        public static final int lbl_bbi=0x7f05009d;
+        public static final int lbl_bbm=0x7f0500a2;
+        public static final int lbl_bowler_type=0x7f050128;
+        public static final int lbl_byes=0x7f0500ce;
+        public static final int lbl_catches=0x7f0500ae;
+        public static final int lbl_catches_drop=0x7f050091;
+        public static final int lbl_catches_dropped_bowling=0x7f05008e;
+        public static final int lbl_catches_dropped_fielding=0x7f0500d3;
+        public static final int lbl_circle_catches=0x7f0500b6;
+        public static final int lbl_circle_runouts=0x7f0500bf;
+        public static final int lbl_circle_runouts_direct=0x7f0500c2;
+        public static final int lbl_close=0x7f0500b5;
+        public static final int lbl_close_catches=0x7f0500b3;
+        public static final int lbl_date=0x7f050115;
+        public static final int lbl_deep_catches=0x7f0500b9;
+        public static final int lbl_deep_runouts=0x7f0500c5;
+        public static final int lbl_deep_runouts_direct=0x7f0500c8;
+        public static final int lbl_dh_in_cir=0x7f0500c4;
+        public static final int lbl_dh_in_deep=0x7f0500ca;
+        public static final int lbl_duration=0x7f050153;
+        public static final int lbl_duration_list=0x7f050109;
+        public static final int lbl_economy_rate=0x7f050092;
+        public static final int lbl_fielding_pos=0x7f05012a;
+        public static final int lbl_fifties=0x7f050068;
+        public static final int lbl_first_action=0x7f050156;
+        public static final int lbl_first_list=0x7f05010b;
+        public static final int lbl_fours=0x7f050073;
+        public static final int lbl_fwi=0x7f050094;
+        public static final int lbl_highest=0x7f05005c;
+        public static final int lbl_how_out=0x7f050126;
+        public static final int lbl_how_out_list=0x7f05010f;
+        public static final int lbl_hundreds=0x7f05006b;
+        public static final int lbl_in_deep=0x7f0500bb;
+        public static final int lbl_in_slip=0x7f0500b2;
+        public static final int lbl_inn=0x7f0500a0;
+        public static final int lbl_innings=0x7f050053;
+        public static final int lbl_innings_list=0x7f050107;
+        public static final int lbl_inns=0x7f050097;
+        public static final int lbl_level=0x7f05011b;
+        public static final int lbl_level_list=0x7f050103;
+        public static final int lbl_lhb=0x7f050089;
+        public static final int lbl_lives=0x7f050079;
+        public static final int lbl_losses=0x7f0500da;
+        public static final int lbl_maidens=0x7f050080;
+        public static final int lbl_match=0x7f0500a5;
+        public static final int lbl_match_result=0x7f050159;
+        public static final int lbl_match_review=0x7f05015c;
+        public static final int lbl_matches=0x7f0500d6;
+        public static final int lbl_min=0x7f050071;
+        public static final int lbl_misfields=0x7f0500d1;
+        public static final int lbl_my_team=0x7f050117;
+        public static final int lbl_my_team_list=0x7f0500fb;
+        public static final int lbl_no_result=0x7f0500de;
+        public static final int lbl_noballs=0x7f0500a9;
+        public static final int lbl_not_outs=0x7f050056;
+        public static final int lbl_on_circle=0x7f0500b8;
+        public static final int lbl_opponent_list=0x7f0500fd;
+        public static final int lbl_opponent_team=0x7f050118;
+        public static final int lbl_overs=0x7f05007c;
+        public static final int lbl_overs_list=0x7f050105;
+        public static final int lbl_result_list=0x7f050101;
+        public static final int lbl_rhb=0x7f05008d;
+        public static final int lbl_ro_in_cir=0x7f0500c1;
+        public static final int lbl_ro_in_deep=0x7f0500c7;
+        public static final int lbl_ro_tot=0x7f0500be;
+        public static final int lbl_runouts=0x7f0500bc;
+        public static final int lbl_runs=0x7f050059;
+        public static final int lbl_season_list=0x7f0500f9;
+        public static final int lbl_sixes=0x7f050076;
+        public static final int lbl_slip_catches=0x7f0500b0;
+        public static final int lbl_spells=0x7f05007e;
+        public static final int lbl_strike_rate=0x7f050065;
+        public static final int lbl_stumpings=0x7f0500cb;
+        public static final int lbl_ties=0x7f0500dc;
+        public static final int lbl_time_spent=0x7f05006e;
+        public static final int lbl_tot=0x7f050085;
+        public static final int lbl_twm=0x7f050098;
+        public static final int lbl_twmatches=0x7f05009b;
+        public static final int lbl_venue=0x7f050119;
+        public static final int lbl_venue_list=0x7f0500ff;
+        public static final int lbl_wickets=0x7f050082;
+        public static final int lbl_wickets_left=0x7f050086;
+        public static final int lbl_wickets_right=0x7f05008a;
+        public static final int lbl_wides=0x7f0500ac;
+        public static final int lbl_win_per=0x7f0500e0;
+        public static final int lbl_wins=0x7f0500d8;
+        public static final int lbl_wkt_keep=0x7f0500cd;
+        public static final int lbl_wkt_keeping=0x7f0500d0;
+        public static final int lblruns=0x7f050125;
+        public static final int left_drawer=0x7f0500f8;
+        public static final int level=0x7f05011c;
+        public static final int level_list=0x7f050104;
+        public static final int line1=0x7f050121;
+        public static final int line10=0x7f050142;
+        public static final int line11=0x7f050144;
+        public static final int line2=0x7f050132;
+        public static final int line3=0x7f050134;
+        public static final int line4=0x7f050136;
+        public static final int line5=0x7f050138;
+        public static final int line6=0x7f05013a;
+        public static final int line7=0x7f05013c;
+        public static final int line8=0x7f05013e;
+        public static final int line9=0x7f050140;
+        public static final int line_graph_params=0x7f050049;
+        public static final int linearLayout=0x7f0500e2;
         public static final int listMode=0x7f050006;
-        public static final int lives=0x7f05006b;
+        public static final int lives=0x7f05007a;
         public static final int ll_icon=0x7f050036;
-        public static final int losses=0x7f0500a9;
-        public static final int lty_byes=0x7f05010d;
-        public static final int lty_catches_dropped_fielding=0x7f050111;
-        public static final int lty_circle_catches=0x7f0500ff;
-        public static final int lty_circle_runouts=0x7f050103;
-        public static final int lty_circle_runouts_direct=0x7f050105;
-        public static final int lty_close_catches=0x7f0500fe;
-        public static final int lty_deep_catches=0x7f050101;
-        public static final int lty_deep_runouts=0x7f050107;
-        public static final int lty_deep_runouts_direct=0x7f050109;
-        public static final int lty_misfields=0x7f05010f;
-        public static final int lty_slip_catches=0x7f0500fd;
-        public static final int lty_stumpings=0x7f05010b;
-        public static final int lyt_dur=0x7f05011e;
-        public static final int lyt_first=0x7f050121;
-        public static final int lyt_level=0x7f05011c;
-        public static final int lyt_match_result=0x7f050124;
-        public static final int lyt_match_review=0x7f050127;
-        public static final int lyt_overs=0x7f05011a;
-        public static final int lyt_venue=0x7f05011d;
-        public static final int maidens=0x7f050071;
-        public static final int make_graph_category_1=0x7f050049;
-        public static final int make_graph_category_2=0x7f05004e;
-        public static final int match_data=0x7f0500bb;
-        public static final int match_date=0x7f0500bc;
-        public static final int match_info=0x7f050119;
-        public static final int match_result=0x7f050126;
-        public static final int match_review=0x7f050129;
-        public static final int matches=0x7f0500a5;
-        public static final int misfields=0x7f0500a1;
-        public static final int my_team=0x7f0500bd;
-        public static final int my_team_list=0x7f0500ca;
-        public static final int name=0x7f05012b;
-        public static final int nickname=0x7f05012c;
-        public static final int no=0x7f0500b8;
-        public static final int no_match_text=0x7f0500e0;
-        public static final int no_matches=0x7f0500df;
-        public static final int no_result=0x7f0500ad;
-        public static final int noballs=0x7f050085;
+        public static final int losses=0x7f0500db;
+        public static final int lty_byes=0x7f050141;
+        public static final int lty_catches_dropped_fielding=0x7f050145;
+        public static final int lty_circle_catches=0x7f050133;
+        public static final int lty_circle_runouts=0x7f050137;
+        public static final int lty_circle_runouts_direct=0x7f050139;
+        public static final int lty_close_catches=0x7f050131;
+        public static final int lty_deep_catches=0x7f050135;
+        public static final int lty_deep_runouts=0x7f05013b;
+        public static final int lty_deep_runouts_direct=0x7f05013d;
+        public static final int lty_misfields=0x7f050143;
+        public static final int lty_slip_catches=0x7f050130;
+        public static final int lty_stumpings=0x7f05013f;
+        public static final int lyt_dur=0x7f050152;
+        public static final int lyt_first=0x7f050155;
+        public static final int lyt_level=0x7f050150;
+        public static final int lyt_match_result=0x7f050158;
+        public static final int lyt_match_review=0x7f05015b;
+        public static final int lyt_overs=0x7f05014e;
+        public static final int lyt_venue=0x7f050151;
+        public static final int maidens=0x7f050081;
+        public static final int match_data=0x7f0500ed;
+        public static final int match_date=0x7f0500ee;
+        public static final int match_info=0x7f05014d;
+        public static final int match_result=0x7f05015a;
+        public static final int match_review=0x7f05015d;
+        public static final int matches=0x7f0500d7;
+        public static final int misfields=0x7f0500d2;
+        public static final int my_team=0x7f0500ef;
+        public static final int my_team_list=0x7f0500fc;
+        public static final int name=0x7f05015f;
+        public static final int nickname=0x7f050160;
+        public static final int no=0x7f0500ea;
+        public static final int no_match_text=0x7f050112;
+        public static final int no_matches=0x7f050111;
+        public static final int no_result=0x7f0500df;
+        public static final int noballs=0x7f0500aa;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int not_outs=0x7f050055;
-        public static final int okay=0x7f0500b9;
-        public static final int opponent_list=0x7f0500cc;
-        public static final int opponent_team=0x7f0500be;
-        public static final int over_limit=0x7f0500eb;
-        public static final int overs=0x7f05006d;
-        public static final int overs_limit=0x7f05011b;
-        public static final int overs_list=0x7f0500d4;
-        public static final int performance_fragment_layout=0x7f050112;
-        public static final int profile_data=0x7f050132;
-        public static final int profile_picture=0x7f05012a;
-        public static final int rel_data=0x7f050044;
-        public static final int result_list=0x7f0500d0;
-        public static final int rl1=0x7f050050;
+        public static final int not_outs=0x7f050057;
+        public static final int okay=0x7f0500eb;
+        public static final int opponent_list=0x7f0500fe;
+        public static final int opponent_team=0x7f0500f0;
+        public static final int over_limit=0x7f05011d;
+        public static final int overs=0x7f05007d;
+        public static final int overs_limit=0x7f05014f;
+        public static final int overs_list=0x7f050106;
+        public static final int page_desc=0x7f05003e;
+        public static final int performance_fragment_layout=0x7f050146;
+        public static final int profile_data=0x7f050166;
+        public static final int profile_picture=0x7f05015e;
+        public static final int result_list=0x7f050102;
+        public static final int rl1=0x7f05003d;
         public static final int rl_button=0x7f05003a;
-        public static final int role=0x7f05012e;
-        public static final int runouts=0x7f050093;
-        public static final int runs=0x7f050057;
+        public static final int rl_td=0x7f050048;
+        public static final int role=0x7f050162;
+        public static final int row1=0x7f050052;
+        public static final int row10=0x7f05006d;
+        public static final int row11=0x7f050072;
+        public static final int row12=0x7f050075;
+        public static final int row13=0x7f050078;
+        public static final int row14=0x7f050070;
+        public static final int row15=0x7f05009c;
+        public static final int row16=0x7f0500a1;
+        public static final int row17=0x7f0500a6;
+        public static final int row18=0x7f0500a7;
+        public static final int row19=0x7f0500a8;
+        public static final int row2=0x7f050055;
+        public static final int row20=0x7f0500ab;
+        public static final int row21=0x7f050084;
+        public static final int row22=0x7f050088;
+        public static final int row23=0x7f05008c;
+        public static final int row24=0x7f05009f;
+        public static final int row25=0x7f0500a4;
+        public static final int row26=0x7f050090;
+        public static final int row27=0x7f050096;
+        public static final int row28=0x7f05009a;
+        public static final int row3=0x7f050058;
+        public static final int row4=0x7f05005b;
+        public static final int row5=0x7f05005e;
+        public static final int row6=0x7f050061;
+        public static final int row7=0x7f050064;
+        public static final int row8=0x7f050067;
+        public static final int row9=0x7f05006a;
+        public static final int runouts=0x7f0500bd;
+        public static final int runs=0x7f05005a;
         public static final int satellite=0x7f050002;
-        public static final int season_list=0x7f0500c8;
+        public static final int season_list=0x7f0500fa;
         public static final int showCustom=0x7f05000c;
         public static final int showHome=0x7f050009;
         public static final int showTitle=0x7f05000b;
-        public static final int sixes=0x7f050069;
-        public static final int slip_catches=0x7f05008b;
+        public static final int sixes=0x7f050077;
+        public static final int slip_catches=0x7f0500b1;
         public static final int space=0x7f050051;
-        public static final int spells=0x7f05006f;
-        public static final int strike_rate=0x7f05005f;
-        public static final int stumpings=0x7f05009d;
+        public static final int spells=0x7f05007f;
+        public static final int strike_rate=0x7f050066;
+        public static final int stumpings=0x7f0500cc;
         public static final int tabMode=0x7f050007;
+        public static final int tablelay1=0x7f05003f;
         public static final int terrain=0x7f050003;
-        public static final int text=0x7f05004f;
-        public static final int textView1=0x7f050114;
-        public static final int ties=0x7f0500ab;
-        public static final int time_spent=0x7f050065;
-        public static final int title=0x7f0500c2;
-        public static final int twm=0x7f05007f;
-        public static final int txt_select_data1=0x7f050043;
-        public static final int txt_select_data2=0x7f05004b;
-        public static final int txt_set_filter=0x7f050040;
+        public static final int text=0x7f050050;
+        public static final int textView1=0x7f050148;
+        public static final int ties=0x7f0500dd;
+        public static final int time_spent=0x7f05006f;
+        public static final int title=0x7f0500f4;
+        public static final int twm=0x7f050099;
+        public static final int txt_select_data1=0x7f050047;
+        public static final int txt_set_filter=0x7f050044;
         public static final int useLogo=0x7f050008;
-        public static final int venue=0x7f0500e8;
-        public static final int venue_list=0x7f0500ce;
-        public static final int viewpager=0x7f050118;
-        public static final int vs=0x7f050046;
-        public static final int wickets=0x7f050073;
-        public static final int wickets_left=0x7f050075;
-        public static final int wickets_right=0x7f050077;
-        public static final int wides=0x7f050087;
-        public static final int win_per=0x7f0500af;
-        public static final int wins=0x7f0500a7;
+        public static final int venue=0x7f05011a;
+        public static final int venue_list=0x7f050100;
+        public static final int viewpager=0x7f05014c;
+        public static final int vs=0x7f05004b;
+        public static final int wickets=0x7f050083;
+        public static final int wickets_left=0x7f050087;
+        public static final int wickets_right=0x7f05008b;
+        public static final int wides=0x7f0500ad;
+        public static final int win_per=0x7f0500e1;
+        public static final int wins=0x7f0500d9;
         public static final int wrap_content=0x7f050005;
-        public static final int yes=0x7f0500b7;
+        public static final int xy_r1=0x7f050046;
+        public static final int xy_r4=0x7f05004e;
+        public static final int yes=0x7f0500e9;
     }
     public static final class integer {
         public static final int abs__max_action_buttons=0x7f090000;
@@ -1558,11 +1622,11 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f06001c;
         public static final int action_settings=0x7f060024;
         public static final int add_to_career=0x7f060049;
-        public static final int adjust=0x7f060091;
+        public static final int adjust=0x7f0600a3;
         public static final int app_name=0x7f060023;
         /**  Confirmation Dialog 
          */
-        public static final int are_you_sure=0x7f060073;
+        public static final int are_you_sure=0x7f06007e;
         public static final int at=0x7f060048;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
@@ -1573,29 +1637,32 @@ containing a value of this type.
         /**   Requested by string saying which app requested the notification. [CHAR LIMIT=42] 
          */
         public static final int auth_client_requested_by_msg=0x7f060011;
-        public static final int average=0x7f06007f;
+        public static final int average=0x7f06008a;
         public static final int balls=0x7f060053;
         public static final int batting=0x7f06002a;
         public static final int batting_no=0x7f060051;
         public static final int batting_style=0x7f060034;
-        public static final int bbi=0x7f060087;
-        public static final int bbm=0x7f060088;
+        public static final int bbi=0x7f060093;
+        public static final int bbm=0x7f060094;
         public static final int bowler_type=0x7f060058;
         public static final int bowling=0x7f06002b;
         public static final int bowling_style=0x7f060035;
-        public static final int byes=0x7f06006c;
-        public static final int cancel=0x7f060072;
+        public static final int byes=0x7f060077;
+        public static final int byes_wk=0x7f06006d;
+        public static final int cancel=0x7f06007d;
         /**  Fielding 
          */
-        public static final int catches=0x7f060089;
+        public static final int catches=0x7f060097;
+        public static final int catches_dropped=0x7f06006e;
         public static final int catches_dropped_bowling=0x7f060060;
-        public static final int catches_dropped_fielding=0x7f06006e;
-        public static final int chart_title=0x7f06008c;
-        public static final int circle_catches=0x7f060065;
-        public static final int circle_runouts=0x7f060067;
-        public static final int circle_runouts_direct=0x7f060068;
+        public static final int catches_dropped_fielding=0x7f060079;
+        public static final int chart_title=0x7f06009e;
+        public static final int circle_catches=0x7f060071;
+        public static final int circle_runouts=0x7f060073;
+        public static final int circle_runouts_direct=0x7f060074;
         public static final int city=0x7f060036;
-        public static final int close_catches=0x7f060064;
+        public static final int close=0x7f060067;
+        public static final int close_catches=0x7f060070;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1653,14 +1720,15 @@ containing a value of this type.
         public static final int common_signin_button_text_long=0x7f06000e;
         public static final int country=0x7f060038;
         public static final int create_match=0x7f060046;
-        public static final int cricdecode_dir=0x7f060090;
+        public static final int cricdecode_dir=0x7f0600a2;
         public static final int date_format=0x7f06003e;
         public static final int date_of_birth=0x7f060032;
-        public static final int deep_catches=0x7f060066;
-        public static final int deep_runouts=0x7f060069;
-        public static final int deep_runouts_direct=0x7f06006a;
-        public static final int definition=0x7f060074;
+        public static final int deep_catches=0x7f060072;
+        public static final int deep_runouts=0x7f06006b;
+        public static final int deep_runouts_direct=0x7f060075;
+        public static final int definition=0x7f06007f;
         public static final int delete=0x7f06004a;
+        public static final int direct_hits=0x7f06009a;
         /**  Performance 
  Batting 
          */
@@ -1671,32 +1739,41 @@ containing a value of this type.
         public static final int drawer_close=0x7f060027;
         public static final int drawer_open=0x7f060026;
         public static final int duration=0x7f06004e;
-        public static final int economy_rate=0x7f060084;
+        public static final int economy_rate=0x7f060090;
         public static final int edit_profile=0x7f06003a;
         public static final int fielding=0x7f06002c;
         public static final int fielding_pos=0x7f060059;
-        public static final int fifties=0x7f060081;
+        public static final int fifties=0x7f06008c;
         /**  Filter Dialog 
          */
-        public static final int filter=0x7f060070;
+        public static final int filter=0x7f06007b;
         public static final int first=0x7f06004f;
         public static final int fours=0x7f060055;
-        public static final int fwi=0x7f060085;
+        public static final int fwi=0x7f060091;
         public static final int ga_trackingId=0x7f060022;
+        public static final int game_facet=0x7f06009c;
         /**  Tab Strings 
          */
         public static final int general=0x7f060029;
-        public static final int generate_graph=0x7f06008b;
-        public static final int graph_typ=0x7f06008d;
+        public static final int generate_graph=0x7f06009d;
+        public static final int graph_typ=0x7f06009f;
         public static final int hello_world=0x7f060025;
-        public static final int highest=0x7f06007e;
+        public static final int highest=0x7f060089;
         /**  Actionbar 
          */
-        public static final int home_icon=0x7f060092;
+        public static final int home_icon=0x7f0600a4;
         public static final int how_out=0x7f060057;
-        public static final int hundreds=0x7f060082;
+        public static final int hundreds=0x7f06008d;
+        public static final int in_circle=0x7f06006a;
+        public static final int in_deep=0x7f060069;
+        /**  Fielding 
+         */
+        public static final int in_slip=0x7f060066;
+        public static final int inn=0x7f060095;
         public static final int innings=0x7f060043;
+        public static final int inns=0x7f060098;
         public static final int level=0x7f06004d;
+        public static final int lhb=0x7f060064;
         public static final int lives=0x7f06005a;
         /**  Location client code resources (prefix with location_client) 
 
@@ -1709,30 +1786,32 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f060012;
         public static final int location_client_ulr_inactive_age_unknown=0x7f060013;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f060014;
-        public static final int losses=0x7f06007a;
+        public static final int losses=0x7f060085;
         public static final int maidens=0x7f06005d;
+        public static final int match=0x7f060096;
         public static final int match_date=0x7f06003c;
         public static final int match_result=0x7f06004b;
         public static final int match_review=0x7f06004c;
         /**  Career 
  General 
          */
-        public static final int matches=0x7f060077;
-        public static final int misfields=0x7f06006d;
+        public static final int matches=0x7f060082;
+        public static final int misfields=0x7f060078;
         public static final int my_team=0x7f06003f;
         public static final int name=0x7f060030;
         public static final int new_match=0x7f060045;
         public static final int nickname=0x7f060031;
-        public static final int no=0x7f060076;
+        public static final int no=0x7f060081;
         /**  Match 
          */
         public static final int no_matches=0x7f06003b;
-        public static final int no_result=0x7f06007c;
+        public static final int no_result=0x7f060087;
         public static final int noballs=0x7f060061;
         /**  Batting 
          */
-        public static final int not_outs=0x7f06007d;
-        public static final int okay=0x7f060071;
+        public static final int not_outs=0x7f060088;
+        public static final int okay=0x7f06007c;
+        public static final int on_circle=0x7f060068;
         public static final int opponent_team=0x7f060040;
         public static final int overs=0x7f060042;
         /**  Profile 
@@ -1744,38 +1823,41 @@ containing a value of this type.
          */
         public static final int publisher_id=0x7f060028;
         public static final int result=0x7f060044;
+        public static final int rhb=0x7f060065;
         public static final int role=0x7f060033;
-        public static final int runouts=0x7f06008a;
+        public static final int runouts=0x7f060099;
         public static final int runs=0x7f060052;
         /**  General 
          */
-        public static final int save_performance=0x7f06006f;
+        public static final int save_performance=0x7f06007a;
         public static final int save_profile=0x7f060039;
         public static final int season=0x7f06003d;
-        public static final int select_data=0x7f06008f;
-        public static final int set_filter=0x7f06008e;
+        public static final int select_data=0x7f0600a1;
+        public static final int set_filter=0x7f0600a0;
         public static final int sixes=0x7f060056;
-        /**  Fielding 
-         */
-        public static final int slip_catches=0x7f060063;
+        public static final int slip_catches=0x7f06006f;
         public static final int spells=0x7f06005c;
         public static final int state=0x7f060037;
-        public static final int strike_rate=0x7f060080;
-        public static final int stumpings=0x7f06006b;
-        public static final int ties=0x7f06007b;
+        public static final int strike_rate=0x7f06008b;
+        public static final int stumpings=0x7f060076;
+        public static final int stumpings_wk=0x7f06006c;
+        public static final int ties=0x7f060086;
+        public static final int time_min=0x7f06008e;
         public static final int time_spent=0x7f060054;
-        public static final int twm=0x7f060086;
+        public static final int twm=0x7f060092;
         public static final int venue=0x7f060041;
         public static final int vs=0x7f060047;
         /**  Bowling 
          */
-        public static final int wickets=0x7f060083;
+        public static final int wickets=0x7f06008f;
         public static final int wickets_left=0x7f06005e;
         public static final int wickets_right=0x7f06005f;
         public static final int wides=0x7f060062;
-        public static final int win_per=0x7f060079;
-        public static final int wins=0x7f060078;
-        public static final int yes=0x7f060075;
+        public static final int win_per=0x7f060084;
+        public static final int wins=0x7f060083;
+        public static final int wkt_keeping=0x7f06009b;
+        public static final int wkt_tot=0x7f060063;
+        public static final int yes=0x7f060080;
     }
     public static final class style {
         /** 
@@ -1948,7 +2030,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:cameraBearing
+          @attr name android:cameraBearing
         */
         public static final int MapAttrs_cameraBearing = 1;
         /**
@@ -1962,7 +2044,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:cameraTargetLat
+          @attr name android:cameraTargetLat
         */
         public static final int MapAttrs_cameraTargetLat = 2;
         /**
@@ -1976,7 +2058,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:cameraTargetLng
+          @attr name android:cameraTargetLng
         */
         public static final int MapAttrs_cameraTargetLng = 3;
         /**
@@ -1990,7 +2072,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:cameraTilt
+          @attr name android:cameraTilt
         */
         public static final int MapAttrs_cameraTilt = 4;
         /**
@@ -2004,7 +2086,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:cameraZoom
+          @attr name android:cameraZoom
         */
         public static final int MapAttrs_cameraZoom = 5;
         /**
@@ -2024,7 +2106,7 @@ containing a value of this type.
 <tr><td><code>terrain</code></td><td>3</td><td></td></tr>
 <tr><td><code>hybrid</code></td><td>4</td><td></td></tr>
 </table>
-          @attr name co.acjs.cricdecode:mapType
+          @attr name android:mapType
         */
         public static final int MapAttrs_mapType = 0;
         /**
@@ -2038,7 +2120,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:uiCompass
+          @attr name android:uiCompass
         */
         public static final int MapAttrs_uiCompass = 6;
         /**
@@ -2052,7 +2134,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:uiRotateGestures
+          @attr name android:uiRotateGestures
         */
         public static final int MapAttrs_uiRotateGestures = 7;
         /**
@@ -2066,7 +2148,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:uiScrollGestures
+          @attr name android:uiScrollGestures
         */
         public static final int MapAttrs_uiScrollGestures = 8;
         /**
@@ -2080,7 +2162,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:uiTiltGestures
+          @attr name android:uiTiltGestures
         */
         public static final int MapAttrs_uiTiltGestures = 9;
         /**
@@ -2094,7 +2176,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:uiZoomControls
+          @attr name android:uiZoomControls
         */
         public static final int MapAttrs_uiZoomControls = 10;
         /**
@@ -2108,7 +2190,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:uiZoomGestures
+          @attr name android:uiZoomGestures
         */
         public static final int MapAttrs_uiZoomGestures = 11;
         /**
@@ -2122,7 +2204,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:useViewLifecycle
+          @attr name android:useViewLifecycle
         */
         public static final int MapAttrs_useViewLifecycle = 12;
         /**
@@ -2136,7 +2218,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:zOrderOnTop
+          @attr name android:zOrderOnTop
         */
         public static final int MapAttrs_zOrderOnTop = 13;
         /**  Attributes used to style the Action Bar. 
@@ -2204,7 +2286,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:background
+          @attr name android:background
         */
         public static final int SherlockActionBar_background = 2;
         /**
@@ -2218,7 +2300,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:backgroundSplit
+          @attr name android:backgroundSplit
         */
         public static final int SherlockActionBar_backgroundSplit = 3;
         /**
@@ -2232,7 +2314,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:backgroundStacked
+          @attr name android:backgroundStacked
         */
         public static final int SherlockActionBar_backgroundStacked = 12;
         /**
@@ -2244,7 +2326,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:customNavigationLayout
+          @attr name android:customNavigationLayout
         */
         public static final int SherlockActionBar_customNavigationLayout = 13;
         /**
@@ -2267,7 +2349,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>disableHome</code></td><td>0x20</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:displayOptions
+          @attr name android:displayOptions
         */
         public static final int SherlockActionBar_displayOptions = 7;
         /**
@@ -2279,7 +2361,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:divider
+          @attr name android:divider
         */
         public static final int SherlockActionBar_divider = 5;
         /**
@@ -2297,7 +2379,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:height
+          @attr name android:height
         */
         public static final int SherlockActionBar_height = 4;
         /**
@@ -2309,7 +2391,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:homeLayout
+          @attr name android:homeLayout
         */
         public static final int SherlockActionBar_homeLayout = 14;
         /**
@@ -2321,7 +2403,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:icon
+          @attr name android:icon
         */
         public static final int SherlockActionBar_icon = 10;
         /**
@@ -2333,7 +2415,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:indeterminateProgressStyle
+          @attr name android:indeterminateProgressStyle
         */
         public static final int SherlockActionBar_indeterminateProgressStyle = 16;
         /**
@@ -2352,7 +2434,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:itemPadding
+          @attr name android:itemPadding
         */
         public static final int SherlockActionBar_itemPadding = 18;
         /**
@@ -2364,7 +2446,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:logo
+          @attr name android:logo
         */
         public static final int SherlockActionBar_logo = 11;
         /**
@@ -2384,7 +2466,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>tabMode</code></td><td>2</td><td> The action bar will use a series of horizontal tabs for navigation. </td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:navigationMode
+          @attr name android:navigationMode
         */
         public static final int SherlockActionBar_navigationMode = 6;
         /**
@@ -2402,7 +2484,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:progressBarPadding
+          @attr name android:progressBarPadding
         */
         public static final int SherlockActionBar_progressBarPadding = 17;
         /**
@@ -2414,7 +2496,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:progressBarStyle
+          @attr name android:progressBarStyle
         */
         public static final int SherlockActionBar_progressBarStyle = 15;
         /**
@@ -2430,7 +2512,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:subtitle
+          @attr name android:subtitle
         */
         public static final int SherlockActionBar_subtitle = 9;
         /**
@@ -2442,7 +2524,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:subtitleTextStyle
+          @attr name android:subtitleTextStyle
         */
         public static final int SherlockActionBar_subtitleTextStyle = 1;
         /**
@@ -2458,7 +2540,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:title
+          @attr name android:title
         */
         public static final int SherlockActionBar_title = 8;
         /**
@@ -2470,7 +2552,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:titleTextStyle
+          @attr name android:titleTextStyle
         */
         public static final int SherlockActionBar_titleTextStyle = 0;
         /** Attributes that can be used with a SherlockActionMenuItemView.
@@ -2479,7 +2561,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockActionMenuItemView_android_minWidth android:minWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #SherlockActionMenuItemView_android_minWidth co.acjs.cricdecode:android_minWidth}</code></td><td></td></tr>
            </table>
            @see #SherlockActionMenuItemView_android_minWidth
          */
@@ -2487,9 +2569,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x0101013f
         };
         /**
-          <p>This symbol is the offset where the {@link android.R.attr#minWidth}
+          <p>This symbol is the offset where the {@link co.acjs.cricdecode.R.attr#android_minWidth}
           attribute's value can be found in the {@link #SherlockActionMenuItemView} array.
-          @attr name android:minWidth
+          @attr name android:android_minWidth
         */
         public static final int SherlockActionMenuItemView_android_minWidth = 0;
         /** Attributes that can be used with a SherlockActionMode.
@@ -2525,7 +2607,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:background
+          @attr name android:background
         */
         public static final int SherlockActionMode_background = 2;
         /**
@@ -2539,7 +2621,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:backgroundSplit
+          @attr name android:backgroundSplit
         */
         public static final int SherlockActionMode_backgroundSplit = 3;
         /**
@@ -2557,7 +2639,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:height
+          @attr name android:height
         */
         public static final int SherlockActionMode_height = 4;
         /**
@@ -2569,7 +2651,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:subtitleTextStyle
+          @attr name android:subtitleTextStyle
         */
         public static final int SherlockActionMode_subtitleTextStyle = 1;
         /**
@@ -2581,7 +2663,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:titleTextStyle
+          @attr name android:titleTextStyle
         */
         public static final int SherlockActionMode_titleTextStyle = 0;
         /** Attributes that can be used with a SherlockActivityChooserView.
@@ -2590,7 +2672,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockActivityChooserView_android_background android:background}</code></td><td></td></tr>
+           <tr><td><code>{@link #SherlockActivityChooserView_android_background co.acjs.cricdecode:android_background}</code></td><td></td></tr>
            <tr><td><code>{@link #SherlockActivityChooserView_expandActivityOverflowButtonDrawable co.acjs.cricdecode:expandActivityOverflowButtonDrawable}</code></td><td> The drawable to show in the button for expanding the activities overflow popup.</td></tr>
            <tr><td><code>{@link #SherlockActivityChooserView_initialActivityCount co.acjs.cricdecode:initialActivityCount}</code></td><td> The maximal number of items initially shown in the activity list.</td></tr>
            </table>
@@ -2602,9 +2684,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x010100d4, 0x7f01006c, 0x7f01006d
         };
         /**
-          <p>This symbol is the offset where the {@link android.R.attr#background}
+          <p>This symbol is the offset where the {@link co.acjs.cricdecode.R.attr#android_background}
           attribute's value can be found in the {@link #SherlockActivityChooserView} array.
-          @attr name android:background
+          @attr name android:android_background
         */
         public static final int SherlockActivityChooserView_android_background = 0;
         /**
@@ -2621,7 +2703,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:expandActivityOverflowButtonDrawable
+          @attr name android:expandActivityOverflowButtonDrawable
         */
         public static final int SherlockActivityChooserView_expandActivityOverflowButtonDrawable = 2;
         /**
@@ -2637,7 +2719,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:initialActivityCount
+          @attr name android:initialActivityCount
         */
         public static final int SherlockActivityChooserView_initialActivityCount = 1;
         /**  Base attributes that are available to all groups. 
@@ -2646,12 +2728,12 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockMenuGroup_android_checkableBehavior android:checkableBehavior}</code></td><td> Whether the items are capable of displaying a check mark.</td></tr>
-           <tr><td><code>{@link #SherlockMenuGroup_android_enabled android:enabled}</code></td><td> Whether the items are enabled.</td></tr>
-           <tr><td><code>{@link #SherlockMenuGroup_android_id android:id}</code></td><td> The ID of the group.</td></tr>
-           <tr><td><code>{@link #SherlockMenuGroup_android_menuCategory android:menuCategory}</code></td><td> The category applied to all items within this group.</td></tr>
-           <tr><td><code>{@link #SherlockMenuGroup_android_orderInCategory android:orderInCategory}</code></td><td> The order within the category applied to all items within this group.</td></tr>
-           <tr><td><code>{@link #SherlockMenuGroup_android_visible android:visible}</code></td><td> Whether the items are shown/visible.</td></tr>
+           <tr><td><code>{@link #SherlockMenuGroup_android_checkableBehavior co.acjs.cricdecode:android_checkableBehavior}</code></td><td> Whether the items are capable of displaying a check mark.</td></tr>
+           <tr><td><code>{@link #SherlockMenuGroup_android_enabled co.acjs.cricdecode:android_enabled}</code></td><td> Whether the items are enabled.</td></tr>
+           <tr><td><code>{@link #SherlockMenuGroup_android_id co.acjs.cricdecode:android_id}</code></td><td> The ID of the group.</td></tr>
+           <tr><td><code>{@link #SherlockMenuGroup_android_menuCategory co.acjs.cricdecode:android_menuCategory}</code></td><td> The category applied to all items within this group.</td></tr>
+           <tr><td><code>{@link #SherlockMenuGroup_android_orderInCategory co.acjs.cricdecode:android_orderInCategory}</code></td><td> The order within the category applied to all items within this group.</td></tr>
+           <tr><td><code>{@link #SherlockMenuGroup_android_visible co.acjs.cricdecode:android_visible}</code></td><td> Whether the items are shown/visible.</td></tr>
            </table>
            @see #SherlockMenuGroup_android_checkableBehavior
            @see #SherlockMenuGroup_android_enabled
@@ -2668,27 +2750,24 @@ containing a value of this type.
           <p>
           @attr description
            Whether the items are capable of displaying a check mark. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#checkableBehavior}.
-          @attr name android:checkableBehavior
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_checkableBehavior}.
+          @attr name android:android_checkableBehavior
         */
         public static final int SherlockMenuGroup_android_checkableBehavior = 5;
         /**
           <p>
           @attr description
            Whether the items are enabled. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#enabled}.
-          @attr name android:enabled
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_enabled}.
+          @attr name android:android_enabled
         */
         public static final int SherlockMenuGroup_android_enabled = 0;
         /**
           <p>
           @attr description
            The ID of the group. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#id}.
-          @attr name android:id
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_id}.
+          @attr name android:android_id
         */
         public static final int SherlockMenuGroup_android_id = 1;
         /**
@@ -2696,9 +2775,8 @@ containing a value of this type.
           @attr description
            The category applied to all items within this group.
              (This will be or'ed with the orderInCategory attribute.) 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#menuCategory}.
-          @attr name android:menuCategory
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_menuCategory}.
+          @attr name android:android_menuCategory
         */
         public static final int SherlockMenuGroup_android_menuCategory = 3;
         /**
@@ -2706,18 +2784,16 @@ containing a value of this type.
           @attr description
            The order within the category applied to all items within this group.
              (This will be or'ed with the category attribute.) 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#orderInCategory}.
-          @attr name android:orderInCategory
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_orderInCategory}.
+          @attr name android:android_orderInCategory
         */
         public static final int SherlockMenuGroup_android_orderInCategory = 4;
         /**
           <p>
           @attr description
            Whether the items are shown/visible. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#visible}.
-          @attr name android:visible
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_visible}.
+          @attr name android:android_visible
         */
         public static final int SherlockMenuGroup_android_visible = 2;
         /**  Base attributes that are available to all Item objects. 
@@ -2726,26 +2802,26 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_actionLayout android:actionLayout}</code></td><td> An optional layout to be used as an action view.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_actionProviderClass android:actionProviderClass}</code></td><td> The name of an optional ActionProvider class to instantiate an action view
+           <tr><td><code>{@link #SherlockMenuItem_android_actionLayout co.acjs.cricdecode:android_actionLayout}</code></td><td> An optional layout to be used as an action view.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_actionProviderClass co.acjs.cricdecode:android_actionProviderClass}</code></td><td> The name of an optional ActionProvider class to instantiate an action view
              and perform operations such as default action for that menu item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_actionViewClass android:actionViewClass}</code></td><td> The name of an optional View class to instantiate and use as an
+           <tr><td><code>{@link #SherlockMenuItem_android_actionViewClass co.acjs.cricdecode:android_actionViewClass}</code></td><td> The name of an optional View class to instantiate and use as an
              action view.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_alphabeticShortcut android:alphabeticShortcut}</code></td><td> The alphabetic shortcut key.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_checkable android:checkable}</code></td><td> Whether the item is capable of displaying a check mark.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_checked android:checked}</code></td><td> Whether the item is checked.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_enabled android:enabled}</code></td><td> Whether the item is enabled.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_icon android:icon}</code></td><td> The icon associated with this item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_id android:id}</code></td><td> The ID of the item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_menuCategory android:menuCategory}</code></td><td> The category applied to the item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_numericShortcut android:numericShortcut}</code></td><td> The numeric shortcut key.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_onClick android:onClick}</code></td><td> Name of a method on the Context used to inflate the menu that will be
+           <tr><td><code>{@link #SherlockMenuItem_android_alphabeticShortcut co.acjs.cricdecode:android_alphabeticShortcut}</code></td><td> The alphabetic shortcut key.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_checkable co.acjs.cricdecode:android_checkable}</code></td><td> Whether the item is capable of displaying a check mark.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_checked co.acjs.cricdecode:android_checked}</code></td><td> Whether the item is checked.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_enabled co.acjs.cricdecode:android_enabled}</code></td><td> Whether the item is enabled.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_icon co.acjs.cricdecode:android_icon}</code></td><td> The icon associated with this item.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_id co.acjs.cricdecode:android_id}</code></td><td> The ID of the item.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_menuCategory co.acjs.cricdecode:android_menuCategory}</code></td><td> The category applied to the item.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_numericShortcut co.acjs.cricdecode:android_numericShortcut}</code></td><td> The numeric shortcut key.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_onClick co.acjs.cricdecode:android_onClick}</code></td><td> Name of a method on the Context used to inflate the menu that will be
              called when the item is clicked.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_orderInCategory android:orderInCategory}</code></td><td> The order within the category applied to the item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_showAsAction android:showAsAction}</code></td><td> How this item should display in the Action Bar, if present.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_title android:title}</code></td><td> The title associated with the item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_titleCondensed android:titleCondensed}</code></td><td> The condensed title associated with the item.</td></tr>
-           <tr><td><code>{@link #SherlockMenuItem_android_visible android:visible}</code></td><td> Whether the item is shown/visible.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_orderInCategory co.acjs.cricdecode:android_orderInCategory}</code></td><td> The order within the category applied to the item.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_showAsAction co.acjs.cricdecode:android_showAsAction}</code></td><td> How this item should display in the Action Bar, if present.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_title co.acjs.cricdecode:android_title}</code></td><td> The title associated with the item.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_titleCondensed co.acjs.cricdecode:android_titleCondensed}</code></td><td> The condensed title associated with the item.</td></tr>
+           <tr><td><code>{@link #SherlockMenuItem_android_visible co.acjs.cricdecode:android_visible}</code></td><td> Whether the item is shown/visible.</td></tr>
            </table>
            @see #SherlockMenuItem_android_actionLayout
            @see #SherlockMenuItem_android_actionProviderClass
@@ -2778,9 +2854,8 @@ containing a value of this type.
            An optional layout to be used as an action view.
              See {@link android.view.MenuItem#setActionView(android.view.View)}
              for more info. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#actionLayout}.
-          @attr name android:actionLayout
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_actionLayout}.
+          @attr name android:android_actionLayout
         */
         public static final int SherlockMenuItem_android_actionLayout = 14;
         /**
@@ -2790,9 +2865,8 @@ containing a value of this type.
              and perform operations such as default action for that menu item.
              See {@link android.view.MenuItem#setActionProvider(android.view.ActionProvider)}
              for more info. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#actionProviderClass}.
-          @attr name android:actionProviderClass
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_actionProviderClass}.
+          @attr name android:android_actionProviderClass
         */
         public static final int SherlockMenuItem_android_actionProviderClass = 16;
         /**
@@ -2801,9 +2875,8 @@ containing a value of this type.
            The name of an optional View class to instantiate and use as an
              action view. See {@link android.view.MenuItem#setActionView(android.view.View)}
              for more info. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#actionViewClass}.
-          @attr name android:actionViewClass
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_actionViewClass}.
+          @attr name android:android_actionViewClass
         */
         public static final int SherlockMenuItem_android_actionViewClass = 15;
         /**
@@ -2811,18 +2884,16 @@ containing a value of this type.
           @attr description
            The alphabetic shortcut key.  This is the shortcut when using a keyboard
              with alphabetic keys. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#alphabeticShortcut}.
-          @attr name android:alphabeticShortcut
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_alphabeticShortcut}.
+          @attr name android:android_alphabeticShortcut
         */
         public static final int SherlockMenuItem_android_alphabeticShortcut = 9;
         /**
           <p>
           @attr description
            Whether the item is capable of displaying a check mark. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#checkable}.
-          @attr name android:checkable
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_checkable}.
+          @attr name android:android_checkable
         */
         public static final int SherlockMenuItem_android_checkable = 11;
         /**
@@ -2830,18 +2901,16 @@ containing a value of this type.
           @attr description
            Whether the item is checked.  Note that you must first have enabled checking with
              the checkable attribute or else the check mark will not appear. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#checked}.
-          @attr name android:checked
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_checked}.
+          @attr name android:android_checked
         */
         public static final int SherlockMenuItem_android_checked = 3;
         /**
           <p>
           @attr description
            Whether the item is enabled. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#enabled}.
-          @attr name android:enabled
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_enabled}.
+          @attr name android:android_enabled
         */
         public static final int SherlockMenuItem_android_enabled = 1;
         /**
@@ -2849,18 +2918,16 @@ containing a value of this type.
           @attr description
            The icon associated with this item.  This icon will not always be shown, so
              the title should be sufficient in describing this item. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#icon}.
-          @attr name android:icon
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_icon}.
+          @attr name android:android_icon
         */
         public static final int SherlockMenuItem_android_icon = 0;
         /**
           <p>
           @attr description
            The ID of the item. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#id}.
-          @attr name android:id
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_id}.
+          @attr name android:android_id
         */
         public static final int SherlockMenuItem_android_id = 2;
         /**
@@ -2868,9 +2935,8 @@ containing a value of this type.
           @attr description
            The category applied to the item.
              (This will be or'ed with the orderInCategory attribute.) 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#menuCategory}.
-          @attr name android:menuCategory
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_menuCategory}.
+          @attr name android:android_menuCategory
         */
         public static final int SherlockMenuItem_android_menuCategory = 5;
         /**
@@ -2878,9 +2944,8 @@ containing a value of this type.
           @attr description
            The numeric shortcut key.  This is the shortcut when using a numeric (e.g., 12-key)
              keyboard. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#numericShortcut}.
-          @attr name android:numericShortcut
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_numericShortcut}.
+          @attr name android:android_numericShortcut
         */
         public static final int SherlockMenuItem_android_numericShortcut = 10;
         /**
@@ -2888,9 +2953,8 @@ containing a value of this type.
           @attr description
            Name of a method on the Context used to inflate the menu that will be
              called when the item is clicked. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#onClick}.
-          @attr name android:onClick
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_onClick}.
+          @attr name android:android_onClick
         */
         public static final int SherlockMenuItem_android_onClick = 12;
         /**
@@ -2898,27 +2962,24 @@ containing a value of this type.
           @attr description
            The order within the category applied to the item.
              (This will be or'ed with the category attribute.) 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#orderInCategory}.
-          @attr name android:orderInCategory
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_orderInCategory}.
+          @attr name android:android_orderInCategory
         */
         public static final int SherlockMenuItem_android_orderInCategory = 6;
         /**
           <p>
           @attr description
            How this item should display in the Action Bar, if present. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#showAsAction}.
-          @attr name android:showAsAction
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_showAsAction}.
+          @attr name android:android_showAsAction
         */
         public static final int SherlockMenuItem_android_showAsAction = 13;
         /**
           <p>
           @attr description
            The title associated with the item. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#title}.
-          @attr name android:title
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_title}.
+          @attr name android:android_title
         */
         public static final int SherlockMenuItem_android_title = 7;
         /**
@@ -2926,18 +2987,16 @@ containing a value of this type.
           @attr description
            The condensed title associated with the item.  This is used in situations where the
              normal title may be too long to be displayed. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#titleCondensed}.
-          @attr name android:titleCondensed
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_titleCondensed}.
+          @attr name android:android_titleCondensed
         */
         public static final int SherlockMenuItem_android_titleCondensed = 8;
         /**
           <p>
           @attr description
            Whether the item is shown/visible. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#visible}.
-          @attr name android:visible
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_visible}.
+          @attr name android:android_visible
         */
         public static final int SherlockMenuItem_android_visible = 4;
         /** Attributes that can be used with a SherlockMenuView.
@@ -2979,7 +3038,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:headerBackground
+          @attr name android:headerBackground
         */
         public static final int SherlockMenuView_headerBackground = 3;
         /**
@@ -2991,7 +3050,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:horizontalDivider
+          @attr name android:horizontalDivider
         */
         public static final int SherlockMenuView_horizontalDivider = 1;
         /**
@@ -3005,7 +3064,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:itemBackground
+          @attr name android:itemBackground
         */
         public static final int SherlockMenuView_itemBackground = 4;
         /**
@@ -3021,7 +3080,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:itemIconDisabledAlpha
+          @attr name android:itemIconDisabledAlpha
         */
         public static final int SherlockMenuView_itemIconDisabledAlpha = 6;
         /**
@@ -3033,7 +3092,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:itemTextAppearance
+          @attr name android:itemTextAppearance
         */
         public static final int SherlockMenuView_itemTextAppearance = 0;
         /**
@@ -3049,7 +3108,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:preserveIconSpacing
+          @attr name android:preserveIconSpacing
         */
         public static final int SherlockMenuView_preserveIconSpacing = 7;
         /**
@@ -3061,7 +3120,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:verticalDivider
+          @attr name android:verticalDivider
         */
         public static final int SherlockMenuView_verticalDivider = 2;
         /**
@@ -3073,7 +3132,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:windowAnimationStyle
+          @attr name android:windowAnimationStyle
         */
         public static final int SherlockMenuView_windowAnimationStyle = 5;
         /** Attributes that can be used with a SherlockSearchView.
@@ -3082,9 +3141,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockSearchView_android_imeOptions android:imeOptions}</code></td><td> The IME options to set on the query text field.</td></tr>
-           <tr><td><code>{@link #SherlockSearchView_android_inputType android:inputType}</code></td><td> The input type to set on the query text field.</td></tr>
-           <tr><td><code>{@link #SherlockSearchView_android_maxWidth android:maxWidth}</code></td><td> An optional maximum width of the SearchView.</td></tr>
+           <tr><td><code>{@link #SherlockSearchView_android_imeOptions co.acjs.cricdecode:android_imeOptions}</code></td><td> The IME options to set on the query text field.</td></tr>
+           <tr><td><code>{@link #SherlockSearchView_android_inputType co.acjs.cricdecode:android_inputType}</code></td><td> The input type to set on the query text field.</td></tr>
+           <tr><td><code>{@link #SherlockSearchView_android_maxWidth co.acjs.cricdecode:android_maxWidth}</code></td><td> An optional maximum width of the SearchView.</td></tr>
            <tr><td><code>{@link #SherlockSearchView_iconifiedByDefault co.acjs.cricdecode:iconifiedByDefault}</code></td><td> The default state of the SearchView.</td></tr>
            <tr><td><code>{@link #SherlockSearchView_queryHint co.acjs.cricdecode:queryHint}</code></td><td> An optional query hint string to be displayed in the empty query field.</td></tr>
            </table>
@@ -3102,27 +3161,24 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>
           @attr description
            The IME options to set on the query text field. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#imeOptions}.
-          @attr name android:imeOptions
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_imeOptions}.
+          @attr name android:android_imeOptions
         */
         public static final int SherlockSearchView_android_imeOptions = 2;
         /**
           <p>
           @attr description
            The input type to set on the query text field. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#inputType}.
-          @attr name android:inputType
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_inputType}.
+          @attr name android:android_inputType
         */
         public static final int SherlockSearchView_android_inputType = 1;
         /**
           <p>
           @attr description
            An optional maximum width of the SearchView. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#maxWidth}.
-          @attr name android:maxWidth
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_maxWidth}.
+          @attr name android:android_maxWidth
         */
         public static final int SherlockSearchView_android_maxWidth = 0;
         /**
@@ -3139,7 +3195,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:iconifiedByDefault
+          @attr name android:iconifiedByDefault
         */
         public static final int SherlockSearchView_iconifiedByDefault = 3;
         /**
@@ -3155,7 +3211,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:queryHint
+          @attr name android:queryHint
         */
         public static final int SherlockSearchView_queryHint = 4;
         /** Attributes that can be used with a SherlockSpinner.
@@ -3164,17 +3220,17 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_dropDownHorizontalOffset android:dropDownHorizontalOffset}</code></td><td> Horizontal offset from the spinner widget for positioning the dropdown
+           <tr><td><code>{@link #SherlockSpinner_android_dropDownHorizontalOffset co.acjs.cricdecode:android_dropDownHorizontalOffset}</code></td><td> Horizontal offset from the spinner widget for positioning the dropdown
              in spinnerMode="dropdown".</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_dropDownSelector android:dropDownSelector}</code></td><td> List selector to use for spinnerMode="dropdown" display.</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_dropDownVerticalOffset android:dropDownVerticalOffset}</code></td><td> Vertical offset from the spinner widget for positioning the dropdown in
+           <tr><td><code>{@link #SherlockSpinner_android_dropDownSelector co.acjs.cricdecode:android_dropDownSelector}</code></td><td> List selector to use for spinnerMode="dropdown" display.</td></tr>
+           <tr><td><code>{@link #SherlockSpinner_android_dropDownVerticalOffset co.acjs.cricdecode:android_dropDownVerticalOffset}</code></td><td> Vertical offset from the spinner widget for positioning the dropdown in
              spinnerMode="dropdown".</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_dropDownWidth android:dropDownWidth}</code></td><td> Width of the dropdown in spinnerMode="dropdown".</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_gravity android:gravity}</code></td><td> Gravity setting for positioning the currently selected item.</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_popupBackground android:popupBackground}</code></td><td> Background drawable to use for the dropdown in spinnerMode="dropdown".</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_popupPromptView android:popupPromptView}</code></td><td> Reference to a layout to use for displaying a prompt in the dropdown for
+           <tr><td><code>{@link #SherlockSpinner_android_dropDownWidth co.acjs.cricdecode:android_dropDownWidth}</code></td><td> Width of the dropdown in spinnerMode="dropdown".</td></tr>
+           <tr><td><code>{@link #SherlockSpinner_android_gravity co.acjs.cricdecode:android_gravity}</code></td><td> Gravity setting for positioning the currently selected item.</td></tr>
+           <tr><td><code>{@link #SherlockSpinner_android_popupBackground co.acjs.cricdecode:android_popupBackground}</code></td><td> Background drawable to use for the dropdown in spinnerMode="dropdown".</td></tr>
+           <tr><td><code>{@link #SherlockSpinner_android_popupPromptView co.acjs.cricdecode:android_popupPromptView}</code></td><td> Reference to a layout to use for displaying a prompt in the dropdown for
              spinnerMode="dropdown".</td></tr>
-           <tr><td><code>{@link #SherlockSpinner_android_prompt android:prompt}</code></td><td> The prompt to display when the spinner's dialog is shown.</td></tr>
+           <tr><td><code>{@link #SherlockSpinner_android_prompt co.acjs.cricdecode:android_prompt}</code></td><td> The prompt to display when the spinner's dialog is shown.</td></tr>
            </table>
            @see #SherlockSpinner_android_dropDownHorizontalOffset
            @see #SherlockSpinner_android_dropDownSelector
@@ -3194,18 +3250,16 @@ containing a value of this type.
           @attr description
            Horizontal offset from the spinner widget for positioning the dropdown
              in spinnerMode="dropdown". 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#dropDownHorizontalOffset}.
-          @attr name android:dropDownHorizontalOffset
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_dropDownHorizontalOffset}.
+          @attr name android:android_dropDownHorizontalOffset
         */
         public static final int SherlockSpinner_android_dropDownHorizontalOffset = 5;
         /**
           <p>
           @attr description
            List selector to use for spinnerMode="dropdown" display. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#dropDownSelector}.
-          @attr name android:dropDownSelector
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_dropDownSelector}.
+          @attr name android:android_dropDownSelector
         */
         public static final int SherlockSpinner_android_dropDownSelector = 1;
         /**
@@ -3213,36 +3267,32 @@ containing a value of this type.
           @attr description
            Vertical offset from the spinner widget for positioning the dropdown in
              spinnerMode="dropdown". 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#dropDownVerticalOffset}.
-          @attr name android:dropDownVerticalOffset
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_dropDownVerticalOffset}.
+          @attr name android:android_dropDownVerticalOffset
         */
         public static final int SherlockSpinner_android_dropDownVerticalOffset = 6;
         /**
           <p>
           @attr description
            Width of the dropdown in spinnerMode="dropdown". 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#dropDownWidth}.
-          @attr name android:dropDownWidth
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_dropDownWidth}.
+          @attr name android:android_dropDownWidth
         */
         public static final int SherlockSpinner_android_dropDownWidth = 4;
         /**
           <p>
           @attr description
            Gravity setting for positioning the currently selected item. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#gravity}.
-          @attr name android:gravity
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_gravity}.
+          @attr name android:android_gravity
         */
         public static final int SherlockSpinner_android_gravity = 0;
         /**
           <p>
           @attr description
            Background drawable to use for the dropdown in spinnerMode="dropdown". 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#popupBackground}.
-          @attr name android:popupBackground
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_popupBackground}.
+          @attr name android:android_popupBackground
         */
         public static final int SherlockSpinner_android_popupBackground = 2;
         /**
@@ -3252,16 +3302,15 @@ containing a value of this type.
              spinnerMode="dropdown". This layout must contain a TextView with the id
              @android:id/text1 to be populated with the prompt text. 
           <p>This is a private symbol.
-          @attr name android:popupPromptView
+          @attr name android:android_popupPromptView
         */
         public static final int SherlockSpinner_android_popupPromptView = 7;
         /**
           <p>
           @attr description
            The prompt to display when the spinner's dialog is shown. 
-          <p>This corresponds to the global attribute
-          resource symbol {@link android.R.attr#prompt}.
-          @attr name android:prompt
+          <p>This corresponds to the global attribute          resource symbol {@link co.acjs.cricdecode.R.attr#android_prompt}.
+          @attr name android:android_prompt
         */
         public static final int SherlockSpinner_android_prompt = 3;
         /** Attributes that can be used with a SherlockTheme.
@@ -3438,7 +3487,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarDivider
+          @attr name android:actionBarDivider
         */
         public static final int SherlockTheme_actionBarDivider = 8;
         /**
@@ -3450,7 +3499,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarItemBackground
+          @attr name android:actionBarItemBackground
         */
         public static final int SherlockTheme_actionBarItemBackground = 9;
         /**
@@ -3477,7 +3526,7 @@ containing a value of this type.
 <tr><td><code>wrap_content</code></td><td>0</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarSize
+          @attr name android:actionBarSize
         */
         public static final int SherlockTheme_actionBarSize = 7;
         /**
@@ -3492,7 +3541,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarSplitStyle
+          @attr name android:actionBarSplitStyle
         */
         public static final int SherlockTheme_actionBarSplitStyle = 5;
         /**
@@ -3504,7 +3553,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarStyle
+          @attr name android:actionBarStyle
         */
         public static final int SherlockTheme_actionBarStyle = 4;
         /**
@@ -3514,7 +3563,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionBarTabBarStyle
+          @attr name android:actionBarTabBarStyle
         */
         public static final int SherlockTheme_actionBarTabBarStyle = 1;
         /**
@@ -3526,7 +3575,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarTabStyle
+          @attr name android:actionBarTabStyle
         */
         public static final int SherlockTheme_actionBarTabStyle = 0;
         /**
@@ -3536,7 +3585,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionBarTabTextStyle
+          @attr name android:actionBarTabTextStyle
         */
         public static final int SherlockTheme_actionBarTabTextStyle = 2;
         /**
@@ -3554,7 +3603,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionBarWidgetTheme
+          @attr name android:actionBarWidgetTheme
         */
         public static final int SherlockTheme_actionBarWidgetTheme = 6;
         /**
@@ -3564,7 +3613,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionButtonStyle
+          @attr name android:actionButtonStyle
         */
         public static final int SherlockTheme_actionButtonStyle = 52;
         /**
@@ -3574,7 +3623,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionDropDownStyle
+          @attr name android:actionDropDownStyle
         */
         public static final int SherlockTheme_actionDropDownStyle = 51;
         /**
@@ -3587,7 +3636,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionMenuTextAppearance
+          @attr name android:actionMenuTextAppearance
         */
         public static final int SherlockTheme_actionMenuTextAppearance = 10;
         /**
@@ -3601,7 +3650,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionMenuTextColor
+          @attr name android:actionMenuTextColor
         */
         public static final int SherlockTheme_actionMenuTextColor = 11;
         /**
@@ -3613,7 +3662,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionModeBackground
+          @attr name android:actionModeBackground
         */
         public static final int SherlockTheme_actionModeBackground = 14;
         /**
@@ -3623,7 +3672,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionModeCloseButtonStyle
+          @attr name android:actionModeCloseButtonStyle
         */
         public static final int SherlockTheme_actionModeCloseButtonStyle = 13;
         /**
@@ -3635,7 +3684,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionModeCloseDrawable
+          @attr name android:actionModeCloseDrawable
         */
         public static final int SherlockTheme_actionModeCloseDrawable = 16;
         /**
@@ -3647,7 +3696,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionModePopupWindowStyle
+          @attr name android:actionModePopupWindowStyle
         */
         public static final int SherlockTheme_actionModePopupWindowStyle = 18;
         /**
@@ -3659,7 +3708,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionModeShareDrawable
+          @attr name android:actionModeShareDrawable
         */
         public static final int SherlockTheme_actionModeShareDrawable = 17;
         /**
@@ -3671,7 +3720,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:actionModeSplitBackground
+          @attr name android:actionModeSplitBackground
         */
         public static final int SherlockTheme_actionModeSplitBackground = 15;
         /**
@@ -3681,7 +3730,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionModeStyle
+          @attr name android:actionModeStyle
         */
         public static final int SherlockTheme_actionModeStyle = 12;
         /**
@@ -3691,7 +3740,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionOverflowButtonStyle
+          @attr name android:actionOverflowButtonStyle
         */
         public static final int SherlockTheme_actionOverflowButtonStyle = 3;
         /**
@@ -3701,7 +3750,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:actionSpinnerItemStyle
+          @attr name android:actionSpinnerItemStyle
         */
         public static final int SherlockTheme_actionSpinnerItemStyle = 57;
         /**
@@ -3713,7 +3762,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:activatedBackgroundIndicator
+          @attr name android:activatedBackgroundIndicator
         */
         public static final int SherlockTheme_activatedBackgroundIndicator = 65;
         /**
@@ -3725,7 +3774,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:activityChooserViewStyle
+          @attr name android:activityChooserViewStyle
         */
         public static final int SherlockTheme_activityChooserViewStyle = 64;
         /**
@@ -3737,7 +3786,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:buttonStyleSmall
+          @attr name android:buttonStyleSmall
         */
         public static final int SherlockTheme_buttonStyleSmall = 19;
         /**
@@ -3749,7 +3798,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:dividerVertical
+          @attr name android:dividerVertical
         */
         public static final int SherlockTheme_dividerVertical = 50;
         /**
@@ -3759,7 +3808,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:dropDownHintAppearance
+          @attr name android:dropDownHintAppearance
         */
         public static final int SherlockTheme_dropDownHintAppearance = 66;
         /**
@@ -3769,7 +3818,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:dropDownListViewStyle
+          @attr name android:dropDownListViewStyle
         */
         public static final int SherlockTheme_dropDownListViewStyle = 54;
         /**
@@ -3785,7 +3834,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:dropdownListPreferredItemHeight
+          @attr name android:dropdownListPreferredItemHeight
         */
         public static final int SherlockTheme_dropdownListPreferredItemHeight = 56;
         /**
@@ -3795,7 +3844,7 @@ containing a value of this type.
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:homeAsUpIndicator
+          @attr name android:homeAsUpIndicator
         */
         public static final int SherlockTheme_homeAsUpIndicator = 53;
         /**
@@ -3805,7 +3854,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:listPopupWindowStyle
+          @attr name android:listPopupWindowStyle
         */
         public static final int SherlockTheme_listPopupWindowStyle = 63;
         /**
@@ -3823,7 +3872,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:listPreferredItemHeightSmall
+          @attr name android:listPreferredItemHeightSmall
         */
         public static final int SherlockTheme_listPreferredItemHeightSmall = 44;
         /**
@@ -3841,7 +3890,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:listPreferredItemPaddingLeft
+          @attr name android:listPreferredItemPaddingLeft
         */
         public static final int SherlockTheme_listPreferredItemPaddingLeft = 45;
         /**
@@ -3859,7 +3908,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:listPreferredItemPaddingRight
+          @attr name android:listPreferredItemPaddingRight
         */
         public static final int SherlockTheme_listPreferredItemPaddingRight = 46;
         /**
@@ -3869,7 +3918,7 @@ containing a value of this type.
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:popupMenuStyle
+          @attr name android:popupMenuStyle
         */
         public static final int SherlockTheme_popupMenuStyle = 55;
         /**
@@ -3881,7 +3930,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchAutoCompleteTextView
+          @attr name android:searchAutoCompleteTextView
         */
         public static final int SherlockTheme_searchAutoCompleteTextView = 30;
         /**
@@ -3893,7 +3942,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchDropdownBackground
+          @attr name android:searchDropdownBackground
         */
         public static final int SherlockTheme_searchDropdownBackground = 31;
         /**
@@ -3911,7 +3960,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchResultListItemHeight
+          @attr name android:searchResultListItemHeight
         */
         public static final int SherlockTheme_searchResultListItemHeight = 41;
         /**
@@ -3923,7 +3972,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewCloseIcon
+          @attr name android:searchViewCloseIcon
         */
         public static final int SherlockTheme_searchViewCloseIcon = 32;
         /**
@@ -3935,7 +3984,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewEditQuery
+          @attr name android:searchViewEditQuery
         */
         public static final int SherlockTheme_searchViewEditQuery = 36;
         /**
@@ -3947,7 +3996,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewEditQueryBackground
+          @attr name android:searchViewEditQueryBackground
         */
         public static final int SherlockTheme_searchViewEditQueryBackground = 37;
         /**
@@ -3959,7 +4008,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewGoIcon
+          @attr name android:searchViewGoIcon
         */
         public static final int SherlockTheme_searchViewGoIcon = 33;
         /**
@@ -3971,7 +4020,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewSearchIcon
+          @attr name android:searchViewSearchIcon
         */
         public static final int SherlockTheme_searchViewSearchIcon = 34;
         /**
@@ -3983,7 +4032,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewTextField
+          @attr name android:searchViewTextField
         */
         public static final int SherlockTheme_searchViewTextField = 38;
         /**
@@ -3995,7 +4044,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewTextFieldRight
+          @attr name android:searchViewTextFieldRight
         */
         public static final int SherlockTheme_searchViewTextFieldRight = 39;
         /**
@@ -4007,7 +4056,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:searchViewVoiceIcon
+          @attr name android:searchViewVoiceIcon
         */
         public static final int SherlockTheme_searchViewVoiceIcon = 35;
         /**
@@ -4019,7 +4068,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:selectableItemBackground
+          @attr name android:selectableItemBackground
         */
         public static final int SherlockTheme_selectableItemBackground = 20;
         /**
@@ -4029,7 +4078,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:spinnerDropDownItemStyle
+          @attr name android:spinnerDropDownItemStyle
         */
         public static final int SherlockTheme_spinnerDropDownItemStyle = 29;
         /**
@@ -4039,7 +4088,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name co.acjs.cricdecode:spinnerItemStyle
+          @attr name android:spinnerItemStyle
         */
         public static final int SherlockTheme_spinnerItemStyle = 28;
         /**
@@ -4051,7 +4100,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textAppearanceLargePopupMenu
+          @attr name android:textAppearanceLargePopupMenu
         */
         public static final int SherlockTheme_textAppearanceLargePopupMenu = 22;
         /**
@@ -4063,7 +4112,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textAppearanceListItemSmall
+          @attr name android:textAppearanceListItemSmall
         */
         public static final int SherlockTheme_textAppearanceListItemSmall = 47;
         /**
@@ -4075,7 +4124,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textAppearanceSearchResultSubtitle
+          @attr name android:textAppearanceSearchResultSubtitle
         */
         public static final int SherlockTheme_textAppearanceSearchResultSubtitle = 43;
         /**
@@ -4087,7 +4136,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textAppearanceSearchResultTitle
+          @attr name android:textAppearanceSearchResultTitle
         */
         public static final int SherlockTheme_textAppearanceSearchResultTitle = 42;
         /**
@@ -4099,7 +4148,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textAppearanceSmall
+          @attr name android:textAppearanceSmall
         */
         public static final int SherlockTheme_textAppearanceSmall = 24;
         /**
@@ -4111,7 +4160,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textAppearanceSmallPopupMenu
+          @attr name android:textAppearanceSmallPopupMenu
         */
         public static final int SherlockTheme_textAppearanceSmallPopupMenu = 23;
         /**
@@ -4126,7 +4175,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:textColorPrimary
+          @attr name android:textColorPrimary
         */
         public static final int SherlockTheme_textColorPrimary = 25;
         /**
@@ -4141,7 +4190,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:textColorPrimaryDisableOnly
+          @attr name android:textColorPrimaryDisableOnly
         */
         public static final int SherlockTheme_textColorPrimaryDisableOnly = 26;
         /**
@@ -4156,7 +4205,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:textColorPrimaryInverse
+          @attr name android:textColorPrimaryInverse
         */
         public static final int SherlockTheme_textColorPrimaryInverse = 27;
         /**
@@ -4170,7 +4219,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:textColorSearchUrl
+          @attr name android:textColorSearchUrl
         */
         public static final int SherlockTheme_textColorSearchUrl = 40;
         /**
@@ -4184,7 +4233,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowActionBar
+          @attr name android:windowActionBar
         */
         public static final int SherlockTheme_windowActionBar = 59;
         /**
@@ -4198,7 +4247,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowActionBarOverlay
+          @attr name android:windowActionBarOverlay
         */
         public static final int SherlockTheme_windowActionBarOverlay = 60;
         /**
@@ -4212,7 +4261,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowActionModeOverlay
+          @attr name android:windowActionModeOverlay
         */
         public static final int SherlockTheme_windowActionModeOverlay = 61;
         /**
@@ -4225,7 +4274,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name co.acjs.cricdecode:windowContentOverlay
+          @attr name android:windowContentOverlay
         */
         public static final int SherlockTheme_windowContentOverlay = 21;
         /**
@@ -4241,7 +4290,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowMinWidthMajor
+          @attr name android:windowMinWidthMajor
         */
         public static final int SherlockTheme_windowMinWidthMajor = 48;
         /**
@@ -4257,7 +4306,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowMinWidthMinor
+          @attr name android:windowMinWidthMinor
         */
         public static final int SherlockTheme_windowMinWidthMinor = 49;
         /**
@@ -4271,7 +4320,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowNoTitle
+          @attr name android:windowNoTitle
         */
         public static final int SherlockTheme_windowNoTitle = 58;
         /**
@@ -4285,7 +4334,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name co.acjs.cricdecode:windowSplitActionBar
+          @attr name android:windowSplitActionBar
         */
         public static final int SherlockTheme_windowSplitActionBar = 62;
         /** Attributes that can be used with a SherlockView.
@@ -4294,7 +4343,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SherlockView_android_focusable android:focusable}</code></td><td></td></tr>
+           <tr><td><code>{@link #SherlockView_android_focusable co.acjs.cricdecode:android_focusable}</code></td><td></td></tr>
            </table>
            @see #SherlockView_android_focusable
          */
@@ -4302,9 +4351,9 @@ containing a value of this type.
             0x010100da
         };
         /**
-          <p>This symbol is the offset where the {@link android.R.attr#focusable}
+          <p>This symbol is the offset where the {@link co.acjs.cricdecode.R.attr#android_focusable}
           attribute's value can be found in the {@link #SherlockView} array.
-          @attr name android:focusable
+          @attr name android:android_focusable
         */
         public static final int SherlockView_android_focusable = 0;
     };

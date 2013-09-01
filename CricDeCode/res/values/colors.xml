@@ -5,9 +5,11 @@
     <color name="faint_red">#f89898</color>
     <color name="blue">#ffff00</color>
     <color name="black">#000000</color>
-    <color name="light_grey">#a6a1a1</color>
-    <color name="white">#ffffff</color>
+    <color name="light_grey">#cccccc</color>
+    <color name="trans_dark_grey">#45454545</color>
+    <color name="white">#fefefa</color>
     <color name="separator_color">#282828</color>
     <color name="faint_grey">#44a6a1a1</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

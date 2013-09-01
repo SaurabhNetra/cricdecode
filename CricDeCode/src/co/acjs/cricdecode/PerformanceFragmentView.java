@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class PerformanceFragmentView extends SherlockFragment implements
 		ViewPager.OnPageChangeListener {
@@ -457,24 +460,26 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setCurrentItem(current_position);
-		this.mViewPager.setOnPageChangeListener(this);
+		this.mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				Log.d("PerformanceFragmentView", "**** onPageSelected = "
+						+ position);
+				current_position = position;
+				MainActivity.changeTabLayout(position);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
 		this.mViewPager.setOffscreenPageLimit(3);
-	}
-
-	@Override
-	public void onPageScrolled(int position, float positionOffset,
-			int positionOffsetPixels) {
-
-	}
-
-	@Override
-	public void onPageSelected(int position) {
-		current_position = position;
-	}
-
-	@Override
-	public void onPageScrollStateChanged(int state) {
-
 	}
 
 	public void viewInfo(int tab_index) {
@@ -653,6 +658,24 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		BigDecimal bd = new BigDecimal(Float.toString(d));
 		bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
 		return bd.floatValue();
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

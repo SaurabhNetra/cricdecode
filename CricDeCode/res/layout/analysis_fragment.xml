@@ -1,178 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:fadingEdge="none"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/graphtype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_ten_dp"
-            android:text="@string/graph_typ" />
-
-        <Spinner
-            android:id="@+id/graph_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_ten_dp"
-            android:entries="@array/graph_type"
-            android:spinnerMode="dropdown" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/separator_height_two"
-            android:layout_margin="@dimen/margin_ten_dp"
-            android:background="@color/separator_color" />
-
-        <Spinner
-            android:id="@+id/graph_facet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_ten_dp"
-            android:entries="@array/graph_facet" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/separator_height_two"
-            android:layout_margin="@dimen/margin_ten_dp"
-            android:background="@color/separator_color" />
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/txt_set_filter"
+            android:id="@+id/page_desc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_ten_dp"
-            android:layout_marginLeft="@dimen/margin_ten_dp"
-            android:text="@string/set_filter" />
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_ten_dp"
-            android:onClick="onClick"
-            android:text="@string/filter" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/separator_height_two"
-            android:layout_margin="@dimen/margin_ten_dp"
-            android:background="@color/separator_color" />
-
-        <RelativeLayout
-            android:id="@+id/graph_category_1"
+        <TableLayout
+            android:id="@+id/tablelay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_twenty_dp" >
+            android:layout_below="@+id/page_desc"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="25dip"
+            android:paddingRight="25dip"
+            android:paddingTop="35dip"
+            android:shrinkColumns="1" >
 
-            <TextView
-                android:id="@+id/txt_select_data1"
+            <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_ten_dp"
-                android:layout_marginLeft="@dimen/margin_ten_dp"
-                android:text="@string/select_data" />
-
-            <RelativeLayout
-                android:id="@+id/rel_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_select_data1" >
-
-                <Spinner
-                    android:id="@+id/graph_param1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_ten_dp" />
+                android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/vs"
+                    android:id="@+id/graphtype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_ten_dp"
                     android:layout_marginLeft="@dimen/margin_ten_dp"
-                    android:layout_toRightOf="@id/graph_param1"
-                    android:text="@string/vs" />
+                    android:text="@string/graph_typ" />
 
                 <Spinner
-                    android:id="@+id/graph_param2"
+                    android:id="@+id/graph_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_ten_dp"
-                    android:layout_toRightOf="@id/vs" />
-            </RelativeLayout>
+                    android:entries="@array/graph_type"
+                    android:spinnerMode="dropdown" />
+            </TableRow>
 
-            <LinearLayout
-                android:id="@+id/line2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator_height_two"
-                android:layout_below="@id/rel_data"
-                android:layout_margin="@dimen/margin_ten_dp"
-                android:background="@color/separator_color"
-                android:orientation="horizontal" />
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="8dp"
+                android:background="@color/faint_grey" />
 
-            <Button
-                android:id="@+id/make_graph_category_1"
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/gamefacet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_ten_dp"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
+                    android:text="@string/game_facet" />
+
+                <Spinner
+                    android:id="@+id/graph_facet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
+                    android:entries="@array/graph_facet" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="8dp"
+                android:background="@color/faint_grey" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txt_set_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_ten_dp"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
+                    android:text="@string/set_filter" />
+
+                <Button
+                    android:id="@+id/filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
+                    android:onClick="onClick"
+                    android:text="@string/filter" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="8dp"
+                android:background="@color/faint_grey" />
+
+            <TableRow
+                android:id="@+id/xy_r1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/line2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/margin_twenty_dp"
-                android:layout_marginTop="@dimen/margin_twenty_dp"
-                android:onClick="onClick"
-                android:padding="@dimen/padding_twenty_dp"
-                android:text="@string/generate_graph"
-                android:textSize="@dimen/text_size_twenty_sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+                android:layout_gravity="center" >
 
-        <RelativeLayout
-            android:id="@+id/graph_category_2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_twenty_dp" >
+                <TextView
+                    android:id="@+id/txt_select_data1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_ten_dp"
+                    android:layout_marginTop="@dimen/margin_ten_dp"
+                    android:text="@string/select_data" />
 
-            <TextView
-                android:id="@+id/txt_select_data2"
+                <RelativeLayout
+                    android:id="@+id/rl_td"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/line_graph_params"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:orientation="vertical" >
+
+                        <Spinner
+                            android:id="@+id/graph_param1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_ten_dp" />
+
+                        <TextView
+                            android:id="@+id/vs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/margin_ten_dp"
+                            android:text="@string/vs" />
+
+                        <Spinner
+                            android:id="@+id/graph_param2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_ten_dp" />
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/graph_param_pie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="@dimen/margin_ten_dp"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="8dp"
+                android:background="@color/faint_grey" />
+
+            <TableRow
+                android:id="@+id/xy_r4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_ten_dp"
-                android:layout_marginLeft="@dimen/margin_ten_dp"
-                android:text="@string/select_data" />
+                android:layout_gravity="center" >
 
-            <Spinner
-                android:id="@+id/graph_param_pie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_select_data2"
-                android:layout_marginLeft="@dimen/margin_ten_dp" />
-
-            <LinearLayout
-                android:id="@+id/line1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator_height_two"
-                android:layout_below="@+id/graph_param_pie"
-                android:layout_margin="@dimen/margin_ten_dp"
-                android:background="@color/separator_color"
-                android:orientation="horizontal" />
-
-            <Button
-                android:id="@+id/make_graph_category_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_twenty_dp"
-                android:onClick="onClick"
-                android:padding="@dimen/padding_twenty_dp"
-                android:text="@string/generate_graph"
-                android:textSize="@dimen/text_size_twenty_sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-    </LinearLayout>
+                <Button
+                    android:id="@+id/generate_graph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_span="2"
+                    android:onClick="onClick"
+                    android:padding="@dimen/padding_twenty_dp"
+                    android:text="@string/generate_graph"
+                    android:textSize="@dimen/text_size_twenty_sp"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
 
 </ScrollView>

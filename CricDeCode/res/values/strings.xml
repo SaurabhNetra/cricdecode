@@ -11,10 +11,10 @@
     <string name="publisher_id">a151c9c34615465</string>
 
     <!-- Tab Strings -->
-    <string name="general">General</string>
-    <string name="batting">Batting</string>
-    <string name="bowling">Bowling</string>
-    <string name="fielding">Fielding</string>
+    <string name="general">GENERAL</string>
+    <string name="batting">BAT</string>
+    <string name="bowling">BALL</string>
+    <string name="fielding">FIELD</string>
 
     <!-- Drawer List Item -->
     <string-array name="drawer_list_item">
@@ -149,7 +149,7 @@
     <string name="batting_no">Batting Number</string>
     <string name="runs">Runs</string>
     <string name="balls">Balls</string>
-    <string name="time_spent">Time Spent (minutes)</string>
+    <string name="time_spent">Time Spent</string>
     <string name="fours">Fours</string>
     <string name="sixes">Sixes</string>
     <string name="how_out">Dismissal</string>
@@ -216,13 +216,26 @@
     <string name="dnbowl">Did Not Bowl</string>
     <string name="spells">Spells</string>
     <string name="maidens">Maidens</string>
-    <string name="wickets_left">Left Handed Batsman Wickets</string>
-    <string name="wickets_right">Right Handed Batsman Wickets</string>
-    <string name="catches_dropped_bowling">Catches Dropped of my Bowling</string>
+    <string name="wickets_left">Wickets</string>
+    <string name="wickets_right">Wickets</string>
+    <string name="catches_dropped_bowling">Dropped</string>
     <string name="noballs">No Balls</string>
     <string name="wides">Wides</string>
+    <string name="wkt_tot">Total</string>
+    <string name="lhb">Left Hand Batsman</string>
+    <string name="rhb">Right Hand Batsman</string>
 
     <!-- Fielding -->
+
+    <string name="in_slip">In Slip</string>
+    <string name="close">Close</string>
+    <string name="on_circle">On Circle</string>
+    <string name="in_deep">In Deep</string>
+    <string name="in_circle">In Circle</string>
+    <string name="deep_runouts">In Deep</string>
+    <string name="stumpings_wk">Stumpings</string>
+    <string name="byes_wk">Byes Given</string>
+    <string name="catches_dropped">Dropped</string>
     <string name="slip_catches">Slip Catches</string>
     <string name="close_catches">Close Catches</string>
     <string name="circle_catches">Catches on Circle</string>
@@ -268,18 +281,26 @@
     <string name="strike_rate">Strike Rate</string>
     <string name="fifties">50s</string>
     <string name="hundreds">100s</string>
+    <string name="time_min">(minutes)</string>
 
     <!-- Bowling -->
     <string name="wickets">Wickets</string>
     <string name="economy_rate">Economy Rate</string>
-    <string name="fwi">5 Wicket Innings</string>
-    <string name="twm">10 Wicket Matches</string>
-    <string name="bbi">Best Inning Figures</string>
-    <string name="bbm">Best Match Figures</string>
+    <string name="fwi">5-Wkts</string>
+    <string name="twm">10-Wkts</string>
+    <string name="bbi">Best Figures</string>
+    <string name="bbm">Best Figures</string>
+    <string name="inn">Inning</string>
+    <string name="match">Match</string>
+    <string name="catches">Catches</string>
+    <string name="inns">Innings</string>
+    <string name="matches">Matches</string>
 
     <!-- Fielding -->
     <string name="catches">Catches</string>
     <string name="runouts">Run Outs</string>
+    <string name="direct_hits">Direct Hits</string>
+    <string name="wkt_keeping">Wicket Keeping</string>
 
     <!-- Analysis -->
     <string-array name="graph_type">
@@ -373,6 +394,7 @@
         <item>Run Outs</item>
     </string-array>
 
+    <string name="game_facet">Game Facet</string>
     <string name="generate_graph">Generate Graph</string>
     <string name="chart_title">&quot;&quot;</string>
     <string name="graph_typ">Graph Type</string>

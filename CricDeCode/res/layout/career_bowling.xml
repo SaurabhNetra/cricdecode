@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:overScrollMode="never"
+    android:fadingEdge="none"
     android:paddingBottom="20dip"
     android:paddingTop="20dip" >
 
@@ -17,354 +17,621 @@
             android:layout_height="100dp"
             android:orientation="vertical" />
 
-        <RelativeLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/space"
             android:layout_marginBottom="20dip"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
-            android:background="@color/white"
-            android:paddingBottom="10dip" >
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="25dip"
+            android:paddingTop="35dip" >
 
-            <TextView
-                android:id="@+id/lbl_innings"
+            <TableRow
+                android:id="@+id/row1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/innings"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/innings"
+                <TextView
+                    android:id="@+id/lbl_innings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/innings"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/innings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/lbl_innings"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_overs"
+                <TextView
+                    android:id="@+id/lbl_overs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/overs"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/overs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/innings"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/overs"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/overs"
+                <TextView
+                    android:id="@+id/lbl_spells"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/spells"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/spells"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/innings"
-                android:layout_toRightOf="@id/lbl_overs"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_spells"
+                <TextView
+                    android:id="@+id/lbl_runs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/runs"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/runs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/overs"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/spells"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/spells"
+                <TextView
+                    android:id="@+id/lbl_maidens"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/maidens"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/maidens"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row6"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/overs"
-                android:layout_toRightOf="@id/lbl_spells"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_runs"
+                <TextView
+                    android:id="@+id/lbl_wickets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/wickets"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/wickets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row21"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spells"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/runs"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/runs"
+                <TextView
+                    android:id="@+id/lbl_tot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/wkt_tot"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row7"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spells"
-                android:layout_toRightOf="@id/lbl_runs"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_maidens"
+                <TextView
+                    android:id="@+id/lbl_wickets_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/wickets_left"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/wickets_left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row22"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runs"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/maidens"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/maidens"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runs"
-                android:layout_toRightOf="@id/lbl_maidens"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_lhb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/lhb"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_wickets"
+            <TableRow
+                android:id="@+id/row8"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/maidens"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/wickets"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/wickets"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/maidens"
-                android:layout_toRightOf="@id/lbl_wickets"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_wickets_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/wickets_right"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_wickets_left"
+                <TextView
+                    android:id="@+id/wickets_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row23"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wickets"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/wickets_left"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/wickets_left"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wickets"
-                android:layout_toRightOf="@id/lbl_wickets_left"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_rhb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/rhb"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_wickets_right"
+            <TableRow
+                android:id="@+id/row9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wickets_left"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/wickets_right"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/wickets_right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wickets_left"
-                android:layout_toRightOf="@id/lbl_wickets_right"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_catches_dropped_bowling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/catches_dropped_bowling"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_catches_dropped_bowling"
+                <TextView
+                    android:id="@+id/catches_dropped_bowling"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row26"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wickets_right"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/catches_dropped_bowling"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/catches_dropped_bowling"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wickets_right"
-                android:layout_toRightOf="@id/lbl_catches_dropped_bowling"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_catches_drop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_economy_rate"
+            <TableRow
+                android:id="@+id/row10"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/catches_dropped_bowling"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/economy_rate"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/economy_rate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/catches_dropped_bowling"
-                android:layout_toRightOf="@id/lbl_economy_rate"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_economy_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/economy_rate"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_strike_rate"
+                <TextView
+                    android:id="@+id/economy_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row11"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/economy_rate"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/strike_rate"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/strike_rate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/economy_rate"
-                android:layout_toRightOf="@id/lbl_strike_rate"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_strike_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/strike_rate"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_average"
+                <TextView
+                    android:id="@+id/strike_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row12"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/strike_rate"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/average"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/average"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/strike_rate"
-                android:layout_toRightOf="@id/lbl_average"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_average"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/average"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_fwi"
+                <TextView
+                    android:id="@+id/average"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row13"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/average"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/fwi"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/fwi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/average"
-                android:layout_toRightOf="@id/lbl_fwi"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_fwi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/fwi"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_twm"
+                <TextView
+                    android:id="@+id/fwi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row27"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fwi"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/twm"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/twm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fwi"
-                android:layout_toRightOf="@id/lbl_twm"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_inns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/inns"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_bbi"
+            <TableRow
+                android:id="@+id/row14"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/twm"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/bbi"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/bbi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/twm"
-                android:layout_toRightOf="@id/lbl_bbi"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_twm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/twm"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_bbm"
+                <TextView
+                    android:id="@+id/twm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row28"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bbi"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/bbm"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/bbm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bbi"
-                android:layout_toRightOf="@id/lbl_bbm"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_twmatches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/matches"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_fours"
+            <TableRow
+                android:id="@+id/row15"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bbm"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/fours"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/fours"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bbm"
-                android:layout_toRightOf="@id/lbl_fours"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_bbi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/bbi"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_sixes"
+                <TextView
+                    android:id="@+id/bbi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row24"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fours"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/sixes"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/sixes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fours"
-                android:layout_toRightOf="@id/lbl_sixes"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_inn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/inn"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_noballs"
+            <TableRow
+                android:id="@+id/row16"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/sixes"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/noballs"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/noballs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/sixes"
-                android:layout_toRightOf="@id/lbl_noballs"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_bbm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:paddingTop="@dimen/padding_ten_dp"
+                    android:text="@string/bbm"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_wides"
+                <TextView
+                    android:id="@+id/bbm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row25"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/noballs"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/wides"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/wides"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/noballs"
-                android:layout_toRightOf="@id/lbl_wides"
-                android:padding="@dimen/padding_ten_dp" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/lbl_match"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/match"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_fours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/fours"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/fours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_sixes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/sixes"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sixes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_noballs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/noballs"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/noballs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_wides"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/wides"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/wides"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+        </TableLayout>
+
+        <ImageView
+            android:id="@+id/cir"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="50dip"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cir_balling" />
     </RelativeLayout>
 
 </ScrollView>

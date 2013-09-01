@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:overScrollMode="never"
+    android:fadingEdge="none"
     android:paddingBottom="20dip"
     android:paddingTop="20dip" >
 
@@ -18,116 +18,162 @@
             android:layout_height="100dp"
             android:orientation="vertical" />
 
-        <RelativeLayout
+        <TableLayout
+            android:id="@+id/tablelay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/space"
             android:layout_marginBottom="20dip"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
-            android:background="@color/white"
-            android:paddingBottom="10dip" >
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="25dip"
+            android:paddingTop="35dip" >
 
-            <TextView
-                android:id="@+id/lbl_matches"
+            <TableRow
+                android:id="@+id/row1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/matches"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/matches"
+                <TextView
+                    android:id="@+id/lbl_matches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/matches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/matches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/lbl_matches"
-                android:padding="10dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_wins"
+                <TextView
+                    android:id="@+id/lbl_wins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/wins"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/wins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/matches"
-                android:padding="10dp"
-                android:text="@string/wins"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/wins"
+                <TextView
+                    android:id="@+id/lbl_losses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/losses"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/losses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/matches"
-                android:layout_toRightOf="@id/lbl_wins"
-                android:padding="10dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_losses"
+                <TextView
+                    android:id="@+id/lbl_ties"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/ties"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ties"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wins"
-                android:padding="10dp"
-                android:text="@string/losses"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/losses"
+                <TextView
+                    android:id="@+id/lbl_no_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/no_result"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/no_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row6"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wins"
-                android:layout_toRightOf="@id/lbl_losses"
-                android:padding="10dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_ties"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/losses"
-                android:padding="10dp"
-                android:text="@string/ties"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/lbl_win_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/win_per"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/ties"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/losses"
-                android:layout_toRightOf="@id/lbl_ties"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/win_per"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+        </TableLayout>
 
-            <TextView
-                android:id="@+id/lbl_no_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ties"
-                android:padding="10dp"
-                android:text="@string/no_result"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/no_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ties"
-                android:layout_toRightOf="@id/lbl_no_result"
-                android:padding="10dp" />
-
-            <TextView
-                android:id="@+id/lbl_win_per"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/no_result"
-                android:padding="10dp"
-                android:text="@string/win_per"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/win_per"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/no_result"
-                android:layout_toRightOf="@id/lbl_win_per"
-                android:padding="10dp" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/cir"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="30dip"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cir_general" />
     </RelativeLayout>
 
 </ScrollView>

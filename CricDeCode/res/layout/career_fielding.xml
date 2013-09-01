@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fadingEdge="none"
     android:overScrollMode="never"
     android:paddingBottom="20dip"
     android:paddingTop="20dip" >
@@ -17,252 +18,554 @@
             android:layout_height="100dp"
             android:orientation="vertical" />
 
-        <RelativeLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/space"
             android:layout_marginBottom="20dip"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
-            android:background="@color/white"
-            android:paddingBottom="10dip" >
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="25dip"
+            android:paddingTop="35dip" >
 
-            <TextView
-                android:id="@+id/lbl_catches"
+            <TableRow
+                android:id="@+id/row1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/catches"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/catches"
+                <TextView
+                    android:id="@+id/lbl_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/lbl_catches"
-                android:padding="@dimen/padding_ten_dp" />
+                
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_slip_catches"
+                <TextView
+                    android:id="@+id/lbl_tot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/wkt_tot"
+                    
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/catches"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/slip_catches"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/slip_catches"
+                <TextView
+                    android:id="@+id/lbl_slip_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/slip_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/catches"
-                android:layout_toRightOf="@id/lbl_slip_catches"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_close_catches"
+                <TextView
+                    android:id="@+id/lbl_in_slip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/in_slip"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/slip_catches"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/close_catches"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/close_catches"
+                <TextView
+                    android:id="@+id/lbl_close_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/close_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row6"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/slip_catches"
-                android:layout_toRightOf="@id/lbl_close_catches"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_circle_catches"
+                <TextView
+                    android:id="@+id/lbl_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/close"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow android:id="@+id/row7" >
+
+                <TextView
+                    android:id="@+id/lbl_circle_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/circle_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row8"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/close_catches"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/circle_catches"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/circle_catches"
+                <TextView
+                    android:id="@+id/lbl_on_circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/on_circle"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/close_catches"
-                android:layout_toRightOf="@id/lbl_circle_catches"
-                android:padding="@dimen/padding_ten_dp" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_deep_catches"
+                <TextView
+                    android:id="@+id/lbl_deep_catches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/deep_catches"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row10"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/circle_catches"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/deep_catches"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/deep_catches"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/circle_catches"
-                android:layout_toRightOf="@id/lbl_deep_catches"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_in_deep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/in_deep"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_runouts"
+            <TableRow
+                android:id="@+id/row11"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deep_catches"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/runouts"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/runouts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deep_catches"
-                android:layout_toRightOf="@id/lbl_runouts"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_runouts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/runouts"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_circle_runouts"
+                <TextView
+                    android:id="@+id/runouts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row12"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runouts"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/circle_runouts"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/circle_runouts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runouts"
-                android:layout_toRightOf="@id/lbl_circle_runouts"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_ro_tot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/wkt_tot"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_circle_runouts_direct"
+            <TableRow
+                android:id="@+id/row13"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/circle_runouts"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/circle_runouts_direct"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/circle_runouts_direct"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/circle_runouts"
-                android:layout_toRightOf="@id/lbl_circle_runouts_direct"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_circle_runouts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/runouts"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_deep_runouts"
+                <TextView
+                    android:id="@+id/circle_runouts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row14"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/circle_runouts_direct"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/deep_runouts"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/deep_runouts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/circle_runouts_direct"
-                android:layout_toRightOf="@id/lbl_deep_runouts"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_ro_in_cir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/in_circle"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_deep_runouts_direct"
+            <TableRow
+                android:id="@+id/row15"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deep_runouts"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/deep_runouts_direct"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/deep_runouts_direct"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deep_runouts"
-                android:layout_toRightOf="@id/lbl_deep_runouts_direct"
-                android:padding="@dimen/padding_ten_dp" />
+                <TextView
+                    android:id="@+id/lbl_circle_runouts_direct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/direct_hits"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_stumpings"
+                <TextView
+                    android:id="@+id/circle_runouts_direct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row16"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deep_runouts_direct"
-                android:padding="@dimen/padding_ten_dp"
-                android:text="@string/stumpings"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/stumpings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deep_runouts_direct"
-                android:layout_toRightOf="@id/lbl_stumpings"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/lbl_dh_in_cir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/in_circle"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_byes"
+            <TableRow
+                android:id="@+id/row17"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/stumpings"
-                android:padding="10dp"
-                android:text="@string/byes"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/byes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/stumpings"
-                android:layout_toRightOf="@id/lbl_byes"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/lbl_deep_runouts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/runouts"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/lbl_misfields"
+                <TextView
+                    android:id="@+id/deep_runouts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row18"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/byes"
-                android:padding="10dp"
-                android:text="@string/misfields"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/misfields"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/byes"
-                android:layout_toRightOf="@id/lbl_misfields"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/lbl_ro_in_deep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/in_deep"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/lbl_catches_dropped_fielding"
+            <TableRow
+                android:id="@+id/row19"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/misfields"
-                android:padding="10dp"
-                android:text="@string/catches_dropped_fielding"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/catches_dropped_fielding"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/misfields"
-                android:layout_toRightOf="@id/lbl_catches_dropped_fielding"
-                android:padding="10dp" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/lbl_deep_runouts_direct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/direct_hits"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/deep_runouts_direct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_dh_in_deep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/in_deep"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_stumpings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_ten_dp"
+                    android:text="@string/stumpings_wk"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/stumpings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_wkt_keep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/wkt_keeping"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_byes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/byes_wk"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/byes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_wkt_keeping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/wkt_keeping"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_misfields"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/misfields"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/misfields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/lbl_catches_dropped_fielding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/catches"
+                    android:textSize="@dimen/text_size_career_lbl"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/catches_dropped_fielding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_career_num" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/dropped"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_ten_dp"
+                    android:paddingLeft="@dimen/padding_ten_dp"
+                    android:paddingRight="@dimen/padding_ten_dp"
+                    android:text="@string/catches_dropped"
+                    android:textSize="@dimen/text_size_lower_row"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+
+        <ImageView
+            android:id="@+id/cir"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="50dip"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cir_fielding" />
     </RelativeLayout>
 
 </ScrollView>

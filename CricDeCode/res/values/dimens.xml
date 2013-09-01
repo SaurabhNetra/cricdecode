@@ -14,5 +14,9 @@
     <dimen name="padding_ten_dp">10dp</dimen>
     <dimen name="text_size_twenty_sp">20sp</dimen>
     <dimen name="tab_height">48dp</dimen>
+    <dimen name="text_size_career_lbl">22sp</dimen>
+    <dimen name="text_size_career_num">18sp</dimen>
+    <dimen name="separator_height_one_dp">1dp</dimen>
+    <dimen name="text_size_lower_row">16dp</dimen>
 
 </resources>
