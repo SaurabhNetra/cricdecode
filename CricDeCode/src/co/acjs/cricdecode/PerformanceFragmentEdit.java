@@ -3,7 +3,9 @@ package co.acjs.cricdecode;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -14,7 +16,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 	// General
 	private String result, review, duration, first, my_team, opponent_team,
-			venue, level, date, match_overs;
+			venue, level, day, month, year, match_overs;
 
 	// Batting
 	private int[] batting_no = { 1, 1 }, bat_runs, bat_balls, time_spent,
@@ -352,7 +353,22 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM));
 		venue = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_VENUE));
 		level = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_LEVEL));
-		date = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE));
+		String date_str = c.getString(c
+				.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+				Locale.getDefault());
+		Date date = new Date();
+		try {
+			date = sdf.parse(date_str);
+			Calendar cal = new GregorianCalendar();
+			cal.setTime(date);
+			day = cal.get(Calendar.DAY_OF_MONTH) + "";
+			month = PerformanceFragmentView.month_str[cal.get(Calendar.MONTH)];
+			year = cal.get(Calendar.YEAR) + "";
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Log.d("Debug", "Date Exception");
+		}
 		match_overs = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_OVERS));
 		if (match_overs.equals("-1")) {
 			match_overs = "Unlimited";
@@ -381,7 +397,9 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			opponent_team = savedInstanceState.getString("opponent_team");
 			venue = savedInstanceState.getString("venue");
 			level = savedInstanceState.getString("level");
-			date = savedInstanceState.getString("date");
+			day = savedInstanceState.getString("day");
+			month = savedInstanceState.getString("month");
+			year = savedInstanceState.getString("year");
 
 			batted = savedInstanceState.getBooleanArray("batted");
 			batting_no = savedInstanceState.getIntArray("batting_no");
@@ -448,7 +466,9 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		outState.putString("opponent_team", opponent_team);
 		outState.putString("venue", venue);
 		outState.putString("level", level);
-		outState.putString("date", date);
+		outState.putString("day", day);
+		outState.putString("month", month);
+		outState.putString("year", year);
 
 		outState.putIntArray("batting_no", batting_no);
 		outState.putIntArray("bat_runs", bat_runs);
@@ -571,18 +591,14 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.getText().toString();
 			level = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.level
 					.getText().toString();
-			date = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.date
+
+			day = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.day
 					.getText().toString();
-			SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd,yyyy",
-					Locale.getDefault());
-			Date d = new Date();
-			try {
-				d = sdf.parse(date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				Log.d("Debug", "Date Exception");
-			}
-			date = DateFormat.format("yyyy-MM-dd", d).toString();
+			month = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.month
+					.getText().toString();
+			year = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.year
+					.getText().toString();
+
 			match_overs = PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_overs
 					.getText().toString();
 			break;
@@ -846,17 +862,12 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setText(opponent_team);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.venue
 					.setText(venue);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
-					Locale.getDefault());
-			Date d = new Date();
-			try {
-				d = sdf.parse(date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				Log.d("Debug", "Date Exception");
-			}
-			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.date
-					.setText(DateFormat.format("MMMM dd, yyyy", d).toString());
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.day
+					.setText(day);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.month
+					.setText(month);
+			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.year
+					.setText(year);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.level
 					.setText(level);
 			PerformanceGeneralFragmentEdit.performanceGeneralFragmentEdit.match_overs

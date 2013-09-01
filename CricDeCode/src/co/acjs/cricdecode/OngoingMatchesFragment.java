@@ -3,7 +3,9 @@ package co.acjs.cricdecode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import android.content.ContentValues;
@@ -15,7 +17,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,11 +68,14 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		// The desired columns to be bound
 		String[] columns = new String[] { MatchDb.KEY_ROWID,
 				MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE,
-				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM };
+				MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
+				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
+				MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 
 		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id._id, R.id.innings, R.id.match_date,
-				R.id.my_team, R.id.opponent_team };
+		int[] to = new int[] { R.id._id, R.id.innings, R.id.day, R.id.month,
+				R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue,
+				R.id.level, R.id.overs };
 
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(getSherlockActivity(),
@@ -122,8 +126,10 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
 		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS,
-				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
-				MatchDb.KEY_OPPONENT_TEAM };
+				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION,
+				MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM,
+				MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
+				MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_CURRENT + "'", null,
@@ -151,14 +157,22 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 					if (i == data.getColumnIndex(MatchDb.KEY_MATCH_DATE)) {
 						try {
 							date = sdf.parse(data.getString(i));
+							Calendar cal = new GregorianCalendar();
+							cal.setTime(date);
+							values[i++] = cal.get(Calendar.DAY_OF_MONTH) + "";
+							values[i++] = PerformanceFragmentView.month_str[cal
+									.get(Calendar.MONTH)];
+							values[i] = cal.get(Calendar.YEAR) + "";
 						} catch (ParseException e) {
 							e.printStackTrace();
 							Log.d("Debug", "Date Exception");
 						}
-						values[i] = DateFormat.format("MMMM dd, yyyy", date)
-								.toString();
 					} else {
 						values[i] = data.getString(i);
+						if (i == data.getColumnIndexOrThrow(MatchDb.KEY_OVERS)
+								&& values[i].equals("-1")) {
+							values[i] = "Unlimited";
+						}
 					}
 				}
 				mc.addRow(values);
