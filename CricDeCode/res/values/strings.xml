@@ -6,6 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="fb_app_id">682146731813576</string>
 
     <!-- AdMob Constant -->
     <string name="publisher_id">a151c9c34615465</string>

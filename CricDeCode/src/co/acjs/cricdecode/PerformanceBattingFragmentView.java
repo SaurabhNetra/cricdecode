@@ -15,6 +15,8 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 	TextView batting_no, runs, balls, time_spent, fours, sixes, lives, how_out,
 			lbl_bowler_type, bowler_type, lbl_fielding_pos, fielding_pos,
 			batted;
+	TextView my_team, opponent_team, venue, day, month, year, level,
+			match_overs;
 	RelativeLayout batting_info;
 
 	@Override
@@ -35,6 +37,15 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		day = (TextView) view.findViewById(R.id.day);
+		month = (TextView) view.findViewById(R.id.month);
+		year = (TextView) view.findViewById(R.id.year);
+		my_team = (TextView) view.findViewById(R.id.my_team);
+		opponent_team = (TextView) view.findViewById(R.id.opponent_team);
+		venue = (TextView) view.findViewById(R.id.venue);
+		level = (TextView) view.findViewById(R.id.level);
+		match_overs = (TextView) view.findViewById(R.id.overs);
+
 		batting_info = (RelativeLayout) view.findViewById(R.id.batting_info);
 		batted = (TextView) view.findViewById(R.id.batted);
 		batting_no = (TextView) view.findViewById(R.id.batting_no);

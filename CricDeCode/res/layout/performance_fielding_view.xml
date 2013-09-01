@@ -7,10 +7,98 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <LinearLayout
+            android:id="@+id/match_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/my_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/vs" />
+
+            <TextView
+                android:id="@+id/opponent_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/overs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/overs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/overs"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbl_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/level"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/lbl_slip_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/match_info"
             android:padding="10dp"
             android:text="@string/slip_catches"
             android:textStyle="bold" />
@@ -19,6 +107,7 @@
             android:id="@+id/slip_catches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/match_info"
             android:layout_toRightOf="@id/lbl_slip_catches"
             android:padding="10dp" />
 

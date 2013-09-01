@@ -3,7 +3,9 @@ package co.acjs.cricdecode;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -13,23 +15,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class PerformanceFragmentView extends SherlockFragment implements
 		ViewPager.OnPageChangeListener {
 
 	static PerformanceFragmentView performanceFragmentView;
+	public static final String[] month_str = { "Jan", "Feb", "Mar", "Apr",
+			"May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 	// Declare Fields
 	// Match
@@ -38,7 +39,7 @@ public class PerformanceFragmentView extends SherlockFragment implements
 
 	// General
 	private String result, review, duration, first, my_team, opponent_team,
-			venue, level, date, match_overs;
+			venue, level, day, month, year, match_overs;
 
 	// Batting
 	private int[] batting_no = { 1, 1 }, bat_runs, bat_balls, time_spent,
@@ -308,7 +309,22 @@ public class PerformanceFragmentView extends SherlockFragment implements
 				.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM));
 		venue = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_VENUE));
 		level = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_LEVEL));
-		date = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE));
+		String date_str = c.getString(c
+				.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+				Locale.getDefault());
+		Date date = new Date();
+		try {
+			date = sdf.parse(date_str);
+			Calendar cal = new GregorianCalendar();
+			cal.setTime(date);
+			day = cal.get(Calendar.DAY_OF_MONTH) + "";
+			month = month_str[cal.get(Calendar.MONTH)];
+			year = cal.get(Calendar.YEAR) + "";
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Log.d("Debug", "Date Exception");
+		}
 		match_overs = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_OVERS));
 		if (match_overs.equals("-1")) {
 			match_overs = "Unlimited";
@@ -337,7 +353,9 @@ public class PerformanceFragmentView extends SherlockFragment implements
 			opponent_team = savedInstanceState.getString("opponent_team");
 			venue = savedInstanceState.getString("venue");
 			level = savedInstanceState.getString("level");
-			date = savedInstanceState.getString("date");
+			day = savedInstanceState.getString("day");
+			month = savedInstanceState.getString("month");
+			year = savedInstanceState.getString("year");
 
 			batting_no = savedInstanceState.getIntArray("batting_no");
 			bat_runs = savedInstanceState.getIntArray("bat_runs");
@@ -398,7 +416,9 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		outState.putString("opponent_team", opponent_team);
 		outState.putString("venue", venue);
 		outState.putString("level", level);
-		outState.putString("date", date);
+		outState.putString("day", day);
+		outState.putString("month", month);
+		outState.putString("year", year);
 
 		outState.putIntArray("batting_no", batting_no);
 		outState.putIntArray("bat_runs", bat_runs);
@@ -505,23 +525,37 @@ public class PerformanceFragmentView extends SherlockFragment implements
 					.setText(opponent_team);
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.venue
 					.setText(venue);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
-					Locale.getDefault());
-			Date d = new Date();
-			try {
-				d = sdf.parse(date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				Log.d("Debug", "Date Exception");
-			}
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.date
-					.setText(DateFormat.format("MMMM dd, yyyy", d).toString());
+
+			PerformanceGeneralFragmentView.performanceGeneralFragmentView.day
+					.setText(day);
+			PerformanceGeneralFragmentView.performanceGeneralFragmentView.month
+					.setText(month);
+			PerformanceGeneralFragmentView.performanceGeneralFragmentView.year
+					.setText(year);
+
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.level
 					.setText(level);
 			PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_overs
 					.setText(match_overs);
 			break;
 		case PerformanceFragmentEdit.BATTING:
+			PerformanceBattingFragmentView.performanceBattingFragmentView.my_team
+					.setText(my_team);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.opponent_team
+					.setText(opponent_team);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.venue
+					.setText(venue);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.day
+					.setText(day);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.month
+					.setText(month);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.year
+					.setText(year);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.level
+					.setText(level);
+			PerformanceBattingFragmentView.performanceBattingFragmentView.match_overs
+					.setText(match_overs);
+
 			PerformanceBattingFragmentView.performanceBattingFragmentView.batting_no
 					.setText(batting_no[current_innings] + "");
 			PerformanceBattingFragmentView.performanceBattingFragmentView.runs
@@ -585,6 +619,24 @@ public class PerformanceFragmentView extends SherlockFragment implements
 			}
 			break;
 		case PerformanceFragmentEdit.BOWLING:
+
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.my_team
+					.setText(my_team);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.opponent_team
+					.setText(opponent_team);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.venue
+					.setText(venue);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.day
+					.setText(day);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.month
+					.setText(month);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.year
+					.setText(year);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.level
+					.setText(level);
+			PerformanceBowlingFragmentView.performanceBowlingFragmentView.match_overs
+					.setText(match_overs);
+
 			PerformanceBowlingFragmentView.performanceBowlingFragmentView.overs
 					.setText(overs[current_innings] + "");
 			PerformanceBowlingFragmentView.performanceBowlingFragmentView.spells
@@ -623,6 +675,24 @@ public class PerformanceFragmentView extends SherlockFragment implements
 			}
 			break;
 		case PerformanceFragmentEdit.FIELDING:
+
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.my_team
+					.setText(my_team);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.opponent_team
+					.setText(opponent_team);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.venue
+					.setText(venue);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.day
+					.setText(day);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.month
+					.setText(month);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.year
+					.setText(year);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.level
+					.setText(level);
+			PerformanceFieldingFragmentView.performanceFieldingFragmentView.match_overs
+					.setText(match_overs);
+
 			PerformanceFieldingFragmentView.performanceFieldingFragmentView.slip_catches
 					.setText(slip_catches[current_innings] + "");
 			PerformanceFieldingFragmentView.performanceFieldingFragmentView.close_catches
@@ -663,19 +733,19 @@ public class PerformanceFragmentView extends SherlockFragment implements
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

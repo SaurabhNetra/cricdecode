@@ -14,6 +14,8 @@ public class PerformanceBowlingFragmentView extends SherlockFragment {
 
 	TextView overs, spells, maidens, runs, fours, sixes, wkts_left, wkts_right,
 			catches_dropped, noballs, wides, bowled;
+	TextView my_team, opponent_team, venue, day, month, year, level,
+			match_overs;
 	RelativeLayout bowling_info;
 
 	@Override
@@ -34,9 +36,18 @@ public class PerformanceBowlingFragmentView extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		day = (TextView) view.findViewById(R.id.day);
+		month = (TextView) view.findViewById(R.id.month);
+		year = (TextView) view.findViewById(R.id.year);
+		my_team = (TextView) view.findViewById(R.id.my_team);
+		opponent_team = (TextView) view.findViewById(R.id.opponent_team);
+		venue = (TextView) view.findViewById(R.id.venue);
+		level = (TextView) view.findViewById(R.id.level);
+		match_overs = (TextView) view.findViewById(R.id.overs);
+
 		bowling_info = (RelativeLayout) view.findViewById(R.id.bowling_info);
 		bowled = (TextView) view.findViewById(R.id.bowled);
-		overs = (TextView) view.findViewById(R.id.overs);
+		overs = (TextView) view.findViewById(R.id.overs_bowled);
 		spells = (TextView) view.findViewById(R.id.spells);
 		maidens = (TextView) view.findViewById(R.id.maidens);
 		runs = (TextView) view.findViewById(R.id.runs);

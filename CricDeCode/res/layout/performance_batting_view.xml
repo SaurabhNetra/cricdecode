@@ -7,10 +7,98 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <LinearLayout
+            android:id="@+id/match_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/my_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/vs" />
+
+            <TextView
+                android:id="@+id/opponent_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/overs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/overs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/overs"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbl_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/level"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/batted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/match_info"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dip"
             android:text="@string/dnb"
@@ -19,7 +107,8 @@
         <RelativeLayout
             android:id="@+id/batting_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@id/match_info" >
 
             <TextView
                 android:id="@+id/lbl_batting_no"
@@ -127,8 +216,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sixes"
                 android:padding="10dp"
-                android:textStyle="bold"
-                android:text="@string/how_out" />
+                android:text="@string/how_out"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/how_out"
@@ -144,8 +233,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/how_out"
                 android:padding="10dp"
-                android:textStyle="bold"
-                android:text="@string/bowler_type" />
+                android:text="@string/bowler_type"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/bowler_type"
@@ -161,8 +250,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bowler_type"
                 android:padding="10dp"
-                android:textStyle="bold"
-                android:text="@string/fielding_pos" />
+                android:text="@string/fielding_pos"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/fielding_pos"
@@ -178,8 +267,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fielding_pos"
                 android:padding="10dp"
-                android:textStyle="bold"
-                android:text="@string/lives" />
+                android:text="@string/lives"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/lives"

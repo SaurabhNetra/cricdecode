@@ -11,8 +11,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class PerformanceGeneralFragmentView extends SherlockFragment {
 	static PerformanceGeneralFragmentView performanceGeneralFragmentView;
 
-	TextView match_review, match_result, my_team, opponent_team, venue, date,
-			level, match_overs, duration, first;
+	TextView match_review, match_result, my_team, opponent_team, venue, day,
+			month, year, level, match_overs, duration, first;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +33,9 @@ public class PerformanceGeneralFragmentView extends SherlockFragment {
 	}
 
 	public void init(View view) {
-		date = (TextView) view.findViewById(R.id.match_date);
+		day = (TextView) view.findViewById(R.id.day);
+		month = (TextView) view.findViewById(R.id.month);
+		year = (TextView) view.findViewById(R.id.year);
 		my_team = (TextView) view.findViewById(R.id.my_team);
 		opponent_team = (TextView) view.findViewById(R.id.opponent_team);
 		venue = (TextView) view.findViewById(R.id.venue);

@@ -7,10 +7,98 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <LinearLayout
+            android:id="@+id/match_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/my_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/vs" />
+
+            <TextView
+                android:id="@+id/opponent_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/overs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/overs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/overs"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbl_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/level"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/bowled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/match_info"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dip"
             android:text="@string/dnbowl"
@@ -19,7 +107,8 @@
         <RelativeLayout
             android:id="@+id/bowling_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@id/match_info" >
 
             <TextView
                 android:id="@+id/lbl_overs"
@@ -30,7 +119,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/overs"
+                android:id="@+id/overs_bowled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/lbl_overs"
@@ -40,7 +129,7 @@
                 android:id="@+id/lbl_spells"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/overs"
+                android:layout_below="@id/overs_bowled"
                 android:padding="10dp"
                 android:text="@string/spells"
                 android:textStyle="bold" />
@@ -49,7 +138,7 @@
                 android:id="@+id/spells"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/overs"
+                android:layout_below="@id/overs_bowled"
                 android:layout_toRightOf="@id/lbl_spells"
                 android:padding="10dp" />
 
