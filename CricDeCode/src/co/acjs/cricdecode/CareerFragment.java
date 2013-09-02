@@ -118,7 +118,7 @@ public class CareerFragment extends SherlockFragment implements
 		} else {
 
 			current_position = savedInstanceState.getInt("current_position");
-
+			MainActivity.changeTabLayout(current_position);
 			batting_no_list = savedInstanceState
 					.getStringArrayList("batting_no_list");
 			batting_no_list_selected = savedInstanceState
@@ -317,7 +317,7 @@ public class CareerFragment extends SherlockFragment implements
 
 	@Override
 	public void onPageSelected(int position) {
-		
+
 	}
 
 	@Override

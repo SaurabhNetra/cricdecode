@@ -385,6 +385,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			Log.d("Debug", "On Restore Instance State called");
 
 			current_position = savedInstanceState.getInt("current_position");
+			MainActivity.changeTabLayout(current_position);
 			current_innings = savedInstanceState.getInt("current_innings");
 			inning_no.setSelection(current_innings);
 

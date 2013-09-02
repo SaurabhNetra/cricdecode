@@ -123,6 +123,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		// Locate ListView in drawer_main.xml
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		
+		
+		
 
 		// Set a custom shadow that overlays the main content when the drawer
 		// opens
@@ -158,6 +161,12 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+		if(ProfileData.mPrefs.getInt("FirstTym", 0)==0)
+		{
+			//TODO Debug this Code
+			mDrawerLayout.openDrawer(mDrawerList);
+			ProfileData.setFirstTym(this, 1);
+		}
 		if (savedInstanceState == null) {
 			Log.d("Debug", "Saved is null");
 			currentFragment = CAREER_FRAGMENT;

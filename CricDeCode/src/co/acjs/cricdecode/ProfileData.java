@@ -119,6 +119,18 @@ public class ProfileData {
 		}
 	}
 
+	public static void setFirstTym(Context cont, int x) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putInt("FirstTym", x);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void setBowlingStyle(Context cont, String bowlingStyle) {
 		try {
 			s.acquire();
