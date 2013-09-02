@@ -1,302 +1,539 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:fadingEdge="none"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:id="@+id/match_info"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+        <RelativeLayout
+            android:id="@+id/diary_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/day"
+            <LinearLayout
+                android:id="@+id/date_of_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="12sp" />
+                android:layout_marginLeft="32dp"
+                android:background="@color/dark_red"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/month"
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/match_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="12sp" />
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/date_of_game"
+                android:background="@color/light_red"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp" >
 
-            <TextView
-                android:id="@+id/year"
+                <TextView
+                    android:id="@+id/my_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/vs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/vs"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/opponent_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/diary_top"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="25dip"
+            android:paddingRight="25dip"
+            android:paddingTop="25dip" >
+
+            <LinearLayout
+                android:id="@+id/abt_match"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="12sp" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/my_team"
+                <TextView
+                    android:id="@+id/venue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="3dp"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right" >
+
+                    <TextView
+                        android:id="@+id/overs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:textColor="@color/light_grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/overs_limit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_toRightOf="@+id/overs"
+                        android:paddingLeft="3dp"
+                        android:text="@string/overs"
+                        android:textColor="@color/light_grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/top_separator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_below="@+id/abt_match"
+                android:layout_margin="5dp"
+                android:background="@color/faint_grey"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/did_you_bowl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/top_separator"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/bowled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:text="@string/dnbowl"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/fielding_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/did_you_bowl"
+                android:shrinkColumns="1" >
 
-            <TextView
-                android:id="@+id/vs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/vs" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/opponent_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_slip_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/slip_catches"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/overs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/slip_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-            <TextView
-                android:id="@+id/overs_limit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/overs"
-                android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-            <TextView
-                android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:textStyle="bold" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/lbl_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/level"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_close_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/close_catches"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/close_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/lbl_slip_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/match_info"
-            android:padding="10dp"
-            android:text="@string/slip_catches"
-            android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-        <TextView
-            android:id="@+id/slip_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/match_info"
-            android:layout_toRightOf="@id/lbl_slip_catches"
-            android:padding="10dp" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_close_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/slip_catches"
-            android:padding="10dp"
-            android:text="@string/close_catches"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_circle_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/circle_catches"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/close_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/slip_catches"
-            android:layout_toRightOf="@id/lbl_close_catches"
-            android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/circle_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/lbl_circle_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/close_catches"
-            android:padding="10dp"
-            android:text="@string/circle_catches"
-            android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-        <TextView
-            android:id="@+id/circle_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/close_catches"
-            android:layout_toRightOf="@+id/lbl_circle_catches"
-            android:padding="10dp" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_deep_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_catches"
-            android:padding="10dp"
-            android:text="@string/deep_catches"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_deep_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/deep_catches"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/deep_catches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_catches"
-            android:layout_toRightOf="@id/lbl_deep_catches"
-            android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/deep_catches"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/lbl_circle_runouts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_catches"
-            android:padding="10dp"
-            android:text="@string/circle_runouts"
-            android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-        <TextView
-            android:id="@+id/circle_runouts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_catches"
-            android:layout_toRightOf="@id/lbl_circle_runouts"
-            android:padding="10dp" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_circle_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts"
-            android:padding="10dp"
-            android:text="@string/circle_runouts_direct"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_circle_runouts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/circle_runouts"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/circle_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts"
-            android:layout_toRightOf="@id/lbl_circle_runouts_direct"
-            android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/circle_runouts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/lbl_deep_runouts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts_direct"
-            android:padding="10dp"
-            android:text="@string/deep_runouts"
-            android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-        <TextView
-            android:id="@+id/deep_runouts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle_runouts_direct"
-            android:layout_toRightOf="@id/lbl_deep_runouts"
-            android:padding="10dp" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_deep_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts"
-            android:padding="10dp"
-            android:text="@string/deep_runouts_direct"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_circle_runouts_direct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/circle_runouts_direct"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/deep_runouts_direct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts"
-            android:layout_toRightOf="@id/lbl_deep_runouts_direct"
-            android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/circle_runouts_direct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/lbl_stumpings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts_direct"
-            android:padding="10dp"
-            android:text="@string/stumpings"
-            android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-        <TextView
-            android:id="@+id/stumpings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/deep_runouts_direct"
-            android:layout_toRightOf="@id/lbl_stumpings"
-            android:padding="10dp" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_byes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/stumpings"
-            android:padding="10dp"
-            android:text="@string/byes"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_deep_runouts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/deep_runouts"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/byes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/stumpings"
-            android:layout_toRightOf="@id/lbl_byes"
-            android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/deep_runouts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/lbl_misfields"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/byes"
-            android:padding="10dp"
-            android:text="@string/misfields"
-            android:textStyle="bold" />
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
-        <TextView
-            android:id="@+id/misfields"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/byes"
-            android:layout_toRightOf="@id/lbl_misfields"
-            android:padding="10dp" />
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/lbl_catches_dropped_fielding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/misfields"
-            android:padding="10dp"
-            android:text="@string/catches_dropped_fielding"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lbl_deep_runouts_direct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/deep_runouts_direct"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/catches_dropped_fielding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/misfields"
-            android:layout_toRightOf="@id/lbl_catches_dropped_fielding"
-            android:padding="10dp" />
+                    <TextView
+                        android:id="@+id/deep_runouts_direct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_stumpings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/stumpings"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/stumpings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="@string/wkt_keeping"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_byes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/byes"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/byes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="@string/wkt_keeping"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_misfields"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/misfields"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/misfields"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_catches_dropped_fielding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/catches_dropped_fielding"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/catches_dropped_fielding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </TableRow>
+            </TableLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

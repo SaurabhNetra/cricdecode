@@ -594,12 +594,17 @@ public class PerformanceFragmentView extends SherlockFragment implements
 			if (str.equals("Caught") || str.equals("Run Out")) {
 				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_fielding_pos
 						.setVisibility(View.VISIBLE);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
+						.setVisibility(View.VISIBLE);
+
 				PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
 						.setVisibility(View.VISIBLE);
 			} else {
 				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_fielding_pos
 						.setVisibility(View.GONE);
 				PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
+						.setVisibility(View.GONE);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
 						.setVisibility(View.GONE);
 
 			}

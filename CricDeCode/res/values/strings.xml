@@ -242,11 +242,11 @@
     <string name="circle_catches">Catches on Circle</string>
     <string name="deep_catches">Catches in Deep</string>
     <string name="circle_runouts">Run Outs in Circle</string>
-    <string name="circle_runouts_direct">Direct Hit Run Outs in Circle</string>
+    <string name="circle_runouts_direct">Direct Hit in Circle</string>
     <string name="deep_runouts">Run Outs in Deep</string>
-    <string name="deep_runouts_direct">Direct Hit Run Outs in Deep</string>
-    <string name="stumpings">Stumpings (Wicket Keeper)</string>
-    <string name="byes">Byes Given (Wicket Keeper)</string>
+    <string name="deep_runouts_direct">Direct Hit in Deep</string>
+    <string name="stumpings">Stumpings</string>
+    <string name="byes">Byes Given</string>
     <string name="misfields">Misfields</string>
     <string name="catches_dropped_fielding">Catches Dropped</string>
 
@@ -356,13 +356,13 @@
         <item>Circle Catches</item>
         <item>Deep Catches</item>
         <item>Total Catches</item>
-        <item>Direct Hit Run Outs in Circle</item>
+        <item>Direct Hit in Circle</item>
         <item>Run Outs in Circle</item>
-        <item>Direct Hit Run Out in Deep</item>
+        <item>Direct Hit in Deep</item>
         <item>Run Outs in Deep</item>
         <item>Total Run Outs</item>
-        <item>Stumpings(Wicket Keeper)</item>
-        <item>Byes Given(Wicket Keeper)</item>
+        <item>Stumpings</item>
+        <item>Byes Given</item>
         <item>Misfields</item>
         <item>Catches Dropped</item>
     </string-array>

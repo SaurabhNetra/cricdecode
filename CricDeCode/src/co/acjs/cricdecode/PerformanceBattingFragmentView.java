@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -17,7 +17,9 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 			batted;
 	TextView my_team, opponent_team, venue, day, month, year, level,
 			match_overs;
-	RelativeLayout batting_info;
+	TableLayout batting_info;
+
+	View extra_line;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +48,7 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
 
-		batting_info = (RelativeLayout) view.findViewById(R.id.batting_info);
+		batting_info = (TableLayout) view.findViewById(R.id.batting_info);
 		batted = (TextView) view.findViewById(R.id.batted);
 		batting_no = (TextView) view.findViewById(R.id.batting_no);
 		runs = (TextView) view.findViewById(R.id.runs);
@@ -60,5 +62,6 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 		bowler_type = (TextView) view.findViewById(R.id.bowler_type);
 		lbl_fielding_pos = (TextView) view.findViewById(R.id.lbl_fielding_pos);
 		fielding_pos = (TextView) view.findViewById(R.id.fielding_pos);
+		extra_line = (View) view.findViewById(R.id.extra_line);
 	}
 }
