@@ -7,11 +7,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <LinearLayout
+            android:id="@+id/gen_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/my_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/opponent_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/overs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <ToggleButton
             android:id="@+id/bowl_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/gen_info"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip"
             android:checked="false"
@@ -42,7 +89,7 @@
                 android:text="@string/overs" />
 
             <EditText
-                android:id="@+id/overs"
+                android:id="@+id/overs_bowled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/lbl_overs"
@@ -54,7 +101,7 @@
                 android:id="@+id/lbl_spells"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/overs"
+                android:layout_below="@id/overs_bowled"
                 android:padding="10dp"
                 android:text="@string/spells" />
 
@@ -62,7 +109,7 @@
                 android:id="@+id/spells"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/overs"
+                android:layout_below="@id/overs_bowled"
                 android:layout_toRightOf="@id/lbl_spells"
                 android:ems="2"
                 android:inputType="number"

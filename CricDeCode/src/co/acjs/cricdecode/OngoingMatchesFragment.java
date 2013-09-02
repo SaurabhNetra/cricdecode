@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -144,6 +145,9 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		Log.d("Debug",
 				"on Load Finished" + " cursor columns "
 						+ Arrays.toString(data.getColumnNames()));
+		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		ProfileData.setOngoingMatches(getSherlockActivity(), data.getCount());
 		MatrixCursor mc = new MatrixCursor(data.getColumnNames(),
 				data.getCount());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
@@ -230,6 +234,13 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 			Toast.makeText(getSherlockActivity(), "Match added to Career",
 					Toast.LENGTH_LONG).show();
 
+			ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+					"CricDeCode", Context.MODE_PRIVATE);
+			ProfileData.setOngoingMatches(getSherlockActivity(),
+					ProfileData.mPrefs.getInt("ongoingMatches", 0) - 1);
+			ProfileData.setDiaryMatches(getSherlockActivity(),
+					ProfileData.mPrefs.getInt("diaryMatches", 0) + 1);
+
 			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
 					null, this);
 		}
@@ -247,6 +258,11 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		uri = Uri
 				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
+
+		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		ProfileData.setOngoingMatches(getSherlockActivity(),
+				ProfileData.mPrefs.getInt("ongoingMatches", 0) - 1);
 
 		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,
 				this);

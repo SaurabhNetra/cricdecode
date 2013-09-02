@@ -9,6 +9,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -21,6 +22,8 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 			catches_dropped, noballs, wides;
 	ToggleButton bowl_toggle;
 	RelativeLayout bowling_info;
+	TextView my_team, opponent_team, venue, day, month, year, level,
+			match_overs;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,8 +59,17 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		day = (TextView) view.findViewById(R.id.day);
+		month = (TextView) view.findViewById(R.id.month);
+		year = (TextView) view.findViewById(R.id.year);
+		my_team = (TextView) view.findViewById(R.id.my_team);
+		opponent_team = (TextView) view.findViewById(R.id.opponent_team);
+		venue = (TextView) view.findViewById(R.id.venue);
+		level = (TextView) view.findViewById(R.id.level);
+		match_overs = (TextView) view.findViewById(R.id.overs);
+
 		bowling_info = (RelativeLayout) view.findViewById(R.id.bowling_info);
-		overs = (EditText) view.findViewById(R.id.overs);
+		overs = (EditText) view.findViewById(R.id.overs_bowled);
 		overs.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {

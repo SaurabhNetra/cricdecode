@@ -143,4 +143,28 @@ public class ProfileData {
 		}
 	}
 
+	public static void setOngoingMatches(Context cont, int ongoingMatches) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putInt("ongoingMatches", ongoingMatches);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void setDiaryMatches(Context cont, int diaryMatches) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putInt("diaryMatches", diaryMatches);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

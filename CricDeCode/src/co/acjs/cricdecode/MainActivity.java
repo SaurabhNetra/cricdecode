@@ -123,9 +123,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		// Locate ListView in drawer_main.xml
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-		
-		
-		
 
 		// Set a custom shadow that overlays the main content when the drawer
 		// opens
@@ -155,15 +152,30 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
+				ProfileData.mPrefs = getSharedPreferences("CricDeCode",
+						Context.MODE_PRIVATE);
+				((TextView) mDrawerList.getChildAt(ONGOING_MATCHES_FRAGMENT)
+						.findViewById(R.id.title))
+						.setText(getResources().getStringArray(
+								R.array.drawer_list_item)[ONGOING_MATCHES_FRAGMENT]
+								+ "("
+								+ ProfileData.mPrefs
+										.getInt("ongoingMatches", 0) + ")");
+				((TextView) mDrawerList.getChildAt(DIARY_MATCHES_FRAGMENT)
+						.findViewById(R.id.title))
+						.setText(getResources().getStringArray(
+								R.array.drawer_list_item)[DIARY_MATCHES_FRAGMENT]
+								+ "("
+								+ ProfileData.mPrefs.getInt("diaryMatches", 0)
+								+ ")");
 				icon.setPadding(-5, 0, 0, 0);
 			}
 		};
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		if(ProfileData.mPrefs.getInt("FirstTym", 0)==0)
-		{
-			//TODO Debug this Code
+		if (ProfileData.mPrefs.getInt("FirstTym", 0) == 0) {
+			// TODO Debug this Code
 			mDrawerLayout.openDrawer(mDrawerList);
 			ProfileData.setFirstTym(this, 1);
 		}
@@ -587,6 +599,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		EasyTracker.getInstance().activityStart(this);
 	}
 
+	@SuppressLint("NewApi")
 	public static void changeTabLayout(int x) {
 		switch (x) {
 		case 0:

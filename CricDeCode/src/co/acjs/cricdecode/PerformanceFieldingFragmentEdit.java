@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -15,6 +16,8 @@ public class PerformanceFieldingFragmentEdit extends SherlockFragment {
 	EditText slip_catches, close_catches, circle_catches, deep_catches,
 			circle_runouts, circle_runouts_direct, deep_runouts,
 			deep_runouts_direct, stumpings, byes, misfields, catches_dropped;
+	TextView my_team, opponent_team, venue, day, month, year, level,
+			match_overs;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +37,15 @@ public class PerformanceFieldingFragmentEdit extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		day = (TextView) view.findViewById(R.id.day);
+		month = (TextView) view.findViewById(R.id.month);
+		year = (TextView) view.findViewById(R.id.year);
+		my_team = (TextView) view.findViewById(R.id.my_team);
+		opponent_team = (TextView) view.findViewById(R.id.opponent_team);
+		venue = (TextView) view.findViewById(R.id.venue);
+		level = (TextView) view.findViewById(R.id.level);
+		match_overs = (TextView) view.findViewById(R.id.overs);
+
 		slip_catches = (EditText) view.findViewById(R.id.slip_catches);
 		slip_catches.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
@@ -111,20 +123,23 @@ public class PerformanceFieldingFragmentEdit extends SherlockFragment {
 		});
 		circle_runouts_direct = (EditText) view
 				.findViewById(R.id.circle_runouts_direct);
-		circle_runouts_direct.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					if (circle_runouts_direct.getText().toString().equals("0")) {
-						circle_runouts_direct.setText("");
+		circle_runouts_direct
+				.setOnFocusChangeListener(new OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							if (circle_runouts_direct.getText().toString()
+									.equals("0")) {
+								circle_runouts_direct.setText("");
+							}
+						} else {
+							if (circle_runouts_direct.getText().toString()
+									.equals("")) {
+								circle_runouts_direct.setText("0");
+							}
+						}
 					}
-				} else {
-					if (circle_runouts_direct.getText().toString().equals("")) {
-						circle_runouts_direct.setText("0");
-					}
-				}
-			}
-		});
+				});
 		deep_runouts = (EditText) view.findViewById(R.id.deep_runouts);
 		deep_runouts.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
@@ -142,20 +157,23 @@ public class PerformanceFieldingFragmentEdit extends SherlockFragment {
 		});
 		deep_runouts_direct = (EditText) view
 				.findViewById(R.id.deep_runouts_direct);
-		deep_runouts_direct.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					if (deep_runouts_direct.getText().toString().equals("0")) {
-						deep_runouts_direct.setText("");
+		deep_runouts_direct
+				.setOnFocusChangeListener(new OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							if (deep_runouts_direct.getText().toString()
+									.equals("0")) {
+								deep_runouts_direct.setText("");
+							}
+						} else {
+							if (deep_runouts_direct.getText().toString()
+									.equals("")) {
+								deep_runouts_direct.setText("0");
+							}
+						}
 					}
-				} else {
-					if (deep_runouts_direct.getText().toString().equals("")) {
-						deep_runouts_direct.setText("0");
-					}
-				}
-			}
-		});
+				});
 		stumpings = (EditText) view.findViewById(R.id.stumpings);
 		stumpings.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override

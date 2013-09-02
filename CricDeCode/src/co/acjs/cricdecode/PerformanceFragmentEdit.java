@@ -875,6 +875,24 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setText(match_overs);
 			break;
 		case BATTING:
+
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.my_team
+					.setText(my_team);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.opponent_team
+					.setText(opponent_team);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.venue
+					.setText(venue);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.day
+					.setText(day);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.month
+					.setText(month);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.year
+					.setText(year);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.level
+					.setText(level);
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.match_overs
+					.setText(match_overs);
+
 			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_no
 					.setText(batting_no[current_innings] + "");
 			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.runs
@@ -913,6 +931,23 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setChecked(batted[current_innings]);
 			break;
 		case BOWLING:
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.my_team
+					.setText(my_team);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.opponent_team
+					.setText(opponent_team);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.venue
+					.setText(venue);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.day
+					.setText(day);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.month
+					.setText(month);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.year
+					.setText(year);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.level
+					.setText(level);
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.match_overs
+					.setText(match_overs);
+
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.overs
 					.setText(overs[current_innings] + "");
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.spells
@@ -948,6 +983,23 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 					.setChecked(bowled[current_innings]);
 			break;
 		case FIELDING:
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.my_team
+					.setText(my_team);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.opponent_team
+					.setText(opponent_team);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.venue
+					.setText(venue);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.day
+					.setText(day);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.month
+					.setText(month);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.year
+					.setText(year);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.level
+					.setText(level);
+			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.match_overs
+					.setText(match_overs);
+
 			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.slip_catches
 					.setText(slip_catches[current_innings] + "");
 			PerformanceFieldingFragmentEdit.performanceFieldingFragmentEdit.close_catches

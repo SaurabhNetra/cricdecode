@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -318,6 +319,9 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
 		Log.d("Debug", "on Load Finished");
+		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		ProfileData.setDiaryMatches(getSherlockActivity(), data.getCount());
 		MatrixCursor mc = new MatrixCursor(data.getColumnNames(),
 				data.getCount());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
@@ -559,6 +563,11 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		uri = Uri
 				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
+
+		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		ProfileData.setDiaryMatches(getSherlockActivity(),
+				ProfileData.mPrefs.getInt("diaryMatches", 0) - 1);
 
 		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,
 				this);

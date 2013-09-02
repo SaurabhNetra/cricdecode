@@ -193,6 +193,12 @@ public class MatchCreationFragment extends SherlockFragment {
 		Toast.makeText(getSherlockActivity(), "Match Created",
 				Toast.LENGTH_LONG).show();
 
+		// Increment Ongoing Matches Count
+		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		ProfileData.setOngoingMatches(getSherlockActivity(),
+				ProfileData.mPrefs.getInt("ongoingMatches", 0) + 1);
+
 		// Go to Ongoing Matches
 		Date d = new Date();
 		if (date.after(d) || date.equals(d)) {
