@@ -5,15 +5,50 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/no_matches"
+        android:id="@+id/no_matches_added"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/cards_bg"
+        android:paddingBottom="30dip"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:paddingTop="25dip"
+        android:visibility="gone" >
 
         <TextView
-            android:id="@+id/no_match_text"
-            android:layout_width="wrap_content"
+            android:id="@+id/no_match_add"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/no_matches" />
+            android:lines="2"
+            android:maxLines="2"
+            android:text="@string/no_matches_add" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_matches_created"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/cards_bg"
+        android:paddingBottom="30dip"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:paddingTop="25dip"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/no_match_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:maxLines="2"
+            android:text="@string/no_matches_create" />
     </RelativeLayout>
 
     <ListView

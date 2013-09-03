@@ -33,7 +33,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class DiaryMatchesFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	static DiaryMatchesFragment diaryMatchesFragment;
-	RelativeLayout no_matches;
+	RelativeLayout no_matches_added;
 	ListView listView;
 
 	// Filter Variables
@@ -256,7 +256,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 		// get reference to the ListView
 		listView = (ListView) view.findViewById(R.id.content_list);
-		no_matches = (RelativeLayout) view.findViewById(R.id.no_matches);
+		no_matches_added = (RelativeLayout) view
+				.findViewById(R.id.no_matches_added);
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
 		// Ensures a loader is initialized and active.
@@ -363,9 +364,9 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		Log.d("Debug", "List Count " + listView.getCount());
 		if (listView != null) {
 			if (listView.getCount() == 0) {
-				no_matches.setVisibility(View.VISIBLE);
+				no_matches_added.setVisibility(View.VISIBLE);
 			} else {
-				no_matches.setVisibility(View.GONE);
+				no_matches_added.setVisibility(View.GONE);
 			}
 		}
 	}
