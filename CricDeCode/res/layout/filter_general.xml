@@ -259,29 +259,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/scroll_filter"
         android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <Button
-            android:id="@+id/okay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:background="@color/dark_grey"
-            android:padding="15dip"
-            android:text="@string/okay"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+        android:weightSum="3" >
 
         <Button
             android:id="@+id/dialog_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@color/dark_grey"
+            android:padding="10dip"
+            android:text="@string/cancel"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/filter_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@color/dark_grey"
+            android:padding="10dip"
+            android:text="@string/reset"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/okay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/dark_grey"
-            android:padding="15dip"
-            android:text="@string/cancel"
+            android:padding="10dip"
+            android:text="@string/okay"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>
