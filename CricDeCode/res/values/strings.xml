@@ -8,6 +8,16 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="fb_app_id">682146731813576</string>
 
+    <!-- Page Names -->
+    <string name="profile">Profile</string>
+    <string name="profile_edit">Edit Profile</string>
+    <string name="career">Career</string>
+    <string name="analysis">Analysis</string>
+    <string name="create_new_match">Create New Match</string>
+    <string name="match_diary">Match Diary</string>
+    <string name="ongoing_matches">Ongoing Matches</string>
+    <string name="graph">Graph</string>
+
     <!-- AdMob Constant -->
     <string name="publisher_id">a151c9c34615465</string>
 
@@ -68,7 +78,8 @@
     </string-array>
 
     <!-- Match -->
-    <string name="no_matches">No Matches</string>
+    <string name="no_matches_add">No Matches Added to Diary!\nClick <b>\'Add\'</b> in <b>Ongoing Matches.</b></string>
+    <string name="no_matches_create">No Ongoing Matches!\nClick the <b>\'+\'</b> on top to create <b>New Match.</b></string>
     <string name="match_date">Match Date</string>
     <string name="season">Season</string>
     <string name="date_format">MMMM dd, yyyy</string>
@@ -257,6 +268,7 @@
     <string name="filter">Filter</string>
     <string name="okay">Set Filter</string>
     <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
 
     <!-- Confirmation Dialog -->
     <string name="are_you_sure">Are you sure?</string>

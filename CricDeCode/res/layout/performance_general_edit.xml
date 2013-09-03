@@ -1,271 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:fadingEdge="none"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:id="@+id/match_info"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/my_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/vs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/vs" />
-
-            <TextView
-                android:id="@+id/opponent_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line1"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/match_info"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/lyt_overs"
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/line1"
-            android:orientation="horizontal" >
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:paddingTop="25dip" >
 
-            <TextView
-                android:id="@+id/overs"
+            <LinearLayout
+                android:id="@+id/abt_match"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/overs_limit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/overs" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/venue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
-        <LinearLayout
-            android:id="@+id/line2"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/lyt_overs"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="3dp"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/lyt_level"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line2"
-            android:orientation="horizontal" >
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left" >
 
-            <TextView
-                android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip" />
+                    <TextView
+                        android:id="@+id/overs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/lbl_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/level" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/overs_limit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_toRightOf="@+id/overs"
+                        android:paddingLeft="3dp"
+                        android:text="@string/overs"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/line3"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/lyt_level"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/lyt_venue"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line3"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line4"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/lyt_venue"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/lyt_dur"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line4"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/lbl_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/duration" />
-
-            <Spinner
-                android:id="@+id/duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/match_duration" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line5"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/lyt_dur"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/lyt_first"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line5"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/lbl_first_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/first" />
-
-            <Spinner
-                android:id="@+id/first_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/first" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line6"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/lyt_first"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/lyt_match_result"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line6"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/lbl_match_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/match_result" />
-
-            <Spinner
-                android:id="@+id/match_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/match_result" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line7"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/lyt_match_result"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/lyt_match_review"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line7"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/lbl_match_review"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/match_review" />
-
-            <EditText
-                android:id="@+id/match_review"
+            <LinearLayout
+                android:id="@+id/top_separator"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_below="@+id/abt_match"
+                android:layout_margin="5dp"
+                android:background="@color/faint_grey"
+                android:orientation="vertical" />
+
+            <TableLayout
+                android:id="@+id/tablelay1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="top|left"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:padding="10dp"
-                android:scrollHorizontally="false" />
-        </LinearLayout>
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/top_separator"
+                android:shrinkColumns="1" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/duration"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/match_duration" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_first_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/first"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/first_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/first" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_match_result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/match_result"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/match_result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/match_result" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_match_review"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_span="2"
+                        android:padding="10dp"
+                        android:text="@string/match_review"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <EditText
+                        android:id="@+id/match_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_span="2"
+                        android:gravity="top|left"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:padding="10dp"
+                        android:scrollHorizontally="false" />
+                </TableRow>
+            </TableLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp" >
+
+            <LinearLayout
+                android:id="@+id/date_of_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_red"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/match_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/date_of_game"
+                android:background="@color/light_red"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp" >
+
+                <TextView
+                    android:id="@+id/my_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/vs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/vs"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/opponent_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

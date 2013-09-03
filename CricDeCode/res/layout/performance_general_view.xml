@@ -17,12 +17,12 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/cards_bg"
             android:paddingBottom="30dip"
-            android:paddingLeft="25dip"
-            android:paddingRight="25dip"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
             android:paddingTop="25dip" >
 
             <LinearLayout
@@ -57,7 +57,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right" >
+                    android:layout_gravity="left" >
 
                     <TextView
                         android:id="@+id/overs"
@@ -212,13 +212,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="30dp" >
+            android:layout_marginRight="15dp" >
 
             <LinearLayout
                 android:id="@+id/date_of_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
                 android:background="@color/dark_red"
                 android:orientation="vertical" >
 
@@ -229,7 +228,7 @@
                     android:layout_gravity="center"
                     android:padding="3dp"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/month"
@@ -238,7 +237,7 @@
                     android:layout_gravity="center"
                     android:padding="3dp"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/year"
@@ -247,7 +246,7 @@
                     android:layout_gravity="center"
                     android:padding="3dp"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -267,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/vs"
@@ -276,7 +275,7 @@
                     android:padding="3dp"
                     android:text="@string/vs"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/opponent_team"
@@ -284,7 +283,7 @@
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

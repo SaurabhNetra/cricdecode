@@ -36,7 +36,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	static OngoingMatchesFragment ongoingMatchesFragment;
 
 	private SimpleCursorAdapter dataAdapter;
-	RelativeLayout no_matches;
+	RelativeLayout no_matches_created;
 	ListView listView;
 
 	@Override
@@ -84,7 +84,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 
 		// get reference to the ListView
 		listView = (ListView) view.findViewById(R.id.content_list);
-		no_matches = (RelativeLayout) view.findViewById(R.id.no_matches);
+		no_matches_created = (RelativeLayout) view
+				.findViewById(R.id.no_matches_created);
 
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
@@ -188,9 +189,9 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		}
 		if (listView != null) {
 			if (listView.getCount() == 0) {
-				no_matches.setVisibility(View.VISIBLE);
+				no_matches_created.setVisibility(View.VISIBLE);
 			} else {
-				no_matches.setVisibility(View.GONE);
+				no_matches_created.setVisibility(View.GONE);
 			}
 		}
 	}

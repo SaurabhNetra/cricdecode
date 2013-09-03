@@ -13,6 +13,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -24,7 +25,7 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 	EditText batting_no, runs, balls, time_spent, fours, sixes, lives;
 	Spinner how_out, bowler_type, fielding_pos;
 	ToggleButton bat_toggle;
-	RelativeLayout batting_info;
+	TableLayout batting_info;
 
 	TextView my_team, opponent_team, venue, day, month, year, level,
 			match_overs;
@@ -106,7 +107,7 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
 
-		batting_info = (RelativeLayout) view.findViewById(R.id.batting_info);
+		batting_info = (TableLayout) view.findViewById(R.id.batting_info);
 		batting_no = (EditText) view.findViewById(R.id.batting_no);
 		batting_no.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override

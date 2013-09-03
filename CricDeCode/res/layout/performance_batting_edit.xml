@@ -1,257 +1,476 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:fadingEdge="none"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:id="@+id/gen_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/my_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/opponent_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/overs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <ToggleButton
-            android:id="@+id/bat_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gen_info"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dip"
-            android:checked="false"
-            android:textOff="Did Not Bat"
-            android:textOn="Batted" />
-
-        <LinearLayout
-            android:id="@+id/line1"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_below="@+id/bat_toggle"
-            android:layout_margin="10dip"
-            android:background="#282828"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:paddingTop="25dip" >
+
+            <LinearLayout
+                android:id="@+id/abt_match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/venue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="3dp"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left" >
+
+                    <TextView
+                        android:id="@+id/overs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/overs_limit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_toRightOf="@+id/overs"
+                        android:paddingLeft="3dp"
+                        android:text="@string/overs"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/top_separator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_below="@+id/abt_match"
+                android:layout_margin="5dp"
+                android:background="@color/faint_grey"
+                android:orientation="vertical" />
+
+            <ToggleButton
+                android:id="@+id/bat_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/top_separator"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dip"
+                android:checked="false"
+                android:textOff="Did Not Bat"
+                android:textOn="Batted" />
+
+            <LinearLayout
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_below="@+id/bat_toggle"
+                android:layout_margin="10dip"
+                android:background="#282828"
+                android:orientation="horizontal" />
+
+            <TableLayout
+                android:id="@+id/batting_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/line1"
+                android:shrinkColumns="1"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_batting_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/batting_no"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/batting_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lblruns"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/runs"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/runs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_balls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/balls"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/balls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_time_spent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/time_spent"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/time_spent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="@string/time_min"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_fours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/fours"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/fours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_sixes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/sixes"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/sixes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_how_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/how_out"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/how_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/how_out" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_bowler_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/bowler_type"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/bowler_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/bowling_style" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_fielding_pos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/fielding_pos"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/fielding_pos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/fielding_pos" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl_lives"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/lives"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/lives"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="2"
+                        android:inputType="number"
+                        android:padding="10dp" />
+                </TableRow>
+            </TableLayout>
+        </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/batting_info"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/line1"
-            android:visibility="gone" >
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp" >
 
-            <TextView
-                android:id="@+id/lbl_batting_no"
+            <LinearLayout
+                android:id="@+id/date_of_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/batting_no" />
+                android:background="@color/dark_red"
+                android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/batting_no"
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/match_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/lbl_batting_no"
-                android:ems="2"
-                android:inputType="number"
-                android:padding="10dp" />
+                android:layout_toRightOf="@+id/date_of_game"
+                android:background="@color/light_red"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp" >
 
-            <TextView
-                android:id="@+id/lblruns"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/batting_no"
-                android:padding="10dp"
-                android:text="@string/runs" />
+                <TextView
+                    android:id="@+id/my_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-            <EditText
-                android:id="@+id/runs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/batting_no"
-                android:layout_toRightOf="@id/lblruns"
-                android:ems="3"
-                android:inputType="number"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/vs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/vs"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/lbl_balls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runs"
-                android:padding="10dp"
-                android:text="@string/balls" />
-
-            <EditText
-                android:id="@+id/balls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runs"
-                android:layout_toRightOf="@id/lbl_balls"
-                android:ems="3"
-                android:inputType="number"
-                android:padding="10dp" />
-
-            <TextView
-                android:id="@+id/lbl_time_spent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/balls"
-                android:padding="10dp"
-                android:text="@string/time_spent" />
-
-            <EditText
-                android:id="@+id/time_spent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/balls"
-                android:layout_toRightOf="@id/lbl_time_spent"
-                android:ems="3"
-                android:inputType="number"
-                android:padding="10dp" />
-
-            <TextView
-                android:id="@+id/lbl_fours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/time_spent"
-                android:padding="10dp"
-                android:text="@string/fours" />
-
-            <EditText
-                android:id="@+id/fours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/time_spent"
-                android:layout_toRightOf="@id/lbl_fours"
-                android:ems="2"
-                android:inputType="number"
-                android:padding="10dp" />
-
-            <TextView
-                android:id="@+id/lbl_sixes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fours"
-                android:padding="10dp"
-                android:text="@string/sixes" />
-
-            <EditText
-                android:id="@+id/sixes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fours"
-                android:layout_toRightOf="@id/lbl_sixes"
-                android:ems="2"
-                android:inputType="number"
-                android:padding="10dp" />
-
-            <TextView
-                android:id="@+id/lbl_how_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/sixes"
-                android:padding="10dp"
-                android:text="@string/how_out" />
-
-            <Spinner
-                android:id="@+id/how_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/sixes"
-                android:layout_toRightOf="@id/lbl_how_out"
-                android:entries="@array/how_out" />
-
-            <TextView
-                android:id="@+id/lbl_bowler_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/how_out"
-                android:padding="10dp"
-                android:text="@string/bowler_type" />
-
-            <Spinner
-                android:id="@+id/bowler_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/how_out"
-                android:layout_toRightOf="@id/lbl_bowler_type"
-                android:entries="@array/bowling_style" />
-
-            <TextView
-                android:id="@+id/lbl_fielding_pos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bowler_type"
-                android:padding="10dp"
-                android:text="@string/fielding_pos" />
-
-            <Spinner
-                android:id="@+id/fielding_pos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bowler_type"
-                android:layout_toRightOf="@id/lbl_fielding_pos"
-                android:entries="@array/fielding_pos" />
-
-            <TextView
-                android:id="@+id/lbl_lives"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fielding_pos"
-                android:padding="10dp"
-                android:text="@string/lives" />
-
-            <EditText
-                android:id="@+id/lives"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fielding_pos"
-                android:layout_toRightOf="@id/lbl_lives"
-                android:ems="2"
-                android:inputType="number"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/opponent_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 

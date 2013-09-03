@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -21,7 +21,7 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 	EditText overs, spells, maidens, runs, fours, sixes, wkts_left, wkts_right,
 			catches_dropped, noballs, wides;
 	ToggleButton bowl_toggle;
-	RelativeLayout bowling_info;
+	TableLayout bowling_info;
 	TextView my_team, opponent_team, venue, day, month, year, level,
 			match_overs;
 
@@ -68,7 +68,7 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
 
-		bowling_info = (RelativeLayout) view.findViewById(R.id.bowling_info);
+		bowling_info = (TableLayout) view.findViewById(R.id.bowling_info);
 		overs = (EditText) view.findViewById(R.id.overs_bowled);
 		overs.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
