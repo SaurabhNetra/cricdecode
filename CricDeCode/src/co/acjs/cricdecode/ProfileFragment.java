@@ -38,11 +38,13 @@ public class ProfileFragment extends SherlockFragment {
 				ProfileViewFragment.profileViewFragment = (ProfileViewFragment) getChildFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				(new MainActivity()).setPageName(0);
 				break;
 			case PROFILE_EDIT_FRAGMENT:
 				ProfileEditFragment.profileEditFragment = (ProfileEditFragment) getChildFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				(new MainActivity()).setPageName(8);
 				break;
 			default:
 				break;
@@ -67,11 +69,13 @@ public class ProfileFragment extends SherlockFragment {
 			getChildFragmentManager().putFragment(outState,
 					"currentFragmentInstance",
 					ProfileViewFragment.profileViewFragment);
+			(new MainActivity()).setPageName(0);
 			break;
 		case PROFILE_EDIT_FRAGMENT:
 			getChildFragmentManager().putFragment(outState,
 					"currentFragmentInstance",
 					ProfileEditFragment.profileEditFragment);
+			(new MainActivity()).setPageName(1);
 			break;
 		default:
 			break;

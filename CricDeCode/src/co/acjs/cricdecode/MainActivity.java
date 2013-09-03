@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -53,6 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	Menu current_menu;
 	static SQLiteDatabase dbHandle;
 	public static Context main_context;
+	TextView tx;
 
 	static ContentProviderClient client;
 
@@ -61,7 +63,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			CAREER_FRAGMENT = 1, ANALYSIS_FRAGMENT = 2,
 			DIARY_MATCHES_FRAGMENT = 3, ONGOING_MATCHES_FRAGMENT = 4,
 			MATCH_CREATION_FRAGMENT = 5, PERFORMANCE_FRAGMENT_EDIT = 6,
-			PERFORMANCE_FRAGMENT_VIEW = 7;
+			PERFORMANCE_FRAGMENT_VIEW = 7, PROFILE_EDIT=8;
 
 	static {
 		Log.d("Debug", "Static Initializer");
@@ -179,60 +181,84 @@ public class MainActivity extends SherlockFragmentActivity {
 			mDrawerLayout.openDrawer(mDrawerList);
 			ProfileData.setFirstTym(this, 1);
 		}
+
+		tx = (TextView) findViewById(R.id.page_name);
+
 		if (savedInstanceState == null) {
 			Log.d("Debug", "Saved is null");
 			currentFragment = CAREER_FRAGMENT;
 			preFragment = NO_FRAGMENT;
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
 			selectItem(currentFragment, true);
+			setPageName(currentFragment);
 		} else {
 			currentFragment = savedInstanceState.getInt("currentFragment");
 			preFragment = savedInstanceState.getInt("preFragment");
+
+			setPageName(currentFragment);
 			switch (currentFragment) {
 			case PROFILE_FRAGMENT:
 				spinner.setVisibility(View.GONE);
+
 				ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.profile);
+
 				break;
 			case CAREER_FRAGMENT:
 				spinner.setVisibility(View.GONE);
 				CareerFragment.careerFragment = (CareerFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.career);
 				break;
 			case ANALYSIS_FRAGMENT:
 				spinner.setVisibility(View.GONE);
 				AnalysisFragment.analysisFragment = (AnalysisFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.analysis);
 				break;
 			case MATCH_CREATION_FRAGMENT:
 				spinner.setVisibility(View.GONE);
 				MatchCreationFragment.matchCreationFragment = (MatchCreationFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.create_new_match);
 				break;
 			case DIARY_MATCHES_FRAGMENT:
 				spinner.setVisibility(View.GONE);
 				DiaryMatchesFragment.diaryMatchesFragment = (DiaryMatchesFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.match_diary);
 				break;
 			case ONGOING_MATCHES_FRAGMENT:
 				spinner.setVisibility(View.GONE);
 				OngoingMatchesFragment.ongoingMatchesFragment = (OngoingMatchesFragment) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.ongoing_matches);
 				break;
 			case PERFORMANCE_FRAGMENT_EDIT:
 				spinner.setVisibility(View.VISIBLE);
+				tx.setVisibility(View.GONE);
 				PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
 			case PERFORMANCE_FRAGMENT_VIEW:
 				spinner.setVisibility(View.VISIBLE);
+				tx.setVisibility(View.GONE);
 				PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
@@ -265,6 +291,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
+		setPageName(currentFragment);
 		switch (currentFragment) {
 		case PROFILE_FRAGMENT:
 			if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
@@ -599,6 +626,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		EasyTracker.getInstance().activityStart(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public static void changeTabLayout(int x) {
 		switch (x) {
@@ -771,7 +799,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	public void onClick(View view) {
 		final Dialog dialog;
 		final View finalview;
@@ -871,9 +898,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		case R.id.date_of_match_row:
 			showDatePicker(R.id.date_of_match);
 			break;
-		case R.id.profile_picture:
-			ProfileEditFragment.profileEditFragment.getProfilePicture();
-			break;
+
 		case R.id.add_to_career:
 			dialog = new Dialog(this);
 			finalview = view;
@@ -990,8 +1015,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	public void showFilterDialog(int id) {
 		// custom dialog
 		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.filter_general);
-		dialog.setTitle("Filter");
+
 		final MultiSelectSpinner season_spinner, my_team_spinner, opponent_spinner, venue_spinner, result_spinner, level_spinner, overs_spinner, innings_spinner, duration_spinner, first_spinner, batting_no_spinner, how_out_spinner;
 		switch (id) {
 		case DIARY_MATCHES_FRAGMENT:
@@ -1279,6 +1305,16 @@ public class MainActivity extends SherlockFragmentActivity {
 
 					v.setBackgroundColor(getResources().getColor(
 							R.color.dark_red));
+
+				}
+			});
+
+			dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+			dialogButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
 
 				}
 			});
@@ -1597,6 +1633,16 @@ public class MainActivity extends SherlockFragmentActivity {
 					dialog.dismiss();
 				}
 			});
+
+			dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+			dialogButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+
+				}
+			});
 			break;
 		case ANALYSIS_FRAGMENT:
 
@@ -1733,6 +1779,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			first_spinner.setSelection(0);
 
 			dialogButton = (Button) dialog.findViewById(R.id.okay);
+
 			// if button is clicked, close the custom dialog
 			dialogButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -1918,6 +1965,16 @@ public class MainActivity extends SherlockFragmentActivity {
 					dialog.dismiss();
 				}
 			});
+
+			dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+			dialogButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+
+				}
+			});
 			break;
 		default:
 			break;
@@ -2032,5 +2089,61 @@ public class MainActivity extends SherlockFragmentActivity {
 		} else if (str.equals(getResources().getString(R.string.filter))) {
 			showFilterDialog(currentFragment);
 		}
+	}
+
+	public void setPageName(int curr) {
+		switch (currentFragment) {
+		case PROFILE_FRAGMENT:
+			spinner.setVisibility(View.GONE);
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.profile);
+
+			break;
+			
+		case PROFILE_EDIT:
+			spinner.setVisibility(View.GONE);
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.profile_edit);
+
+			break;
+		case CAREER_FRAGMENT:
+			spinner.setVisibility(View.GONE);
+
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.career);
+			break;
+		case ANALYSIS_FRAGMENT:
+			spinner.setVisibility(View.GONE);
+
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.analysis);
+			break;
+		case MATCH_CREATION_FRAGMENT:
+			spinner.setVisibility(View.GONE);
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.create_new_match);
+			break;
+		case DIARY_MATCHES_FRAGMENT:
+			spinner.setVisibility(View.GONE);
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.match_diary);
+			break;
+		case ONGOING_MATCHES_FRAGMENT:
+			spinner.setVisibility(View.GONE);
+			tx.setVisibility(View.VISIBLE);
+			tx.setText(R.string.ongoing_matches);
+			break;
+		case PERFORMANCE_FRAGMENT_EDIT:
+			spinner.setVisibility(View.VISIBLE);
+			tx.setVisibility(View.GONE);
+			break;
+		case PERFORMANCE_FRAGMENT_VIEW:
+			spinner.setVisibility(View.VISIBLE);
+			tx.setVisibility(View.GONE);
+			break;
+		default:
+			break;
+		}
+
 	}
 }

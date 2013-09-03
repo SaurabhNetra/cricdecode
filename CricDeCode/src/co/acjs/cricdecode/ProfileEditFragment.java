@@ -24,8 +24,6 @@ public class ProfileEditFragment extends SherlockFragment {
 	static ProfileEditFragment profileEditFragment;
 
 	// Declare Variables
-	public static  String profilePicturePath;
-	public static ImageView profile_picture;
 	EditText name, nickname;
 	TextView date_of_birth;
 	Spinner role, batting_style, bowling_style;
@@ -55,8 +53,6 @@ public class ProfileEditFragment extends SherlockFragment {
 	}
 
 	public void init(View view) {
-		profilePicturePath = "";
-		profile_picture = (ImageView) view.findViewById(R.id.profile_picture);
 		name = (EditText) view.findViewById(R.id.name);
 		nickname = (EditText) view.findViewById(R.id.nickname);
 		date_of_birth = (TextView) view.findViewById(R.id.date_of_birth);
@@ -116,25 +112,13 @@ public class ProfileEditFragment extends SherlockFragment {
 
 	}*/
 
-	public void getProfilePicture() {
-		//Intent i = new Intent(Intent.ACTION_PICK,
-			//	android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		//startActivityForResult(i, RESULT_LOAD_IMAGE);
-		
-		Intent i = new Intent(MainActivity.main_context,CropPic.class);
-		startActivity(i);
-	}
+	
 
 	public void onProfileEditing() {
 		Log.d("Debug", "On Profile Editting called");
 		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		profilePicturePath = ProfileData.mPrefs.getString("profilePicturePath",
-				"");
-		if (!profilePicturePath.equals("")) {
-			profile_picture.setImageBitmap(BitmapFactory
-					.decodeFile(profilePicturePath));
-		}
+		
 		name.setText(ProfileData.mPrefs.getString("name", ""));
 		nickname.setText(ProfileData.mPrefs.getString("nickname", ""));
 		String dateOfBirth = ProfileData.mPrefs.getString("dateOfBirth", "");
@@ -149,8 +133,7 @@ public class ProfileEditFragment extends SherlockFragment {
 	}
 
 	public void saveEditedProfile() {
-		ProfileData.setProfilePicturePath(getSherlockActivity(),
-				profilePicturePath);
+		
 		ProfileData.setName(getSherlockActivity(), name.getText().toString());
 		ProfileData.setNickname(getSherlockActivity(), nickname.getText()
 				.toString());

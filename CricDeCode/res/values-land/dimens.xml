@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="filter_scroll_height">140dp</dimen>
+
+</resources>

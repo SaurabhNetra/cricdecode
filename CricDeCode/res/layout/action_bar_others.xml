@@ -38,6 +38,18 @@
             android:contentDescription="@string/home_icon"
             android:paddingLeft="@dimen/icon_padding_left"
             android:src="@drawable/ic_actionbar" />
+
+        <TextView
+            android:id="@+id/page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/icon_main"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="@string/graph" />
     </RelativeLayout>
 
 </RelativeLayout>

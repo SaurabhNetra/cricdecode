@@ -18,5 +18,6 @@
     <dimen name="text_size_career_num">18sp</dimen>
     <dimen name="separator_height_one_dp">1dp</dimen>
     <dimen name="text_size_lower_row">16dp</dimen>
+    <dimen name="filter_scroll_height">250dp</dimen>
 
 </resources>
