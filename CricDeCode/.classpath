@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="libs/achartengine-1.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/acra-4.5.0.jar"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/oauth2-v2r48lv1.14.2-beta"/>
-	<classpathentry kind="lib" path="C:/Program Files/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/oauth2-v2r48lv1.15.0-rc"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
