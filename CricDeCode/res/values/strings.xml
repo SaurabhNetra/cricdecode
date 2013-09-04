@@ -10,7 +10,8 @@
 
     <!-- Sign In Service -->
     <string name="scope" translatable="false">oauth2:https://www.googleapis.com/auth/userinfo.profile</string>
-    <string name="projno"></string>
+    <string name="projno">899334271790</string>
+    
     <!-- Page Names -->
     <string name="profile">Profile</string>
     <string name="profile_edit">Edit Profile</string>

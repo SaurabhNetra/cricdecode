@@ -2,6 +2,8 @@ package co.acjs.cricdecode;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
@@ -96,7 +98,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		main_context = this;
 
-		String scopes = getResources().getString(R.string.scope);
+		Collection<String> scopes = Arrays.asList("getResources().getString(R.string.scope)".split(","));
 		credential = GoogleAccountCredential.usingOAuth2(this, scopes);
 
 		// Action Bar Customization
