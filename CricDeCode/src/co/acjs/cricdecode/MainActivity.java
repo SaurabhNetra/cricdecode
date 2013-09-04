@@ -1,6 +1,7 @@
 package co.acjs.cricdecode;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -56,6 +57,17 @@ public class MainActivity extends SherlockFragmentActivity {
 	public static Context main_context;
 	TextView tx;
 
+	// Dialog state
+	boolean filter_showing;
+	MultiSelectSpinner batting_no_spinner, how_out_spinner, season_spinner,
+			my_team_spinner, opponent_spinner, venue_spinner, result_spinner,
+			level_spinner, overs_spinner, innings_spinner, duration_spinner,
+			first_spinner;
+	ArrayList<Integer> batting_no_val, how_out_val, season_val, my_team_val,
+			opponent_val, venue_val, result_val, level_val, overs_val,
+			innings_val, duration_val, first_val;
+	FilterDialog dialog;
+
 	static ContentProviderClient client;
 
 	// Declare Constants
@@ -63,7 +75,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			CAREER_FRAGMENT = 1, ANALYSIS_FRAGMENT = 2,
 			DIARY_MATCHES_FRAGMENT = 3, ONGOING_MATCHES_FRAGMENT = 4,
 			MATCH_CREATION_FRAGMENT = 5, PERFORMANCE_FRAGMENT_EDIT = 6,
-			PERFORMANCE_FRAGMENT_VIEW = 7, PROFILE_EDIT=8;
+			PERFORMANCE_FRAGMENT_VIEW = 7, PROFILE_EDIT = 8;
 
 	static {
 		Log.d("Debug", "Static Initializer");
@@ -177,7 +189,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (ProfileData.mPrefs.getInt("FirstTym", 0) == 0) {
-			// TODO Debug this Code
 			mDrawerLayout.openDrawer(mDrawerList);
 			ProfileData.setFirstTym(this, 1);
 		}
@@ -192,6 +203,23 @@ public class MainActivity extends SherlockFragmentActivity {
 			selectItem(currentFragment, true);
 			setPageName(currentFragment);
 		} else {
+			filter_showing = savedInstanceState.getBoolean("filter_showing");
+			batting_no_val = savedInstanceState
+					.getIntegerArrayList("batting_no_val");
+			how_out_val = savedInstanceState.getIntegerArrayList("how_out_val");
+			season_val = savedInstanceState.getIntegerArrayList("season_val");
+			my_team_val = savedInstanceState.getIntegerArrayList("my_team_val");
+			opponent_val = savedInstanceState
+					.getIntegerArrayList("opponent_val");
+			venue_val = savedInstanceState.getIntegerArrayList("venue_val");
+			result_val = savedInstanceState.getIntegerArrayList("result_val");
+			level_val = savedInstanceState.getIntegerArrayList("level_val");
+			overs_val = savedInstanceState.getIntegerArrayList("overs_val");
+			innings_val = savedInstanceState.getIntegerArrayList("innings_val");
+			duration_val = savedInstanceState
+					.getIntegerArrayList("duration_val");
+			first_val = savedInstanceState.getIntegerArrayList("first_val");
+
 			currentFragment = savedInstanceState.getInt("currentFragment");
 			preFragment = savedInstanceState.getInt("preFragment");
 
@@ -569,9 +597,42 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
 		Log.d("Debug", "Save currentFragment " + currentFragment);
 		outState.putInt("currentFragment", currentFragment);
 		outState.putInt("preFragment", preFragment);
+
+		outState.putBoolean("filter_showing", filter_showing);
+		Log.d("Debug", "Dialog print" + (dialog == null));
+		if (filter_showing) {
+
+			if (currentFragment != DIARY_MATCHES_FRAGMENT) {
+				outState.putIntegerArrayList("batting_no_val",
+						batting_no_spinner.getSelectedIndicies());
+				outState.putIntegerArrayList("how_out_val",
+						how_out_spinner.getSelectedIndicies());
+			}
+			outState.putIntegerArrayList("season_val",
+					season_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("my_team_val",
+					my_team_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("opponent_val",
+					opponent_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("venue_val",
+					venue_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("result_val",
+					result_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("level_val",
+					level_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("overs_val",
+					overs_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("innings_val",
+					innings_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("duration_val",
+					duration_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("first_val",
+					first_spinner.getSelectedIndicies());
+		}
 
 		switch (currentFragment) {
 		case PROFILE_FRAGMENT:
@@ -896,6 +957,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			showDatePicker(R.id.date_of_birth);
 			break;
 		case R.id.date_of_match_row:
+		case R.id.date_of_match:
 			showDatePicker(R.id.date_of_match);
 			break;
 
@@ -1014,11 +1076,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void showFilterDialog(int id) {
 		// custom dialog
-		final Dialog dialog = new Dialog(this);
+		dialog = new FilterDialog(this);
+		Button dialogButton;
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.filter_general);
 
-		final MultiSelectSpinner season_spinner, my_team_spinner, opponent_spinner, venue_spinner, result_spinner, level_spinner, overs_spinner, innings_spinner, duration_spinner, first_spinner, batting_no_spinner, how_out_spinner;
 		switch (id) {
 		case DIARY_MATCHES_FRAGMENT:
 			dialog.findViewById(R.id.lbl_batting_no_list).setVisibility(
@@ -1136,7 +1198,24 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			first_spinner.setSelection(0);
 
-			Button dialogButton = (Button) dialog.findViewById(R.id.okay);
+			if (filter_showing) {
+				my_team_spinner.setSelection(my_team_val
+						.toArray(new Integer[0]));
+				opponent_spinner.setSelection(opponent_val
+						.toArray(new Integer[0]));
+				venue_spinner.setSelection(venue_val.toArray(new Integer[0]));
+				result_spinner.setSelection(result_val.toArray(new Integer[0]));
+				level_spinner.setSelection(level_val.toArray(new Integer[0]));
+				overs_spinner.setSelection(overs_val.toArray(new Integer[0]));
+				innings_spinner.setSelection(innings_val
+						.toArray(new Integer[0]));
+				duration_spinner.setSelection(duration_val
+						.toArray(new Integer[0]));
+				first_spinner.setSelection(first_val.toArray(new Integer[0]));
+				season_spinner.setSelection(season_val.toArray(new Integer[0]));
+			}
+
+			dialogButton = (Button) dialog.findViewById(R.id.okay);
 			// if button is clicked, close the custom dialog
 			dialogButton.setOnTouchListener(new OnTouchListener() {
 
@@ -1302,10 +1381,108 @@ public class MainActivity extends SherlockFragmentActivity {
 					Toast.makeText(MainActivity.main_context, "Filter Set",
 							Toast.LENGTH_LONG).show();
 					dialog.dismiss();
-
+					filter_showing = false;
 					v.setBackgroundColor(getResources().getColor(
 							R.color.dark_red));
 
+				}
+			});
+
+			dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
+			dialogButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					season_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.season_list);
+					season_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.season_list_selected);
+					season_spinner._proxyAdapter.clear();
+					season_spinner._proxyAdapter.add(season_spinner
+							.buildSelectedItemString());
+					season_spinner.setSelection(0);
+
+					my_team_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
+					my_team_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected);
+					my_team_spinner._proxyAdapter.clear();
+					my_team_spinner._proxyAdapter.add(my_team_spinner
+							.buildSelectedItemString());
+					my_team_spinner.setSelection(0);
+
+					opponent_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
+					opponent_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected);
+					opponent_spinner._proxyAdapter.clear();
+					opponent_spinner._proxyAdapter.add(opponent_spinner
+							.buildSelectedItemString());
+					opponent_spinner.setSelection(0);
+
+					venue_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
+					venue_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected);
+					venue_spinner._proxyAdapter.clear();
+					venue_spinner._proxyAdapter.add(venue_spinner
+							.buildSelectedItemString());
+					venue_spinner.setSelection(0);
+
+					result_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.result_list);
+					result_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.result_list_selected);
+					result_spinner._proxyAdapter.clear();
+					result_spinner._proxyAdapter.add(result_spinner
+							.buildSelectedItemString());
+					result_spinner.setSelection(0);
+
+					level_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.level_list);
+					level_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.level_list_selected);
+					level_spinner._proxyAdapter.clear();
+					level_spinner._proxyAdapter.add(level_spinner
+							.buildSelectedItemString());
+					level_spinner.setSelection(0);
+
+					overs_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
+					overs_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected);
+					overs_spinner._proxyAdapter.clear();
+					overs_spinner._proxyAdapter.add(overs_spinner
+							.buildSelectedItemString());
+					overs_spinner.setSelection(0);
+
+					innings_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
+					innings_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected);
+					innings_spinner._proxyAdapter.clear();
+					innings_spinner._proxyAdapter.add(innings_spinner
+							.buildSelectedItemString());
+					innings_spinner.setSelection(0);
+
+					duration_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
+					duration_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected);
+					duration_spinner._proxyAdapter.clear();
+					duration_spinner._proxyAdapter.add(duration_spinner
+							.buildSelectedItemString());
+					duration_spinner.setSelection(0);
+
+					first_spinner
+							.setItems(DiaryMatchesFragment.diaryMatchesFragment.first_list);
+					first_spinner
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.first_list_selected);
+					first_spinner._proxyAdapter.clear();
+					first_spinner._proxyAdapter.add(first_spinner
+							.buildSelectedItemString());
+					first_spinner.setSelection(0);
 				}
 			});
 
@@ -1315,7 +1492,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-
+					filter_showing = false;
 				}
 			});
 			break;
@@ -1446,6 +1623,27 @@ public class MainActivity extends SherlockFragmentActivity {
 			first_spinner._proxyAdapter.add(first_spinner
 					.buildSelectedItemString());
 			first_spinner.setSelection(0);
+
+			if (filter_showing) {
+				batting_no_spinner.setSelection(batting_no_val
+						.toArray(new Integer[0]));
+				how_out_spinner.setSelection(how_out_val
+						.toArray(new Integer[0]));
+				my_team_spinner.setSelection(my_team_val
+						.toArray(new Integer[0]));
+				opponent_spinner.setSelection(opponent_val
+						.toArray(new Integer[0]));
+				venue_spinner.setSelection(venue_val.toArray(new Integer[0]));
+				result_spinner.setSelection(result_val.toArray(new Integer[0]));
+				level_spinner.setSelection(level_val.toArray(new Integer[0]));
+				overs_spinner.setSelection(overs_val.toArray(new Integer[0]));
+				innings_spinner.setSelection(innings_val
+						.toArray(new Integer[0]));
+				duration_spinner.setSelection(duration_val
+						.toArray(new Integer[0]));
+				first_spinner.setSelection(first_val.toArray(new Integer[0]));
+				season_spinner.setSelection(season_val.toArray(new Integer[0]));
+			}
 
 			dialogButton = (Button) dialog.findViewById(R.id.okay);
 			// if button is clicked, close the custom dialog
@@ -1631,6 +1829,123 @@ public class MainActivity extends SherlockFragmentActivity {
 									.getCurrentItem());
 
 					dialog.dismiss();
+					filter_showing = false;
+				}
+			});
+
+			dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
+			dialogButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					batting_no_spinner
+							.setItems(CareerFragment.careerFragment.batting_no_list);
+					batting_no_spinner
+							.setSelection(CareerFragment.careerFragment.batting_no_list_selected);
+					batting_no_spinner._proxyAdapter.clear();
+					batting_no_spinner._proxyAdapter.add(batting_no_spinner
+							.buildSelectedItemString());
+					batting_no_spinner.setSelection(0);
+
+					how_out_spinner
+							.setItems(CareerFragment.careerFragment.how_out_list);
+					how_out_spinner
+							.setSelection(CareerFragment.careerFragment.how_out_list_selected);
+					how_out_spinner._proxyAdapter.clear();
+					how_out_spinner._proxyAdapter.add(how_out_spinner
+							.buildSelectedItemString());
+					how_out_spinner.setSelection(0);
+
+					season_spinner
+							.setItems(CareerFragment.careerFragment.season_list);
+					season_spinner
+							.setSelection(CareerFragment.careerFragment.season_list_selected);
+					season_spinner._proxyAdapter.clear();
+					season_spinner._proxyAdapter.add(season_spinner
+							.buildSelectedItemString());
+					season_spinner.setSelection(0);
+
+					my_team_spinner
+							.setItems(CareerFragment.careerFragment.my_team_list);
+					my_team_spinner
+							.setSelection(CareerFragment.careerFragment.my_team_list_selected);
+					my_team_spinner._proxyAdapter.clear();
+					my_team_spinner._proxyAdapter.add(my_team_spinner
+							.buildSelectedItemString());
+					my_team_spinner.setSelection(0);
+
+					opponent_spinner
+							.setItems(CareerFragment.careerFragment.opponent_list);
+					opponent_spinner
+							.setSelection(CareerFragment.careerFragment.opponent_list_selected);
+					opponent_spinner._proxyAdapter.clear();
+					opponent_spinner._proxyAdapter.add(opponent_spinner
+							.buildSelectedItemString());
+					opponent_spinner.setSelection(0);
+
+					venue_spinner
+							.setItems(CareerFragment.careerFragment.venue_list);
+					venue_spinner
+							.setSelection(CareerFragment.careerFragment.venue_list_selected);
+					venue_spinner._proxyAdapter.clear();
+					venue_spinner._proxyAdapter.add(venue_spinner
+							.buildSelectedItemString());
+					venue_spinner.setSelection(0);
+
+					result_spinner
+							.setItems(CareerFragment.careerFragment.result_list);
+					result_spinner
+							.setSelection(CareerFragment.careerFragment.result_list_selected);
+					result_spinner._proxyAdapter.clear();
+					result_spinner._proxyAdapter.add(result_spinner
+							.buildSelectedItemString());
+					result_spinner.setSelection(0);
+
+					level_spinner
+							.setItems(CareerFragment.careerFragment.level_list);
+					level_spinner
+							.setSelection(CareerFragment.careerFragment.level_list_selected);
+					level_spinner._proxyAdapter.clear();
+					level_spinner._proxyAdapter.add(level_spinner
+							.buildSelectedItemString());
+					level_spinner.setSelection(0);
+
+					overs_spinner
+							.setItems(CareerFragment.careerFragment.overs_list);
+					overs_spinner
+							.setSelection(CareerFragment.careerFragment.overs_list_selected);
+					overs_spinner._proxyAdapter.clear();
+					overs_spinner._proxyAdapter.add(overs_spinner
+							.buildSelectedItemString());
+					overs_spinner.setSelection(0);
+
+					innings_spinner
+							.setItems(CareerFragment.careerFragment.innings_list);
+					innings_spinner
+							.setSelection(CareerFragment.careerFragment.innings_list_selected);
+					innings_spinner._proxyAdapter.clear();
+					innings_spinner._proxyAdapter.add(innings_spinner
+							.buildSelectedItemString());
+					innings_spinner.setSelection(0);
+
+					duration_spinner
+							.setItems(CareerFragment.careerFragment.duration_list);
+					duration_spinner
+							.setSelection(CareerFragment.careerFragment.duration_list_selected);
+					duration_spinner._proxyAdapter.clear();
+					duration_spinner._proxyAdapter.add(duration_spinner
+							.buildSelectedItemString());
+					duration_spinner.setSelection(0);
+
+					first_spinner
+							.setItems(CareerFragment.careerFragment.first_list);
+					first_spinner
+							.setSelection(CareerFragment.careerFragment.first_list_selected);
+					first_spinner._proxyAdapter.clear();
+					first_spinner._proxyAdapter.add(first_spinner
+							.buildSelectedItemString());
+					first_spinner.setSelection(0);
 				}
 			});
 
@@ -1640,7 +1955,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-
+					filter_showing = false;
 				}
 			});
 			break;
@@ -1777,6 +2092,27 @@ public class MainActivity extends SherlockFragmentActivity {
 			first_spinner._proxyAdapter.add(first_spinner
 					.buildSelectedItemString());
 			first_spinner.setSelection(0);
+
+			if (filter_showing) {
+				batting_no_spinner.setSelection(batting_no_val
+						.toArray(new Integer[0]));
+				how_out_spinner.setSelection(how_out_val
+						.toArray(new Integer[0]));
+				my_team_spinner.setSelection(my_team_val
+						.toArray(new Integer[0]));
+				opponent_spinner.setSelection(opponent_val
+						.toArray(new Integer[0]));
+				venue_spinner.setSelection(venue_val.toArray(new Integer[0]));
+				result_spinner.setSelection(result_val.toArray(new Integer[0]));
+				level_spinner.setSelection(level_val.toArray(new Integer[0]));
+				overs_spinner.setSelection(overs_val.toArray(new Integer[0]));
+				innings_spinner.setSelection(innings_val
+						.toArray(new Integer[0]));
+				duration_spinner.setSelection(duration_val
+						.toArray(new Integer[0]));
+				first_spinner.setSelection(first_val.toArray(new Integer[0]));
+				season_spinner.setSelection(season_val.toArray(new Integer[0]));
+			}
 
 			dialogButton = (Button) dialog.findViewById(R.id.okay);
 
@@ -1963,6 +2299,123 @@ public class MainActivity extends SherlockFragmentActivity {
 					}
 
 					dialog.dismiss();
+					filter_showing = false;
+				}
+			});
+
+			dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
+			dialogButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					batting_no_spinner
+							.setItems(AnalysisFragment.analysisFragment.batting_no_list);
+					batting_no_spinner
+							.setSelection(AnalysisFragment.analysisFragment.batting_no_list_selected);
+					batting_no_spinner._proxyAdapter.clear();
+					batting_no_spinner._proxyAdapter.add(batting_no_spinner
+							.buildSelectedItemString());
+					batting_no_spinner.setSelection(0);
+
+					how_out_spinner
+							.setItems(AnalysisFragment.analysisFragment.how_out_list);
+					how_out_spinner
+							.setSelection(AnalysisFragment.analysisFragment.how_out_list_selected);
+					how_out_spinner._proxyAdapter.clear();
+					how_out_spinner._proxyAdapter.add(how_out_spinner
+							.buildSelectedItemString());
+					how_out_spinner.setSelection(0);
+
+					season_spinner
+							.setItems(AnalysisFragment.analysisFragment.season_list);
+					season_spinner
+							.setSelection(AnalysisFragment.analysisFragment.season_list_selected);
+					season_spinner._proxyAdapter.clear();
+					season_spinner._proxyAdapter.add(season_spinner
+							.buildSelectedItemString());
+					season_spinner.setSelection(0);
+
+					my_team_spinner
+							.setItems(AnalysisFragment.analysisFragment.my_team_list);
+					my_team_spinner
+							.setSelection(AnalysisFragment.analysisFragment.my_team_list_selected);
+					my_team_spinner._proxyAdapter.clear();
+					my_team_spinner._proxyAdapter.add(my_team_spinner
+							.buildSelectedItemString());
+					my_team_spinner.setSelection(0);
+
+					opponent_spinner
+							.setItems(AnalysisFragment.analysisFragment.opponent_list);
+					opponent_spinner
+							.setSelection(AnalysisFragment.analysisFragment.opponent_list_selected);
+					opponent_spinner._proxyAdapter.clear();
+					opponent_spinner._proxyAdapter.add(opponent_spinner
+							.buildSelectedItemString());
+					opponent_spinner.setSelection(0);
+
+					venue_spinner
+							.setItems(AnalysisFragment.analysisFragment.venue_list);
+					venue_spinner
+							.setSelection(AnalysisFragment.analysisFragment.venue_list_selected);
+					venue_spinner._proxyAdapter.clear();
+					venue_spinner._proxyAdapter.add(venue_spinner
+							.buildSelectedItemString());
+					venue_spinner.setSelection(0);
+
+					result_spinner
+							.setItems(AnalysisFragment.analysisFragment.result_list);
+					result_spinner
+							.setSelection(AnalysisFragment.analysisFragment.result_list_selected);
+					result_spinner._proxyAdapter.clear();
+					result_spinner._proxyAdapter.add(result_spinner
+							.buildSelectedItemString());
+					result_spinner.setSelection(0);
+
+					level_spinner
+							.setItems(AnalysisFragment.analysisFragment.level_list);
+					level_spinner
+							.setSelection(AnalysisFragment.analysisFragment.level_list_selected);
+					level_spinner._proxyAdapter.clear();
+					level_spinner._proxyAdapter.add(level_spinner
+							.buildSelectedItemString());
+					level_spinner.setSelection(0);
+
+					overs_spinner
+							.setItems(AnalysisFragment.analysisFragment.overs_list);
+					overs_spinner
+							.setSelection(AnalysisFragment.analysisFragment.overs_list_selected);
+					overs_spinner._proxyAdapter.clear();
+					overs_spinner._proxyAdapter.add(overs_spinner
+							.buildSelectedItemString());
+					overs_spinner.setSelection(0);
+
+					innings_spinner
+							.setItems(AnalysisFragment.analysisFragment.innings_list);
+					innings_spinner
+							.setSelection(AnalysisFragment.analysisFragment.innings_list_selected);
+					innings_spinner._proxyAdapter.clear();
+					innings_spinner._proxyAdapter.add(innings_spinner
+							.buildSelectedItemString());
+					innings_spinner.setSelection(0);
+
+					duration_spinner
+							.setItems(AnalysisFragment.analysisFragment.duration_list);
+					duration_spinner
+							.setSelection(AnalysisFragment.analysisFragment.duration_list_selected);
+					duration_spinner._proxyAdapter.clear();
+					duration_spinner._proxyAdapter.add(duration_spinner
+							.buildSelectedItemString());
+					duration_spinner.setSelection(0);
+
+					first_spinner
+							.setItems(AnalysisFragment.analysisFragment.first_list);
+					first_spinner
+							.setSelection(AnalysisFragment.analysisFragment.first_list_selected);
+					first_spinner._proxyAdapter.clear();
+					first_spinner._proxyAdapter.add(first_spinner
+							.buildSelectedItemString());
+					first_spinner.setSelection(0);
 				}
 			});
 
@@ -1972,7 +2425,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-
+					filter_showing = false;
 				}
 			});
 			break;
@@ -1980,6 +2433,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		}
 		dialog.show();
+		filter_showing = true;
 	}
 
 	@Override
@@ -2099,7 +2553,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			tx.setText(R.string.profile);
 
 			break;
-			
+
 		case PROFILE_EDIT:
 			spinner.setVisibility(View.GONE);
 			tx.setVisibility(View.VISIBLE);

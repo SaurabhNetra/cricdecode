@@ -41,11 +41,15 @@
                     android:padding="10dp"
                     android:text="@string/match_date" />
 
-                <TextView
+                <EditText
                     android:id="@+id/date_of_match"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
                     android:hint="@string/date_format"
+                    android:inputType="none"
+                    android:onClick="onClick"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp" />
             </LinearLayout>

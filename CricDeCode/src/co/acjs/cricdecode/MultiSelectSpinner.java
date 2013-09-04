@@ -214,20 +214,27 @@ public class MultiSelectSpinner extends Spinner implements
 	 * 
 	 * @param selectedIndicies
 	 */
-	public void setSelection(int[] selectedIndicies) {
+	public void setSelection(Integer[] selectedIndicies) {
 		int truecount = 0;
+
+		for (int i = 0; i < _selection.length; i++) {
+			_selection[i] = false;
+		}
 		for (int index : selectedIndicies) {
-			if (index + 1 >= 0 && index + 1 < _selection.length) {
-				_selection[index + 1] = true;
+			if (index >= 0 && index < _selection.length) {
+				_selection[index] = true;
 				truecount++;
 			} else {
-				throw new IllegalArgumentException("Index " + (index + 1)
+				throw new IllegalArgumentException("Index " + (index)
 						+ " is out of bounds.");
 			}
 		}
 		if (truecount == _items.length - 1) {
 			_selection[0] = true;
 		}
+		_proxyAdapter.clear();
+		_proxyAdapter.add(buildSelectedItemString());
+		setSelection(0);
 	}
 
 	/**

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,8 @@ public class MatchCreationFragment extends SherlockFragment {
 	private static SQLiteDatabase dbHandle;
 	private static String queryStr, field_str;
 
-	TextView date_of_match, lbl_overs;
+	TextView lbl_overs;
+	EditText date_of_match;
 	AutoCompleteTextView myTeam, opponentTeam, venue, overs,
 			autoCompleteTextView;
 	Spinner innings, limited, level;
@@ -71,7 +73,7 @@ public class MatchCreationFragment extends SherlockFragment {
 	}
 
 	public void init(View view) {
-		date_of_match = (TextView) view.findViewById(R.id.date_of_match);
+		date_of_match = (EditText) view.findViewById(R.id.date_of_match);
 		myTeam = (AutoCompleteTextView) view.findViewById(R.id.my_team);
 		opponentTeam = (AutoCompleteTextView) view
 				.findViewById(R.id.opponent_team);

@@ -166,6 +166,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
 					null, this);
+			if (((MainActivity) getSherlockActivity()).filter_showing) {
+				((MainActivity) getSherlockActivity())
+						.showFilterDialog(MainActivity.DIARY_MATCHES_FRAGMENT);
+			}
 
 		}
 		displayListView(view);

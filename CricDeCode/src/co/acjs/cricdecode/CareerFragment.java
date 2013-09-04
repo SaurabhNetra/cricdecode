@@ -198,6 +198,11 @@ public class CareerFragment extends SherlockFragment implements
 			result_whereClause = savedInstanceState
 					.getString("result_whereClause");
 
+			if (((MainActivity) getSherlockActivity()).filter_showing) {
+				((MainActivity) getSherlockActivity())
+						.showFilterDialog(MainActivity.CAREER_FRAGMENT);
+			}
+
 		}
 		fireQueries();
 		this.intialiseViewPager(view);

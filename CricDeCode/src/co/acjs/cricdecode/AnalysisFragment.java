@@ -15,7 +15,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -159,6 +158,7 @@ public class AnalysisFragment extends SherlockFragment {
 				default:
 					break;
 				}
+
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						getSherlockActivity(),
 						android.R.layout.simple_spinner_item, arr);
@@ -348,6 +348,11 @@ public class AnalysisFragment extends SherlockFragment {
 					.getString("season_whereClause");
 			result_whereClause = savedInstanceState
 					.getString("result_whereClause");
+
+			if (((MainActivity) getSherlockActivity()).filter_showing) {
+				((MainActivity) getSherlockActivity())
+						.showFilterDialog(MainActivity.ANALYSIS_FRAGMENT);
+			}
 
 		}
 	}
