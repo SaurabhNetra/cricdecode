@@ -44,6 +44,18 @@ public class ProfileData {
 		}
 	}
 
+	public static void setEmail(Context cont, String em) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("email", em);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void setNickname(Context cont, String nickname) {
 		try {
 			s.acquire();

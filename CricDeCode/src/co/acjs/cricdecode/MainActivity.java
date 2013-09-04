@@ -2,11 +2,15 @@ package co.acjs.cricdecode;
 
 import java.io.File;
 import java.util.ArrayList;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -56,6 +60,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	static SQLiteDatabase dbHandle;
 	public static Context main_context;
 	TextView tx;
+	public static String token = "uninitialised";
+	GoogleAccountCredential credential;
+	int ACCOUNT_CHOSEN=1;
 
 	// Dialog state
 	boolean filter_showing;
@@ -88,6 +95,28 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		main_context = this;
 
+		credential = GoogleAccountCredential.usingOAuth2(this, getResources()
+				.getString(R.string.scope));
+
+		// Action Bar Customization
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.action_bar, null);
+		actionBar.setCustomView(view);
+
+		Log.w(ProfileData.mPrefs.getString("email", ""), "UserNm is");
+		if ("".equals(ProfileData.mPrefs.getString("email", "")))
+			chooseAccount();
+		else {
+			Log.w("Calling", "Servic1");
+			Intent intent = new Intent(this, SignInService.class);
+			startService(intent);
+		}
+
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
@@ -115,16 +144,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 
 		make_directory();
-
-		// Action Bar Customization
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-		LayoutInflater inflater = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.action_bar, null);
-		actionBar.setCustomView(view);
 
 		// Spinner
 		spinner = (Spinner) findViewById(R.id.inning_no);
@@ -2600,4 +2619,73 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Log.w("OnActivityForResult", resultCode + " "
+				+ Activity.RESULT_CANCELED + " " + Activity.RESULT_OK);
+		switch (requestCode) {
+
+		case ACCOUNT_CHOSEN:
+			if (resultCode == Activity.RESULT_OK && data != null
+					&& data.getExtras() != null) {
+
+				credential.setSelectedAccountName(data.getExtras().getString(
+						AccountManager.KEY_ACCOUNT_NAME));
+				Log.w("" + AccountManager.KEY_ACCOUNT_NAME, "Selcted Acnt");
+				ProfileData
+						.setEmail(MainActivity.main_context, data.getExtras()
+								.getString(AccountManager.KEY_ACCOUNT_NAME));
+
+				if (GCMRegistrar.getRegistrationId(getApplicationContext())
+						.equals("")) {
+					GCMRegistrar.register(getApplicationContext(),
+							getResources().getString(R.string.projno));
+					Log.w(GCMRegistrar
+							.getRegistrationId(getApplicationContext()),
+							"Registration id");
+				}
+
+			} else {
+				finish();
+			}
+			break;
+
+		case 11:
+
+			if (resultCode == Activity.RESULT_CANCELED) {
+				Log.w("onActivityForResult", "RESULT_CANCELED token: " + token);
+				finish();
+			}
+
+			if (resultCode == Activity.RESULT_OK) {
+				{
+					Log.w("Calling", "Serviceeeee3");
+					if (GCMRegistrar.getRegistrationId(getApplicationContext())
+							.equals("")) {
+						GCMRegistrar.register(getApplicationContext(),
+								getResources().getString(R.string.projno));
+						Log.w(GCMRegistrar
+								.getRegistrationId(getApplicationContext()),
+								"Registration id");
+					}
+
+					Intent intent = new Intent(this, SignInService.class);
+					startService(intent);
+
+					Log.w("onActivityForResult", "RESULT_OK token: " + token);
+				}
+
+			}
+			break;
+		}
+
+	}
+
+	private void chooseAccount() {
+
+		startActivityForResult(credential.newChooseAccountIntent(), ACCOUNT_CHOSEN);
+	}
+
 }

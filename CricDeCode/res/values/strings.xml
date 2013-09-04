@@ -8,6 +8,9 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="fb_app_id">682146731813576</string>
 
+    <!-- Sign In Service -->
+    <string name="scope" translatable="false">oauth2:https://www.googleapis.com/auth/userinfo.profile</string>
+    <string name="projno"></string>
     <!-- Page Names -->
     <string name="profile">Profile</string>
     <string name="profile_edit">Edit Profile</string>
