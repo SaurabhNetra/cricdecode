@@ -26,7 +26,7 @@ public class AnalysisFragment extends SherlockFragment {
 	public static final int XY_PLOT = 0, PIE_CHART = 1;
 	public static int type_sel = 0;
 
-	int param_pos, param_save_count;
+	int param_pos, param1_sel, param2_sel, param_pie_sel, param_save_count;
 	String XAxis = "", YAxis = "";
 
 	// XY GRAPH CONSTANTS
@@ -97,6 +97,9 @@ public class AnalysisFragment extends SherlockFragment {
 
 		if (bundle != null) {
 
+			param1_sel = bundle.getInt("param1_sel");
+			param2_sel = bundle.getInt("param2_sel");
+			param_pie_sel = bundle.getInt("param_pie_sel");
 			param_pos = bundle.getInt("param_pos");
 			if (param_pos == 0) {
 				param_save_count = 1;
@@ -116,13 +119,6 @@ public class AnalysisFragment extends SherlockFragment {
 		graph_param_pie = (Spinner) view.findViewById(R.id.graph_param_pie);
 		line_params = (LinearLayout) view.findViewById(R.id.line_graph_params);
 
-		String[] arr = getResources().getStringArray(R.array.graph_param2);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getSherlockActivity(), android.R.layout.simple_spinner_item,
-				arr);
-		adapter.setDropDownViewResource(R.layout.drop_down_menu_item);
-		graph_param2.setAdapter(adapter);
-
 		graph_facet.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -130,30 +126,41 @@ public class AnalysisFragment extends SherlockFragment {
 					int position, long arg3) {
 				String[] arr = null;
 				String[] arr2 = null;
+				String[] arr3 = null, arr4 = null;
 				switch (position) {
 				case PerformanceFragmentEdit.GENERAL:
 					arr = getResources().getStringArray(
 							R.array.graph_param1_general);
 					arr2 = getResources().getStringArray(
 							R.array.graph_param_pie_general);
+					arr3 = getResources().getStringArray(R.array.graph_param2);
+					arr4 = new String[arr3.length - 2];
+					System.arraycopy(arr3, 0, arr4, 0, arr3.length - 2);
 					break;
 				case PerformanceFragmentEdit.BATTING:
 					arr = getResources().getStringArray(
 							R.array.graph_param1_batting);
 					arr2 = getResources().getStringArray(
 							R.array.graph_param_pie_batting);
+					arr4 = getResources().getStringArray(R.array.graph_param2);
 					break;
 				case PerformanceFragmentEdit.BOWLING:
 					arr = getResources().getStringArray(
 							R.array.graph_param1_bowling);
 					arr2 = getResources().getStringArray(
 							R.array.graph_param_pie_bowling);
+					arr3 = getResources().getStringArray(R.array.graph_param2);
+					arr4 = new String[arr3.length - 2];
+					System.arraycopy(arr3, 0, arr4, 0, arr3.length - 2);
 					break;
 				case PerformanceFragmentEdit.FIELDING:
 					arr = getResources().getStringArray(
 							R.array.graph_param1_fielding);
 					arr2 = getResources().getStringArray(
 							R.array.graph_param_pie_fielding);
+					arr3 = getResources().getStringArray(R.array.graph_param2);
+					arr4 = new String[arr3.length - 2];
+					System.arraycopy(arr3, 0, arr4, 0, arr3.length - 2);
 					break;
 				default:
 					break;
@@ -170,13 +177,20 @@ public class AnalysisFragment extends SherlockFragment {
 
 				graph_param_pie.setAdapter(adapter);
 
+				adapter = new ArrayAdapter<String>(getSherlockActivity(),
+						android.R.layout.simple_spinner_item, arr4);
+				adapter.setDropDownViewResource(R.layout.drop_down_menu_item);
+
+				graph_param2.setAdapter(adapter);
+
 				if (param_save_count != 0) {
 					param_save_count--;
 					if (param_save_count == 0) {
 						if (graph_type.getSelectedItemPosition() == XY_PLOT) {
-							graph_param1.setSelection(param_pos);
+							graph_param1.setSelection(param1_sel);
+							graph_param2.setSelection(param2_sel);
 						} else {
-							graph_param_pie.setSelection(param_pos);
+							graph_param_pie.setSelection(param_pie_sel);
 						}
 					}
 				}
@@ -360,12 +374,7 @@ public class AnalysisFragment extends SherlockFragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 
-		if (graph_type.getSelectedItemPosition() == XY_PLOT) {
-			outState.putInt("param_pos", graph_param1.getSelectedItemPosition());
-		} else {
-			outState.putInt("param_pos",
-					graph_param_pie.getSelectedItemPosition());
-		}
+		outState.putInt("param_pos", graph_facet.getSelectedItemPosition());
 
 		outState.putInt("param1_sel", graph_param1.getSelectedItemPosition());
 		outState.putInt("param2_sel", graph_param2.getSelectedItemPosition());

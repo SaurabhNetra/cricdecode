@@ -562,7 +562,7 @@ public class CareerFragment extends SherlockFragment implements
 		}
 		if (bat_balls != 0) {
 			bat_str = (float) bat_runs / bat_balls;
-			bat_str = PerformanceFragmentEdit.round(bat_str, 2) * 100;
+			bat_str = PerformanceFragmentEdit.round(bat_str * 100, 2);
 		} else {
 			bat_str = -1;
 		}
