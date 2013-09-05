@@ -11,7 +11,7 @@
     <!-- Sign In Service -->
     <string name="scope" translatable="false">oauth2:https://www.googleapis.com/auth/userinfo.profile</string>
     <string name="projno">899334271790</string>
-    
+
     <!-- Page Names -->
     <string name="profile">Profile</string>
     <string name="profile_edit">Edit Profile</string>
@@ -422,5 +422,10 @@
 
     <!-- Actionbar -->
     <string name="home_icon">Icon Here</string>
+
+    <!-- Choose Account -->
+    <string name="signin">Sign In</string>
+    <string name="warning_text">Note: This e-mail ID will be used to sync your data across all your devices</string>
+    <string name="title_activity_choose_account">ChooseAccountActivity</string>
 
 </resources>

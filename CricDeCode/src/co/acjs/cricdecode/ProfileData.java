@@ -55,6 +55,18 @@ public class ProfileData {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void setTempEmail(Context cont, String em) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("temp_email", em);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void setNickname(Context cont, String nickname) {
 		try {

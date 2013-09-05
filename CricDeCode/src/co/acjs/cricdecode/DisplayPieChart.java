@@ -84,8 +84,8 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 				}
 			}
 		});
-		layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT));
+		layout.addView(mChartView, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT));
 		mChartView.repaint();
 	}
 

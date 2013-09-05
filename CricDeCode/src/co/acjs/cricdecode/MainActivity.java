@@ -2,16 +2,11 @@ package co.acjs.cricdecode;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -46,8 +41,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gcm.GCMRegistrar;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 public class MainActivity extends SherlockFragmentActivity {
 
@@ -63,8 +56,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	static SQLiteDatabase			dbHandle;
 	public static Context			main_context;
 	TextView						tx;
-	public static String			token	= "uninitialised";
-	GoogleAccountCredential			credential;
 
 	// Dialog state
 	boolean							filter_showing;
@@ -80,7 +71,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	static ContentProviderClient	client;
 
 	// Declare Constants
-	static final int				NO_FRAGMENT	= -1, PROFILE_FRAGMENT = 0,
+	static final int				NO_FRAGMENT	= -1, SIGNIN_FRAGMENT=9, PROFILE_FRAGMENT = 0,
 			CAREER_FRAGMENT = 1, ANALYSIS_FRAGMENT = 2,
 			DIARY_MATCHES_FRAGMENT = 3, ONGOING_MATCHES_FRAGMENT = 4,
 			MATCH_CREATION_FRAGMENT = 5, PERFORMANCE_FRAGMENT_EDIT = 6,
@@ -98,9 +89,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		main_context = this;
 
-		Collection<String> scopes = Arrays.asList("getResources().getString(R.string.scope)".split(","));
-		credential = GoogleAccountCredential.usingOAuth2(this, scopes);
-
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -111,15 +99,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		View view = inflater.inflate(R.layout.action_bar, null);
 		actionBar.setCustomView(view);
 
-		Log.w(ProfileData.mPrefs.getString("email", ""), "UserNm is");
-		if ("".equals(ProfileData.mPrefs.getString("email", "")))
-			chooseAccount();
-		else {
-			Log.w("Calling", "Servic1");
-			Intent intent = new Intent(this, SignInService.class);
-			startService(intent);
+		Log.w(ProfileData.mPrefs.getString("email", ""), "Email ID is");
+		if ("".equals(ProfileData.mPrefs.getString("email", ""))) {
+			// TODO Inflate Choose Account Fragment
 		}
-
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
@@ -215,6 +198,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		if (savedInstanceState == null) {
 			Log.d("Debug", "Saved is null");
+			
 			currentFragment = CAREER_FRAGMENT;
 			preFragment = NO_FRAGMENT;
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
@@ -864,6 +848,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		final View finalview;
 
 		switch (view.getId()) {
+			
 			case R.id.gen_tab:
 				switch (currentFragment) {
 					case CAREER_FRAGMENT:
@@ -1057,6 +1042,9 @@ public class MainActivity extends SherlockFragmentActivity {
 				});
 
 				dialog.show();
+				break;
+			case R.id.signin_button:
+				//TODO GCM Register
 				break;
 			default:
 				break;
@@ -2544,79 +2532,5 @@ public class MainActivity extends SherlockFragmentActivity {
 			default:
 				break;
 		}
-
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Log.w("OnActivityForResult",
-				resultCode + " " + Activity.RESULT_CANCELED + " " + Activity.RESULT_OK);
-		switch (requestCode) {
-
-			case ACCOUNT_CHOSEN:
-				if (resultCode == Activity.RESULT_OK && data != null && data
-						.getExtras() != null) {
-
-					credential.setSelectedAccountName(data.getExtras()
-							.getString(AccountManager.KEY_ACCOUNT_NAME));
-					Log.w("" + AccountManager.KEY_ACCOUNT_NAME, "Selcted Acnt");
-					ProfileData.setEmail(
-							MainActivity.main_context,
-							data.getExtras().getString(
-									AccountManager.KEY_ACCOUNT_NAME));
-
-					if (GCMRegistrar.getRegistrationId(getApplicationContext())
-							.equals("")) {
-						GCMRegistrar.register(getApplicationContext(),
-								getResources().getString(R.string.projno));
-						Log.w(GCMRegistrar
-								.getRegistrationId(getApplicationContext()),
-								"Registration id");
-					}
-
-				} else {
-					finish();
-				}
-				break;
-
-			case 11:
-
-				if (resultCode == Activity.RESULT_CANCELED) {
-					Log.w("onActivityForResult",
-							"RESULT_CANCELED token: " + token);
-					finish();
-				}
-
-				if (resultCode == Activity.RESULT_OK) {
-					{
-						Log.w("Calling", "Serviceeeee3");
-						if (GCMRegistrar.getRegistrationId(
-								getApplicationContext()).equals("")) {
-							GCMRegistrar.register(getApplicationContext(),
-									getResources().getString(R.string.projno));
-							Log.w(GCMRegistrar
-									.getRegistrationId(getApplicationContext()),
-									"Registration id");
-						}
-
-						Intent intent = new Intent(this, SignInService.class);
-						startService(intent);
-
-						Log.w("onActivityForResult",
-								"RESULT_OK token: " + token);
-					}
-
-				}
-				break;
-		}
-
-	}
-
-	private void chooseAccount() {
-
-		startActivityForResult(credential.newChooseAccountIntent(),
-				ACCOUNT_CHOSEN);
-	}
-
 }

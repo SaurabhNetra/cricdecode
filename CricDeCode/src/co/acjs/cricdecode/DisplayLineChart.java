@@ -91,7 +91,7 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 			mChartView.setBackgroundColor(Color.BLACK);
 			layout = (LinearLayout) findViewById(R.id.chart);
 			layout.addView(mChartView, new LayoutParams(
-					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
 			mChartView.repaint();
 		} else {
