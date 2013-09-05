@@ -44,23 +44,11 @@ public class ProfileData {
 		}
 	}
 
-	public static void setEmail(Context cont, String em) {
+	public static void setID(Context cont, String id) {
 		try {
 			s.acquire();
 			init(cont);
-			editor.putString("email", em);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void setTempEmail(Context cont, String em) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("temp_email", em);
+			editor.putString("id", id);
 			editor.commit();
 			s.release();
 		} catch (InterruptedException e) {

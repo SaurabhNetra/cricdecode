@@ -424,8 +424,9 @@
     <string name="home_icon">Icon Here</string>
 
     <!-- Choose Account -->
+    <string name="login">Log In</string>
     <string name="signin">Sign In</string>
-    <string name="warning_text">Note: This e-mail ID will be used to sync your data across all your devices</string>
+    <string name="warning_text">Note: This Login will be used only to sync your data across all your devices. No data will be shared on Facebook without your prior consent.</string>
     <string name="title_activity_choose_account">ChooseAccountActivity</string>
 
 </resources>

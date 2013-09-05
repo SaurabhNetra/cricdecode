@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_twenty_dp" >
@@ -13,25 +14,14 @@
         android:text="@string/warning_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@id/warning_text" >
-
-        <RadioGroup
-            android:id="@+id/account_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </RadioGroup>
-    </ScrollView>
-
     <Button
-        android:id="@+id/signin_button"
+        android:onClick="FBLogin"
+        android:padding="@dimen/padding_ten_dp"
+        android:id="@+id/login"
+        android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onClick"
-        android:text="@string/signin" />
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>
