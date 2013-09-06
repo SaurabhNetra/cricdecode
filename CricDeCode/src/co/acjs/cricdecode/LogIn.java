@@ -19,13 +19,6 @@ public class LogIn extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
-				Context.MODE_PRIVATE);
-		if(!ProfileData.mPrefs.getString("id", "").equals("")){
-			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-			startActivity(intent);
-			finish();
-		}
 		setContentView(R.layout.activity_log_in);
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -35,6 +28,13 @@ public class LogIn extends SherlockActivity {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.action_bar_login, null);
 		actionBar.setCustomView(view);
+		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
+				Context.MODE_PRIVATE);
+		if(!ProfileData.mPrefs.getString("id", "").equals("")){
+			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
 	}
 
 	public void FBLogin(View v) {
