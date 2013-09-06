@@ -68,17 +68,6 @@ public class ProfileData {
 		}
 	}
 
-	public static void setFBLink(Context cont, String link) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("fb_link", link);
-			editor.commit();
-			s.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public static void setID(Context cont, String id) {
 		try {
@@ -91,6 +80,19 @@ public class ProfileData {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void setGCMID(Context cont, String id) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("gcm_id", id);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public static void setNickname(Context cont, String nickname) {
 		try {
@@ -201,6 +203,19 @@ public class ProfileData {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void setFbLink(Context cont, String fblink) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("fblink", fblink);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
