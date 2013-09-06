@@ -3,6 +3,7 @@ package co.acjs.cricdecode;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class LogIn extends SherlockActivity {
 
@@ -30,11 +32,29 @@ public class LogIn extends SherlockActivity {
 		actionBar.setCustomView(view);
 		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
-		if(!ProfileData.mPrefs.getString("id", "").equals("")){
-			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.d("onStart", ProfileData.mPrefs.getString("id", ""));
+		if (!ProfileData.mPrefs.getString("id", "").equals("")) {
+			Intent intent = new Intent(getApplicationContext(),
+					MainActivity.class);
 			startActivity(intent);
 			finish();
 		}
+
+		// Google Analytics Stop
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		// Google Analytics Stop
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	public void FBLogin(View v) {
@@ -54,12 +74,18 @@ public class LogIn extends SherlockActivity {
 								@Override
 								public void onCompleted(GraphUser user, Response response) {
 									if (user != null) {
-										Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+										Intent intent = new Intent(
+												getApplicationContext(),
+												MainActivity.class);
 										intent.putExtra("ID", user.getId());
-										intent.putExtra("FName", user.getFirstName());
-										intent.putExtra("LName", user.getLastName());
-										intent.putExtra("DOB", user.getBirthday());
-										intent.putExtra("FBLink", user.getLink());
+										intent.putExtra("FName",
+												user.getFirstName());
+										intent.putExtra("LName",
+												user.getLastName());
+										intent.putExtra("DOB",
+												user.getBirthday());
+										intent.putExtra("FBLink",
+												user.getLink());
 										startActivity(intent);
 										finish();
 									}

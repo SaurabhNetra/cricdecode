@@ -1241,7 +1241,7 @@ containing a value of this type.
         public static final int batting_info=0x7f040147;
         public static final int batting_no=0x7f040149;
         public static final int batting_no_list=0x7f04012e;
-        public static final int batting_style=0x7f04016c;
+        public static final int batting_style=0x7f04016d;
         public static final int bbi=0x7f04009f;
         public static final int bbm=0x7f0400a4;
         public static final int bowl_tab=0x7f04015f;
@@ -1249,7 +1249,7 @@ containing a value of this type.
         public static final int bowled=0x7f040159;
         public static final int bowler_type=0x7f04014e;
         public static final int bowling_info=0x7f040156;
-        public static final int bowling_style=0x7f04016d;
+        public static final int bowling_style=0x7f04016e;
         public static final int btns=0x7f040131;
         public static final int buttonClick=0x7f0400fa;
         public static final int buttonCrop=0x7f0400fb;
@@ -1287,8 +1287,8 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_profile_name=0x7f0400f6;
         public static final int content_frame=0x7f040114;
         public static final int content_list=0x7f040138;
-        public static final int content_profile=0x7f04016e;
-        public static final int date_of_birth=0x7f040172;
+        public static final int content_profile=0x7f04016f;
+        public static final int date_of_birth=0x7f04016b;
         public static final int date_of_game=0x7f040151;
         public static final int date_of_match=0x7f04013b;
         public static final int date_of_match_row=0x7f040139;
@@ -1321,6 +1321,7 @@ containing a value of this type.
         public static final int filter_reset=0x7f040133;
         public static final int first_action=0x7f040165;
         public static final int first_list=0x7f04012c;
+        public static final int fname=0x7f040171;
         public static final int fours=0x7f040075;
         public static final int fwi=0x7f040096;
         public static final int gamefacet=0x7f040043;
@@ -1446,6 +1447,7 @@ containing a value of this type.
         public static final int listMode=0x7f040004;
         public static final int lives=0x7f04007b;
         public static final int ll_icon=0x7f040034;
+        public static final int lname=0x7f040172;
         public static final int login=0x7f04003d;
         public static final int losses=0x7f0400dc;
         public static final int maidens=0x7f040082;
@@ -1459,7 +1461,6 @@ containing a value of this type.
         public static final int month=0x7f040106;
         public static final int my_team=0x7f040109;
         public static final int my_team_list=0x7f04011c;
-        public static final int name=0x7f040170;
         public static final int nickname=0x7f04016a;
         public static final int no=0x7f040100;
         public static final int no_match_add=0x7f040135;
@@ -1482,13 +1483,13 @@ containing a value of this type.
         public static final int page_name=0x7f040038;
         public static final int performance_fragment_layout=0x7f04015b;
         public static final int picker_subtitle=0x7f0400f4;
-        public static final int profile_data=0x7f04016f;
-        public static final int profile_picture=0x7f040171;
+        public static final int profile_data=0x7f040170;
+        public static final int profile_picture=0x7f040173;
         public static final int result_list=0x7f040122;
         public static final int rl1=0x7f04003e;
         public static final int rl_button=0x7f040039;
         public static final int rl_td=0x7f040049;
-        public static final int role=0x7f04016b;
+        public static final int role=0x7f04016c;
         public static final int row1=0x7f040053;
         public static final int row10=0x7f04006e;
         public static final int row11=0x7f040073;

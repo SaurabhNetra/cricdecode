@@ -33,7 +33,7 @@
             android:paddingTop="35dip"
             android:shrinkColumns="1" >
 
-         <!--
+            <!--
          <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -53,6 +53,7 @@
                 android:layout_margin="8dp"
                 android:background="@color/faint_grey" />
                 -->
+                
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -71,7 +72,7 @@
                 android:layout_height="@dimen/separator_height_one_dp"
                 android:layout_margin="8dp"
                 android:background="@color/faint_grey" />
-            <!--
+
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -104,8 +105,7 @@
                 android:layout_height="@dimen/separator_height_one_dp"
                 android:layout_margin="8dp"
                 android:background="@color/faint_grey" />
-				-->
-				
+
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >

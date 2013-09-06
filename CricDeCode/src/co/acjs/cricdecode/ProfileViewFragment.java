@@ -56,13 +56,14 @@ public class ProfileViewFragment extends SherlockFragment {
 					getSherlockActivity().getResources().getString(
 							R.string.profile_picture_size_view));
 		}
-		((TextView) view.findViewById(R.id.name)).setText(ProfileData.mPrefs
-				.getString("fname", "") + " " + ProfileData.mPrefs.getString(
-				"lname", ""));
+		((TextView) view.findViewById(R.id.fname)).setText(ProfileData.mPrefs
+				.getString("f_name", ""));
+		((TextView) view.findViewById(R.id.lname)).setText(ProfileData.mPrefs.getString(
+				"l_name", ""));
 		((TextView) view.findViewById(R.id.nickname))
 				.setText(ProfileData.mPrefs.getString("nickname", ""));
 		((TextView) view.findViewById(R.id.date_of_birth))
-				.setText(ProfileData.mPrefs.getString("dateOfBirth", ""));
+				.setText(ProfileData.mPrefs.getString("dob", ""));
 		((TextView) view.findViewById(R.id.role)).setText(ProfileData.mPrefs
 				.getString("role", ""));
 		((TextView) view.findViewById(R.id.batting_style))

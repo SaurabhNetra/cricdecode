@@ -86,10 +86,16 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Intent intent = getIntent();
 		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
-		if (!ProfileData.mPrefs.getString("id", "").equals("")) {
+		Log.d("onCreate",
+				"mPrefs Data: " + ProfileData.mPrefs.getString("id", "") + " " + ProfileData.mPrefs
+						.getString("f_name", "") + " " + ProfileData.mPrefs
+						.getString("l_name", "") + " " + ProfileData.mPrefs
+						.getString("dob", "") + " " + ProfileData.mPrefs
+						.getString("fb_link", ""));
+		if (ProfileData.mPrefs.getString("id", "").equals("")) {
+			Intent intent = getIntent();
 			ProfileData.setID(this, intent.getExtras().getString("ID"));
 			ProfileData.setFName(this, intent.getExtras().getString("FName"));
 			ProfileData.setLName(this, intent.getExtras().getString("LName"));
@@ -97,10 +103,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			ProfileData.setFBLink(this, intent.getExtras().getString("FBLink"));
 		}
 		main_context = this;
-		onCreateFunction(savedInstanceState);
-	}
 
-	private void CustomizeActionBar(int Resource) {
+		setContentView(R.layout.drawer_main);
+
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -108,8 +113,212 @@ public class MainActivity extends SherlockFragmentActivity {
 		actionBar.setDisplayShowCustomEnabled(true);
 		LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(Resource, null);
+		View view = inflater.inflate(R.layout.action_bar, null);
 		actionBar.setCustomView(view);
+
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+		ProfileData.mPrefs.getInt("height", 0);
+		ProfileData.mPrefs.getInt("width", 0);
+		if (ProfileData.mPrefs.getInt("height", 0) == 0) {
+			ProfileData.setScr_Height(main_context, ProfileData.mPrefs.getInt(
+					"height", displaymetrics.heightPixels));
+		}
+
+		if (ProfileData.mPrefs.getInt("width", 0) == 0) {
+			ProfileData.setScr_Width(main_context, ProfileData.mPrefs.getInt(
+					"width", displaymetrics.widthPixels));
+		}
+
+		Log.w("Width and Height",
+				"Display: " + displaymetrics.heightPixels + " " + displaymetrics.widthPixels);
+
+		client = getContentResolver().acquireContentProviderClient(
+				CricDeCodeContentProvider.AUTHORITY);
+
+		dbHandle = ((CricDeCodeContentProvider) client
+				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
+
+		make_directory();
+
+		// Spinner
+		spinner = (Spinner) findViewById(R.id.inning_no);
+
+		// Generate title
+		title = getResources().getStringArray(R.array.drawer_list_item);
+
+		// Locate DrawerLayout in drawer_main.xml
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+		// Locate ListView in drawer_main.xml
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+		// Set a custom shadow that overlays the main content when the drawer
+		// opens
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
+
+		// Pass results to MenuListAdapter Class
+		mMenuAdapter = new MenuListAdapter(this, title);
+
+		// Set the MenuListAdapter to the ListView
+		mDrawerList.setAdapter(mMenuAdapter);
+
+		// Capture button clicks on side menu
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+		// ActionBarDrawerToggle ties together the the proper interactions
+		// between the sliding drawer and the action bar app icon
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
+			ImageView	icon	= (ImageView) findViewById(R.id.icon);
+
+			public void onDrawerClosed(View view) {
+				super.onDrawerClosed(view);
+				icon.setPadding(0, 0, 0, 0);
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+				ProfileData.mPrefs = getSharedPreferences("CricDeCode",
+						Context.MODE_PRIVATE);
+				((TextView) mDrawerList.getChildAt(ONGOING_MATCHES_FRAGMENT)
+						.findViewById(R.id.title))
+						.setText(getResources().getStringArray(
+								R.array.drawer_list_item)[ONGOING_MATCHES_FRAGMENT] + "(" + ProfileData.mPrefs
+								.getInt("ongoingMatches", 0) + ")");
+				((TextView) mDrawerList.getChildAt(DIARY_MATCHES_FRAGMENT)
+						.findViewById(R.id.title))
+						.setText(getResources().getStringArray(
+								R.array.drawer_list_item)[DIARY_MATCHES_FRAGMENT] + "(" + ProfileData.mPrefs
+								.getInt("diaryMatches", 0) + ")");
+				icon.setPadding(-5, 0, 0, 0);
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		if (ProfileData.mPrefs.getInt("FirstTym", 0) == 0) {
+			mDrawerLayout.openDrawer(mDrawerList);
+			ProfileData.setFirstTym(this, 1);
+		}
+
+		tx = (TextView) findViewById(R.id.page_name);
+
+		if (savedInstanceState == null) {
+			Log.d("Debug", "Saved is null");
+
+			currentFragment = CAREER_FRAGMENT;
+			preFragment = NO_FRAGMENT;
+			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+			selectItem(currentFragment, true);
+			setPageName(currentFragment);
+		} else {
+			filter_showing = savedInstanceState.getBoolean("filter_showing");
+			batting_no_val = savedInstanceState
+					.getIntegerArrayList("batting_no_val");
+			how_out_val = savedInstanceState.getIntegerArrayList("how_out_val");
+			season_val = savedInstanceState.getIntegerArrayList("season_val");
+			my_team_val = savedInstanceState.getIntegerArrayList("my_team_val");
+			opponent_val = savedInstanceState
+					.getIntegerArrayList("opponent_val");
+			venue_val = savedInstanceState.getIntegerArrayList("venue_val");
+			result_val = savedInstanceState.getIntegerArrayList("result_val");
+			level_val = savedInstanceState.getIntegerArrayList("level_val");
+			overs_val = savedInstanceState.getIntegerArrayList("overs_val");
+			innings_val = savedInstanceState.getIntegerArrayList("innings_val");
+			duration_val = savedInstanceState
+					.getIntegerArrayList("duration_val");
+			first_val = savedInstanceState.getIntegerArrayList("first_val");
+
+			currentFragment = savedInstanceState.getInt("currentFragment");
+			preFragment = savedInstanceState.getInt("preFragment");
+
+			setPageName(currentFragment);
+			switch (currentFragment) {
+				case PROFILE_FRAGMENT:
+					spinner.setVisibility(View.GONE);
+
+					ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.profile);
+
+					break;
+				case CAREER_FRAGMENT:
+					spinner.setVisibility(View.GONE);
+					CareerFragment.careerFragment = (CareerFragment) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.career);
+					break;
+				case ANALYSIS_FRAGMENT:
+					spinner.setVisibility(View.GONE);
+					AnalysisFragment.analysisFragment = (AnalysisFragment) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.analysis);
+					break;
+				case MATCH_CREATION_FRAGMENT:
+					spinner.setVisibility(View.GONE);
+					MatchCreationFragment.matchCreationFragment = (MatchCreationFragment) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.create_new_match);
+					break;
+				case DIARY_MATCHES_FRAGMENT:
+					spinner.setVisibility(View.GONE);
+					DiaryMatchesFragment.diaryMatchesFragment = (DiaryMatchesFragment) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.match_diary);
+					break;
+				case ONGOING_MATCHES_FRAGMENT:
+					spinner.setVisibility(View.GONE);
+					OngoingMatchesFragment.ongoingMatchesFragment = (OngoingMatchesFragment) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.ongoing_matches);
+					break;
+				case PERFORMANCE_FRAGMENT_EDIT:
+					spinner.setVisibility(View.VISIBLE);
+					tx.setVisibility(View.GONE);
+					PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+					break;
+				case PERFORMANCE_FRAGMENT_VIEW:
+					spinner.setVisibility(View.VISIBLE);
+					tx.setVisibility(View.GONE);
+					PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
+							.getFragment(savedInstanceState,
+									"currentFragmentInstance");
+					break;
+				default:
+					break;
+			}
+			Log.d("Debug", "currentFragment " + currentFragment);
+		}
+
+		// Look up the AdView as a resource and load a request. final AdView
+
+		final AdView adView = (AdView) findViewById(R.id.adView);
+		(new Thread() {
+			public void run() {
+				Looper.prepare();
+				adView.loadAd(new AdRequest());
+			}
+		}).start();
 	}
 
 	@Override
@@ -2329,216 +2538,5 @@ public class MainActivity extends SherlockFragmentActivity {
 			default:
 				break;
 		}
-	}
-
-	private void onCreateFunction(Bundle savedInstanceState) {
-
-		setContentView(R.layout.drawer_main);
-
-		CustomizeActionBar(R.layout.action_bar);
-
-		DisplayMetrics displaymetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-
-		ProfileData.mPrefs.getInt("height", 0);
-		ProfileData.mPrefs.getInt("width", 0);
-		if (ProfileData.mPrefs.getInt("height", 0) == 0) {
-			ProfileData.setScr_Height(main_context, ProfileData.mPrefs.getInt(
-					"height", displaymetrics.heightPixels));
-		}
-
-		if (ProfileData.mPrefs.getInt("width", 0) == 0) {
-			ProfileData.setScr_Width(main_context, ProfileData.mPrefs.getInt(
-					"width", displaymetrics.widthPixels));
-		}
-
-		Log.w("Width and Height",
-				"Display: " + displaymetrics.heightPixels + " " + displaymetrics.widthPixels);
-
-		client = getContentResolver().acquireContentProviderClient(
-				CricDeCodeContentProvider.AUTHORITY);
-
-		dbHandle = ((CricDeCodeContentProvider) client
-				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
-
-		make_directory();
-
-		// Spinner
-		spinner = (Spinner) findViewById(R.id.inning_no);
-
-		// Generate title
-		title = getResources().getStringArray(R.array.drawer_list_item);
-
-		// Locate DrawerLayout in drawer_main.xml
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-		// Locate ListView in drawer_main.xml
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-		// Set a custom shadow that overlays the main content when the drawer
-		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
-
-		// Pass results to MenuListAdapter Class
-		mMenuAdapter = new MenuListAdapter(this, title);
-
-		// Set the MenuListAdapter to the ListView
-		mDrawerList.setAdapter(mMenuAdapter);
-
-		// Capture button clicks on side menu
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-		// ActionBarDrawerToggle ties together the the proper interactions
-		// between the sliding drawer and the action bar app icon
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.drawer_open,
-				R.string.drawer_close) {
-			ImageView	icon	= (ImageView) findViewById(R.id.icon);
-
-			public void onDrawerClosed(View view) {
-				super.onDrawerClosed(view);
-				icon.setPadding(0, 0, 0, 0);
-			}
-
-			public void onDrawerOpened(View drawerView) {
-				super.onDrawerOpened(drawerView);
-				ProfileData.mPrefs = getSharedPreferences("CricDeCode",
-						Context.MODE_PRIVATE);
-				((TextView) mDrawerList.getChildAt(ONGOING_MATCHES_FRAGMENT)
-						.findViewById(R.id.title))
-						.setText(getResources().getStringArray(
-								R.array.drawer_list_item)[ONGOING_MATCHES_FRAGMENT] + "(" + ProfileData.mPrefs
-								.getInt("ongoingMatches", 0) + ")");
-				((TextView) mDrawerList.getChildAt(DIARY_MATCHES_FRAGMENT)
-						.findViewById(R.id.title))
-						.setText(getResources().getStringArray(
-								R.array.drawer_list_item)[DIARY_MATCHES_FRAGMENT] + "(" + ProfileData.mPrefs
-								.getInt("diaryMatches", 0) + ")");
-				icon.setPadding(-5, 0, 0, 0);
-			}
-		};
-
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		if (ProfileData.mPrefs.getInt("FirstTym", 0) == 0) {
-			mDrawerLayout.openDrawer(mDrawerList);
-			ProfileData.setFirstTym(this, 1);
-		}
-
-		tx = (TextView) findViewById(R.id.page_name);
-
-		if (savedInstanceState == null) {
-			Log.d("Debug", "Saved is null");
-
-			currentFragment = CAREER_FRAGMENT;
-			preFragment = NO_FRAGMENT;
-			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
-			selectItem(currentFragment, true);
-			setPageName(currentFragment);
-		} else {
-			filter_showing = savedInstanceState.getBoolean("filter_showing");
-			batting_no_val = savedInstanceState
-					.getIntegerArrayList("batting_no_val");
-			how_out_val = savedInstanceState.getIntegerArrayList("how_out_val");
-			season_val = savedInstanceState.getIntegerArrayList("season_val");
-			my_team_val = savedInstanceState.getIntegerArrayList("my_team_val");
-			opponent_val = savedInstanceState
-					.getIntegerArrayList("opponent_val");
-			venue_val = savedInstanceState.getIntegerArrayList("venue_val");
-			result_val = savedInstanceState.getIntegerArrayList("result_val");
-			level_val = savedInstanceState.getIntegerArrayList("level_val");
-			overs_val = savedInstanceState.getIntegerArrayList("overs_val");
-			innings_val = savedInstanceState.getIntegerArrayList("innings_val");
-			duration_val = savedInstanceState
-					.getIntegerArrayList("duration_val");
-			first_val = savedInstanceState.getIntegerArrayList("first_val");
-
-			currentFragment = savedInstanceState.getInt("currentFragment");
-			preFragment = savedInstanceState.getInt("preFragment");
-
-			setPageName(currentFragment);
-			switch (currentFragment) {
-				case PROFILE_FRAGMENT:
-					spinner.setVisibility(View.GONE);
-
-					ProfileFragment.profileFragment = (ProfileFragment) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.profile);
-
-					break;
-				case CAREER_FRAGMENT:
-					spinner.setVisibility(View.GONE);
-					CareerFragment.careerFragment = (CareerFragment) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-
-					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.career);
-					break;
-				case ANALYSIS_FRAGMENT:
-					spinner.setVisibility(View.GONE);
-					AnalysisFragment.analysisFragment = (AnalysisFragment) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-
-					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.analysis);
-					break;
-				case MATCH_CREATION_FRAGMENT:
-					spinner.setVisibility(View.GONE);
-					MatchCreationFragment.matchCreationFragment = (MatchCreationFragment) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.create_new_match);
-					break;
-				case DIARY_MATCHES_FRAGMENT:
-					spinner.setVisibility(View.GONE);
-					DiaryMatchesFragment.diaryMatchesFragment = (DiaryMatchesFragment) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.match_diary);
-					break;
-				case ONGOING_MATCHES_FRAGMENT:
-					spinner.setVisibility(View.GONE);
-					OngoingMatchesFragment.ongoingMatchesFragment = (OngoingMatchesFragment) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.ongoing_matches);
-					break;
-				case PERFORMANCE_FRAGMENT_EDIT:
-					spinner.setVisibility(View.VISIBLE);
-					tx.setVisibility(View.GONE);
-					PerformanceFragmentEdit.performanceFragmentEdit = (PerformanceFragmentEdit) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-					break;
-				case PERFORMANCE_FRAGMENT_VIEW:
-					spinner.setVisibility(View.VISIBLE);
-					tx.setVisibility(View.GONE);
-					PerformanceFragmentView.performanceFragmentView = (PerformanceFragmentView) getSupportFragmentManager()
-							.getFragment(savedInstanceState,
-									"currentFragmentInstance");
-					break;
-				default:
-					break;
-			}
-			Log.d("Debug", "currentFragment " + currentFragment);
-		}
-
-		// Look up the AdView as a resource and load a request. final AdView
-
-		final AdView adView = (AdView) findViewById(R.id.adView);
-		(new Thread() {
-			public void run() {
-				Looper.prepare();
-				adView.loadAd(new AdRequest());
-			}
-		}).start();
 	}
 }

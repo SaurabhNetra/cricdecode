@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -17,6 +18,7 @@ public class ProfileEditFragment extends SherlockFragment {
 
 	// Declare Variables
 	EditText					nickname;
+	TextView					date_of_birth;
 	Spinner						role, batting_style, bowling_style;
 
 	// Declare Constants
@@ -43,6 +45,7 @@ public class ProfileEditFragment extends SherlockFragment {
 	}
 
 	public void init(View view) {
+		date_of_birth = (TextView) view.findViewById(R.id.date_of_birth);
 		nickname = (EditText) view.findViewById(R.id.nickname);
 		role = (Spinner) view.findViewById(R.id.role);
 		batting_style = (Spinner) view.findViewById(R.id.batting_style);
@@ -58,6 +61,10 @@ public class ProfileEditFragment extends SherlockFragment {
 		Log.d("Debug", "On Profile Editting called");
 		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
+		String dateOfBirth = ProfileData.mPrefs.getString("dateOfBirth", "");
+		if (!dateOfBirth.equals("")) {
+			date_of_birth.setText(dateOfBirth);
+		}
 		nickname.setText(ProfileData.mPrefs.getString("nickname", ""));
 		selectFromSpinner(role, ProfileData.mPrefs.getString("role", ""));
 		selectFromSpinner(batting_style,
@@ -67,6 +74,8 @@ public class ProfileEditFragment extends SherlockFragment {
 	}
 
 	public void saveEditedProfile() {
+		String dob_str = date_of_birth.getText().toString();
+		ProfileData.setDOB(getSherlockActivity(), dob_str);
 		ProfileData.setNickname(getSherlockActivity(), nickname.getText()
 				.toString());
 		ProfileData.setRole(getSherlockActivity(), role.getSelectedItem()
