@@ -5,17 +5,18 @@
     android:versionName="1.0" >
 
     <permission
-        android:name="com.surv.ui123.permission.C2D_MESSAGE"
+        android:name="co.acjs.cricdecode.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="co.ajs.cricdecode.permission.C2D_MESSAGE" />
+    <uses-permission android:name="co.acjs.cricdecode.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />    
+     
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -50,8 +51,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/fb_app_id" />
 
-        <service android:name="co.acjs.cricdecode.SignInService" />
-        <service android:name="co.acjs.cricdecode.GCMIntentService" />
+        <service android:name="SignInService" />
+        <service android:name=".GCMIntentService" />
 
         <activity
             android:name="com.facebook.LoginActivity"
@@ -60,13 +61,25 @@
         </activity>
         <activity
             android:name="co.acjs.cricdecode.LogIn"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="co.acjs.cricdecode" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

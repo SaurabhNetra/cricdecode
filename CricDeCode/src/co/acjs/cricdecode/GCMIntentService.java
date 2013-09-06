@@ -10,7 +10,7 @@ import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 
 public class GCMIntentService extends GCMBaseIntentService {
-	
+
 	@Override
 	protected void onError(Context arg0, String arg1) {
 
@@ -18,29 +18,29 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected String[] getSenderIds(Context context) {
-	
+
 		return super.getSenderIds(context);
 
 	}
 
 	@Override
 	protected void onMessage(Context arg0, Intent intent) {
-	
 
 	}
 
 	@Override
 	protected void onRegistered(Context ctx, String regId) {
 		Log.w(GCMRegistrar.getRegistrationId(getApplicationContext()),
-				"Registration id");
+				"GCMIntentService: gcm id");
+		
 		if (GCMRegistrar.getRegistrationId(getApplicationContext()) != null) {
-			Intent intent = new Intent(this, SignInService.class);
-			startService(intent);
+			LogIn.startApp();
+
 		} else {
-			((MainActivity) MainActivity.main_context).runOnUiThread(new Runnable() {
+			((LogIn) LogIn.login_activity).runOnUiThread(new Runnable() {
 				public void run() {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
-							MainActivity.main_context);
+							LogIn.login_activity);
 					builder.setIcon(android.R.drawable.ic_dialog_alert)
 							.setTitle("Cannot Open Appliction!")
 							.setMessage(
@@ -51,7 +51,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 												DialogInterface dialog,
 												int which) {
 											dialog.dismiss();
-											((MainActivity) MainActivity.main_context)
+											((LogIn) LogIn.login_activity)
 													.finish();
 										}
 
@@ -66,7 +66,5 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onUnregistered(Context arg0, String arg1) {
 
 	}
-
-	
 
 }
