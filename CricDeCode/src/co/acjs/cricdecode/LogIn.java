@@ -109,13 +109,6 @@ public class LogIn extends SherlockActivity {
 
 		Log.w("Start App", "LogIn: ");
 		Intent intent = new Intent(login_activity, SignInService.class);
-		intent.putExtra("GCM_ID",
-				GCMRegistrar.getRegistrationId(login_activity));
-		intent.putExtra("ID", user.getId());
-		intent.putExtra("FName", user.getFirstName());
-		intent.putExtra("LName", user.getLastName());
-		intent.putExtra("DOB", user.getBirthday());
-		intent.putExtra("FBLink", user.getLink());
 		ProfileData.setGCMID(login_activity,
 				GCMRegistrar.getRegistrationId(login_activity));
 		ProfileData.setID(login_activity, user.getId());
