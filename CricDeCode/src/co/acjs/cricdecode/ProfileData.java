@@ -32,11 +32,35 @@ public class ProfileData {
 		}
 	}
 
-	public static void setName(Context cont, String name) {
+	public static void setFName(Context cont, String fname) {
 		try {
 			s.acquire();
 			init(cont);
-			editor.putString("name", name);
+			editor.putString("f_name", fname);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void setDOB(Context cont, String DOB) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("dob", DOB);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void setLName(Context cont, String lname) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("l_name", lname);
 			editor.commit();
 			s.release();
 		} catch (InterruptedException e) {
@@ -44,6 +68,18 @@ public class ProfileData {
 		}
 	}
 
+	public static void setFBLink(Context cont, String link) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putString("fb_link", link);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void setID(Context cont, String id) {
 		try {
 			s.acquire();
@@ -90,18 +126,6 @@ public class ProfileData {
 			editor.commit();
 			s.release();
 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setDateOfBirth(Context cont, String dateOfBirth) {
-		try {
-			s.acquire();
-			init(cont);
-			editor.putString("dateOfBirth", dateOfBirth);
-			editor.commit();
-			s.release();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -59,9 +59,18 @@
         <service android:name="co.acjs.cricdecode.GCMIntentService" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name="com.facebook.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="co.acjs.cricdecode.LogIn"
+            android:label="@string/title_activity_log_in" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

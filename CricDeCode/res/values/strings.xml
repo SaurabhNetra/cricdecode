@@ -428,5 +428,6 @@
     <string name="signin">Sign In</string>
     <string name="warning_text">Note: This Login will be used only to sync your data across all your devices. No data will be shared on Facebook without your prior consent.</string>
     <string name="title_activity_choose_account">ChooseAccountActivity</string>
+    <string name="title_activity_log_in">Log In</string>
 
 </resources>

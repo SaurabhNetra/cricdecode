@@ -12,14 +12,13 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class ProfileViewFragment extends SherlockFragment {
-	static ProfileViewFragment profileViewFragment;
-	ImageView iv;
-	int width, height;
-	int size;
+	static ProfileViewFragment	profileViewFragment;
+	ImageView					iv;
+	int							width, height;
+	int							size;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		profileViewFragment = this;
 		View rootView = inflater.inflate(R.layout.profile_view, container,
 				false);
@@ -58,7 +57,8 @@ public class ProfileViewFragment extends SherlockFragment {
 							R.string.profile_picture_size_view));
 		}
 		((TextView) view.findViewById(R.id.name)).setText(ProfileData.mPrefs
-				.getString("name", ""));
+				.getString("fname", "") + " " + ProfileData.mPrefs.getString(
+				"lname", ""));
 		((TextView) view.findViewById(R.id.nickname))
 				.setText(ProfileData.mPrefs.getString("nickname", ""));
 		((TextView) view.findViewById(R.id.date_of_birth))

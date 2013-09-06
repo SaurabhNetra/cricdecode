@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -40,8 +39,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.facebook.*;
-import com.facebook.model.*;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -59,8 +56,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	Menu							current_menu;
 	static SQLiteDatabase			dbHandle;
 	public static Context			main_context;
-	public static boolean			is_logged_in;
-	static GraphUser				user;
 	TextView						tx;
 
 	// Dialog state
@@ -91,54 +86,16 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Intent intent = getIntent();
 		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
+		ProfileData.setID(this, intent.getExtras().getString("ID"));
+		ProfileData.setFName(this, intent.getExtras().getString("FName"));
+		ProfileData.setLName(this, intent.getExtras().getString("LName"));
+		ProfileData.setDOB(this, intent.getExtras().getString("DOB"));
+		ProfileData.setFBLink(this, intent.getExtras().getString("FBLink"));
 		main_context = this;
-		is_logged_in = (!(ProfileData.mPrefs.getString("id", "")).equals(""));
-		if (is_logged_in) {
-			onCreateFunction(savedInstanceState);
-		} else {
-			onCreateLogin(savedInstanceState);
-		}
-	}
-
-	private void onCreateLogin(Bundle savedInstanceState) {
-		setContentView(R.layout.fb_login);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		CustomizeActionBar(R.layout.action_bar_login);
-	}
-
-	public void FBLogin(View v) {
-
-		// start FB Login
-		Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-			// callback when session changes state
-			@Override
-			public void call(Session session, SessionState state, Exception exception) {
-				if (session.isOpened()) {
-
-					// make request to the /me API
-					Request.executeMeRequestAsync(session,
-							new Request.GraphUserCallback() {
-
-								// callback after Graph API response with
-								// user object
-								@Override
-								public void onCompleted(GraphUser user, Response response) {
-									if (user != null) {
-										ProfileData.setID(main_context,
-												user.getId());
-										is_logged_in = true;
-										MainActivity.user = user;
-										Log.d("FBSignIn", user.getName());
-										onCreateFunction(null);
-									}
-								}
-							});
-				}
-			}
-		});
+		onCreateFunction(savedInstanceState);
 	}
 
 	private void CustomizeActionBar(int Resource) {
@@ -164,93 +121,91 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
-		if (is_logged_in) {
-			setPageName(currentFragment);
-			switch (currentFragment) {
-				case PROFILE_FRAGMENT:
-					if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
-						// menu.add(Menu.NONE, R.string.edit_profile, Menu.NONE,
-						// R.string.edit_profile);
-						// menu.findItem(R.string.edit_profile).setShowAsAction(
-						// MenuItem.SHOW_AS_ACTION_IF_ROOM);
-						ImageButton button = (ImageButton) getSupportActionBar()
-								.getCustomView().findViewById(R.id.button_menu);
-						button.setImageDrawable(getResources().getDrawable(
-								R.drawable.edit));
-						button.setContentDescription(getResources().getString(
-								R.string.edit_profile));
-						// button.setText(getResources().getString(R.string.edit_profile));
+		setPageName(currentFragment);
+		switch (currentFragment) {
+			case PROFILE_FRAGMENT:
+				if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_VIEW_FRAGMENT) {
+					// menu.add(Menu.NONE, R.string.edit_profile, Menu.NONE,
+					// R.string.edit_profile);
+					// menu.findItem(R.string.edit_profile).setShowAsAction(
+					// MenuItem.SHOW_AS_ACTION_IF_ROOM);
+					ImageButton button = (ImageButton) getSupportActionBar()
+							.getCustomView().findViewById(R.id.button_menu);
+					button.setImageDrawable(getResources().getDrawable(
+							R.drawable.edit));
+					button.setContentDescription(getResources().getString(
+							R.string.edit_profile));
+					// button.setText(getResources().getString(R.string.edit_profile));
 
-						((RelativeLayout) findViewById(R.id.rl_button))
-								.setVisibility(View.VISIBLE);
+					((RelativeLayout) findViewById(R.id.rl_button))
+							.setVisibility(View.VISIBLE);
 
-					} else {
-						/* menu.add(Menu.NONE, R.string.save_profile, Menu.NONE, R.string.save_profile); menu.findItem(R.string.save_profile).setShowAsAction( MenuItem.SHOW_AS_ACTION_IF_ROOM); */
-						ImageButton button = (ImageButton) getSupportActionBar()
-								.getCustomView().findViewById(R.id.button_menu);
-						button.setImageDrawable(getResources().getDrawable(
-								R.drawable.save));
-						button.setContentDescription(getResources().getString(
-								R.string.save_profile));
-						// button.setText(getResources().getString(R.string.save_profile));
-						((RelativeLayout) findViewById(R.id.rl_button))
-								.setVisibility(View.VISIBLE);
-					}
-					break;
-				case MATCH_CREATION_FRAGMENT:
-					/* menu.add(Menu.NONE, R.string.create_match, Menu.NONE, R.string.create_match); menu.findItem(R.string.create_match).setShowAsAction( MenuItem.SHOW_AS_ACTION_ALWAYS); */
+				} else {
+					/* menu.add(Menu.NONE, R.string.save_profile, Menu.NONE, R.string.save_profile); menu.findItem(R.string.save_profile).setShowAsAction( MenuItem.SHOW_AS_ACTION_IF_ROOM); */
 					ImageButton button = (ImageButton) getSupportActionBar()
 							.getCustomView().findViewById(R.id.button_menu);
 					button.setImageDrawable(getResources().getDrawable(
 							R.drawable.save));
 					button.setContentDescription(getResources().getString(
-							R.string.create_match));
-					// button.setText(getResources().getString(R.string.create_match));
+							R.string.save_profile));
+					// button.setText(getResources().getString(R.string.save_profile));
 					((RelativeLayout) findViewById(R.id.rl_button))
 							.setVisibility(View.VISIBLE);
-					break;
-				case ONGOING_MATCHES_FRAGMENT:
-					/* menu.add(Menu.NONE, R.string.new_match, Menu.NONE, R.string.new_match); menu.findItem(R.string.new_match).setShowAsAction( MenuItem.SHOW_AS_ACTION_ALWAYS); */
-					button = (ImageButton) getSupportActionBar()
-							.getCustomView().findViewById(R.id.button_menu);
-					button.setImageDrawable(getResources().getDrawable(
-							R.drawable.add));
-					button.setContentDescription(getResources().getString(
-							R.string.new_match));
-					// button.setText(getResources().getString(R.string.new_match));
-					((RelativeLayout) findViewById(R.id.rl_button))
-							.setVisibility(View.VISIBLE);
-					break;
-				case DIARY_MATCHES_FRAGMENT:
-				case CAREER_FRAGMENT:
-					/* menu.add(Menu.NONE, R.string.filter, Menu.NONE, R.string.filter); menu.findItem(R.string.filter).setShowAsAction( MenuItem.SHOW_AS_ACTION_IF_ROOM); */
-					button = (ImageButton) getSupportActionBar()
-							.getCustomView().findViewById(R.id.button_menu);
-					button.setImageDrawable(getResources().getDrawable(
-							R.drawable.filter));
-					button.setContentDescription(getResources().getString(
-							R.string.filter));
-					// button.setText(getResources().getString(R.string.filter));
-					((RelativeLayout) findViewById(R.id.rl_button))
-							.setVisibility(View.VISIBLE);
-					break;
-				case PERFORMANCE_FRAGMENT_EDIT:
-					/* menu.add(Menu.NONE, R.string.save_performance, Menu.NONE, R.string.save_performance); menu.findItem(R.string.save_performance).setShowAsAction( MenuItem.SHOW_AS_ACTION_ALWAYS); */
-					button = (ImageButton) getSupportActionBar()
-							.getCustomView().findViewById(R.id.button_menu);
-					button.setContentDescription(getResources().getString(
-							R.string.save_performance));
-					button.setImageDrawable(getResources().getDrawable(
-							R.drawable.save));
-					// button.setText(getResources().getString(R.string.save_performance));
-					((RelativeLayout) findViewById(R.id.rl_button))
-							.setVisibility(View.VISIBLE);
-					break;
-				default:
-					((RelativeLayout) findViewById(R.id.rl_button))
-							.setVisibility(View.GONE);
-					break;
-			}
+				}
+				break;
+			case MATCH_CREATION_FRAGMENT:
+				/* menu.add(Menu.NONE, R.string.create_match, Menu.NONE, R.string.create_match); menu.findItem(R.string.create_match).setShowAsAction( MenuItem.SHOW_AS_ACTION_ALWAYS); */
+				ImageButton button = (ImageButton) getSupportActionBar()
+						.getCustomView().findViewById(R.id.button_menu);
+				button.setImageDrawable(getResources().getDrawable(
+						R.drawable.save));
+				button.setContentDescription(getResources().getString(
+						R.string.create_match));
+				// button.setText(getResources().getString(R.string.create_match));
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.VISIBLE);
+				break;
+			case ONGOING_MATCHES_FRAGMENT:
+				/* menu.add(Menu.NONE, R.string.new_match, Menu.NONE, R.string.new_match); menu.findItem(R.string.new_match).setShowAsAction( MenuItem.SHOW_AS_ACTION_ALWAYS); */
+				button = (ImageButton) getSupportActionBar().getCustomView()
+						.findViewById(R.id.button_menu);
+				button.setImageDrawable(getResources().getDrawable(
+						R.drawable.add));
+				button.setContentDescription(getResources().getString(
+						R.string.new_match));
+				// button.setText(getResources().getString(R.string.new_match));
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.VISIBLE);
+				break;
+			case DIARY_MATCHES_FRAGMENT:
+			case CAREER_FRAGMENT:
+				/* menu.add(Menu.NONE, R.string.filter, Menu.NONE, R.string.filter); menu.findItem(R.string.filter).setShowAsAction( MenuItem.SHOW_AS_ACTION_IF_ROOM); */
+				button = (ImageButton) getSupportActionBar().getCustomView()
+						.findViewById(R.id.button_menu);
+				button.setImageDrawable(getResources().getDrawable(
+						R.drawable.filter));
+				button.setContentDescription(getResources().getString(
+						R.string.filter));
+				// button.setText(getResources().getString(R.string.filter));
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.VISIBLE);
+				break;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				/* menu.add(Menu.NONE, R.string.save_performance, Menu.NONE, R.string.save_performance); menu.findItem(R.string.save_performance).setShowAsAction( MenuItem.SHOW_AS_ACTION_ALWAYS); */
+				button = (ImageButton) getSupportActionBar().getCustomView()
+						.findViewById(R.id.button_menu);
+				button.setContentDescription(getResources().getString(
+						R.string.save_performance));
+				button.setImageDrawable(getResources().getDrawable(
+						R.drawable.save));
+				// button.setText(getResources().getString(R.string.save_performance));
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.VISIBLE);
+				break;
+			default:
+				((RelativeLayout) findViewById(R.id.rl_button))
+						.setVisibility(View.GONE);
+				break;
 		}
 		current_menu = menu;
 		getSupportMenuInflater().inflate(R.menu.main, menu);
@@ -389,10 +344,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		if (is_logged_in) {// Sync the toggle state after onRestoreInstanceState
-							// has occurred.
-			mDrawerToggle.syncState();
-		}
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
 	}
 
 	@Override
@@ -405,96 +358,86 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (is_logged_in) {
-			Log.d("Debug", "Save currentFragment " + currentFragment);
-			outState.putInt("currentFragment", currentFragment);
-			outState.putInt("preFragment", preFragment);
+		Log.d("Debug", "Save currentFragment " + currentFragment);
+		outState.putInt("currentFragment", currentFragment);
+		outState.putInt("preFragment", preFragment);
 
-			outState.putBoolean("filter_showing", filter_showing);
-			Log.d("Debug", "Dialog print" + (dialog == null));
-			if (filter_showing) {
+		outState.putBoolean("filter_showing", filter_showing);
+		Log.d("Debug", "Dialog print" + (dialog == null));
+		if (filter_showing) {
 
-				if (currentFragment != DIARY_MATCHES_FRAGMENT) {
-					outState.putIntegerArrayList("batting_no_val",
-							batting_no_spinner.getSelectedIndicies());
-					outState.putIntegerArrayList("how_out_val",
-							how_out_spinner.getSelectedIndicies());
-				}
-				outState.putIntegerArrayList("season_val",
-						season_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("my_team_val",
-						my_team_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("opponent_val",
-						opponent_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("venue_val",
-						venue_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("result_val",
-						result_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("level_val",
-						level_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("overs_val",
-						overs_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("innings_val",
-						innings_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("duration_val",
-						duration_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("first_val",
-						first_spinner.getSelectedIndicies());
+			if (currentFragment != DIARY_MATCHES_FRAGMENT) {
+				outState.putIntegerArrayList("batting_no_val",
+						batting_no_spinner.getSelectedIndicies());
+				outState.putIntegerArrayList("how_out_val",
+						how_out_spinner.getSelectedIndicies());
 			}
-
-			switch (currentFragment) {
-				case PROFILE_FRAGMENT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							ProfileFragment.profileFragment);
-					break;
-				case CAREER_FRAGMENT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							CareerFragment.careerFragment);
-					break;
-				case ANALYSIS_FRAGMENT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							AnalysisFragment.analysisFragment);
-					break;
-				case ONGOING_MATCHES_FRAGMENT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							OngoingMatchesFragment.ongoingMatchesFragment);
-					break;
-				case DIARY_MATCHES_FRAGMENT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							DiaryMatchesFragment.diaryMatchesFragment);
-					break;
-				case MATCH_CREATION_FRAGMENT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							MatchCreationFragment.matchCreationFragment);
-					break;
-				case PERFORMANCE_FRAGMENT_EDIT:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							PerformanceFragmentEdit.performanceFragmentEdit);
-					break;
-				case PERFORMANCE_FRAGMENT_VIEW:
-					getSupportFragmentManager().putFragment(outState,
-							"currentFragmentInstance",
-							PerformanceFragmentView.performanceFragmentView);
-					break;
-				default:
-					break;
-			}
-		} else {
+			outState.putIntegerArrayList("season_val",
+					season_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("my_team_val",
+					my_team_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("opponent_val",
+					opponent_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("venue_val",
+					venue_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("result_val",
+					result_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("level_val",
+					level_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("overs_val",
+					overs_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("innings_val",
+					innings_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("duration_val",
+					duration_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("first_val",
+					first_spinner.getSelectedIndicies());
 		}
-	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(this, requestCode,
-				resultCode, data);
+		switch (currentFragment) {
+			case PROFILE_FRAGMENT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						ProfileFragment.profileFragment);
+				break;
+			case CAREER_FRAGMENT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						CareerFragment.careerFragment);
+				break;
+			case ANALYSIS_FRAGMENT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						AnalysisFragment.analysisFragment);
+				break;
+			case ONGOING_MATCHES_FRAGMENT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						OngoingMatchesFragment.ongoingMatchesFragment);
+				break;
+			case DIARY_MATCHES_FRAGMENT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						DiaryMatchesFragment.diaryMatchesFragment);
+				break;
+			case MATCH_CREATION_FRAGMENT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						MatchCreationFragment.matchCreationFragment);
+				break;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						PerformanceFragmentEdit.performanceFragmentEdit);
+				break;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				getSupportFragmentManager().putFragment(outState,
+						"currentFragmentInstance",
+						PerformanceFragmentView.performanceFragmentView);
+				break;
+			default:
+				break;
+		}
 	}
 
 	@Override
@@ -2223,52 +2166,49 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (is_logged_in) {
-			switch (currentFragment) {
-				case CAREER_FRAGMENT:
-					break;
-				case MATCH_CREATION_FRAGMENT:
-					currentFragment = ONGOING_MATCHES_FRAGMENT;
-					preFragment = CAREER_FRAGMENT;
-					selectItem(ONGOING_MATCHES_FRAGMENT, true);
+		switch (currentFragment) {
+			case CAREER_FRAGMENT:
+				break;
+			case MATCH_CREATION_FRAGMENT:
+				currentFragment = ONGOING_MATCHES_FRAGMENT;
+				preFragment = CAREER_FRAGMENT;
+				selectItem(ONGOING_MATCHES_FRAGMENT, true);
+				onPrepareOptionsMenu(current_menu);
+				return;
+			case PERFORMANCE_FRAGMENT_EDIT:
+				PerformanceFragmentEdit.performanceFragmentEdit
+						.insertOrUpdate();
+				onPrepareOptionsMenu(current_menu);
+				return;
+			case PERFORMANCE_FRAGMENT_VIEW:
+				currentFragment = DIARY_MATCHES_FRAGMENT;
+				preFragment = CAREER_FRAGMENT;
+				selectItem(currentFragment, true);
+				onPrepareOptionsMenu(current_menu);
+				return;
+			case PROFILE_FRAGMENT:
+				if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT) {
+					Log.d("Debug", "Profile Edit Hi");
+					ProfileEditFragment.profileEditFragment.saveEditedProfile();
+					ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
 					onPrepareOptionsMenu(current_menu);
+					ProfileFragment.profileFragment.viewFragment();
 					return;
-				case PERFORMANCE_FRAGMENT_EDIT:
-					PerformanceFragmentEdit.performanceFragmentEdit
-							.insertOrUpdate();
-					onPrepareOptionsMenu(current_menu);
-					return;
-				case PERFORMANCE_FRAGMENT_VIEW:
-					currentFragment = DIARY_MATCHES_FRAGMENT;
-					preFragment = CAREER_FRAGMENT;
-					selectItem(currentFragment, true);
-					onPrepareOptionsMenu(current_menu);
-					return;
-				case PROFILE_FRAGMENT:
-					if (ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT) {
-						Log.d("Debug", "Profile Edit Hi");
-						ProfileEditFragment.profileEditFragment
-								.saveEditedProfile();
-						ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+				}
+			default:
+				switch (preFragment) {
+					case PROFILE_FRAGMENT:
+					case ANALYSIS_FRAGMENT:
+					case CAREER_FRAGMENT:
+					case DIARY_MATCHES_FRAGMENT:
+					case ONGOING_MATCHES_FRAGMENT:
+						currentFragment = CAREER_FRAGMENT;
+						preFragment = NO_FRAGMENT;
+						selectItem(CAREER_FRAGMENT, true);
 						onPrepareOptionsMenu(current_menu);
-						ProfileFragment.profileFragment.viewFragment();
 						return;
-					}
-				default:
-					switch (preFragment) {
-						case PROFILE_FRAGMENT:
-						case ANALYSIS_FRAGMENT:
-						case CAREER_FRAGMENT:
-						case DIARY_MATCHES_FRAGMENT:
-						case ONGOING_MATCHES_FRAGMENT:
-							currentFragment = CAREER_FRAGMENT;
-							preFragment = NO_FRAGMENT;
-							selectItem(CAREER_FRAGMENT, true);
-							onPrepareOptionsMenu(current_menu);
-							return;
-					}
-					break;
-			}
+				}
+				break;
 		}
 		super.onBackPressed();
 	}
@@ -2390,7 +2330,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	private void onCreateFunction(Bundle savedInstanceState) {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
 		setContentView(R.layout.drawer_main);
 
