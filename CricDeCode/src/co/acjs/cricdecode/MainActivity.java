@@ -89,11 +89,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		Intent intent = getIntent();
 		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
-		ProfileData.setID(this, intent.getExtras().getString("ID"));
-		ProfileData.setFName(this, intent.getExtras().getString("FName"));
-		ProfileData.setLName(this, intent.getExtras().getString("LName"));
-		ProfileData.setDOB(this, intent.getExtras().getString("DOB"));
-		ProfileData.setFBLink(this, intent.getExtras().getString("FBLink"));
+		if (!ProfileData.mPrefs.getString("id", "").equals("")) {
+			ProfileData.setID(this, intent.getExtras().getString("ID"));
+			ProfileData.setFName(this, intent.getExtras().getString("FName"));
+			ProfileData.setLName(this, intent.getExtras().getString("LName"));
+			ProfileData.setDOB(this, intent.getExtras().getString("DOB"));
+			ProfileData.setFBLink(this, intent.getExtras().getString("FBLink"));
+		}
 		main_context = this;
 		onCreateFunction(savedInstanceState);
 	}
