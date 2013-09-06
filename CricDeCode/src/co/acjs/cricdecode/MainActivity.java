@@ -7,6 +7,9 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
+import android.content.DialogInterface.OnShowListener;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -56,7 +59,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	static SQLiteDatabase dbHandle;
 	public static Context main_context;
 	TextView tx;
-	
+
 	// Dialog state
 	boolean filter_showing;
 	MultiSelectSpinner batting_no_spinner, how_out_spinner, season_spinner,
@@ -87,7 +90,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
-		
+
 		main_context = this;
 		setContentView(R.layout.drawer_main);
 
@@ -1082,6 +1085,22 @@ public class MainActivity extends SherlockFragmentActivity {
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.filter_general);
 
+		dialog.setOnDismissListener(new OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				filter_showing = false;
+			}
+		});
+
+		dialog.setOnShowListener(new OnShowListener() {
+
+			@Override
+			public void onShow(DialogInterface dialog) {
+				filter_showing = true;
+			}
+		});
+
 		switch (id) {
 		case DIARY_MATCHES_FRAGMENT:
 			dialog.findViewById(R.id.lbl_batting_no_list).setVisibility(
@@ -1199,7 +1218,8 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			first_spinner.setSelection(0);
 
-			if (filter_showing) {
+			Log.d("Debug", "filter_showing " + filter_showing);
+			if (my_team_val != null) {
 				my_team_spinner.setSelection(my_team_val
 						.toArray(new Integer[0]));
 				opponent_spinner.setSelection(opponent_val
@@ -1214,6 +1234,8 @@ public class MainActivity extends SherlockFragmentActivity {
 						.toArray(new Integer[0]));
 				first_spinner.setSelection(first_val.toArray(new Integer[0]));
 				season_spinner.setSelection(season_val.toArray(new Integer[0]));
+			} else if (filter_showing) {
+				return;
 			}
 
 			dialogButton = (Button) dialog.findViewById(R.id.okay);
@@ -1382,7 +1404,6 @@ public class MainActivity extends SherlockFragmentActivity {
 					Toast.makeText(MainActivity.main_context, "Filter Set",
 							Toast.LENGTH_LONG).show();
 					dialog.dismiss();
-					filter_showing = false;
 					v.setBackgroundColor(getResources().getColor(
 							R.color.dark_red));
 
@@ -1398,7 +1419,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					season_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.season_list);
 					season_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.season_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.season_list);
 					season_spinner._proxyAdapter.clear();
 					season_spinner._proxyAdapter.add(season_spinner
 							.buildSelectedItemString());
@@ -1407,7 +1428,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					my_team_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
 					my_team_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
 					my_team_spinner._proxyAdapter.clear();
 					my_team_spinner._proxyAdapter.add(my_team_spinner
 							.buildSelectedItemString());
@@ -1416,7 +1437,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					opponent_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
 					opponent_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
 					opponent_spinner._proxyAdapter.clear();
 					opponent_spinner._proxyAdapter.add(opponent_spinner
 							.buildSelectedItemString());
@@ -1425,7 +1446,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					venue_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
 					venue_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
 					venue_spinner._proxyAdapter.clear();
 					venue_spinner._proxyAdapter.add(venue_spinner
 							.buildSelectedItemString());
@@ -1434,7 +1455,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					result_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.result_list);
 					result_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.result_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.result_list);
 					result_spinner._proxyAdapter.clear();
 					result_spinner._proxyAdapter.add(result_spinner
 							.buildSelectedItemString());
@@ -1443,7 +1464,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					level_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.level_list);
 					level_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.level_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.level_list);
 					level_spinner._proxyAdapter.clear();
 					level_spinner._proxyAdapter.add(level_spinner
 							.buildSelectedItemString());
@@ -1452,7 +1473,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					overs_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
 					overs_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
 					overs_spinner._proxyAdapter.clear();
 					overs_spinner._proxyAdapter.add(overs_spinner
 							.buildSelectedItemString());
@@ -1461,7 +1482,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					innings_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
 					innings_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
 					innings_spinner._proxyAdapter.clear();
 					innings_spinner._proxyAdapter.add(innings_spinner
 							.buildSelectedItemString());
@@ -1470,7 +1491,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					duration_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
 					duration_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
 					duration_spinner._proxyAdapter.clear();
 					duration_spinner._proxyAdapter.add(duration_spinner
 							.buildSelectedItemString());
@@ -1479,7 +1500,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					first_spinner
 							.setItems(DiaryMatchesFragment.diaryMatchesFragment.first_list);
 					first_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.first_list_selected);
+							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.first_list);
 					first_spinner._proxyAdapter.clear();
 					first_spinner._proxyAdapter.add(first_spinner
 							.buildSelectedItemString());
@@ -1493,7 +1514,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-					filter_showing = false;
 				}
 			});
 			break;
@@ -1625,7 +1645,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			first_spinner.setSelection(0);
 
-			if (filter_showing) {
+			if (my_team_val != null) {
 				batting_no_spinner.setSelection(batting_no_val
 						.toArray(new Integer[0]));
 				how_out_spinner.setSelection(how_out_val
@@ -1644,6 +1664,8 @@ public class MainActivity extends SherlockFragmentActivity {
 						.toArray(new Integer[0]));
 				first_spinner.setSelection(first_val.toArray(new Integer[0]));
 				season_spinner.setSelection(season_val.toArray(new Integer[0]));
+			} else if (filter_showing) {
+				return;
 			}
 
 			dialogButton = (Button) dialog.findViewById(R.id.okay);
@@ -1830,7 +1852,6 @@ public class MainActivity extends SherlockFragmentActivity {
 									.getCurrentItem());
 
 					dialog.dismiss();
-					filter_showing = false;
 				}
 			});
 
@@ -1843,7 +1864,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					batting_no_spinner
 							.setItems(CareerFragment.careerFragment.batting_no_list);
 					batting_no_spinner
-							.setSelection(CareerFragment.careerFragment.batting_no_list_selected);
+							.setSelection(CareerFragment.careerFragment.batting_no_list);
 					batting_no_spinner._proxyAdapter.clear();
 					batting_no_spinner._proxyAdapter.add(batting_no_spinner
 							.buildSelectedItemString());
@@ -1852,7 +1873,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					how_out_spinner
 							.setItems(CareerFragment.careerFragment.how_out_list);
 					how_out_spinner
-							.setSelection(CareerFragment.careerFragment.how_out_list_selected);
+							.setSelection(CareerFragment.careerFragment.how_out_list);
 					how_out_spinner._proxyAdapter.clear();
 					how_out_spinner._proxyAdapter.add(how_out_spinner
 							.buildSelectedItemString());
@@ -1861,7 +1882,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					season_spinner
 							.setItems(CareerFragment.careerFragment.season_list);
 					season_spinner
-							.setSelection(CareerFragment.careerFragment.season_list_selected);
+							.setSelection(CareerFragment.careerFragment.season_list);
 					season_spinner._proxyAdapter.clear();
 					season_spinner._proxyAdapter.add(season_spinner
 							.buildSelectedItemString());
@@ -1870,7 +1891,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					my_team_spinner
 							.setItems(CareerFragment.careerFragment.my_team_list);
 					my_team_spinner
-							.setSelection(CareerFragment.careerFragment.my_team_list_selected);
+							.setSelection(CareerFragment.careerFragment.my_team_list);
 					my_team_spinner._proxyAdapter.clear();
 					my_team_spinner._proxyAdapter.add(my_team_spinner
 							.buildSelectedItemString());
@@ -1879,7 +1900,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					opponent_spinner
 							.setItems(CareerFragment.careerFragment.opponent_list);
 					opponent_spinner
-							.setSelection(CareerFragment.careerFragment.opponent_list_selected);
+							.setSelection(CareerFragment.careerFragment.opponent_list);
 					opponent_spinner._proxyAdapter.clear();
 					opponent_spinner._proxyAdapter.add(opponent_spinner
 							.buildSelectedItemString());
@@ -1888,7 +1909,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					venue_spinner
 							.setItems(CareerFragment.careerFragment.venue_list);
 					venue_spinner
-							.setSelection(CareerFragment.careerFragment.venue_list_selected);
+							.setSelection(CareerFragment.careerFragment.venue_list);
 					venue_spinner._proxyAdapter.clear();
 					venue_spinner._proxyAdapter.add(venue_spinner
 							.buildSelectedItemString());
@@ -1897,7 +1918,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					result_spinner
 							.setItems(CareerFragment.careerFragment.result_list);
 					result_spinner
-							.setSelection(CareerFragment.careerFragment.result_list_selected);
+							.setSelection(CareerFragment.careerFragment.result_list);
 					result_spinner._proxyAdapter.clear();
 					result_spinner._proxyAdapter.add(result_spinner
 							.buildSelectedItemString());
@@ -1906,7 +1927,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					level_spinner
 							.setItems(CareerFragment.careerFragment.level_list);
 					level_spinner
-							.setSelection(CareerFragment.careerFragment.level_list_selected);
+							.setSelection(CareerFragment.careerFragment.level_list);
 					level_spinner._proxyAdapter.clear();
 					level_spinner._proxyAdapter.add(level_spinner
 							.buildSelectedItemString());
@@ -1915,7 +1936,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					overs_spinner
 							.setItems(CareerFragment.careerFragment.overs_list);
 					overs_spinner
-							.setSelection(CareerFragment.careerFragment.overs_list_selected);
+							.setSelection(CareerFragment.careerFragment.overs_list);
 					overs_spinner._proxyAdapter.clear();
 					overs_spinner._proxyAdapter.add(overs_spinner
 							.buildSelectedItemString());
@@ -1924,7 +1945,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					innings_spinner
 							.setItems(CareerFragment.careerFragment.innings_list);
 					innings_spinner
-							.setSelection(CareerFragment.careerFragment.innings_list_selected);
+							.setSelection(CareerFragment.careerFragment.innings_list);
 					innings_spinner._proxyAdapter.clear();
 					innings_spinner._proxyAdapter.add(innings_spinner
 							.buildSelectedItemString());
@@ -1933,7 +1954,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					duration_spinner
 							.setItems(CareerFragment.careerFragment.duration_list);
 					duration_spinner
-							.setSelection(CareerFragment.careerFragment.duration_list_selected);
+							.setSelection(CareerFragment.careerFragment.duration_list);
 					duration_spinner._proxyAdapter.clear();
 					duration_spinner._proxyAdapter.add(duration_spinner
 							.buildSelectedItemString());
@@ -1942,7 +1963,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					first_spinner
 							.setItems(CareerFragment.careerFragment.first_list);
 					first_spinner
-							.setSelection(CareerFragment.careerFragment.first_list_selected);
+							.setSelection(CareerFragment.careerFragment.first_list);
 					first_spinner._proxyAdapter.clear();
 					first_spinner._proxyAdapter.add(first_spinner
 							.buildSelectedItemString());
@@ -1956,7 +1977,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-					filter_showing = false;
+
 				}
 			});
 			break;
@@ -2094,7 +2115,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					.buildSelectedItemString());
 			first_spinner.setSelection(0);
 
-			if (filter_showing) {
+			if (my_team_val != null) {
 				batting_no_spinner.setSelection(batting_no_val
 						.toArray(new Integer[0]));
 				how_out_spinner.setSelection(how_out_val
@@ -2113,6 +2134,8 @@ public class MainActivity extends SherlockFragmentActivity {
 						.toArray(new Integer[0]));
 				first_spinner.setSelection(first_val.toArray(new Integer[0]));
 				season_spinner.setSelection(season_val.toArray(new Integer[0]));
+			} else if (filter_showing) {
+				return;
 			}
 
 			dialogButton = (Button) dialog.findViewById(R.id.okay);
@@ -2300,7 +2323,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					}
 
 					dialog.dismiss();
-					filter_showing = false;
+
 				}
 			});
 
@@ -2313,7 +2336,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					batting_no_spinner
 							.setItems(AnalysisFragment.analysisFragment.batting_no_list);
 					batting_no_spinner
-							.setSelection(AnalysisFragment.analysisFragment.batting_no_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.batting_no_list);
 					batting_no_spinner._proxyAdapter.clear();
 					batting_no_spinner._proxyAdapter.add(batting_no_spinner
 							.buildSelectedItemString());
@@ -2322,7 +2345,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					how_out_spinner
 							.setItems(AnalysisFragment.analysisFragment.how_out_list);
 					how_out_spinner
-							.setSelection(AnalysisFragment.analysisFragment.how_out_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.how_out_list);
 					how_out_spinner._proxyAdapter.clear();
 					how_out_spinner._proxyAdapter.add(how_out_spinner
 							.buildSelectedItemString());
@@ -2331,7 +2354,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					season_spinner
 							.setItems(AnalysisFragment.analysisFragment.season_list);
 					season_spinner
-							.setSelection(AnalysisFragment.analysisFragment.season_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.season_list);
 					season_spinner._proxyAdapter.clear();
 					season_spinner._proxyAdapter.add(season_spinner
 							.buildSelectedItemString());
@@ -2340,7 +2363,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					my_team_spinner
 							.setItems(AnalysisFragment.analysisFragment.my_team_list);
 					my_team_spinner
-							.setSelection(AnalysisFragment.analysisFragment.my_team_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.my_team_list);
 					my_team_spinner._proxyAdapter.clear();
 					my_team_spinner._proxyAdapter.add(my_team_spinner
 							.buildSelectedItemString());
@@ -2349,7 +2372,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					opponent_spinner
 							.setItems(AnalysisFragment.analysisFragment.opponent_list);
 					opponent_spinner
-							.setSelection(AnalysisFragment.analysisFragment.opponent_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.opponent_list);
 					opponent_spinner._proxyAdapter.clear();
 					opponent_spinner._proxyAdapter.add(opponent_spinner
 							.buildSelectedItemString());
@@ -2358,7 +2381,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					venue_spinner
 							.setItems(AnalysisFragment.analysisFragment.venue_list);
 					venue_spinner
-							.setSelection(AnalysisFragment.analysisFragment.venue_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.venue_list);
 					venue_spinner._proxyAdapter.clear();
 					venue_spinner._proxyAdapter.add(venue_spinner
 							.buildSelectedItemString());
@@ -2367,7 +2390,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					result_spinner
 							.setItems(AnalysisFragment.analysisFragment.result_list);
 					result_spinner
-							.setSelection(AnalysisFragment.analysisFragment.result_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.result_list);
 					result_spinner._proxyAdapter.clear();
 					result_spinner._proxyAdapter.add(result_spinner
 							.buildSelectedItemString());
@@ -2376,7 +2399,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					level_spinner
 							.setItems(AnalysisFragment.analysisFragment.level_list);
 					level_spinner
-							.setSelection(AnalysisFragment.analysisFragment.level_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.level_list);
 					level_spinner._proxyAdapter.clear();
 					level_spinner._proxyAdapter.add(level_spinner
 							.buildSelectedItemString());
@@ -2385,7 +2408,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					overs_spinner
 							.setItems(AnalysisFragment.analysisFragment.overs_list);
 					overs_spinner
-							.setSelection(AnalysisFragment.analysisFragment.overs_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.overs_list);
 					overs_spinner._proxyAdapter.clear();
 					overs_spinner._proxyAdapter.add(overs_spinner
 							.buildSelectedItemString());
@@ -2394,7 +2417,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					innings_spinner
 							.setItems(AnalysisFragment.analysisFragment.innings_list);
 					innings_spinner
-							.setSelection(AnalysisFragment.analysisFragment.innings_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.innings_list);
 					innings_spinner._proxyAdapter.clear();
 					innings_spinner._proxyAdapter.add(innings_spinner
 							.buildSelectedItemString());
@@ -2403,7 +2426,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					duration_spinner
 							.setItems(AnalysisFragment.analysisFragment.duration_list);
 					duration_spinner
-							.setSelection(AnalysisFragment.analysisFragment.duration_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.duration_list);
 					duration_spinner._proxyAdapter.clear();
 					duration_spinner._proxyAdapter.add(duration_spinner
 							.buildSelectedItemString());
@@ -2412,7 +2435,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					first_spinner
 							.setItems(AnalysisFragment.analysisFragment.first_list);
 					first_spinner
-							.setSelection(AnalysisFragment.analysisFragment.first_list_selected);
+							.setSelection(AnalysisFragment.analysisFragment.first_list);
 					first_spinner._proxyAdapter.clear();
 					first_spinner._proxyAdapter.add(first_spinner
 							.buildSelectedItemString());
@@ -2426,7 +2449,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-					filter_showing = false;
+
 				}
 			});
 			break;
@@ -2434,7 +2457,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		}
 		dialog.show();
-		filter_showing = true;
 	}
 
 	@Override
