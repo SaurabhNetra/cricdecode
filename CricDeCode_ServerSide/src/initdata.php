@@ -114,8 +114,14 @@ if (mysql_num_rows ( mysql_query ( "SELECT * FROM user_table WHERE id='$id'" ) )
 			);
 			$performance_data [$i] = $row;
 		}
+		$user_info = mysql_query ( "SELECT * FROM user_table WHERE id='$id'" );
+		$user_array = mysql_fetch_array ( $user_info );
 		$ax = array (
 				"user" => "existing",
+				"nickname" => $user_info ['nickname'],
+				"role" => $user_info ['role'],
+				"battingStyle" => $user_info ['battingStyle'],
+				"bowlingStyle" => $user_info ['bowlingStyle'],
 				"performance" => $performance_data,
 				"cricket_match_data" => $cricket_match_data 
 		);

@@ -79,9 +79,16 @@ public class SignInService extends IntentService {
 				}
 				trial++;
 			}
-			
 			try {
 				if (jn.getString("user").equals("existing")) {
+					AccessSharedPrefs.setString(this, "nickname",
+							jn.getString("nickname"));
+					AccessSharedPrefs.setString(this, "role",
+							jn.getString("role"));
+					AccessSharedPrefs.setString(this, "battingStyle",
+							jn.getString("battingStyle"));
+					AccessSharedPrefs.setString(this, "bowlingStyle",
+							jn.getString("bowlingStyle"));
 					JSONArray all_matches = jn
 							.getJSONArray("cricket_match_data");
 					for (int i = 0; i < all_matches.length(); i++) {
@@ -202,11 +209,12 @@ public class SignInService extends IntentService {
 						Log.w("JSON Object",
 								"Performance Data: " + performance_id);
 					}
+					// TODO Saurabh Code Here
+
 				}
 				AccessSharedPrefs.setString(this, "SignInCalled", "yes");
 			} catch (JSONException e) {
 			}
-
 		}
 	}
 }
