@@ -1032,7 +1032,10 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	}
 
 	public void insertOrUpdate() {
-		saveInfo(mViewPager.getCurrentItem());
+		saveInfo(GENERAL);
+		saveInfo(BATTING);
+		saveInfo(BOWLING);
+		saveInfo(FIELDING);
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
 				+ match_id);
 		ContentValues matchvalues = new ContentValues();
