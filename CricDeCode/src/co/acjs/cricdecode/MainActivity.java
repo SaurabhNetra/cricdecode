@@ -1225,16 +1225,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				}
 
 				dialogButton = (Button) dialog.findViewById(R.id.okay);
-				// if button is clicked, close the custom dialog
-				dialogButton.setOnTouchListener(new OnTouchListener() {
-
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						v.setBackgroundColor(getResources().getColor(
-								R.color.light_red));
-						return false;
-					}
-				});
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -1376,6 +1367,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				});
 
 				dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -1474,6 +1466,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				});
 
 				dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -1645,7 +1638,9 @@ public class MainActivity extends SherlockFragmentActivity {
 					return;
 				}
 
+				
 				dialogButton = (Button) dialog.findViewById(R.id.okay);
+				
 				// if button is clicked, close the custom dialog
 				dialogButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -1806,6 +1801,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				});
 
 				dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -1921,7 +1917,8 @@ public class MainActivity extends SherlockFragmentActivity {
 					}
 				});
 
-				dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+				dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);				
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -2095,7 +2092,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				}
 
 				dialogButton = (Button) dialog.findViewById(R.id.okay);
-
+			
 				// if button is clicked, close the custom dialog
 				dialogButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -2251,6 +2248,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				});
 
 				dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -2367,6 +2365,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				});
 
 				dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
+				
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
