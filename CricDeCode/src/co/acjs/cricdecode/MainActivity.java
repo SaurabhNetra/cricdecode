@@ -69,7 +69,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	ArrayList<Integer> batting_no_val, how_out_val, season_val, my_team_val,
 			opponent_val, venue_val, result_val, level_val, overs_val,
 			innings_val, duration_val, first_val;
-	FilterDialog dialog;
+	FilterDialog filter_dialog;
 
 	static ContentProviderClient client;
 
@@ -607,7 +607,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		outState.putInt("preFragment", preFragment);
 
 		outState.putBoolean("filter_showing", filter_showing);
-		Log.d("Debug", "Dialog print" + (dialog == null));
+		Log.d("Debug", "Dialog print" + (filter_dialog == null));
 		if (filter_showing) {
 
 			if (currentFragment != DIARY_MATCHES_FRAGMENT) {
@@ -1080,7 +1080,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void showFilterDialog(int id) {
 		// custom dialog
-		dialog = new FilterDialog(this);
+		final FilterDialog dialog = new FilterDialog(this);
 		Button dialogButton;
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.filter_general);
@@ -2456,6 +2456,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		default:
 			break;
 		}
+		filter_dialog = dialog;
 		dialog.show();
 	}
 
