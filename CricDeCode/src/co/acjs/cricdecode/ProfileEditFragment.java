@@ -59,31 +59,31 @@ public class ProfileEditFragment extends SherlockFragment {
 
 	public void onProfileEditing() {
 		Log.d("Debug", "On Profile Editting called");
-		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		String dateOfBirth = ProfileData.mPrefs.getString("dateOfBirth", "");
+		String dateOfBirth = AccessSharedPrefs.mPrefs.getString("dateOfBirth", "");
 		if (!dateOfBirth.equals("")) {
 			date_of_birth.setText(dateOfBirth);
 		}
-		nickname.setText(ProfileData.mPrefs.getString("nickname", ""));
-		selectFromSpinner(role, ProfileData.mPrefs.getString("role", ""));
+		nickname.setText(AccessSharedPrefs.mPrefs.getString("nickname", ""));
+		selectFromSpinner(role, AccessSharedPrefs.mPrefs.getString("role", ""));
 		selectFromSpinner(batting_style,
-				ProfileData.mPrefs.getString("battingStyle", ""));
+				AccessSharedPrefs.mPrefs.getString("battingStyle", ""));
 		selectFromSpinner(bowling_style,
-				ProfileData.mPrefs.getString("bowlingStyle", ""));
+				AccessSharedPrefs.mPrefs.getString("bowlingStyle", ""));
 	}
 
 	public void saveEditedProfile() {
 		String dob_str = date_of_birth.getText().toString();
-		ProfileData.setDOB(getSherlockActivity(), dob_str);
-		ProfileData.setNickname(getSherlockActivity(), nickname.getText()
-				.toString());
-		ProfileData.setRole(getSherlockActivity(), role.getSelectedItem()
-				.toString());
-		ProfileData.setBattingStyle(getSherlockActivity(), batting_style
+		AccessSharedPrefs.setString(getSherlockActivity(), "dob", dob_str);
+		AccessSharedPrefs.setString(getSherlockActivity(), "nickname", nickname
+				.getText().toString());
+		AccessSharedPrefs.setString(getSherlockActivity(), "role", role
 				.getSelectedItem().toString());
-		ProfileData.setBowlingStyle(getSherlockActivity(), bowling_style
-				.getSelectedItem().toString());
+		AccessSharedPrefs.setString(getSherlockActivity(), "battingStyle",
+				batting_style.getSelectedItem().toString());
+		AccessSharedPrefs.setString(getSherlockActivity(), "bowlingStyle",
+				bowling_style.getSelectedItem().toString());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

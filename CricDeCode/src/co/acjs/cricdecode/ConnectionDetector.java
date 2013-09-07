@@ -25,10 +25,10 @@ public class ConnectionDetector extends BroadcastReceiver {
 			isConnected = true;
 		}
 
-		ProfileData.mPrefs = context.getApplicationContext()
+		AccessSharedPrefs.mPrefs = context.getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 
-		if (!ProfileData.mPrefs.getString("id", "").equals("") && isConnected) {
+		if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("") && isConnected) {
 
 			Log.w("Starting Service ", "ConnectionDetector");
 			Intent in = new Intent(context, SignInService.class);

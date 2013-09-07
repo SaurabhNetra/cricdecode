@@ -30,31 +30,30 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class DiaryMatchesFragment extends SherlockFragment implements
-		LoaderManager.LoaderCallbacks<Cursor> {
-	static DiaryMatchesFragment diaryMatchesFragment;
-	RelativeLayout no_matches_added;
-	ListView listView;
+public class DiaryMatchesFragment extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+	static DiaryMatchesFragment	diaryMatchesFragment;
+	RelativeLayout				no_matches_added;
+	ListView					listView;
 
 	// Filter Variables
-	ArrayList<String> my_team_list, my_team_list_selected, opponent_list,
-			opponent_list_selected, venue_list, venue_list_selected,
-			overs_list, overs_list_selected, innings_list,
+	ArrayList<String>			my_team_list, my_team_list_selected,
+			opponent_list, opponent_list_selected, venue_list,
+			venue_list_selected, overs_list, overs_list_selected, innings_list,
 			innings_list_selected, level_list, level_list_selected,
 			duration_list, duration_list_selected, first_list,
 			first_list_selected, season_list, season_list_selected,
 			result_list, result_list_selected;
 
-	private SimpleCursorAdapter dataAdapter;
-	String myteam_whereClause = "", opponent_whereClause = "",
-			venue_whereClause = "", overs_whereClause = "",
-			innings_whereClause = "", level_whereClause = "",
-			duration_whereClause = "", first_whereClause = "",
-			season_whereClause = "", result_whereClause = "";
+	private SimpleCursorAdapter	dataAdapter;
+	String						myteam_whereClause	= "",
+			opponent_whereClause = "", venue_whereClause = "",
+			overs_whereClause = "", innings_whereClause = "",
+			level_whereClause = "", duration_whereClause = "",
+			first_whereClause = "", season_whereClause = "",
+			result_whereClause = "";
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		diaryMatchesFragment = this;
 		View rootView = inflater.inflate(R.layout.list_container, container,
 				false);
@@ -243,16 +242,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		Log.d("Debug", "displayListView called");
 
 		// The desired columns to be bound
-		String[] columns = new String[] { MatchDb.KEY_ROWID,
-				MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE,
-				MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
-				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
-				MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
+		String[] columns = new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 
 		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id._id, R.id.innings, R.id.day, R.id.month,
-				R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue,
-				R.id.level, R.id.overs };
+		int[] to = new int[] { R.id._id, R.id.innings, R.id.day, R.id.month, R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue, R.id.level, R.id.overs };
 
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(getSherlockActivity(),
@@ -271,8 +264,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> listView, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
 
 				Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
@@ -302,20 +294,13 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
-		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS,
-				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION,
-				MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM,
-				MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
-				MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
-		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
-				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
-				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
-						+ myteam_whereClause + opponent_whereClause
-						+ venue_whereClause + overs_whereClause
-						+ innings_whereClause + level_whereClause
-						+ duration_whereClause + first_whereClause
-						+ season_whereClause + result_whereClause, null,
-				MatchDb.KEY_MATCH_DATE + " DESC");
+		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
+		CursorLoader cursorLoader = new CursorLoader(
+				getSherlockActivity(),
+				CricDeCodeContentProvider.CONTENT_URI_MATCH,
+				projection,
+				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'" + myteam_whereClause + opponent_whereClause + venue_whereClause + overs_whereClause + innings_whereClause + level_whereClause + duration_whereClause + first_whereClause + season_whereClause + result_whereClause,
+				null, MatchDb.KEY_MATCH_DATE + " DESC");
 		return cursorLoader;
 	}
 
@@ -324,9 +309,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
 		Log.d("Debug", "on Load Finished");
-		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		ProfileData.setDiaryMatches(getSherlockActivity(), data.getCount());
+		AccessSharedPrefs.setInt(getSherlockActivity(), "diaryMatches",
+				data.getCount());
 		MatrixCursor mc = new MatrixCursor(data.getColumnNames(),
 				data.getCount());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
@@ -352,8 +338,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 						}
 					} else {
 						values[i] = data.getString(i);
-						if (i == data.getColumnIndexOrThrow(MatchDb.KEY_OVERS)
-								&& values[i].equals("-1")) {
+						if (i == data.getColumnIndexOrThrow(MatchDb.KEY_OVERS) && values[i]
+								.equals("-1")) {
 							values[i] = "Unlimited";
 						}
 					}
@@ -386,11 +372,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 	public void fetchFromDb() {
 
-		Cursor c = MainActivity.dbHandle.rawQuery(
-				"select distinct strftime('%Y'," + MatchDb.KEY_MATCH_DATE
-						+ ") as _id from " + MatchDb.SQLITE_TABLE + " where "
-						+ MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-						+ "'", null);
+		Cursor c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct strftime('%Y'," + MatchDb.KEY_MATCH_DATE + ") as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		int count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -401,10 +386,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_MY_TEAM + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_MY_TEAM + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -415,10 +400,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_OPPONENT_TEAM + " as _id from "
-				+ MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='"
-				+ MatchDb.MATCH_HISTORY + "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_OPPONENT_TEAM + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -429,10 +414,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_VENUE + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_VENUE + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -443,10 +428,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_RESULT + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_RESULT + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -457,10 +442,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_LEVEL + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_LEVEL + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -471,10 +456,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_OVERS + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_OVERS + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -491,10 +476,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_INNINGS + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_INNINGS + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -505,10 +490,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_DURATION + " as _id from " + MatchDb.SQLITE_TABLE
-				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_DURATION + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -519,10 +504,10 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		c.close();
 
-		c = MainActivity.dbHandle.rawQuery("select distinct "
-				+ MatchDb.KEY_FIRST_ACTION + " as _id from "
-				+ MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='"
-				+ MatchDb.MATCH_HISTORY + "'", null);
+		c = MainActivity.dbHandle
+				.rawQuery(
+						"select distinct " + MatchDb.KEY_FIRST_ACTION + " as _id from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'",
+						null);
 		count = c.getCount();
 		if (count != 0) {
 			c.moveToFirst();
@@ -562,17 +547,17 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 		TextView child = (TextView) vwParentRow.getChildAt(0);
 		String str = child.getText().toString();
-		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + str);
+		Uri uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
 		uri = Uri
 				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
 
-		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		ProfileData.setDiaryMatches(getSherlockActivity(),
-				ProfileData.mPrefs.getInt("diaryMatches", 0) - 1);
+		AccessSharedPrefs.setInt(getSherlockActivity(), "diaryMatches",
+				AccessSharedPrefs.mPrefs.getInt("diaryMatches", 0) - 1);
 
 		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,
 				this);

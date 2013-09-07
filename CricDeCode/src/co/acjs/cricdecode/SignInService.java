@@ -34,29 +34,29 @@ public class SignInService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 
-		ProfileData.mPrefs = getApplicationContext().getSharedPreferences(
+		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
 		Log.d("onCreate",
-				"mPrefs Data: " + ProfileData.mPrefs.getString("id", "") + " "
-						+ ProfileData.mPrefs.getString("f_name", "") + " "
-						+ ProfileData.mPrefs.getString("l_name", "") + " "
-						+ ProfileData.mPrefs.getString("dob", "") + " "
-						+ ProfileData.mPrefs.getString("fb_link", ""));
-		if (ProfileData.mPrefs.getString("id", "").equals("")) {
+				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "") + " "
+						+ AccessSharedPrefs.mPrefs.getString("f_name", "") + " "
+						+ AccessSharedPrefs.mPrefs.getString("l_name", "") + " "
+						+ AccessSharedPrefs.mPrefs.getString("dob", "") + " "
+						+ AccessSharedPrefs.mPrefs.getString("fb_link", ""));
+		if (AccessSharedPrefs.mPrefs.getString("id", "").equals("")) {
 
 			final JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("gcmid", ProfileData.mPrefs
+			params.add(new BasicNameValuePair("gcmid", AccessSharedPrefs.mPrefs
 					.getString("gcm_id", "")));
-			params.add(new BasicNameValuePair("id", ProfileData.mPrefs
+			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
-			params.add(new BasicNameValuePair("fname", ProfileData.mPrefs
+			params.add(new BasicNameValuePair("fname", AccessSharedPrefs.mPrefs
 					.getString("f_name", "")));
-			params.add(new BasicNameValuePair("lname", ProfileData.mPrefs
+			params.add(new BasicNameValuePair("lname", AccessSharedPrefs.mPrefs
 					.getString("l_name", "")));
-			params.add(new BasicNameValuePair("dob", ProfileData.mPrefs
+			params.add(new BasicNameValuePair("dob", AccessSharedPrefs.mPrefs
 					.getString("dob", "")));
-			params.add(new BasicNameValuePair("fblink", ProfileData.mPrefs
+			params.add(new BasicNameValuePair("fblink", AccessSharedPrefs.mPrefs
 					.getString("fb_link", "")));
 			Log.w("Sending User Data...", "SignInService:");
 

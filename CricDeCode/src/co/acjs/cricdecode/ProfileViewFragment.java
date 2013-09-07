@@ -33,13 +33,12 @@ public class ProfileViewFragment extends SherlockFragment {
 
 	public void onProfileViewing(View view) {
 		Log.d("Debug", "on Profile Viewing called");
-		ProfileData.mPrefs = getSherlockActivity().getSharedPreferences(
+		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		String profilePicturePath = ProfileData.mPrefs.getString(
-				"profilePicturePath", "");
+		String profilePicturePath = AccessSharedPrefs.mPrefs.getString("profilePicturePath", "");
 
-		width = ProfileData.mPrefs.getInt("width", 0);
-		height = ProfileData.mPrefs.getInt("height", 0);
+		width = AccessSharedPrefs.mPrefs.getInt("width", 0);
+		height = AccessSharedPrefs.mPrefs.getInt("height", 0);
 		size = width < height ? width : height;
 		size -= 50;
 
@@ -56,19 +55,19 @@ public class ProfileViewFragment extends SherlockFragment {
 					getSherlockActivity().getResources().getString(
 							R.string.profile_picture_size_view));
 		}
-		((TextView) view.findViewById(R.id.fname)).setText(ProfileData.mPrefs
+		((TextView) view.findViewById(R.id.fname)).setText(AccessSharedPrefs.mPrefs
 				.getString("f_name", ""));
-		((TextView) view.findViewById(R.id.lname)).setText(ProfileData.mPrefs.getString(
+		((TextView) view.findViewById(R.id.lname)).setText(AccessSharedPrefs.mPrefs.getString(
 				"l_name", ""));
 		((TextView) view.findViewById(R.id.nickname))
-				.setText(ProfileData.mPrefs.getString("nickname", ""));
+				.setText(AccessSharedPrefs.mPrefs.getString("nickname", ""));
 		((TextView) view.findViewById(R.id.date_of_birth))
-				.setText(ProfileData.mPrefs.getString("dob", ""));
-		((TextView) view.findViewById(R.id.role)).setText(ProfileData.mPrefs
+				.setText(AccessSharedPrefs.mPrefs.getString("dob", ""));
+		((TextView) view.findViewById(R.id.role)).setText(AccessSharedPrefs.mPrefs
 				.getString("role", ""));
 		((TextView) view.findViewById(R.id.batting_style))
-				.setText(ProfileData.mPrefs.getString("battingStyle", ""));
+				.setText(AccessSharedPrefs.mPrefs.getString("battingStyle", ""));
 		((TextView) view.findViewById(R.id.bowling_style))
-				.setText(ProfileData.mPrefs.getString("bowlingStyle", ""));
+				.setText(AccessSharedPrefs.mPrefs.getString("bowlingStyle", ""));
 	}
 }

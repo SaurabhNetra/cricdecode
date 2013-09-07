@@ -20,8 +20,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gcm.GCMRegistrar;
 
 public class LogIn extends SherlockActivity {
-	static GraphUser user;
-	static Context login_activity;
+	static GraphUser	user;
+	static Context		login_activity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class LogIn extends SherlockActivity {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.action_bar_login, null);
 		actionBar.setCustomView(view);
-		ProfileData.mPrefs = getSharedPreferences("CricDeCode",
+		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		login_activity = this;
 	}
@@ -43,8 +43,8 @@ public class LogIn extends SherlockActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		Log.d("onStart", ProfileData.mPrefs.getString("id", ""));
-		if (!ProfileData.mPrefs.getString("id", "").equals("")) {
+		Log.d("onStart", AccessSharedPrefs.mPrefs.getString("id", ""));
+		if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) {
 			Intent intent = new Intent(getApplicationContext(),
 					MainActivity.class);
 			startActivity(intent);
@@ -69,8 +69,7 @@ public class LogIn extends SherlockActivity {
 
 			// callback when session changes state
 			@Override
-			public void call(Session session, SessionState state,
-					Exception exception) {
+			public void call(Session session, SessionState state, Exception exception) {
 				if (session.isOpened()) {
 					((Button) findViewById(R.id.login))
 							.setVisibility(View.GONE);
@@ -83,8 +82,7 @@ public class LogIn extends SherlockActivity {
 								// callback after Graph API response with user
 								// object
 								@Override
-								public void onCompleted(GraphUser user,
-										Response response) {
+								public void onCompleted(GraphUser user, Response response) {
 									if (user != null) {
 										Log.w("Face Book Login Complete",
 												"LogIn: ");
@@ -109,13 +107,13 @@ public class LogIn extends SherlockActivity {
 
 		Log.w("Start App", "LogIn: ");
 		Intent intent = new Intent(login_activity, SignInService.class);
-		ProfileData.setGCMID(login_activity,
+		AccessSharedPrefs.setString(login_activity, "gcm_id",
 				GCMRegistrar.getRegistrationId(login_activity));
-		ProfileData.setID(login_activity, user.getId());
-		ProfileData.setFName(login_activity, user.getFirstName());
-		ProfileData.setLName(login_activity, user.getLastName());
-		ProfileData.setDOB(login_activity, user.getBirthday());
-		ProfileData.setFbLink(login_activity, user.getLink());
+		AccessSharedPrefs.setString(login_activity, "id", user.getId());
+		AccessSharedPrefs.setString(login_activity, "f_name", user.getFirstName());
+		AccessSharedPrefs.setString(login_activity, "l_name", user.getLastName());
+		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
+		AccessSharedPrefs.setString(login_activity, "fblink", user.getLink());
 		login_activity.startService(intent);
 		intent = new Intent(login_activity, MainActivity.class);
 		login_activity.startActivity(intent);
