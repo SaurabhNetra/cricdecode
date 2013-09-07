@@ -76,7 +76,7 @@ public class LogIn extends SherlockActivity {
 					((ProgressBar) findViewById(R.id.progress_bar))
 							.setVisibility(View.VISIBLE);
 					// make request to the /me API
-					Request.executeMeRequestAsync(session,
+					Request.newMeRequest(session,
 							new Request.GraphUserCallback() {
 
 								// callback after Graph API response with user
@@ -90,7 +90,7 @@ public class LogIn extends SherlockActivity {
 										GCMRegistration();
 									}
 								}
-							});
+							}).executeAsync();
 				}
 			}
 		});
@@ -110,8 +110,10 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.setString(login_activity, "gcm_id",
 				GCMRegistrar.getRegistrationId(login_activity));
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
-		AccessSharedPrefs.setString(login_activity, "f_name", user.getFirstName());
-		AccessSharedPrefs.setString(login_activity, "l_name", user.getLastName());
+		AccessSharedPrefs.setString(login_activity, "f_name",
+				user.getFirstName());
+		AccessSharedPrefs.setString(login_activity, "l_name",
+				user.getLastName());
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "fblink", user.getLink());
 		login_activity.startService(intent);
