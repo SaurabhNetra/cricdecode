@@ -33,27 +33,6 @@
             android:paddingTop="35dip"
             android:shrinkColumns="1" >
 
-            <!--
-         <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="200dip"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:inputType="text"
-                    android:padding="10dp" />
-            </TableRow>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
-                android:background="@color/faint_grey" />
-                -->
-                
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -64,39 +43,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/nickname"
                     android:inputType="text"
-                    android:padding="10dp" />
-            </TableRow>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
-                android:background="@color/faint_grey" />
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:onClick="onClick"
-                    android:padding="10dp"
-                    android:text="@string/date_of_birth" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/date_of_birth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:hint="@string/date_of_birth"
-                    android:onClick="onClick"
                     android:padding="10dp" />
             </TableRow>
 

@@ -117,7 +117,7 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.setString(login_activity, "l_name",
 				user.getLastName());
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
-		AccessSharedPrefs.setString(login_activity, "fblink", user.getLink());
+		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
 		login_activity.startService(intent);
 		intent = new Intent(login_activity, MainActivity.class);
 		login_activity.startActivity(intent);

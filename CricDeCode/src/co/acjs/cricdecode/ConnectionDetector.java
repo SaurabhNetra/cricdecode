@@ -28,14 +28,10 @@ public class ConnectionDetector extends BroadcastReceiver {
 		AccessSharedPrefs.mPrefs = context.getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 
-		if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("") && isConnected) {
-
+		if (AccessSharedPrefs.mPrefs.getString("SignInCalled", "").equals("") && isConnected) {
 			Log.w("Starting Service ", "ConnectionDetector");
 			Intent in = new Intent(context, SignInService.class);
 			context.startService(in);
-
-		} else {
-
 		}
 	}
 }
