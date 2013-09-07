@@ -14,15 +14,14 @@
         android:text="@string/warning_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
+    <com.facebook.widget.LoginButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:onClick="FBLogin"
-        android:padding="@dimen/padding_ten_dp"
-        android:text="@string/login" />
+        android:layout_margin="@dimen/padding_ten_dp"
+         />
 
     <ProgressBar
         android:id="@+id/progress_bar"

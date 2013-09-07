@@ -1,12 +1,14 @@
 package co.acjs.cricdecode;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -16,6 +18,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gcm.GCMRegistrar;
 
@@ -38,6 +41,38 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		login_activity = this;
+		final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
+		List<String> permissions = Arrays.asList("user_birthday");
+		loginButton.setReadPermissions(permissions);
+		loginButton.setApplicationId(getResources().getString(
+				R.string.fb_app_id));
+		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
+
+			@Override
+			public void call(Session session, SessionState state, Exception exception) {
+				if (session.isOpened()) {
+					loginButton.setVisibility(View.GONE);
+					((ProgressBar) findViewById(R.id.progress_bar))
+							.setVisibility(View.VISIBLE);
+					// make request to the /me API
+					Request.newMeRequest(session,
+							new Request.GraphUserCallback() {
+
+								// callback after Graph API response with user
+								// object
+								@Override
+								public void onCompleted(GraphUser user, Response response) {
+									if (user != null) {
+										Log.w("Face Book Login Complete",
+												"LogIn: " + user.getBirthday());
+										LogIn.user = user;
+										GCMRegistration();
+									}
+								}
+							}).executeAsync();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -61,39 +96,6 @@ public class LogIn extends SherlockActivity {
 
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
-	}
-
-	public void FBLogin(View v) {
-		// start FB Login
-		Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-			// callback when session changes state
-			@Override
-			public void call(Session session, SessionState state, Exception exception) {
-				if (session.isOpened()) {
-					((Button) findViewById(R.id.login))
-							.setVisibility(View.GONE);
-					((ProgressBar) findViewById(R.id.progress_bar))
-							.setVisibility(View.VISIBLE);
-					// make request to the /me API
-					Request.newMeRequest(session,
-							new Request.GraphUserCallback() {
-
-								// callback after Graph API response with user
-								// object
-								@Override
-								public void onCompleted(GraphUser user, Response response) {
-									if (user != null) {
-										Log.w("Face Book Login Complete",
-												"LogIn: ");
-										LogIn.user = user;
-										GCMRegistration();
-									}
-								}
-							}).executeAsync();
-				}
-			}
-		});
 	}
 
 	void GCMRegistration() {
