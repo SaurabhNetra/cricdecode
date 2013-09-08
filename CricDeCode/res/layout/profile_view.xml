@@ -17,7 +17,8 @@
             android:hint="@string/name"
             android:padding="3dp"
             android:textSize="20sp" />
-<TextView
+
+        <TextView
             android:id="@+id/lname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,12 +34,11 @@
             android:padding="3dp"
             android:textSize="25sp" />
 
-        <ImageView
+        <com.facebook.widget.ProfilePictureView
             android:id="@+id/profile_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/profile_picture"
-            android:src="@drawable/photo" />
+            android:layout_width="500dp"
+            android:layout_height="500dp"
+            android:contentDescription="@string/profile_picture" />
 
         <TextView
             android:id="@+id/role"
