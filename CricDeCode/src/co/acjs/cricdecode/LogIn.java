@@ -106,8 +106,8 @@ public class LogIn extends SherlockActivity {
 	}
 
 	static void startApp() {
-
 		Log.w("Start App", "LogIn: ");
+		AccessSharedPrefs.setString(login_activity, "SignInServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 		Intent intent = new Intent(login_activity, SignInService.class);
 		AccessSharedPrefs.setString(login_activity, "gcm_id",
 				GCMRegistrar.getRegistrationId(login_activity));
@@ -122,7 +122,6 @@ public class LogIn extends SherlockActivity {
 		intent = new Intent(login_activity, MainActivity.class);
 		login_activity.startActivity(intent);
 		((LogIn) login_activity).finish();
-
 	}
 
 	@Override

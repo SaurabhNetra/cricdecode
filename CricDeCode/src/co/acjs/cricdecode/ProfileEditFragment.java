@@ -1,6 +1,7 @@
 package co.acjs.cricdecode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,6 +71,11 @@ public class ProfileEditFragment extends SherlockFragment {
 				batting_style.getSelectedItem().toString());
 		AccessSharedPrefs.setString(getSherlockActivity(), "bowlingStyle",
 				bowling_style.getSelectedItem().toString());
+		AccessSharedPrefs.setString(getSherlockActivity(),
+				"ProfileEditServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+		Intent intent = new Intent(MainActivity.main_context,
+				ProfileEditService.class);
+		MainActivity.main_context.startService(intent);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
