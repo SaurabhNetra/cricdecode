@@ -6,6 +6,7 @@
     <color name="blue">#ffff00</color>
     <color name="black">#000000</color>
     <color name="light_grey">#cccccc</color>
+    <color name="snow_grey">#f3f3f3</color>
     <color name="dark_grey">#666666</color>
     <color name="trans_dark_grey">#45454545</color>
     <color name="white">#fefefa</color>

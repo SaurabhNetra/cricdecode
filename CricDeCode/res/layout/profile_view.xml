@@ -1,73 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:fadingEdge="none"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
 
-    <LinearLayout
-        android:id="@+id/profile_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/fname"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical" />
+
+        <TableLayout
+            android:id="@+id/tablelay1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/name"
-            android:padding="3dp"
-            android:textSize="20sp" />
+            android:layout_below="@+id/space"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:background="@drawable/cards_bg"
+            android:paddingBottom="30dip"
+            android:paddingLeft="25dip"
+            android:paddingTop="50dip" >
 
-        <TextView
-            android:id="@+id/lname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/name"
-            android:padding="3dp"
-            android:textSize="20sp" />
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/nickname"
-            android:padding="3dp"
-            android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/fname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textSize="20sp" />
+            </TableRow>
 
-        <com.facebook.widget.ProfilePictureView
-            android:id="@+id/profile_picture"
-            android:layout_width="500dp"
-            android:layout_height="500dp"
-            android:contentDescription="@string/profile_picture" />
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/role"
-            android:padding="3dp"
-            android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/lname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </TableRow>
 
-        <TextView
-            android:id="@+id/date_of_birth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/date_of_birth"
-            android:padding="3dp" />
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/batting_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/batting_style"
-            android:padding="3dp" />
+                <TextView
+                    android:id="@+id/nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textSize="25sp" />
+            </TableRow>
 
-        <TextView
-            android:id="@+id/bowling_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/bowling_style"
-            android:padding="3dp" />
-    </LinearLayout>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/batting_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/bowling_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/date_of_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp" />
+            </TableRow>
+        </TableLayout>
+
+        <RelativeLayout
+            android:layout_width="158dip"
+            android:layout_height="158dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="30dip" >
+
+            <com.facebook.widget.ProfilePictureView
+                android:id="@+id/profile_picture"
+                android:layout_width="150dip"
+                android:layout_height="150dip"
+                android:layout_centerInParent="true"
+                android:cropToPadding="true" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/triangle_upper" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/triangle_lower" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </ScrollView>
