@@ -23,7 +23,6 @@ try {
 		$ax = array (
 				"user" => "new" 
 		);
-		echo str_replace ( "\\", "", json_encode ( $ax ) );
 	} else {
 		$result = mysql_query ( "SELECT * FROM cricket_match WHERE user_id='$id' AND status<2" );
 		$cricket_match_data = "";
@@ -110,8 +109,8 @@ try {
 				"performance_data" => $performance_data,
 				"cricket_match_data" => $cricket_match_data 
 		);
-		echo str_replace ( "\\", "", json_encode ( $ax ) );
 	}
+	echo str_replace ( "\\", "", json_encode ( $ax ) );
 } catch ( Exception $e ) {
 }
 ?>

@@ -85,7 +85,6 @@ public class LogIn extends SherlockActivity {
 			startActivity(intent);
 			finish();
 		}
-
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStart(this);
 	}
@@ -93,24 +92,20 @@ public class LogIn extends SherlockActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
 	}
 
 	void GCMRegistration() {
-
 		GCMRegistrar.unregister(this);
 		GCMRegistrar.register(this, getResources().getString(R.string.projno));
-
 	}
 
 	static void startApp() {
 		Log.w("Start App", "LogIn: ");
-		AccessSharedPrefs.setString(login_activity, "SignInServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+		AccessSharedPrefs.setString(login_activity, "SignInServiceCalled",
+				CDCAppClass.NEEDS_TO_BE_CALLED);
 		Intent intent = new Intent(login_activity, SignInService.class);
-		AccessSharedPrefs.setString(login_activity, "gcm_id",
-				GCMRegistrar.getRegistrationId(login_activity));
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
 		AccessSharedPrefs.setString(login_activity, "f_name",
 				user.getFirstName());

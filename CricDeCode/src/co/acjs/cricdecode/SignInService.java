@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -49,8 +51,8 @@ public class SignInService extends IntentService {
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
 			final JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("gcmid", AccessSharedPrefs.mPrefs
-					.getString("gcm_id", "")));
+			params.add(new BasicNameValuePair("gcmid", GCMRegistrar
+					.getRegistrationId(getApplicationContext())));
 			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
 			params.add(new BasicNameValuePair("fname", AccessSharedPrefs.mPrefs
@@ -231,9 +233,12 @@ public class SignInService extends IntentService {
 						}
 					} catch (JSONException e) {
 					}
+					AccessSharedPrefs.setString(this, "SignInServiceCalled",
+							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+				} else if (jn.getString("user").equals("new")) {
+					AccessSharedPrefs.setString(this, "SignInServiceCalled",
+							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 				}
-				AccessSharedPrefs.setString(this, "SignInServiceCalled",
-						CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 			} catch (JSONException e) {
 			}
 		}

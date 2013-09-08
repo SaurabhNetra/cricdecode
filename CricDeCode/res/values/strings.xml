@@ -11,9 +11,9 @@
     <!-- Links -->
     <string name="initdata">http://cdc.acjs.co/sync/initdata.php</string>
     <string name="edit_profile_sync">http://cdc.acjs.co/sync/upload_profiledata.php</string>
+    <string name="match_create_sync">http://cdc.acjs.co/sync/upload_matchcreate.php</string>
 
     <!-- Sign In Service -->
-    <string name="scope" translatable="false">oauth2:https://www.googleapis.com/auth/userinfo.profile</string>
     <string name="projno">899334271790</string>
 
     <!-- Page Names -->

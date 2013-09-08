@@ -16,8 +16,10 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"SignInServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED)
 				.equals(CDCAppClass.NEEDS_TO_BE_CALLED);
 		boolean NotSyncedEditProfile = AccessSharedPrefs.mPrefs.getString(
-						"ProfileEditServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED);
-		if (NotSyncedEditProfile|NotSignedIn) {
+				"ProfileEditServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED);
+		boolean NotSyncedMatchCreate = AccessSharedPrefs.mPrefs.getString(
+				"MatchCreateServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED);
+		if (NotSyncedMatchCreate|NotSyncedEditProfile|NotSignedIn) {
 			ConnectivityManager connectivityManager = (ConnectivityManager) context
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo activeNetInfo = connectivityManager
@@ -29,7 +31,12 @@ public class ConnectionDetector extends BroadcastReceiver {
 				Log.w("connection detected", "ConnectionDetector");
 				isConnected = true;
 			}
-			if(NotSyncedEditProfile & isConnected){
+			if(NotSyncedMatchCreate & isConnected){
+				Log.w("Starting MatchCreateService", "ConnectionDetector");
+				Intent in = new Intent(context, MatchCreateService.class);
+				context.startService(in);
+			}
+			else if(NotSyncedEditProfile & isConnected){
 				Log.w("Starting ProfileEditService", "ConnectionDetector");
 				Intent in = new Intent(context, ProfileEditService.class);
 				context.startService(in);
