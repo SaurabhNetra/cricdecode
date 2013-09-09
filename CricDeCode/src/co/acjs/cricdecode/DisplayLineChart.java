@@ -166,16 +166,17 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		renderer2.setXLabelsAngle(45);
 		renderer2.setZoomButtonsVisible(true);
 		renderer2.setZoomEnabled(false, true);
-		renderer2.setYAxisMin(-1 * 1.0);
-		renderer2.setYAxisMax(renderer2.getYAxisMax() + 1);
 		renderer2.setXAxisMin(-1 * 0.05);
 
+		Log.w("YAxisMax", "" + renderer2.getYAxisMax());
 		if (getWindowManager().getDefaultDisplay().getRotation() == Surface.ROTATION_0) {
 			renderer2.setXAxisMax(5);
 			renderer2.setYLabels(7);
+			renderer2.setYAxisMax(10.5);
 		} else {
 			renderer2.setXAxisMax(8);
 			renderer2.setYLabels(5);
+			renderer2.setYAxisMax(10.5);
 		}
 
 		renderer2.setMargins(new int[] { 5, 30, 20, 20 });

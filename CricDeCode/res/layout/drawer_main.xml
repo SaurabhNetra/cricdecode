@@ -36,8 +36,10 @@
         android:background="@color/snow_grey"
         android:cacheColorHint="@color/snow_grey"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="15dp"
-        android:listSelector="@layout/drawer_list_selector" />
+        android:divider="@color/dark_grey"
+        android:dividerHeight="1dp"
+        android:listSelector="@layout/drawer_list_selected_selector"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -4,6 +4,6 @@
     <item android:drawable="@color/faint_red" android:state_focused="true" android:state_pressed="false"/>
     <item android:drawable="@color/faint_red" android:state_focused="true" android:state_pressed="true"/>
     <item android:drawable="@color/faint_red" android:state_focused="false" android:state_pressed="true"/>
-    <item android:drawable="@android:color/transparent"/>
+    <item android:drawable="@color/transparent"/>
 
 </selector>
