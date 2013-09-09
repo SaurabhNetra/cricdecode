@@ -9,12 +9,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gcm.GCMRegistrar;
-
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
+
+import com.google.android.gcm.GCMRegistrar;
 
 public class SignInService extends IntentService {
 
@@ -41,11 +43,14 @@ public class SignInService extends IntentService {
 		AccessSharedPrefs.mPrefs = getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		Log.d("onCreate",
-				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("l_name", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("dob", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("fb_link", ""));
+				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "")
+						+ " "
+						+ AccessSharedPrefs.mPrefs.getString("f_name", "")
+						+ " "
+						+ AccessSharedPrefs.mPrefs.getString("l_name", "")
+						+ " " + AccessSharedPrefs.mPrefs.getString("dob", "")
+						+ " "
+						+ AccessSharedPrefs.mPrefs.getString("fb_link", ""));
 		if (AccessSharedPrefs.mPrefs.getString("SignInServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
@@ -74,7 +79,8 @@ public class SignInService extends IntentService {
 						params, this);
 				Log.w("JSON returned", "SignInService: " + jn);
 				Log.w("trial value", "SignInService: " + trial);
-				if (jn != null) break;
+				if (jn != null)
+					break;
 				try {
 					Thread.sleep(10 * trial);
 				} catch (InterruptedException e) {
@@ -117,9 +123,30 @@ public class SignInService extends IntentService {
 									.getString("duration");
 							String review = single_match.getString("review");
 							String status = single_match.getString("status")
-									.equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
+									.equals("1") ? MatchDb.MATCH_CURRENT
+									: MatchDb.MATCH_HISTORY;
 							Log.w("JSON Object", "Match Data: " + match_id);
 							// TODO Saurabh Code Here
+							ContentValues values = new ContentValues();
+							values.put(MatchDb.KEY_ROWID, match_id);
+							values.put(MatchDb.KEY_MATCH_DATE, match_date);
+							values.put(MatchDb.KEY_MY_TEAM, my_team);
+							values.put(MatchDb.KEY_OPPONENT_TEAM, opponent_team);
+							values.put(MatchDb.KEY_VENUE, venue);
+							values.put(MatchDb.KEY_OVERS, overs);
+							values.put(MatchDb.KEY_INNINGS, innings);
+							values.put(MatchDb.KEY_RESULT, result);
+							values.put(MatchDb.KEY_LEVEL, level);
+							values.put(MatchDb.KEY_FIRST_ACTION, first_action);
+							values.put(MatchDb.KEY_DURATION, duration);
+							values.put(MatchDb.KEY_REVIEW, review);
+							values.put(MatchDb.KEY_STATUS, status);
+
+							// insert a record
+							Uri uri = getApplicationContext()
+									.getContentResolver()
+									.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
+											values);
 							// Saurabh Stop Code Here :P
 						}
 					} catch (JSONException e) {
@@ -167,6 +194,8 @@ public class SignInService extends IntentService {
 							int bowl_maidens = Integer
 									.parseInt(single_performance
 											.getString("bowl_maidens"));
+							int bowl_runs = Integer.parseInt(single_performance
+									.getString("bowl_runs"));
 							int bowl_fours = Integer
 									.parseInt(single_performance
 											.getString("bowl_fours"));
@@ -225,10 +254,81 @@ public class SignInService extends IntentService {
 									.parseInt(single_performance
 											.getString("field_catches_dropped"));
 							String status = single_performance.getString(
-									"status").equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
-							Log.w("JSON Object",
-									"Performance Data: " + performance_id);
+									"status").equals("1") ? MatchDb.MATCH_CURRENT
+									: MatchDb.MATCH_HISTORY;
+							Log.w("JSON Object", "Performance Data: "
+									+ performance_id);
 							// TODO Saurabh Code Here
+							ContentValues values = new ContentValues();
+
+							values.put(PerformanceDb.KEY_MATCHID, match_id);
+							values.put(PerformanceDb.KEY_ROWID, performance_id);
+							values.put(PerformanceDb.KEY_INNING, inning);
+
+							values.put(PerformanceDb.KEY_BAT_NUM, bat_num);
+							values.put(PerformanceDb.KEY_BAT_RUNS, bat_runs);
+							values.put(PerformanceDb.KEY_BAT_BALLS, bat_balls);
+							values.put(PerformanceDb.KEY_BAT_TIME, bat_time);
+							values.put(PerformanceDb.KEY_BAT_FOURS, fours);
+							values.put(PerformanceDb.KEY_BAT_SIXES, sixes);
+							values.put(PerformanceDb.KEY_BAT_HOW_OUT,
+									bat_dismissal);
+							values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
+									bat_bowler_type);
+							values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION,
+									bat_fielding_position);
+							values.put(PerformanceDb.KEY_BAT_CHANCES,
+									bat_chances);
+
+							values.put(PerformanceDb.KEY_BOWL_BALLS, bowl_balls);
+							values.put(PerformanceDb.KEY_BOWL_SPELLS,
+									bowl_spells);
+							values.put(PerformanceDb.KEY_BOWL_MAIDENS,
+									bowl_maidens);
+							values.put(PerformanceDb.KEY_BOWL_RUNS, bowl_runs);
+							values.put(PerformanceDb.KEY_BOWL_FOURS, bowl_fours);
+							values.put(PerformanceDb.KEY_BOWL_SIXES, bowl_sixes);
+							values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT,
+									bowl_wkts_left);
+							values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT,
+									bowl_wkts_right);
+							values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
+									bowl_catches_dropped);
+							values.put(PerformanceDb.KEY_BOWL_NOBALLS,
+									bowl_no_balls);
+							values.put(PerformanceDb.KEY_BOWL_WIDES, bowl_wides);
+
+							values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH,
+									field_slip_catch);
+							values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH,
+									field_close_catch);
+							values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
+									field_circle_catch);
+							values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,
+									field_deep_catch);
+							values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE,
+									field_ro_circle);
+							values.put(
+									PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
+									field_ro_direct_circle);
+							values.put(PerformanceDb.KEY_FIELD_RO_DEEP,
+									field_ro_deep);
+							values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
+									field_ro_deep);
+							values.put(PerformanceDb.KEY_FIELD_STUMPINGS,
+									field_stumpings);
+							values.put(PerformanceDb.KEY_FIELD_BYES, field_byes);
+							values.put(PerformanceDb.KEY_FIELD_MISFIELDS,
+									field_misfields);
+							values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
+									field_catches_dropped);
+
+							values.put(PerformanceDb.KEY_STATUS, status);
+
+							getApplicationContext()
+									.getContentResolver()
+									.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
+											values);
 							// Saurabh Stop Code Here :P
 						}
 					} catch (JSONException e) {
