@@ -1102,6 +1102,18 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		switch (view.getId()) {
 
+		// On Off Button Layout Click Handled Here
+		case R.id.bat_toggle_layout:
+			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
+					.setChecked(!PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
+							.isChecked());
+			break;
+		case R.id.bowl_toggle_layout:
+			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
+					.setChecked(!PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
+							.isChecked());
+			break;
+
 		case R.id.gen_tab:
 			switch (currentFragment) {
 			case CAREER_FRAGMENT:

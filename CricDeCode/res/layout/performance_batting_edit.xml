@@ -89,22 +89,49 @@
                 android:background="@color/faint_grey"
                 android:orientation="vertical" />
 
-            <ToggleButton
-                android:id="@+id/bat_toggle"
+            <RelativeLayout
+                android:id="@+id/bat_toggle_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/top_separator"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dip"
-                android:checked="false"
-                android:textOff="Did Not Bat"
-                android:textOn="Batted" />
+                android:clickable="true"
+                android:onClick="onClick"
+                android:orientation="horizontal" >
+
+                <ToggleButton
+                    android:id="@+id/bat_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/batted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/batted" />
+
+                <TextView
+                    android:id="@+id/toggle_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/batted"
+                    android:text="@string/yes" />
+
+                <TextView
+                    android:id="@+id/toggle_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/toggle_on"
+                    android:text="@string/no" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/line1"
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
-                android:layout_below="@+id/bat_toggle"
+                android:layout_below="@+id/bat_toggle_layout"
                 android:layout_margin="10dip"
                 android:background="#282828"
                 android:orientation="horizontal" />

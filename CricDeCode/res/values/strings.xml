@@ -7,7 +7,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="fb_app_id">682146731813576</string>
-    
+
     <!-- Links -->
     <string name="initdata">http://cdc.acjs.co/sync/initdata.php</string>
     <string name="edit_profile_sync">http://cdc.acjs.co/sync/upload_profiledata.php</string>
@@ -166,6 +166,8 @@
 
     <!-- Batting -->
     <string name="dnb">Did Not Bat</string>
+    <string name="batted">Batted</string>
+    <string name="bowled">Bowled</string>
     <string name="batting_no">Batting Number</string>
     <string name="runs">Runs</string>
     <string name="balls">Balls</string>
