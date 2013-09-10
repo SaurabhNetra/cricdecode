@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -86,9 +87,9 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		}
 
 		if (mChartView == null) {
-			mChartView = ChartFactory.getLineChartView(this,
-					mDataset(titles, y, x), renderer);
-			mChartView.setBackgroundColor(Color.BLACK);
+			mChartView = ChartFactory.getBarChartView(this,
+					mDataset(titles, y, x), renderer, Type.DEFAULT);
+			mChartView.setBackgroundColor(getResources().getColor(R.color.black));
 			layout = (LinearLayout) findViewById(R.id.chart);
 			layout.addView(mChartView, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -152,7 +153,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		renderer2.setAxisTitleTextSize(16);
 		renderer2.setLabelsTextSize(12);
 		renderer2.setLegendTextSize(15);
-		renderer2.setPointSize(5f);
 		renderer2.setShowGridX(true);
 		renderer2.setShowGridY(true);
 		renderer2.setXLabelsAlign(Align.LEFT);
@@ -167,16 +167,15 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		renderer2.setZoomButtonsVisible(true);
 		renderer2.setZoomEnabled(false, true);
 		renderer2.setXAxisMin(-1 * 0.05);
-
+		renderer2.setYAxisMin(0.0);
+		renderer2.setBarSpacing(0.5);
 		Log.w("YAxisMax", "" + renderer2.getYAxisMax());
 		if (getWindowManager().getDefaultDisplay().getRotation() == Surface.ROTATION_0) {
 			renderer2.setXAxisMax(5);
 			renderer2.setYLabels(7);
-			renderer2.setYAxisMax(10.5);
 		} else {
 			renderer2.setXAxisMax(8);
 			renderer2.setYLabels(5);
-			renderer2.setYAxisMax(10.5);
 		}
 
 		renderer2.setMargins(new int[] { 5, 30, 20, 20 });
@@ -184,7 +183,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
 			r.setColor(colors[i]);
-			r.setPointStyle(styles[i]);
 			renderer2.addSeriesRenderer(r);
 		}
 
