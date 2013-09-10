@@ -304,6 +304,10 @@ public class MultiSelectSpinner extends Spinner implements
 			}
 		}
 
+		String str = sb.toString();
+		if (str.equals("")) {
+			return "None";
+		}
 		return sb.toString();
 	}
 }

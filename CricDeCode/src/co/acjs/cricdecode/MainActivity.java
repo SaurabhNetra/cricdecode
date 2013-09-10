@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -57,6 +58,23 @@ public class MainActivity extends SherlockFragmentActivity {
 	static SQLiteDatabase dbHandle;
 	public static Context main_context;
 	TextView tx;
+
+	// Filter Variables
+	ArrayList<String> my_team_list, my_team_list_selected, opponent_list,
+			opponent_list_selected, venue_list, venue_list_selected,
+			overs_list, overs_list_selected, innings_list,
+			innings_list_selected, level_list, level_list_selected,
+			duration_list, duration_list_selected, first_list,
+			first_list_selected, season_list, season_list_selected,
+			result_list, result_list_selected, batting_no_list,
+			batting_no_list_selected, how_out_list, how_out_list_selected;
+
+	String myteam_whereClause = "", opponent_whereClause = "",
+			venue_whereClause = "", overs_whereClause = "",
+			innings_whereClause = "", level_whereClause = "",
+			duration_whereClause = "", first_whereClause = "",
+			season_whereClause = "", result_whereClause = "",
+			batting_no_whereClause = "", how_out_whereClause = "";
 
 	// Dialog state
 	boolean filter_showing;
@@ -192,11 +210,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		if (AccessSharedPrefs.mPrefs.getInt("FirstTym", 0) == 0) {
-			mDrawerLayout.openDrawer(mDrawerList);
-			AccessSharedPrefs.setInt(this, "FirstTym", 1);
-		}
-
 		tx = (TextView) findViewById(R.id.page_name);
 
 		if (savedInstanceState == null) {
@@ -300,6 +313,145 @@ public class MainActivity extends SherlockFragmentActivity {
 				break;
 			}
 			Log.d("Debug", "currentFragment " + currentFragment);
+		}
+
+		if (AccessSharedPrefs.mPrefs.getInt("FirstTym", 0) == 0) {
+			mDrawerLayout.openDrawer(mDrawerList);
+			AccessSharedPrefs.setInt(this, "FirstTym", 1);
+		}
+
+		MainActivity mainActivity = this;
+		if (savedInstanceState == null) {
+
+			batting_no_list = new ArrayList<String>();
+			batting_no_list_selected = new ArrayList<String>();
+
+			how_out_list = new ArrayList<String>();
+			how_out_list_selected = new ArrayList<String>();
+
+			mainActivity.season_list = new ArrayList<String>();
+			mainActivity.season_list_selected = new ArrayList<String>();
+
+			mainActivity.my_team_list = new ArrayList<String>();
+			mainActivity.my_team_list_selected = new ArrayList<String>();
+
+			mainActivity.opponent_list = new ArrayList<String>();
+			mainActivity.opponent_list_selected = new ArrayList<String>();
+
+			mainActivity.venue_list = new ArrayList<String>();
+			mainActivity.venue_list_selected = new ArrayList<String>();
+
+			mainActivity.result_list = new ArrayList<String>();
+			mainActivity.result_list_selected = new ArrayList<String>();
+
+			mainActivity.level_list = new ArrayList<String>();
+			mainActivity.level_list_selected = new ArrayList<String>();
+
+			mainActivity.overs_list = new ArrayList<String>();
+			mainActivity.overs_list_selected = new ArrayList<String>();
+
+			mainActivity.innings_list = new ArrayList<String>();
+			mainActivity.innings_list_selected = new ArrayList<String>();
+
+			mainActivity.duration_list = new ArrayList<String>();
+			mainActivity.duration_list_selected = new ArrayList<String>();
+
+			mainActivity.first_list = new ArrayList<String>();
+			mainActivity.first_list_selected = new ArrayList<String>();
+
+			fetchFromDb();
+		} else {
+
+			batting_no_list = savedInstanceState
+					.getStringArrayList("batting_no_list");
+			batting_no_list_selected = savedInstanceState
+					.getStringArrayList("batting_no_list_selected");
+
+			how_out_list = savedInstanceState
+					.getStringArrayList("how_out_list");
+			how_out_list_selected = savedInstanceState
+					.getStringArrayList("how_out_list_selected");
+
+			mainActivity.season_list = savedInstanceState
+					.getStringArrayList("season_list");
+			mainActivity.season_list_selected = savedInstanceState
+					.getStringArrayList("season_list_selected");
+
+			mainActivity.my_team_list = savedInstanceState
+					.getStringArrayList("my_team_list");
+			mainActivity.my_team_list_selected = savedInstanceState
+					.getStringArrayList("my_team_list_selected");
+
+			mainActivity.opponent_list = savedInstanceState
+					.getStringArrayList("opponent_list");
+			mainActivity.opponent_list_selected = savedInstanceState
+					.getStringArrayList("opponent_list_selected");
+
+			mainActivity.venue_list = savedInstanceState
+					.getStringArrayList("venue_list");
+			mainActivity.venue_list_selected = savedInstanceState
+					.getStringArrayList("venue_list_selected");
+
+			mainActivity.result_list = savedInstanceState
+					.getStringArrayList("result_list");
+			mainActivity.result_list_selected = savedInstanceState
+					.getStringArrayList("result_list_selected");
+
+			mainActivity.level_list = savedInstanceState
+					.getStringArrayList("level_list");
+			mainActivity.level_list_selected = savedInstanceState
+					.getStringArrayList("level_list_selected");
+
+			mainActivity.overs_list = savedInstanceState
+					.getStringArrayList("overs_list");
+			mainActivity.overs_list_selected = savedInstanceState
+					.getStringArrayList("overs_list_selected");
+
+			mainActivity.innings_list = savedInstanceState
+					.getStringArrayList("innings_list");
+			mainActivity.innings_list_selected = savedInstanceState
+					.getStringArrayList("innings_list_selected");
+
+			mainActivity.duration_list = savedInstanceState
+					.getStringArrayList("duration_list");
+			mainActivity.duration_list_selected = savedInstanceState
+					.getStringArrayList("duration_list_selected");
+
+			mainActivity.first_list = savedInstanceState
+					.getStringArrayList("first_list");
+			mainActivity.first_list_selected = savedInstanceState
+					.getStringArrayList("first_list_selected");
+
+			batting_no_whereClause = savedInstanceState
+					.getString("batting_no_whereClause");
+			how_out_whereClause = savedInstanceState
+					.getString("how_out_whereClause");
+
+			mainActivity.myteam_whereClause = savedInstanceState
+					.getString("myteam_whereClause");
+			mainActivity.opponent_whereClause = savedInstanceState
+					.getString("opponent_whereClause");
+			mainActivity.venue_whereClause = savedInstanceState
+					.getString("venue_whereClause");
+			mainActivity.level_whereClause = savedInstanceState
+					.getString("level_whereClause");
+			mainActivity.overs_whereClause = savedInstanceState
+					.getString("overs_whereClause");
+			mainActivity.innings_whereClause = savedInstanceState
+					.getString("innings_whereClause");
+			mainActivity.duration_whereClause = savedInstanceState
+					.getString("duration_whereClause");
+			mainActivity.first_whereClause = savedInstanceState
+					.getString("first_whereClause");
+			mainActivity.season_whereClause = savedInstanceState
+					.getString("season_whereClause");
+			mainActivity.result_whereClause = savedInstanceState
+					.getString("result_whereClause");
+
+			if (filter_showing) {
+				showFilterDialog(MainActivity.DIARY_MATCHES_FRAGMENT);
+			}
+
 		}
 
 		// Look up the AdView as a resource and load a request. final AdView
@@ -485,6 +637,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	// The click listener for ListView in the navigation drawer
 	private class DrawerItemClickListener implements
 			ListView.OnItemClickListener {
+		@SuppressWarnings("deprecation")
+		@SuppressLint("NewApi")
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -609,6 +763,79 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
+		MainActivity mainActivity = this;
+
+		outState.putStringArrayList("batting_no_list",
+				(ArrayList<String>) batting_no_list);
+		outState.putStringArrayList("how_out_list",
+				(ArrayList<String>) how_out_list);
+
+		outState.putStringArrayList("season_list",
+				(ArrayList<String>) mainActivity.season_list);
+		outState.putStringArrayList("result_list",
+				(ArrayList<String>) mainActivity.result_list);
+		outState.putStringArrayList("my_team_list",
+				(ArrayList<String>) mainActivity.my_team_list);
+		outState.putStringArrayList("opponent_list",
+				(ArrayList<String>) mainActivity.opponent_list);
+		outState.putStringArrayList("venue_list",
+				(ArrayList<String>) mainActivity.venue_list);
+		outState.putStringArrayList("level_list",
+				(ArrayList<String>) mainActivity.level_list);
+		outState.putStringArrayList("overs_list",
+				(ArrayList<String>) mainActivity.overs_list);
+		outState.putStringArrayList("innings_list",
+				(ArrayList<String>) mainActivity.innings_list);
+		outState.putStringArrayList("duration_list",
+				(ArrayList<String>) mainActivity.duration_list);
+		outState.putStringArrayList("first_list",
+				(ArrayList<String>) mainActivity.first_list);
+
+		outState.putStringArrayList("batting_no_list_selected",
+				(ArrayList<String>) batting_no_list_selected);
+		outState.putStringArrayList("how_out_list_selected",
+				(ArrayList<String>) how_out_list_selected);
+		outState.putStringArrayList("season_list_selected",
+				(ArrayList<String>) mainActivity.season_list_selected);
+		outState.putStringArrayList("result_list_selected",
+				(ArrayList<String>) mainActivity.result_list_selected);
+		outState.putStringArrayList("my_team_list_selected",
+				(ArrayList<String>) mainActivity.my_team_list_selected);
+		outState.putStringArrayList("opponent_list_selected",
+				(ArrayList<String>) mainActivity.opponent_list_selected);
+		outState.putStringArrayList("venue_list_selected",
+				(ArrayList<String>) mainActivity.venue_list_selected);
+		outState.putStringArrayList("level_list_selected",
+				(ArrayList<String>) mainActivity.level_list_selected);
+		outState.putStringArrayList("overs_list_selected",
+				(ArrayList<String>) mainActivity.overs_list_selected);
+		outState.putStringArrayList("innings_list_selected",
+				(ArrayList<String>) mainActivity.innings_list_selected);
+		outState.putStringArrayList("duration_list_selected",
+				(ArrayList<String>) mainActivity.duration_list_selected);
+		outState.putStringArrayList("first_list_selected",
+				(ArrayList<String>) mainActivity.first_list_selected);
+
+		outState.putString("batting_no_whereClause", batting_no_whereClause);
+		outState.putString("how_out_whereClause", how_out_whereClause);
+		outState.putString("myteam_whereClause",
+				mainActivity.myteam_whereClause);
+		outState.putString("opponent_whereClause",
+				mainActivity.opponent_whereClause);
+		outState.putString("venue_whereClause", mainActivity.venue_whereClause);
+		outState.putString("level_whereClause", mainActivity.level_whereClause);
+		outState.putString("overs_whereClause", mainActivity.overs_whereClause);
+		outState.putString("innings_whereClause",
+				mainActivity.innings_whereClause);
+		outState.putString("duration_whereClause",
+				mainActivity.duration_whereClause);
+		outState.putString("first_whereClause", mainActivity.first_whereClause);
+		outState.putString("season_whereClause",
+				mainActivity.season_whereClause);
+		outState.putString("result_whereClause",
+				mainActivity.result_whereClause);
+
 		Log.d("Debug", "Save currentFragment " + currentFragment);
 		outState.putInt("currentFragment", currentFragment);
 		outState.putInt("preFragment", preFragment);
@@ -617,12 +844,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.d("Debug", "Dialog print" + (filter_dialog == null));
 		if (filter_showing) {
 
-			if (currentFragment != DIARY_MATCHES_FRAGMENT) {
-				outState.putIntegerArrayList("batting_no_val",
-						batting_no_spinner.getSelectedIndicies());
-				outState.putIntegerArrayList("how_out_val",
-						how_out_spinner.getSelectedIndicies());
-			}
+			outState.putIntegerArrayList("batting_no_val",
+					batting_no_spinner.getSelectedIndicies());
+			outState.putIntegerArrayList("how_out_val",
+					how_out_spinner.getSelectedIndicies());
+
 			outState.putIntegerArrayList("season_val",
 					season_spinner.getSelectedIndicies());
 			outState.putIntegerArrayList("my_team_val",
@@ -1091,6 +1317,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		Button dialogButton;
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.filter_general);
+		final int sel = id;
 
 		dialog.setOnDismissListener(new OnDismissListener() {
 
@@ -1109,18 +1336,41 @@ public class MainActivity extends SherlockFragmentActivity {
 		});
 
 		switch (id) {
+		case CAREER_FRAGMENT:
+		case ANALYSIS_FRAGMENT:
 		case DIARY_MATCHES_FRAGMENT:
-			dialog.findViewById(R.id.lbl_batting_no_list).setVisibility(
-					View.GONE);
-			dialog.findViewById(R.id.batting_no_list).setVisibility(View.GONE);
-			dialog.findViewById(R.id.lbl_how_out_list).setVisibility(View.GONE);
-			dialog.findViewById(R.id.how_out_list).setVisibility(View.GONE);
+			if (sel == DIARY_MATCHES_FRAGMENT) {
+				dialog.findViewById(R.id.lbl_batting_no_list).setVisibility(
+						View.GONE);
+				dialog.findViewById(R.id.batting_no_list).setVisibility(
+						View.GONE);
+				dialog.findViewById(R.id.lbl_how_out_list).setVisibility(
+						View.GONE);
+				dialog.findViewById(R.id.how_out_list).setVisibility(View.GONE);
+			}
+
+			batting_no_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.batting_no_list);
+			batting_no_spinner.setItems(batting_no_list);
+			batting_no_spinner.setSelection(batting_no_list_selected);
+			batting_no_spinner._proxyAdapter.clear();
+			batting_no_spinner._proxyAdapter.add(batting_no_spinner
+					.buildSelectedItemString());
+			batting_no_spinner.setSelection(0);
+
+			how_out_spinner = (MultiSelectSpinner) dialog
+					.findViewById(R.id.how_out_list);
+			how_out_spinner.setItems(how_out_list);
+			how_out_spinner.setSelection(how_out_list_selected);
+			how_out_spinner._proxyAdapter.clear();
+			how_out_spinner._proxyAdapter.add(how_out_spinner
+					.buildSelectedItemString());
+			how_out_spinner.setSelection(0);
+
 			season_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.season_list);
-			season_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.season_list);
-			season_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.season_list_selected);
+			season_spinner.setItems(season_list);
+			season_spinner.setSelection(season_list_selected);
 			season_spinner._proxyAdapter.clear();
 			season_spinner._proxyAdapter.add(season_spinner
 					.buildSelectedItemString());
@@ -1128,10 +1378,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			my_team_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.my_team_list);
-			my_team_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
-			my_team_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected);
+			my_team_spinner.setItems(my_team_list);
+			my_team_spinner.setSelection(my_team_list_selected);
 			my_team_spinner._proxyAdapter.clear();
 			my_team_spinner._proxyAdapter.add(my_team_spinner
 					.buildSelectedItemString());
@@ -1139,10 +1387,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			opponent_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.opponent_list);
-			opponent_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
-			opponent_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected);
+			opponent_spinner.setItems(opponent_list);
+			opponent_spinner.setSelection(opponent_list_selected);
 			opponent_spinner._proxyAdapter.clear();
 			opponent_spinner._proxyAdapter.add(opponent_spinner
 					.buildSelectedItemString());
@@ -1150,10 +1396,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			venue_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.venue_list);
-			venue_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
-			venue_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected);
+			venue_spinner.setItems(venue_list);
+			venue_spinner.setSelection(venue_list_selected);
 			venue_spinner._proxyAdapter.clear();
 			venue_spinner._proxyAdapter.add(venue_spinner
 					.buildSelectedItemString());
@@ -1161,10 +1405,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			result_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.result_list);
-			result_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.result_list);
-			result_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.result_list_selected);
+			result_spinner.setItems(result_list);
+			result_spinner.setSelection(result_list_selected);
 			result_spinner._proxyAdapter.clear();
 			result_spinner._proxyAdapter.add(result_spinner
 					.buildSelectedItemString());
@@ -1172,10 +1414,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			level_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.level_list);
-			level_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.level_list);
-			level_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.level_list_selected);
+			level_spinner.setItems(level_list);
+			level_spinner.setSelection(level_list_selected);
 			level_spinner._proxyAdapter.clear();
 			level_spinner._proxyAdapter.add(level_spinner
 					.buildSelectedItemString());
@@ -1183,10 +1423,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			overs_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.overs_list);
-			overs_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
-			overs_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected);
+			overs_spinner.setItems(overs_list);
+			overs_spinner.setSelection(overs_list_selected);
 			overs_spinner._proxyAdapter.clear();
 			overs_spinner._proxyAdapter.add(overs_spinner
 					.buildSelectedItemString());
@@ -1194,10 +1432,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			innings_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.innings_list);
-			innings_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
-			innings_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected);
+			innings_spinner.setItems(innings_list);
+			innings_spinner.setSelection(innings_list_selected);
 			innings_spinner._proxyAdapter.clear();
 			innings_spinner._proxyAdapter.add(innings_spinner
 					.buildSelectedItemString());
@@ -1205,10 +1441,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			duration_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.duration_list);
-			duration_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
-			duration_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected);
+			duration_spinner.setItems(duration_list);
+			duration_spinner.setSelection(duration_list_selected);
 			duration_spinner._proxyAdapter.clear();
 			duration_spinner._proxyAdapter.add(duration_spinner
 					.buildSelectedItemString());
@@ -1216,10 +1450,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			first_spinner = (MultiSelectSpinner) dialog
 					.findViewById(R.id.first_list);
-			first_spinner
-					.setItems(DiaryMatchesFragment.diaryMatchesFragment.first_list);
-			first_spinner
-					.setSelection(DiaryMatchesFragment.diaryMatchesFragment.first_list_selected);
+			first_spinner.setItems(first_list);
+			first_spinner.setSelection(first_list_selected);
 			first_spinner._proxyAdapter.clear();
 			first_spinner._proxyAdapter.add(first_spinner
 					.buildSelectedItemString());
@@ -1227,6 +1459,12 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			Log.d("Debug", "filter_showing " + filter_showing);
 			if (my_team_val != null) {
+
+				batting_no_spinner.setSelection(batting_no_val
+						.toArray(new Integer[0]));
+				how_out_spinner.setSelection(how_out_val
+						.toArray(new Integer[0]));
+
 				my_team_spinner.setSelection(my_team_val
 						.toArray(new Integer[0]));
 				opponent_spinner.setSelection(opponent_val
@@ -1251,154 +1489,161 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 
-					DiaryMatchesFragment.diaryMatchesFragment.season_list_selected = season_spinner
+					batting_no_list_selected = batting_no_spinner
 							.getSelectedStrings();
-					String str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.season_list_selected,
-									false);
+					String str = DiaryMatchesFragment.buildSelectedItemString(
+							batting_no_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.season_whereClause = " and strftime('%Y',"
+						batting_no_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_NUM + " in(" + str
+								+ ")";
+					} else {
+						batting_no_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_NUM + " in('')";
+					}
+
+					how_out_list_selected = how_out_spinner
+							.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							how_out_list_selected, false);
+					if (!str.equals("")) {
+						how_out_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_HOW_OUT + " in(" + str
+								+ ")";
+					} else {
+						how_out_whereClause = " and p."
+								+ PerformanceDb.KEY_BAT_HOW_OUT + " in('')";
+					}
+
+					season_list_selected = season_spinner.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							season_list_selected, false);
+					if (!str.equals("")) {
+						season_whereClause = " and strftime('%Y',"
 								+ MatchDb.KEY_MATCH_DATE + ") in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.season_whereClause = " and strftime('%Y',"
+						season_whereClause = " and strftime('%Y',"
 								+ MatchDb.KEY_MATCH_DATE + ") in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected = my_team_spinner
+					my_team_list_selected = my_team_spinner
 							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.my_team_list_selected,
-									false);
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							my_team_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.myteam_whereClause = " and "
-								+ MatchDb.KEY_MY_TEAM + " in(" + str + ")";
+						myteam_whereClause = " and " + MatchDb.KEY_MY_TEAM
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.myteam_whereClause = " and "
-								+ MatchDb.KEY_MY_TEAM + " in('')";
+						myteam_whereClause = " and " + MatchDb.KEY_MY_TEAM
+								+ " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected = opponent_spinner
+					opponent_list_selected = opponent_spinner
 							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.opponent_list_selected,
-									false);
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							opponent_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.opponent_whereClause = " and "
-								+ MatchDb.KEY_OPPONENT_TEAM
-								+ " in("
-								+ str
+						opponent_whereClause = " and "
+								+ MatchDb.KEY_OPPONENT_TEAM + " in(" + str
 								+ ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.opponent_whereClause = " and "
+						opponent_whereClause = " and "
 								+ MatchDb.KEY_OPPONENT_TEAM + " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected = venue_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.venue_list_selected,
-									false);
+					venue_list_selected = venue_spinner.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							venue_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
-								+ MatchDb.KEY_VENUE + " in(" + str + ")";
+						venue_whereClause = " and " + MatchDb.KEY_VENUE
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.venue_whereClause = " and "
-								+ MatchDb.KEY_VENUE + " in('')";
+						venue_whereClause = " and " + MatchDb.KEY_VENUE
+								+ " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.result_list_selected = result_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.result_list_selected,
-									false);
+					result_list_selected = result_spinner.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							result_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.result_whereClause = " and "
-								+ MatchDb.KEY_RESULT + " in(" + str + ")";
+						result_whereClause = " and " + MatchDb.KEY_RESULT
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.result_whereClause = " and "
-								+ MatchDb.KEY_RESULT + " in('')";
+						result_whereClause = " and " + MatchDb.KEY_RESULT
+								+ " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.level_list_selected = level_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.level_list_selected,
-									false);
+					level_list_selected = level_spinner.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							level_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.level_whereClause = " and "
-								+ MatchDb.KEY_LEVEL + " in(" + str + ")";
+						level_whereClause = " and " + MatchDb.KEY_LEVEL
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.level_whereClause = " and "
-								+ MatchDb.KEY_LEVEL + " in('')";
+						level_whereClause = " and " + MatchDb.KEY_LEVEL
+								+ " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected = overs_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.overs_list_selected,
-									true);
+					overs_list_selected = overs_spinner.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							overs_list_selected, true);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.overs_whereClause = " and "
-								+ MatchDb.KEY_OVERS + " in(" + str + ")";
+						overs_whereClause = " and " + MatchDb.KEY_OVERS
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.overs_whereClause = " and "
-								+ MatchDb.KEY_OVERS + " in(-2)";
+						overs_whereClause = " and " + MatchDb.KEY_OVERS
+								+ " in(-2)";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected = innings_spinner
+					innings_list_selected = innings_spinner
 							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.innings_list_selected,
-									true);
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							innings_list_selected, true);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.innings_whereClause = " and "
-								+ MatchDb.KEY_INNINGS + " in(" + str + ")";
+						innings_whereClause = " and " + MatchDb.KEY_INNINGS
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.innings_whereClause = " and "
-								+ MatchDb.KEY_INNINGS + " in(-2)";
+						innings_whereClause = " and " + MatchDb.KEY_INNINGS
+								+ " in(-2)";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected = duration_spinner
+					duration_list_selected = duration_spinner
 							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.duration_list_selected,
-									false);
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							duration_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.duration_whereClause = " and "
-								+ MatchDb.KEY_DURATION + " in(" + str + ")";
+						duration_whereClause = " and " + MatchDb.KEY_DURATION
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.duration_whereClause = " and "
-								+ MatchDb.KEY_DURATION + " in('')";
+						duration_whereClause = " and " + MatchDb.KEY_DURATION
+								+ " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment.first_list_selected = first_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									DiaryMatchesFragment.diaryMatchesFragment.first_list_selected,
-									false);
+					first_list_selected = first_spinner.getSelectedStrings();
+					str = DiaryMatchesFragment.buildSelectedItemString(
+							first_list_selected, false);
 					if (!str.equals("")) {
-						DiaryMatchesFragment.diaryMatchesFragment.first_whereClause = " and "
-								+ MatchDb.KEY_FIRST_ACTION + " in(" + str + ")";
+						first_whereClause = " and " + MatchDb.KEY_FIRST_ACTION
+								+ " in(" + str + ")";
 					} else {
-						DiaryMatchesFragment.diaryMatchesFragment.first_whereClause = " and "
-								+ MatchDb.KEY_FIRST_ACTION + " in('')";
+						first_whereClause = " and " + MatchDb.KEY_FIRST_ACTION
+								+ " in('')";
 					}
 
-					DiaryMatchesFragment.diaryMatchesFragment
-							.getSherlockActivity()
-							.getSupportLoaderManager()
-							.restartLoader(0, null,
-									DiaryMatchesFragment.diaryMatchesFragment);
+					if (sel == DIARY_MATCHES_FRAGMENT) {
+						getSupportLoaderManager().restartLoader(0, null,
+								DiaryMatchesFragment.diaryMatchesFragment);
+					} else if (sel == CAREER_FRAGMENT) {
+						CareerFragment.careerFragment.fireQueries();
+						CareerFragment.careerFragment
+								.viewInfo(PerformanceFragmentEdit.GENERAL);
+						CareerFragment.careerFragment
+								.viewInfo(PerformanceFragmentEdit.BATTING);
+						CareerFragment.careerFragment
+								.viewInfo(PerformanceFragmentEdit.BOWLING);
+						CareerFragment.careerFragment
+								.viewInfo(PerformanceFragmentEdit.FIELDING);
+					}
 					Toast.makeText(MainActivity.main_context, "Filter Set",
 							Toast.LENGTH_LONG).show();
 					dialog.dismiss();
@@ -1415,91 +1660,71 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 
-					season_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.season_list);
-					season_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.season_list);
+					season_spinner.setItems(season_list);
+					season_spinner.setSelection(season_list);
 					season_spinner._proxyAdapter.clear();
 					season_spinner._proxyAdapter.add(season_spinner
 							.buildSelectedItemString());
 					season_spinner.setSelection(0);
 
-					my_team_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
-					my_team_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.my_team_list);
+					my_team_spinner.setItems(my_team_list);
+					my_team_spinner.setSelection(my_team_list);
 					my_team_spinner._proxyAdapter.clear();
 					my_team_spinner._proxyAdapter.add(my_team_spinner
 							.buildSelectedItemString());
 					my_team_spinner.setSelection(0);
 
-					opponent_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
-					opponent_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.opponent_list);
+					opponent_spinner.setItems(opponent_list);
+					opponent_spinner.setSelection(opponent_list);
 					opponent_spinner._proxyAdapter.clear();
 					opponent_spinner._proxyAdapter.add(opponent_spinner
 							.buildSelectedItemString());
 					opponent_spinner.setSelection(0);
 
-					venue_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
-					venue_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.venue_list);
+					venue_spinner.setItems(venue_list);
+					venue_spinner.setSelection(venue_list);
 					venue_spinner._proxyAdapter.clear();
 					venue_spinner._proxyAdapter.add(venue_spinner
 							.buildSelectedItemString());
 					venue_spinner.setSelection(0);
 
-					result_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.result_list);
-					result_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.result_list);
+					result_spinner.setItems(result_list);
+					result_spinner.setSelection(result_list);
 					result_spinner._proxyAdapter.clear();
 					result_spinner._proxyAdapter.add(result_spinner
 							.buildSelectedItemString());
 					result_spinner.setSelection(0);
 
-					level_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.level_list);
-					level_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.level_list);
+					level_spinner.setItems(level_list);
+					level_spinner.setSelection(level_list);
 					level_spinner._proxyAdapter.clear();
 					level_spinner._proxyAdapter.add(level_spinner
 							.buildSelectedItemString());
 					level_spinner.setSelection(0);
 
-					overs_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
-					overs_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.overs_list);
+					overs_spinner.setItems(overs_list);
+					overs_spinner.setSelection(overs_list);
 					overs_spinner._proxyAdapter.clear();
 					overs_spinner._proxyAdapter.add(overs_spinner
 							.buildSelectedItemString());
 					overs_spinner.setSelection(0);
 
-					innings_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
-					innings_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.innings_list);
+					innings_spinner.setItems(innings_list);
+					innings_spinner.setSelection(innings_list);
 					innings_spinner._proxyAdapter.clear();
 					innings_spinner._proxyAdapter.add(innings_spinner
 							.buildSelectedItemString());
 					innings_spinner.setSelection(0);
 
-					duration_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
-					duration_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.duration_list);
+					duration_spinner.setItems(duration_list);
+					duration_spinner.setSelection(duration_list);
 					duration_spinner._proxyAdapter.clear();
 					duration_spinner._proxyAdapter.add(duration_spinner
 							.buildSelectedItemString());
 					duration_spinner.setSelection(0);
 
-					first_spinner
-							.setItems(DiaryMatchesFragment.diaryMatchesFragment.first_list);
-					first_spinner
-							.setSelection(DiaryMatchesFragment.diaryMatchesFragment.first_list);
+					first_spinner.setItems(first_list);
+					first_spinner.setSelection(first_list);
 					first_spinner._proxyAdapter.clear();
 					first_spinner._proxyAdapter.add(first_spinner
 							.buildSelectedItemString());
@@ -1514,947 +1739,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-				}
-			});
-			break;
-		case CAREER_FRAGMENT:
-
-			batting_no_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.batting_no_list);
-			batting_no_spinner
-					.setItems(CareerFragment.careerFragment.batting_no_list);
-			batting_no_spinner
-					.setSelection(CareerFragment.careerFragment.batting_no_list_selected);
-			batting_no_spinner._proxyAdapter.clear();
-			batting_no_spinner._proxyAdapter.add(batting_no_spinner
-					.buildSelectedItemString());
-			batting_no_spinner.setSelection(0);
-
-			how_out_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.how_out_list);
-			how_out_spinner
-					.setItems(CareerFragment.careerFragment.how_out_list);
-			how_out_spinner
-					.setSelection(CareerFragment.careerFragment.how_out_list_selected);
-			how_out_spinner._proxyAdapter.clear();
-			how_out_spinner._proxyAdapter.add(how_out_spinner
-					.buildSelectedItemString());
-			how_out_spinner.setSelection(0);
-
-			season_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.season_list);
-			season_spinner.setItems(CareerFragment.careerFragment.season_list);
-			season_spinner
-					.setSelection(CareerFragment.careerFragment.season_list_selected);
-			season_spinner._proxyAdapter.clear();
-			season_spinner._proxyAdapter.add(season_spinner
-					.buildSelectedItemString());
-			season_spinner.setSelection(0);
-
-			my_team_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.my_team_list);
-			my_team_spinner
-					.setItems(CareerFragment.careerFragment.my_team_list);
-			my_team_spinner
-					.setSelection(CareerFragment.careerFragment.my_team_list_selected);
-			my_team_spinner._proxyAdapter.clear();
-			my_team_spinner._proxyAdapter.add(my_team_spinner
-					.buildSelectedItemString());
-			my_team_spinner.setSelection(0);
-
-			opponent_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.opponent_list);
-			opponent_spinner
-					.setItems(CareerFragment.careerFragment.opponent_list);
-			opponent_spinner
-					.setSelection(CareerFragment.careerFragment.opponent_list_selected);
-			opponent_spinner._proxyAdapter.clear();
-			opponent_spinner._proxyAdapter.add(opponent_spinner
-					.buildSelectedItemString());
-			opponent_spinner.setSelection(0);
-
-			venue_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.venue_list);
-			venue_spinner.setItems(CareerFragment.careerFragment.venue_list);
-			venue_spinner
-					.setSelection(CareerFragment.careerFragment.venue_list_selected);
-			venue_spinner._proxyAdapter.clear();
-			venue_spinner._proxyAdapter.add(venue_spinner
-					.buildSelectedItemString());
-			venue_spinner.setSelection(0);
-
-			result_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.result_list);
-			result_spinner.setItems(CareerFragment.careerFragment.result_list);
-			result_spinner
-					.setSelection(CareerFragment.careerFragment.result_list_selected);
-			result_spinner._proxyAdapter.clear();
-			result_spinner._proxyAdapter.add(result_spinner
-					.buildSelectedItemString());
-			result_spinner.setSelection(0);
-
-			level_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.level_list);
-			level_spinner.setItems(CareerFragment.careerFragment.level_list);
-			level_spinner
-					.setSelection(CareerFragment.careerFragment.level_list_selected);
-			level_spinner._proxyAdapter.clear();
-			level_spinner._proxyAdapter.add(level_spinner
-					.buildSelectedItemString());
-			level_spinner.setSelection(0);
-
-			overs_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.overs_list);
-			overs_spinner.setItems(CareerFragment.careerFragment.overs_list);
-			overs_spinner
-					.setSelection(CareerFragment.careerFragment.overs_list_selected);
-			overs_spinner._proxyAdapter.clear();
-			overs_spinner._proxyAdapter.add(overs_spinner
-					.buildSelectedItemString());
-			overs_spinner.setSelection(0);
-
-			innings_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.innings_list);
-			innings_spinner
-					.setItems(CareerFragment.careerFragment.innings_list);
-			innings_spinner
-					.setSelection(CareerFragment.careerFragment.innings_list_selected);
-			innings_spinner._proxyAdapter.clear();
-			innings_spinner._proxyAdapter.add(innings_spinner
-					.buildSelectedItemString());
-			innings_spinner.setSelection(0);
-
-			duration_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.duration_list);
-			duration_spinner
-					.setItems(CareerFragment.careerFragment.duration_list);
-			duration_spinner
-					.setSelection(CareerFragment.careerFragment.duration_list_selected);
-			duration_spinner._proxyAdapter.clear();
-			duration_spinner._proxyAdapter.add(duration_spinner
-					.buildSelectedItemString());
-			duration_spinner.setSelection(0);
-
-			first_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.first_list);
-			first_spinner.setItems(CareerFragment.careerFragment.first_list);
-			first_spinner
-					.setSelection(CareerFragment.careerFragment.first_list_selected);
-			first_spinner._proxyAdapter.clear();
-			first_spinner._proxyAdapter.add(first_spinner
-					.buildSelectedItemString());
-			first_spinner.setSelection(0);
-
-			if (my_team_val != null) {
-				batting_no_spinner.setSelection(batting_no_val
-						.toArray(new Integer[0]));
-				how_out_spinner.setSelection(how_out_val
-						.toArray(new Integer[0]));
-				my_team_spinner.setSelection(my_team_val
-						.toArray(new Integer[0]));
-				opponent_spinner.setSelection(opponent_val
-						.toArray(new Integer[0]));
-				venue_spinner.setSelection(venue_val.toArray(new Integer[0]));
-				result_spinner.setSelection(result_val.toArray(new Integer[0]));
-				level_spinner.setSelection(level_val.toArray(new Integer[0]));
-				overs_spinner.setSelection(overs_val.toArray(new Integer[0]));
-				innings_spinner.setSelection(innings_val
-						.toArray(new Integer[0]));
-				duration_spinner.setSelection(duration_val
-						.toArray(new Integer[0]));
-				first_spinner.setSelection(first_val.toArray(new Integer[0]));
-				season_spinner.setSelection(season_val.toArray(new Integer[0]));
-			} else if (filter_showing) {
-				return;
-			}
-
-			dialogButton = (Button) dialog.findViewById(R.id.okay);
-
-			// if button is clicked, close the custom dialog
-			dialogButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					CareerFragment.careerFragment.batting_no_list_selected = batting_no_spinner
-							.getSelectedStrings();
-					String str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									CareerFragment.careerFragment.batting_no_list_selected,
-									false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.batting_no_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_NUM
-								+ " in("
-								+ str
-								+ ")";
-					} else {
-						CareerFragment.careerFragment.batting_no_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_NUM + " in('')";
-					}
-
-					CareerFragment.careerFragment.how_out_list_selected = how_out_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									CareerFragment.careerFragment.how_out_list_selected,
-									false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.how_out_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_HOW_OUT
-								+ " in("
-								+ str
-								+ ")";
-					} else {
-						CareerFragment.careerFragment.how_out_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_HOW_OUT + " in('')";
-					}
-
-					CareerFragment.careerFragment.season_list_selected = season_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment.buildSelectedItemString(
-							CareerFragment.careerFragment.season_list_selected,
-							false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.season_whereClause = " and strftime('%Y',m."
-								+ MatchDb.KEY_MATCH_DATE + ") in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.season_whereClause = " and strftime('%Y',m."
-								+ MatchDb.KEY_MATCH_DATE + ") in('')";
-					}
-
-					CareerFragment.careerFragment.my_team_list_selected = my_team_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									CareerFragment.careerFragment.my_team_list_selected,
-									false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.myteam_whereClause = " and m."
-								+ MatchDb.KEY_MY_TEAM + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.myteam_whereClause = " and m."
-								+ MatchDb.KEY_MY_TEAM + " in('')";
-					}
-
-					CareerFragment.careerFragment.opponent_list_selected = opponent_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									CareerFragment.careerFragment.opponent_list_selected,
-									false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.opponent_whereClause = " and m."
-								+ MatchDb.KEY_OPPONENT_TEAM
-								+ " in("
-								+ str
-								+ ")";
-					} else {
-						CareerFragment.careerFragment.opponent_whereClause = " and m."
-								+ MatchDb.KEY_OPPONENT_TEAM + " in('')";
-					}
-
-					CareerFragment.careerFragment.venue_list_selected = venue_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment.buildSelectedItemString(
-							CareerFragment.careerFragment.venue_list_selected,
-							false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.venue_whereClause = " and m."
-								+ MatchDb.KEY_VENUE + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.venue_whereClause = " and m."
-								+ MatchDb.KEY_VENUE + " in('')";
-					}
-
-					CareerFragment.careerFragment.result_list_selected = result_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment.buildSelectedItemString(
-							CareerFragment.careerFragment.result_list_selected,
-							false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.result_whereClause = " and m."
-								+ MatchDb.KEY_RESULT + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.result_whereClause = " and m."
-								+ MatchDb.KEY_RESULT + " in('')";
-					}
-
-					CareerFragment.careerFragment.level_list_selected = level_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment.buildSelectedItemString(
-							CareerFragment.careerFragment.level_list_selected,
-							false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.level_whereClause = " and m."
-								+ MatchDb.KEY_LEVEL + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.level_whereClause = " and m."
-								+ MatchDb.KEY_LEVEL + " in('')";
-					}
-
-					CareerFragment.careerFragment.overs_list_selected = overs_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment.buildSelectedItemString(
-							CareerFragment.careerFragment.overs_list_selected,
-							true);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.overs_whereClause = " and m."
-								+ MatchDb.KEY_OVERS + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.overs_whereClause = " and m."
-								+ MatchDb.KEY_OVERS + " in(-2)";
-					}
-
-					CareerFragment.careerFragment.innings_list_selected = innings_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									CareerFragment.careerFragment.innings_list_selected,
-									true);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.innings_whereClause = " and m."
-								+ MatchDb.KEY_INNINGS + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.innings_whereClause = " and m."
-								+ MatchDb.KEY_INNINGS + " in(-2)";
-					}
-
-					CareerFragment.careerFragment.duration_list_selected = duration_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									CareerFragment.careerFragment.duration_list_selected,
-									false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.duration_whereClause = " and m."
-								+ MatchDb.KEY_DURATION + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.duration_whereClause = " and m."
-								+ MatchDb.KEY_DURATION + " in('')";
-					}
-
-					CareerFragment.careerFragment.first_list_selected = first_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment.buildSelectedItemString(
-							CareerFragment.careerFragment.first_list_selected,
-							false);
-					if (!str.equals("")) {
-						CareerFragment.careerFragment.first_whereClause = " and m."
-								+ MatchDb.KEY_FIRST_ACTION + " in(" + str + ")";
-					} else {
-						CareerFragment.careerFragment.first_whereClause = " and m."
-								+ MatchDb.KEY_FIRST_ACTION + " in('')";
-					}
-
-					// view Info
-					CareerFragment.careerFragment.fireQueries();
-					CareerFragment.careerFragment
-							.viewInfo(CareerFragment.careerFragment.mViewPager
-									.getCurrentItem());
-
-					dialog.dismiss();
-				}
-			});
-
-			dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
-
-			dialogButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-
-					batting_no_spinner
-							.setItems(CareerFragment.careerFragment.batting_no_list);
-					batting_no_spinner
-							.setSelection(CareerFragment.careerFragment.batting_no_list);
-					batting_no_spinner._proxyAdapter.clear();
-					batting_no_spinner._proxyAdapter.add(batting_no_spinner
-							.buildSelectedItemString());
-					batting_no_spinner.setSelection(0);
-
-					how_out_spinner
-							.setItems(CareerFragment.careerFragment.how_out_list);
-					how_out_spinner
-							.setSelection(CareerFragment.careerFragment.how_out_list);
-					how_out_spinner._proxyAdapter.clear();
-					how_out_spinner._proxyAdapter.add(how_out_spinner
-							.buildSelectedItemString());
-					how_out_spinner.setSelection(0);
-
-					season_spinner
-							.setItems(CareerFragment.careerFragment.season_list);
-					season_spinner
-							.setSelection(CareerFragment.careerFragment.season_list);
-					season_spinner._proxyAdapter.clear();
-					season_spinner._proxyAdapter.add(season_spinner
-							.buildSelectedItemString());
-					season_spinner.setSelection(0);
-
-					my_team_spinner
-							.setItems(CareerFragment.careerFragment.my_team_list);
-					my_team_spinner
-							.setSelection(CareerFragment.careerFragment.my_team_list);
-					my_team_spinner._proxyAdapter.clear();
-					my_team_spinner._proxyAdapter.add(my_team_spinner
-							.buildSelectedItemString());
-					my_team_spinner.setSelection(0);
-
-					opponent_spinner
-							.setItems(CareerFragment.careerFragment.opponent_list);
-					opponent_spinner
-							.setSelection(CareerFragment.careerFragment.opponent_list);
-					opponent_spinner._proxyAdapter.clear();
-					opponent_spinner._proxyAdapter.add(opponent_spinner
-							.buildSelectedItemString());
-					opponent_spinner.setSelection(0);
-
-					venue_spinner
-							.setItems(CareerFragment.careerFragment.venue_list);
-					venue_spinner
-							.setSelection(CareerFragment.careerFragment.venue_list);
-					venue_spinner._proxyAdapter.clear();
-					venue_spinner._proxyAdapter.add(venue_spinner
-							.buildSelectedItemString());
-					venue_spinner.setSelection(0);
-
-					result_spinner
-							.setItems(CareerFragment.careerFragment.result_list);
-					result_spinner
-							.setSelection(CareerFragment.careerFragment.result_list);
-					result_spinner._proxyAdapter.clear();
-					result_spinner._proxyAdapter.add(result_spinner
-							.buildSelectedItemString());
-					result_spinner.setSelection(0);
-
-					level_spinner
-							.setItems(CareerFragment.careerFragment.level_list);
-					level_spinner
-							.setSelection(CareerFragment.careerFragment.level_list);
-					level_spinner._proxyAdapter.clear();
-					level_spinner._proxyAdapter.add(level_spinner
-							.buildSelectedItemString());
-					level_spinner.setSelection(0);
-
-					overs_spinner
-							.setItems(CareerFragment.careerFragment.overs_list);
-					overs_spinner
-							.setSelection(CareerFragment.careerFragment.overs_list);
-					overs_spinner._proxyAdapter.clear();
-					overs_spinner._proxyAdapter.add(overs_spinner
-							.buildSelectedItemString());
-					overs_spinner.setSelection(0);
-
-					innings_spinner
-							.setItems(CareerFragment.careerFragment.innings_list);
-					innings_spinner
-							.setSelection(CareerFragment.careerFragment.innings_list);
-					innings_spinner._proxyAdapter.clear();
-					innings_spinner._proxyAdapter.add(innings_spinner
-							.buildSelectedItemString());
-					innings_spinner.setSelection(0);
-
-					duration_spinner
-							.setItems(CareerFragment.careerFragment.duration_list);
-					duration_spinner
-							.setSelection(CareerFragment.careerFragment.duration_list);
-					duration_spinner._proxyAdapter.clear();
-					duration_spinner._proxyAdapter.add(duration_spinner
-							.buildSelectedItemString());
-					duration_spinner.setSelection(0);
-
-					first_spinner
-							.setItems(CareerFragment.careerFragment.first_list);
-					first_spinner
-							.setSelection(CareerFragment.careerFragment.first_list);
-					first_spinner._proxyAdapter.clear();
-					first_spinner._proxyAdapter.add(first_spinner
-							.buildSelectedItemString());
-					first_spinner.setSelection(0);
-				}
-			});
-
-			dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
-
-			dialogButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-
-				}
-			});
-			break;
-		case ANALYSIS_FRAGMENT:
-
-			batting_no_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.batting_no_list);
-			batting_no_spinner
-					.setItems(AnalysisFragment.analysisFragment.batting_no_list);
-			batting_no_spinner
-					.setSelection(AnalysisFragment.analysisFragment.batting_no_list_selected);
-			batting_no_spinner._proxyAdapter.clear();
-			batting_no_spinner._proxyAdapter.add(batting_no_spinner
-					.buildSelectedItemString());
-			batting_no_spinner.setSelection(0);
-
-			how_out_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.how_out_list);
-			how_out_spinner
-					.setItems(AnalysisFragment.analysisFragment.how_out_list);
-			how_out_spinner
-					.setSelection(AnalysisFragment.analysisFragment.how_out_list_selected);
-			how_out_spinner._proxyAdapter.clear();
-			how_out_spinner._proxyAdapter.add(how_out_spinner
-					.buildSelectedItemString());
-			how_out_spinner.setSelection(0);
-
-			season_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.season_list);
-			season_spinner
-					.setItems(AnalysisFragment.analysisFragment.season_list);
-			season_spinner
-					.setSelection(AnalysisFragment.analysisFragment.season_list_selected);
-			season_spinner._proxyAdapter.clear();
-			season_spinner._proxyAdapter.add(season_spinner
-					.buildSelectedItemString());
-			season_spinner.setSelection(0);
-
-			my_team_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.my_team_list);
-			my_team_spinner
-					.setItems(AnalysisFragment.analysisFragment.my_team_list);
-			my_team_spinner
-					.setSelection(AnalysisFragment.analysisFragment.my_team_list_selected);
-			my_team_spinner._proxyAdapter.clear();
-			my_team_spinner._proxyAdapter.add(my_team_spinner
-					.buildSelectedItemString());
-			my_team_spinner.setSelection(0);
-
-			opponent_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.opponent_list);
-			opponent_spinner
-					.setItems(AnalysisFragment.analysisFragment.opponent_list);
-			opponent_spinner
-					.setSelection(AnalysisFragment.analysisFragment.opponent_list_selected);
-			opponent_spinner._proxyAdapter.clear();
-			opponent_spinner._proxyAdapter.add(opponent_spinner
-					.buildSelectedItemString());
-			opponent_spinner.setSelection(0);
-
-			venue_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.venue_list);
-			venue_spinner
-					.setItems(AnalysisFragment.analysisFragment.venue_list);
-			venue_spinner
-					.setSelection(AnalysisFragment.analysisFragment.venue_list_selected);
-			venue_spinner._proxyAdapter.clear();
-			venue_spinner._proxyAdapter.add(venue_spinner
-					.buildSelectedItemString());
-			venue_spinner.setSelection(0);
-
-			result_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.result_list);
-			result_spinner
-					.setItems(AnalysisFragment.analysisFragment.result_list);
-			result_spinner
-					.setSelection(AnalysisFragment.analysisFragment.result_list_selected);
-			result_spinner._proxyAdapter.clear();
-			result_spinner._proxyAdapter.add(result_spinner
-					.buildSelectedItemString());
-			result_spinner.setSelection(0);
-
-			level_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.level_list);
-			level_spinner
-					.setItems(AnalysisFragment.analysisFragment.level_list);
-			level_spinner
-					.setSelection(AnalysisFragment.analysisFragment.level_list_selected);
-			level_spinner._proxyAdapter.clear();
-			level_spinner._proxyAdapter.add(level_spinner
-					.buildSelectedItemString());
-			level_spinner.setSelection(0);
-
-			overs_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.overs_list);
-			overs_spinner
-					.setItems(AnalysisFragment.analysisFragment.overs_list);
-			overs_spinner
-					.setSelection(AnalysisFragment.analysisFragment.overs_list_selected);
-			overs_spinner._proxyAdapter.clear();
-			overs_spinner._proxyAdapter.add(overs_spinner
-					.buildSelectedItemString());
-			overs_spinner.setSelection(0);
-
-			innings_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.innings_list);
-			innings_spinner
-					.setItems(AnalysisFragment.analysisFragment.innings_list);
-			innings_spinner
-					.setSelection(AnalysisFragment.analysisFragment.innings_list_selected);
-			innings_spinner._proxyAdapter.clear();
-			innings_spinner._proxyAdapter.add(innings_spinner
-					.buildSelectedItemString());
-			innings_spinner.setSelection(0);
-
-			duration_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.duration_list);
-			duration_spinner
-					.setItems(AnalysisFragment.analysisFragment.duration_list);
-			duration_spinner
-					.setSelection(AnalysisFragment.analysisFragment.duration_list_selected);
-			duration_spinner._proxyAdapter.clear();
-			duration_spinner._proxyAdapter.add(duration_spinner
-					.buildSelectedItemString());
-			duration_spinner.setSelection(0);
-
-			first_spinner = (MultiSelectSpinner) dialog
-					.findViewById(R.id.first_list);
-			first_spinner
-					.setItems(AnalysisFragment.analysisFragment.first_list);
-			first_spinner
-					.setSelection(AnalysisFragment.analysisFragment.first_list_selected);
-			first_spinner._proxyAdapter.clear();
-			first_spinner._proxyAdapter.add(first_spinner
-					.buildSelectedItemString());
-			first_spinner.setSelection(0);
-
-			if (my_team_val != null) {
-				batting_no_spinner.setSelection(batting_no_val
-						.toArray(new Integer[0]));
-				how_out_spinner.setSelection(how_out_val
-						.toArray(new Integer[0]));
-				my_team_spinner.setSelection(my_team_val
-						.toArray(new Integer[0]));
-				opponent_spinner.setSelection(opponent_val
-						.toArray(new Integer[0]));
-				venue_spinner.setSelection(venue_val.toArray(new Integer[0]));
-				result_spinner.setSelection(result_val.toArray(new Integer[0]));
-				level_spinner.setSelection(level_val.toArray(new Integer[0]));
-				overs_spinner.setSelection(overs_val.toArray(new Integer[0]));
-				innings_spinner.setSelection(innings_val
-						.toArray(new Integer[0]));
-				duration_spinner.setSelection(duration_val
-						.toArray(new Integer[0]));
-				first_spinner.setSelection(first_val.toArray(new Integer[0]));
-				season_spinner.setSelection(season_val.toArray(new Integer[0]));
-			} else if (filter_showing) {
-				return;
-			}
-
-			dialogButton = (Button) dialog.findViewById(R.id.okay);
-
-			// if button is clicked, close the custom dialog
-			dialogButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					AnalysisFragment.analysisFragment.batting_no_list_selected = batting_no_spinner
-							.getSelectedStrings();
-					String str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.batting_no_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.batting_no_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_NUM
-								+ " in("
-								+ str
-								+ ")";
-					} else {
-						AnalysisFragment.analysisFragment.batting_no_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_NUM + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.how_out_list_selected = how_out_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.how_out_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.how_out_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_HOW_OUT
-								+ " in("
-								+ str
-								+ ")";
-					} else {
-						AnalysisFragment.analysisFragment.how_out_whereClause = " and p."
-								+ PerformanceDb.KEY_BAT_HOW_OUT + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.season_list_selected = season_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.season_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.season_whereClause = " and strftime('%Y',m."
-								+ MatchDb.KEY_MATCH_DATE + ") in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.season_whereClause = " and strftime('%Y',m."
-								+ MatchDb.KEY_MATCH_DATE + ") in('')";
-					}
-
-					AnalysisFragment.analysisFragment.my_team_list_selected = my_team_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.my_team_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.myteam_whereClause = " and m."
-								+ MatchDb.KEY_MY_TEAM + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.myteam_whereClause = " and m."
-								+ MatchDb.KEY_MY_TEAM + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.opponent_list_selected = opponent_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.opponent_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.opponent_whereClause = " and m."
-								+ MatchDb.KEY_OPPONENT_TEAM
-								+ " in("
-								+ str
-								+ ")";
-					} else {
-						AnalysisFragment.analysisFragment.opponent_whereClause = " and m."
-								+ MatchDb.KEY_OPPONENT_TEAM + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.venue_list_selected = venue_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.venue_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.venue_whereClause = " and m."
-								+ MatchDb.KEY_VENUE + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.venue_whereClause = " and m."
-								+ MatchDb.KEY_VENUE + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.result_list_selected = result_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.result_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.result_whereClause = " and m."
-								+ MatchDb.KEY_RESULT + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.result_whereClause = " and m."
-								+ MatchDb.KEY_RESULT + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.level_list_selected = level_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.level_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.level_whereClause = " and m."
-								+ MatchDb.KEY_LEVEL + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.level_whereClause = " and m."
-								+ MatchDb.KEY_LEVEL + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.overs_list_selected = overs_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.overs_list_selected,
-									true);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.overs_whereClause = " and m."
-								+ MatchDb.KEY_OVERS + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.overs_whereClause = " and m."
-								+ MatchDb.KEY_OVERS + " in(-2)";
-					}
-
-					AnalysisFragment.analysisFragment.innings_list_selected = innings_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.innings_list_selected,
-									true);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.innings_whereClause = " and m."
-								+ MatchDb.KEY_INNINGS + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.innings_whereClause = " and m."
-								+ MatchDb.KEY_INNINGS + " in(-2)";
-					}
-
-					AnalysisFragment.analysisFragment.duration_list_selected = duration_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.duration_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.duration_whereClause = " and m."
-								+ MatchDb.KEY_DURATION + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.duration_whereClause = " and m."
-								+ MatchDb.KEY_DURATION + " in('')";
-					}
-
-					AnalysisFragment.analysisFragment.first_list_selected = first_spinner
-							.getSelectedStrings();
-					str = DiaryMatchesFragment
-							.buildSelectedItemString(
-									AnalysisFragment.analysisFragment.first_list_selected,
-									false);
-					if (!str.equals("")) {
-						AnalysisFragment.analysisFragment.first_whereClause = " and m."
-								+ MatchDb.KEY_FIRST_ACTION + " in(" + str + ")";
-					} else {
-						AnalysisFragment.analysisFragment.first_whereClause = " and m."
-								+ MatchDb.KEY_FIRST_ACTION + " in('')";
-					}
-
-					dialog.dismiss();
-
-				}
-			});
-
-			dialogButton = (Button) dialog.findViewById(R.id.filter_reset);
-
-			dialogButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-
-					batting_no_spinner
-							.setItems(AnalysisFragment.analysisFragment.batting_no_list);
-					batting_no_spinner
-							.setSelection(AnalysisFragment.analysisFragment.batting_no_list);
-					batting_no_spinner._proxyAdapter.clear();
-					batting_no_spinner._proxyAdapter.add(batting_no_spinner
-							.buildSelectedItemString());
-					batting_no_spinner.setSelection(0);
-
-					how_out_spinner
-							.setItems(AnalysisFragment.analysisFragment.how_out_list);
-					how_out_spinner
-							.setSelection(AnalysisFragment.analysisFragment.how_out_list);
-					how_out_spinner._proxyAdapter.clear();
-					how_out_spinner._proxyAdapter.add(how_out_spinner
-							.buildSelectedItemString());
-					how_out_spinner.setSelection(0);
-
-					season_spinner
-							.setItems(AnalysisFragment.analysisFragment.season_list);
-					season_spinner
-							.setSelection(AnalysisFragment.analysisFragment.season_list);
-					season_spinner._proxyAdapter.clear();
-					season_spinner._proxyAdapter.add(season_spinner
-							.buildSelectedItemString());
-					season_spinner.setSelection(0);
-
-					my_team_spinner
-							.setItems(AnalysisFragment.analysisFragment.my_team_list);
-					my_team_spinner
-							.setSelection(AnalysisFragment.analysisFragment.my_team_list);
-					my_team_spinner._proxyAdapter.clear();
-					my_team_spinner._proxyAdapter.add(my_team_spinner
-							.buildSelectedItemString());
-					my_team_spinner.setSelection(0);
-
-					opponent_spinner
-							.setItems(AnalysisFragment.analysisFragment.opponent_list);
-					opponent_spinner
-							.setSelection(AnalysisFragment.analysisFragment.opponent_list);
-					opponent_spinner._proxyAdapter.clear();
-					opponent_spinner._proxyAdapter.add(opponent_spinner
-							.buildSelectedItemString());
-					opponent_spinner.setSelection(0);
-
-					venue_spinner
-							.setItems(AnalysisFragment.analysisFragment.venue_list);
-					venue_spinner
-							.setSelection(AnalysisFragment.analysisFragment.venue_list);
-					venue_spinner._proxyAdapter.clear();
-					venue_spinner._proxyAdapter.add(venue_spinner
-							.buildSelectedItemString());
-					venue_spinner.setSelection(0);
-
-					result_spinner
-							.setItems(AnalysisFragment.analysisFragment.result_list);
-					result_spinner
-							.setSelection(AnalysisFragment.analysisFragment.result_list);
-					result_spinner._proxyAdapter.clear();
-					result_spinner._proxyAdapter.add(result_spinner
-							.buildSelectedItemString());
-					result_spinner.setSelection(0);
-
-					level_spinner
-							.setItems(AnalysisFragment.analysisFragment.level_list);
-					level_spinner
-							.setSelection(AnalysisFragment.analysisFragment.level_list);
-					level_spinner._proxyAdapter.clear();
-					level_spinner._proxyAdapter.add(level_spinner
-							.buildSelectedItemString());
-					level_spinner.setSelection(0);
-
-					overs_spinner
-							.setItems(AnalysisFragment.analysisFragment.overs_list);
-					overs_spinner
-							.setSelection(AnalysisFragment.analysisFragment.overs_list);
-					overs_spinner._proxyAdapter.clear();
-					overs_spinner._proxyAdapter.add(overs_spinner
-							.buildSelectedItemString());
-					overs_spinner.setSelection(0);
-
-					innings_spinner
-							.setItems(AnalysisFragment.analysisFragment.innings_list);
-					innings_spinner
-							.setSelection(AnalysisFragment.analysisFragment.innings_list);
-					innings_spinner._proxyAdapter.clear();
-					innings_spinner._proxyAdapter.add(innings_spinner
-							.buildSelectedItemString());
-					innings_spinner.setSelection(0);
-
-					duration_spinner
-							.setItems(AnalysisFragment.analysisFragment.duration_list);
-					duration_spinner
-							.setSelection(AnalysisFragment.analysisFragment.duration_list);
-					duration_spinner._proxyAdapter.clear();
-					duration_spinner._proxyAdapter.add(duration_spinner
-							.buildSelectedItemString());
-					duration_spinner.setSelection(0);
-
-					first_spinner
-							.setItems(AnalysisFragment.analysisFragment.first_list);
-					first_spinner
-							.setSelection(AnalysisFragment.analysisFragment.first_list);
-					first_spinner._proxyAdapter.clear();
-					first_spinner._proxyAdapter.add(first_spinner
-							.buildSelectedItemString());
-					first_spinner.setSelection(0);
-				}
-			});
-
-			dialogButton = (Button) dialog.findViewById(R.id.dialog_cancel);
-
-			dialogButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-
 				}
 			});
 			break;
@@ -2628,4 +1912,186 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		}
 	}
+
+	public void fetchFromDb() {
+		MainActivity mainActivity = this;
+		Cursor c = MainActivity.dbHandle.rawQuery(
+				"select distinct strftime('%Y'," + MatchDb.KEY_MATCH_DATE
+						+ ") as _id from " + MatchDb.SQLITE_TABLE + " where "
+						+ MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+						+ "'", null);
+		int count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.season_list.add(c.getString(0));
+				mainActivity.season_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_MY_TEAM + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.my_team_list.add(c.getString(0));
+				mainActivity.my_team_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_OPPONENT_TEAM + " as _id from "
+				+ MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.opponent_list.add(c.getString(0));
+				mainActivity.opponent_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_VENUE + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.venue_list.add(c.getString(0));
+				mainActivity.venue_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_RESULT + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.result_list.add(c.getString(0));
+				mainActivity.result_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_LEVEL + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.level_list.add(c.getString(0));
+				mainActivity.level_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_OVERS + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				int temp = c.getInt(0);
+				if (temp == -1) {
+					mainActivity.overs_list.add("Unlimited");
+					mainActivity.overs_list_selected.add("Unlimited");
+				} else {
+					mainActivity.overs_list.add(c.getInt(0) + "");
+					mainActivity.overs_list_selected.add(c.getInt(0) + "");
+				}
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_INNINGS + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.innings_list.add(c.getInt(0) + "");
+				mainActivity.innings_list_selected.add(c.getInt(0) + "");
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_DURATION + " as _id from " + MatchDb.SQLITE_TABLE
+				+ " where " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.duration_list.add(c.getString(0));
+				mainActivity.duration_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ MatchDb.KEY_FIRST_ACTION + " as _id from "
+				+ MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				mainActivity.first_list.add(c.getString(0));
+				mainActivity.first_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery("select distinct "
+				+ PerformanceDb.KEY_BAT_NUM + " as _id from "
+				+ PerformanceDb.SQLITE_TABLE + " where "
+				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
+				+ "' and (" + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or "
+				+ PerformanceDb.KEY_BAT_BALLS + "!=0)", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				batting_no_list.add(c.getString(0));
+				batting_no_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+
+		c = MainActivity.dbHandle.rawQuery(
+				"select distinct " + PerformanceDb.KEY_BAT_HOW_OUT
+						+ " as _id from " + PerformanceDb.SQLITE_TABLE
+						+ " where " + PerformanceDb.KEY_STATUS + "='"
+						+ MatchDb.MATCH_HISTORY + "'", null);
+		count = c.getCount();
+		if (count != 0) {
+			c.moveToFirst();
+			do {
+				how_out_list.add(c.getString(0));
+				how_out_list_selected.add(c.getString(0));
+			} while (c.moveToNext());
+		}
+		c.close();
+	}
+
 }
