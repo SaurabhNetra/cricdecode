@@ -2,7 +2,6 @@
 include_once "conn.php";
 include_once 'GCmSend.php';
 include_once 'GcMConsts.php';
-try {
 	$id = $_POST ['id'];
 	$nickname = $_POST ['nickname'];
 	$battingStyle = $_POST ['battingStyle'];
@@ -32,10 +31,5 @@ try {
 				"status" => 1 
 		);
 	}
-} catch ( Exception $e ) {
-	$ax = array (
-			"status" => 0 
-	);
-}
 echo str_replace ( "\\", "", json_encode ( $ax ) );
 ?>

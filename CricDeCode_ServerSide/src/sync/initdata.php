@@ -1,6 +1,5 @@
 <?
 include_once "conn.php";
-try {
 	$existing = false;
 	$id = $_POST ['id'];
 	$gcmid = $_POST ['gcmid'];
@@ -142,6 +141,4 @@ try {
 		}
 	}
 	echo str_replace ( "\\", "", json_encode ( $ax ) );
-} catch ( Exception $e ) {
-}
 ?>

@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.util.Log;
 
 public class ProfileEditService extends IntentService {
+	public static boolean started=true;
 	public ProfileEditService() {
 		super("ProfileEditService");
 	}

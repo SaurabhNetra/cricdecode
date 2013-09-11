@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:fadingEdge="none"
-    android:paddingBottom="20dip"
-    android:paddingTop="20dip" >
+    android:paddingBottom="@dimen/scrollview_padding_bottom"
+    android:paddingTop="@dimen/scrollview_padding_top" >
 
     <RelativeLayout
         android:id="@+id/rl1"
@@ -22,14 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/page_desc"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
+            android:layout_marginBottom="@dimen/card_bottom_margin"
+            android:layout_marginLeft="@dimen/card_left_margin"
+            android:layout_marginRight="@dimen/card_right_margin"
             android:background="@drawable/cards_bg"
-            android:paddingBottom="30dip"
-            android:paddingLeft="25dip"
-            android:paddingRight="25dip"
-            android:paddingTop="35dip"
+            android:paddingBottom="@dimen/card_bottom_padding"
+            android:paddingLeft="@dimen/card_left_padding"
+            android:paddingRight="@dimen/card_right_padding"
+            android:paddingTop="@dimen/card_top_padding"
             android:shrinkColumns="1" >
 
             <TableRow
@@ -55,7 +55,7 @@
 
             <View
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TableRow
@@ -80,7 +80,7 @@
 
             <View
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TableRow
@@ -106,7 +106,7 @@
 
             <View
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TableRow
@@ -170,7 +170,7 @@
 
             <View
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TableRow
@@ -184,10 +184,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/generate_graph_margin_top"
                     android:layout_span="2"
                     android:onClick="onClick"
-                    android:padding="@dimen/padding_twenty_dp"
+                    android:padding="@dimen/generate_graph_padding"
                     android:text="@string/generate_graph"
                     android:textSize="@dimen/text_size_twenty_sp"
                     android:textStyle="bold" />

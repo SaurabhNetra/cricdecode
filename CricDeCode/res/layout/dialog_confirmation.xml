@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:hint="@string/are_you_sure"
-        android:padding="10dp" />
+        android:padding="@dimen/dialog_padding" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="@dimen/list_item_margin_bottom"
     android:background="@drawable/cards_bg"
-    android:padding="10dp" >
+    android:padding="@dimen/list_item_padding" >
 
     <TextView
         android:id="@+id/_id"
@@ -29,8 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/dark_red"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp" >
+        android:paddingBottom="@dimen/match_date_padding_bottom"
+        android:paddingTop="@dimen/match_date_padding_top" >
 
         <LinearLayout
             android:id="@+id/date_str"
@@ -42,25 +42,25 @@
                 android:id="@+id/day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingLeft="@dimen/match_date_day_margin_left"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/match_date_text_size" />
 
             <TextView
                 android:id="@+id/month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="@dimen/match_date_month_margin_left"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/match_date_text_size" />
 
             <TextView
                 android:id="@+id/year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="@dimen/match_date_day_margin_left"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/match_date_text_size" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -76,30 +76,30 @@
             android:id="@+id/my_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:textSize="15sp"
+            android:paddingTop="@dimen/my_team_padding_top"
+            android:textSize="@dimen/team_names_text_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/vs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
+            android:paddingTop="@dimen/vs_padding_top"
             android:text="@string/vs" />
 
         <TextView
             android:id="@+id/opponent_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:textSize="15sp"
+            android:paddingTop="@dimen/opponent_padding_top"
+            android:textSize="@dimen/team_names_text_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="@dimen/venue_padding"
             android:textStyle="italic" />
     </LinearLayout>
 
@@ -132,7 +132,7 @@
                     android:id="@+id/overs_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="@dimen/overs_padding_left"
                     android:text="@string/overs"
                     android:textColor="@color/dark_grey" />
             </LinearLayout>

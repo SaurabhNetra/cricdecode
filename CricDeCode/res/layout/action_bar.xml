@@ -45,9 +45,9 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_main"
             android:background="@color/transparent"
-            android:padding="8dp"
+            android:padding="@dimen/action_bar_text_padding"
             android:textColor="@color/white"
-            android:textSize="@dimen/action_bar_text"
+            android:textSize="@dimen/action_bar_text_size"
             android:visibility="gone" />
     </RelativeLayout>
 

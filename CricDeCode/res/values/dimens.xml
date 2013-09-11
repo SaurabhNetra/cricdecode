@@ -10,35 +10,68 @@
     <dimen name="margin_ten_dp">10dp</dimen>
     <dimen name="margin_twenty_dp">20dp</dimen>
     <dimen name="separator_height_two">2dp</dimen>
-    <dimen name="padding_twenty_dp">20dp</dimen>
     <dimen name="text_size_twenty_sp">20sp</dimen>
     <dimen name="tab_height">48dp</dimen>
     <dimen name="separator_height_one_dp">1dp</dimen>
     <dimen name="text_size_lower_row">16dp</dimen>
     <dimen name="filter_scroll_height">250dp</dimen>
-    <dimen name="action_bar_text">16sp</dimen>
 
+    <!-- login -->
+    <dimen name="login_screen_padding">20dp</dimen>
+
+    <!-- auto complete suggestion -->
+    <dimen name="suggestion_padding">10dp</dimen>
+    <dimen name="suggestion_text_size">16sp</dimen>
+
+    <!-- dialog confirmation -->
+    <dimen name="dialog_padding">10dp</dimen>
+    <!-- action bar -->
+    <dimen name="action_bar_text_size">16sp</dimen>
+    <dimen name="action_bar_text_padding">8dp</dimen>
+
+    <!-- diary list item -->
+    <dimen name="list_item_padding">10dp</dimen>
+    <dimen name="list_item_margin_bottom">10dp</dimen>
+    <dimen name="match_date_padding_bottom">5dp</dimen>
+    <dimen name="match_date_padding_top">5dp</dimen>
+    <dimen name="match_date_text_size">12dp</dimen>
+    <dimen name="match_date_day_margin_left">10dp</dimen>
+    <dimen name="match_date_month_margin_left">5dp</dimen>
+    <dimen name="match_date_year_margin_left">5dp</dimen>
+    <dimen name="team_names_text_size">15sp</dimen>
+    <dimen name="my_team_padding_top">10dp</dimen>
+    <dimen name="vs_padding_top">5dp</dimen>
+    <dimen name="opponent_padding_top">5dp</dimen>
+    <dimen name="venue_padding">5dp</dimen>
+    <dimen name="overs_padding_left">10dp</dimen>
     <!-- career -->
     <dimen name="career_top_space_height">100dp</dimen>
-    <dimen name="card_left_margin">20dp</dimen>
-    <dimen name="card_right_margin">20dp</dimen>
-    <dimen name="card_top_margin">20dp</dimen>
-    <dimen name="card_bottom_margin">20dp</dimen>
     <dimen name="card_left_padding">25dp</dimen>
     <dimen name="card_top_padding">35dp</dimen>
     <dimen name="card_bottom_padding">30dp</dimen>
     <dimen name="lbl_padding">10dp</dimen>
-    <dimen name="num_padding">10dp</dimen>    
+    <dimen name="num_padding">10dp</dimen>
     <dimen name="padding_ten_dp">10dp</dimen>
     <dimen name="text_size_career_lbl">22sp</dimen>
     <dimen name="text_size_career_num">18sp</dimen>
     <dimen name="circle_width">150dp</dimen>
-    <dimen name="circle_height">150dp</dimen>    
+    <dimen name="circle_height">150dp</dimen>
     <dimen name="circle_margin_right">30dp</dimen>
-    
 
+    <!-- analysis -->
+    <dimen name="card_left_padding">25dp</dimen>
+    <dimen name="card_right_padding">25dp</dimen>
+    <dimen name="card_top_padding">35dp</dimen>
+    <dimen name="card_bottom_padding">30dp</dimen>
+    <dimen name="generate_graph_margin_top">5dp</dimen>
+    <dimen name="generate_graph_padding">20dp</dimen>
     <!-- All pages -->
     <dimen name="scrollview_padding_top">20dp</dimen>
     <dimen name="scrollview_padding_bottom">20dp</dimen>
+    <dimen name="card_left_margin">20dp</dimen>
+    <dimen name="card_right_margin">20dp</dimen>
+    <dimen name="card_top_margin">20dp</dimen>
+    <dimen name="card_bottom_margin">20dp</dimen>
+    <dimen name="view_separator_margin">8dp</dimen>
 
 </resources>
