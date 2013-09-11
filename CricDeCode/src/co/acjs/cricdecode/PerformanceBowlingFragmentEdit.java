@@ -23,7 +23,7 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 	ToggleButton bowl_toggle;
 	TableLayout bowling_info;
 	TextView my_team, opponent_team, venue, day, month, year, level,
-			match_overs;
+			match_overs, toggle_on, toggle_off;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,9 +50,25 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 					boolean isChecked) {
 				if (isChecked) {
 					bowling_info.setVisibility(View.VISIBLE);
+					toggle_off.setBackgroundColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_off.setTextColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_on.setTextColor(getResources().getColor(
+							R.color.dark_grey));
+					toggle_on.setBackgroundColor(getResources().getColor(
+							R.color.green));
 				} else {
 					bowling_info.setVisibility(View.GONE);
 					overs.setText("0");
+					toggle_off.setBackgroundColor(getResources().getColor(
+							R.color.dark_grey));
+					toggle_off.setTextColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_on.setTextColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_on.setBackgroundColor(getResources().getColor(
+							R.color.light_grey));
 				}
 			}
 		});
@@ -68,6 +84,8 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
 
+		toggle_on = (TextView) view.findViewById(R.id.toggle_on);
+		toggle_off = (TextView) view.findViewById(R.id.toggle_off);
 		bowling_info = (TableLayout) view.findViewById(R.id.bowling_info);
 		overs = (EditText) view.findViewById(R.id.overs_bowled);
 		overs.setOnFocusChangeListener(new OnFocusChangeListener() {

@@ -25,9 +25,8 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 	Spinner how_out, bowler_type, fielding_pos;
 	ToggleButton bat_toggle;
 	TableLayout batting_info;
-
 	TextView my_team, opponent_team, venue, day, month, year, level,
-			match_overs;
+			match_overs, toggle_on, toggle_off;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +56,26 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 				Log.d("Debug", "On Check Changed " + isChecked);
 				if (isChecked) {
 					batting_info.setVisibility(View.VISIBLE);
+					toggle_off.setBackgroundColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_off.setTextColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_on.setTextColor(getResources().getColor(
+							R.color.dark_grey));
+					toggle_on.setBackgroundColor(getResources().getColor(
+							R.color.green));
 				} else {
 					batting_info.setVisibility(View.GONE);
 					how_out.setSelection(0);
 					balls.setText("0");
+					toggle_off.setBackgroundColor(getResources().getColor(
+							R.color.dark_grey));
+					toggle_off.setTextColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_on.setTextColor(getResources().getColor(
+							R.color.light_grey));
+					toggle_on.setBackgroundColor(getResources().getColor(
+							R.color.light_grey));
 				}
 			}
 		});
@@ -105,6 +120,8 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 		venue = (TextView) view.findViewById(R.id.venue);
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
+		toggle_off = (TextView) view.findViewById(R.id.toggle_off);
+		toggle_on = (TextView) view.findViewById(R.id.toggle_on);
 
 		batting_info = (TableLayout) view.findViewById(R.id.batting_info);
 		batting_no = (EditText) view.findViewById(R.id.batting_no);

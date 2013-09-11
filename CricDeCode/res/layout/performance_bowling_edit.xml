@@ -109,21 +109,30 @@
                     android:id="@+id/bowled"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bowled" />
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/bowled"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/toggle_on"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/bowled"
-                    android:text="@string/yes" />
+                    android:background="@color/light_grey"
+                    android:padding="8dp"
+                    android:text="@string/yes"
+                    android:textColor="@color/light_grey" />
 
                 <TextView
                     android:id="@+id/toggle_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/toggle_on"
-                    android:text="@string/no" />
+                    android:background="@color/dark_grey"
+                    android:padding="8dp"
+                    android:text="@string/no"
+                    android:textColor="@color/light_grey" />
             </RelativeLayout>
 
             <LinearLayout

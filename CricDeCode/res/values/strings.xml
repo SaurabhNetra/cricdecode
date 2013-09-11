@@ -166,8 +166,8 @@
 
     <!-- Batting -->
     <string name="dnb">Did Not Bat</string>
-    <string name="batted">Batted</string>
-    <string name="bowled">Bowled</string>
+    <string name="batted">Batted? </string>
+    <string name="bowled">Bowled? </string>
     <string name="batting_no">Batting Number</string>
     <string name="runs">Runs</string>
     <string name="balls">Balls</string>

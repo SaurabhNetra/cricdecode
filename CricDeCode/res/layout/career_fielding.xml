@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fadingEdge="none"
-    android:paddingBottom="20dip"
-    android:paddingTop="20dip" >
+    android:paddingBottom="@dimen/scrollview_padding_bottom"
+    android:paddingTop="@dimen/scrollview_padding_top" >
 
     <RelativeLayout
         android:id="@+id/rl1"
@@ -14,7 +14,7 @@
         <LinearLayout
             android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="@dimen/career_top_space_height"
             android:orientation="vertical" />
 
         <TableLayout
@@ -38,7 +38,7 @@
                     android:id="@+id/lbl_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/catches"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:id="@+id/catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -77,7 +77,7 @@
                     android:id="@+id/lbl_slip_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/catches"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -86,7 +86,7 @@
                     android:id="@+id/slip_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -116,7 +116,7 @@
                     android:id="@+id/lbl_close_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/catches"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -125,7 +125,7 @@
                     android:id="@+id/close_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -152,7 +152,7 @@
                     android:id="@+id/lbl_circle_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/catches"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -161,7 +161,7 @@
                     android:id="@+id/circle_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -191,7 +191,7 @@
                     android:id="@+id/lbl_deep_catches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/catches"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -200,7 +200,7 @@
                     android:id="@+id/deep_catches"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -230,7 +230,7 @@
                     android:id="@+id/lbl_runouts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/runouts"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -239,7 +239,7 @@
                     android:id="@+id/runouts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -269,7 +269,7 @@
                     android:id="@+id/lbl_circle_runouts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/runouts"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -278,7 +278,7 @@
                     android:id="@+id/circle_runouts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -308,7 +308,7 @@
                     android:id="@+id/lbl_circle_runouts_direct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/direct_hits"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -317,7 +317,7 @@
                     android:id="@+id/circle_runouts_direct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -347,7 +347,7 @@
                     android:id="@+id/lbl_deep_runouts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/runouts"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -356,7 +356,7 @@
                     android:id="@+id/deep_runouts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -386,7 +386,7 @@
                     android:id="@+id/lbl_deep_runouts_direct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/direct_hits"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -395,7 +395,7 @@
                     android:id="@+id/deep_runouts_direct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -425,7 +425,7 @@
                     android:id="@+id/lbl_stumpings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_ten_dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/stumpings_wk"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -434,7 +434,7 @@
                     android:id="@+id/stumpings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -464,7 +464,7 @@
                     android:id="@+id/lbl_byes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/byes_wk"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -473,7 +473,7 @@
                     android:id="@+id/byes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -502,7 +502,7 @@
                     android:id="@+id/lbl_misfields"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/misfields"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -511,7 +511,7 @@
                     android:id="@+id/misfields"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 
@@ -523,7 +523,7 @@
                     android:id="@+id/lbl_catches_dropped_fielding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/catches"
                     android:textSize="@dimen/text_size_career_lbl"
                     android:textStyle="bold" />
@@ -532,7 +532,7 @@
                     android:id="@+id/catches_dropped_fielding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/num_padding"
                     android:textSize="@dimen/text_size_career_num" />
             </TableRow>
 

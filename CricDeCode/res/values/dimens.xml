@@ -11,15 +11,15 @@
     <dimen name="margin_twenty_dp">20dp</dimen>
     <dimen name="separator_height_two">2dp</dimen>
     <dimen name="padding_twenty_dp">20dp</dimen>
-    <dimen name="padding_ten_dp">10dp</dimen>
     <dimen name="text_size_twenty_sp">20sp</dimen>
     <dimen name="tab_height">48dp</dimen>
-    <dimen name="text_size_career_lbl">22sp</dimen>
-    <dimen name="text_size_career_num">18sp</dimen>
     <dimen name="separator_height_one_dp">1dp</dimen>
     <dimen name="text_size_lower_row">16dp</dimen>
     <dimen name="filter_scroll_height">250dp</dimen>
     <dimen name="action_bar_text">16sp</dimen>
+
+    <!-- career -->
+    <dimen name="career_top_space_height">100dp</dimen>
     <dimen name="card_left_margin">20dp</dimen>
     <dimen name="card_right_margin">20dp</dimen>
     <dimen name="card_top_margin">20dp</dimen>
@@ -27,5 +27,14 @@
     <dimen name="card_left_padding">25dp</dimen>
     <dimen name="card_top_padding">35dp</dimen>
     <dimen name="card_bottom_padding">30dp</dimen>
+    <dimen name="lbl_padding">10dp</dimen>
+    <dimen name="num_padding">10dp</dimen>    
+    <dimen name="padding_ten_dp">10dp</dimen>
+    <dimen name="text_size_career_lbl">22sp</dimen>
+    <dimen name="text_size_career_num">18sp</dimen>
+
+    <!-- All pages -->
+    <dimen name="scrollview_padding_top">20dp</dimen>
+    <dimen name="scrollview_padding_bottom">20dp</dimen>
 
 </resources>
