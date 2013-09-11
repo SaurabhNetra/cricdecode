@@ -68,15 +68,16 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 
 		// The desired columns to be bound
 		String[] columns = new String[] { MatchDb.KEY_ROWID,
-				MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE,
-				MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
-				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
-				MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
+				MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS,
+				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION,
+				MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM,
+				MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
+				MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 
 		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id._id, R.id.innings, R.id.day, R.id.month,
-				R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue,
-				R.id.level, R.id.overs };
+		int[] to = new int[] { R.id._id, R.id.device_id, R.id.innings,
+				R.id.day, R.id.month, R.id.year, R.id.my_team,
+				R.id.opponent_team, R.id.venue, R.id.level, R.id.overs };
 
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(getSherlockActivity(),
@@ -103,12 +104,15 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 
 				int rowId = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
+				String deviceId = cursor.getString(cursor
+						.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID));
 				int innings = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_INNINGS));
 
 				PerformanceFragmentEdit.performanceFragmentEdit = new PerformanceFragmentEdit();
 				Bundle bundle = new Bundle();
 				bundle.putInt("rowId", rowId);
+				bundle.putString("deviceId", deviceId);
 				bundle.putInt("innings", innings);
 				PerformanceFragmentEdit.performanceFragmentEdit
 						.setArguments(bundle);
@@ -127,11 +131,11 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
-		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS,
-				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION,
-				MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM,
-				MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
-				MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
+		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
+				MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE,
+				MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
+				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
+				MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_CURRENT + "'", null,
@@ -148,7 +152,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 						+ Arrays.toString(data.getColumnNames()));
 		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		AccessSharedPrefs.setInt(getSherlockActivity(), "ongoingMatches", data.getCount());
+		AccessSharedPrefs.setInt(getSherlockActivity(), "ongoingMatches",
+				data.getCount());
 		MatrixCursor mc = new MatrixCursor(data.getColumnNames(),
 				data.getCount());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
@@ -211,10 +216,12 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 
 		TextView child = (TextView) vwParentRow.getChildAt(0);
 		String str = child.getText().toString();
+		child = (TextView) vwParentRow.getChildAt(1);
+		String d_str = child.getText().toString();
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + str);
+				+ "/" + str + "/" + d_str);
 		Cursor c = getSherlockActivity().getContentResolver().query(uri,
-				new String[] { PerformanceDb.KEY_MATCHID }, null, null, null);
+				new String[] { PerformanceDb.KEY_MATCHID, }, null, null, null);
 		if (c.getCount() == 0) {
 			c.close();
 			Toast.makeText(getSherlockActivity(),
@@ -222,24 +229,24 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 		} else {
 			c.close();
 			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-					+ str);
+					+ str + "/" + d_str);
 			ContentValues values = new ContentValues();
 			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 
 			getSherlockActivity().getContentResolver().update(uri, values,
 					null, null);
 			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-					+ "/" + str);
+					+ "/" + str + "/" + d_str);
 			getSherlockActivity().getContentResolver().update(uri, values,
 					null, null);
 			Toast.makeText(getSherlockActivity(), "Match added to Career",
 					Toast.LENGTH_LONG).show();
 
-			AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
-					"CricDeCode", Context.MODE_PRIVATE);
-			AccessSharedPrefs.setInt(getSherlockActivity(),"ongoingMatches", 
+			AccessSharedPrefs.mPrefs = getSherlockActivity()
+					.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+			AccessSharedPrefs.setInt(getSherlockActivity(), "ongoingMatches",
 					AccessSharedPrefs.mPrefs.getInt("ongoingMatches", 0) - 1);
-			AccessSharedPrefs.setInt(getSherlockActivity(), "diaryMatches", 
+			AccessSharedPrefs.setInt(getSherlockActivity(), "diaryMatches",
 					AccessSharedPrefs.mPrefs.getInt("diaryMatches", 0) + 1);
 
 			getSherlockActivity().getSupportLoaderManager().restartLoader(0,
@@ -253,16 +260,18 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 
 		TextView child = (TextView) vwParentRow.getChildAt(0);
 		String str = child.getText().toString();
+		child = (TextView) vwParentRow.getChildAt(1);
+		String d_str = child.getText().toString();
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + str);
+				+ "/" + str + "/" + d_str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
-		uri = Uri
-				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
+		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str
+				+ "/" + d_str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
 
 		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
-		AccessSharedPrefs.setInt(getSherlockActivity(),"ongoingMatches", 
+		AccessSharedPrefs.setInt(getSherlockActivity(), "ongoingMatches",
 				AccessSharedPrefs.mPrefs.getInt("ongoingMatches", 0) - 1);
 
 		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,

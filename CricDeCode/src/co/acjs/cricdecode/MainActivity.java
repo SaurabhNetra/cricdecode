@@ -106,6 +106,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
+		AccessSharedPrefs.setString(this, "device_id", "123");
 
 		main_context = this;
 		setContentView(R.layout.drawer_main);

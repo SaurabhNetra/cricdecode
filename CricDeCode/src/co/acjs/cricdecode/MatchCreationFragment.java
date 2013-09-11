@@ -28,18 +28,19 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class MatchCreationFragment extends SherlockFragment {
-	static MatchCreationFragment	matchCreationFragment;
-	private static SQLiteDatabase	dbHandle;
-	private static String			queryStr, field_str;
+	static MatchCreationFragment matchCreationFragment;
+	private static SQLiteDatabase dbHandle;
+	private static String queryStr, field_str;
 
-	TextView						lbl_overs;
-	EditText						date_of_match;
-	AutoCompleteTextView			myTeam, opponentTeam, venue, overs,
+	TextView lbl_overs;
+	EditText date_of_match;
+	AutoCompleteTextView myTeam, opponentTeam, venue, overs,
 			autoCompleteTextView;
-	Spinner							innings, limited, level;
+	Spinner innings, limited, level;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		matchCreationFragment = this;
 		View rootView = inflater.inflate(R.layout.match_creation, container,
 				false);
@@ -89,7 +90,8 @@ public class MatchCreationFragment extends SherlockFragment {
 		setAutoSuggestions();
 
 		limited.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+			public void onItemSelected(AdapterView<?> adapterView, View view,
+					int i, long l) {
 				if (i == 1) {
 					overs.setVisibility(View.GONE);
 					lbl_overs.setVisibility(View.GONE);
@@ -106,6 +108,9 @@ public class MatchCreationFragment extends SherlockFragment {
 	}
 
 	public void insertMatch() {
+		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		String device_id = AccessSharedPrefs.mPrefs.getString("device_id", "");
 		String matchDate_str = date_of_match.getText().toString();
 		String myTeam_str = myTeam.getText().toString();
 		String opponentTeam_str = opponentTeam.getText().toString();
@@ -170,7 +175,9 @@ public class MatchCreationFragment extends SherlockFragment {
 			Log.d("Debug", "Date Exception");
 		}
 
+		Log.d("Debug", "Device Id" + device_id);
 		ContentValues values = new ContentValues();
+		values.put(MatchDb.KEY_DEVICE_ID, device_id);
 		values.put(MatchDb.KEY_MATCH_DATE, DateFormat
 				.format("yyyy-MM-dd", date).toString());
 		values.put(MatchDb.KEY_MY_TEAM, myTeam_str);
@@ -194,8 +201,6 @@ public class MatchCreationFragment extends SherlockFragment {
 				Toast.LENGTH_LONG).show();
 
 		// Increment Ongoing Matches Count
-		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
-				"CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setInt(getSherlockActivity(), "ongoingMatches",
 				AccessSharedPrefs.mPrefs.getInt("ongoingMatches", 0) + 1);
 
@@ -211,6 +216,7 @@ public class MatchCreationFragment extends SherlockFragment {
 			Bundle bundle = new Bundle();
 			bundle.putInt("rowId",
 					Integer.parseInt(uri.getPathSegments().get(1)));
+			bundle.putString("deviceId", device_id);
 			bundle.putInt("innings", Integer.parseInt(innings_str));
 			PerformanceFragmentEdit.performanceFragmentEdit
 					.setArguments(bundle);
@@ -235,7 +241,8 @@ public class MatchCreationFragment extends SherlockFragment {
 
 		// Create an ItemAutoTextAdapter for the State Name field,
 		// and set it as the OnItemClickListener for that field.
-		queryStr = "select distinct " + MatchDb.KEY_MY_TEAM + " as _id from " + MatchDb.SQLITE_TABLE;
+		queryStr = "select distinct " + MatchDb.KEY_MY_TEAM + " as _id from "
+				+ MatchDb.SQLITE_TABLE;
 		autoCompleteTextView = myTeam;
 		field_str = MatchDb.KEY_MY_TEAM;
 		MyCursorAdapter mAdapter = this.new MyCursorAdapter(
@@ -243,14 +250,16 @@ public class MatchCreationFragment extends SherlockFragment {
 		myTeam.setAdapter(mAdapter);
 		myTeam.setThreshold(1);
 
-		queryStr = "select distinct " + MatchDb.KEY_OPPONENT_TEAM + " as _id from " + MatchDb.SQLITE_TABLE;
+		queryStr = "select distinct " + MatchDb.KEY_OPPONENT_TEAM
+				+ " as _id from " + MatchDb.SQLITE_TABLE;
 		autoCompleteTextView = opponentTeam;
 		field_str = MatchDb.KEY_OPPONENT_TEAM;
 		mAdapter = this.new MyCursorAdapter(getSherlockActivity(), null, true);
 		opponentTeam.setAdapter(mAdapter);
 		opponentTeam.setThreshold(1);
 
-		queryStr = "select distinct " + MatchDb.KEY_VENUE + " as _id from " + MatchDb.SQLITE_TABLE;
+		queryStr = "select distinct " + MatchDb.KEY_VENUE + " as _id from "
+				+ MatchDb.SQLITE_TABLE;
 		autoCompleteTextView = venue;
 		field_str = MatchDb.KEY_VENUE;
 		mAdapter = this.new MyCursorAdapter(getSherlockActivity(), null, true);
@@ -260,8 +269,8 @@ public class MatchCreationFragment extends SherlockFragment {
 	}
 
 	class MyCursorAdapter extends CursorAdapter {
-		String					query, field;
-		AutoCompleteTextView	textView;
+		String query, field;
+		AutoCompleteTextView textView;
 
 		public MyCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 			super(context, c, autoRequery);

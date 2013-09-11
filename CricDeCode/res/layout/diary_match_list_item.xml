@@ -13,6 +13,12 @@
         android:visibility="gone" />
 
     <TextView
+        android:id="@+id/device_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/innings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

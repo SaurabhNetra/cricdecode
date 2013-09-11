@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class AccessSharedPrefs {
-	static SharedPreferences		mPrefs;
-	static SharedPreferences.Editor	editor;
-	static Semaphore				s	= new Semaphore(1, true);
+	static SharedPreferences mPrefs;
+	static SharedPreferences.Editor editor;
+	static Semaphore s = new Semaphore(1, true);
 
 	@SuppressLint("CommitPrefEdits")
 	public static void init(Context ParentContext) {

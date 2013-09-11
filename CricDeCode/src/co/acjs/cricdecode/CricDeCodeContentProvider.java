@@ -39,9 +39,9 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(AUTHORITY, "match", MATCH);
-		uriMatcher.addURI(AUTHORITY, "match/#", SINGLE_MATCH);
+		uriMatcher.addURI(AUTHORITY, "match/#/#", SINGLE_MATCH);
 		uriMatcher.addURI(AUTHORITY, "performance", PERFORMANCE);
-		uriMatcher.addURI(AUTHORITY, "performance/#", SINGLE_PERFORMANCE);
+		uriMatcher.addURI(AUTHORITY, "performance/#/#", SINGLE_PERFORMANCE);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -107,7 +107,7 @@ public class CricDeCodeContentProvider extends ContentProvider {
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		String id;
+		String id, d_id;
 		switch (uriMatcher.match(uri)) {
 		case MATCH:
 			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
@@ -116,9 +116,18 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		case SINGLE_MATCH:
 			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
 			id = uri.getPathSegments().get(1);
+			d_id = uri.getPathSegments().get(2);
+			Log.d("Debug", id + " and " + d_id);
 			selection = MatchDb.KEY_ROWID
 					+ "="
 					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			selection = MatchDb.KEY_DEVICE_ID
+					+ "="
+					+ "'"
+					+ d_id
+					+ "'"
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
 							+ ')' : "");
 			break;
@@ -126,7 +135,20 @@ public class CricDeCodeContentProvider extends ContentProvider {
 			Log.d("Debug", "query Single Performance");
 			queryBuilder.setTables(PerformanceDb.SQLITE_TABLE);
 			id = uri.getPathSegments().get(1);
-			queryBuilder.appendWhere(PerformanceDb.KEY_MATCHID + "=" + id);
+			d_id = uri.getPathSegments().get(2);
+			Log.d("Debug", id + " and " + d_id);
+			selection = PerformanceDb.KEY_MATCHID
+					+ "="
+					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			selection = PerformanceDb.KEY_DEVICE_ID
+					+ "="
+					+ "'"
+					+ d_id
+					+ "'"
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
 			Log.d("Debug", "query Single Performance");
 			break;
 		default:
@@ -147,18 +169,24 @@ public class CricDeCodeContentProvider extends ContentProvider {
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		String table_name, id;
+		String table_name, id, d_id;
 		int deleteCount;
 		switch (uriMatcher.match(uri)) {
 		case SINGLE_MATCH:
 			table_name = MatchDb.SQLITE_TABLE;
 			id = uri.getPathSegments().get(1);
-			selection = MatchDb.KEY_ROWID + "=" + id;
+			d_id = uri.getPathSegments().get(2);
+			Log.d("Debug", id + " and " + d_id);
+			selection = MatchDb.KEY_ROWID + "=" + id + " and "
+					+ MatchDb.KEY_DEVICE_ID + "='" + d_id + "'";
 			break;
 		case SINGLE_PERFORMANCE:
 			table_name = PerformanceDb.SQLITE_TABLE;
 			id = uri.getPathSegments().get(1);
-			selection = PerformanceDb.KEY_MATCHID + "=" + id;
+			d_id = uri.getPathSegments().get(2);
+			Log.d("Debug", id + " and " + d_id);
+			selection = PerformanceDb.KEY_MATCHID + "=" + id + " and "
+					+ PerformanceDb.KEY_DEVICE_ID + "='" + d_id + "'";
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -176,24 +204,40 @@ public class CricDeCodeContentProvider extends ContentProvider {
 			String[] selectionArgs) {
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		String table_name, id;
+		String table_name, id, d_id;
 
 		switch (uriMatcher.match(uri)) {
 		case SINGLE_MATCH:
 			table_name = MatchDb.SQLITE_TABLE;
 			id = uri.getPathSegments().get(1);
+			d_id = uri.getPathSegments().get(2);
 			selection = MatchDb.KEY_ROWID
 					+ "="
 					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			selection = MatchDb.KEY_DEVICE_ID
+					+ "="
+					+ "'"
+					+ d_id
+					+ "'"
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
 							+ ')' : "");
 			break;
 		case SINGLE_PERFORMANCE:
 			table_name = PerformanceDb.SQLITE_TABLE;
 			id = uri.getPathSegments().get(1);
+			d_id = uri.getPathSegments().get(2);
 			selection = PerformanceDb.KEY_MATCHID
 					+ "="
 					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			selection = PerformanceDb.KEY_DEVICE_ID
+					+ "="
+					+ "'"
+					+ d_id
+					+ "'"
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
 							+ ')' : "");
 			if (values.containsKey(PerformanceDb.KEY_INNING)) {

@@ -9,6 +9,7 @@ public class MatchDb {
 	public static final String MATCH_HISTORY = "history";
 
 	public static final String KEY_ROWID = "_id";
+	public static final String KEY_DEVICE_ID = "device_id";
 	public static final String KEY_MATCH_DATE = "match_date";
 	public static final String KEY_MY_TEAM = "my_team";
 	public static final String KEY_OPPONENT_TEAM = "opponent_team";
@@ -27,11 +28,12 @@ public class MatchDb {
 
 	private static final String DATABASE_CREATE = "CREATE TABLE if not exists "
 			+ SQLITE_TABLE + " (" + KEY_ROWID
-			+ " integer PRIMARY KEY autoincrement," + KEY_MATCH_DATE + " date,"
-			+ KEY_MY_TEAM + "," + KEY_OPPONENT_TEAM + "," + KEY_VENUE + ","
-			+ KEY_OVERS + " integer, " + KEY_INNINGS + " integer, "
-			+ KEY_RESULT + "," + KEY_REVIEW + " text," + KEY_LEVEL + ","
-			+ KEY_FIRST_ACTION + "," + KEY_DURATION + "," + KEY_STATUS + ");";
+			+ " integer PRIMARY KEY autoincrement," + KEY_DEVICE_ID + ","
+			+ KEY_MATCH_DATE + " date," + KEY_MY_TEAM + "," + KEY_OPPONENT_TEAM
+			+ "," + KEY_VENUE + "," + KEY_OVERS + " integer, " + KEY_INNINGS
+			+ " integer, " + KEY_RESULT + "," + KEY_REVIEW + " text,"
+			+ KEY_LEVEL + "," + KEY_FIRST_ACTION + "," + KEY_DURATION + ","
+			+ KEY_STATUS + ");";
 
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);

@@ -70,15 +70,16 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 		// The desired columns to be bound
 		String[] columns = new String[] { MatchDb.KEY_ROWID,
-				MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE,
-				MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
-				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
-				MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
+				MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS,
+				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION,
+				MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM,
+				MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
+				MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 
 		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id._id, R.id.innings, R.id.day, R.id.month,
-				R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue,
-				R.id.level, R.id.overs };
+		int[] to = new int[] { R.id._id, R.id.device_id, R.id.innings,
+				R.id.day, R.id.month, R.id.year, R.id.my_team,
+				R.id.opponent_team, R.id.venue, R.id.level, R.id.overs };
 
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(getSherlockActivity(),
@@ -104,12 +105,15 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 				int rowId = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
+				String deviceId = cursor.getString(cursor
+						.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID));
 				int innings = cursor.getInt(cursor
 						.getColumnIndexOrThrow(MatchDb.KEY_INNINGS));
 
 				PerformanceFragmentView.performanceFragmentView = new PerformanceFragmentView();
 				Bundle bundle = new Bundle();
 				bundle.putInt("rowId", rowId);
+				bundle.putString("deviceId", deviceId);
 				bundle.putInt("innings", innings);
 				PerformanceFragmentView.performanceFragmentView
 						.setArguments(bundle);
@@ -129,11 +133,11 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d("Debug", "on Create Loader");
 		MainActivity mainActivity = (MainActivity) getSherlockActivity();
-		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_INNINGS,
-				MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION,
-				MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM,
-				MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
-				MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
+		String[] projection = { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
+				MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE,
+				MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
+				MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
+				MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS };
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, projection,
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
@@ -245,11 +249,13 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 
 		TextView child = (TextView) vwParentRow.getChildAt(0);
 		String str = child.getText().toString();
+		child = (TextView) vwParentRow.getChildAt(1);
+		String d_str = child.getText().toString();
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + str);
+				+ "/" + str + "/" + d_str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
-		uri = Uri
-				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str);
+		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str
+				+ "/" + d_str);
 		getSherlockActivity().getContentResolver().delete(uri, null, null);
 
 		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(

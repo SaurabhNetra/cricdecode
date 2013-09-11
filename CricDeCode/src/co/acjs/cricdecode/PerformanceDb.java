@@ -8,6 +8,7 @@ public class PerformanceDb {
 	public static final String CURRENT = "current";
 
 	public static final String KEY_ROWID = "_id";
+	public static final String KEY_DEVICE_ID = "device_id";
 	public static final String KEY_MATCHID = "match_id";
 	public static final String KEY_INNING = "inning";
 
@@ -54,27 +55,27 @@ public class PerformanceDb {
 
 	private static final String DATABASE_CREATE = "CREATE TABLE if not exists "
 			+ SQLITE_TABLE + " (" + KEY_ROWID
-			+ " integer PRIMARY KEY autoincrement," + KEY_MATCHID + " integer,"
-			+ KEY_INNING + " integer," + KEY_BAT_NUM + " integer,"
-			+ KEY_BAT_RUNS + " integer," + KEY_BAT_BALLS + " integer,"
-			+ KEY_BAT_TIME + " integer," + KEY_BAT_FOURS + " integer,"
-			+ KEY_BAT_SIXES + " integer," + KEY_BAT_HOW_OUT + ", "
-			+ KEY_BAT_BOWLER_TYPE + ", " + KEY_BAT_FIELDING_POSITION + ", "
-			+ KEY_BAT_CHANCES + " integer, " + KEY_BOWL_BALLS + " integer,"
-			+ KEY_BOWL_SPELLS + " integer," + KEY_BOWL_MAIDENS + " integer,"
-			+ KEY_BOWL_RUNS + " integer," + KEY_BOWL_FOURS + " integer,"
-			+ KEY_BOWL_SIXES + " integer," + KEY_BOWL_WKTS_LEFT + " integer,"
-			+ KEY_BOWL_WKTS_RIGHT + " integer," + KEY_BOWL_CATCHES_DROPPED
-			+ " integer," + KEY_BOWL_NOBALLS + " integer," + KEY_BOWL_WIDES
-			+ " integer," + KEY_FIELD_SLIP_CATCH + " integer,"
-			+ KEY_FIELD_CLOSE_CATCH + " integer," + KEY_FIELD_CIRCLE_CATCH
-			+ " integer," + KEY_FIELD_DEEP_CATCH + " integer,"
-			+ KEY_FIELD_RO_CIRCLE + " integer," + KEY_FIELD_RO_DIRECT_CIRCLE
-			+ " integer," + KEY_FIELD_RO_DEEP + " integer,"
-			+ KEY_FIELD_RO_DIRECT_DEEP + " integer," + KEY_FIELD_STUMPINGS
-			+ " integer," + KEY_FIELD_BYES + " integer," + KEY_FIELD_MISFIELDS
-			+ " integer," + KEY_FIELD_CATCHES_DROPPED + " integer,"
-			+ KEY_STATUS + " );";
+			+ " integer PRIMARY KEY autoincrement," + KEY_DEVICE_ID + ","
+			+ KEY_MATCHID + " integer," + KEY_INNING + " integer,"
+			+ KEY_BAT_NUM + " integer," + KEY_BAT_RUNS + " integer,"
+			+ KEY_BAT_BALLS + " integer," + KEY_BAT_TIME + " integer,"
+			+ KEY_BAT_FOURS + " integer," + KEY_BAT_SIXES + " integer,"
+			+ KEY_BAT_HOW_OUT + ", " + KEY_BAT_BOWLER_TYPE + ", "
+			+ KEY_BAT_FIELDING_POSITION + ", " + KEY_BAT_CHANCES + " integer, "
+			+ KEY_BOWL_BALLS + " integer," + KEY_BOWL_SPELLS + " integer,"
+			+ KEY_BOWL_MAIDENS + " integer," + KEY_BOWL_RUNS + " integer,"
+			+ KEY_BOWL_FOURS + " integer," + KEY_BOWL_SIXES + " integer,"
+			+ KEY_BOWL_WKTS_LEFT + " integer," + KEY_BOWL_WKTS_RIGHT
+			+ " integer," + KEY_BOWL_CATCHES_DROPPED + " integer,"
+			+ KEY_BOWL_NOBALLS + " integer," + KEY_BOWL_WIDES + " integer,"
+			+ KEY_FIELD_SLIP_CATCH + " integer," + KEY_FIELD_CLOSE_CATCH
+			+ " integer," + KEY_FIELD_CIRCLE_CATCH + " integer,"
+			+ KEY_FIELD_DEEP_CATCH + " integer," + KEY_FIELD_RO_CIRCLE
+			+ " integer," + KEY_FIELD_RO_DIRECT_CIRCLE + " integer,"
+			+ KEY_FIELD_RO_DEEP + " integer," + KEY_FIELD_RO_DIRECT_DEEP
+			+ " integer," + KEY_FIELD_STUMPINGS + " integer," + KEY_FIELD_BYES
+			+ " integer," + KEY_FIELD_MISFIELDS + " integer,"
+			+ KEY_FIELD_CATCHES_DROPPED + " integer," + KEY_STATUS + " );";
 
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);

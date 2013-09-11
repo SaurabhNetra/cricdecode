@@ -324,10 +324,12 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_BAT_CHANCES + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and (p." + PerformanceDb.KEY_BAT_HOW_OUT
-				+ "!='Not Out' or p." + PerformanceDb.KEY_BAT_BALLS + "!=0)"
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and (p."
+				+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out' or p."
+				+ PerformanceDb.KEY_BAT_BALLS + "!=0)"
 				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
@@ -355,9 +357,11 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_ROWID + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and p." + PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'"
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and p."
+				+ PerformanceDb.KEY_BAT_HOW_OUT + "!='Not Out'"
 				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
@@ -391,9 +395,11 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_ROWID + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and p." + PerformanceDb.KEY_BAT_RUNS + ">=100"
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and p."
+				+ PerformanceDb.KEY_BAT_RUNS + ">=100"
 				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
@@ -414,9 +420,11 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_ROWID + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and p." + PerformanceDb.KEY_BAT_RUNS + ">=50"
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and p."
+				+ PerformanceDb.KEY_BAT_RUNS + ">=50"
 				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
@@ -449,9 +457,11 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_BOWL_WIDES + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and p." + PerformanceDb.KEY_BOWL_BALLS + "!=0"
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and p."
+				+ PerformanceDb.KEY_BOWL_BALLS + "!=0"
 				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
@@ -497,9 +507,11 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_ROWID + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and p." + PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and p."
+				+ PerformanceDb.KEY_BOWL_WKTS_LEFT + "+p."
 				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ">=5"
 				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
@@ -520,9 +532,10 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") as sumtotal from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
-				+ mainActivity.myteam_whereClause
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'" + mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
 				+ mainActivity.overs_whereClause
@@ -541,9 +554,10 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
-				+ mainActivity.myteam_whereClause
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'" + mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
 				+ mainActivity.overs_whereClause
@@ -564,9 +578,11 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_BOWL_RUNS + " from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY
-				+ "' and wkts=" + max + mainActivity.myteam_whereClause
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "' and wkts=" + max
+				+ mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
 				+ mainActivity.overs_whereClause
@@ -591,9 +607,10 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_BOWL_RUNS + ") as runs from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
-				+ mainActivity.myteam_whereClause
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'" + mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
 				+ mainActivity.overs_whereClause
@@ -631,9 +648,10 @@ public class CareerFragment extends SherlockFragment implements
 				+ PerformanceDb.KEY_FIELD_CATCHES_DROPPED + ") from "
 				+ PerformanceDb.SQLITE_TABLE + " p inner join "
 				+ MatchDb.SQLITE_TABLE + " m on p." + PerformanceDb.KEY_MATCHID
-				+ "=m." + MatchDb.KEY_ROWID + " where p."
-				+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'"
-				+ mainActivity.myteam_whereClause
+				+ "=m." + MatchDb.KEY_ROWID + " and p."
+				+ PerformanceDb.KEY_DEVICE_ID + "=m." + MatchDb.KEY_DEVICE_ID
+				+ " where p." + PerformanceDb.KEY_STATUS + "='"
+				+ MatchDb.MATCH_HISTORY + "'" + mainActivity.myteam_whereClause
 				+ mainActivity.opponent_whereClause
 				+ mainActivity.venue_whereClause
 				+ mainActivity.overs_whereClause

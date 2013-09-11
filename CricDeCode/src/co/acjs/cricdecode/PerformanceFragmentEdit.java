@@ -39,6 +39,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 	// Match
 	Spinner inning_no;
 	int match_id, innings, current_innings, current_position;
+	String device_id;
 
 	// General
 	private String result, review, duration, first, my_team, opponent_team,
@@ -135,6 +136,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		field_catches_dropped = new int[2];
 
 		match_id = getArguments().getInt("rowId");
+		device_id = getArguments().getString("deviceId");
 		innings = getArguments().getInt("innings");
 		Log.d("Debug", "innings " + innings);
 
@@ -184,7 +186,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 	public void initFetchFromDb() {
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + match_id);
+				+ "/" + match_id + "/" + device_id);
 
 		Cursor c = getSherlockActivity().getContentResolver().query(
 				uri,
@@ -325,7 +327,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		}
 		c.close();
 		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-				+ match_id);
+				+ match_id + "/" + device_id);
 		c = getSherlockActivity().getContentResolver().query(
 				uri,
 				new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW,
@@ -1037,7 +1039,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		saveInfo(BOWLING);
 		saveInfo(FIELDING);
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-				+ match_id);
+				+ match_id + "/" + device_id);
 		ContentValues matchvalues = new ContentValues();
 		matchvalues.put(MatchDb.KEY_RESULT, result);
 		matchvalues.put(MatchDb.KEY_REVIEW, review);
@@ -1048,7 +1050,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 		getSherlockActivity().getContentResolver().update(uri, matchvalues,
 				null, null);
 		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/"
-				+ match_id);
+				+ match_id + "/" + device_id);
 		Cursor c = getSherlockActivity().getContentResolver().query(uri,
 				new String[] { PerformanceDb.KEY_ROWID }, null, null, null);
 		ContentValues[] values = new ContentValues[2];
@@ -1056,6 +1058,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			values[i - 1] = new ContentValues();
 
 			values[i - 1].put(PerformanceDb.KEY_MATCHID, match_id);
+			values[i - 1].put(PerformanceDb.KEY_DEVICE_ID, device_id);
 			values[i - 1].put(PerformanceDb.KEY_INNING, i);
 
 			values[i - 1].put(PerformanceDb.KEY_BAT_NUM, batting_no[i - 1]);

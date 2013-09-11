@@ -43,11 +43,14 @@ public class SignInService extends IntentService {
 		AccessSharedPrefs.mPrefs = getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		Log.d("onCreate",
-				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("l_name", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("dob", "") + " " + AccessSharedPrefs.mPrefs
-						.getString("fb_link", ""));
+				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "")
+						+ " "
+						+ AccessSharedPrefs.mPrefs.getString("f_name", "")
+						+ " "
+						+ AccessSharedPrefs.mPrefs.getString("l_name", "")
+						+ " " + AccessSharedPrefs.mPrefs.getString("dob", "")
+						+ " "
+						+ AccessSharedPrefs.mPrefs.getString("fb_link", ""));
 		if (AccessSharedPrefs.mPrefs.getString("SignInServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
@@ -76,7 +79,8 @@ public class SignInService extends IntentService {
 						params, this);
 				Log.w("JSON returned", "SignInService: " + jn);
 				Log.w("trial value", "SignInService: " + trial);
-				if (jn != null) break;
+				if (jn != null)
+					break;
 				try {
 					Thread.sleep(10 * trial);
 				} catch (InterruptedException e) {
@@ -106,6 +110,8 @@ public class SignInService extends IntentService {
 									.getJSONObject(i);
 							int match_id = Integer.parseInt(single_match
 									.getString("match_id"));
+							String device_id = single_match
+									.getString("device_id");
 							String match_date = single_match
 									.getString("match_date");
 							String my_team = single_match.getString("my_team");
@@ -124,11 +130,13 @@ public class SignInService extends IntentService {
 									.getString("duration");
 							String review = single_match.getString("review");
 							String status = single_match.getString("status")
-									.equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
+									.equals("1") ? MatchDb.MATCH_CURRENT
+									: MatchDb.MATCH_HISTORY;
 							Log.w("JSON Object", "Match Data: " + match_id);
 							// TODO Saurabh Code Here
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, match_id);
+							values.put(MatchDb.KEY_DEVICE_ID, device_id);
 							values.put(MatchDb.KEY_MATCH_DATE, match_date);
 							values.put(MatchDb.KEY_MY_TEAM, my_team);
 							values.put(MatchDb.KEY_OPPONENT_TEAM, opponent_team);
@@ -159,6 +167,8 @@ public class SignInService extends IntentService {
 									.getJSONObject(i);
 							int match_id = Integer.parseInt(single_performance
 									.getString("match_id"));
+							String device_id = single_performance
+									.getString("device_id");
 							int performance_id = Integer
 									.parseInt(single_performance
 											.getString("performance_id"));
@@ -254,13 +264,15 @@ public class SignInService extends IntentService {
 									.parseInt(single_performance
 											.getString("field_catches_dropped"));
 							String status = single_performance.getString(
-									"status").equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
-							Log.w("JSON Object",
-									"Performance Data: " + performance_id);
+									"status").equals("1") ? MatchDb.MATCH_CURRENT
+									: MatchDb.MATCH_HISTORY;
+							Log.w("JSON Object", "Performance Data: "
+									+ performance_id);
 							// TODO Saurabh Code Here
 							ContentValues values = new ContentValues();
 
 							values.put(PerformanceDb.KEY_MATCHID, match_id);
+							values.put(PerformanceDb.KEY_DEVICE_ID, device_id);
 							values.put(PerformanceDb.KEY_ROWID, performance_id);
 							values.put(PerformanceDb.KEY_INNING, inning);
 

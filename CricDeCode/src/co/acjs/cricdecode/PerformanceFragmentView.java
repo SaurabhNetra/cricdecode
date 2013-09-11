@@ -36,6 +36,7 @@ public class PerformanceFragmentView extends SherlockFragment implements
 	// Match
 	Spinner inning_no;
 	private int match_id, innings, current_innings, current_position;
+	private String device_id;
 
 	// General
 	private String result, review, duration, first, my_team, opponent_team,
@@ -108,6 +109,7 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		field_catches_dropped = new int[2];
 
 		match_id = getArguments().getInt("rowId");
+		device_id = getArguments().getString("deviceId");
 		innings = getArguments().getInt("innings");
 		Log.d("Debug", "innings " + innings);
 
@@ -154,7 +156,7 @@ public class PerformanceFragmentView extends SherlockFragment implements
 
 	public void initFetchFromDb() {
 		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + match_id);
+				+ "/" + match_id + "/" + device_id);
 
 		Cursor c = getSherlockActivity().getContentResolver().query(
 				uri,
@@ -290,7 +292,7 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		}
 		c.close();
 		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-				+ match_id);
+				+ match_id + "/" + device_id);
 		c = getSherlockActivity().getContentResolver().query(
 				uri,
 				new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW,
