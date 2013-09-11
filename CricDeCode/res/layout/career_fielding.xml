@@ -555,11 +555,11 @@
 
         <ImageView
             android:id="@+id/cir"
-            android:layout_width="150dip"
-            android:layout_height="150dip"
+            android:layout_width="@dimen/circle_width"
+            android:layout_height="@dimen/circle_height"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="50dip"
+            android:layout_marginRight="@dimen/circle_margin_right"
             android:cropToPadding="true"
             android:scaleType="centerCrop"
             android:src="@drawable/cir_fielding" />

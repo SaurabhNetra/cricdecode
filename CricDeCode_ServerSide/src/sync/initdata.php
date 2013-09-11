@@ -1,19 +1,22 @@
 <?
 include_once "conn.php";
-$existing=0;
-$new_no=0;
 try {
+	$existing = false;
 	$id = $_POST ['id'];
 	$gcmid = $_POST ['gcmid'];
 	$fname = $_POST ['fname'];
 	$lname = $_POST ['lname'];
 	$dob = date ( 'Y-m-d', strtotime ( $_POST ['dob'] ) );
-	$fblink = $_POST ['fblink'];	
+	$fblink = $_POST ['fblink'];
+	if ($_POST ['android'] == "1")
+		$android = 1;
+	else
+		$android = 0;
 	$result = mysql_query ( "SELECT * FROM user_table WHERE id='$id'" );
 	if (mysql_num_rows ( $result ) == 0) {
-		mysql_query ( "INSERT INTO user_table(id, first_name, last_name, fb_link, dob, has_android) values('$id','$fname','$lname','$fblink','$dob',$android)" );		
+		mysql_query ( "INSERT INTO user_table(id, first_name, last_name, fb_link, dob, has_android) values('$id','$fname','$lname','$fblink','$dob',$android)" );
 	} else {
-		$existing=1;
+		$existing = true;
 		$result = mysql_query ( "SELECT * FROM cricket_match WHERE user_id='$id' AND status<2" );
 		$cricket_match_data = "";
 		$performance_data = "";
@@ -89,40 +92,52 @@ try {
 			}
 		}
 		$user_info = mysql_query ( "SELECT * FROM user_table WHERE id='$id'" );
-		$user_array = mysql_fetch_array ( $user_info );		
+		$user_array = mysql_fetch_array ( $user_info );
 	}
-	if ($_POST ['android'] == "1")
-		$android = 1;
 	if ($android) {
 		$result = mysql_query ( "SELECT * FROM user_android_devices WHERE id='$id' AND gcm_id='$gcmid'" );
 		if (mysql_num_rows ( $result ) == 0) {
 			date_default_timezone_set ( 'Asia/Kolkata' );
 			$tday = date ( "d-m-Y, H:i:s" );
-			mysql_query ( "INSERT INTO user_android_devices values('$id','$gcmid','$tday')" );			
-			$device_no_temp = mysql_query("SELECT device_no FROM user_table WHERE id='$id'");
-			$device_no = mysql_fetch_array($device_no_temp);
-			$new_no =$device_no['device_no']+1;
-			mysql_query("UPDATE user_table SET device_no = $new_no");
+			mysql_query ( "INSERT INTO user_android_devices values('$id','$gcmid','$tday')" );
+			$device_no_temp = mysql_query ( "SELECT device_no FROM user_table WHERE id='$id'" );
+			$device_no = mysql_fetch_array ( $device_no_temp );
+			$new_no = $device_no ['device_no'] + 1;
+			mysql_query ( "UPDATE user_table SET device_no = $new_no" );
 		}
-	}
-	if($existing)
-	{
-	$ax = array (
-				"user" => "existing",
-				"nickname" => $user_array ['nickname'],
-				"role" => $user_array ['role'],
-				"battingStyle" => $user_array ['battingStyle'],
-				"bowlingStyle" => $user_array ['bowlingStyle'],
-				"performance_data" => $performance_data,
-				"cricket_match_data" => $cricket_match_data,
-				"device_id" =>$new_no			
-		);
-	}
-	else
-	{
-	$ax = array (
-				"user" => "new" , "device_id" =>1
-		);
+		if ($existing) {
+			$ax = array (
+					"user" => "existing",
+					"nickname" => $user_array ['nickname'],
+					"role" => $user_array ['role'],
+					"battingStyle" => $user_array ['battingStyle'],
+					"bowlingStyle" => $user_array ['bowlingStyle'],
+					"performance_data" => $performance_data,
+					"cricket_match_data" => $cricket_match_data,
+					"device_id" => $new_no 
+			);
+		} else {
+			$ax = array (
+					"user" => "new",
+					"device_id" => 1 
+			);
+		}
+	} else {
+		if ($existing) {
+			$ax = array (
+					"user" => "existing",
+					"nickname" => $user_array ['nickname'],
+					"role" => $user_array ['role'],
+					"battingStyle" => $user_array ['battingStyle'],
+					"bowlingStyle" => $user_array ['bowlingStyle'],
+					"performance_data" => $performance_data,
+					"cricket_match_data" => $cricket_match_data 
+			);
+		} else {
+			$ax = array (
+					"user" => "new" 
+			);
+		}
 	}
 	echo str_replace ( "\\", "", json_encode ( $ax ) );
 } catch ( Exception $e ) {
