@@ -78,8 +78,7 @@ public class LogIn extends SherlockActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		Log.d("onStart", AccessSharedPrefs.mPrefs.getString("id", ""));
-		if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) {
+		if (!AccessSharedPrefs.mPrefs.getString("isSignedIn", "").equals("")) {
 			Intent intent = new Intent(getApplicationContext(),
 					MainActivity.class);
 			startActivity(intent);

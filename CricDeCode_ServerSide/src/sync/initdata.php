@@ -12,8 +12,8 @@ try {
 		$android = 1;
 	else
 		$android = 0;
-	$result = mysql_query ( "SELECT * FROM user_table WHERE id='$id'" );
-	if (mysql_num_rows ( $result ) == 0) {
+	$result = mysql_query ( "SELECT COUNT(*) AS c FROM user_table WHERE id='$id'" );
+	if ($result ['c'] == 0) {
 		mysql_query ( "INSERT INTO user_table(id, first_name, last_name, fb_link, dob, has_android) values('$id','$fname','$lname','$fblink','$dob',$android)" );
 	} else {
 		$existing = true;
@@ -28,6 +28,7 @@ try {
 				$row = "";
 				$row = array (
 						"match_id" => $cricket_match [$i] ['match_id'],
+						"device_id" => $cricket_match [$i] ['device_id'],
 						"match_date" => $cricket_match [$i] ['match_date'],
 						"my_team" => $cricket_match [$i] ['my_team'],
 						"opponent_team" => $cricket_match [$i] ['opponent_team'],
@@ -51,6 +52,7 @@ try {
 				$row = "";
 				$row = array (
 						"match_id" => $performance [$i] ['match_id'],
+						"device_id" => $performance [$i] ['device_id'],
 						"performance_id" => $performance [$i] ['performance_id'],
 						"inning" => $performance [$i] ['inning'],
 						"bat_num" => $performance [$i] ['bat_num'],
