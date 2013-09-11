@@ -22,6 +22,7 @@ public class MatchDb {
 	public static final String KEY_DURATION = "duration";
 	public static final String KEY_REVIEW = "review";
 	public static final String KEY_STATUS = "status";
+	public static final String KEY_SYNCED = "synced";
 
 	private static final String LOG_TAG = "MatchDb";
 	public static final String SQLITE_TABLE = "match";
@@ -33,7 +34,7 @@ public class MatchDb {
 			+ "," + KEY_VENUE + "," + KEY_OVERS + " integer, " + KEY_INNINGS
 			+ " integer, " + KEY_RESULT + "," + KEY_REVIEW + " text,"
 			+ KEY_LEVEL + "," + KEY_FIRST_ACTION + "," + KEY_DURATION + ","
-			+ KEY_STATUS + ");";
+			+ KEY_STATUS + "," + KEY_SYNCED + " integer);";
 
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);

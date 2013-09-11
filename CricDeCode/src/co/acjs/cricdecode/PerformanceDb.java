@@ -49,6 +49,7 @@ public class PerformanceDb {
 	public static final String KEY_FIELD_CATCHES_DROPPED = "field_catches_dropped";
 
 	public static final String KEY_STATUS = "status";
+	public static final String KEY_SYNCED = "synced";
 
 	private static final String LOG_TAG = "ProfileDb";
 	public static final String SQLITE_TABLE = "performance";
@@ -75,7 +76,8 @@ public class PerformanceDb {
 			+ KEY_FIELD_RO_DEEP + " integer," + KEY_FIELD_RO_DIRECT_DEEP
 			+ " integer," + KEY_FIELD_STUMPINGS + " integer," + KEY_FIELD_BYES
 			+ " integer," + KEY_FIELD_MISFIELDS + " integer,"
-			+ KEY_FIELD_CATCHES_DROPPED + " integer," + KEY_STATUS + " );";
+			+ KEY_FIELD_CATCHES_DROPPED + " integer," + KEY_STATUS + ","
+			+ KEY_SYNCED + " integer);";
 
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);

@@ -1126,6 +1126,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			for (int i = 1; i <= innings; i++) {
 				values[i - 1].put(PerformanceDb.KEY_STATUS,
 						MatchDb.MATCH_CURRENT);
+				values[i - 1].put(PerformanceDb.KEY_SYNCED, "0");
 				// insert a record
 				getSherlockActivity().getContentResolver().insert(
 						CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,

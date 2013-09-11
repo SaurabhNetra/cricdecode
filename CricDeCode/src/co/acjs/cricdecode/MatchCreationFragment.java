@@ -122,6 +122,7 @@ public class MatchCreationFragment extends SherlockFragment {
 		String review_str = "";
 		String first_action_str = "";
 		String duration_str = "";
+		String synced_str = "0";
 		int limited_int = limited.getSelectedItemPosition();
 
 		// check for blanks
@@ -191,6 +192,7 @@ public class MatchCreationFragment extends SherlockFragment {
 		values.put(MatchDb.KEY_DURATION, duration_str);
 		values.put(MatchDb.KEY_FIRST_ACTION, first_action_str);
 		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_CURRENT);
+		values.put(MatchDb.KEY_SYNCED, synced_str);
 
 		// insert a record
 		Uri uri = getSherlockActivity().getContentResolver().insert(

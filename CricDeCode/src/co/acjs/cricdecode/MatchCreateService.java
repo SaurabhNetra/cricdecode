@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
 
 public class MatchCreateService extends IntentService {
@@ -39,6 +40,29 @@ public class MatchCreateService extends IntentService {
 			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
 			// TODO Saurabh Start Here
+			Cursor c = getContentResolver().query(
+					CricDeCodeContentProvider.CONTENT_URI_MATCH,
+					new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
+							MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
+							MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
+							MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS,
+							MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL,
+							MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION,
+							MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS,
+							MatchDb.KEY_SYNCED },
+					MatchDb.KEY_SYNCED + "=" + "0", null, null);
+			if (c.getCount() != 0) {
+				c.moveToFirst();
+				// Do for every Match Row in the Cursor
+				do {
+					// eg. int
+					// rowid=c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
+					// Form your Json
+					c.moveToNext();
+				} while (!c.isAfterLast());
+
+			}
+			c.close();
 			// Saurabh Stop Here :P
 			int trial = 1;
 			JSONObject jn = null;
@@ -48,7 +72,8 @@ public class MatchCreateService extends IntentService {
 						"POST", params, this);
 				Log.w("JSON returned", "MatchCreateService: " + jn);
 				Log.w("trial value", "MatchCreateService: " + trial);
-				if (jn != null) break;
+				if (jn != null)
+					break;
 				try {
 					Thread.sleep(10 * trial);
 				} catch (InterruptedException e) {
