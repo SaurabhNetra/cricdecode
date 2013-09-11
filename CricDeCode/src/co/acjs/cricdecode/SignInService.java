@@ -43,14 +43,11 @@ public class SignInService extends IntentService {
 		AccessSharedPrefs.mPrefs = getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		Log.d("onCreate",
-				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "")
-						+ " "
-						+ AccessSharedPrefs.mPrefs.getString("f_name", "")
-						+ " "
-						+ AccessSharedPrefs.mPrefs.getString("l_name", "")
-						+ " " + AccessSharedPrefs.mPrefs.getString("dob", "")
-						+ " "
-						+ AccessSharedPrefs.mPrefs.getString("fb_link", ""));
+				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("l_name", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("dob", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("fb_link", ""));
 		if (AccessSharedPrefs.mPrefs.getString("SignInServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
@@ -79,8 +76,7 @@ public class SignInService extends IntentService {
 						params, this);
 				Log.w("JSON returned", "SignInService: " + jn);
 				Log.w("trial value", "SignInService: " + trial);
-				if (jn != null)
-					break;
+				if (jn != null) break;
 				try {
 					Thread.sleep(10 * trial);
 				} catch (InterruptedException e) {
@@ -88,6 +84,11 @@ public class SignInService extends IntentService {
 				trial++;
 			}
 			try {
+				try {
+					AccessSharedPrefs.setString(this, "device_id",
+							jn.getString("device_id"));
+				} catch (JSONException e) {
+				}
 				if (jn.getString("user").equals("existing")) {
 					AccessSharedPrefs.setString(this, "nickname",
 							jn.getString("nickname"));
@@ -123,8 +124,7 @@ public class SignInService extends IntentService {
 									.getString("duration");
 							String review = single_match.getString("review");
 							String status = single_match.getString("status")
-									.equals("1") ? MatchDb.MATCH_CURRENT
-									: MatchDb.MATCH_HISTORY;
+									.equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
 							Log.w("JSON Object", "Match Data: " + match_id);
 							// TODO Saurabh Code Here
 							ContentValues values = new ContentValues();
@@ -254,10 +254,9 @@ public class SignInService extends IntentService {
 									.parseInt(single_performance
 											.getString("field_catches_dropped"));
 							String status = single_performance.getString(
-									"status").equals("1") ? MatchDb.MATCH_CURRENT
-									: MatchDb.MATCH_HISTORY;
-							Log.w("JSON Object", "Performance Data: "
-									+ performance_id);
+									"status").equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
+							Log.w("JSON Object",
+									"Performance Data: " + performance_id);
 							// TODO Saurabh Code Here
 							ContentValues values = new ContentValues();
 
