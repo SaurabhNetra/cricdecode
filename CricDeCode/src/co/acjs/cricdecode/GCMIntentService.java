@@ -13,7 +13,8 @@ import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 
 public class GCMIntentService extends GCMBaseIntentService {
-	public static final int	UPDATE_PROFILE_DATA	= 1;
+	public static final int	UPDATE_PROFILE_DATA			= 1;
+	public static final int	MATCH_N_PERFORMANCE_DATA	= 2;
 
 	@Override
 	protected void onError(Context arg0, String arg1) {
@@ -26,8 +27,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		AccessSharedPrefs.mPrefs = context
-				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+		AccessSharedPrefs.mPrefs = context.getSharedPreferences("CricDeCode",
+				Context.MODE_PRIVATE);
 		final String gcmString = intent.getStringExtra("cricdecode");
 		try {
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
@@ -42,6 +43,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 							gcmData.getString("battingStyle"));
 					AccessSharedPrefs.setString(context, "bowlingStyle",
 							gcmData.getString("bowlingStyle"));
+					break;
+				case MATCH_N_PERFORMANCE_DATA:
 					break;
 			}
 		} catch (JSONException e) {

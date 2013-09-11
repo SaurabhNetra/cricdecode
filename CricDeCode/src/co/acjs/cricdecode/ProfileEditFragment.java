@@ -80,12 +80,10 @@ public class ProfileEditFragment extends SherlockFragment {
 			if (ProfileEditService.started) {
 				MainActivity.main_context.stopService(intent);
 				MainActivity.main_context.startService(intent);
-
 			}
 		} catch (NullPointerException e) {
 			MainActivity.main_context.startService(intent);
 		}
-
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

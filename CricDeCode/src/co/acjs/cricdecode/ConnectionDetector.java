@@ -16,10 +16,14 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"SignInServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED)
 				.equals(CDCAppClass.NEEDS_TO_BE_CALLED);
 		boolean NotSyncedEditProfile = AccessSharedPrefs.mPrefs.getString(
-				"ProfileEditServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED);
-		boolean NotSyncedMatchCreate = AccessSharedPrefs.mPrefs.getString(
-				"MatchCreateServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED);
-		if (NotSyncedMatchCreate|NotSyncedEditProfile|NotSignedIn) {
+				"ProfileEditServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		boolean NotSyncedMatchHistory = AccessSharedPrefs.mPrefs.getString(
+				"MatchHistorySyncServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotSignedIn) {
 			ConnectivityManager connectivityManager = (ConnectivityManager) context
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo activeNetInfo = connectivityManager
@@ -31,17 +35,15 @@ public class ConnectionDetector extends BroadcastReceiver {
 				Log.w("connection detected", "ConnectionDetector");
 				isConnected = true;
 			}
-			if(NotSyncedMatchCreate & isConnected){
+			if (NotSyncedMatchHistory & isConnected) {
 				Log.w("Starting MatchCreateService", "ConnectionDetector");
-				Intent in = new Intent(context, MatchCreateService.class);
+				Intent in = new Intent(context, MatchHistorySyncService.class);
 				context.startService(in);
-			}
-			else if(NotSyncedEditProfile & isConnected){
+			} else if (NotSyncedEditProfile & isConnected) {
 				Log.w("Starting ProfileEditService", "ConnectionDetector");
 				Intent in = new Intent(context, ProfileEditService.class);
 				context.startService(in);
-			}
-			else if (NotSignedIn & isConnected) {
+			} else if (NotSignedIn & isConnected) {
 				Log.w("Starting SignInService", "ConnectionDetector");
 				Intent in = new Intent(context, SignInService.class);
 				context.startService(in);

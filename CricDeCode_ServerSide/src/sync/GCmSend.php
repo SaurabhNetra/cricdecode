@@ -1,6 +1,7 @@
 <?
 include_once "conn.php";
 include_once "getAPIkEY.php";
+include_once 'get_Consts.php';
 function SendGCm($SendToArr, $SendMsgArr, $id) {
 	$apiKey = API_KEY;
 	$appName = APP_NAME;
@@ -31,8 +32,7 @@ function SendGCm($SendToArr, $SendMsgArr, $id) {
 				$regiderr = $SendToArr [$i];
 				mysql_query ( "DELETE FROM " . TABLE_NAME . " WHERE " . GCM_ID_COLUMN_NAME . " = '$regiderr' AND " . USER_ID_COLUMN_NAME . " = '$id'" );
 			}
-		}
-		elseif (isset ( $gcmj->results [$i]->registration_id )) {
+		} elseif (isset ( $gcmj->results [$i]->registration_id )) {
 			$newreg = $gcmj->results [$i]->registration_id;
 			$regiderr = $SendToArr [$i];
 			$result = mysql_query ( "SELECT * FROM " . TABLE_NAME . " WHERE " . GCM_ID_COLUMN_NAME . " = '$newreg' AND " . USER_ID_COLUMN_NAME . " = '$id'" );

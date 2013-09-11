@@ -53,7 +53,7 @@
 
         <service android:name="SignInService" />
         <service android:name="ProfileEditService" />
-        <service android:name="MatchCreateService" />
+        <service android:name="MatchHistorySyncService" />
         <service android:name=".GCMIntentService" />
 
         <activity

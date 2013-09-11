@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -239,6 +240,18 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 					+ "/" + str + "/" + d_str);
 			getSherlockActivity().getContentResolver().update(uri, values,
 					null, null);
+			AccessSharedPrefs.setString(getSherlockActivity(),
+					"MatchHistorySyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+			Intent intent = new Intent(MainActivity.main_context,
+					MatchHistorySyncService.class);
+			try {
+				if (MatchHistorySyncService.started) {
+					MainActivity.main_context.stopService(intent);
+					MainActivity.main_context.startService(intent);
+				}
+			} catch (NullPointerException e) {
+				MainActivity.main_context.startService(intent);
+			}
 			Toast.makeText(getSherlockActivity(), "Match added to Career",
 					Toast.LENGTH_LONG).show();
 
