@@ -114,12 +114,10 @@ public class JSONParser {
 	}
 
 	public Boolean isOnline(Context cont) {
-		ConnectivityManager cm = (ConnectivityManager) cont
+		ConnectivityManager connectivityManager = (ConnectivityManager) cont
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo ni = cm.getActiveNetworkInfo();
-		if (ni != null && ni.isConnected())
-			return true;
-
-		return false;
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 }

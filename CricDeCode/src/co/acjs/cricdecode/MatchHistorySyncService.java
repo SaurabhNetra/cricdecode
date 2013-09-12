@@ -1,16 +1,21 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Environment;
 import android.util.Log;
 
 public class MatchHistorySyncService extends IntentService {
@@ -175,6 +180,7 @@ public class MatchHistorySyncService extends IntentService {
 						row.put("owr",
 								c1.getString(c1
 										.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT)));
+
 						row.put("fb",
 								c1.getString(c1
 										.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES)));
@@ -190,6 +196,9 @@ public class MatchHistorySyncService extends IntentService {
 						row.put("fdc",
 								c1.getString(c1
 										.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH)));
+						row.put("fmf",
+								c1.getString(c1
+										.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS)));
 						row.put("fci",
 								c1.getString(c1
 										.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE)));
@@ -265,22 +274,58 @@ public class MatchHistorySyncService extends IntentService {
 			params.add(new BasicNameValuePair("json", json.toString()));
 
 			Log.w("MATCH SYNC", "JSON: " + json.toString());
+			writeToFile(json.toString());
 
-			/*
-			 * 
-			 * int trial = 1; JSONObject jn = null; while
-			 * (jsonParser.isOnline(this)) { jn = jsonParser.makeHttpRequest(
-			 * getResources().getString(R.string.match_create_sync), "POST",
-			 * params, this); Log.w("JSON returned", "MatchCreateService: " +
-			 * jn); Log.w("trial value", "MatchCreateService: " + trial); if (jn
-			 * != null) break; try { Thread.sleep(10 * trial); } catch
-			 * (InterruptedException e) { } trial++; } try { if
-			 * (jn.getInt("status") == 1) AccessSharedPrefs.setString(this,
-			 * "MatchHistorySyncServiceCalled",
-			 * CDCAppClass.DOESNT_NEED_TO_BE_CALLED); // TODO sab sync ho gaye }
-			 * catch (JSONException e) { }
-			 */
+			int trial = 1;
+			JSONObject jn = null;
+			while (jsonParser.isOnline(this)) {
+				jn = jsonParser.makeHttpRequest(
+						getResources().getString(R.string.match_create_sync),
+						"POST", params, this);
+				Log.w("JSON returned", "MatchCreateService: " + jn);
+				Log.w("trial value", "MatchCreateService: " + trial);
+				if (jn != null)
+					break;
+				try {
+					Thread.sleep(10 * trial);
+				} catch (InterruptedException e) {
+				}
+				trial++;
+			}
+			try {
+				if(jn!=null)
+				{
+				if (jn.getInt("status") == 1)
+					AccessSharedPrefs.setString(this,
+							"MatchHistorySyncServiceCalled",
+							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);// TODO sab
+																	// sync ho
+																	// gaye
+				Log.w("JSON returned",""+jn.getInt("status"));
+				}
+			} catch (JSONException e) {
+			}			
+
 		}
 
+	}
+
+	private void writeToFile(String data) {
+		try {
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "log.txt");
+			FileWriter writer = new FileWriter(gpxfile);
+			writer.write(data);
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 }

@@ -24,17 +24,12 @@ public class ConnectionDetector extends BroadcastReceiver {
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
 		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotSignedIn) {
-			ConnectivityManager connectivityManager = (ConnectivityManager) context
-					.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetInfo = connectivityManager
-					.getActiveNetworkInfo();
-			NetworkInfo mobNetInfo = connectivityManager
-					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-			boolean isConnected = false;
-			if ((activeNetInfo != null) | (mobNetInfo != null)) {
-				Log.w("connection detected", "ConnectionDetector");
-				isConnected = true;
-			}
+			boolean isConnected = isOnline(context);
+			if (isConnected)
+				Log.w("Connection Detector", "detected");
+			else
+				Log.w("Connection Detector", "no connection");
+
 			if (NotSyncedMatchHistory & isConnected) {
 				Log.w("Starting MatchCreateService", "ConnectionDetector");
 				Intent in = new Intent(context, MatchHistorySyncService.class);
@@ -49,5 +44,13 @@ public class ConnectionDetector extends BroadcastReceiver {
 				context.startService(in);
 			}
 		}
+	}
+
+	boolean isOnline(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 }

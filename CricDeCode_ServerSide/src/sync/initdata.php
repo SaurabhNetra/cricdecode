@@ -12,7 +12,8 @@ include_once "conn.php";
 	else
 		$android = 0;
 	$result = mysql_query ( "SELECT COUNT(*) AS c FROM user_table WHERE id='$id'" );
-	if ($result ['c'] == 0) {
+	$count=mysql_fetch_assoc($result);
+	if ($count ['c'] == 0) {
 		mysql_query ( "INSERT INTO user_table(id, first_name, last_name, fb_link, dob, has_android) values('$id','$fname','$lname','$fblink','$dob',$android)" );
 	} else {
 		$existing = true;
@@ -21,7 +22,7 @@ include_once "conn.php";
 		$performance_data = "";
 		if (mysql_num_rows ( $result ) != 0) {
 			for($i = 0; $i < mysql_num_rows ( $result ); $i ++) {
-				$cricket_match = mysql_fetch_array ( $result );
+				$cricket_match[$i] = mysql_fetch_array ( $result );
 			}
 			for($i = 0; $i < mysql_num_rows ( $result ); $i ++) {
 				$row = "";
@@ -45,7 +46,7 @@ include_once "conn.php";
 			}
 			$result1 = mysql_query ( "SELECT * FROM performance WHERE user_id='$id' AND status<2" );
 			for($i = 0; $i < mysql_num_rows ( $result1 ); $i ++) {
-				$performance = mysql_fetch_array ( $result1 );
+				$performance[$i] = mysql_fetch_array ( $result1 );
 			}
 			for($i = 0; $i < mysql_num_rows ( $result1 ); $i ++) {
 				$row = "";
@@ -85,7 +86,7 @@ include_once "conn.php";
 						"field_ro_direct_deep" => $performance [$i] ['field_ro_direct_deep'],
 						"field_stumpings" => $performance [$i] ['field_stumpings'],
 						"field_byes" => $performance [$i] ['field_byes'],
-						"field_misfields" => $performance [$i] ['field_misfields'],
+						"field_misfield" => $performance [$i] ['field_misfield'],
 						"field_catches_dropped" => $performance [$i] ['field_catches_dropped'],
 						"status" => $performance [$i] ['status'] 
 				);
@@ -93,7 +94,7 @@ include_once "conn.php";
 			}
 		}
 		$user_info = mysql_query ( "SELECT * FROM user_table WHERE id='$id'" );
-		$user_array = mysql_fetch_array ( $user_info );
+		$user_array = mysql_fetch_assoc($user_info);
 	}
 	if ($android) {
 		$result = mysql_query ( "SELECT * FROM user_android_devices WHERE id='$id' AND gcm_id='$gcmid'" );

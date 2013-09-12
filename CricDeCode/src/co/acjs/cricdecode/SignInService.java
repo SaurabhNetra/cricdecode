@@ -133,7 +133,6 @@ public class SignInService extends IntentService {
 									.equals("1") ? MatchDb.MATCH_CURRENT
 									: MatchDb.MATCH_HISTORY;
 							Log.w("JSON Object", "Match Data: " + match_id);
-							// TODO Saurabh Code Here
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, match_id);
 							values.put(MatchDb.KEY_DEVICE_ID, device_id);
@@ -155,7 +154,6 @@ public class SignInService extends IntentService {
 									.getContentResolver()
 									.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
 											values);
-							// Saurabh Stop Code Here :P
 						}
 					} catch (JSONException e) {
 					}
@@ -259,7 +257,7 @@ public class SignInService extends IntentService {
 											.getString("field_byes"));
 							int field_misfields = Integer
 									.parseInt(single_performance
-											.getString("field_misfields"));
+											.getString("field_misfield"));
 							int field_catches_dropped = Integer
 									.parseInt(single_performance
 											.getString("field_catches_dropped"));
@@ -268,7 +266,6 @@ public class SignInService extends IntentService {
 									: MatchDb.MATCH_HISTORY;
 							Log.w("JSON Object", "Performance Data: "
 									+ performance_id);
-							// TODO Saurabh Code Here
 							ContentValues values = new ContentValues();
 
 							values.put(PerformanceDb.KEY_MATCHID, match_id);
@@ -340,7 +337,6 @@ public class SignInService extends IntentService {
 									.getContentResolver()
 									.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 											values);
-							// Saurabh Stop Code Here :P
 						}
 					} catch (JSONException e) {
 					}

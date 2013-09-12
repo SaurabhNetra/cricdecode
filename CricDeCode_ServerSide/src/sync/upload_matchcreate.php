@@ -5,79 +5,121 @@ include_once 'GcMConsts.php';
 include_once 'send_to_ids.php';
 $id = $_POST ['id'];
 $json_string = $_POST ['json'];
-$device_id = $_POST ['dev'];
-$json = str_replace ( "\\", "", json_encode ( $json_string));
-$json_matches=json_decode($json['matches'],true);
-$json_performance=json_decode($json['performance'],true);
-for($i = 0; $i < count ( $json_matches->$json['matches'] ); $i++) {
-	$match_id=$json_matches->$json['matches'][$i]->id;
-	$date=$json_matches->$json['matches'][$i]->dat;
-	$my_team=$json_matches->$json['matches'][$i]->myt;
-	$opp=$json_matches->$json['matches'][$i]->opp;
-	$ven=$json_matches->$json['matches'][$i]->ven;
-	$ovr=$json_matches->$json['matches'][$i]->ovr;
-	$inn=$json_matches->$json['matches'][$i]->inn;
-	$res=$json_matches->$json['matches'][$i]->res;
-	$lvl=$json_matches->$json['matches'][$i]->lvl;
-	$first=$json_matches->$json['matches'][$i]->act;
-	$dur=$json_matches->$json['matches'][$i]->dur;
-	$rev=$json_matches->$json['matches'][$i]->rev;
-	$sts=$json_matches->$json['matches'][$i]->sts;
-	mysql_query("INSERT INTO cricket_match VALUES('$id',$match_id,$device_id,'$date','$my_team','$opp','$ven',$ovr,$inn,'$res','$lvl','$first','$dur','$rev',$sts)");
-}
-
-for($i = 0; $i < count ( $json_performance->$json['performance'] ); $i++) {
-	$perid=$json_performance->$json['performance'][$i]->id;
-	$mat=$json_performance->$json['performance'][$i]->mat;
-	$inn=$json_performance->$json['performance'][$i]->inn;
-	$bb=$json_performance->$json['performance'][$i]->bb;
-	$bbt=$json_performance->$json['performance'][$i]->bbt;
-	$bc=$json_performance->$json['performance'][$i]->bc;
-	$bfp=$json_performance->$json['performance'][$i]->bfp;
-	$bf=$json_performance->$json['performance'][$i]->bf;
-	$bho=$json_performance->$json['performance'][$i]->bho;
-	$bn=$json_performance->$json['performance'][$i]->bn;
-	$br=$json_performance->$json['performance'][$i]->br;
-	$bs=$json_performance->$json['performance'][$i]->bs;
-	$bt=$json_performance->$json['performance'][$i]->bt;
-	
-	$ob=$json_performance->$json['performance'][$i]->ob;
-	$ocd=$json_performance->$json['performance'][$i]->ocd;
-	$of=$json_performance->$json['performance'][$i]->of;
-	$om=$json_performance->$json['performance'][$i]->om;
-	$ono=$json_performance->$json['performance'][$i]->ono;
-	$oru=$json_performance->$json['performance'][$i]->oru;
-	$osx=$json_performance->$json['performance'][$i]->osx;
-	$osp=$json_performance->$json['performance'][$i]->osp;
-	$ow=$json_performance->$json['performance'][$i]->ow;
-	$owl=$json_performance->$json['performance'][$i]->owl;
-	$owr=$json_performance->$json['performance'][$i]->owr;
-
-	$fb=$json_performance->$json['performance'][$i]->fb;
-	$fcd=$json_performance->$json['performance'][$i]->fcd;
-	$fcc=$json_performance->$json['performance'][$i]->fcc;
-	$fco=$json_performance->$json['performance'][$i]->fco;
-	$fdc=$json_performance->$json['performance'][$i]->fdc;
-	$fci=$json_performance->$json['performance'][$i]->fci;
-	$fdd=$json_performance->$json['performance'][$i]->fdd;
-	$fsc=$json_performance->$json['performance'][$i]->fsc;
-	$fs=$json_performance->$json['performance'][$i]->fs;
-	$sts=$json_performance->$json['performance'][$i]->sts;
-	$frd=$json_performance->$json['performance'][$i]->frd;
-	$frc=$json_performance->$json['performance'][$i]->frc;
-	
-	mysql_query("INSERT INTO performance VALUES('$id',$mat,$device_id,$perid,$inn,$bn,$br,$bb, $bt,$bf,$bs,'$bho','$bbt','$bfp',$bc,$ob,$osp,$om,$oru,$of,$osx,$owl,$owr,$ocd,$ono,$ow,$fsc,$fco,$fcc,$fdc,$frc,$fci,$frd,$fdd,$fs,$fb,,$fcd,)");
-}
-
-
-
+$dev = $_POST ['dev'];
+$json = str_replace("\\","",$json_string);
+$json_array = json_decode($json, true);
+foreach($json_array['matches'] as $row)
 {
-	$SendMsgArr = array (
-			"gcmid" => MATCH_N_PERFORMANCE_DATA,
-			"dev" => $device_id,
-			"mat_per" => $mat_per
-	);
-	SendGCm ( sendToArr ( $id ), $SendMsgArr, $id );
+	$mid=$row['id'];
+	$dat=$row['dat'];
+	$myt=$row['myt'];
+	$opp=$row['opp'];
+	$ven=$row['ven'];
+	$ovr=$row['ovr'];
+	$inn=$row['inn'];
+	$res=$row['res'];
+	$lvl=$row['lvl'];
+	$act=$row['act'];
+	$dur=$row['dur'];
+	$rev=$row['rev'];
+	$sts=$row['sts'];
+	$result=mysql_query("SELECT COUNT(user_id) AS c FROM cricket_match WHERE user_id='$id' AND match_id=$mid AND device_id=$dev");
+	if($result['c']==0)
+	{	$SQL="INSERT INTO cricket_match VALUES('$id',$mid,$dev,'$dat','$myt','$opp','$ven',$ovr,$inn,'$res','$lvl','$act','$dur','$rev',0)";
+	mysql_query($SQL);
+	}	
+}
+foreach($json_array['performance'] as $row)
+{
+	$per=$row['id'];
+	$mat=$row['mat'];
+	$inn=$row['inn'];
+	$bb=$row['bb'];
+	$bbt=$row['bbt'];
+	$bc=$row['bc'];
+	$bfp=$row['bfp'];
+	$bf=$row['bf'];
+	$bho=$row['bho'];
+	$bn=$row['bn'];
+	$br=$row['br'];
+	$bs=$row['bs'];
+	$bt=$row['bt'];
+	$ob=$row['ob'];
+	$ocd=$row['ocd'];
+	$of=$row['of'];
+	$om=$row['om'];
+	$ono=$row['ono'];
+	$oru=$row['oru'];
+	$osx=$row['osx'];
+	$osp=$row['osp'];
+	$ow=$row['ow'];
+	$owl=$row['owl'];
+	$owr=$row['owr'];
+	$fb=$row['fb'];
+	$fcd=$row['fcd'];
+	$fcc=$row['fcc'];
+	$fco=$row['fco'];
+	$fdc=$row['fdc'];
+	$fci=$row['fci'];
+	$fdd=$row['fdd'];
+	$fsc=$row['fsc'];
+	$fs=$row['fs'];
+	$sts=$row['sts'];
+	$frd=$row['frd'];
+	$frc=$row['frc'];
+	$fmf=$row['fmf'];
+	$result=mysql_query("SELECT COUNT(user_id) AS c FROM performance WHERE user_id='$id' AND match_id=$mat AND device_id=$dev");
+	if($result['c']==0)
+	{
+		$SQL="INSERT INTO performance VALUES('$id',$mat,$dev,$per,$inn,$bn,$br,$bb,$bt,$bf,$bs,'$bho','$bbt','$bfp',$bc,$ob,$osp,$om,$oru,$of,$osx,$owl,$owr,$ocd,$ono,$ow,$fsc,$fco,$fcc,$fdc,$frc,$fci,$frd,$fdd,$fs,$fb,$fmf,$fcd,0)";
+		mysql_query($SQL);
+	}
+}
+foreach($json_array['matches'] as $row)
+{
+    $mid=$row['id'];
+	$dat=$row['dat'];
+	$myt=$row['myt'];
+	$opp=$row['opp'];
+	$ven=$row['ven'];
+	$ovr=$row['ovr'];
+	$inn=$row['inn'];
+	$res=$row['res'];
+	$lvl=$row['lvl'];
+	$act=$row['act'];
+	$dur=$row['dur'];
+	$rev=$row['rev'];
+	$sts=$row['sts'];
+	$pd=null;
+	$i=0;
+	foreach($json_array['performance'] as $row1)
+	{
+	if($row1['mat']==$mid)
+	{
+	$pd[$i]=array("pid"=>$row1['id'],"mid"=>$row1['mat'],"inn"=>$row1['inn'],"bb"=>$row1['bb'],"bbt"=>$row1['bbt'],"bc"=>$row1['bc'],"bfp"=>$row1['bfp'],"bf"=>$row1['bf'],"bho"=>$row1['bho'],"bn"=>$row1['bn'],"br"=>$row1['br'],"bs"=>$row1['bs'],"bt"=>$row1['bt'],"ob"=>$row1['ob'],"ocd"=>$row1['ocd'],"of"=>$row1['of'],"om"=>$row1['om'],"ono"=>$row1['ono'],"oru"=>$row1['oru'],"osx"=>$row1['osx'],"osp"=>$row1['osp'],"ow"=>$row1['ow'],"owl"=>$row1['owl'],"owr"=>$row1['owr'],"fb"=>$row1['fb'],"fcd"=>$row1['fcd'],"fcc"=>$row1['fcc'],"fco"=>$row1['fco'],"fdc"=>$row1['fdc'],"fci"=>$row1['fci'],"fdd"=>$row1['fdd'],"fsc"=>$row1['fsc'],"fs"=>$row1['fs'],"sts"=>$row1['sts'],"frd"=>$row1['frd'],"frc"=>$row1['frc'],"fmf"=>$row1['fmf']);
+	$i++;
+	}
+	}	
+$SendMsgArr = array (
+		"gcmid" => MATCH_N_PERFORMANCE_DATA,
+		"dev" => $dev,
+		"mid" => $mid,
+		"dat" => $dat,
+		"myt" => $myt,
+		"opp" => $opp,
+		"ven" => $ven,
+		"ovr" => $ovr,
+		"inn" => $inn,
+		"res" => $res,
+		"lvl" => $lvl,
+		"act" => $act,
+		"dur" => $dur,
+		"rev" => $rev,
+		"sts" => $sts,
+		"per" => $pd
+		
+);
+SendGCm ( sendToArr ( $id ), $SendMsgArr, $id );
 }
 $ax = array (
 		"status" => 1
