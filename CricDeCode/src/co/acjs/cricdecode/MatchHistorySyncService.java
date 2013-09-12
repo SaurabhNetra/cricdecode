@@ -15,7 +15,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 public class MatchHistorySyncService extends IntentService {
-	public static boolean	started	= true;
+	public static boolean started = true;
 
 	public MatchHistorySyncService() {
 		super("MatchCreateService");
@@ -40,14 +40,56 @@ public class MatchHistorySyncService extends IntentService {
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
 			final JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			Cursor c = getContentResolver()
-					.query(CricDeCodeContentProvider.CONTENT_URI_MATCH,
-							new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS, MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION, MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS, MatchDb.KEY_SYNCED },
-							MatchDb.KEY_SYNCED + "=" + "0", null,
-							MatchDb.KEY_ROWID);
+			Cursor c = getContentResolver().query(
+					CricDeCodeContentProvider.CONTENT_URI_MATCH,
+					new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
+							MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
+							MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
+							MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS,
+							MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL,
+							MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION,
+							MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS,
+							MatchDb.KEY_SYNCED },
+					MatchDb.KEY_SYNCED + "=" + "0", null, MatchDb.KEY_ROWID);
 			Cursor c1 = getContentResolver()
 					.query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
-							new String[] { PerformanceDb.KEY_ROWID, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_CATCHES_DROPPED, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_INNING, PerformanceDb.KEY_MATCHID, PerformanceDb.KEY_STATUS },
+							new String[] { PerformanceDb.KEY_ROWID,
+									PerformanceDb.KEY_BAT_BALLS,
+									PerformanceDb.KEY_BAT_BOWLER_TYPE,
+									PerformanceDb.KEY_BAT_CHANCES,
+									PerformanceDb.KEY_BAT_FIELDING_POSITION,
+									PerformanceDb.KEY_BAT_FOURS,
+									PerformanceDb.KEY_BAT_HOW_OUT,
+									PerformanceDb.KEY_BAT_NUM,
+									PerformanceDb.KEY_BAT_RUNS,
+									PerformanceDb.KEY_BAT_SIXES,
+									PerformanceDb.KEY_BAT_TIME,
+									PerformanceDb.KEY_BOWL_BALLS,
+									PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
+									PerformanceDb.KEY_BOWL_FOURS,
+									PerformanceDb.KEY_BOWL_MAIDENS,
+									PerformanceDb.KEY_BOWL_NOBALLS,
+									PerformanceDb.KEY_BOWL_RUNS,
+									PerformanceDb.KEY_BOWL_SIXES,
+									PerformanceDb.KEY_BOWL_SPELLS,
+									PerformanceDb.KEY_BOWL_WIDES,
+									PerformanceDb.KEY_BOWL_WKTS_LEFT,
+									PerformanceDb.KEY_BOWL_WKTS_RIGHT,
+									PerformanceDb.KEY_FIELD_BYES,
+									PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
+									PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
+									PerformanceDb.KEY_FIELD_CLOSE_CATCH,
+									PerformanceDb.KEY_FIELD_DEEP_CATCH,
+									PerformanceDb.KEY_FIELD_MISFIELDS,
+									PerformanceDb.KEY_FIELD_RO_CIRCLE,
+									PerformanceDb.KEY_FIELD_RO_DEEP,
+									PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
+									PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
+									PerformanceDb.KEY_FIELD_SLIP_CATCH,
+									PerformanceDb.KEY_FIELD_STUMPINGS,
+									PerformanceDb.KEY_INNING,
+									PerformanceDb.KEY_MATCHID,
+									PerformanceDb.KEY_STATUS },
 							PerformanceDb.KEY_SYNCED + "=" + "0", null,
 							PerformanceDb.KEY_MATCHID);
 			JSONObject json = new JSONObject();
@@ -219,6 +261,10 @@ public class MatchHistorySyncService extends IntentService {
 					.getString("device_id", "")));
 			params.add(new BasicNameValuePair("json", json.toString()));
 
+			Log.w("MATCH SYNC", "JSON: "+json.toString());
+			
+			/*
+
 			int trial = 1;
 			JSONObject jn = null;
 			while (jsonParser.isOnline(this)) {
@@ -227,7 +273,8 @@ public class MatchHistorySyncService extends IntentService {
 						"POST", params, this);
 				Log.w("JSON returned", "MatchCreateService: " + jn);
 				Log.w("trial value", "MatchCreateService: " + trial);
-				if (jn != null) break;
+				if (jn != null)
+					break;
 				try {
 					Thread.sleep(10 * trial);
 				} catch (InterruptedException e) {
@@ -241,7 +288,8 @@ public class MatchHistorySyncService extends IntentService {
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 				// TODO sab sync ho gaye
 			} catch (JSONException e) {
-			}
+			}*/
 		}
+		
 	}
 }
