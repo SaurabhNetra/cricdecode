@@ -113,6 +113,9 @@ public class CricDeCodeContentProvider extends ContentProvider {
 			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
 
 			break;
+		case PERFORMANCE:
+			queryBuilder.setTables(PerformanceDb.SQLITE_TABLE);
+			break;
 		case SINGLE_MATCH:
 			queryBuilder.setTables(MatchDb.SQLITE_TABLE);
 			id = uri.getPathSegments().get(1);

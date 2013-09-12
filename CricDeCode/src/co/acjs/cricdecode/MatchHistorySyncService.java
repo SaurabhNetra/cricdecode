@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.IntentService;
@@ -50,7 +49,9 @@ public class MatchHistorySyncService extends IntentService {
 							MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION,
 							MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS,
 							MatchDb.KEY_SYNCED },
-					MatchDb.KEY_SYNCED + "=" + "0", null, MatchDb.KEY_ROWID);
+					MatchDb.KEY_SYNCED + "=" + "0 and " + MatchDb.KEY_STATUS
+							+ "='" + MatchDb.MATCH_HISTORY + "'", null,
+					MatchDb.KEY_ROWID);
 			Cursor c1 = getContentResolver()
 					.query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 							new String[] { PerformanceDb.KEY_ROWID,
@@ -90,7 +91,9 @@ public class MatchHistorySyncService extends IntentService {
 									PerformanceDb.KEY_INNING,
 									PerformanceDb.KEY_MATCHID,
 									PerformanceDb.KEY_STATUS },
-							PerformanceDb.KEY_SYNCED + "=" + "0", null,
+							PerformanceDb.KEY_SYNCED + "=" + "0 and "
+									+ PerformanceDb.KEY_STATUS + "='"
+									+ MatchDb.MATCH_HISTORY + "'", null,
 							PerformanceDb.KEY_MATCHID);
 			JSONObject json = new JSONObject();
 			JSONArray matches = new JSONArray();
@@ -261,35 +264,23 @@ public class MatchHistorySyncService extends IntentService {
 					.getString("device_id", "")));
 			params.add(new BasicNameValuePair("json", json.toString()));
 
-			Log.w("MATCH SYNC", "JSON: "+json.toString());
-			
-			/*
+			Log.w("MATCH SYNC", "JSON: " + json.toString());
 
-			int trial = 1;
-			JSONObject jn = null;
-			while (jsonParser.isOnline(this)) {
-				jn = jsonParser.makeHttpRequest(
-						getResources().getString(R.string.match_create_sync),
-						"POST", params, this);
-				Log.w("JSON returned", "MatchCreateService: " + jn);
-				Log.w("trial value", "MatchCreateService: " + trial);
-				if (jn != null)
-					break;
-				try {
-					Thread.sleep(10 * trial);
-				} catch (InterruptedException e) {
-				}
-				trial++;
-			}
-			try {
-				if (jn.getInt("status") == 1)
-					AccessSharedPrefs.setString(this,
-							"MatchHistorySyncServiceCalled",
-							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-				// TODO sab sync ho gaye
-			} catch (JSONException e) {
-			}*/
+			/*
+			 * 
+			 * int trial = 1; JSONObject jn = null; while
+			 * (jsonParser.isOnline(this)) { jn = jsonParser.makeHttpRequest(
+			 * getResources().getString(R.string.match_create_sync), "POST",
+			 * params, this); Log.w("JSON returned", "MatchCreateService: " +
+			 * jn); Log.w("trial value", "MatchCreateService: " + trial); if (jn
+			 * != null) break; try { Thread.sleep(10 * trial); } catch
+			 * (InterruptedException e) { } trial++; } try { if
+			 * (jn.getInt("status") == 1) AccessSharedPrefs.setString(this,
+			 * "MatchHistorySyncServiceCalled",
+			 * CDCAppClass.DOESNT_NEED_TO_BE_CALLED); // TODO sab sync ho gaye }
+			 * catch (JSONException e) { }
+			 */
 		}
-		
+
 	}
 }
