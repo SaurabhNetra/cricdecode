@@ -88,12 +88,9 @@ public class SignInService extends IntentService {
 				trial++;
 			}
 			try {
-				try {
+				if (jn.getString("user").equals("existing")) {
 					AccessSharedPrefs.setString(this, "device_id",
 							jn.getString("device_id"));
-				} catch (JSONException e) {
-				}
-				if (jn.getString("user").equals("existing")) {
 					AccessSharedPrefs.setString(this, "nickname",
 							jn.getString("nickname"));
 					AccessSharedPrefs.setString(this, "role",
@@ -343,6 +340,8 @@ public class SignInService extends IntentService {
 					AccessSharedPrefs.setString(this, "SignInServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 				} else if (jn.getString("user").equals("new")) {
+					AccessSharedPrefs.setString(this, "device_id",
+							"1");
 					AccessSharedPrefs.setString(this, "SignInServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 				}

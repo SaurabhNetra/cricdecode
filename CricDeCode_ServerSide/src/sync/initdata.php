@@ -120,8 +120,7 @@ include_once "conn.php";
 			);
 		} else {
 			$ax = array (
-					"user" => "new",
-					"device_id" => 1 
+					"user" => "new"
 			);
 		}
 	} else {

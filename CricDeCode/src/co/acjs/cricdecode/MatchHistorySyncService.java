@@ -269,7 +269,7 @@ public class MatchHistorySyncService extends IntentService {
 			}
 			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
-			params.add(new BasicNameValuePair("dev", AccessSharedPrefs.mPrefs
+			params.add(new BasicNameValuePair("dev",AccessSharedPrefs.mPrefs
 					.getString("device_id", "")));
 			params.add(new BasicNameValuePair("json", json.toString()));
 
