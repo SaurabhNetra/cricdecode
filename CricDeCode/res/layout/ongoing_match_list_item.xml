@@ -69,9 +69,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/addtohist"
             android:focusable="false"
-            android:onClick="onClick"
-            android:text="@string/add_to_career" >
+            android:onClick="onClick" >
         </Button>
     </RelativeLayout>
 
@@ -167,9 +170,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:background="@drawable/delete"
             android:focusable="false"
-            android:onClick="onClick"
-            android:text="@string/delete" >
+            android:onClick="onClick" >
         </Button>
     </RelativeLayout>
 

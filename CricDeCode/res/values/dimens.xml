@@ -44,6 +44,32 @@
     <dimen name="opponent_padding_top">5dp</dimen>
     <dimen name="venue_padding">5dp</dimen>
     <dimen name="overs_padding_left">10dp</dimen>
+    <dimen name="overs_txt_padding_left">6dp</dimen>
+    <dimen name="lvl_padding_left">10dp</dimen>
+    <dimen name="lvl_padding_top">5dp</dimen>
+    <dimen name="lvl_padding_bottom">5dp</dimen>
+
+    <!-- display graph -->
+
+    <dimen name="title_margin_top">5dp</dimen>
+    <dimen name="title_text_size">14sp</dimen>
+    <dimen name="graph_margin_top">10dp</dimen>
+
+    <!-- drawer_list_item -->
+
+    <dimen name="item_margin_left">-5dp</dimen>
+    <dimen name="item_padding_top">10dp</dimen>
+    <dimen name="item_padding_bottom">10dp</dimen>
+    <dimen name="item_txt_size">18sp</dimen>
+
+    <!-- drawer_main -->
+
+    <dimen name="left_drawer_width">240dp</dimen>
+    <dimen name="left_drawer_padding_left">15dp</dimen>
+    <dimen name="left_drawer_padding_right">15dp</dimen>
+    <dimen name="left_drawer_divider_height">1dp</dimen>
+    
+    <!-- filter_general -->
     <!-- career -->
     <dimen name="career_top_space_height">100dp</dimen>
     <dimen name="card_left_padding">25dp</dimen>

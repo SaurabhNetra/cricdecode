@@ -125,14 +125,14 @@
                     android:id="@+id/overs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="@dimen/overs_padding_left"
                     android:textColor="@color/dark_grey" />
 
                 <TextView
                     android:id="@+id/overs_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/overs_padding_left"
+                    android:paddingLeft="@dimen/overs_txt_padding_left"
                     android:text="@string/overs"
                     android:textColor="@color/dark_grey" />
             </LinearLayout>
@@ -141,9 +141,9 @@
                 android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="@dimen/lvl_padding_bottom"
+                android:paddingLeft="@dimen/lvl_padding_left"
+                android:paddingTop="@dimen/lvl_padding_top"
                 android:textColor="@color/dark_grey"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -154,9 +154,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:background="@drawable/delete"
             android:focusable="false"
-            android:onClick="onClick"
-            android:text="@string/delete" >
+            android:onClick="onClick" >
         </Button>
     </RelativeLayout>
 

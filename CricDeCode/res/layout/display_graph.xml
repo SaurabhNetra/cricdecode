@@ -10,16 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="@dimen/title_margin_top"
         android:background="@color/black"
         android:textColor="@color/light_grey"
-        android:textSize="14sp" />
+        android:textSize="@dimen/title_text_size" />
 
     <LinearLayout
         android:id="@+id/chart"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="@dimen/graph_margin_top"
         android:layout_weight="1"
         android:background="@color/black"
         android:orientation="horizontal" />

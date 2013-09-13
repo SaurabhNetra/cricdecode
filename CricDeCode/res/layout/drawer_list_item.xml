@@ -10,13 +10,13 @@
         style="?attr/spinnerDropDownItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-5dp"
+        android:layout_marginLeft="@dimen/item_margin_left"
         android:ellipsize="end"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:paddingBottom="@dimen/item_padding_bottom"
+        android:paddingTop="@dimen/item_padding_top"
         android:singleLine="true"
         android:textColor="@color/dark_red"
-        android:textSize="18sp"
+        android:textSize="@dimen/item_txt_size"
         android:textStyle="bold" />
 
 </LinearLayout>

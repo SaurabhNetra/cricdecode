@@ -298,9 +298,11 @@ public class MatchHistorySyncService extends IntentService {
 				if (jn.getInt("status") == 1)
 					AccessSharedPrefs.setString(this,
 							"MatchHistorySyncServiceCalled",
-							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);// TODO sab
+							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+				                                                    // TODO sab
 																	// sync ho
 																	// gaye
+				
 				Log.w("JSON returned",""+jn.getInt("status"));
 				}
 			} catch (JSONException e) {
