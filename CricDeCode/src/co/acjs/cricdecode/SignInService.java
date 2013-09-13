@@ -91,7 +91,7 @@ public class SignInService extends IntentService {
 			try {
 				if (jn.getString("user").equals("existing")) {
 					AccessSharedPrefs.setString(this, "device_id",
-							jn.getString("device_id"));
+							jn.getInt("device_id")+"");
 					Log.d("Debug",
 							"device_id received " + jn.getString("device_id"));
 					AccessSharedPrefs.setString(this, "nickname",

@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dip"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/list_margin_bottom"
+        android:layout_marginLeft="@dimen/list_margin_left"
+        android:layout_marginRight="@dimen/list_margin_right"
         android:background="@drawable/cards_bg"
-        android:paddingBottom="30dip"
-        android:paddingLeft="20dip"
-        android:paddingRight="20dip"
-        android:paddingTop="25dip"
+        android:paddingBottom="@dimen/no_item_padding_bottom"
+        android:paddingLeft="@dimen/no_item_padding_left"
+        android:paddingRight="@dimen/no_item_padding_right"
+        android:paddingTop="@dimen/no_item_padding_top"
         android:visibility="gone" >
 
         <TextView
@@ -32,14 +32,14 @@
         android:id="@+id/no_matches_created"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dip"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/list_margin_bottom"
+        android:layout_marginLeft="@dimen/list_margin_left"
+        android:layout_marginRight="@dimen/list_margin_right"
         android:background="@drawable/cards_bg"
-        android:paddingBottom="30dip"
-        android:paddingLeft="20dip"
-        android:paddingRight="20dip"
-        android:paddingTop="25dip"
+        android:paddingBottom="@dimen/no_item_padding_bottom"
+        android:paddingLeft="@dimen/no_item_padding_left"
+        android:paddingRight="@dimen/no_item_padding_right"
+        android:paddingTop="@dimen/no_item_padding_top"
         android:visibility="gone" >
 
         <TextView
@@ -55,13 +55,13 @@
         android:id="@+id/content_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/list_margin_bottom"
+        android:layout_marginLeft="@dimen/list_margin_left"
+        android:layout_marginRight="@dimen/list_margin_right"
+        android:layout_marginTop="@dimen/list_margin_top"
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
-        android:dividerHeight="10dp" >
+        android:dividerHeight="@dimen/list_divider_height" >
     </ListView>
 
 </LinearLayout>

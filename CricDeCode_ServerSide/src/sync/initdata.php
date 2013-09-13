@@ -40,7 +40,7 @@ if ($count ['c'] == 0) {
 					"first_action" => $cricket_match [$i] ['first_action'],
 					"duration" => $cricket_match [$i] ['duration'],
 					"review" => $cricket_match [$i] ['review'],
-					"status" => $cricket_match [$i] ['status'] 
+					"status" => $cricket_match [$i] ['status']
 			);
 			$cricket_match_data [$i] = $row;
 		}
@@ -88,7 +88,7 @@ if ($count ['c'] == 0) {
 					"field_byes" => $performance [$i] ['field_byes'],
 					"field_misfield" => $performance [$i] ['field_misfield'],
 					"field_catches_dropped" => $performance [$i] ['field_catches_dropped'],
-					"status" => $performance [$i] ['status'] 
+					"status" => $performance [$i] ['status']
 			);
 			$performance_data [$i] = $row;
 		}
@@ -105,7 +105,7 @@ if ($android) {
 	}
 	if ($existing) {
 		$device_no_temp = mysql_query ( "SELECT device_no FROM user_table WHERE id='$id'" );
-		$device_no = mysql_fetch_array ( $device_no_temp );
+		$device_no = mysql_fetch_assoc ( $device_no_temp );
 		$new_no = $device_no ['device_no'] + 1;
 		mysql_query ( "UPDATE user_table SET device_no = $new_no" );
 		$ax = array (
@@ -116,11 +116,11 @@ if ($android) {
 				"bowlingStyle" => $user_array ['bowlingStyle'],
 				"performance_data" => $performance_data,
 				"cricket_match_data" => $cricket_match_data,
-				"device_id" => $new_no 
+				"device_id" => $new_no
 		);
 	} else {
 		$ax = array (
-				"user" => "new" 
+				"user" => "new"
 		);
 	}
 } else {
@@ -132,11 +132,11 @@ if ($android) {
 				"battingStyle" => $user_array ['battingStyle'],
 				"bowlingStyle" => $user_array ['bowlingStyle'],
 				"performance_data" => $performance_data,
-				"cricket_match_data" => $cricket_match_data 
+				"cricket_match_data" => $cricket_match_data
 		);
 	} else {
 		$ax = array (
-				"user" => "new" 
+				"user" => "new"
 		);
 	}
 }

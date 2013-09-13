@@ -11,13 +11,13 @@
         android:layout_alignParentTop="true"
         android:background="@color/dark_red"
         android:drawableLeft="@drawable/filter"
-        android:drawablePadding="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="100dp"
-        android:paddingTop="10dp"
+        android:drawablePadding="@dimen/top_drawable_padding"
+        android:paddingBottom="@dimen/top_padding_bottom"
+        android:paddingLeft="@dimen/top_padding_left"
+        android:paddingTop="@dimen/top_padding_top"
         android:text="@string/filter"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="@dimen/title_text_size"
         android:textStyle="bold" />
 
     <ScrollView
@@ -27,8 +27,8 @@
         android:layout_below="@+id/dialog_top"
         android:background="@color/white"
         android:fadingEdge="none"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp" >
+        android:paddingBottom="@dimen/scrollview_padding_bottom"
+        android:paddingTop="@dimen/scrollview_padding_top" >
 
         <TableLayout
             android:layout_width="match_parent"
@@ -43,13 +43,13 @@
                     android:id="@+id/lbl_season_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/season"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/season_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -61,13 +61,13 @@
                     android:id="@+id/lbl_my_team_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/my_team"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/my_team_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -79,13 +79,13 @@
                     android:id="@+id/lbl_opponent_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/opponent_team"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/opponent_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -97,13 +97,13 @@
                     android:id="@+id/lbl_venue_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/venue"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/venue_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -115,13 +115,13 @@
                     android:id="@+id/lbl_result_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/result"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/result_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -133,13 +133,13 @@
                     android:id="@+id/lbl_level_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/level"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/level_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -151,13 +151,13 @@
                     android:id="@+id/lbl_overs_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/overs"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/overs_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -169,13 +169,13 @@
                     android:id="@+id/lbl_innings_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/innings"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/innings_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -187,13 +187,13 @@
                     android:id="@+id/lbl_duration_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/duration"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/duration_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -205,13 +205,13 @@
                     android:id="@+id/lbl_first_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/first"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/first_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -223,13 +223,13 @@
                     android:id="@+id/lbl_batting_no_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/batting_no"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/batting_no_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -241,13 +241,13 @@
                     android:id="@+id/lbl_how_out_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/filter_lbl_padding"
                     android:text="@string/how_out"
                     android:textColor="@color/dark_red" />
 
                 <co.acjs.cricdecode.MultiSelectSpinner
                     android:id="@+id/how_out_list"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/filter_selector_width"
                     android:layout_height="wrap_content" />
             </TableRow>
         </TableLayout>

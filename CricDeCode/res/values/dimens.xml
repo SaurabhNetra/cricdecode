@@ -70,6 +70,31 @@
     <dimen name="left_drawer_divider_height">1dp</dimen>
     
     <!-- filter_general -->
+    <dimen name="top_drawable_padding">10dp</dimen>
+    <dimen name="top_padding_bottom">10dp</dimen>
+    <dimen name="top_padding_top">10dp</dimen>
+    <dimen name="top_padding_left">10dp</dimen>
+    <dimen name="title_text_size">22sp</dimen>
+    <dimen name="filter_lbl_padding">10dp</dimen>
+    <dimen name="filter_selector_width">150dp</dimen>
+    
+    <!-- list container -->
+    <dimen name="no_item_padding_bottom">30dp</dimen>
+    <dimen name="no_item_padding_top">25dp</dimen>
+    <dimen name="no_item_padding_left">20dp</dimen>
+    <dimen name="no_item_padding_right">20dp</dimen>
+    <dimen name="no_item_margin_bottom">20dp</dimen>
+    <dimen name="no_item_margin_left">16dp</dimen>
+    <dimen name="no_item_margin_right">16dp</dimen>
+    
+    <dimen name="list_margin_bottom">10dp</dimen>
+    <dimen name="list_margin_left">20dp</dimen>
+    <dimen name="list_margin_top">20dp</dimen>
+    <dimen name="list_margin_right">10dp</dimen>
+    <dimen name="list_divider_height">10dp</dimen>
+    
+   
+    
     <!-- career -->
     <dimen name="career_top_space_height">100dp</dimen>
     <dimen name="card_left_padding">25dp</dimen>
@@ -91,6 +116,7 @@
     <dimen name="card_bottom_padding">30dp</dimen>
     <dimen name="generate_graph_margin_top">5dp</dimen>
     <dimen name="generate_graph_padding">20dp</dimen>
+    
     <!-- All pages -->
     <dimen name="scrollview_padding_top">20dp</dimen>
     <dimen name="scrollview_padding_bottom">20dp</dimen>
