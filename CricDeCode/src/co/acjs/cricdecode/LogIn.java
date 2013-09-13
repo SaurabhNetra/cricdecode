@@ -20,7 +20,6 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gcm.GCMRegistrar;
 
 public class LogIn extends SherlockActivity {
 	static GraphUser	user;
@@ -78,14 +77,36 @@ public class LogIn extends SherlockActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (!AccessSharedPrefs.mPrefs.getString("isSignedIn", "").equals("")) {
-			Intent intent = new Intent(getApplicationContext(),
-					MainActivity.class);
-			startActivity(intent);
-			finish();
-		}
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStart(this);
+		if (!AccessSharedPrefs.mPrefs.getString("isSignedIn", "").equals("")) {
+			openMainActivity();
+		}
+		if ((!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) & AccessSharedPrefs.mPrefs
+				.getString("isSignedIn", "").equals("")) {
+			Session session = Session.getActiveSession();
+			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
+			if (session.isOpened()) {
+				loginButton.setVisibility(View.GONE);
+				((ProgressBar) findViewById(R.id.progress_bar))
+						.setVisibility(View.VISIBLE);
+				// make request to the /me API
+				Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+					// callback after Graph API response with user
+					// object
+					@Override
+					public void onCompleted(GraphUser user, Response response) {
+						if (user != null) {
+							Log.w("Face Book Login Complete",
+									"LogIn: " + user.getBirthday());
+							LogIn.user = user;
+							GCMRegistration();
+						}
+					}
+				}).executeAsync();
+			}
+		}
 	}
 
 	@Override
@@ -96,15 +117,35 @@ public class LogIn extends SherlockActivity {
 	}
 
 	void GCMRegistration() {
-		GCMRegistrar.unregister(this);
-		GCMRegistrar.register(this, getResources().getString(R.string.projno));
+		GCMRegistrarCompat.checkDevice(this);
+		if (BuildConfig.DEBUG) {
+			GCMRegistrarCompat.checkManifest(this);
+		}
+		final String regId = GCMRegistrarCompat.getRegistrationId(this);
+		if (regId.length() == 0) {
+			new RegisterTask(this).execute(getResources().getString(
+					R.string.projno));
+		} else {
+			Log.d(getClass().getSimpleName(), "Existing registration: " + regId);
+		}
 	}
 
-	static void startApp() {
+	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask {
+		RegisterTask(Context context) {
+			super(context);
+		}
+
+		@Override
+		public void onPostExecute(String regid) {
+			Log.d(getClass().getSimpleName(), "registered as: " + regid);
+		}
+	}
+
+	static void startApp(String gcm_reg_id) {
 		Log.w("Start App", "LogIn: ");
+		AccessSharedPrefs.setString(login_activity, "gcm_reg_id", gcm_reg_id);
 		AccessSharedPrefs.setString(login_activity, "SignInServiceCalled",
 				CDCAppClass.NEEDS_TO_BE_CALLED);
-		Intent intent = new Intent(login_activity, SignInService.class);
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
 		AccessSharedPrefs.setString(login_activity, "f_name",
 				user.getFirstName());
@@ -112,10 +153,8 @@ public class LogIn extends SherlockActivity {
 				user.getLastName());
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
+		Intent intent = new Intent(login_activity, SignInService.class);
 		login_activity.startService(intent);
-		intent = new Intent(login_activity, MainActivity.class);
-		login_activity.startActivity(intent);
-		((LogIn) login_activity).finish();
 	}
 
 	@Override
@@ -123,5 +162,11 @@ public class LogIn extends SherlockActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode,
 				resultCode, data);
+	}
+
+	public static void openMainActivity() {
+		Intent intent = new Intent(login_activity, MainActivity.class);
+		login_activity.startActivity(intent);
+		((LogIn) login_activity).finish();
 	}
 }

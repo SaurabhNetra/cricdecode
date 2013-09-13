@@ -17,8 +17,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.gcm.GCMRegistrar;
-
 public class SignInService extends IntentService {
 
 	public SignInService() {
@@ -44,21 +42,18 @@ public class SignInService extends IntentService {
 		AccessSharedPrefs.mPrefs = getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		Log.d("onCreate",
-				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "")
-						+ " "
-						+ AccessSharedPrefs.mPrefs.getString("f_name", "")
-						+ " "
-						+ AccessSharedPrefs.mPrefs.getString("l_name", "")
-						+ " " + AccessSharedPrefs.mPrefs.getString("dob", "")
-						+ " "
-						+ AccessSharedPrefs.mPrefs.getString("fb_link", ""));
+				"mPrefs Data: " + AccessSharedPrefs.mPrefs.getString("id", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("l_name", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("dob", "") + " " + AccessSharedPrefs.mPrefs
+						.getString("fb_link", ""));
 		if (AccessSharedPrefs.mPrefs.getString("SignInServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
 			final JSONParser jsonParser = new JSONParser();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("gcmid", GCMRegistrar
-					.getRegistrationId(getApplicationContext())));
+			params.add(new BasicNameValuePair("gcmid", AccessSharedPrefs.mPrefs
+					.getString("gcm_reg_id", "")));
 			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
 			params.add(new BasicNameValuePair("fname", AccessSharedPrefs.mPrefs
@@ -80,8 +75,7 @@ public class SignInService extends IntentService {
 						params, this);
 				Log.w("JSON returned", "SignInService: " + jn);
 				Log.w("trial value", "SignInService: " + trial);
-				if (jn != null)
-					break;
+				if (jn != null) break;
 				try {
 					Thread.sleep(10 * trial);
 				} catch (InterruptedException e) {
@@ -91,7 +85,7 @@ public class SignInService extends IntentService {
 			try {
 				if (jn.getString("user").equals("existing")) {
 					AccessSharedPrefs.setString(this, "device_id",
-							jn.getInt("device_id")+"");
+							jn.getInt("device_id") + "");
 					Log.d("Debug",
 							"device_id received " + jn.getString("device_id"));
 					AccessSharedPrefs.setString(this, "nickname",
@@ -130,8 +124,7 @@ public class SignInService extends IntentService {
 									.getString("duration");
 							String review = single_match.getString("review");
 							String status = single_match.getString("status")
-									.equals("1") ? MatchDb.MATCH_CURRENT
-									: MatchDb.MATCH_HISTORY;
+									.equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
 							Log.w("JSON Object", "Match Data: " + match_id);
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, match_id);
@@ -262,10 +255,9 @@ public class SignInService extends IntentService {
 									.parseInt(single_performance
 											.getString("field_catches_dropped"));
 							String status = single_performance.getString(
-									"status").equals("1") ? MatchDb.MATCH_CURRENT
-									: MatchDb.MATCH_HISTORY;
-							Log.w("JSON Object", "Performance Data: "
-									+ performance_id);
+									"status").equals("1") ? MatchDb.MATCH_CURRENT : MatchDb.MATCH_HISTORY;
+							Log.w("JSON Object",
+									"Performance Data: " + performance_id);
 							ContentValues values = new ContentValues();
 
 							values.put(PerformanceDb.KEY_MATCHID, match_id);
@@ -337,22 +329,14 @@ public class SignInService extends IntentService {
 									.getContentResolver()
 									.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 											values);
-							// TODO initialise match_id and performance_id
 							Log.d("Debug",
-									"Shared device_id "
-											+ AccessSharedPrefs.mPrefs
-													.getString("device_id", ""));
-							Cursor c = MainActivity.dbHandle.rawQuery(
-									"select max("
-											+ MatchDb.KEY_ROWID
-											+ ") from "
-											+ MatchDb.SQLITE_TABLE
-											+ " where "
-											+ MatchDb.KEY_DEVICE_ID
-											+ "='"
-											+ AccessSharedPrefs.mPrefs
-													.getString("device_id", "")
-											+ "'", null);
+									"Shared device_id " + AccessSharedPrefs.mPrefs
+											.getString("device_id", ""));
+							Cursor c = MainActivity.dbHandle
+									.rawQuery(
+											"select max(" + MatchDb.KEY_ROWID + ") from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_DEVICE_ID + "='" + AccessSharedPrefs.mPrefs
+													.getString("device_id", "") + "'",
+											null);
 							if (c.getCount() != 0) {
 								c.moveToFirst();
 								AccessSharedPrefs.setInt(
@@ -361,17 +345,11 @@ public class SignInService extends IntentService {
 								Log.d("Debug", "max_match_id " + c.getInt(0));
 							}
 							c.close();
-							c = MainActivity.dbHandle.rawQuery(
-									"select max("
-											+ PerformanceDb.KEY_ROWID
-											+ ") from "
-											+ PerformanceDb.SQLITE_TABLE
-											+ " where "
-											+ PerformanceDb.KEY_DEVICE_ID
-											+ "='"
-											+ AccessSharedPrefs.mPrefs
-													.getString("device_id", "")
-											+ "'", null);
+							c = MainActivity.dbHandle
+									.rawQuery(
+											"select max(" + PerformanceDb.KEY_ROWID + ") from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_DEVICE_ID + "='" + AccessSharedPrefs.mPrefs
+													.getString("device_id", "") + "'",
+											null);
 							if (c.getCount() != 0) {
 								c.moveToFirst();
 								AccessSharedPrefs.setInt(
@@ -387,10 +365,18 @@ public class SignInService extends IntentService {
 					}
 					AccessSharedPrefs.setString(this, "SignInServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+					try {
+						LogIn.openMainActivity();
+					} catch (Exception e) {
+					}
 				} else if (jn.getString("user").equals("new")) {
 					AccessSharedPrefs.setString(this, "device_id", "1");
 					AccessSharedPrefs.setString(this, "SignInServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+					try {
+						LogIn.openMainActivity();
+					} catch (Exception e) {
+					}
 				}
 			} catch (JSONException e) {
 			}
