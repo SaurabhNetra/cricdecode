@@ -148,16 +148,22 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/delete_diary"
+        <RelativeLayout
+            android:id="@+id/delete_match_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/match_info"
             android:layout_alignParentRight="true"
-            android:background="@drawable/delete"
             android:focusable="false"
-            android:onClick="onClick" >
-        </Button>
+            android:onClick="onClick"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/del_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/delete" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

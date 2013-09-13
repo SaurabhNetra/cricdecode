@@ -1188,7 +1188,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				showDatePicker(R.id.date_of_match);
 				break;
 
-			case R.id.add_to_career:
+			case R.id.add_match_to_career:
 				dialog = new Dialog(this);
 				finalview = view;
 				dialog.setContentView(R.layout.dialog_confirmation);
@@ -1222,7 +1222,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				dialog.show();
 
 				break;
-			case R.id.delete_ongoing:
+			case R.id.delete_ongoing_match:
 				dialog = new Dialog(this);
 				finalview = view;
 				dialog.setContentView(R.layout.dialog_confirmation);
@@ -1254,7 +1254,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 				dialog.show();
 				break;
-			case R.id.delete_diary:
+			case R.id.delete_match_diary:
 				dialog = new Dialog(this);
 				finalview = view;
 				dialog.setContentView(R.layout.dialog_confirmation);

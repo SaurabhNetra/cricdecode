@@ -48,8 +48,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				break;
 			case MATCH_N_PERFORMANCE_DATA:
 				Log.w("JSON Object", "Match Data: " + gcmData.getInt("mid"));
-				if (AccessSharedPrefs.mPrefs.getInt("device_id", 0) != gcmData
-						.getInt("dev")) {
+				if (!AccessSharedPrefs.mPrefs.getString("device_id", "").equals(gcmData
+						.getInt("dev")+"")) {
 					ContentValues values = new ContentValues();
 					values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
 					values.put(MatchDb.KEY_DEVICE_ID, gcmData.getInt("dev"));
