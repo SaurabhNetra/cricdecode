@@ -108,9 +108,7 @@ public class MatchCreationFragment extends SherlockFragment {
 	}
 
 	public void insertMatch() {
-		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
-				"CricDeCode", Context.MODE_PRIVATE);
-		String device_id = AccessSharedPrefs.mPrefs.getString("device_id", "");
+		String device_id = AccessSharedPrefs.mPrefs.getString("device_id", "1");
 		String matchDate_str = date_of_match.getText().toString();
 		String myTeam_str = myTeam.getText().toString();
 		String opponentTeam_str = opponentTeam.getText().toString();
@@ -193,9 +191,11 @@ public class MatchCreationFragment extends SherlockFragment {
 		values.put(MatchDb.KEY_FIRST_ACTION, first_action_str);
 		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_CURRENT);
 		values.put(MatchDb.KEY_SYNCED, synced_str);
-
+		int id = AccessSharedPrefs.mPrefs.getInt("max_match_id", 0) + 1;
+		AccessSharedPrefs.setInt(getSherlockActivity(), "max_match_id", id);
+		values.put(MatchDb.KEY_ROWID, id);
 		// insert a record
-		Uri uri = getSherlockActivity().getContentResolver().insert(
+		getSherlockActivity().getContentResolver().insert(
 				CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 
 		// Go to Match Activity
@@ -216,8 +216,7 @@ public class MatchCreationFragment extends SherlockFragment {
 		} else if (date.before(d)) {
 			PerformanceFragmentEdit.performanceFragmentEdit = new PerformanceFragmentEdit();
 			Bundle bundle = new Bundle();
-			bundle.putInt("rowId",
-					Integer.parseInt(uri.getPathSegments().get(1)));
+			bundle.putInt("rowId", id);
 			bundle.putString("deviceId", device_id);
 			bundle.putInt("innings", Integer.parseInt(innings_str));
 			PerformanceFragmentEdit.performanceFragmentEdit

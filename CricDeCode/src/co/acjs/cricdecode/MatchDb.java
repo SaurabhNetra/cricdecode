@@ -28,13 +28,12 @@ public class MatchDb {
 	public static final String SQLITE_TABLE = "match";
 
 	private static final String DATABASE_CREATE = "CREATE TABLE if not exists "
-			+ SQLITE_TABLE + " (" + KEY_ROWID
-			+ " integer PRIMARY KEY autoincrement," + KEY_DEVICE_ID + ","
-			+ KEY_MATCH_DATE + " date," + KEY_MY_TEAM + "," + KEY_OPPONENT_TEAM
-			+ "," + KEY_VENUE + "," + KEY_OVERS + " integer, " + KEY_INNINGS
-			+ " integer, " + KEY_RESULT + "," + KEY_REVIEW + " text,"
-			+ KEY_LEVEL + "," + KEY_FIRST_ACTION + "," + KEY_DURATION + ","
-			+ KEY_STATUS + "," + KEY_SYNCED + " integer);";
+			+ SQLITE_TABLE + " (" + KEY_ROWID + " integer," + KEY_DEVICE_ID
+			+ "," + KEY_MATCH_DATE + " date," + KEY_MY_TEAM + ","
+			+ KEY_OPPONENT_TEAM + "," + KEY_VENUE + "," + KEY_OVERS
+			+ " integer, " + KEY_INNINGS + " integer, " + KEY_RESULT + ","
+			+ KEY_REVIEW + " text," + KEY_LEVEL + "," + KEY_FIRST_ACTION + ","
+			+ KEY_DURATION + "," + KEY_STATUS + "," + KEY_SYNCED + " integer);";
 
 	public static void onCreate(SQLiteDatabase db) {
 		Log.w(LOG_TAG, DATABASE_CREATE);

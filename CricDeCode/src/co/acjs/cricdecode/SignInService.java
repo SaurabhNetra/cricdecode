@@ -13,6 +13,7 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
@@ -91,6 +92,8 @@ public class SignInService extends IntentService {
 				if (jn.getString("user").equals("existing")) {
 					AccessSharedPrefs.setString(this, "device_id",
 							jn.getString("device_id"));
+					Log.d("Debug",
+							"device_id received " + jn.getString("device_id"));
 					AccessSharedPrefs.setString(this, "nickname",
 							jn.getString("nickname"));
 					AccessSharedPrefs.setString(this, "role",
@@ -334,15 +337,58 @@ public class SignInService extends IntentService {
 									.getContentResolver()
 									.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 											values);
-							//TODO initialise match_id and performance_id
+							// TODO initialise match_id and performance_id
+							Log.d("Debug",
+									"Shared device_id "
+											+ AccessSharedPrefs.mPrefs
+													.getString("device_id", ""));
+							Cursor c = MainActivity.dbHandle.rawQuery(
+									"select max("
+											+ MatchDb.KEY_ROWID
+											+ ") from "
+											+ MatchDb.SQLITE_TABLE
+											+ " where "
+											+ MatchDb.KEY_DEVICE_ID
+											+ "='"
+											+ AccessSharedPrefs.mPrefs
+													.getString("device_id", "")
+											+ "'", null);
+							if (c.getCount() != 0) {
+								c.moveToFirst();
+								AccessSharedPrefs.setInt(
+										getApplicationContext(),
+										"max_match_id", c.getInt(0));
+								Log.d("Debug", "max_match_id " + c.getInt(0));
+							}
+							c.close();
+							c = MainActivity.dbHandle.rawQuery(
+									"select max("
+											+ PerformanceDb.KEY_ROWID
+											+ ") from "
+											+ PerformanceDb.SQLITE_TABLE
+											+ " where "
+											+ PerformanceDb.KEY_DEVICE_ID
+											+ "='"
+											+ AccessSharedPrefs.mPrefs
+													.getString("device_id", "")
+											+ "'", null);
+							if (c.getCount() != 0) {
+								c.moveToFirst();
+								AccessSharedPrefs.setInt(
+										getApplicationContext(),
+										"max_performance_id", c.getInt(0));
+								Log.d("Debug",
+										"max_performance_id " + c.getInt(0));
+							}
+							c.close();
+
 						}
 					} catch (JSONException e) {
 					}
 					AccessSharedPrefs.setString(this, "SignInServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 				} else if (jn.getString("user").equals("new")) {
-					AccessSharedPrefs.setString(this, "device_id",
-							"1");
+					AccessSharedPrefs.setString(this, "device_id", "1");
 					AccessSharedPrefs.setString(this, "SignInServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 				}

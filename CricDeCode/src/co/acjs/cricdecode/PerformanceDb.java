@@ -55,9 +55,8 @@ public class PerformanceDb {
 	public static final String SQLITE_TABLE = "performance";
 
 	private static final String DATABASE_CREATE = "CREATE TABLE if not exists "
-			+ SQLITE_TABLE + " (" + KEY_ROWID
-			+ " integer PRIMARY KEY autoincrement," + KEY_DEVICE_ID + ","
-			+ KEY_MATCHID + " integer," + KEY_INNING + " integer,"
+			+ SQLITE_TABLE + " (" + KEY_ROWID + " integer," + KEY_DEVICE_ID
+			+ "," + KEY_MATCHID + " integer," + KEY_INNING + " integer,"
 			+ KEY_BAT_NUM + " integer," + KEY_BAT_RUNS + " integer,"
 			+ KEY_BAT_BALLS + " integer," + KEY_BAT_TIME + " integer,"
 			+ KEY_BAT_FOURS + " integer," + KEY_BAT_SIXES + " integer,"

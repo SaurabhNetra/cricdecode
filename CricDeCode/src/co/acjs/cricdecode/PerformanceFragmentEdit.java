@@ -1127,6 +1127,12 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				values[i - 1].put(PerformanceDb.KEY_STATUS,
 						MatchDb.MATCH_CURRENT);
 				values[i - 1].put(PerformanceDb.KEY_SYNCED, "0");
+				int id = AccessSharedPrefs.mPrefs.getInt("max_performance_id",
+						0) + 1;
+				AccessSharedPrefs.setInt(getSherlockActivity(),
+						"max_performance_id", id);
+				values[i - 1].put(PerformanceDb.KEY_ROWID, id);
+
 				// insert a record
 				getSherlockActivity().getContentResolver().insert(
 						CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
