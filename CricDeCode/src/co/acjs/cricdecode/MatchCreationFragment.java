@@ -108,7 +108,7 @@ public class MatchCreationFragment extends SherlockFragment {
 	}
 
 	public void insertMatch() {
-		String device_id = AccessSharedPrefs.mPrefs.getString("device_id", "1");
+		String device_id = AccessSharedPrefs.mPrefs.getString("device_id", "");
 		String matchDate_str = date_of_match.getText().toString();
 		String myTeam_str = myTeam.getText().toString();
 		String opponentTeam_str = opponentTeam.getText().toString();
