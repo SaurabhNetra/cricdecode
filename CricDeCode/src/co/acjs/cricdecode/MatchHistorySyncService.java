@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Environment;
@@ -20,6 +21,8 @@ import android.util.Log;
 
 public class MatchHistorySyncService extends IntentService {
 	public static boolean started = true;
+	ArrayList<String> match_id_arr = new ArrayList<String>();
+	ArrayList<String> performance_id_arr = new ArrayList<String>();
 
 	public MatchHistorySyncService() {
 		super("MatchCreateService");
@@ -108,6 +111,9 @@ public class MatchHistorySyncService extends IntentService {
 					c1.moveToFirst();
 					do {
 						JSONObject row = new JSONObject();
+						performance_id_arr
+								.add(c1.getString(c1
+										.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID)));
 						row.put("id",
 								c1.getString(c1
 										.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID)));
@@ -230,6 +236,8 @@ public class MatchHistorySyncService extends IntentService {
 					// Do for every Match Row in the Cursor
 					do {
 						JSONObject row = new JSONObject();
+						match_id_arr.add(c.getString(c
+								.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
 						row.put("id", c.getString(c
 								.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
 						row.put("dat", c.getString(c
@@ -269,7 +277,7 @@ public class MatchHistorySyncService extends IntentService {
 			}
 			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
-			params.add(new BasicNameValuePair("dev",AccessSharedPrefs.mPrefs
+			params.add(new BasicNameValuePair("dev", AccessSharedPrefs.mPrefs
 					.getString("device_id", "")));
 			params.add(new BasicNameValuePair("json", json.toString()));
 
@@ -293,20 +301,58 @@ public class MatchHistorySyncService extends IntentService {
 				trial++;
 			}
 			try {
-				if(jn!=null)
-				{
-				if (jn.getInt("status") == 1)
-					AccessSharedPrefs.setString(this,
-							"MatchHistorySyncServiceCalled",
-							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-				                                                    // TODO sab
-																	// sync ho
-																	// gaye
-				
-				Log.w("JSON returned",""+jn.getInt("status"));
+				if (jn != null) {
+					if (jn.getInt("status") == 1)
+						AccessSharedPrefs.setString(this,
+								"MatchHistorySyncServiceCalled",
+								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+					// TODO sab
+					// sync ho
+					// gaye
+					String selection = MatchDb.KEY_ROWID
+							+ " in ("
+							+ DiaryMatchesFragment.buildSelectedItemString(
+									match_id_arr, true)
+							+ " ) and "
+							+ MatchDb.KEY_DEVICE_ID
+							+ "='"
+							+ AccessSharedPrefs.mPrefs.getString("device_id",
+									"") + "'";
+					Log.d("Debug",
+							"Match id list "
+									+ DiaryMatchesFragment
+											.buildSelectedItemString(
+													match_id_arr, true));
+					ContentValues matchvalues = new ContentValues();
+					matchvalues.put(MatchDb.KEY_SYNCED, 1);
+					getContentResolver().update(
+							CricDeCodeContentProvider.CONTENT_URI_MATCH,
+							matchvalues, selection, null);
+
+					selection = PerformanceDb.KEY_ROWID
+							+ " in ("
+							+ DiaryMatchesFragment.buildSelectedItemString(
+									performance_id_arr, true)
+							+ " ) and "
+							+ PerformanceDb.KEY_DEVICE_ID
+							+ "='"
+							+ AccessSharedPrefs.mPrefs.getString("device_id",
+									"") + "'";
+					Log.d("Debug",
+							"Performance id list "
+									+ DiaryMatchesFragment
+											.buildSelectedItemString(
+													performance_id_arr, true));
+					matchvalues = new ContentValues();
+					matchvalues.put(PerformanceDb.KEY_SYNCED, 1);
+					getContentResolver().update(
+							CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
+							matchvalues, selection, null);
+
+					Log.w("JSON returned", "" + jn.getInt("status"));
 				}
 			} catch (JSONException e) {
-			}			
+			}
 
 		}
 

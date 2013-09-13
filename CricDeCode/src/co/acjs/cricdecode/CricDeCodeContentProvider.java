@@ -210,6 +210,12 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		String table_name, id, d_id;
 
 		switch (uriMatcher.match(uri)) {
+		case MATCH:
+			table_name = MatchDb.SQLITE_TABLE;
+			break;
+		case PERFORMANCE:
+			table_name = PerformanceDb.SQLITE_TABLE;
+			break;
 		case SINGLE_MATCH:
 			table_name = MatchDb.SQLITE_TABLE;
 			id = uri.getPathSegments().get(1);
@@ -260,6 +266,7 @@ public class CricDeCodeContentProvider extends ContentProvider {
 		int updateCount = db.update(table_name, values, selection,
 				selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
+		Log.d("Debug", "Update Successful");
 		return updateCount;
 
 	}
