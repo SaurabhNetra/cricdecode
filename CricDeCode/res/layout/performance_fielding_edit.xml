@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:fadingEdge="none"
-    android:paddingBottom="20dip"
-    android:paddingTop="20dip" >
+    android:paddingBottom="@dimen/scrollview_padding_bottom"
+    android:paddingTop="@dimen/scrollview_padding_top" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,14 +16,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/card_bottom_margin"
+            android:layout_marginLeft="@dimen/card_margin_left"
+            android:layout_marginRight="@dimen/card_margin_right"
             android:background="@drawable/cards_bg"
-            android:paddingBottom="30dip"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="25dip" >
+            android:paddingBottom="@dimen/card_padding_bottom"
+            android:paddingLeft="@dimen/card_padding_left"
+            android:paddingRight="@dimen/card_margin_right"
+            android:paddingTop="@dimen/card_padding_top" >
 
             <LinearLayout
                 android:id="@+id/abt_match"
@@ -38,10 +38,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:paddingBottom="3dp"
-                    android:paddingRight="2dp"
+                    android:paddingBottom="@dimen/venue_padding_bottom"
+                    android:paddingRight="@dimen/venue_padding_right"
                     android:textColor="@color/dark_grey"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/top_txt_size"
                     android:textStyle="italic" />
 
                 <TextView
@@ -49,9 +49,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="@dimen/level_padding_bottom"
                     android:textColor="@color/dark_grey"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/top_txt_size"
                     android:textStyle="bold" />
 
                 <RelativeLayout
@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textColor="@color/dark_grey"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/top_txt_size" />
 
                     <TextView
                         android:id="@+id/overs_limit"
@@ -73,10 +73,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:layout_toRightOf="@+id/overs"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="@dimen/top_ovrs_padding_left"
                         android:text="@string/overs"
                         android:textColor="@color/dark_grey"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/top_txt_size" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
                 android:layout_below="@+id/abt_match"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/top_separator_margin"
                 android:background="@color/faint_grey"
                 android:orientation="vertical" />
 
@@ -105,9 +105,9 @@
                         android:id="@+id/lbl_slip_catches"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/slip_catches"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -116,12 +116,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -132,9 +132,9 @@
                         android:id="@+id/lbl_close_catches"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/close_catches"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -143,12 +143,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -159,9 +159,9 @@
                         android:id="@+id/lbl_circle_catches"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/circle_catches"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -170,12 +170,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -186,9 +186,9 @@
                         android:id="@+id/lbl_deep_catches"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/deep_catches"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -197,12 +197,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -213,9 +213,9 @@
                         android:id="@+id/lbl_circle_runouts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/circle_runouts"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -224,12 +224,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -240,9 +240,9 @@
                         android:id="@+id/lbl_circle_runouts_direct"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/circle_runouts_direct"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -251,12 +251,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -267,9 +267,9 @@
                         android:id="@+id/lbl_deep_runouts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/deep_runouts"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -278,12 +278,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -294,9 +294,9 @@
                         android:id="@+id/lbl_deep_runouts_direct"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/deep_runouts_direct"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -305,12 +305,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -321,9 +321,9 @@
                         android:id="@+id/lbl_stumpings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/stumpings"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -332,7 +332,7 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <TableRow
@@ -345,13 +345,13 @@
                         android:paddingBottom="10dp"
                         android:paddingLeft="10dp"
                         android:text="@string/wkt_keeping"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/per_lbl_txt_size_lower"
                         android:textStyle="bold" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -362,9 +362,9 @@
                         android:id="@+id/lbl_byes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/byes"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -373,7 +373,7 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <TableRow
@@ -386,13 +386,13 @@
                         android:paddingBottom="10dp"
                         android:paddingLeft="10dp"
                         android:text="@string/wkt_keeping"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/per_lbl_txt_size_lower"
                         android:textStyle="bold" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -403,9 +403,9 @@
                         android:id="@+id/lbl_misfields"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/misfields"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -414,12 +414,12 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
 
                 <View
                     android:layout_height="@dimen/separator_height_one_dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/view_separator_margin"
                     android:background="@color/faint_grey" />
 
                 <TableRow
@@ -430,9 +430,9 @@
                         android:id="@+id/lbl_catches_dropped_fielding"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/per_lbl_padding"
                         android:text="@string/catches_dropped_fielding"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
 
                     <EditText
@@ -441,7 +441,7 @@
                         android:layout_height="wrap_content"
                         android:ems="2"
                         android:inputType="number"
-                        android:padding="10dp" />
+                        android:padding="@dimen/per_num_padding" />
                 </TableRow>
             </TableLayout>
         </RelativeLayout>
@@ -465,27 +465,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="3dp"
+                    android:padding="@dimen/date_team_padding"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/cal_txt_size" />
 
                 <TextView
                     android:id="@+id/month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="3dp"
+                    android:padding="@dimen/date_team_padding"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/cal_txt_size" />
 
                 <TextView
                     android:id="@+id/year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="3dp"
+                    android:padding="@dimen/date_team_padding"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/cal_txt_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -503,26 +503,26 @@
                     android:id="@+id/my_team"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
+                    android:padding="@dimen/date_team_padding"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/cal_txt_size" />
 
                 <TextView
                     android:id="@+id/vs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
+                    android:padding="@dimen/date_team_padding"
                     android:text="@string/vs"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/cal_txt_size" />
 
                 <TextView
                     android:id="@+id/opponent_team"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
+                    android:padding="@dimen/date_team_padding"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/cal_txt_size" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

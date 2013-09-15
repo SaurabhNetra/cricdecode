@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:fadingEdge="none"
-    android:paddingBottom="20dip"
-    android:paddingTop="20dip" >
+    android:paddingBottom="@dimen/scrollview_padding_bottom"
+    android:paddingTop="@dimen/scrollview_padding_top" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,15 +16,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
             android:background="@drawable/cards_bg"
             android:orientation="vertical"
-            android:paddingBottom="30dip"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="25dip" >
+            android:paddingBottom="@dimen/padding_bottom"
+            android:paddingLeft="@dimen/padding_left"
+            android:paddingRight="@dimen/padding_right"
+            android:paddingTop="@dimen/padding_top" >
 
             <LinearLayout
                 android:id="@+id/date_of_match_row"
@@ -38,7 +38,7 @@
                     android:id="@+id/lbl_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/lbl_padding"
                     android:text="@string/match_date" />
 
                 <EditText
@@ -50,169 +50,175 @@
                     android:hint="@string/date_format"
                     android:inputType="none"
                     android:onClick="onClick"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp" />
+                    android:paddingBottom="@dimen/padding_bottom"
+                    android:paddingLeft="@dimen/padding_left" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/lbl_my_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/lbl_padding"
                 android:text="@string/my_team" />
 
             <AutoCompleteTextView
                 android:id="@+id/my_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/my_team_margin_bottom"
+                android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="15"
-                android:minWidth="200dp"
-                android:padding="10dp"
+                android:maxLength="@dimen/my_team_maxlength"
+                android:minWidth="@dimen/my_team_min_width"
+                android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/lbl_opponent_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/lbl_padding"
                 android:text="@string/opponent_team" />
 
             <AutoCompleteTextView
                 android:id="@+id/opponent_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/my_team_margin_bottom"
+                android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="15"
-                android:minWidth="200dp"
-                android:padding="10dp"
+                android:maxLength="@dimen/my_team_maxlength"
+                android:minWidth="@dimen/my_team_min_width"
+                android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+               android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/lbl_venue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/lbl_padding"
                 android:text="@string/venue" />
 
             <AutoCompleteTextView
                 android:id="@+id/venue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/my_team_margin_bottom"
+                android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="15"
-                android:minWidth="200dp"
-                android:padding="10dp"
+                android:maxLength="@dimen/my_team_maxlength"
+                android:minWidth="@dimen/my_team_min_width"
+                android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/lbl_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/lbl_padding"
                 android:text="@string/level" />
 
             <Spinner
                 android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/spinner_margin_bottom"
+                android:layout_marginLeft="@dimen/spinner_margin_left"
                 android:entries="@array/level" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+               android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
+
+            <TextView
+                android:id="@+id/lbl_ovrs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lbl_padding"
+                android:text="@string/overs" />
 
             <Spinner
                 android:id="@+id/over_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/spinner_margin_bottom"
+                android:layout_marginLeft="@dimen/spinner_margin_left"
                 android:entries="@array/over_limit" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/lbl_overs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/lbl_padding"
                 android:text="@string/overs" />
 
             <AutoCompleteTextView
                 android:id="@+id/overs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/my_team_margin_bottom"
+                android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:ems="3"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLength="3"
-                android:padding="10dp"
+                android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/lbl_innings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/lbl_padding"
                 android:text="@string/innings" />
 
             <Spinner
                 android:id="@+id/innings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/spinner_margin_bottom"
+                android:layout_marginLeft="@dimen/spinner_margin_left"
                 android:entries="@array/innings" />
         </LinearLayout>
     </RelativeLayout>

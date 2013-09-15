@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="@dimen/margin_bottom"
     android:background="@drawable/cards_bg"
-    android:padding="10dp" >
+    android:padding="@dimen/item_padding" >
 
     <TextView
         android:id="@+id/_id"
@@ -42,25 +42,25 @@
                 android:id="@+id/day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingLeft="@dimen/day_padding_left"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/date_str_txt_size" />
 
             <TextView
                 android:id="@+id/month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
+                android:paddingLeft="@dimen/month_padding_left"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/date_str_txt_size" />
 
             <TextView
                 android:id="@+id/year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="4dp"
+                android:padding="@dimen/yr_padding"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="@dimen/date_str_txt_size" />
         </LinearLayout>
 
         <RelativeLayout
@@ -71,7 +71,7 @@
             android:layout_alignTop="@+id/date_str"
             android:focusable="false"
             android:onClick="onClick"
-            android:padding="5dp" >
+            android:padding="@dimen/add_match_padding" >
 
             <ImageView
                 android:id="@+id/add_img"
