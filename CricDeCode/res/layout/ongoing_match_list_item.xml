@@ -28,7 +28,7 @@
         android:id="@+id/match_date"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark_red" >
+        android:background="@color/faint_grey" >
 
         <LinearLayout
             android:id="@+id/date_str"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/day_padding_left"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/date_str_txt_size" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/month_padding_left"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/date_str_txt_size" />
 
             <TextView
@@ -58,33 +58,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/yr_padding"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/date_str_txt_size" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/add_match_to_career"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:onClick="onClick"
-            android:padding="8dp" >
+            android:onClick="onClick" >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_square_bg"
+            <LinearLayout
+                android:id="@+id/divide"
+                android:layout_width="@dimen/divider_padding"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_red"
+                android:orientation="horizontal" />
+
+            <ImageView
+                android:id="@+id/add_img"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="8dp"
                 android:focusable="false"
-                android:padding="@dimen/add_match_padding" >
-
-                <ImageView
-                    android:id="@+id/add_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/addtohist" />
-            </RelativeLayout>
-        </RelativeLayout>
+                android:padding="@dimen/add_match_padding"
+                android:src="@drawable/addtohist" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -101,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="10dp"
+            android:textColor="@color/dark_red"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -110,7 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="5dp"
-            android:text="@string/vs" />
+            android:text="@string/vs"
+            android:textColor="@color/dark_red" />
 
         <TextView
             android:id="@+id/opponent_team"
@@ -118,6 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="5dp"
+            android:textColor="@color/dark_red"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -127,12 +133,34 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/overs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textColor="@color/dark_grey" />
+
+            <TextView
+                android:id="@+id/overs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/overs"
+                android:textColor="@color/dark_grey" />
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/match_teams" >
+        android:layout_below="@+id/match_teams"
+        android:background="@color/faint_grey" >
 
         <LinearLayout
             android:id="@+id/match_info"
@@ -142,61 +170,40 @@
             android:layout_alignParentLeft="true"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/overs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:textColor="@color/dark_grey" />
-
-                <TextView
-                    android:id="@+id/overs_limit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/overs"
-                    android:textColor="@color/dark_grey" />
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="10dp"                
                 android:textColor="@color/dark_grey"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/delete_ongoing_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:onClick="onClick"
-            android:paddingBottom="8dp"
-            android:paddingRight="8dp" >
+            android:onClick="onClick" >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_square_bg"
-                android:focusable="false"
-                android:padding="3dp" >
+            <LinearLayout
+                android:id="@+id/divide_del"
+                android:layout_width="@dimen/divider_padding"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_red"
+                android:orientation="horizontal" />
 
-                <ImageView
-                    android:id="@+id/del_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/delete" />
-            </RelativeLayout>
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/del_img"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/delete" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

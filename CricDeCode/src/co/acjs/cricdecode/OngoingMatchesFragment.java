@@ -35,7 +35,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class OngoingMatchesFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	static OngoingMatchesFragment ongoingMatchesFragment;
-
 	private SimpleCursorAdapter dataAdapter;
 	RelativeLayout no_matches_created;
 	ListView listView;

@@ -28,7 +28,7 @@
         android:id="@+id/match_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark_red"
+        android:background="@color/faint_grey"
         android:paddingBottom="@dimen/match_date_padding_bottom"
         android:paddingTop="@dimen/match_date_padding_top" >
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/match_date_day_margin_left"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/match_date_text_size" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/match_date_month_margin_left"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/match_date_text_size" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/match_date_day_margin_left"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/match_date_text_size" />
         </LinearLayout>
     </RelativeLayout>
@@ -77,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/my_team_padding_top"
+            android:textColor="@color/dark_red"
             android:textSize="@dimen/team_names_text_size"
             android:textStyle="bold" />
 
@@ -85,13 +86,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vs_padding_top"
-            android:text="@string/vs" />
+            android:text="@string/vs"
+            android:textColor="@color/dark_red" />
 
         <TextView
             android:id="@+id/opponent_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/opponent_padding_top"
+            android:textColor="@color/dark_red"
             android:textSize="@dimen/team_names_text_size"
             android:textStyle="bold" />
 
@@ -101,12 +104,34 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/venue_padding"
             android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/overs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/overs_padding_left"
+                android:textColor="@color/dark_grey" />
+
+            <TextView
+                android:id="@+id/overs_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/overs_txt_padding_left"
+                android:text="@string/overs"
+                android:textColor="@color/dark_grey" />
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/match_teams" >
+        android:layout_below="@+id/match_teams"
+        android:background="@color/faint_grey" >
 
         <LinearLayout
             android:id="@+id/match_info"
@@ -115,27 +140,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/overs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/overs_padding_left"
-                    android:textColor="@color/dark_grey" />
-
-                <TextView
-                    android:id="@+id/overs_limit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/overs_txt_padding_left"
-                    android:text="@string/overs"
-                    android:textColor="@color/dark_grey" />
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/level"
@@ -148,30 +152,30 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/delete_match_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:onClick="onClick"
-            android:paddingBottom="8dp"
-            android:paddingRight="8dp" >
+            android:onClick="onClick" >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_square_bg"
-                android:focusable="false"
-                android:padding="3dp" >
+            <LinearLayout
+                android:id="@+id/divide_del"
+                android:layout_width="@dimen/divider_padding"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_red"
+                android:orientation="horizontal" />
 
-                <ImageView
-                    android:id="@+id/del_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/delete" />
-            </RelativeLayout>
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/del_img"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/delete" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

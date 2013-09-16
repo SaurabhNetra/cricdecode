@@ -34,7 +34,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 	static DiaryMatchesFragment diaryMatchesFragment;
 	RelativeLayout no_matches_added;
 	ListView listView;
-
+	static LoaderManager loader_diary_list;
+	static DiaryMatchesFragment diary_matches_fragment;
 	private SimpleCursorAdapter dataAdapter;
 
 	@Override
@@ -54,6 +55,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 					null, this);
 		}
 		displayListView(view);
+		loader_diary_list = getSherlockActivity().getSupportLoaderManager();
+		diary_matches_fragment=this;
 	}
 
 	@Override

@@ -283,7 +283,7 @@ public class MatchHistorySyncService extends IntentService {
 
 			Log.w("MATCH SYNC", "JSON: " + json.toString());
 			writeToFile(json.toString());
-/*
+
 			int trial = 1;
 			JSONObject jn = null;
 			while (jsonParser.isOnline(this)) {
@@ -300,7 +300,7 @@ public class MatchHistorySyncService extends IntentService {
 				}
 				trial++;
 			}
-			
+
 			try {
 				if (jn != null) {
 					if (jn.getInt("status") == 1)
@@ -354,10 +354,7 @@ public class MatchHistorySyncService extends IntentService {
 				}
 			} catch (JSONException e) {
 			}
-			*/
-
 		}
-
 	}
 
 	private void writeToFile(String data) {
