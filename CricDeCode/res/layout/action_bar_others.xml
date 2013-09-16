@@ -48,7 +48,7 @@
             android:background="@color/transparent"
             android:text="@string/graph"
             android:textColor="@color/white"
-            android:textSize="@dimen/action_bar_text_size" />
+            android:textSize="@dimen/action_bar_text" />
     </RelativeLayout>
 
 </RelativeLayout>

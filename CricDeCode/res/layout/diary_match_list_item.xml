@@ -149,20 +149,28 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/delete_match_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/match_info"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:focusable="false"
-            android:onClick="onClick"
-            android:padding="5dp" >
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp" >
 
-            <ImageView
-                android:id="@+id/del_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/delete" />
+            <RelativeLayout
+                android:id="@+id/delete_match_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_square_bg"
+                android:focusable="false"
+                android:onClick="onClick"
+                android:padding="3dp" >
+
+                <ImageView
+                    android:id="@+id/del_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/delete" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 

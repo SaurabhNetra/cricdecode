@@ -14,18 +14,17 @@ import android.widget.Spinner;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class ProfileEditFragment extends SherlockFragment {
-	static ProfileEditFragment profileEditFragment;
+	static ProfileEditFragment	profileEditFragment;
 
 	// Declare Variables
-	EditText nickname;
-	Spinner role, batting_style, bowling_style;
+	EditText					nickname;
+	Spinner						role, batting_style, bowling_style;
 
 	// Declare Constants
-	static final int RESULT_LOAD_IMAGE = 1;
+	static final int			RESULT_LOAD_IMAGE	= 1;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		profileEditFragment = this;
 		View rootView = inflater.inflate(R.layout.profile_edit, container,
 				false);
@@ -41,6 +40,8 @@ public class ProfileEditFragment extends SherlockFragment {
 		// restoreInstanceState(savedInstanceState);
 		// } else {
 		onProfileEditing();
+
+		((MainActivity) getSherlockActivity()).setPageName(8);
 		// }
 	}
 

@@ -47,7 +47,7 @@
             android:background="@color/transparent"
             android:padding="@dimen/action_bar_text_padding"
             android:textColor="@color/white"
-            android:textSize="@dimen/action_bar_text_size"
+            android:textSize="@dimen/action_bar_text"
             android:visibility="gone" />
     </RelativeLayout>
 

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fadingEdge="none"
+        android:paddingBottom="20dip"
+        android:paddingTop="20dip" >
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TableLayout
+                android:id="@+id/tablelay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_bottom_margin"
+                android:layout_marginLeft="@dimen/card_left_margin"
+                android:layout_marginRight="@dimen/card_right_margin"
+                android:background="@drawable/cards_bg"
+                android:paddingBottom="@dimen/card_bottom_padding"
+                android:paddingLeft="@dimen/card_left_padding"
+                android:paddingTop="@dimen/card_top_padding" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/date_of_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:textSize="16sp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="@dimen/view_separator_margin"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:textSize="20sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="@dimen/view_separator_margin"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/nickname_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:text="Nickname"
+                        android:textColor="@color/light_grey" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:textSize="20sp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="@dimen/view_separator_margin"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/role_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:text="Role"
+                        android:textColor="@color/light_grey" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/role"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:textSize="20sp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="@dimen/view_separator_margin"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/batstyle_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:text="Batting Style"
+                        android:textColor="@color/light_grey" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/batting_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp" />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="@dimen/view_separator_margin"
+                    android:background="@color/faint_grey" />
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/bowlingstyle_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:text="Bowling Style"
+                        android:textColor="@color/light_grey" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/bowling_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp" />
+                </TableRow>
+            </TableLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="158dip"
+        android:layout_height="158dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dip" >
+
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/profile_picture"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:layout_centerInParent="true"
+            android:cropToPadding="true" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/triangle_upper" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            
+            android:src="@drawable/triangle_lower" />
+    </RelativeLayout>
+
+</RelativeLayout>

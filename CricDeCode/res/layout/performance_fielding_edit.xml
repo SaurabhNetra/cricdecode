@@ -342,8 +342,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="10dp"
+                        android:paddingBottom="@dimen/per_lbl_lower_padding_bottom"
+                        android:paddingLeft="@dimen/per_lbl_lower_padding_left"
                         android:text="@string/wkt_keeping"
                         android:textSize="@dimen/per_lbl_txt_size_lower"
                         android:textStyle="bold" />
@@ -383,8 +383,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="10dp"
+                        android:paddingBottom="@dimen/per_lbl_lower_padding_bottom"
+                        android:paddingLeft="@dimen/per_lbl_lower_padding_left"
                         android:text="@string/wkt_keeping"
                         android:textSize="@dimen/per_lbl_txt_size_lower"
                         android:textStyle="bold" />

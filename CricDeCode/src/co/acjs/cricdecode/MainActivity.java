@@ -247,7 +247,6 @@ public class MainActivity extends SherlockFragmentActivity {
 							.getFragment(savedInstanceState,
 									"currentFragmentInstance");
 					tx.setVisibility(View.VISIBLE);
-					tx.setText(R.string.profile);
 
 					break;
 				case CAREER_FRAGMENT:
@@ -1843,14 +1842,11 @@ public class MainActivity extends SherlockFragmentActivity {
 				spinner.setVisibility(View.GONE);
 				tx.setVisibility(View.VISIBLE);
 				tx.setText(R.string.profile);
-
 				break;
-
 			case PROFILE_EDIT:
 				spinner.setVisibility(View.GONE);
 				tx.setVisibility(View.VISIBLE);
 				tx.setText(R.string.profile_edit);
-
 				break;
 			case CAREER_FRAGMENT:
 				spinner.setVisibility(View.GONE);
@@ -1882,10 +1878,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			case PERFORMANCE_FRAGMENT_EDIT:
 				spinner.setVisibility(View.VISIBLE);
 				tx.setVisibility(View.GONE);
+				tx.setText(R.string.profile_edit);
 				break;
 			case PERFORMANCE_FRAGMENT_VIEW:
 				spinner.setVisibility(View.VISIBLE);
 				tx.setVisibility(View.GONE);
+				tx.setText(R.string.profile);
 				break;
 			default:
 				break;

@@ -28,8 +28,28 @@
             android:layout_marginRight="20dip"
             android:background="@drawable/cards_bg"
             android:paddingBottom="30dip"
-            android:paddingLeft="25dip"
-            android:paddingTop="50dip" >
+            android:paddingLeft="20dip"
+            android:paddingRight="20dp"
+            android:paddingTop="20dip" >
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/date_of_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="@dimen/view_separator_margin"
+                android:background="@color/faint_grey" />
 
             <TableRow
                 android:layout_width="wrap_content"
@@ -39,7 +59,9 @@
                     android:id="@+id/fname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
                     android:textSize="20sp" />
             </TableRow>
 
@@ -51,9 +73,31 @@
                     android:id="@+id/lname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="@dimen/view_separator_margin"
+                android:background="@color/faint_grey" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/nickname_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textColor="@color/light_grey"
+                    android:text="Nickname" />
             </TableRow>
 
             <TableRow
@@ -64,8 +108,29 @@
                     android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:textSize="25sp" />
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="@dimen/view_separator_margin"
+                android:background="@color/faint_grey" />
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/role_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textColor="@color/light_grey"
+                    android:text="Role" />
             </TableRow>
 
             <TableRow
@@ -76,9 +141,30 @@
                     android:id="@+id/role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:textSize="20sp"
-                    android:textStyle="italic" />
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="@dimen/view_separator_margin"
+                android:background="@color/faint_grey" />
+            
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/batstyle_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textColor="@color/light_grey"
+                    android:text="Batting Style" />
             </TableRow>
 
             <TableRow
@@ -89,7 +175,29 @@
                     android:id="@+id/batting_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp" />
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp" />
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="@dimen/view_separator_margin"
+                android:background="@color/faint_grey" />
+            
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/bowlingstyle_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp"
+                    android:textColor="@color/light_grey"
+                    android:text="Bowling Style" />
             </TableRow>
 
             <TableRow
@@ -100,18 +208,9 @@
                     android:id="@+id/bowling_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/date_of_birth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="3dp" />
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="3dp" />
             </TableRow>
         </TableLayout>
 

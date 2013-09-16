@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/top_separator"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="@dimen/toggle_margin_top"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:orientation="horizontal" >
@@ -110,10 +110,10 @@
                     android:id="@+id/batted"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="@dimen/toggle_title_margin_right"
+                    android:layout_marginTop="@dimen/toggle_title_margin_top"
                     android:text="@string/batted"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/toggle_title_text_size" />
 
                 <TextView
                     android:id="@+id/toggle_on"
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/batted"
                     android:background="@color/light_grey"
-                    android:padding="8dp"
+                    android:padding="@dimen/toggle_on_padding"
                     android:text="@string/yes"
                     android:textColor="@color/light_grey" />
 
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/toggle_on"
                     android:background="@color/dark_grey"
-                    android:padding="8dp"
+                    android:padding="@dimen/toggle_off_padding"
                     android:text="@string/no"
                     android:textColor="@color/light_grey" />
             </RelativeLayout>
@@ -139,10 +139,10 @@
             <LinearLayout
                 android:id="@+id/line1"
                 android:layout_width="match_parent"
-                android:layout_height="2dip"
+                android:layout_height="@dimen/toggle_line_height"
                 android:layout_below="@+id/bat_toggle_layout"
-                android:layout_margin="10dip"
-                android:background="#282828"
+                android:layout_margin="@dimen/toggle_line_margin"
+                android:background="@color/toggle_line_color"
                 android:orientation="horizontal" />
 
             <TableLayout
@@ -264,8 +264,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="10dp"
+                        android:paddingBottom="@dimen/per_lbl_lower_padding_bottom"
+                        android:paddingLeft="@dimen/per_lbl_lower_padding_left"
                         android:text="@string/time_min"
                         android:textSize="@dimen/per_lbl_txt_size_lower"
                         android:textStyle="bold" />

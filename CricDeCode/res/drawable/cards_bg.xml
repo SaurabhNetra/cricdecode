@@ -6,37 +6,37 @@
         <shape android:shape="rectangle" >
             <solid android:color="@color/light_grey" />
         </shape>
-    </item>
+    </item>
     -->
     <item
-        android:bottom="9dp"
-        android:left="15dp"
-        android:right="9dp"
-        android:top="15dp">
+        android:bottom="@dimen/shadow_padding_bottom"
+        android:left="@dimen/shadow_padding_left"
+        android:right="@dimen/shadow_padding_right"
+        android:top="@dimen/shadow_padding_top">
         <shape android:shape="rectangle" >
-            <corners android:radius="1dp" />
+            <corners android:radius="@dimen/card_radius" />
 
             <solid android:color="@color/light_grey" />
         </shape>
     </item>
     <item
-        android:bottom="12dp"
-        android:left="12dp"
-        android:right="12dp"
-        android:top="12dp">
+        android:bottom="@dimen/darkline_padding_bottom"
+        android:left="@dimen/darkline_padding_left"
+        android:right="@dimen/darkline_padding_right"
+        android:top="@dimen/darkline_padding_top">
         <shape android:shape="rectangle" >
-            <corners android:radius="1dp" />
+            <corners android:radius="@dimen/card_radius" />
 
             <solid android:color="@color/trans_dark_grey" />
         </shape>
     </item>
     <item
-        android:bottom="13dp"
-        android:left="13dp"
-        android:right="13dp"
-        android:top="13dp">
+        android:bottom="@dimen/white_padding_bottom"
+        android:left="@dimen/white_padding_left"
+        android:right="@dimen/white_padding_right"
+        android:top="@dimen/white_padding_top">
         <shape android:shape="rectangle" >
-            <corners android:radius="1dp" />
+            <corners android:radius="@dimen/card_radius" />
 
             <solid android:color="@color/white" />
         </shape>

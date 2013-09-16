@@ -75,7 +75,7 @@
                 android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="@dimen/my_team_maxlength"
+                android:maxLength="10"
                 android:minWidth="@dimen/my_team_min_width"
                 android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />
@@ -101,7 +101,7 @@
                 android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="@dimen/my_team_maxlength"
+                android:maxLength="10"
                 android:minWidth="@dimen/my_team_min_width"
                 android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />
@@ -127,7 +127,7 @@
                 android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:maxLength="@dimen/my_team_maxlength"
+                android:maxLength="10"
                 android:minWidth="@dimen/my_team_min_width"
                 android:padding="@dimen/my_team_padding"
                 android:textColor="@color/abs__primary_text_holo_light" />

@@ -27,15 +27,14 @@
     <RelativeLayout
         android:id="@+id/match_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/dark_red" >
 
         <LinearLayout
             android:id="@+id/date_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:orientation="horizontal" >
 
             <TextView
@@ -64,20 +63,27 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/add_match_to_career"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/date_str"
-            android:focusable="false"
-            android:onClick="onClick"
-            android:padding="@dimen/add_match_padding" >
+            android:layout_alignParentTop="true"
+            android:padding="8dp" >
 
-            <ImageView
-                android:id="@+id/add_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/addtohist" />
+            <RelativeLayout
+                android:id="@+id/add_match_to_career"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_square_bg"
+                android:focusable="false"
+                android:onClick="onClick"
+                android:padding="@dimen/add_match_padding" >
+
+                <ImageView
+                    android:id="@+id/add_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/addtohist" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -168,20 +174,28 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/delete_ongoing_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/match_info"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:focusable="false"
-            android:onClick="onClick"
-            android:padding="5dp" >
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp" >
 
-            <ImageView
-                android:id="@+id/del_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/delete" />
+            <RelativeLayout
+                android:id="@+id/delete_ongoing_match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_square_bg"
+                android:focusable="false"
+                android:onClick="onClick"
+                android:padding="3dp" >
+
+                <ImageView
+                    android:id="@+id/del_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/delete" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 

@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadingEdge="none"
-        android:paddingBottom="20dip"
-        android:paddingTop="20dip" >
+        android:paddingBottom="20dip" >
 
         <RelativeLayout
             android:id="@+id/rl1"
