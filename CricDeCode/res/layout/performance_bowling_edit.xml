@@ -4,7 +4,7 @@
     android:background="@android:color/transparent"
     android:fadingEdge="none"
     android:paddingBottom="@dimen/scrollview_padding_bottom"
-    android:paddingTop="@dimen/scrollview_padding_top" >
+    android:paddingTop="@dimen/per_scrollview_padding_top" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,8 +16,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/card_bottom_margin"
-            android:layout_marginLeft="@dimen/card_margin_left"
-            android:layout_marginRight="@dimen/card_margin_right"
+            android:layout_marginLeft="@dimen/per_card_margin_left"
+            android:layout_marginRight="@dimen/per_card_margin_right"
             android:background="@drawable/cards_bg"
             android:paddingBottom="@dimen/card_padding_bottom"
             android:paddingLeft="@dimen/card_padding_left"

@@ -2,35 +2,40 @@
 <resources>
 
     <dimen name="action_bar_text">12sp</dimen>
+
+    <!-- career -->
     <dimen name="card_left_margin">160dp</dimen>
     <dimen name="card_right_margin">20dp</dimen>
     <dimen name="card_top_margin">20dp</dimen>
     <dimen name="card_bottom_margin">20dp</dimen>
     <dimen name="card_left_padding">25dp</dimen>
     <dimen name="card_top_padding">35dp</dimen>
-    <dimen name="card_bottom_padding">30dp</dimen>
-    <dimen name="filter_scroll_height">140dp</dimen>
-    
-     <!-- card bg -->
+    <dimen name="card_bottom_padding">30dp</dimen>    
+    <dimen name="scrollview_padding_top">0dp</dimen>
 
-    <!--  <dimen name="shadow_padding_left">35dp</dimen>
-    <dimen name="shadow_padding_right">29dp</dimen>
-    <dimen name="shadow_padding_bottom">9dp</dimen>
-    <dimen name="shadow_padding_top">15dp</dimen>
-    <dimen name="darkline_padding_left">32dp</dimen>
-    <dimen name="darkline_padding_right">32dp</dimen>
-    <dimen name="darkline_padding_bottom">12dp</dimen>
-    <dimen name="darkline_padding_top">12dp</dimen>
-    <dimen name="white_padding_left">33dp</dimen>
-    <dimen name="white_padding_right">33dp</dimen>
-    <dimen name="white_padding_bottom">13dp</dimen>
-    <dimen name="white_padding_top">13dp</dimen>
-    <dimen name="card_radius">1dp</dimen>-->
+    <!-- filter general -->
+    <dimen name="filter_scroll_height">140dp</dimen>    
+    <dimen name="filter_margin_left">20dp</dimen>
+    <dimen name="filter_margin_right">20dp</dimen>
 
-    
-    <dimen name="list_margin_left">60dp</dimen>
-    <dimen name="list_margin_right">60dp</dimen>
+    <!-- analysis fragment -->
     <dimen name="analysis_margin_left">60dp</dimen>
     <dimen name="analysis_margin_right">60dp</dimen>
-    <dimen name="scrollview_padding_top">0dp</dimen>
+
+    <!-- list container -->
+    <dimen name="list_margin_left">60dp</dimen>
+    <dimen name="list_margin_right">60dp</dimen>
+
+    <!-- performance view, peformance edit -->
+    <dimen name="per_card_margin_left">60dp</dimen>
+    <dimen name="per_card_margin_right">60dp</dimen>     
+    <dimen name="per_scrollview_padding_top">20dp</dimen>
+
+    <!-- match creation -->
+
+    <dimen name="new_match_card_margin_left">60dp</dimen>
+    <dimen name="new_match_card_margin_right">60dp</dimen>
+    
+    
+
 </resources>

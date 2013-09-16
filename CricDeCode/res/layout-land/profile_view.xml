@@ -8,8 +8,8 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fadingEdge="none"
-        android:paddingBottom="20dip"
-        android:paddingTop="20dip" >
+        android:paddingBottom="@dimen/scrollview_padding_bottom"
+        android:paddingTop="@dimen/scrollview_padding_top" >
 
         <RelativeLayout
             android:id="@+id/rl1"
@@ -239,7 +239,6 @@
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            
             android:src="@drawable/triangle_lower" />
     </RelativeLayout>
 

@@ -4,5 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/suggestion_padding"
-    android:textColor="@color/abs__primary_text_holo_light"
+    android:textColor="@color/black"
     android:textSize="@dimen/suggestion_text_size" />

@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:fadingEdge="none"
-    android:paddingBottom="20dip"
-    android:paddingTop="20dip" >
+    android:paddingBottom="@dimen/scrollview_padding_bottom"
+    android:paddingTop="@dimen/scrollview_padding_top" >
 
     <RelativeLayout
         android:id="@+id/rl1"
@@ -96,8 +96,8 @@
                     android:paddingBottom="3dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="3dp"
-                    android:textColor="@color/light_grey"
-                    android:text="Nickname" />
+                    android:text="Nickname"
+                    android:textColor="@color/light_grey" />
             </TableRow>
 
             <TableRow
@@ -118,6 +118,7 @@
                 android:layout_height="@dimen/separator_height_one_dp"
                 android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
+
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -129,8 +130,8 @@
                     android:paddingBottom="3dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="3dp"
-                    android:textColor="@color/light_grey"
-                    android:text="Role" />
+                    android:text="Role"
+                    android:textColor="@color/light_grey" />
             </TableRow>
 
             <TableRow
@@ -151,7 +152,7 @@
                 android:layout_height="@dimen/separator_height_one_dp"
                 android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
-            
+
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -163,8 +164,8 @@
                     android:paddingBottom="3dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="3dp"
-                    android:textColor="@color/light_grey"
-                    android:text="Batting Style" />
+                    android:text="Batting Style"
+                    android:textColor="@color/light_grey" />
             </TableRow>
 
             <TableRow
@@ -184,7 +185,7 @@
                 android:layout_height="@dimen/separator_height_one_dp"
                 android:layout_margin="@dimen/view_separator_margin"
                 android:background="@color/faint_grey" />
-            
+
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -196,8 +197,8 @@
                     android:paddingBottom="3dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="3dp"
-                    android:textColor="@color/light_grey"
-                    android:text="Bowling Style" />
+                    android:text="Bowling Style"
+                    android:textColor="@color/light_grey" />
             </TableRow>
 
             <TableRow

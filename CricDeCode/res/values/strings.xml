@@ -244,8 +244,8 @@
     <string name="noballs">No Balls</string>
     <string name="wides">Wides</string>
     <string name="wkt_tot">Total</string>
-    <string name="lhb">Left Hand Batsman</string>
-    <string name="rhb">Right Hand Batsman</string>
+    <string name="lhb">Left Hand Bat</string>
+    <string name="rhb">Right Hand Bat</string>
 
     <!-- Fielding -->
 
@@ -308,7 +308,7 @@
 
     <!-- Bowling -->
     <string name="wickets">Wickets</string>
-    <string name="economy_rate">Economy Rate</string>
+    <string name="economy_rate">Economy</string>
     <string name="fwi">5-Wkts</string>
     <string name="twm">10-Wkts</string>
     <string name="bbi">Best Figures</string>

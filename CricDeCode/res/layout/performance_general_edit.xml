@@ -5,7 +5,7 @@
     android:background="@android:color/transparent"
     android:fadingEdge="none"
     android:paddingBottom="@dimen/scrollview_padding_bottom"
-    android:paddingTop="@dimen/scrollview_padding_top" >
+    android:paddingTop="@dimen/per_scrollview_padding_top" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/card_bottom_margin"
-            android:layout_marginLeft="@dimen/card_margin_left"
-            android:layout_marginRight="@dimen/card_margin_right"
+            android:layout_marginLeft="@dimen/per_card_margin_left"
+            android:layout_marginRight="@dimen/per_card_margin_right"
             android:background="@drawable/cards_bg"
             android:paddingBottom="@dimen/card_padding_bottom"
             android:paddingLeft="@dimen/card_padding_left"
@@ -187,25 +187,20 @@
                         android:textSize="@dimen/per_lbl_txt_size"
                         android:textStyle="bold" />
                 </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <EditText
-                        android:id="@+id/match_review"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_span="2"
-                        android:gravity="top|left"
-                        android:inputType="textMultiLine"
-                        android:lines="5"
-                        android:padding="@dimen/per_num_padding"
-                        android:scrollHorizontally="false" />
-                </TableRow>
             </TableLayout>
+
+            <EditText
+                android:id="@+id/match_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tablelay1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:padding="@dimen/per_num_padding"
+                android:scrollHorizontally="false" />
         </RelativeLayout>
 
         <RelativeLayout
