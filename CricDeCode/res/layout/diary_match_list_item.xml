@@ -149,20 +149,20 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/delete_match_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:onClick="onClick"
             android:paddingBottom="8dp"
             android:paddingRight="8dp" >
 
             <RelativeLayout
-                android:id="@+id/delete_match_diary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_square_bg"
                 android:focusable="false"
-                android:onClick="onClick"
                 android:padding="3dp" >
 
                 <ImageView

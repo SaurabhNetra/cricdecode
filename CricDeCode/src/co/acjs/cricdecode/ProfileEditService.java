@@ -72,7 +72,10 @@ public class ProfileEditService extends IntentService {
 					AccessSharedPrefs.setString(this,
 							"ProfileEditServiceCalled",
 							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+			} catch (NullPointerException e) {
 			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

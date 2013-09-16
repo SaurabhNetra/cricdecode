@@ -63,19 +63,19 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/add_match_to_career"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:onClick="onClick"
             android:padding="8dp" >
 
             <RelativeLayout
-                android:id="@+id/add_match_to_career"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_square_bg"
                 android:focusable="false"
-                android:onClick="onClick"
                 android:padding="@dimen/add_match_padding" >
 
                 <ImageView
@@ -174,20 +174,20 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/delete_ongoing_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:onClick="onClick"
             android:paddingBottom="8dp"
             android:paddingRight="8dp" >
 
             <RelativeLayout
-                android:id="@+id/delete_ongoing_match"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_square_bg"
                 android:focusable="false"
-                android:onClick="onClick"
                 android:padding="3dp" >
 
                 <ImageView

@@ -1,5 +1,9 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 public class GCMIntentService extends GCMBaseIntentServiceCompat {
@@ -20,6 +25,24 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 		context = this;
 	}
 
+	private void writeToFile(String data) {
+		try {
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "gcm.txt");
+			FileWriter writer = new FileWriter(gpxfile);
+			writer.write(data);
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
 	@Override
 	protected void onMessage(Intent message) {
 		AccessSharedPrefs.mPrefs = context.getSharedPreferences("CricDeCode",
@@ -28,6 +51,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 		try {
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
 			JSONObject gcmData = new JSONObject(gcmString.toString());
+			writeToFile(gcmString.toString());
+			
 			switch (gcmData.getInt("gcmid")) {
 				case UPDATE_PROFILE_DATA:
 					AccessSharedPrefs.setString(context, "nickname",
@@ -44,8 +69,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 					if (!AccessSharedPrefs.mPrefs.getString("device_id", "")
 							.equals(gcmData.getInt("dev") + "")) {
 						ContentValues values = new ContentValues();
-						values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
-						values.put(MatchDb.KEY_DEVICE_ID, gcmData.getInt("dev"));
+						values.put(MatchDb.KEY_ROWID, Integer.parseInt(gcmData.getString("mid")));
+						values.put(MatchDb.KEY_DEVICE_ID, gcmData.getString("dev"));
 						values.put(MatchDb.KEY_MATCH_DATE,
 								gcmData.getString("dat"));
 						values.put(MatchDb.KEY_MY_TEAM,
@@ -53,8 +78,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						values.put(MatchDb.KEY_OPPONENT_TEAM,
 								gcmData.getString("opp"));
 						values.put(MatchDb.KEY_VENUE, gcmData.getString("ven"));
-						values.put(MatchDb.KEY_OVERS, gcmData.getInt("ovr"));
-						values.put(MatchDb.KEY_INNINGS, gcmData.getInt("inn"));
+						values.put(MatchDb.KEY_OVERS, Integer.parseInt(gcmData.getString("ovr")));
+						values.put(MatchDb.KEY_INNINGS, Integer.parseInt(gcmData.getString("inn")));
 						values.put(MatchDb.KEY_RESULT, gcmData.getString("res"));
 						values.put(MatchDb.KEY_LEVEL, gcmData.getString("lvl"));
 						values.put(MatchDb.KEY_FIRST_ACTION,
@@ -62,7 +87,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						values.put(MatchDb.KEY_DURATION,
 								gcmData.getString("dur"));
 						values.put(MatchDb.KEY_REVIEW, gcmData.getString("rev"));
-						values.put(MatchDb.KEY_STATUS, gcmData.getInt("sts"));
+						values.put(MatchDb.KEY_STATUS, gcmData.getString("sts"));
 						// insert a record
 						getApplicationContext().getContentResolver().insert(
 								CricDeCodeContentProvider.CONTENT_URI_MATCH,
@@ -74,25 +99,25 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 							ContentValues value = new ContentValues();
 
 							value.put(PerformanceDb.KEY_MATCHID,
-									jo.getInt("mid"));
+									Integer.parseInt(jo.getString("mid")));
 							value.put(PerformanceDb.KEY_DEVICE_ID,
-									gcmData.getInt("dev"));
-							value.put(PerformanceDb.KEY_ROWID, jo.getInt("pid"));
+									gcmData.getString("dev"));
+							value.put(PerformanceDb.KEY_ROWID, Integer.parseInt(jo.getString("pid")));
 							value.put(PerformanceDb.KEY_INNING,
-									jo.getInt("inn"));
+									Integer.parseInt(jo.getString("inn")));
 
 							value.put(PerformanceDb.KEY_BAT_NUM,
-									jo.getInt("bn"));
+									Integer.parseInt(jo.getString("bn")));
 							value.put(PerformanceDb.KEY_BAT_RUNS,
-									jo.getInt("br"));
+									Integer.parseInt(jo.getString("br")));
 							value.put(PerformanceDb.KEY_BAT_BALLS,
-									jo.getInt("bb"));
+							Integer.parseInt(jo.getString("bb")));
 							value.put(PerformanceDb.KEY_BAT_TIME,
-									jo.getInt("bt"));
+									Integer.parseInt(jo.getString("bt")));
 							value.put(PerformanceDb.KEY_BAT_FOURS,
-									jo.getInt("bf"));
+									Integer.parseInt(jo.getString("bf")));
 							value.put(PerformanceDb.KEY_BAT_SIXES,
-									jo.getInt("bs"));
+									Integer.parseInt(jo.getString("bs")));
 							value.put(PerformanceDb.KEY_BAT_HOW_OUT,
 									jo.getString("bho"));
 							value.put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
@@ -100,58 +125,58 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 							value.put(PerformanceDb.KEY_BAT_FIELDING_POSITION,
 									jo.getString("bfp"));
 							value.put(PerformanceDb.KEY_BAT_CHANCES,
-									jo.getInt("bc"));
+									Integer.parseInt(jo.getString("bc")));
 
 							value.put(PerformanceDb.KEY_BOWL_BALLS,
-									jo.getInt("ob"));
+									Integer.parseInt(jo.getString("ob")));
 							value.put(PerformanceDb.KEY_BOWL_SPELLS,
-									jo.getInt("osp"));
+									Integer.parseInt(jo.getString("osp")));
 							value.put(PerformanceDb.KEY_BOWL_MAIDENS,
-									jo.getInt("om"));
+									Integer.parseInt(jo.getString("om")));
 							value.put(PerformanceDb.KEY_BOWL_RUNS,
-									jo.getInt("oru"));
+									Integer.parseInt(jo.getString("oru")));
 							value.put(PerformanceDb.KEY_BOWL_FOURS,
-									jo.getInt("of"));
+									Integer.parseInt(jo.getString("of")));
 							value.put(PerformanceDb.KEY_BOWL_SIXES,
-									jo.getInt("osx"));
+									Integer.parseInt(jo.getString("osx")));
 							value.put(PerformanceDb.KEY_BOWL_WKTS_LEFT,
-									jo.getInt("owl"));
+									Integer.parseInt(jo.getString("owl")));
 							value.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-									jo.getInt("owr"));
+									Integer.parseInt(jo.getString("owr")));
 							value.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-									jo.getInt("ocd"));
+									Integer.parseInt(jo.getString("ocd")));
 							value.put(PerformanceDb.KEY_BOWL_NOBALLS,
-									jo.getInt("ono"));
+									Integer.parseInt(jo.getString("ono")));
 							value.put(PerformanceDb.KEY_BOWL_WIDES,
-									jo.getInt("ow"));
+									Integer.parseInt(jo.getString("ow")));
 
 							value.put(PerformanceDb.KEY_FIELD_SLIP_CATCH,
-									jo.getInt("fsc"));
+									Integer.parseInt(jo.getString("fsc")));
 							value.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-									jo.getInt("fco"));
+									Integer.parseInt(jo.getString("fco")));
 							value.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-									jo.getInt("fcc"));
+									Integer.parseInt(jo.getString("fcc")));
 							value.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,
-									jo.getInt("fdc"));
+									Integer.parseInt(jo.getString("fdc")));
 							value.put(PerformanceDb.KEY_FIELD_RO_CIRCLE,
-									jo.getInt("frc"));
+									Integer.parseInt(jo.getString("frc")));
 							value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-									jo.getInt("fci"));
+									Integer.parseInt(jo.getString("fci")));
 							value.put(PerformanceDb.KEY_FIELD_RO_DEEP,
-									jo.getInt("frd"));
+									Integer.parseInt(jo.getString("frd")));
 							value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-									jo.getInt("fdd"));
+									Integer.parseInt(jo.getString("fdd")));
 							value.put(PerformanceDb.KEY_FIELD_STUMPINGS,
-									jo.getInt("fs"));
+									Integer.parseInt(jo.getString("fs")));
 							value.put(PerformanceDb.KEY_FIELD_BYES,
-									jo.getInt("fb"));
+									Integer.parseInt(jo.getString("fb")));
 							value.put(PerformanceDb.KEY_FIELD_MISFIELDS,
-									jo.getInt("fmf"));
+									Integer.parseInt(jo.getString("fmf")));
 							value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
-									jo.getInt("fcd"));
+									jo.getString("fcd"));
 
 							value.put(PerformanceDb.KEY_STATUS,
-									jo.getInt("sts"));
+									jo.getString("sts"));
 
 							getApplicationContext()
 									.getContentResolver()
