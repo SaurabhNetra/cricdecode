@@ -12,11 +12,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class AnalysisFragment extends SherlockFragment {
 
@@ -27,6 +31,7 @@ public class AnalysisFragment extends SherlockFragment {
 
 	int param_pos, param1_sel, param2_sel, param_pie_sel, param_save_count;
 	String XAxis = "", YAxis = "";
+	ImageButton button;
 
 	// XY GRAPH CONSTANTS
 	// PARAM1
@@ -101,6 +106,8 @@ public class AnalysisFragment extends SherlockFragment {
 		graph_param2 = (Spinner) view.findViewById(R.id.graph_param2);
 		graph_param_pie = (Spinner) view.findViewById(R.id.graph_param_pie);
 		line_params = (LinearLayout) view.findViewById(R.id.line_graph_params);
+		button = (ImageButton) ((SherlockFragmentActivity) MainActivity.main_context).getSupportActionBar()
+				.getCustomView().findViewById(R.id.button_menu);
 
 		graph_facet.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -194,11 +201,25 @@ public class AnalysisFragment extends SherlockFragment {
 					line_params.setVisibility(View.VISIBLE);
 					graph_param_pie.setVisibility(View.INVISIBLE);
 					AnalysisFragment.type_sel = 0;
+										button.setImageDrawable(getResources().getDrawable(
+							R.drawable.gen_bar));
+					button.setContentDescription(getResources().getString(
+							R.string.bar_chart));
+					// button.setText(getResources().getString(R.string.filter));
+					((RelativeLayout) ((SherlockFragmentActivity) MainActivity.main_context).findViewById(R.id.rl_button))
+							.setVisibility(View.VISIBLE);
 					break;
 				case PIE_CHART:
 					line_params.setVisibility(View.INVISIBLE);
 					graph_param_pie.setVisibility(View.VISIBLE);
 					AnalysisFragment.type_sel = 1;
+					button.setImageDrawable(getResources().getDrawable(
+							R.drawable.gen_pie));
+					button.setContentDescription(getResources().getString(
+							R.string.pie_chart));
+					// button.setText(getResources().getString(R.string.filter));
+					((RelativeLayout) ((SherlockFragmentActivity) MainActivity.main_context).findViewById(R.id.rl_button))
+							.setVisibility(View.VISIBLE);
 					break;
 				default:
 					break;

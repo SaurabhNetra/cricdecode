@@ -23,6 +23,10 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"MatchHistorySyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
+		boolean NotDeleted = AccessSharedPrefs.mPrefs.getString(
+				"DeleteMatchServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
 		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotSignedIn) {
 			boolean isConnected = isOnline(context);
 			if (isConnected)
@@ -41,6 +45,10 @@ public class ConnectionDetector extends BroadcastReceiver {
 			} else if (NotSignedIn & isConnected) {
 				Log.w("Starting SignInService", "ConnectionDetector");
 				Intent in = new Intent(context, SignInService.class);
+				context.startService(in);
+			} else if (NotDeleted & isConnected) {
+				Log.w("Starting DeleteMatch", "ConnectionDetector");
+				Intent in = new Intent(context, DeleteMatchService.class);
 				context.startService(in);
 			}
 		}

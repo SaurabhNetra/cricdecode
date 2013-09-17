@@ -168,30 +168,6 @@
                 </RelativeLayout>
             </TableRow>
 
-            <View
-                android:layout_height="@dimen/separator_height_one_dp"
-                android:layout_margin="@dimen/view_separator_margin"
-                android:background="@color/faint_grey" />
-
-            <TableRow
-                android:id="@+id/xy_r4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" >
-
-                <Button
-                    android:id="@+id/generate_graph"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/generate_graph_margin_top"
-                    android:layout_span="2"
-                    android:onClick="onClick"
-                    android:padding="@dimen/generate_graph_padding"
-                    android:text="@string/generate_graph"
-                    android:textSize="@dimen/text_size_twenty_sp"
-                    android:textStyle="bold" />
-            </TableRow>
         </TableLayout>
     </RelativeLayout>
 

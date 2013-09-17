@@ -12,6 +12,7 @@
     <string name="initdata">http://cdc.acjs.co/sync/initdata.php</string>
     <string name="edit_profile_sync">http://cdc.acjs.co/sync/upload_profiledata.php</string>
     <string name="match_create_sync">http://cdc.acjs.co/sync/upload_matchcreate.php</string>
+    <string name="match_delete">http://cdc.acjs.co/sync/delete_match.php</string>
 
     <!-- Sign In Service -->
     <string name="projno">899334271790</string>
@@ -326,6 +327,10 @@
     <string name="wkt_keeping">Wicket Keeping</string>
 
     <!-- Analysis -->
+
+    <string name="bar_chart">Generate Bar Chart</string>
+    <string name="pie_chart">Generate Pie Chart</string>
+
     <string-array name="graph_type">
         <item>X-Y plot</item>
         <item>Pie Chart</item>

@@ -7,6 +7,7 @@ public class MatchDb {
 
 	public static final String MATCH_CURRENT = "current";
 	public static final String MATCH_HISTORY = "history";
+	public static final String MATCH_DELETED = "deleted";
 
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_DEVICE_ID = "device_id";

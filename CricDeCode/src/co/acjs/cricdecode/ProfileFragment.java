@@ -38,6 +38,7 @@ public class ProfileFragment extends SherlockFragment {
 				ProfileViewFragment.profileViewFragment = (ProfileViewFragment) getChildFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
+				
 				break;
 			case PROFILE_EDIT_FRAGMENT:
 				ProfileEditFragment.profileEditFragment = (ProfileEditFragment) getChildFragmentManager()

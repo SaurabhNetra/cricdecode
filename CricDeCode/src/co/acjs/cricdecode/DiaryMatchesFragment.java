@@ -8,7 +8,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -56,7 +58,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		}
 		displayListView(view);
 		loader_diary_list = getSherlockActivity().getSupportLoaderManager();
-		diary_matches_fragment=this;
+		diary_matches_fragment = this;
 	}
 
 	@Override
@@ -254,18 +256,42 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		String str = child.getText().toString();
 		child = (TextView) vwParentRow.getChildAt(1);
 		String d_str = child.getText().toString();
-		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + str + "/" + d_str);
-		getSherlockActivity().getContentResolver().delete(uri, null, null);
-		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str
-				+ "/" + d_str);
-		getSherlockActivity().getContentResolver().delete(uri, null, null);
+
+		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
+				+ str + "/" + d_str);
+		ContentValues values = new ContentValues();
+		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_DELETED);
+		getSherlockActivity().getContentResolver().update(uri, values, null,
+				null);
+
+		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/"
+				+ str + "/" + d_str);
+		;
+		ContentValues value = new ContentValues();
+		value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_DELETED);
+		getSherlockActivity().getContentResolver().update(uri, value, null,
+				null);
+
+		AccessSharedPrefs.setString(getSherlockActivity(),
+				"DeleteMatchServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+
+		Intent i = new Intent(MainActivity.main_context,
+				DeleteMatchService.class);
+		i.putExtra("mid", str);
+		i.putExtra("dev", d_str);
+		try {
+			if (DeleteMatchService.started) {
+				MainActivity.main_context.stopService(i);
+				MainActivity.main_context.startService(i);
+			}
+		} catch (NullPointerException e) {
+			MainActivity.main_context.startService(i);
+		}
 
 		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(
 				"CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setInt(getSherlockActivity(), "diaryMatches",
 				AccessSharedPrefs.mPrefs.getInt("diaryMatches", 0) - 1);
-
 		getSherlockActivity().getSupportLoaderManager().restartLoader(0, null,
 				this);
 	}
