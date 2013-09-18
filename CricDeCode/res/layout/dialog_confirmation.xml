@@ -11,24 +11,27 @@
         android:hint="@string/are_you_sure"
         android:padding="@dimen/dialog_padding" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_text"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:weightSum="2" >
 
         <Button
             android:id="@+id/yes"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/yes" />
 
         <Button
             android:id="@+id/no"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/yes"
+            android:layout_weight="1"
             android:text="@string/no" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
