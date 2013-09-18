@@ -109,6 +109,7 @@
     <string name="level">Level</string>
     <string name="duration">Duration</string>
     <string name="first">First</string>
+    <string name="post_to_fb">Post To Facebook</string>
 
     <string-array name="over_limit">
         <item>Limited Overs</item>

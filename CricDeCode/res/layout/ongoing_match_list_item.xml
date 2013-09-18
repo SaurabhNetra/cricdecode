@@ -84,6 +84,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/add_to_career"
                 android:focusable="false"
                 android:padding="@dimen/add_match_padding"
                 android:src="@drawable/addtohist" />
@@ -175,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
-                android:paddingLeft="10dp"                
+                android:paddingLeft="10dp"
                 android:textColor="@color/dark_grey"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -202,6 +203,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/delete"
                 android:src="@drawable/delete" />
         </LinearLayout>
     </RelativeLayout>
