@@ -55,7 +55,6 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphObject;
 import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
 import com.facebook.widget.FacebookDialog;
@@ -1435,6 +1434,15 @@ public class MainActivity extends SherlockFragmentActivity {
 			match.getData().setProperty("my_team", "Team A");
 			match.getData().setProperty("opponent", "Team B");
 			match.getData().setProperty("venue", "some plc");
+			match.getData().setProperty("runs_scored_a", "12");
+			match.getData().setProperty("runs_scored_b", "15");
+			match.getData().setProperty("runs_given_a", "20");
+			match.getData().setProperty("runs_given_b", "14");
+			match.getData().setProperty("wkts_a", "1");
+			match.getData().setProperty("wkts_b", "2");
+			match.getData().setProperty("catches", "1");
+			match.getData().setProperty("run_outs", "1");
+			match.getData().setProperty("stumpings", "1");
 
 			// Set up the object request callback
 			Request.Callback objectCallback = new Request.Callback() {
