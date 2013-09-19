@@ -49,13 +49,13 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
 import com.facebook.widget.FacebookDialog;
 import com.google.ads.AdRequest;
@@ -124,6 +124,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private UiLifecycleHelper uiHelper;
 
 	private Session.StatusCallback callback;
+	protected static String	id;
 
 	static {
 		Log.d("Debug", "Static Initializer");
@@ -1425,11 +1426,71 @@ public class MainActivity extends SherlockFragmentActivity {
 			
 			
 			progressDialog = ProgressDialog.show(this, "", "LOADING..", true);
+			final Thread thread = new Thread() { @Override public void run() {
+				/*
+			Bundle matchParams = new Bundle();
+			matchParams.putString("title", "My match");
+			matchParams.putString("type", "cricdecode:match");
+			matchParams.putString("my_team", "Team A");
+			matchParams.putString("opponent", "Team B");
+			matchParams.putString("venue", "some plc");
+			matchParams.putString("runs_scored_a", "12");
+			matchParams.putString("runs_scored_b", "15");
+			matchParams.putString("runs_given_a", "20");
+			matchParams.putString("runs_given_b", "14");
+			matchParams.putString("wkts_a", "1");
+			matchParams.putString("wkts_b", "2");
+			matchParams.putString("catches", "1");
+			matchParams.putString("run_outs", "1");
+			matchParams.putString("stumpings", "1");
+
+			Request matchRequest = new Request(
+			    Session.getActiveSession(),
+			    "me/objects/cricdecode:match",
+			    matchParams,
+			    HttpMethod.POST
+			);
+			Response matchResponse = matchRequest.executeAndWait();// Log any response error
+			FacebookRequestError matchError = matchResponse.getError();
+			if (matchError != null) {
+				dismissProgressDialog();
+				Log.w("FBShare", "error" + matchError);
+			}
+			// handle the response
+			*/
+			
+			
+			
+			
+			
+			Bundle params = new Bundle();
+			params.putString("match", id);
+			Request request = new Request(
+			    Session.getActiveSession(),
+			    "me/cricdecode:play",
+			    params,
+			    HttpMethod.POST
+			);
+			Response response = request.executeAndWait();
+			// handle the response
+			FacebookRequestError error = response.getError();
+			if (error != null) {
+				Log.d("FB Post Error",error.getErrorMessage());
+			} else {
+				String actionId = null;
+				try {
+					JSONObject graphResponse = response
+							.getGraphObject().getInnerJSONObject();
+					actionId = graphResponse.getString("id");
+				} catch (JSONException e) {
+				}
+				Log.d("FB Post Sucessfull", actionId);
+				progressDialog.dismiss();
+			}}};
 			RequestBatch requestBatch = new RequestBatch();
 
 			OpenGraphObject match = OpenGraphObject.Factory
 					.createForPost("cricdecode:match");
-			match.setType("cricdecode:match");
 			match.setTitle("My match");
 			match.getData().setProperty("my_team", "Team A");
 			match.getData().setProperty("opponent", "Team B");
@@ -1450,10 +1511,18 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onCompleted(Response response) {
 					// Log any response error
+					try {
+						JSONObject graphResponse = response
+								.getGraphObject().getInnerJSONObject();
+						id = graphResponse.getString("id");
+						Log.w("FBShare", "id "+id);
+						thread.start();
+					} catch (JSONException e) {
+					}
 					FacebookRequestError error = response.getError();
 					if (error != null) {
-						dismissProgressDialog();
-						Log.w("FBShare", "error");
+						progressDialog.dismiss();
+						Log.w("FBShare", "error"+error);
 					}
 				}
 			};
@@ -1462,9 +1531,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			objectRequest.setBatchEntryName("objectCreate");
 			requestBatch.add(objectRequest);
 			requestBatch.executeAsync();
-
-			OpenGraphAction playAction = OpenGraphAction.Factory
-					.createForPost();
+			
+/*
+			OpenGraphAction playAction = OpenGraphAction.Factory.createForPost();
+			playAction.setType("cricdecode:play");
 			playAction.setProperty("match", "{result=objectCreate:$.id}");
 
 			// Set up the action request callback
@@ -1502,7 +1572,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			// Add the request to the batch
 			requestBatch.add(actionRequest); 
-
+*/
 			/*
 			 * Bundle postParams = new Bundle(); postParams.putString("name",
 			 * "Facebook SDK for Android"); postParams.putString("caption",
@@ -1534,10 +1604,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		} else {
 
 		}
-	}
-
-	public void dismissProgressDialog() {
-		progressDialog.dismiss();
 	}
 
 	@Override
