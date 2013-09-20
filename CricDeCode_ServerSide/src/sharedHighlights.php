@@ -1,8 +1,12 @@
 <?php
 $title=$_GET['title'];
 $caption=$_GET['caption'];
-$prop=$_GET['prop'];
+$bat=$_GET['bat'];
+$bowl=$_GET['bowl'];
+$field=$_GET['field'];
 echo $title."<br />";
 echo $caption."<br />";
-echo $prop;
+echo $bat."<br />";
+echo $bowl."<br />";
+echo $field."<br />";
 ?>

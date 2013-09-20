@@ -1,8 +1,0 @@
-<?php
-$title=$_POST['title'];
-$caption=$_POST['caption'];
-$prop=$_POST['prop'];
-echo $title."<br />";
-echo $caption."<br />";
-echo $prop;
-?>

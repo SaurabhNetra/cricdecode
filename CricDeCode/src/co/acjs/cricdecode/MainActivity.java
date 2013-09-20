@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -50,16 +47,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
-import com.facebook.FacebookRequestError;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.RequestAsyncTask;
-import com.facebook.RequestBatch;
-import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.model.OpenGraphObject;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
@@ -1413,9 +1403,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	private void publishStory() {
+		String bat="1st Innings 12, 2nd Innings 15",bowl="1st Innings 1/20, 2nd Innings 2/14",field="Catches 1, Run Outs 1, Stumpings 1", match_lvl="International",team_a="India",team_b="Pakistan",venue="Mumbai";
 		Session session = Session.getActiveSession();
 		Log.w("FBShare", "Publish Story");
-
 		if (session != null) {
 			// Check for publish permissions
 			Log.w("FBShare", "Publish Story not null");
@@ -1428,184 +1418,16 @@ public class MainActivity extends SherlockFragmentActivity {
 				Log.w("FBShare", "has permission");
 				return;
 			}
-
-			// progressDialog = ProgressDialog.show(this, "", "LOADING..",
-			// true);
-
-			/*
-			 * final Thread thread = new Thread() {
-			 * 
-			 * @Override public void run() {
-			 * 
-			 * Bundle matchParams = new Bundle(); matchParams.putString("title",
-			 * "My match"); matchParams.putString("picture",
-			 * "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png"
-			 * ); matchParams.putString("type", "cricdecode:match");
-			 * matchParams.putString("my_team", "Team A");
-			 * matchParams.putString("opponent", "Team B");
-			 * matchParams.putString("venue", "some plc");
-			 * matchParams.putString("runs_scored_a", "12");
-			 * matchParams.putString("runs_scored_b", "15");
-			 * matchParams.putString("runs_given_a", "20");
-			 * matchParams.putString("runs_given_b", "14");
-			 * matchParams.putString("wkts_a", "1");
-			 * matchParams.putString("wkts_b", "2");
-			 * matchParams.putString("catches", "1");
-			 * matchParams.putString("run_outs", "1");
-			 * matchParams.putString("stumpings", "1");
-			 * 
-			 * Request matchRequest = new Request( Session.getActiveSession(),
-			 * "me/objects/cricdecode:match", matchParams, HttpMethod.POST);
-			 * Response matchResponse = matchRequest.executeAndWait();
-			 * FacebookRequestError matchError = matchResponse.getError(); if
-			 * (matchError != null) { Log.w("FBShare", "error" + matchError); }
-			 * // handle the response
-			 * 
-			 * Bundle params = new Bundle(); params.putString("match", id);
-			 * Request request = new Request(Session.getActiveSession(),
-			 * "me/cricdecode:play", params, HttpMethod.POST); Response response
-			 * = request.executeAndWait(); // handle the // response
-			 * FacebookRequestError error = response.getError(); if (error !=
-			 * null) { Log.d("FB Post Error", error.getErrorMessage()); } else {
-			 * String actionId = null; try { JSONObject graphResponse = response
-			 * .getGraphObject().getInnerJSONObject(); actionId =
-			 * graphResponse.getString("id"); } catch (JSONException e) { }
-			 * Log.d("FB Post Sucessfull", actionId); } } };
-			 */
-			// RequestBatch requestBatch = new RequestBatch();
-
-			/*
-			 * OpenGraphObject match = OpenGraphObject.Factory
-			 * .createForPost("cricdecode:match"); match.setTitle("My match");
-			 * match.getData().setProperty("my_team", "Team A");
-			 * match.getData().setProperty("opponent", "Team B");
-			 * match.getData().setProperty("venue", "some plc");
-			 * match.getData().setProperty("runs_scored_a", "12");
-			 * match.getData().setProperty("runs_scored_b", "15");
-			 * match.getData().setProperty("runs_given_a", "20");
-			 * match.getData().setProperty("runs_given_b", "14");
-			 * match.getData().setProperty("wkts_a", "1");
-			 * match.getData().setProperty("wkts_b", "2");
-			 * match.getData().setProperty("catches", "1");
-			 * match.getData().setProperty("run_outs", "1");
-			 * match.getData().setProperty("stumpings", "1");
-			 * 
-			 * // Set up the object request callback Request.Callback
-			 * objectCallback = new Request.Callback() {
-			 * 
-			 * @Override public void onCompleted(Response response) { try {
-			 * JSONObject graphResponse = response.getGraphObject()
-			 * .getInnerJSONObject(); id = graphResponse.getString("id");
-			 * Log.w("FBShare", "id " + id); thread.start(); } catch
-			 * (JSONException e) { } FacebookRequestError error =
-			 * response.getError(); if (error != null) {
-			 * progressDialog.dismiss(); Log.w("FBShare", "error" + error); } }
-			 * }; Request objectRequest = Request.newPostOpenGraphObjectRequest(
-			 * Session.getActiveSession(), match, objectCallback);
-			 * objectRequest.setBatchEntryName("objectCreate");
-			 * requestBatch.add(objectRequest); requestBatch.executeAsync();
-			 * 
-			 * /* OpenGraphAction playAction =
-			 * OpenGraphAction.Factory.createForPost();
-			 * playAction.setType("cricdecode:play");
-			 * playAction.setProperty("match", "{result=objectCreate:$.id}");
-			 * 
-			 * // Set up the action request callback Request.Callback
-			 * actionCallback = new Request.Callback() {
-			 * 
-			 * @Override public void onCompleted(Response response) {
-			 * dismissProgressDialog(); FacebookRequestError error =
-			 * response.getError(); if (error != null) { Toast.makeText(
-			 * MainActivity.main_context .getApplicationContext(),
-			 * "Error 1: "+error.getErrorMessage(), Toast.LENGTH_LONG) .show();
-			 * } else { String actionId = null; try { JSONObject graphResponse =
-			 * response .getGraphObject().getInnerJSONObject(); actionId =
-			 * graphResponse.getString("id"); } catch (JSONException e) { }
-			 * Toast.makeText( MainActivity.main_context
-			 * .getApplicationContext(), actionId, Toast.LENGTH_LONG).show(); }
-			 * } };
-			 * 
-			 * // Create the publish action request Request actionRequest =
-			 * Request.newPostOpenGraphObjectRequest(
-			 * Session.getActiveSession(), match, actionCallback);
-			 * 
-			 * // Add the request to the batch requestBatch.add(actionRequest);
-			 */
-			/*--First--
-			 Bundle postParams = new Bundle();
-			 postParams.putString("name", "Facebook SDK for Android");
-			 postParams.putString("caption",
-			 "Build great social apps and get more installs.");
-			 postParams
-			 .putString(
-			 "description",
-			 "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-			 postParams.putString("link",
-			 "https://developers.facebook.com/android");
-			 postParams
-			 .putString("picture",
-			 "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
-			 Request.Callback callback = new Request.Callback() {
-			 public void onCompleted(Response response) {
-
-			 try {
-			 JSONObject graphResponse = response.getGraphObject()
-			 .getInnerJSONObject();
-			 String postId = null;
-			 try {
-			 postId = graphResponse.getString("id");
-			 } catch (JSONException e) {
-			 Log.i("FB Login Error",
-			 "JSON error " + e.getMessage());
-			 }
-			 FacebookRequestError error = response.getError();
-			 if (error != null) {
-			 Toast.makeText(main_context,
-			 error.getErrorMessage(), Toast.LENGTH_SHORT)
-			 .show();
-			 } else {
-			 Toast.makeText(main_context,
-			 "Successfully published to FaceBook",
-			 Toast.LENGTH_LONG).show();
-			 }
-			 } catch (NullPointerException e) {
-			 Toast.makeText(main_context, "No Connection",
-			 Toast.LENGTH_LONG).show();
-			 }
-			 }
-			 };
-			 Request request = new Request(session, "me/feed", postParams,
-			 HttpMethod.POST, callback);
-			 RequestAsyncTask task = new RequestAsyncTask(request);
-			 task.execute();
-
-			 } else {
-
-			 }*/
-
-			String title=String.format("Highlights of %s\'s peformance today!",AccessSharedPrefs.mPrefs.getString("f_name", ""));
-			String caption=String.format("%s match, %s vs %s, at %s","International","India","Pakistan","Banglore");
-			JSONObject j = new JSONObject();
-			try {
-				j.put("Batting Performance", "value 1");
-				j.put("Bowling Performance", "value 2");
-				j.put("Fielding Performance", "value 3");
-				j.put("Match Result", "value 4");
-			} catch (JSONException e) { // TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String properties=j.toString();
+			
+			String title=String.format("Highlights of %s's peformance today!",AccessSharedPrefs.mPrefs.getString("f_name", ""));
+			String caption=String.format("%s match, %s vs %s, at %s",match_lvl,team_a,team_b,venue);
+			String description=String.format("Batting: %s<center/>Bowling: %s<center/>Fielding: %s",bat,bowl,field);
 			Bundle params = new Bundle();
 			params.putString("name",title);
 			params.putString("caption",caption);
-			params.putString("link","www.cdc.acjs.co/sharedHighlights.php?title="+title+"&caption="+caption+"&prop="+properties);
-			
-			// params.putString("name", "Holaa");
-			// params.putString( "decription",
-			// "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps."
-			// );
-			params.putString("properties", properties);
-			params.putString("picture","www.cdc.acjs.co/ic_launcher.png");
+			params.putString("link","www.cdc.acjs.co/sharedHighlights.php?title="+title+"&caption="+caption+"&bat="+bat+"&bowl="+bowl+"&field="+field);
+			params.putString("description", description);
+			params.putString("picture","www.cdc.acjs.co/icon.png");
 
 			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(this,
 					Session.getActiveSession(), params)).setOnCompleteListener(
