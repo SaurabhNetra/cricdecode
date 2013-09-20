@@ -1587,9 +1587,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			String caption=String.format("%s match, %s vs %s, at %s","International","India","Pakistan","Banglore");
 			JSONObject j = new JSONObject();
 			try {
-				j.put("Batting", "value 1");
-				j.put("Bowling", "value 2");
-				j.put("Fielding", "value 3");
+				j.put("Batting Performance", "value 1");
+				j.put("Bowling Performance", "value 2");
+				j.put("Fielding Performance", "value 3");
 				j.put("Match Result", "value 4");
 			} catch (JSONException e) { // TODO Auto-generated catch block
 				e.printStackTrace();
