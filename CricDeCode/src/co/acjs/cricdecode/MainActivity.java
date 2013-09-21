@@ -521,7 +521,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (pendingPublishReauthorization
 				&& state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
 			pendingPublishReauthorization = false;
-			publishStory();
+			String bat="1st Innings 12, 2nd Innings 15",bowl="1st Innings 1/20, 2nd Innings 2/14",field="Catches 1, Run Outs 1, Stumpings 1", match_lvl="International",team_a="India",team_b="Pakistan",venue="Mumbai";
+			publishStory(bat,bowl,field,match_lvl,team_a,team_b,venue);
 		}
 
 	}
@@ -1395,15 +1396,15 @@ public class MainActivity extends SherlockFragmentActivity {
 			dialog.show();
 			break;
 		case R.id.post_to_fb:
-			publishStory();
+			String bat="1st Innings 12, 2nd Innings 15",bowl="1st Innings 1/20, 2nd Innings 2/14",field="Catches 1, Run Outs 1, Stumpings 1", match_lvl="International",team_a="India",team_b="Pakistan",venue="Mumbai";
+			publishStory(bat,bowl,field,match_lvl,team_a,team_b,venue);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private void publishStory() {
-		String bat="1st Innings 12, 2nd Innings 15",bowl="1st Innings 1/20, 2nd Innings 2/14",field="Catches 1, Run Outs 1, Stumpings 1", match_lvl="International",team_a="India",team_b="Pakistan",venue="Mumbai";
+	private void publishStory(String bat,String bowl,String field,String match_lvl,String team_a,String team_b,String venue) {
 		Session session = Session.getActiveSession();
 		Log.w("FBShare", "Publish Story");
 		if (session != null) {
