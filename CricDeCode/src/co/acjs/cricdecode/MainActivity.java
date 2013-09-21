@@ -1418,14 +1418,15 @@ public class MainActivity extends SherlockFragmentActivity {
 				Log.w("FBShare", "has permission");
 				return;
 			}
-			
-			String title=String.format("Highlights of %s's peformance today!",AccessSharedPrefs.mPrefs.getString("f_name", ""));
+			String fname=AccessSharedPrefs.mPrefs.getString("f_name", "");
+					String lname=AccessSharedPrefs.mPrefs.getString("l_name", "");
+			String title=String.format("Highlights of %s's peformance today!",fname);
 			String caption=String.format("%s match, %s vs %s, at %s",match_lvl,team_a,team_b,venue);
 			String description=String.format("Batting: %s<center/>Bowling: %s<center/>Fielding: %s",bat,bowl,field);
 			Bundle params = new Bundle();
 			params.putString("name",title);
 			params.putString("caption",caption);
-			params.putString("link","www.cdc.acjs.co/sharedHighlights.php?title="+title+"&caption="+caption+"&bat="+bat+"&bowl="+bowl+"&field="+field);
+			params.putString("link","www.cdc.acjs.co/sharedHighlights.php?fn="+fname+"&ln="+lname+"&lvl="+match_lvl+"&ta"+team_a+"&tb"+team_b+"&v="+venue+"&bat"+bat+"&bowl="+bowl+"&field="+field);
 			params.putString("description", description);
 			params.putString("picture","www.cdc.acjs.co/icon.png");
 
