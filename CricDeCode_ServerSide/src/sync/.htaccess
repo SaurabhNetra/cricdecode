@@ -1,4 +1,4 @@
-AuthUserFile /.htuyxl
+AuthUserFile /home/acjscwl5/public_html/cdc/.abc/.htuyxl
 AuthType Basic
 AuthName "protected folder"
 Require valid-user
