@@ -335,6 +335,7 @@
                 </TableRow>
 
                 <View
+                    android:id="@+id/extra_line1"
                     android:layout_height="@dimen/separator_height_one_dp"
                     android:layout_margin="8dp"
                     android:background="@color/faint_grey" />

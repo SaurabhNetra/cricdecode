@@ -588,10 +588,14 @@ public class PerformanceFragmentView extends SherlockFragment implements
 						.setVisibility(View.GONE);
 				PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
 						.setVisibility(View.GONE);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line1
+						.setVisibility(View.GONE);
 			} else {
 				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_bowler_type
 						.setVisibility(View.VISIBLE);
 				PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
+						.setVisibility(View.VISIBLE);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line1
 						.setVisibility(View.VISIBLE);
 			}
 			if (str.equals("Caught") || str.equals("Run Out")) {
@@ -599,7 +603,6 @@ public class PerformanceFragmentView extends SherlockFragment implements
 						.setVisibility(View.VISIBLE);
 				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
 						.setVisibility(View.VISIBLE);
-
 				PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
 						.setVisibility(View.VISIBLE);
 			} else {

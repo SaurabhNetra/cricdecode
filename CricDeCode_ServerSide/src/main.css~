@@ -1,0 +1,163 @@
+html {
+	background: url(haze.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#info_l {
+	margin-left: 20%;
+	width: 28%;
+	height: 45%;
+	margin-top: 8%;
+	box-shadow: 10px 10px 5px #888888;
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid;
+}
+
+#info_l_bottom {
+	position: relative;
+	font-style: italic;
+	margin-top: 20%;
+	background-color: #bf2b22;
+	color: #fff;
+	font-size: 0.75em;
+	width: 98%;
+	padding: 1%;
+}
+
+#info_l_top {
+	position: relative;
+	font-size: 2em;
+	color: #bf2b22;
+	text-align: center;
+	margin-top: 1%;
+}
+
+#info_l_mid {
+	position: relative;
+	font-size: 1.5em;
+	color: #bf2b22;
+	text-align: center;
+	margin-top: 1%;
+}
+
+#info_r1 {
+	margin-left: 52%;
+	width: 26%;
+	height: 11%;
+	padding: 0.5%;
+	margin-top: 8%;
+	font-size: 0.75em;
+	color: #aaaaaa;
+	box-shadow: 10px 10px 5px #888888;
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid;
+}
+
+#info_r2 {
+	margin-left: 52%;
+	width: 26%;
+	height: 11%;
+	padding: 0.5%;
+	font-size: 0.75em;
+	color: #aaaaaa;
+	margin-top: 16%;
+	box-shadow: 10px 10px 5px #888888;
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid;
+}
+
+#rule {
+	background-color: #666666;
+}
+
+#per {
+	margin-left: 4%;
+	margin-top: 4%;
+	color: #454545;
+}
+
+#info_r3 {
+	margin-left: 52%;
+	width: 26%;
+	height: 11%;
+	padding: 0.5%;
+	font-size: 0.75em;
+	color: #aaaaaa;
+	margin-top: 24%;
+	box-shadow: 10px 10px 5px #888888;
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid;
+}
+
+#infotop {
+	position: relative;
+	width: 100%;
+	height: 30%;
+	background-color: #cccccc;
+}
+
+#logo {
+	position: absolute;
+	margin-left: 5%;
+	margin-top: 0.1%;
+}
+
+#appname {
+	position: absolute;
+	font-size: 2em;
+	margin-left: 42%;
+	font-weight: bold;
+	color: #ffffff;
+	margin-top: 0.5%;
+}
+
+#bottomCard {
+	margin-left: 20%;
+	width: 57%;
+	height: 15%;
+	margin-top: 35%;
+	box-shadow: 10px 10px 5px #888888;
+	position: absolute;
+	background-color: #fff;
+	border-color: #cccccc;
+	border: 1px solid;
+	color:#555555;
+	padding:2%;
+	font-size:0.8em;
+}
+#getApp {
+	position: absolute;
+	margin-left: 85%;
+	margin-top: 0.1%;
+	background-color:#ffffff;
+	text-decoration:none;
+	font-weight:bold;
+	padding:0.8%;
+	border-radius:5px;
+}
+#topbar {
+	position: absolute;
+	width: 100%;
+	height: 10%;
+	left: 0px;
+	top: 0px;
+	background-color: #bf2b22;
+	/* Safari 4-5, Chrome 1-9 */
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7),
+		to(#bf2b22));
+	/* Safari 5.1, Chrome 10+ */
+	background: -webkit-linear-gradient(top, #f85858, #bf2b22);
+	/* Firefox 3.6+ */
+	background: -moz-linear-gradient(top, #f85858, #bf2b22);
+	/* IE 10 */
+	background: -ms-linear-gradient(top, #f85858, #bf2b22);
+	/* Opera 11.10+ */
+	background: -o-linear-gradient(top, #f85858, #bf2b22);
+}

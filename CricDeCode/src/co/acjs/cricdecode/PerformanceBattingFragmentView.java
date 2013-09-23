@@ -19,7 +19,7 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 			match_overs;
 	TableLayout batting_info;
 
-	View extra_line;
+	View extra_line, extra_line1;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,5 +63,6 @@ public class PerformanceBattingFragmentView extends SherlockFragment {
 		lbl_fielding_pos = (TextView) view.findViewById(R.id.lbl_fielding_pos);
 		fielding_pos = (TextView) view.findViewById(R.id.fielding_pos);
 		extra_line = (View) view.findViewById(R.id.extra_line);
+		extra_line1 = (View) view.findViewById(R.id.extra_line1);
 	}
 }
