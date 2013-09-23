@@ -48,6 +48,10 @@
     <dimen name="lvl_padding_left">10dp</dimen>
     <dimen name="lvl_padding_top">5dp</dimen>
     <dimen name="lvl_padding_bottom">5dp</dimen>
+    <dimen name="divide_margin">5dp</dimen>
+    <dimen name="button_img_width">25dp</dimen>
+    <dimen name="button_img_height">25dp</dimen>
+    <dimen name="button_img_margin">8dp</dimen>
 
     <!-- display graph -->
 

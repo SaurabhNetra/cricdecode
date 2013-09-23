@@ -9,17 +9,18 @@ html {
 #info_l {
 	margin-left: 20%;
 	width: 28%;
-	height: 50%;
+	height: 45%;
 	margin-top: 8%;
 	box-shadow: 10px 10px 5px #888888;
 	position: absolute;
 	background-color: #fff;
+	border: 1px solid;
 }
 
 #info_l_bottom {
 	position: relative;
 	font-style: italic;
-	margin-top: 23%;
+	margin-top: 20%;
 	background-color: #bf2b22;
 	color: #fff;
 	font-size: 0.75em;
@@ -54,6 +55,7 @@ html {
 	box-shadow: 10px 10px 5px #888888;
 	position: absolute;
 	background-color: #fff;
+	border: 1px solid;
 }
 
 #info_r2 {
@@ -67,6 +69,7 @@ html {
 	box-shadow: 10px 10px 5px #888888;
 	position: absolute;
 	background-color: #fff;
+	border: 1px solid;
 }
 
 #rule {
@@ -90,6 +93,7 @@ html {
 	box-shadow: 10px 10px 5px #888888;
 	position: absolute;
 	background-color: #fff;
+	border: 1px solid;
 }
 
 #infotop {
@@ -116,17 +120,28 @@ html {
 
 #bottomCard {
 	margin-left: 20%;
-	width: 60%;
-	height: 25%;
+	width: 57%;
+	height: 15%;
 	margin-top: 35%;
 	box-shadow: 10px 10px 5px #888888;
 	position: absolute;
 	background-color: #fff;
 	border-color: #cccccc;
 	border: 1px solid;
-	border-radius: 25px;
+	color:#555555;
+	padding:2%;
+	font-size:0.8em;
 }
-
+#getApp {
+	position: absolute;
+	margin-left: 75%;
+	margin-top: 0.1%;
+	background-color:#ffffff;
+	text-decoration:none;
+	font-weight:bold;
+	padding:0.8%;
+	border-radius:5px;
+}
 #topbar {
 	position: absolute;
 	width: 100%;

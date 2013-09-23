@@ -36,6 +36,7 @@
             android:id="@+id/date_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:orientation="horizontal" >
 
             <TextView
@@ -62,7 +63,8 @@
                 android:textColor="@color/dark_grey"
                 android:textSize="@dimen/match_date_text_size" />
         </LinearLayout>
-        <LinearLayout
+
+        <LinearLayout
             android:id="@+id/post_to_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,16 +76,16 @@
                 android:id="@+id/divide"
                 android:layout_width="@dimen/divider_padding"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/divide_margin"
+                android:layout_marginTop="@dimen/divide_margin"
                 android:background="@color/light_red"
                 android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/post_to_fb_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="8dp"
+                android:layout_width="@dimen/button_img_width"
+                android:layout_height="@dimen/button_img_height"
+                android:layout_margin="@dimen/button_img_margin"
                 android:contentDescription="@string/post_to_fb"
                 android:focusable="false"
                 android:padding="@dimen/add_match_padding"
@@ -191,16 +193,16 @@
                 android:id="@+id/divide_del"
                 android:layout_width="@dimen/divider_padding"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/divide_margin"
+                android:layout_marginTop="@dimen/divide_margin"
                 android:background="@color/light_red"
                 android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/del_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="8dp"
+                android:layout_width="@dimen/button_img_width"
+                android:layout_height="@dimen/button_img_height"
+                android:layout_margin="@dimen/button_img_margin"
                 android:contentDescription="@string/delete"
                 android:src="@drawable/delete" />
         </LinearLayout>

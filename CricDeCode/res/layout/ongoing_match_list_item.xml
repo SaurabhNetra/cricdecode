@@ -74,16 +74,16 @@
                 android:id="@+id/divide"
                 android:layout_width="@dimen/divider_padding"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/divide_margin"
+                android:layout_marginTop="@dimen/divide_margin"
                 android:background="@color/light_red"
                 android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/add_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="8dp"
+                android:layout_width="@dimen/button_img_width"
+                android:layout_height="@dimen/button_img_height"
+                android:layout_margin="@dimen/button_img_margin"
                 android:contentDescription="@string/add_to_career"
                 android:focusable="false"
                 android:padding="@dimen/add_match_padding"
@@ -104,9 +104,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/my_team_padding_top"
             android:textColor="@color/dark_red"
-            android:textSize="16sp"
+            android:textSize="@dimen/team_names_text_size"
             android:textStyle="bold" />
 
         <TextView
@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="5dp"
+            android:paddingTop="@dimen/vs_padding_top"
             android:text="@string/vs"
             android:textColor="@color/dark_red" />
 
@@ -123,16 +123,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="5dp"
+            android:paddingTop="@dimen/opponent_padding_top"
             android:textColor="@color/dark_red"
-            android:textSize="16sp"
+            android:textSize="@dimen/team_names_text_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="@dimen/venue_padding"
             android:textStyle="italic" />
 
         <LinearLayout
@@ -144,14 +144,14 @@
                 android:id="@+id/overs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingLeft="@dimen/overs_padding_left"
                 android:textColor="@color/dark_grey" />
 
             <TextView
                 android:id="@+id/overs_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingLeft="@dimen/overs_txt_padding_left"
                 android:text="@string/overs"
                 android:textColor="@color/dark_grey" />
         </LinearLayout>
@@ -175,8 +175,9 @@
                 android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
+                android:paddingBottom="@dimen/lvl_padding_bottom"
+                android:paddingLeft="@dimen/lvl_padding_left"
+                android:paddingTop="@dimen/lvl_padding_top"
                 android:textColor="@color/dark_grey"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -193,16 +194,16 @@
                 android:id="@+id/divide_del"
                 android:layout_width="@dimen/divider_padding"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/divide_margin"
+                android:layout_marginTop="@dimen/divide_margin"
                 android:background="@color/light_red"
                 android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/del_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="8dp"
+                android:layout_width="@dimen/button_img_width"
+                android:layout_height="@dimen/button_img_height"
+                android:layout_margin="@dimen/button_img_margin"
                 android:contentDescription="@string/delete"
                 android:src="@drawable/delete" />
         </LinearLayout>
