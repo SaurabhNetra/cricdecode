@@ -1,0 +1,4 @@
+AuthUserFile /.htuyxl
+AuthType Basic
+AuthName "protected folder"
+Require valid-user
