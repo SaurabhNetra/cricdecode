@@ -8,7 +8,7 @@ $nickname = $_POST ['nickname'];
 $battingStyle = $_POST ['battingStyle'];
 $bowlingStyle = $_POST ['bowlingStyle'];
 $role = $_POST ['role'];
-$result = mysql_query ( "SELECT id FROM user_table WHERE id='$id'" );
+$result = mysql_query ( "SELECT id FROM user_table WHERE id='$id'");
 if (mysql_num_rows ( $result ) == 1) {
 	mysql_query ( "UPDATE user_table SET nickname='$nickname', battingStyle='$battingStyle', bowlingStyle='$bowlingStyle',role='$role' WHERE id='$id'" );
 	$SendMsgArr = array (
