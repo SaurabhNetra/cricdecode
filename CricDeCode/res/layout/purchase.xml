@@ -12,7 +12,7 @@
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:id="@+id/pur_subscribe_premium"
+            android:id="@+id/pur_subscribe_infi_sync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -26,13 +26,28 @@
             android:paddingLeft="@dimen/padding_left"
             android:paddingRight="@dimen/padding_right"
             android:paddingTop="@dimen/padding_top" >
+
+            <TextView
+                android:id="@+id/infi_sync_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/infi_sync_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/infi_sync_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/pur_subscribe_premium"
+            android:layout_below="@+id/pur_subscribe_infi_sync"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="2" >
@@ -51,6 +66,21 @@
                 android:paddingLeft="@dimen/padding_left"
                 android:paddingRight="@dimen/padding_right"
                 android:paddingTop="@dimen/padding_top" >
+
+                <TextView
+                    android:id="@+id/infi_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/infi_descr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/infi_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,23 +92,27 @@
                 android:layout_marginRight="@dimen/new_match_card_margin_right"
                 android:layout_weight="1"
                 android:background="@drawable/cards_bg"
+                android:onClick="onClick"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/padding_bottom"
                 android:paddingLeft="@dimen/padding_left"
                 android:paddingRight="@dimen/padding_right"
                 android:paddingTop="@dimen/padding_top" >
-                <TextView 
+
+                <TextView
                     android:id="@+id/remove_ads_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                 <TextView 
+
+                <TextView
                     android:id="@+id/remove_ads_descr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                  <TextView 
+
+                <TextView
                     android:id="@+id/remove_ads_price"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />                
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

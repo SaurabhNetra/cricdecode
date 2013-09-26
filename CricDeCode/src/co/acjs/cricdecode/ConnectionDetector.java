@@ -27,29 +27,58 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"DeleteMatchServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
-		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotSignedIn) {
+		boolean NotAdRemoved = AccessSharedPrefs.mPrefs.getString(
+				"PurchaseAdRemovalServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		boolean NotInfied = AccessSharedPrefs.mPrefs.getString(
+				"PurchaseInfiServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		boolean NotInfiSynced = AccessSharedPrefs.mPrefs.getString(
+				"PurchaseInfiSyncServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced | NotSignedIn) {
 			boolean isConnected = isOnline(context);
 			if (isConnected)
 				Log.w("Connection Detector", "detected");
-			else
-				Log.w("Connection Detector", "no connection");
+			else Log.w("Connection Detector", "no connection");
 
 			if (NotSyncedMatchHistory & isConnected) {
 				Log.w("Starting MatchCreateService", "ConnectionDetector");
-				Intent in = new Intent(context, MatchHistorySyncService.class);
-				context.startService(in);
-			} else if (NotSyncedEditProfile & isConnected) {
+				context.startService(new Intent(context,
+						MatchHistorySyncService.class));
+			}
+			if (NotSyncedEditProfile & isConnected) {
 				Log.w("Starting ProfileEditService", "ConnectionDetector");
-				Intent in = new Intent(context, ProfileEditService.class);
-				context.startService(in);
-			} else if (NotSignedIn & isConnected) {
-				Log.w("Starting SignInService", "ConnectionDetector");
-				Intent in = new Intent(context, SignInService.class);
-				context.startService(in);
-			} else if (NotDeleted & isConnected) {
+				context.startService(new Intent(context,
+						ProfileEditService.class));
+			}
+			if (NotDeleted & isConnected) {
 				Log.w("Starting DeleteMatch", "ConnectionDetector");
-				Intent in = new Intent(context, DeleteMatchService.class);
-				context.startService(in);
+				context.startService(new Intent(context,
+						DeleteMatchService.class));
+			}
+			if (NotAdRemoved & isConnected) {
+				Log.w("Starting PurchasedAdRemovalService",
+						"ConnectionDetector");
+				context.startService(new Intent(context,
+						PurchasedAdRemovalService.class));
+			}
+			if (NotInfied & isConnected) {
+				Log.w("Starting PurchasedInfiService", "ConnectionDetector");
+				context.startService(new Intent(context,
+						PurchasedInfiService.class));
+			}
+			if (NotInfiSynced & isConnected) {
+				Log.w("Starting PurchasedInfiSyncService", "ConnectionDetector");
+				context.startService(new Intent(context,
+						PurchasedInfiSyncService.class));
+			}
+			if (NotSignedIn & isConnected) {
+				Log.w("Starting SignInService", "ConnectionDetector");
+				context.startService(new Intent(context, SignInService.class));
 			}
 		}
 	}

@@ -13,6 +13,9 @@
     <string name="edit_profile_sync">http://www.cdc.acjs.co/sync/upload_profiledata.php</string>
     <string name="match_create_sync">http://cdc.acjs.co/sync/upload_matchcreate.php</string>
     <string name="match_delete">http://cdc.acjs.co/sync/delete_match.php</string>
+    <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
+    <string name="purchase_infi_sync">http://cdc.acjs.co/sync/uPinfi.php</string>
+    <string name="purchase_infi">http://cdc.acjs.co/sync/uPinfiSync.php</string>
 
     <!-- Sign In Service -->
     <string name="projno">899334271790</string>
