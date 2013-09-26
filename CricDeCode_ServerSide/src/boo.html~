@@ -1,0 +1,4 @@
+<form action="cdc.acjs.co/sync/uPremove_ads.php" method="post">
+<input type="text" name="json" />
+<input type="submit" value="Submit">
+</form>
