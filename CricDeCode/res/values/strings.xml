@@ -23,8 +23,9 @@
     <string name="career">Career</string>
     <string name="analysis">Analysis</string>
     <string name="create_new_match">Create New Match</string>
-    <string name="match_diary">Match Diary</string>
-    <string name="ongoing_matches">Ongoing Matches</string>
+    <string name="match_diary">History</string>
+    <string name="ongoing_matches">Matches</string>
+    <string name="buy_schemes">Buy Schemes</string>
     <string name="graph">Graph</string>
 
     <!-- AdMob Constant -->
@@ -41,8 +42,9 @@
         <item>Profile</item>
         <item>Career</item>
         <item>Analysis</item>
-        <item>Match Diary</item>
-        <item>Ongoing Matches</item>
+        <item>History</item>
+        <item>Matches</item>
+        <item>Buy Schemes</item>
     </string-array>
 
     <!-- Profile -->

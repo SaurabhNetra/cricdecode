@@ -46,7 +46,6 @@ public class LogIn extends SherlockActivity {
 		loginButton.setApplicationId(getResources().getString(
 				R.string.fb_app_id));
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
-
 			@Override
 			public void call(Session session, SessionState state, Exception exception) {
 				if (session.isOpened()) {

@@ -25,45 +25,44 @@ import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class PerformanceFragmentView extends SherlockFragment implements
-		ViewPager.OnPageChangeListener {
+public class PerformanceFragmentView extends SherlockFragment implements ViewPager.OnPageChangeListener {
 
-	static PerformanceFragmentView performanceFragmentView;
-	public static final String[] month_str = { "Jan", "Feb", "Mar", "Apr",
-			"May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+	static PerformanceFragmentView	performanceFragmentView;
+	public static final String[]	month_str	= { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 	// Declare Fields
 	// Match
-	Spinner inning_no;
-	private int match_id, innings, current_innings, current_position;
-	private String device_id;
+	Spinner							inning_no;
+	private int						match_id, innings, current_innings,
+			current_position;
+	private String					device_id;
 
 	// General
-	private String result, review, duration, first, my_team, opponent_team,
-			venue, level, day, month, year, match_overs;
+	private String					result, review, duration, first, my_team,
+			opponent_team, venue, level, day, month, year, match_overs;
 
 	// Batting
-	private int[] batting_no = { 1, 1 }, bat_runs, bat_balls, time_spent,
-			bat_fours, bat_sixes, lives;
-	private String[] how_out, bowler_type, fielding_pos;
+	private int[]					batting_no	= { 1, 1 }, bat_runs,
+			bat_balls, time_spent, bat_fours, bat_sixes, lives;
+	private String[]				how_out, bowler_type, fielding_pos;
 
 	// Bowling
-	private int[] spells, maidens, bowl_runs, bowl_fours, bowl_sixes,
-			wkts_left, wkts_right, bowl_catches_dropped, noballs, wides;
-	private float[] overs;
+	private int[]					spells, maidens, bowl_runs, bowl_fours,
+			bowl_sixes, wkts_left, wkts_right, bowl_catches_dropped, noballs,
+			wides;
+	private float[]					overs;
 
 	// Fielding
-	private int[] slip_catches, close_catches, circle_catches, deep_catches,
-			circle_runouts, circle_runouts_direct, deep_runouts,
-			deep_runouts_direct, stumpings, byes, misfields,
-			field_catches_dropped;
+	private int[]					slip_catches, close_catches,
+			circle_catches, deep_catches, circle_runouts,
+			circle_runouts_direct, deep_runouts, deep_runouts_direct,
+			stumpings, byes, misfields, field_catches_dropped;
 
-	ViewPager mViewPager;
-	private CricDeCodePagerAdapter mPagerAdapter;
+	ViewPager						mViewPager;
+	private CricDeCodePagerAdapter	mPagerAdapter;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		performanceFragmentView = this;
 		View view = inflater.inflate(R.layout.performance_fragment, container,
 				false);
@@ -124,8 +123,8 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		} else {
 			spinnerArrayAdapter = new ArrayAdapter<String>(
 					getSherlockActivity(),
-					android.R.layout.simple_spinner_item, new String[] {
-							"1st Innings", "2nd Innings" });
+					android.R.layout.simple_spinner_item,
+					new String[] { "1st Innings", "2nd Innings" });
 		}
 		spinnerArrayAdapter
 				.setDropDownViewResource(R.layout.drop_down_menu_item);
@@ -133,8 +132,7 @@ public class PerformanceFragmentView extends SherlockFragment implements
 		current_innings = 0;
 		inning_no
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> adapterView,
-							View v, int i, long l) {
+					public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l) {
 						if (current_innings != i) {
 							Log.d("Debug", "On Selected Item called");
 							current_innings = i;
@@ -155,45 +153,14 @@ public class PerformanceFragmentView extends SherlockFragment implements
 	}
 
 	public void initFetchFromDb() {
-		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-				+ "/" + match_id + "/" + device_id);
+		Uri uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + match_id + "/" + device_id);
 
-		Cursor c = getSherlockActivity().getContentResolver().query(
-				uri,
-				new String[] { PerformanceDb.KEY_BAT_NUM,
-						PerformanceDb.KEY_BAT_RUNS,
-						PerformanceDb.KEY_BAT_BALLS,
-						PerformanceDb.KEY_BAT_TIME,
-						PerformanceDb.KEY_BAT_FOURS,
-						PerformanceDb.KEY_BAT_SIXES,
-						PerformanceDb.KEY_BAT_HOW_OUT,
-						PerformanceDb.KEY_BAT_BOWLER_TYPE,
-						PerformanceDb.KEY_BAT_FIELDING_POSITION,
-						PerformanceDb.KEY_BAT_CHANCES,
-						PerformanceDb.KEY_BOWL_BALLS,
-						PerformanceDb.KEY_BOWL_SPELLS,
-						PerformanceDb.KEY_BOWL_MAIDENS,
-						PerformanceDb.KEY_BOWL_RUNS,
-						PerformanceDb.KEY_BOWL_FOURS,
-						PerformanceDb.KEY_BOWL_SIXES,
-						PerformanceDb.KEY_BOWL_WKTS_LEFT,
-						PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-						PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-						PerformanceDb.KEY_BOWL_NOBALLS,
-						PerformanceDb.KEY_BOWL_WIDES,
-						PerformanceDb.KEY_FIELD_SLIP_CATCH,
-						PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-						PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-						PerformanceDb.KEY_FIELD_DEEP_CATCH,
-						PerformanceDb.KEY_FIELD_RO_CIRCLE,
-						PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-						PerformanceDb.KEY_FIELD_RO_DEEP,
-						PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-						PerformanceDb.KEY_FIELD_STUMPINGS,
-						PerformanceDb.KEY_FIELD_BYES,
-						PerformanceDb.KEY_FIELD_MISFIELDS,
-						PerformanceDb.KEY_FIELD_CATCHES_DROPPED }, null, null,
-				PerformanceDb.KEY_INNING);
+		Cursor c = getSherlockActivity()
+				.getContentResolver()
+				.query(uri,
+						new String[] { PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_CATCHES_DROPPED },
+						null, null, PerformanceDb.KEY_INNING);
 
 		if (c.getCount() != 0) {
 			Log.d("Debug", "Displaying for db " + c.getCount());
@@ -291,16 +258,13 @@ public class PerformanceFragmentView extends SherlockFragment implements
 			}
 		}
 		c.close();
-		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-				+ match_id + "/" + device_id);
-		c = getSherlockActivity().getContentResolver().query(
-				uri,
-				new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW,
-						MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION,
-						MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM,
-						MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL,
-						MatchDb.KEY_MATCH_DATE, MatchDb.KEY_OVERS }, null,
-				null, null);
+		uri = Uri
+				.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + match_id + "/" + device_id);
+		c = getSherlockActivity()
+				.getContentResolver()
+				.query(uri,
+						new String[] { MatchDb.KEY_RESULT, MatchDb.KEY_REVIEW, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_OVERS },
+						null, null, null);
 		c.moveToFirst();
 		result = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT));
 		review = c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_REVIEW));
@@ -487,8 +451,8 @@ public class PerformanceFragmentView extends SherlockFragment implements
 
 			@Override
 			public void onPageSelected(int position) {
-				Log.d("PerformanceFragmentView", "**** onPageSelected = "
-						+ position);
+				Log.d("PerformanceFragmentView",
+						"**** onPageSelected = " + position);
 				current_position = position;
 				MainActivity.changeTabLayout(position);
 			}
@@ -508,229 +472,228 @@ public class PerformanceFragmentView extends SherlockFragment implements
 	public void viewInfo(int tab_index) {
 		Log.d("Debug", "On View Info called " + tab_index);
 		switch (tab_index) {
-		case PerformanceFragmentEdit.GENERAL:
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_result
-					.setText(result);
-			if (review.equals("")) {
-				PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
-						.setText("LEFT BLANK");
-			} else {
-				PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
-						.setText(review);
-			}
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.first
-					.setText(first);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.duration
-					.setText(duration);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.my_team
-					.setText(my_team);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.opponent_team
-					.setText(opponent_team);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.venue
-					.setText(venue);
+			case PerformanceFragmentEdit.GENERAL:
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_result
+						.setText(result);
+				if (review.equals("")) {
+					PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
+							.setText("LEFT BLANK");
+				} else {
+					PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_review
+							.setText(review);
+				}
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.first
+						.setText(first);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.duration
+						.setText(duration);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.my_team
+						.setText(my_team);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.opponent_team
+						.setText(opponent_team);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.venue
+						.setText(venue);
 
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.day
-					.setText(day);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.month
-					.setText(month);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.year
-					.setText(year);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.day
+						.setText(day);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.month
+						.setText(month);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.year
+						.setText(year);
 
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.level
-					.setText(level);
-			PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_overs
-					.setText(match_overs);
-			break;
-		case PerformanceFragmentEdit.BATTING:
-			PerformanceBattingFragmentView.performanceBattingFragmentView.my_team
-					.setText(my_team);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.opponent_team
-					.setText(opponent_team);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.venue
-					.setText(venue);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.day
-					.setText(day);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.month
-					.setText(month);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.year
-					.setText(year);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.level
-					.setText(level);
-			PerformanceBattingFragmentView.performanceBattingFragmentView.match_overs
-					.setText(match_overs);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.level
+						.setText(level);
+				PerformanceGeneralFragmentView.performanceGeneralFragmentView.match_overs
+						.setText(match_overs);
+				break;
+			case PerformanceFragmentEdit.BATTING:
+				PerformanceBattingFragmentView.performanceBattingFragmentView.my_team
+						.setText(my_team);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.opponent_team
+						.setText(opponent_team);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.venue
+						.setText(venue);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.day
+						.setText(day);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.month
+						.setText(month);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.year
+						.setText(year);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.level
+						.setText(level);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.match_overs
+						.setText(match_overs);
 
-			PerformanceBattingFragmentView.performanceBattingFragmentView.batting_no
-					.setText(batting_no[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.runs
-					.setText(bat_runs[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.balls
-					.setText(bat_balls[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.time_spent
-					.setText(time_spent[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.fours
-					.setText(bat_fours[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.sixes
-					.setText(bat_sixes[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.lives
-					.setText(lives[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.how_out
-					.setText(how_out[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
-					.setText(bowler_type[current_innings] + "");
-			PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
-					.setText(fielding_pos[current_innings] + "");
-			String str = how_out[current_innings] + "";
-			if (str.equals("Not Out") || str.equals("Retired")
-					|| str.equals("Timed Out")
-					|| str.equals("Obstructing the Field")
-					|| str.equals("Run Out")) {
-				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_bowler_type
-						.setVisibility(View.GONE);
+				PerformanceBattingFragmentView.performanceBattingFragmentView.batting_no
+						.setText(batting_no[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.runs
+						.setText(bat_runs[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.balls
+						.setText(bat_balls[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.time_spent
+						.setText(time_spent[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.fours
+						.setText(bat_fours[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.sixes
+						.setText(bat_sixes[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.lives
+						.setText(lives[current_innings] + "");
+				PerformanceBattingFragmentView.performanceBattingFragmentView.how_out
+						.setText(how_out[current_innings] + "");
 				PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
-						.setVisibility(View.GONE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line1
-						.setVisibility(View.GONE);
-			} else {
-				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_bowler_type
-						.setVisibility(View.VISIBLE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
-						.setVisibility(View.VISIBLE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line1
-						.setVisibility(View.VISIBLE);
-			}
-			if (str.equals("Caught") || str.equals("Run Out")) {
-				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_fielding_pos
-						.setVisibility(View.VISIBLE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
-						.setVisibility(View.VISIBLE);
+						.setText(bowler_type[current_innings] + "");
 				PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
-						.setVisibility(View.VISIBLE);
-			} else {
-				PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_fielding_pos
-						.setVisibility(View.GONE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
-						.setVisibility(View.GONE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
-						.setVisibility(View.GONE);
+						.setText(fielding_pos[current_innings] + "");
+				String str = how_out[current_innings] + "";
+				if (str.equals("Not Out") || str.equals("Retired") || str
+						.equals("Timed Out") || str
+						.equals("Obstructing the Field") || str
+						.equals("Run Out")) {
+					PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_bowler_type
+							.setVisibility(View.GONE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
+							.setVisibility(View.GONE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line1
+							.setVisibility(View.GONE);
+				} else {
+					PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_bowler_type
+							.setVisibility(View.VISIBLE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.bowler_type
+							.setVisibility(View.VISIBLE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line1
+							.setVisibility(View.VISIBLE);
+				}
+				if (str.equals("Caught") || str.equals("Run Out")) {
+					PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_fielding_pos
+							.setVisibility(View.VISIBLE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
+							.setVisibility(View.VISIBLE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
+							.setVisibility(View.VISIBLE);
+				} else {
+					PerformanceBattingFragmentView.performanceBattingFragmentView.lbl_fielding_pos
+							.setVisibility(View.GONE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.fielding_pos
+							.setVisibility(View.GONE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.extra_line
+							.setVisibility(View.GONE);
 
-			}
-			if (PerformanceBattingFragmentView.performanceBattingFragmentView.how_out
-					.getText().toString().equals("Not Out")
-					&& PerformanceBattingFragmentView.performanceBattingFragmentView.balls
-							.getText().toString().equals("0")) {
-				PerformanceBattingFragmentView.performanceBattingFragmentView.batting_info
-						.setVisibility(View.GONE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.batted
-						.setVisibility(View.VISIBLE);
-			} else {
-				PerformanceBattingFragmentView.performanceBattingFragmentView.batting_info
-						.setVisibility(View.VISIBLE);
-				PerformanceBattingFragmentView.performanceBattingFragmentView.batted
-						.setVisibility(View.GONE);
-			}
-			break;
-		case PerformanceFragmentEdit.BOWLING:
+				}
+				if (PerformanceBattingFragmentView.performanceBattingFragmentView.how_out
+						.getText().toString().equals("Not Out") && PerformanceBattingFragmentView.performanceBattingFragmentView.balls
+						.getText().toString().equals("0")) {
+					PerformanceBattingFragmentView.performanceBattingFragmentView.batting_info
+							.setVisibility(View.GONE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.batted
+							.setVisibility(View.VISIBLE);
+				} else {
+					PerformanceBattingFragmentView.performanceBattingFragmentView.batting_info
+							.setVisibility(View.VISIBLE);
+					PerformanceBattingFragmentView.performanceBattingFragmentView.batted
+							.setVisibility(View.GONE);
+				}
+				break;
+			case PerformanceFragmentEdit.BOWLING:
 
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.my_team
-					.setText(my_team);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.opponent_team
-					.setText(opponent_team);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.venue
-					.setText(venue);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.day
-					.setText(day);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.month
-					.setText(month);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.year
-					.setText(year);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.level
-					.setText(level);
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.match_overs
-					.setText(match_overs);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.my_team
+						.setText(my_team);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.opponent_team
+						.setText(opponent_team);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.venue
+						.setText(venue);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.day
+						.setText(day);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.month
+						.setText(month);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.year
+						.setText(year);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.level
+						.setText(level);
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.match_overs
+						.setText(match_overs);
 
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.overs
-					.setText(overs[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.spells
-					.setText(spells[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.maidens
-					.setText(maidens[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.runs
-					.setText(bowl_runs[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.fours
-					.setText(bowl_fours[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.sixes
-					.setText(bowl_sixes[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.wkts_left
-					.setText(wkts_left[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.wkts_right
-					.setText(wkts_right[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.catches_dropped
-					.setText(bowl_catches_dropped[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.noballs
-					.setText(noballs[current_innings] + "");
-			PerformanceBowlingFragmentView.performanceBowlingFragmentView.wides
-					.setText(wides[current_innings] + "");
-			Log.d("Debug", " overs Innings" + current_innings + " "
-					+ overs[current_innings]);
-			if (overs[current_innings] == 0.0f) {
-				Log.d("Debug", " In zero overs");
-				PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowling_info
-						.setVisibility(View.GONE);
-				PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowled
-						.setVisibility(View.VISIBLE);
-			} else {
-				PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowling_info
-						.setVisibility(View.VISIBLE);
-				PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowled
-						.setVisibility(View.GONE);
-			}
-			break;
-		case PerformanceFragmentEdit.FIELDING:
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.overs
+						.setText(overs[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.spells
+						.setText(spells[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.maidens
+						.setText(maidens[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.runs
+						.setText(bowl_runs[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.fours
+						.setText(bowl_fours[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.sixes
+						.setText(bowl_sixes[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.wkts_left
+						.setText(wkts_left[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.wkts_right
+						.setText(wkts_right[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.catches_dropped
+						.setText(bowl_catches_dropped[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.noballs
+						.setText(noballs[current_innings] + "");
+				PerformanceBowlingFragmentView.performanceBowlingFragmentView.wides
+						.setText(wides[current_innings] + "");
+				Log.d("Debug",
+						" overs Innings" + current_innings + " " + overs[current_innings]);
+				if (overs[current_innings] == 0.0f) {
+					Log.d("Debug", " In zero overs");
+					PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowling_info
+							.setVisibility(View.GONE);
+					PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowled
+							.setVisibility(View.VISIBLE);
+				} else {
+					PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowling_info
+							.setVisibility(View.VISIBLE);
+					PerformanceBowlingFragmentView.performanceBowlingFragmentView.bowled
+							.setVisibility(View.GONE);
+				}
+				break;
+			case PerformanceFragmentEdit.FIELDING:
 
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.my_team
-					.setText(my_team);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.opponent_team
-					.setText(opponent_team);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.venue
-					.setText(venue);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.day
-					.setText(day);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.month
-					.setText(month);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.year
-					.setText(year);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.level
-					.setText(level);
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.match_overs
-					.setText(match_overs);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.my_team
+						.setText(my_team);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.opponent_team
+						.setText(opponent_team);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.venue
+						.setText(venue);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.day
+						.setText(day);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.month
+						.setText(month);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.year
+						.setText(year);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.level
+						.setText(level);
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.match_overs
+						.setText(match_overs);
 
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.slip_catches
-					.setText(slip_catches[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.close_catches
-					.setText(close_catches[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.circle_catches
-					.setText(circle_catches[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.deep_catches
-					.setText(deep_catches[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.circle_runouts
-					.setText(circle_runouts[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.circle_runouts_direct
-					.setText(circle_runouts_direct[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.deep_runouts
-					.setText(deep_runouts[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.deep_runouts_direct
-					.setText(deep_runouts_direct[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.stumpings
-					.setText(stumpings[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.byes
-					.setText(byes[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.misfields
-					.setText(misfields[current_innings] + "");
-			PerformanceFieldingFragmentView.performanceFieldingFragmentView.catches_dropped
-					.setText(field_catches_dropped[current_innings] + "");
-			break;
-		default:
-			break;
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.slip_catches
+						.setText(slip_catches[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.close_catches
+						.setText(close_catches[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.circle_catches
+						.setText(circle_catches[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.deep_catches
+						.setText(deep_catches[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.circle_runouts
+						.setText(circle_runouts[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.circle_runouts_direct
+						.setText(circle_runouts_direct[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.deep_runouts
+						.setText(deep_runouts[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.deep_runouts_direct
+						.setText(deep_runouts_direct[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.stumpings
+						.setText(stumpings[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.byes
+						.setText(byes[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.misfields
+						.setText(misfields[current_innings] + "");
+				PerformanceFieldingFragmentView.performanceFieldingFragmentView.catches_dropped
+						.setText(field_catches_dropped[current_innings] + "");
+				break;
+			default:
+				break;
 		}
 		Log.d("Debug", "On View info Finished");
 	}
@@ -743,20 +706,16 @@ public class PerformanceFragmentView extends SherlockFragment implements
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
 
 	}
-
 }
