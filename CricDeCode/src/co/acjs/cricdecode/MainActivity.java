@@ -1575,8 +1575,17 @@ public class MainActivity extends SherlockFragmentActivity {
 					digest = md.digest().toString();
 				} catch (Exception e) {
 				}
+				try
+				{
+				if(mHelper!=null)
+					mHelper.flagEndAsync();				
 				mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
 						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, digest);
+				}
+				catch(Exception e)
+				{
+					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.pur_subscribe_infi:
 				MessageDigest md1;
@@ -1588,8 +1597,17 @@ public class MainActivity extends SherlockFragmentActivity {
 					digest = md1.digest().toString();
 				} catch (Exception e) {
 				}
+				try
+				{
+				if(mHelper!=null)
+					mHelper.flagEndAsync();
 				mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI,
 						PURCHASE_INFI, mPurchaseFinishedListener, digest);
+				}
+				catch(Exception e)
+				{
+					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.pur_subscribe_infi_sync:
 				MessageDigest md2;
@@ -1601,8 +1619,17 @@ public class MainActivity extends SherlockFragmentActivity {
 					digest = md2.digest().toString();
 				} catch (Exception e) {
 				}
+				try
+				{
+				if(mHelper!=null)
+					mHelper.flagEndAsync();
 				mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC,
 						PURCHASE_INFI_SYNC, mPurchaseFinishedListener, digest);
+				}
+				catch(Exception e)
+				{
+					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+				}
 				break;
 			default:
 				break;
