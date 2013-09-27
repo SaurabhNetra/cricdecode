@@ -46,7 +46,7 @@ public class PurchasedAdRemovalService extends IntentService {
 			params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs
 					.getString("pur_ad_data", "")));
 			Log.w("Sending User Data...",
-					"ProfileEditService:" + jsonParser.isOnline(this));
+					"PurchaseAdRemovalServiceCalled:" + jsonParser.isOnline(this));
 			int trial = 1;
 			JSONObject jn = null;
 			while (jsonParser.isOnline(this)) {
@@ -63,6 +63,7 @@ public class PurchasedAdRemovalService extends IntentService {
 				trial++;
 			}
 			try {
+				Log.w("PurchaseAdRemovalServiceCalled","Reply"+jn);
 				if (jn.getInt("status") == 1) {
 					AccessSharedPrefs.setString(this,
 							"PurchaseAdRemovalServiceCalled",

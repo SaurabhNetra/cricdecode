@@ -13,6 +13,14 @@ $result = file_get_contents ( $urlToSend, false, null );
 $reply=json_decode($result,true);
 $init_ts=$reply['initiationTimestampMsec'];
 $valid_until_ts=$reply['validUntilTimestampMsec'];
+$cnt=mysql_query("SELECT * FROM sub_infi WHERE order_id = '$order_id'");
+if(mysql_num_rows($cnt)==0)
+{
 mysql_query("INSERT INTO sub_infi VALUES('$id','$order_id','$token','$sign',$init_ts,$valid_until_ts)");
+}
+$ax = array (
+		"status" => 1
+);
+echo str_replace ( "\\", "", json_encode ( $ax ) );
 ?>
 

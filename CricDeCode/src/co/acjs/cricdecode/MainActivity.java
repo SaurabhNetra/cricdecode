@@ -254,6 +254,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
 			public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+				Log.w("MainActivity","Purchase Test: on purchase listener 1");
 				MessageDigest md;
 				String digest = "";
 				try {
@@ -277,7 +278,9 @@ public class MainActivity extends SherlockFragmentActivity {
 					} catch (JSONException e) {
 					}
 					Intent intent = null;
-					if (purchase.getSku().equals(SKU_REMOVE_ADS)) {
+					//if (purchase.getSku().equals(SKU_REMOVE_ADS)) {
+					if (purchase.getSku().equals("android.test.purchased")) {
+Log.w("MainActivity","Purchase Test: on purchase listener 2");
 						AccessSharedPrefs.setString(main_context,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.NEEDS_TO_BE_CALLED);
@@ -309,6 +312,7 @@ public class MainActivity extends SherlockFragmentActivity {
 						intent = new Intent(main_context,
 								PurchasedInfiSyncService.class);
 					}
+					Log.w("MainActivity","Purchase Test: on purchase listener starting service");
 					main_context.startService(intent);
 				}
 			}
@@ -1578,9 +1582,12 @@ public class MainActivity extends SherlockFragmentActivity {
 				try
 				{
 				if(mHelper!=null)
-					mHelper.flagEndAsync();				
-				mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
-						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, digest);
+					mHelper.flagEndAsync();	
+				Log.w("MainActivity","Purchase Test: on click");
+				//mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
+				//		PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, digest);				
+				mHelper.launchPurchaseFlow(this, "android.test.purchased",
+								PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, digest);
 				}
 				catch(Exception e)
 				{
