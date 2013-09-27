@@ -174,6 +174,20 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		return true;
 	}
+	
+	String getMD5(){
+		MessageDigest md;
+		String digest = "";
+		try {
+			md = MessageDigest.getInstance("MD5");
+			byte[] stream = AccessSharedPrefs.mPrefs
+					.getString("id", "").getBytes("UTF-8");
+			md.update(stream);
+			digest = md.digest().toString();
+		} catch (Exception e) {
+		}
+		return digest;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -255,20 +269,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
 			public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 				Log.w("MainActivity","Purchase Test: on purchase listener 1");
-				MessageDigest md;
-				String digest = "";
-				try {
-					md = MessageDigest.getInstance("MD5");
-					byte[] stream = AccessSharedPrefs.mPrefs
-							.getString("id", "").getBytes("UTF-8");
-					md.update(stream);
-					digest = md.digest().toString();
-				} catch (Exception e) {
-				}
 				if (result.isFailure()) {
 					Log.w("onPurchase", "Error purchasing: " + result);
 					return;
-				} else if ((purchase.getPurchaseState() == 0) & (digest
+				} else if ((purchase.getPurchaseState() == 0) & (getMD5()
 						.equals(purchase.getDeveloperPayload()))) {
 					JSONObject jo = new JSONObject();
 					try {
@@ -278,9 +282,8 @@ public class MainActivity extends SherlockFragmentActivity {
 					} catch (JSONException e) {
 					}
 					Intent intent = null;
-					//if (purchase.getSku().equals(SKU_REMOVE_ADS)) {
-					if (purchase.getSku().equals("android.test.purchased")) {
-Log.w("MainActivity","Purchase Test: on purchase listener 2");
+					if (purchase.getSku().equals(SKU_REMOVE_ADS)) {
+						Log.w("MainActivity","Purchase Test: on purchase listener 2");
 						AccessSharedPrefs.setString(main_context,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.NEEDS_TO_BE_CALLED);
@@ -1357,7 +1360,6 @@ Log.w("MainActivity","Purchase Test: on purchase listener 2");
 	public void onClick(View view) {
 		final Dialog dialog;
 		final View finalview;
-		String digest = "";
 		switch (view.getId()) {
 
 		// On Off Button Layout Click Handled Here
@@ -1570,24 +1572,13 @@ Log.w("MainActivity","Purchase Test: on purchase listener 2");
 				publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue);
 				break;
 			case R.id.pur_remove_ads:
-				MessageDigest md;
-				try {
-					md = MessageDigest.getInstance("MD5");
-					byte[] stream = AccessSharedPrefs.mPrefs
-							.getString("id", "").getBytes("UTF-8");
-					md.update(stream);
-					digest = md.digest().toString();
-				} catch (Exception e) {
-				}
 				try
 				{
 				if(mHelper!=null)
 					mHelper.flagEndAsync();	
 				Log.w("MainActivity","Purchase Test: on click");
-				//mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
-				//		PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, digest);				
-				mHelper.launchPurchaseFlow(this, "android.test.purchased",
-								PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, digest);
+				mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
+						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
 				}
 				catch(Exception e)
 				{
@@ -1595,21 +1586,12 @@ Log.w("MainActivity","Purchase Test: on purchase listener 2");
 				}
 				break;
 			case R.id.pur_subscribe_infi:
-				MessageDigest md1;
-				try {
-					md1 = MessageDigest.getInstance("MD5");
-					byte[] stream = AccessSharedPrefs.mPrefs
-							.getString("id", "").getBytes("UTF-8");
-					md1.update(stream);
-					digest = md1.digest().toString();
-				} catch (Exception e) {
-				}
 				try
 				{
 				if(mHelper!=null)
 					mHelper.flagEndAsync();
 				mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI,
-						PURCHASE_INFI, mPurchaseFinishedListener, digest);
+						PURCHASE_INFI, mPurchaseFinishedListener, getMD5());
 				}
 				catch(Exception e)
 				{
@@ -1617,21 +1599,12 @@ Log.w("MainActivity","Purchase Test: on purchase listener 2");
 				}
 				break;
 			case R.id.pur_subscribe_infi_sync:
-				MessageDigest md2;
-				try {
-					md2 = MessageDigest.getInstance("MD5");
-					byte[] stream = AccessSharedPrefs.mPrefs
-							.getString("id", "").getBytes("UTF-8");
-					md2.update(stream);
-					digest = md2.digest().toString();
-				} catch (Exception e) {
-				}
 				try
 				{
 				if(mHelper!=null)
 					mHelper.flagEndAsync();
 				mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC,
-						PURCHASE_INFI_SYNC, mPurchaseFinishedListener, digest);
+						PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
 				}
 				catch(Exception e)
 				{
