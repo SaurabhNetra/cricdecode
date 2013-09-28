@@ -1712,12 +1712,13 @@ public class MainActivity extends SherlockFragmentActivity {
 						Log.w("Activity", "Success!");
 					}
 				});
-		switch (requestCode) {
+	/*	switch (requestCode) {
 			case PURCHASE_REMOVE_ADS:
 				break;
 			default:
 				break;
-		}
+		}*/
+		writeToFile("On Activity for result called");
 	}
 
 	public void showDatePicker(int view_callee) {
@@ -2517,7 +2518,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			File gpxfile = new File(root, "debug.txt");
 			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data);
+			writer.write(data+"\n");
 			writer.flush();
 			writer.close();
 
