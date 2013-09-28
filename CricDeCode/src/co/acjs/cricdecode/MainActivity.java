@@ -1586,7 +1586,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				if(mHelper!=null)
 					mHelper.flagEndAsync();	
 				Log.w("MainActivity","Purchase Test: on click");
-				writeToFile("MainActivity Purchase Test: on click");
+				writeToFile("\nMainActivity Purchase Test: on click");
 				mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
 						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
 				}
