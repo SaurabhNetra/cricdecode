@@ -1593,6 +1593,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				catch(Exception e)
 				{
 					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					writeToFile("MainActivity Purchase Test: on click exception: "+e);
 				}
 				break;
 			case R.id.pur_subscribe_infi:
