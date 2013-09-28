@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 
 public class PurchasedInfiService extends IntentService {
@@ -23,12 +27,14 @@ public class PurchasedInfiService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		Log.w("PurchasedInfiService", "Started");
+		writeToFile("PurchasedInfiService Started");
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.w("PurchasedInfiService", "Ended");
+		writeToFile("PurchasedInfiService Ended");
 	}
 
 	@Override
@@ -47,6 +53,7 @@ public class PurchasedInfiService extends IntentService {
 					.getString("pur_infi_data", "")));
 			Log.w("Sending User Data...",
 					"ProfileEditService:" + jsonParser.isOnline(this));
+			writeToFile("Sending User Data...ProfileEditService:" );
 			int trial = 1;
 			JSONObject jn = null;
 			while (jsonParser.isOnline(this)) {
@@ -63,6 +70,7 @@ public class PurchasedInfiService extends IntentService {
 				trial++;
 			}
 			try {
+				writeToFile("PurchasedInfiService Reply");
 				if (jn.getInt("status") == 1) {
 					AccessSharedPrefs.setString(this,
 							"PurchasedInfiServiceCalled",
@@ -71,6 +79,24 @@ public class PurchasedInfiService extends IntentService {
 				}
 			} catch (Exception e) {
 			}
+		}
+	}
+	private void writeToFile(String data) {
+		try {
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "debug.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data);
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
 		}
 	}
 }

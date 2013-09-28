@@ -1,6 +1,8 @@
 package co.acjs.cricdecode;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -269,21 +271,25 @@ public class MainActivity extends SherlockFragmentActivity {
 		mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
 			public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 				Log.w("MainActivity","Purchase Test: on purchase listener 1");
+				writeToFile("MainActivity Purchase Test: on purchase listener 1");
 				if (result.isFailure()) {
 					Log.w("onPurchase", "Error purchasing: " + result);
+					writeToFile("onPurchase Error purchasing: " + result);
 					return;
 				} else if ((purchase.getPurchaseState() == 0) & (getMD5()
 						.equals(purchase.getDeveloperPayload()))) {
 					JSONObject jo = new JSONObject();
-					try {
+					try {						
 						jo.put("orderId", purchase.getOrderId());
 						jo.put("Token", purchase.getToken());
 						jo.put("Sign", purchase.getSignature());
+						writeToFile("onPurchase Json: "+jo.toString());
 					} catch (JSONException e) {
 					}
 					Intent intent = null;
 					if (purchase.getSku().equals(SKU_REMOVE_ADS)) {
-						Log.w("MainActivity","Purchase Test: on purchase listener 2");
+						Log.w("MainActivity","Purchase Test: on purchase remove ads");
+						writeToFile("MainActivity Purchase Test: on purchase remove ads");
 						AccessSharedPrefs.setString(main_context,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.NEEDS_TO_BE_CALLED);
@@ -295,6 +301,7 @@ public class MainActivity extends SherlockFragmentActivity {
 								PurchasedAdRemovalService.class);
 						findViewById(R.id.adView).setVisibility(View.GONE);
 					} else if (purchase.getSku().equals(SKU_SUB_INFI)) {
+						writeToFile("MainActivity Purchase Test: on purchase sub infi");
 						AccessSharedPrefs.setString(main_context,
 								"PurchaseInfiServiceCalled",
 								CDCAppClass.NEEDS_TO_BE_CALLED);
@@ -305,6 +312,7 @@ public class MainActivity extends SherlockFragmentActivity {
 						intent = new Intent(main_context,
 								PurchasedInfiService.class);
 					} else if (purchase.getSku().equals(SKU_SUB_INFI_SYNC)) {
+						writeToFile("MainActivity Purchase Test: on purchase sub infi sync");
 						AccessSharedPrefs.setString(main_context,
 								"PurchaseInfiSyncServiceCalled",
 								CDCAppClass.NEEDS_TO_BE_CALLED);
@@ -316,6 +324,7 @@ public class MainActivity extends SherlockFragmentActivity {
 								PurchasedInfiSyncService.class);
 					}
 					Log.w("MainActivity","Purchase Test: on purchase listener starting service");
+					writeToFile("MainActivity Purchase Test: on purchase listener starting service");
 					main_context.startService(intent);
 				}
 			}
@@ -1577,6 +1586,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				if(mHelper!=null)
 					mHelper.flagEndAsync();	
 				Log.w("MainActivity","Purchase Test: on click");
+				writeToFile("MainActivity Purchase Test: on click");
 				mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
 						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
 				}
@@ -2496,5 +2506,23 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		c.close();
 	}
+	
+	private void writeToFile(String data) {
+		try {
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
 
+			File gpxfile = new File(root, "debug.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data);
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
 }
