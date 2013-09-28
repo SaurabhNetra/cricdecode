@@ -271,7 +271,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
 			public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 				Log.w("MainActivity","Purchase Test: on purchase listener 1");
-				writeToFile("MainActivity Purchase Test: on purchase listener 1");
+				writeToFile("MainActivity Purchase Test: on purchase listener1  md5:"+getMD5()+" PurchaseState:"+purchase.getPurchaseState()+" Developer Payload:"+purchase.getDeveloperPayload());
 				if (result.isFailure()) {
 					Log.w("onPurchase", "Error purchasing: " + result);
 					writeToFile("onPurchase Error purchasing: " + result);
