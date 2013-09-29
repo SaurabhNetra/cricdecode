@@ -3,7 +3,6 @@ package co.acjs.cricdecode;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -178,17 +177,18 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 	
 	String getMD5(){
-		MessageDigest md;
-		String digest = "";
-		try {
-			md = MessageDigest.getInstance("MD5");
-			byte[] stream = AccessSharedPrefs.mPrefs
-					.getString("id", "").getBytes("UTF-8");
-			md.update(stream);
-			digest = md.digest().toString();
-		} catch (Exception e) {
-		}
-		return digest;
+		 try {
+             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+             byte[] array = md.digest(AccessSharedPrefs.mPrefs
+ 					.getString("id", "").getBytes());
+             StringBuffer sb = new StringBuffer();
+             for (int i = 0; i < array.length; ++i) {
+               sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+             return sb.toString();
+         } catch (java.security.NoSuchAlgorithmException e) {
+         }
+         return null;
 	}
 
 	@Override
@@ -1583,12 +1583,17 @@ public class MainActivity extends SherlockFragmentActivity {
 			case R.id.pur_remove_ads:
 				try
 				{
-				if(mHelper!=null)
-					mHelper.flagEndAsync();	
-				Log.w("MainActivity","Purchase Test: on click");
-				writeToFile("\nMainActivity Purchase Test: on click");
-				mHelper.launchPurchaseFlow(this, SKU_REMOVE_ADS,
-						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
+					writeToFile("\nMainActivity Purchase Test: on click entered mHelper = "+mHelper+"\nMaincontext= "+(MainActivity)main_context+"\nsku= "+SKU_REMOVE_ADS+" "+PURCHASE_REMOVE_ADS+"\nMD5= "+getMD5()+"\nListener= "+mPurchaseFinishedListener);
+				if(mHelper!=null){
+					mHelper.flagEndAsync();
+					writeToFile("\nMainActivity Purchase Test: on click entered mHelper = "+mHelper+"\nMaincontext= "+(MainActivity)main_context+"\nsku= "+SKU_REMOVE_ADS+" "+PURCHASE_REMOVE_ADS+"\nMD5= "+getMD5()+"\nListener= "+mPurchaseFinishedListener);
+					Log.w("MainActivity","Purchase Test: on click");
+				writeToFile("MainActivity Purchase Test: on click");if(mHelper!=null){writeToFile("mHelper not null");}
+				if((MainActivity)main_context!=null){writeToFile("(MainActivity)main_context not null");}
+				if(mPurchaseFinishedListener!=null){writeToFile("mPurchaseFinishedListener not null");}
+				if(getMD5()!=null){writeToFile("getMD5() not null");}
+				mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS,
+						PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());}
 				}
 				catch(Exception e)
 				{
@@ -1699,27 +1704,25 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		uiHelper.onActivityResult(requestCode, resultCode, data,
-				new FacebookDialog.Callback() {
-					@Override
-					public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-						Log.w("Activity",
-								String.format("Error: %s", error.toString()));
-					}
-
-					@Override
-					public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-						Log.w("Activity", "Success!");
-					}
-				});
-	/*	switch (requestCode) {
-			case PURCHASE_REMOVE_ADS:
-				break;
-			default:
-				break;
-		}*/
 		writeToFile("On Activity for result called");
+		if(!mHelper.handleActivityResult(requestCode, resultCode, data)){
+			writeToFile("On Activity: in if");
+			uiHelper.onActivityResult(requestCode, resultCode, data,
+					new FacebookDialog.Callback() {
+						@Override
+						public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+							Log.w("Activity",
+									String.format("Error: %s", error.toString()));
+						}
+
+						@Override
+						public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+							Log.w("Activity", "Success!");
+						}
+					});
+			super.onActivityResult(requestCode, resultCode, data);
+		}else{
+			writeToFile("On Activity: in else");}
 	}
 
 	public void showDatePicker(int view_callee) {

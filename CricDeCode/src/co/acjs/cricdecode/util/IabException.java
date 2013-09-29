@@ -22,7 +22,11 @@ package co.acjs.cricdecode.util;
  * call {@link #getResult()}.
  */
 public class IabException extends Exception {
-    IabResult mResult;
+    /**
+	 * 
+	 */
+	private static final long	serialVersionUID	= 5867473839681693156L;
+	IabResult mResult;
 
     public IabException(IabResult r) {
         this(r, null);
