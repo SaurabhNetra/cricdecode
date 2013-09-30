@@ -1740,7 +1740,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			String caption = String.format("%s match, %s vs %s, at %s",
 					match_lvl, team_a, team_b, venue);
 			String description = String.format(
-					"Batting: %s<center/>Bowling: %s<center/>Fielding: %s",
+					"Batting: %s<center/> Bowling: %s<center/> Fielding: %s",
 					bat, bowl, field);
 			Bundle params = new Bundle();
 			params.putString("name", title);
