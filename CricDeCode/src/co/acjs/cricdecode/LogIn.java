@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,7 +57,6 @@ public class LogIn extends SherlockActivity {
 					// make request to the /me API
 					Request.newMeRequest(session,
 							new Request.GraphUserCallback() {
-
 								// callback after Graph API response with user
 								// object
 								@Override
@@ -79,10 +80,31 @@ public class LogIn extends SherlockActivity {
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStart(this);
 		if (!AccessSharedPrefs.mPrefs.getString("isSignedIn", "").equals("")) {
-			openMainActivity();
-		}
-		if ((!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) & AccessSharedPrefs.mPrefs
-				.getString("isSignedIn", "").equals("")) {
+			ConnectivityManager connectivityManager = (ConnectivityManager) this
+					.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo activeNetworkInfo = connectivityManager
+					.getActiveNetworkInfo();
+			if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
+				openMainActivity();
+			} else {
+				Session session = Session.getActiveSession();
+				final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
+				if (session.isOpened()) {
+					loginButton.setVisibility(View.GONE);
+					((ProgressBar) findViewById(R.id.progress_bar))
+							.setVisibility(View.VISIBLE);
+					Request.newMeRequest(session,
+							new Request.GraphUserCallback() {
+								@Override
+								public void onCompleted(GraphUser user, Response response) {
+									if (user != null) {
+										openMainActivity();
+									}
+								}
+							}).executeAsync();
+				}
+			}
+		} else if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) {
 			Session session = Session.getActiveSession();
 			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
 			if (session.isOpened()) {
