@@ -57,6 +57,9 @@
         <service android:name="MatchHistorySyncService" />
         <service android:name="PurchasedAdRemovalService"></service>
         <service android:name="PurchasedInfiService"></service>
+        <service android:name="CheckPurchasedAdRemovalService"></service>  
+        <service android:name="CheckPurchaseInfiService"></service>  
+        <service android:name="CheckPurchaseInfiSync"></service>  
         <service android:name="PurchasedInfiSyncService"></service>        
         <service android:name=".GCMIntentService" />
 

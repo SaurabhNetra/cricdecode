@@ -16,6 +16,9 @@
     <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
     <string name="purchase_infi_sync">http://cdc.acjs.co/sync/uPinfi.php</string>
     <string name="purchase_infi">http://cdc.acjs.co/sync/uPinfiSync.php</string>
+    <string name="check_purchase_remove_ads">http://cdc.acjs.co/sync/chkPurchaseRemoveAds.php</string>
+    <string name="check_purchase_infi_use">http://cdc.acjs.co/sync/chkPurchaseInfiUse.php</string>
+    <string name="check_purchase_infi_sync">http://cdc.acjs.co/sync/chkPurchaseInfiSync.php</string>
 
     <!-- Sign In Service -->
     <string name="projno">899334271790</string>
