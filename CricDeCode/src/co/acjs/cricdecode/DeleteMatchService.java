@@ -38,6 +38,7 @@ public class DeleteMatchService extends IntentService {
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
 
+			//TODO Make array for status=deleted
 			// create json array of dev, id , mid
 
 			String mid = intent.getExtras().getString("mid");
@@ -62,10 +63,6 @@ public class DeleteMatchService extends IntentService {
 				} catch (InterruptedException e) {
 				}
 				trial++;
-			}
-
-			if (jn != null) {
-				// TODO delete where sts=deleted
 			}
 		}
 	}

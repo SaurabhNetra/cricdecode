@@ -24,9 +24,8 @@ public class SignInService extends IntentService {
 	static SQLiteDatabase dbHandle;
 
 	public SignInService() {
-		
+
 		super("SignInService");
-		
 
 	}
 
@@ -111,6 +110,33 @@ public class SignInService extends IntentService {
 							jn.getString("battingStyle"));
 					AccessSharedPrefs.setString(this, "bowlingStyle",
 							jn.getString("bowlingStyle"));
+					Log.w("SignInService","if ");
+					Log.w("SignInService","ads: "+jn.getString("active_remove_ads"));
+					if(jn.getInt("active_remove_ads")==1)
+					{
+					AccessSharedPrefs.setString(this, "ad_free", "yes");
+					}
+					else
+					{
+					AccessSharedPrefs.setString(this, "ad_free", "no");	
+					}
+					if(jn.getInt("active_sub_infi")==1)
+					{
+					AccessSharedPrefs.setString(this, "infi_use", "yes");
+					}
+					else
+					{
+					AccessSharedPrefs.setString(this, "infi_use", "no");	
+					}
+					if(jn.getInt("active_sub_infi_sync")==1)
+					{
+					AccessSharedPrefs.setString(this, "infi_sync", "yes");
+					}
+					else
+					{
+					AccessSharedPrefs.setString(this, "infi_sync", "no");	
+					}
+					
 					try {
 						JSONArray all_matches = jn
 								.getJSONArray("cricket_match_data");
@@ -409,6 +435,7 @@ public class SignInService extends IntentService {
 					}
 				}
 			} catch (JSONException e) {
+				Log.w("SignInService","JSON Exception");
 			}
 		}
 	}

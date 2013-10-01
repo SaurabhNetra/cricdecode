@@ -61,8 +61,7 @@
         android:layout_marginTop="@dimen/list_margin_top"
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
-        android:dividerHeight="@dimen/list_divider_height"
-        android:listSelector="@drawable/list_selector" >
+        android:dividerHeight="@dimen/list_divider_height" >
     </ListView>
 
 </LinearLayout>

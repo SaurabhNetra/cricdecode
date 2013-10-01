@@ -1,6 +1,7 @@
 <?php
 include_once "conn.php";
 include_once "AppConsts.php";
+include_once "GcMConsts.php";
 set_time_limit ( 0 );
 $id = $_POST ['id'];
 $json_string = $_POST ['json'];
@@ -43,8 +44,13 @@ curl_close ( $tuCurl );
 $purchase_time = $reply ['purchaseTime'];
 $purchaseState = $reply ['purchaseState'];
 $consumptionState = $reply ['consumptionState'];
-if ($purchaseState == 0 && $consumptionState == 1)
+if ($purchaseState == 0 && $consumptionState == 1) {
 	mysql_query ( "INSERT INTO remove_ads VALUES('$id','$order_id','$token','$sign',$purchase_time)" );
+	$SendMsgArr = array (
+			"gcmid" => REMOVE_ADS 
+	);
+	SendGCm ( sendToArr ( $id ), $SendMsgArr, $id );
+}
 $ax = array (
 		"status" => 1 
 );

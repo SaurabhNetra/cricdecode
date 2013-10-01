@@ -8,16 +8,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.ads.AdView;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 public class GCMIntentService extends GCMBaseIntentServiceCompat {
 	public static final int UPDATE_PROFILE_DATA = 1;
 	public static final int MATCH_N_PERFORMANCE_DATA = 2;
+	public static final int DELETE_MATCH = 3;
+	public static final int REMOVE_ADS = 4;
+	public static final int SUB_INFI = 5;
+	public static final int SUB_INFI_SYNC = 6;
 	public static Context context;
 
 	public GCMIntentService() {
@@ -64,6 +74,42 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						gcmData.getString("battingStyle"));
 				AccessSharedPrefs.setString(context, "bowlingStyle",
 						gcmData.getString("bowlingStyle"));
+				try {
+					((MainActivity) MainActivity.main_context)
+							.runOnUiThread(new Runnable() {
+								public void run() {
+
+									try
+									{
+									((TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+											.findViewById(R.id.role))
+											.setText(AccessSharedPrefs.mPrefs
+													.getString("role", ""));
+
+									((TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+											.findViewById(R.id.nickname))
+											.setText(AccessSharedPrefs.mPrefs
+													.getString("nickname", ""));
+									((TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+											.findViewById(R.id.batting_style))
+											.setText(AccessSharedPrefs.mPrefs
+													.getString("battingStyle",
+															""));
+									((TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+											.findViewById(R.id.bowling_style))
+											.setText(AccessSharedPrefs.mPrefs
+													.getString("bowlingStyle",
+															""));
+									}
+									catch(Exception e)
+									{
+										
+									}
+								}
+							});
+				} catch (Exception e) {
+
+				}
 				break;
 			case MATCH_N_PERFORMANCE_DATA:
 				Log.w("JSON Object", "Match Data: " + gcmData.getInt("mid"));
@@ -187,6 +233,48 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 
 					}
 				}
+				break;
+			case DELETE_MATCH:
+				JSONArray ja = gcmData.getJSONArray("todelete");
+				for (int i = 0; i < ja.length(); i++) {
+					JSONObject jo = ja.getJSONObject(i);
+					String str = jo.getString("mid");
+					String d_str = jo.getString("dev");
+					Uri uri = Uri
+							.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+									+ "/" + str + "/" + d_str);
+					getApplicationContext().getContentResolver().delete(uri,
+							null, null);
+					uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+							+ "/" + str + "/" + d_str);
+					getApplicationContext().getContentResolver().delete(uri,
+							null, null);
+				}
+				break;
+			case REMOVE_ADS:
+				AccessSharedPrefs.setString(this, "ad_free", "yes");
+				try {
+					((MainActivity) MainActivity.main_context)
+							.runOnUiThread(new Runnable() {
+								public void run() {
+									try {
+										final AdView adView = (AdView) ((MainActivity) MainActivity.main_context)
+												.findViewById(R.id.adView);
+										adView.setVisibility(View.INVISIBLE);
+									} catch (Exception e) {
+
+									}
+								}
+							});
+				} catch (Exception e) {
+
+				}
+				break;
+			case SUB_INFI:
+				AccessSharedPrefs.setString(this, "infi_use", "yes");
+				break;
+			case SUB_INFI_SYNC:
+				AccessSharedPrefs.setString(this, "infi_sync", "yes");
 				break;
 			}
 		} catch (JSONException e) {

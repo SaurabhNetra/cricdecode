@@ -256,36 +256,44 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		String str = child.getText().toString();
 		child = (TextView) vwParentRow.getChildAt(1);
 		String d_str = child.getText().toString();
+		if (AccessSharedPrefs.mPrefs.getString("", "no").equals("no")) {
+			Uri uri = Uri
+					.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+							+ "/" + str + "/" + d_str);
+			getSherlockActivity().getContentResolver().delete(uri, null, null);
+			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
+					+ str + "/" + d_str);
+			getSherlockActivity().getContentResolver().delete(uri, null, null);
+		} else {
+			Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+					+ "/" + str + "/" + d_str);
+			ContentValues values = new ContentValues();
+			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_DELETED);
+			getSherlockActivity().getContentResolver().update(uri, values,
+					null, null);
+			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+					+ "/" + str + "/" + d_str);
+			ContentValues value = new ContentValues();
+			value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_DELETED);
+			getSherlockActivity().getContentResolver().update(uri, value, null,
+					null);
 
-		Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/"
-				+ str + "/" + d_str);
-		ContentValues values = new ContentValues();
-		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_DELETED);
-		getSherlockActivity().getContentResolver().update(uri, values, null,
-				null);
+			AccessSharedPrefs.setString(getSherlockActivity(),
+					"DeleteMatchServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 
-		uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/"
-				+ str + "/" + d_str);
-		;
-		ContentValues value = new ContentValues();
-		value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_DELETED);
-		getSherlockActivity().getContentResolver().update(uri, value, null,
-				null);
-
-		AccessSharedPrefs.setString(getSherlockActivity(),
-				"DeleteMatchServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
-
-		Intent i = new Intent(MainActivity.main_context,
-				DeleteMatchService.class);
-		i.putExtra("mid", str);
-		i.putExtra("dev", d_str);
-		try {
-			if (DeleteMatchService.started) {
-				MainActivity.main_context.stopService(i);
+			Intent i = new Intent(MainActivity.main_context,
+					DeleteMatchService.class);
+			i.putExtra("mid", str);
+			i.putExtra("dev", d_str);
+			try {
+				if (DeleteMatchService.started) {
+					MainActivity.main_context.stopService(i);
+					MainActivity.main_context.startService(i);
+				}
+			} catch (NullPointerException e) {
 				MainActivity.main_context.startService(i);
 			}
-		} catch (NullPointerException e) {
-			MainActivity.main_context.startService(i);
+
 		}
 
 		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences(

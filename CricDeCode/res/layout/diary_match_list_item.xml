@@ -1,211 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/list_item_margin_bottom"
-    android:background="@drawable/cards_bg"
-    android:padding="@dimen/list_item_padding" >
-
-    <TextView
-        android:id="@+id/_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/device_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/innings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/list_selector"
+    android:orientation="horizontal" >
 
     <RelativeLayout
-        android:id="@+id/match_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/faint_grey"
-        android:paddingBottom="@dimen/match_date_padding_bottom"
-        android:paddingTop="@dimen/match_date_padding_top" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/list_item_margin_bottom"
+        android:background="@drawable/cards_bg"
+        android:padding="@dimen/list_item_padding" >
 
-        <LinearLayout
-            android:id="@+id/date_str"
+        <TextView
+            android:id="@+id/_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal" >
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/match_date_day_margin_left"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/match_date_text_size" />
-
-            <TextView
-                android:id="@+id/month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/match_date_month_margin_left"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/match_date_text_size" />
-
-            <TextView
-                android:id="@+id/year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/match_date_day_margin_left"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/match_date_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/post_to_fb"
+        <TextView
+            android:id="@+id/device_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:onClick="onClick" >
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/innings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/match_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/faint_grey"
+            android:paddingBottom="@dimen/match_date_padding_bottom"
+            android:paddingTop="@dimen/match_date_padding_top" >
 
             <LinearLayout
-                android:id="@+id/divide"
-                android:layout_width="@dimen/divider_padding"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="@dimen/divide_margin"
-                android:layout_marginTop="@dimen/divide_margin"
-                android:background="@color/light_red"
-                android:orientation="horizontal" />
-
-            <ImageView
-                android:id="@+id/post_to_fb_img"
-                android:layout_width="@dimen/button_img_width"
-                android:layout_height="@dimen/button_img_height"
-                android:layout_margin="@dimen/button_img_margin"
-                android:contentDescription="@string/post_to_fb"
-                android:focusable="false"
-                android:padding="@dimen/add_match_padding"
-                android:src="@drawable/post_to_fb" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/match_teams"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/match_date"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/my_team"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/my_team_padding_top"
-            android:textColor="@color/dark_red"
-            android:textSize="@dimen/team_names_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/vs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/vs_padding_top"
-            android:text="@string/vs"
-            android:textColor="@color/dark_red" />
-
-        <TextView
-            android:id="@+id/opponent_team"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/opponent_padding_top"
-            android:textColor="@color/dark_red"
-            android:textSize="@dimen/team_names_text_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/venue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/venue_padding"
-            android:textStyle="italic" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/overs"
+                android:id="@+id/date_str"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/overs_padding_left"
-                android:textColor="@color/dark_grey" />
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/overs_limit"
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/match_date_day_margin_left"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/match_date_text_size" />
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/match_date_month_margin_left"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/match_date_text_size" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/match_date_day_margin_left"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/match_date_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/post_to_fb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/overs_txt_padding_left"
-                android:text="@string/overs"
-                android:textColor="@color/dark_grey" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:onClick="onClick" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/match_teams"
-        android:background="@color/faint_grey" >
+                <LinearLayout
+                    android:id="@+id/divide"
+                    android:layout_width="@dimen/divider_padding"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="@dimen/divide_margin"
+                    android:layout_marginTop="@dimen/divide_margin"
+                    android:background="@color/light_red"
+                    android:orientation="horizontal" />
+
+                <ImageView
+                    android:id="@+id/post_to_fb_img"
+                    android:layout_width="@dimen/button_img_width"
+                    android:layout_height="@dimen/button_img_height"
+                    android:layout_margin="@dimen/button_img_margin"
+                    android:contentDescription="@string/post_to_fb"
+                    android:focusable="false"
+                    android:padding="@dimen/add_match_padding"
+                    android:src="@drawable/post_to_fb" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/match_info"
-            android:layout_width="wrap_content"
+            android:id="@+id/match_teams"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/match_date"
+            android:gravity="center_horizontal"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/level"
+                android:id="@+id/my_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/lvl_padding_bottom"
-                android:paddingLeft="@dimen/lvl_padding_left"
-                android:paddingTop="@dimen/lvl_padding_top"
-                android:textColor="@color/dark_grey"
+                android:paddingTop="@dimen/my_team_padding_top"
+                android:textColor="@color/dark_red"
+                android:textSize="@dimen/team_names_text_size"
                 android:textStyle="bold" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/delete_match_diary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:onClick="onClick" >
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/vs_padding_top"
+                android:text="@string/vs"
+                android:textColor="@color/dark_red" />
+
+            <TextView
+                android:id="@+id/opponent_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/opponent_padding_top"
+                android:textColor="@color/dark_red"
+                android:textSize="@dimen/team_names_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/venue_padding"
+                android:textStyle="italic" />
 
             <LinearLayout
-                android:id="@+id/divide_del"
-                android:layout_width="@dimen/divider_padding"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="@dimen/divide_margin"
-                android:layout_marginTop="@dimen/divide_margin"
-                android:background="@color/light_red"
-                android:orientation="horizontal" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-            <ImageView
-                android:id="@+id/del_img"
-                android:layout_width="@dimen/button_img_width"
-                android:layout_height="@dimen/button_img_height"
-                android:layout_margin="@dimen/button_img_margin"
-                android:contentDescription="@string/delete"
-                android:src="@drawable/delete" />
+                <TextView
+                    android:id="@+id/overs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/overs_padding_left"
+                    android:textColor="@color/dark_grey" />
+
+                <TextView
+                    android:id="@+id/overs_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/overs_txt_padding_left"
+                    android:text="@string/overs"
+                    android:textColor="@color/dark_grey" />
+            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/match_teams"
+            android:background="@color/faint_grey" >
+
+            <LinearLayout
+                android:id="@+id/match_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/lvl_padding_bottom"
+                    android:paddingLeft="@dimen/lvl_padding_left"
+                    android:paddingTop="@dimen/lvl_padding_top"
+                    android:textColor="@color/dark_grey"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/delete_match_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:onClick="onClick" >
+
+                <LinearLayout
+                    android:id="@+id/divide_del"
+                    android:layout_width="@dimen/divider_padding"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="@dimen/divide_margin"
+                    android:layout_marginTop="@dimen/divide_margin"
+                    android:background="@color/light_red"
+                    android:orientation="horizontal" />
+
+                <ImageView
+                    android:id="@+id/del_img"
+                    android:layout_width="@dimen/button_img_width"
+                    android:layout_height="@dimen/button_img_height"
+                    android:layout_margin="@dimen/button_img_margin"
+                    android:contentDescription="@string/delete"
+                    android:src="@drawable/delete" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

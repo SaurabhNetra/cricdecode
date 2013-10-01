@@ -1,6 +1,7 @@
 <?php
 include_once "conn.php";
 include_once "AppConsts.php";
+include_once "GcMConsts.php";
 set_time_limit ( 0 );
 $id = $_POST ['id'];
 $json_string = $_POST ['json'];
@@ -40,9 +41,15 @@ curl_setopt ( $tuCurl, CURLOPT_SSL_VERIFYHOST, 2 );
 $tuData = curl_exec ( $tuCurl );
 $reply = json_decode ( $tuData, true );
 curl_close ( $tuCurl );
-$init_ts = $reply ['initiationTimestampMsec'];
-$valid_until_ts = $reply ['validUntilTimestampMsec'];
-mysql_query ( "INSERT INTO sub_infi VALUES('$id','$order_id','$token','$sign',$init_ts,$valid_until_ts)" );
+$init_ts1 = $reply ['initiationTimestampMsec'] * 0.001;
+$init_ts = explode ( ".", $init_ts1 );
+$valid_until_ts1 = $reply ['validUntilTimestampMsec'] * 0.001;
+$valid_until_ts = explode ( ".", $valid_until_ts1 );
+mysql_query ( "INSERT INTO sub_infi VALUES('$id','$order_id','$token','$sign',$init_ts[0],$valid_until_ts[0])" );
+$SendMsgArr = array (
+		"gcmid" => SUB_INFI 
+);
+SendGCm ( sendToArr ( $id ), $SendMsgArr, $id );
 $ax = array (
 		"status" => 1 
 );

@@ -17,9 +17,32 @@ if ($count ['c'] == 0) {
 	mysql_query ( "INSERT INTO user_table(id, first_name, last_name, fb_link, dob, has_android) values('$id','$fname','$lname','$fblink','$dob',$android)" );
 } else {
 	$existing = true;
-	$result = mysql_query ( "SELECT * FROM cricket_match WHERE user_id='$id' AND status<2" );
+	$ts = microtime ( true ) * 1000;
+	$active_remove_ads = 0;
+	$active_sub_infi = 0;
+	$active_sub_infi_sync = 0;
+	$res = mysql_query ( "SELECT * FROM remove_ads WHERE id='$id'" );
+	if (mysql_num_rows ( $res ) > 0) {
+		$active_remove_ads = 1;
+	}
+	$res = mysql_query ( "SELECT * FROM sub_infi WHERE id='$id'" );
+	if (mysql_num_rows ( $res ) > 0) {
+		$arr = mysql_fetch_assoc ( $res );
+		if ($arr ['validUntil_ts_msec'] > $ts) {
+			$active_sub_infi = 1;
+		}
+	}
+	$res = mysql_query ( "SELECT * FROM sub_infi_sync WHERE id='$id'" );
+	if (mysql_num_rows ( $res ) > 0) {
+		$arr = mysql_fetch_assoc ( $res );
+		if ($arr ['validUntil_ts_msec'] > $ts) {
+			$active_sub_infi_sync = 1;
+		}
+	}
 	$cricket_match_data = "";
 	$performance_data = "";
+	$sub = mysql_query ( "SELECT COUNT(*) AS c FROM sub_infi_sync WHERE id='$id'" );
+	$result = mysql_query ( "SELECT * FROM cricket_match WHERE user_id='$id' AND status<2" );
 	if (mysql_num_rows ( $result ) != 0) {
 		for($i = 0; $i < mysql_num_rows ( $result ); $i ++) {
 			$cricket_match [$i] = mysql_fetch_array ( $result );
@@ -40,7 +63,7 @@ if ($count ['c'] == 0) {
 					"first_action" => $cricket_match [$i] ['first_action'],
 					"duration" => $cricket_match [$i] ['duration'],
 					"review" => $cricket_match [$i] ['review'],
-					"status" => $cricket_match [$i] ['status']
+					"status" => $cricket_match [$i] ['status'] 
 			);
 			$cricket_match_data [$i] = $row;
 		}
@@ -88,7 +111,7 @@ if ($count ['c'] == 0) {
 					"field_byes" => $performance [$i] ['field_byes'],
 					"field_misfield" => $performance [$i] ['field_misfield'],
 					"field_catches_dropped" => $performance [$i] ['field_catches_dropped'],
-					"status" => $performance [$i] ['status']
+					"status" => $performance [$i] ['status'] 
 			);
 			$performance_data [$i] = $row;
 		}
@@ -104,10 +127,10 @@ if ($android) {
 		mysql_query ( "INSERT INTO user_android_devices values('$id','$gcmid','$tday')" );
 	}
 	if ($existing) {
-		$device_no_temp = mysql_query ( "SELECT device_no FROM user_table WHERE id='$id'" );
+		$device_no_temp = mysql_query ( "SELECT MAX(device_no) as m FROM user_table WHERE id='$id'" );
 		$device_no = mysql_fetch_assoc ( $device_no_temp );
-		$new_no = $device_no ['device_no'] + 1;
-		mysql_query ( "UPDATE user_table SET device_no = $new_no" );
+		$new_no = $device_no ['m'] + 1;
+		mysql_query ( "UPDATE user_table SET device_no = $new_no WHERE id='$id'" );
 		$ax = array (
 				"user" => "existing",
 				"nickname" => $user_array ['nickname'],
@@ -116,11 +139,14 @@ if ($android) {
 				"bowlingStyle" => $user_array ['bowlingStyle'],
 				"performance_data" => $performance_data,
 				"cricket_match_data" => $cricket_match_data,
-				"device_id" => $new_no
+				"active_remove_ads" => $active_remove_ads,
+				"active_sub_infi" => $active_sub_infi,
+				"active_sub_infi_sync" => $active_sub_infi_sync,
+				"device_id" => $new_no 
 		);
 	} else {
 		$ax = array (
-				"user" => "new"
+				"user" => "new" 
 		);
 	}
 } else {
@@ -132,11 +158,15 @@ if ($android) {
 				"battingStyle" => $user_array ['battingStyle'],
 				"bowlingStyle" => $user_array ['bowlingStyle'],
 				"performance_data" => $performance_data,
-				"cricket_match_data" => $cricket_match_data
+				"cricket_match_data" => $cricket_match_data,
+				"active_remove_ads" => $active_remove_ads,
+				"active_sub_infi" => $active_sub_infi,
+				"active_sub_infi_sync" => $active_sub_infi_sync
 		);
+		
 	} else {
 		$ax = array (
-				"user" => "new"
+				"user" => "new" 
 		);
 	}
 }
