@@ -1,6 +1,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="main.css">
+<script type="text/javascript" src="GlAna.js"></script>
 </head>
 <?php
 $fn = $_GET ['fn'];
@@ -16,7 +17,7 @@ $field = $_GET ['field'];
 <div id="topbar"></div>
 <img id="logo" src="icon.png" />
 <div id="appname">CricDeCode</div>
-<a id="getApp" href="www.google.com">Go to PlayStore</a>
+<a id="getApp" href="www.google.com">Get it on PlayStore</a>
 <div id="info_l">
 	<div id="info_l_top">
 <? echo $fn.'<br />'; ?>
@@ -28,41 +29,38 @@ $field = $_GET ['field'];
 <div style="font-size: 0.7em;">vs</div>
 <? echo $tb.'<br />'; ?>
 <div style="font-size: 0.7em; margin-top: 2px;"><? echo $v.'<br />'; ?></div>
-<div style="font-size: 0.7em; padding-top: 10px;">
+		<div style="font-size: 0.7em; padding-top: 10px;">
 <? echo $lvl." Level"; ?>
 </div>
 	</div>
-	
 </div>
 <div id="info_r1">
 	Batting Performance
 	<hr id="rule" />
-<div id="per">
-
-<?	
-if($bat=="")
-{
-echo "No data available";
-}
-else
-{
- echo $bat;
-} ?>
+	<div id="per">
+<?
+if (($bat == "") && ($bowl == "") && ($field == "")) {
+	echo '<script language="javascript">parent.location="index.html"</script>';
+} else {
+	if ($bat == "") {
+		echo "No data available";
+	} else {
+		echo $bat;
+	}
+	?>
 </div>
 </div>
 <div id="info_r2">
 	Bowling Performance
 	<hr id="rule" />
-<div id="per">
-<?	
-if($bowl=="")
-{
- echo "No data available"; 
-}
-else
-{
-echo $bowl;
-} ?>
+	<div id="per">
+<?
+	if ($bowl == "") {
+		echo "No data available";
+	} else {
+		echo $bowl;
+	}
+	?>
 </div>
 </div>
 <div id="info_r3">
@@ -71,17 +69,21 @@ echo $bowl;
 	<div id="per">
 
 <?
-if($field=="")
-{
- echo "No data available"; 
+	if ($field == "") {
+		echo "No data available";
+	} else {
+		echo $field;
+	}
 }
-else
-{
- echo $field; 
-}?>
+?>
 </div>
 </div>
-<div id="bottomCard">
-CricDeCode provides a personal, local and easy to maintain data store with intuitive statistics generation. CricDeCode requires the cricketer to feed his match performances. CricDeCode then provides speedy access to detailed career and statistics generation and intuitive graphical views, enabling effective personal performance profiling. Your data is secured with cloud backup and inter device data syncing.
-CricDeCode also provides a platform to post the highlights of your performances on Facebook.</div>
+<div id="bottomCard">CricDeCode provides a personal, local and easy to
+	maintain data store with intuitive statistics generation. CricDeCode
+	requires the cricketer to feed his match performances. CricDeCode then
+	provides speedy access to detailed career and statistics generation and
+	intuitive graphical views, enabling effective personal performance
+	profiling. Your data is secured with cloud backup and inter device data
+	syncing. CricDeCode also provides a platform to post the highlights of
+	your performances on Facebook.</div>
 </html>
