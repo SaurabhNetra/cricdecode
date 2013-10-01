@@ -13,7 +13,10 @@ $lvl = $_GET ['lvl'];
 $bat = $_GET ['bat'];
 $bowl = $_GET ['bowl'];
 $field = $_GET ['field'];
-?>
+if (($bat == "") && ($bowl == "") && ($field == "")) {
+	echo '<script language="javascript">parent.location="index.html"</script>';
+} else {
+	?>
 <div id="topbar"></div>
 <img id="logo" src="icon.png" />
 <div id="appname">CricDeCode</div>
@@ -39,9 +42,6 @@ $field = $_GET ['field'];
 	<hr id="rule" />
 	<div id="per">
 <?
-if (($bat == "") && ($bowl == "") && ($field == "")) {
-	echo '<script language="javascript">parent.location="index.html"</script>';
-} else {
 	if ($bat == "") {
 		echo "No data available";
 	} else {
