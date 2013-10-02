@@ -806,7 +806,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		}).start();
 
-		// TODO If AdRemovePerchased do it //ad_free //infi_use //infi_sync
+		// If AdRemovePerchased do it //ad_free //infi_use //infi_sync
 		if (AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")) {
 			adView.setVisibility(View.GONE);
 		} else {
@@ -820,8 +820,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (pendingPublishReauthorization
 				&& state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
 			pendingPublishReauthorization = false;
-			String bat = "1st Innings 12, 2nd Innings 15", bowl = "1st Innings 1/20, 2nd Innings 2/14", field = "Catches 1, Run Outs 1, Stumpings 1", match_lvl = "International", team_a = "India", team_b = "Pakistan", venue = "Mumbai";
-			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue);
+			//TODO
+			String bat = "1st Innings 12, 2nd Innings 15", bowl = "1st Innings 1/20, 2nd Innings 2/14", field = "Catches 1, Run Outs 1, Stumpings 1", match_lvl = "International", team_a = "India", team_b = "Pakistan", venue = "Mumbai", date="13th March";
+			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue, date);
 		}
 
 	}
@@ -1718,8 +1719,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			match_lvl = "International",
 			team_a = "India",
 			team_b = "Pakistan",
-			venue = "Mumbai";
-			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue);
+			venue = "Mumbai",
+			date ="13th March"; //TODO
+			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue,date);
 			break;
 		case R.id.pur_remove_ads:
 			try {
@@ -1756,7 +1758,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	private void publishStory(final String bat, final String bowl,
 			final String field, final String match_lvl, final String team_a,
-			final String team_b, final String venue) {
+			final String team_b, final String venue, final String date) {
 		Session session = Session.getActiveSession();
 		Log.w("FBShare", "Publish Story");
 		if (session != null) {
@@ -1774,8 +1776,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			String fname = AccessSharedPrefs.mPrefs.getString("f_name", "");
 			String lname = AccessSharedPrefs.mPrefs.getString("l_name", "");
+			
 			String title = String.format(
-					"Highlights of %s's peformance today!", fname);
+					"Highlights of %s's peformance on %s!", fname, date);
 			String caption = String.format("%s match, %s vs %s, at %s",
 					match_lvl, team_a, team_b, venue);
 			String description = String.format(
