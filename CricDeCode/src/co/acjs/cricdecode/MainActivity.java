@@ -217,7 +217,7 @@ public class MainActivity extends SherlockFragmentActivity {
 														inv.getSkuDetails(
 																MainActivity.SKU_REMOVE_ADS)
 																.getPrice());
-										
+
 										AccessSharedPrefs
 												.setString(
 														main_context,
@@ -232,7 +232,7 @@ public class MainActivity extends SherlockFragmentActivity {
 										 * main_context, "pur_infi_price",
 										 * inv.getSkuDetails(
 										 * MainActivity.SKU_REMOVE_ADS)
-										 * .getPrice());  AccessSharedPrefs
+										 * .getPrice()); AccessSharedPrefs
 										 * .setString( main_context,
 										 * "pur_infi_descr", inv.getSkuDetails(
 										 * MainActivity.SKU_REMOVE_ADS)
@@ -241,7 +241,7 @@ public class MainActivity extends SherlockFragmentActivity {
 										 * "pur_infi_sync_price",
 										 * inv.getSkuDetails(
 										 * MainActivity.SKU_REMOVE_ADS)
-										 * .getPrice());  AccessSharedPrefs
+										 * .getPrice()); AccessSharedPrefs
 										 * .setString( main_context,
 										 * "pur_infi_sync_descr",
 										 * inv.getSkuDetails(
@@ -667,42 +667,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		MainActivity mainActivity = this;
 		if (savedInstanceState == null) {
 
-			batting_no_list = new ArrayList<String>();
-			batting_no_list_selected = new ArrayList<String>();
-
-			how_out_list = new ArrayList<String>();
-			how_out_list_selected = new ArrayList<String>();
-
-			mainActivity.season_list = new ArrayList<String>();
-			mainActivity.season_list_selected = new ArrayList<String>();
-
-			mainActivity.my_team_list = new ArrayList<String>();
-			mainActivity.my_team_list_selected = new ArrayList<String>();
-
-			mainActivity.opponent_list = new ArrayList<String>();
-			mainActivity.opponent_list_selected = new ArrayList<String>();
-
-			mainActivity.venue_list = new ArrayList<String>();
-			mainActivity.venue_list_selected = new ArrayList<String>();
-
-			mainActivity.result_list = new ArrayList<String>();
-			mainActivity.result_list_selected = new ArrayList<String>();
-
-			mainActivity.level_list = new ArrayList<String>();
-			mainActivity.level_list_selected = new ArrayList<String>();
-
-			mainActivity.overs_list = new ArrayList<String>();
-			mainActivity.overs_list_selected = new ArrayList<String>();
-
-			mainActivity.innings_list = new ArrayList<String>();
-			mainActivity.innings_list_selected = new ArrayList<String>();
-
-			mainActivity.duration_list = new ArrayList<String>();
-			mainActivity.duration_list_selected = new ArrayList<String>();
-
-			mainActivity.first_list = new ArrayList<String>();
-			mainActivity.first_list_selected = new ArrayList<String>();
-
 			fetchFromDb();
 		} else {
 
@@ -820,9 +784,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (pendingPublishReauthorization
 				&& state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
 			pendingPublishReauthorization = false;
-			//TODO
-			String bat = "1st Innings 12, 2nd Innings 15", bowl = "1st Innings 1/20, 2nd Innings 2/14", field = "Catches 1, Run Outs 1, Stumpings 1", match_lvl = "International", team_a = "India", team_b = "Pakistan", venue = "Mumbai", date="13th March";
-			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue, date);
+			// TODO
+			String bat = "1st Innings 12, 2nd Innings 15", bowl = "1st Innings 1/20, 2nd Innings 2/14", field = "Catches 1, Run Outs 1, Stumpings 1", match_lvl = "International", team_a = "India", team_b = "Pakistan", venue = "Mumbai", date = "13th March";
+			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue,
+					date);
 		}
 
 	}
@@ -1633,6 +1598,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				public void onClick(View v) {
 					OngoingMatchesFragment.ongoingMatchesFragment
 							.addToCareer(finalview);
+					fetchFromDb();
 					dialog.dismiss();
 				}
 			});
@@ -1697,6 +1663,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				public void onClick(View v) {
 					DiaryMatchesFragment.diaryMatchesFragment
 							.deleteMatch(finalview);
+					fetchFromDb();
 					dialog.dismiss();
 				}
 			});
@@ -1720,8 +1687,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			team_a = "India",
 			team_b = "Pakistan",
 			venue = "Mumbai",
-			date ="13th March"; //TODO
-			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue,date);
+			date = "13th March"; // TODO
+			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue,
+					date);
 			break;
 		case R.id.pur_remove_ads:
 			try {
@@ -1776,7 +1744,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			String fname = AccessSharedPrefs.mPrefs.getString("f_name", "");
 			String lname = AccessSharedPrefs.mPrefs.getString("l_name", "");
-			
+
 			String title = String.format(
 					"Highlights of %s's peformance on %s!", fname, date);
 			String caption = String.format("%s match, %s vs %s, at %s",
@@ -2482,7 +2450,45 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	public void fetchFromDb() {
+
 		MainActivity mainActivity = this;
+
+		batting_no_list = new ArrayList<String>();
+		batting_no_list_selected = new ArrayList<String>();
+
+		how_out_list = new ArrayList<String>();
+		how_out_list_selected = new ArrayList<String>();
+
+		mainActivity.season_list = new ArrayList<String>();
+		mainActivity.season_list_selected = new ArrayList<String>();
+
+		mainActivity.my_team_list = new ArrayList<String>();
+		mainActivity.my_team_list_selected = new ArrayList<String>();
+
+		mainActivity.opponent_list = new ArrayList<String>();
+		mainActivity.opponent_list_selected = new ArrayList<String>();
+
+		mainActivity.venue_list = new ArrayList<String>();
+		mainActivity.venue_list_selected = new ArrayList<String>();
+
+		mainActivity.result_list = new ArrayList<String>();
+		mainActivity.result_list_selected = new ArrayList<String>();
+
+		mainActivity.level_list = new ArrayList<String>();
+		mainActivity.level_list_selected = new ArrayList<String>();
+
+		mainActivity.overs_list = new ArrayList<String>();
+		mainActivity.overs_list_selected = new ArrayList<String>();
+
+		mainActivity.innings_list = new ArrayList<String>();
+		mainActivity.innings_list_selected = new ArrayList<String>();
+
+		mainActivity.duration_list = new ArrayList<String>();
+		mainActivity.duration_list_selected = new ArrayList<String>();
+
+		mainActivity.first_list = new ArrayList<String>();
+		mainActivity.first_list_selected = new ArrayList<String>();
+
 		Cursor c = MainActivity.dbHandle.rawQuery(
 				"select distinct strftime('%Y'," + MatchDb.KEY_MATCH_DATE
 						+ ") as _id from " + MatchDb.SQLITE_TABLE + " where "
