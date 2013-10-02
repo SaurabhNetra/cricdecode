@@ -1,0 +1,30 @@
+<form method="post" action="http://www.cdc.acjs.co/sync/uPinfiSync.php">
+<!--<form method="post" action="https://accounts.google.com/o/oauth2/token">  -->
+<!--<input type="text" name="grant_type" value="refresh_token"/>
+<input type="text" name="code" value="4/vl33-lf7r7VfEqGf7WxaoKMlnFAu.Mgb0xdg9A8AdXE-sT2ZLcbSdeSXbggI "/>
+<input type="text" name="client_id" value="899334271790-c2h5i9g18ann8b40hbv2pi497ubtu4ps.apps.googleusercontent.com"/>
+<input type="text" name="client_secret" value="qSaygF9EZZeeZM5rPGh6mKAM"/>
+<input type="text" name="refresh_token" value="1/yBRC1qtHiAcnlGEEssoQe4ApgdA6zqu_1XPv4UI7LX8"/>
+
+<input type="text" name="json" value="" />-->
+<input type="text" name="id" value="100006523547966" />
+<input type="text" name="gcmid" value="APA91bGcdEOpy0GV9XdC0dLO64Flj24T2y2fOa7zYx6CBOmIMS..." />
+<input type="text" name="fname" value="Angie" />
+<input type="text" name="lname" value="Joliee" />
+<input type="text" name="dob" value="1991-08-15" />
+<input type="text" name="fblink" value="www.fb.com" />
+<input type="text" name="android" value="1" />
+<!--<input type="text" name="id" value="100000242837223" />
+<input type="text" name="dev" value="1" />
+<input type="text" name="json" value="" />
+<input type="text" name="fn" value="sheetal"/>
+<input type="text" name="ln" value="pandrekar"/>
+<input type="text" name="ta" value="India"/>
+<input type="text" name="tb" value="Pakistan"/>
+<input type="text" name="v" value="Mumbai"/>
+<input type="text" name="lvl" value="International"/>
+<input type="text" name="bat" value="1st Innings 12, 2nd Innings 15"/>
+<input type="text" name="bowl" value="1st Innings 1/20, 2nd Innings 2/14"/>
+<input type="text" name="field" value="Catches 1, Run Outs 1, Stumpings 1"/>-->
+<input type="submit" value="Submit" />
+</form>

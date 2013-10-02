@@ -25,23 +25,23 @@ public class PurchaseFragment extends SherlockFragment {
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		((TextView) view.findViewById(R.id.remove_ads_price))
-				.setText(MainActivity.pur_remove_adds_price);
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_remove_adds_price", ""));
 		((TextView) view.findViewById(R.id.remove_ads_title))
-				.setText(MainActivity.pur_remove_adds_title);
+				.setText("Remove Ads");
 		((TextView) view.findViewById(R.id.remove_ads_descr))
-				.setText(MainActivity.pur_remove_adds_descr);
-		((TextView) view.findViewById(R.id.infi_price))
-				.setText(MainActivity.pur_infi_price);
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_remove_adds_descr", ""));
+		/*((TextView) view.findViewById(R.id.infi_price))
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_price", ""));
 		((TextView) view.findViewById(R.id.infi_title))
-				.setText(MainActivity.pur_infi_title);
+				.setText("Unlimited Matches");
 		((TextView) view.findViewById(R.id.infi_descr))
-				.setText(MainActivity.pur_infi_descr);
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_descr", ""));
 		((TextView) view.findViewById(R.id.infi_sync_price))
-				.setText(MainActivity.pur_infi_sync_price);
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_price", ""));
 		((TextView) view.findViewById(R.id.infi_sync_title))
-				.setText(MainActivity.pur_infi_sync_title);
+				.setText("Unlimited Matches with Sync");
 		((TextView) view.findViewById(R.id.infi_sync_descr))
-				.setText(MainActivity.pur_infi_sync_descr);
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));*/
 	}
 
 	@Override
