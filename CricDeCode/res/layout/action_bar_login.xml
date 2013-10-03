@@ -34,8 +34,9 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/icon_main"
             android:background="@color/transparent"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:padding="@dimen/action_bar_text_padding"
+            android:paddingRight="@dimen/action_bar_text_padding"
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="@dimen/action_bar_text" />

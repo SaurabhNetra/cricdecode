@@ -42,9 +42,9 @@
             android:id="@+id/page_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_main"
             android:background="@color/transparent"
+            android:gravity="center_vertical"
             android:padding="@dimen/action_bar_text_padding"
             android:textColor="@color/white"
             android:textSize="@dimen/action_bar_text"
@@ -80,12 +80,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:background="@drawable/button_selector"
             android:contentDescription="Button"
+            android:gravity="center"
             android:onClick="onMenuButtonClick"
-            android:paddingLeft="@dimen/menu_padding"
-            android:paddingRight="@dimen/menu_padding"
+            android:padding="@dimen/menu_padding"
             android:textColor="@color/white" />
     </RelativeLayout>
 

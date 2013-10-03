@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="action_bar_text">12sp</dimen>
-
     <!-- career -->
     <dimen name="card_left_margin">160dp</dimen>
     <dimen name="card_right_margin">20dp</dimen>
@@ -12,6 +10,7 @@
     <dimen name="card_top_padding">35dp</dimen>
     <dimen name="card_bottom_padding">30dp</dimen>    
     <dimen name="scrollview_padding_top">0dp</dimen>
+    <dimen name="scrollview_margin_top_Bottom">20dp</dimen>
 
     <!-- filter general -->
     <dimen name="filter_scroll_height">140dp</dimen>    

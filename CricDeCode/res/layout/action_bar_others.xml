@@ -42,10 +42,12 @@
         <TextView
             android:id="@+id/page_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
             android:layout_toRightOf="@+id/icon_main"
             android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:padding="@dimen/action_bar_text_padding"
+            android:paddingRight="@dimen/action_bar_text_padding"
             android:text="@string/graph"
             android:textColor="@color/white"
             android:textSize="@dimen/action_bar_text" />

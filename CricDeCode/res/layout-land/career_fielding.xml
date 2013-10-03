@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="match_parent" >
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fadingEdge="none"
-        android:paddingBottom="20dip" >
+        android:layout_marginBottom="@dimen/scrollview_margin_top_Bottom"
+        android:layout_marginTop="@dimen/scrollview_margin_top_Bottom"
+        android:fadingEdge="none" >
 
         <RelativeLayout
             android:id="@+id/rl1"
