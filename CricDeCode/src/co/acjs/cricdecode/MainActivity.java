@@ -31,7 +31,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
@@ -1873,12 +1872,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			Bundle params = new Bundle();
 			params.putString("name", title);
 			params.putString("caption", caption);
-			params.putString("link", "www.cdc.acjs.co/sharedHighlights.php?fn="
+			params.putString("link", "cdc.acjs.co/sharedHighlights.php?fn="
 					+ fname + "&ln=" + lname + "&lvl=" + match_lvl + "&ta="
-					+ team_a + "&tb=" + team_b + "&v=" + venue + "&bat" + bat
+					+ team_a + "&tb=" + team_b + "&v=" + venue + "&bat=" + bat
 					+ "&bowl=" + bowl + "&field=" + field);
 			params.putString("description", description);
-			params.putString("picture", "www.cdc.acjs.co/icon.png");
+			params.putString("picture", "cdc.acjs.co/app-icon.png");
 			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
 					MainActivity.main_context, Session.getActiveSession(),
 					params)).setOnCompleteListener(new OnCompleteListener() {
