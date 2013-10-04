@@ -3,10 +3,16 @@ package co.acjs.cricdecode;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +31,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
@@ -86,6 +93,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	ProgressDialog progressDialog;
 	private static IabHelper mHelper;
 	private static OnIabPurchaseFinishedListener mPurchaseFinishedListener;
+
+	static String bat, bowl, field, match_lvl, team_a, team_b, venue, date;
 
 	// Filter Variables
 	ArrayList<String> my_team_list, my_team_list_selected, opponent_list,
@@ -784,8 +793,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (pendingPublishReauthorization
 				&& state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
 			pendingPublishReauthorization = false;
-			// TODO
-			String bat = "1st Innings 12, 2nd Innings 15", bowl = "1st Innings 1/20, 2nd Innings 2/14", field = "Catches 1, Run Outs 1, Stumpings 1", match_lvl = "International", team_a = "India", team_b = "Pakistan", venue = "Mumbai", date = "13th March";
+			// DONE
+
 			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue,
 					date);
 		}
@@ -1680,14 +1689,123 @@ public class MainActivity extends SherlockFragmentActivity {
 			dialog.show();
 			break;
 		case R.id.post_to_fb:
-			String bat = "1st Innings 12, 2nd Innings 15",
-			bowl = "1st Innings 1/20, 2nd Innings 2/14",
-			field = "Catches 1, Run Outs 1, Stumpings 1",
-			match_lvl = "International",
-			team_a = "India",
-			team_b = "Pakistan",
-			venue = "Mumbai",
-			date = "13th March"; // TODO
+
+			RelativeLayout vwParentRow = (RelativeLayout) view.getParent()
+					.getParent();
+
+			TextView child = (TextView) vwParentRow.getChildAt(0);
+			String str = child.getText().toString();
+			child = (TextView) vwParentRow.getChildAt(1);
+			String d_str = child.getText().toString();
+
+			Cursor c = MainActivity.dbHandle.rawQuery("select "
+					+ MatchDb.KEY_LEVEL + "," + MatchDb.KEY_MY_TEAM + ","
+					+ MatchDb.KEY_OPPONENT_TEAM + "," + MatchDb.KEY_VENUE + ","
+					+ MatchDb.KEY_MATCH_DATE + " from " + MatchDb.SQLITE_TABLE
+					+ " where " + MatchDb.KEY_DEVICE_ID + " = '" + d_str
+					+ "' and " + MatchDb.KEY_ROWID + " = " + str, null);
+
+			c.moveToFirst();
+
+			match_lvl = c.getString(0);
+			team_a = c.getString(1);
+			team_b = c.getString(2);
+			venue = c.getString(3);
+			date = c.getString(4);
+			c.close();
+
+			c = MainActivity.dbHandle.rawQuery("select "
+					+ PerformanceDb.KEY_BAT_RUNS + ","
+					+ PerformanceDb.KEY_BAT_BALLS + ","
+					+ PerformanceDb.KEY_BAT_HOW_OUT + ","
+					+ PerformanceDb.KEY_BOWL_BALLS + ","
+					+ PerformanceDb.KEY_BOWL_RUNS + ","
+					+ PerformanceDb.KEY_BOWL_WKTS_LEFT + ","
+					+ PerformanceDb.KEY_BOWL_WKTS_RIGHT + ","
+					+ PerformanceDb.KEY_FIELD_CIRCLE_CATCH + ","
+					+ PerformanceDb.KEY_FIELD_CLOSE_CATCH + ","
+					+ PerformanceDb.KEY_FIELD_DEEP_CATCH + ","
+					+ PerformanceDb.KEY_FIELD_SLIP_CATCH + ","
+					+ PerformanceDb.KEY_FIELD_RO_CIRCLE + ","
+					+ PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE + ","
+					+ PerformanceDb.KEY_FIELD_RO_DEEP + ","
+					+ PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP + ","
+					+ PerformanceDb.KEY_FIELD_STUMPINGS + " from "
+					+ PerformanceDb.SQLITE_TABLE + " where "
+					+ PerformanceDb.KEY_DEVICE_ID + " = '" + d_str + "' and "
+					+ PerformanceDb.KEY_MATCHID + " = " + str, null);
+			int count = c.getCount();
+			bat = "";
+			bowl = "";
+			field = "";
+			int catches = 0,
+			ro = 0,
+			st = 0;
+
+			c.moveToFirst();
+			bat = "1st Innings ";
+			if (c.getInt(1) == 0 && c.getString(2).equals("Not Out")) {
+				bat = bat + " DNB";
+			} else {
+				bat = bat + c.getInt(0);
+				if (c.getString(2).equals("Not Out")) {
+					bat = bat + "*";
+				}
+			}
+			bowl = "1st Innings ";
+			if (c.getInt(3) == 0) {
+				bowl = bowl + "DNB";
+			} else {
+				bowl = bowl + (c.getInt(5) + c.getInt(6)) + "/" + c.getInt(4);
+			}
+			catches += c.getInt(7) + c.getInt(8) + c.getInt(9) + c.getInt(10);
+			ro += c.getInt(11) + c.getInt(12) + c.getInt(13) + c.getInt(14);
+			st += c.getInt(15);
+
+			if (count == 2) {
+				c.moveToNext();
+				bat = bat + ", 2nd Innings ";
+				if (c.getInt(1) == 0 && c.getString(2).equals("Not Out")) {
+					bat = bat + " DNB";
+				} else {
+					bat = bat + c.getInt(0);
+					if (c.getString(2).equals("Not Out")) {
+						bat = bat + "*";
+					}
+				}
+				bowl = bowl + ", 2nd Innings ";
+				if (c.getInt(3) == 0) {
+					bowl = bowl + "DNB";
+				} else {
+					bowl = bowl + (c.getInt(5) + c.getInt(6)) + "/"
+							+ c.getInt(4);
+				}
+				catches += c.getInt(7) + c.getInt(8) + c.getInt(9)
+						+ c.getInt(10);
+				ro += c.getInt(11) + c.getInt(12) + c.getInt(13) + c.getInt(14);
+				st += c.getInt(15);
+			}
+			c.close();
+			field = "Catches " + catches + ", Run Outs " + ro + ", Stumpings "
+					+ st;
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",
+					Locale.getDefault());
+			Date datef = new Date();
+			try {
+				datef = sdf.parse(date);
+				Calendar cal = new GregorianCalendar();
+				cal.setTime(datef);
+				String day = cal.get(Calendar.DAY_OF_MONTH) + "";
+				String month = PerformanceFragmentView.month_str[cal
+						.get(Calendar.MONTH)];
+				String year = cal.get(Calendar.YEAR) + "";
+				date = month + " " + day + ", " + year;
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Log.d("Debug", "Date Exception");
+			}
+			// DONE
 			publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue,
 					date);
 			break;
@@ -2361,10 +2479,50 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		String str = ((ImageButton) v).getContentDescription().toString();
 		if (str.equals(getResources().getString(R.string.new_match))) {
-			preFragment = currentFragment;
-			currentFragment = MATCH_CREATION_FRAGMENT;
-			selectItem(MATCH_CREATION_FRAGMENT, true);
-			onPrepareOptionsMenu(current_menu);
+			// TODO AASWAD
+			if (AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals(
+					"yes")) {
+				preFragment = currentFragment;
+				currentFragment = MATCH_CREATION_FRAGMENT;
+				selectItem(MATCH_CREATION_FRAGMENT, true);
+				onPrepareOptionsMenu(current_menu);
+			} else {
+				final Dialog dialog = new Dialog(this);
+				dialog.setContentView(R.layout.dialog_confirmation);
+				dialog.setTitle("Subscribe");
+
+				TextView dialogText = (TextView) dialog
+						.findViewById(R.id.dialog_text);
+				dialogText
+						.setText("Subscribe to one of our schemes to enable creation of Unlimited Matches");
+				Button yes = (Button) dialog.findViewById(R.id.yes);
+				yes.setText("Buy");
+				yes.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+						currentFragment = PURCHASE_FRAGMENT;
+						preFragment = CAREER_FRAGMENT;
+						onPrepareOptionsMenu(current_menu);
+						selectItem(currentFragment, true);
+						setPageName(currentFragment);
+					}
+				});
+
+				Button no = (Button) dialog.findViewById(R.id.no);
+				no.setText("Cancel");
+				no.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+
+				dialog.show();
+			}
+
 		} else if (str.equals(getResources().getString(R.string.edit_profile))) {
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_EDIT_FRAGMENT;
 			onPrepareOptionsMenu(current_menu);
