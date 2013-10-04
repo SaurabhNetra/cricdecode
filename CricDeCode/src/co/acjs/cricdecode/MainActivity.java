@@ -528,22 +528,20 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
-						Context.MODE_PRIVATE);
-				((TextView) mDrawerList.getChildAt(ONGOING_MATCHES_FRAGMENT)
-						.findViewById(R.id.title))
-						.setText(getResources().getStringArray(
-								R.array.drawer_list_item)[ONGOING_MATCHES_FRAGMENT]
-								+ " ("
-								+ AccessSharedPrefs.mPrefs.getInt(
-										"ongoingMatches", 0) + ")");
-				((TextView) mDrawerList.getChildAt(DIARY_MATCHES_FRAGMENT)
-						.findViewById(R.id.title))
-						.setText(getResources().getStringArray(
-								R.array.drawer_list_item)[DIARY_MATCHES_FRAGMENT]
-								+ " ("
-								+ AccessSharedPrefs.mPrefs.getInt(
-										"diaryMatches", 0) + ")");
+				/*
+				 * AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
+				 * Context.MODE_PRIVATE); ((TextView)
+				 * mDrawerList.getChildAt(ONGOING_MATCHES_FRAGMENT)
+				 * .findViewById(R.id.title))
+				 * .setText(getResources().getStringArray(
+				 * R.array.drawer_list_item)[ONGOING_MATCHES_FRAGMENT] + " (" +
+				 * AccessSharedPrefs.mPrefs.getInt( "ongoingMatches", 0) + ")");
+				 * ((TextView) mDrawerList.getChildAt(DIARY_MATCHES_FRAGMENT)
+				 * .findViewById(R.id.title))
+				 * .setText(getResources().getStringArray(
+				 * R.array.drawer_list_item)[DIARY_MATCHES_FRAGMENT] + " (" +
+				 * AccessSharedPrefs.mPrefs.getInt( "diaryMatches", 0) + ")");
+				 */
 				icon.setPadding(-5, 0, 0, 0);
 			}
 		};
@@ -2278,6 +2276,7 @@ public class MainActivity extends SherlockFragmentActivity {
 						getSupportLoaderManager().restartLoader(0, null,
 								DiaryMatchesFragment.diaryMatchesFragment);
 					} else if (sel == CAREER_FRAGMENT) {
+
 						CareerFragment.careerFragment.fireQueries();
 						CareerFragment.careerFragment
 								.viewInfo(PerformanceFragmentEdit.GENERAL);

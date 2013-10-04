@@ -62,7 +62,9 @@ public class CareerFragment extends SherlockFragment implements
 			current_position = savedInstanceState.getInt("current_position");
 			MainActivity.changeTabLayout(current_position);
 		}
+
 		fireQueries();
+
 		this.intialiseViewPager(view);
 	}
 
@@ -75,6 +77,7 @@ public class CareerFragment extends SherlockFragment implements
 	private void intialiseViewPager(View view) {
 
 		List<SherlockFragment> fragments = new Vector<SherlockFragment>();
+
 		fragments.add((SherlockFragment) SherlockFragment.instantiate(
 				getSherlockActivity(), CareerGeneralFragment.class.getName()));
 		fragments.add((SherlockFragment) SherlockFragment.instantiate(
@@ -129,6 +132,7 @@ public class CareerFragment extends SherlockFragment implements
 	}
 
 	public void viewInfo(int id) {
+		Log.d("Debug", "View Info Called");
 		switch (id) {
 		case PerformanceFragmentEdit.GENERAL:
 			CareerGeneralFragment.careerGeneralFragment.matches.setText(matches
