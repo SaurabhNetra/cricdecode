@@ -1874,8 +1874,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			params.putString("name", title);
 			params.putString("caption", caption);
 			params.putString("link", "www.cdc.acjs.co/sharedHighlights.php?fn="
-					+ fname + "&ln=" + lname + "&lvl=" + match_lvl + "&ta"
-					+ team_a + "&tb" + team_b + "&v=" + venue + "&bat" + bat
+					+ fname + "&ln=" + lname + "&lvl=" + match_lvl + "&ta="
+					+ team_a + "&tb=" + team_b + "&v=" + venue + "&bat" + bat
 					+ "&bowl=" + bowl + "&field=" + field);
 			params.putString("description", description);
 			params.putString("picture", "www.cdc.acjs.co/icon.png");

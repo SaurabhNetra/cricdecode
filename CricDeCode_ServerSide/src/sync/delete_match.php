@@ -8,12 +8,12 @@ $json_string = $_POST ['json'];
 $json = str_replace ( "\\", "", $json_string );
 $json_array = json_decode ( $json, true );
 $res = mysql_query ( "SELECT * FROM sub_infi_sync WHERE id='$id'" );
-if (mysql_num_rows ( $res ) > 0) {
-	$i = 0;
+if (mysql_num_rows ( $res ) == 0) {
+	
 	$delete_these = null;
-	foreach ( $json_array ['deleted'] as $row ) {
-		$mid = $row ['mid'];
-		$dev = $row ['dev'];
+	for($i = 0; count ( $json_array ); $i ++) {
+		$mid = $json_array [$i] ['mid'];
+		$dev = $json_array [$i] ['dev'];
 		$SQL = "UPDATE cricket_match SET status=2 WHERE user_id='$id' AND match_id=$mid AND device_id=$dev";
 		mysql_query ( $SQL );
 		$SQL = "UPDATE performance SET status=2 WHERE user_id='$id' AND match_id=$mid AND device_id=$dev";

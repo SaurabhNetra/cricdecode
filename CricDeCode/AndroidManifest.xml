@@ -60,6 +60,7 @@
         <service android:name="CheckPurchasedAdRemovalService"></service>  
         <service android:name="CheckPurchaseInfiService"></service>  
         <service android:name="CheckPurchaseInfiSync"></service>  
+        <service android:name="DeleteMatchService"></service>
         <service android:name="PurchasedInfiSyncService"></service>        
         <service android:name=".GCMIntentService" />
 

@@ -252,11 +252,12 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		RelativeLayout vwParentRow = (RelativeLayout) view.getParent()
 				.getParent();
 
+		Log.w("DiaryMatchFragment","delete");
 		TextView child = (TextView) vwParentRow.getChildAt(0);
 		String str = child.getText().toString();
 		child = (TextView) vwParentRow.getChildAt(1);
 		String d_str = child.getText().toString();
-		if (AccessSharedPrefs.mPrefs.getString("", "no").equals("no")) {
+		if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")) {
 			Uri uri = Uri
 					.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
 							+ "/" + str + "/" + d_str);

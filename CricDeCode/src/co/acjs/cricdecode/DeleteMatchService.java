@@ -65,13 +65,18 @@ public class DeleteMatchService extends IntentService {
 				} while (!c.isAfterLast());
 			}
 			c.close();
-
-			String mid = intent.getExtras().getString("mid");
-			String dev = intent.getExtras().getString("dev");
+			
+			JSONObject jo = new JSONObject();
+			try {
+				jo.put("json", jsonArray);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
 					.getString("id", "")));
-			// params.add(new BasicNameValuePair("json", json));
+			params.add(new BasicNameValuePair("json", jo.toString()));
 
 			int trial = 1;
 			JSONObject jn = null;
