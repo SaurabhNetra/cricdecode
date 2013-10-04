@@ -2477,9 +2477,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		String str = ((ImageButton) v).getContentDescription().toString();
 		if (str.equals(getResources().getString(R.string.new_match))) {
-			// TODO AASWAD
-			if (AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals(
-					"yes")) {
+			// TODO Ask Saurabh ki idar limit kidar dali hai?
+			if (AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals(
+					"yes")|AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
+							"yes")) {
 				preFragment = currentFragment;
 				currentFragment = MATCH_CREATION_FRAGMENT;
 				selectItem(MATCH_CREATION_FRAGMENT, true);
