@@ -74,6 +74,7 @@ import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.stackmob.android.sdk.common.StackMobAndroid;
 
 public class MainActivity extends SherlockFragmentActivity {
 
@@ -190,6 +191,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		StackMobAndroid.init(getApplicationContext(), 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
