@@ -191,7 +191,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		StackMobAndroid.init(getApplicationContext(), 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
+		StackMobAndroid.init(getApplicationContext(), 0,
+				"c52a9f47-baae-41e3-aa63-72177b0c23f7");
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
@@ -2479,10 +2480,31 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		String str = ((ImageButton) v).getContentDescription().toString();
 		if (str.equals(getResources().getString(R.string.new_match))) {
+			boolean matchLimitExceeeded = false;
+			Cursor c = dbHandle.rawQuery(
+					"select count("
+							+ MatchDb.KEY_ROWID
+							+ ") from "
+							+ MatchDb.SQLITE_TABLE
+							+ " where "
+							+ MatchDb.KEY_DEVICE_ID
+							+ " = '"
+							+ AccessSharedPrefs.mPrefs.getString("device_id",
+									"") + "'", null);
+			if (c.getCount() != 0) {
+				c.moveToFirst();
+				Log.d("Debug", "Match Count " + c.getInt(0));
+				if (c.getInt(0) >= 5) {
+					matchLimitExceeeded = true;
+				}
+			}
+			c.close();
+
 			// TODO Ask Saurabh ki idar limit kidar dali hai?
 			if (AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals(
-					"yes")|AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
-							"yes")) {
+					"yes")
+					| AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+							.equals("yes") | !matchLimitExceeeded) {
 				preFragment = currentFragment;
 				currentFragment = MATCH_CREATION_FRAGMENT;
 				selectItem(MATCH_CREATION_FRAGMENT, true);
