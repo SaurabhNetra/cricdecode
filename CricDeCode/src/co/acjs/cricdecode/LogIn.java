@@ -84,26 +84,10 @@ public class LogIn extends SherlockActivity {
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo activeNetworkInfo = connectivityManager
 					.getActiveNetworkInfo();
-			if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
-				openMainActivity();
-			} else {
-				Session session = Session.getActiveSession();
-				final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
-				if (session.isOpened()) {
-					loginButton.setVisibility(View.GONE);
-					((ProgressBar) findViewById(R.id.progress_bar))
-							.setVisibility(View.VISIBLE);
-					Request.newMeRequest(session,
-							new Request.GraphUserCallback() {
-								@Override
-								public void onCompleted(GraphUser user, Response response) {
-									if (user != null) {
-										openMainActivity();
-									}
-								}
-							}).executeAsync();
-				}
+			if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+				login_activity.startService(new Intent(login_activity, FBRefreshService.class));
 			}
+			openMainActivity();
 		} else if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) {
 			Session session = Session.getActiveSession();
 			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);

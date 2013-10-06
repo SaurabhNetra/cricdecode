@@ -53,15 +53,16 @@
             android:value="@string/fb_app_id" />
 
         <service android:name="SignInService" />
+        <service android:name="FBRefreshService" />
         <service android:name="ProfileEditService" />
         <service android:name="MatchHistorySyncService" />
-        <service android:name="PurchasedAdRemovalService"></service>
-        <service android:name="PurchasedInfiService"></service>
-        <service android:name="CheckPurchasedAdRemovalService"></service>  
-        <service android:name="CheckPurchaseInfiService"></service>  
-        <service android:name="CheckPurchaseInfiSync"></service>  
-        <service android:name="DeleteMatchService"></service>
-        <service android:name="PurchasedInfiSyncService"></service>        
+        <service android:name="PurchasedAdRemovalService" />
+        <service android:name="PurchasedInfiService" />
+        <service android:name="CheckPurchasedAdRemovalService" />  
+        <service android:name="CheckPurchaseInfiService" />  
+        <service android:name="CheckPurchaseInfiSync" />  
+        <service android:name="DeleteMatchService" />
+        <service android:name="PurchasedInfiSyncService" />        
         <service android:name=".GCMIntentService" />
 
         <activity
