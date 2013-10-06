@@ -23,9 +23,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class PerformanceFragmentEdit extends SherlockFragment implements
 		ViewPager.OnPageChangeListener {
@@ -34,7 +36,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			FIELDING = 3;
 
 	static PerformanceFragmentEdit performanceFragmentEdit;
-
+	TextView toggle_on, toggle_off;
 	// Declare Fields
 	// Match
 	Spinner inning_no;
@@ -922,12 +924,33 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			spinnerPosition = myAdap.getPosition(fielding_pos[current_innings]);
 			spinner.setSelection(spinnerPosition);
 
+			toggle_off = (TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+					.findViewById(R.id.toggle_off_bat);
+			toggle_on = (TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+					.findViewById(R.id.toggle_on_bat);
+
 			if (batted[current_innings]) {
 				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
 						.setVisibility(View.VISIBLE);
+				toggle_off.setBackgroundColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_off.setTextColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_on.setTextColor(getResources().getColor(
+						R.color.dark_grey));
+				toggle_on.setBackgroundColor(getResources().getColor(
+						R.color.green));
 			} else {
 				PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.batting_info
 						.setVisibility(View.GONE);
+				toggle_off.setBackgroundColor(getResources().getColor(
+						R.color.dark_grey));
+				toggle_off.setTextColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_on.setTextColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_on.setBackgroundColor(getResources().getColor(
+						R.color.light_grey));
 			}
 			PerformanceBattingFragmentEdit.performanceBattingFragmentEdit.bat_toggle
 					.setChecked(batted[current_innings]);
@@ -973,13 +996,33 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.wides
 					.setText(wides[current_innings] + "");
 
+			toggle_off = (TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+					.findViewById(R.id.toggle_off_bowl);
+			toggle_on = (TextView) ((SherlockFragmentActivity) MainActivity.main_context)
+					.findViewById(R.id.toggle_on_bowl);
 			if (bowled[current_innings]) {
 				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
 						.setVisibility(View.VISIBLE);
+				toggle_off.setBackgroundColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_off.setTextColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_on.setTextColor(getResources().getColor(
+						R.color.dark_grey));
+				toggle_on.setBackgroundColor(getResources().getColor(
+						R.color.green));
 
 			} else {
 				PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowling_info
 						.setVisibility(View.GONE);
+				toggle_off.setBackgroundColor(getResources().getColor(
+						R.color.dark_grey));
+				toggle_off.setTextColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_on.setTextColor(getResources().getColor(
+						R.color.light_grey));
+				toggle_on.setBackgroundColor(getResources().getColor(
+						R.color.light_grey));
 			}
 			PerformanceBowlingFragmentEdit.performanceBowlingFragmentEdit.bowl_toggle
 					.setChecked(bowled[current_innings]);

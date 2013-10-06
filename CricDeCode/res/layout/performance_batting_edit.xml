@@ -116,7 +116,7 @@
                     android:textSize="@dimen/toggle_title_text_size" />
 
                 <TextView
-                    android:id="@+id/toggle_on"
+                    android:id="@+id/toggle_on_bat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/batted"
@@ -126,10 +126,10 @@
                     android:textColor="@color/light_grey" />
 
                 <TextView
-                    android:id="@+id/toggle_off"
+                    android:id="@+id/toggle_off_bat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/toggle_on"
+                    android:layout_toRightOf="@id/toggle_on_bat"
                     android:background="@color/dark_grey"
                     android:padding="@dimen/toggle_off_padding"
                     android:text="@string/no"

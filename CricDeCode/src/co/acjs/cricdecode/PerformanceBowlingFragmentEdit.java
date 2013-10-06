@@ -84,8 +84,8 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
 
-		toggle_on = (TextView) view.findViewById(R.id.toggle_on);
-		toggle_off = (TextView) view.findViewById(R.id.toggle_off);
+		toggle_on = (TextView) view.findViewById(R.id.toggle_on_bowl);
+		toggle_off = (TextView) view.findViewById(R.id.toggle_off_bowl);
 		bowling_info = (TableLayout) view.findViewById(R.id.bowling_info);
 		overs = (EditText) view.findViewById(R.id.overs_bowled);
 		overs.setOnFocusChangeListener(new OnFocusChangeListener() {

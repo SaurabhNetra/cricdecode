@@ -108,6 +108,7 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 				return;
 			}
 		});
+	
 
 	}
 
@@ -120,8 +121,8 @@ public class PerformanceBattingFragmentEdit extends SherlockFragment {
 		venue = (TextView) view.findViewById(R.id.venue);
 		level = (TextView) view.findViewById(R.id.level);
 		match_overs = (TextView) view.findViewById(R.id.overs);
-		toggle_off = (TextView) view.findViewById(R.id.toggle_off);
-		toggle_on = (TextView) view.findViewById(R.id.toggle_on);
+		toggle_off = (TextView) view.findViewById(R.id.toggle_off_bat);
+		toggle_on = (TextView) view.findViewById(R.id.toggle_on_bat);
 
 		batting_info = (TableLayout) view.findViewById(R.id.batting_info);
 		batting_no = (EditText) view.findViewById(R.id.batting_no);
