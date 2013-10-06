@@ -2499,8 +2499,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				}
 			}
 			c.close();
-
-			// TODO Ask Saurabh ki idar limit kidar dali hai?
 			if (AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals(
 					"yes")
 					| AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
