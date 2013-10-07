@@ -46,7 +46,6 @@ public class SignInService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		client =getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
-
 		dbHandle = ((CricDeCodeContentProvider) client
 				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		AccessSharedPrefs.mPrefs = getApplicationContext()

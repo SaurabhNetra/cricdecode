@@ -3,24 +3,21 @@ package co.acjs.cricdecode;
 import com.stackmob.sdk.model.StackMobModel;
 
 public class ServerDBUserTable extends StackMobModel {
-	String id;
-	int device_no;
-	String first_name;
-	String last_name;
-	String nick_name;
-	String fb_link;
-	String dob;
-	String role;
-	String battingStyle;
-	String bowlingStyle;
-	int hasAndroid;
+	String	user_id;
+	int		device_no;
+	String	first_name;
+	String	last_name;
+	String	nick_name;
+	String	fb_link;
+	String	dob;
+	String	role;
+	String	battingStyle;
+	String	bowlingStyle;
+	int		hasAndroid;
 
-	public ServerDBUserTable(String id, int device_no, String first_name,
-			String last_name, String nick_name, String fb_link, String dob,
-			String role, String battingStyle, String bowlingStyle,
-			int hasAndroid) {
+	public ServerDBUserTable(String user_id, int device_no, String first_name, String last_name, String nick_name, String fb_link, String dob, String role, String battingStyle, String bowlingStyle, int hasAndroid) {
 		super(ServerDBUserTable.class);
-		this.id = id;
+		this.user_id = user_id;
 		this.device_no = device_no;
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -33,8 +30,8 @@ public class ServerDBUserTable extends StackMobModel {
 		this.hasAndroid = hasAndroid;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String user_id) {
+		this.id = user_id;
 	}
 
 	public void setDeviceNo(int device_no) {
@@ -78,7 +75,7 @@ public class ServerDBUserTable extends StackMobModel {
 	}
 
 	public String getId() {
-		return this.id;
+		return this.user_id;
 	}
 
 	public int getDeviceNo() {

@@ -3,19 +3,17 @@ package co.acjs.cricdecode;
 import com.stackmob.sdk.model.StackMobModel;
 
 public class ServerDBSubInfiSync extends StackMobModel {
-	String id;
-	String order_id;
-	String token;
-	String sign;
-	int purchaseTime;
-	int initiation_ts_msec;
-	int validUntil_ts_msec;
+	String	user_id;
+	String	order_id;
+	String	token;
+	String	sign;
+	int		purchaseTime;
+	int		initiation_ts_msec;
+	int		validUntil_ts_msec;
 
-	public ServerDBSubInfiSync(String id, String order_id, String token,
-			String sign, int purchaseTime, int initiation_ts_msec,
-			int validUntil_ts_msec) {
+	public ServerDBSubInfiSync(String user_id, String order_id, String token, String sign, int purchaseTime, int initiation_ts_msec, int validUntil_ts_msec) {
 		super(ServerDBSubInfiSync.class);
-		this.id = id;
+		this.id = user_id;
 		this.order_id = order_id;
 		this.token = token;
 		this.sign = sign;
@@ -24,8 +22,8 @@ public class ServerDBSubInfiSync extends StackMobModel {
 		this.validUntil_ts_msec = validUntil_ts_msec;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String user_id) {
+		this.user_id = user_id;
 	}
 
 	public void setOrderId(String order_id) {
@@ -53,7 +51,7 @@ public class ServerDBSubInfiSync extends StackMobModel {
 	}
 
 	public String getId() {
-		return this.id;
+		return this.user_id;
 	}
 
 	public String getOrderId() {

@@ -4,28 +4,25 @@ import com.stackmob.sdk.model.StackMobModel;
 
 public class ServerDBCricketMatch extends StackMobModel {
 
-	private String id;
-	private int match_id;
-	private int device_id;
-	private String match_date;
-	private String my_team;
-	private String opponent_team;
-	private String venue;
-	private int overs;
-	private int innings;
-	private String result;
-	private String level;
-	private String first_action;
-	private String duration;
-	private String review;
-	private int status;
+	private String	user_id;
+	private int		match_id;
+	private int		device_id;
+	private String	match_date;
+	private String	my_team;
+	private String	opponent_team;
+	private String	venue;
+	private int		overs;
+	private int		innings;
+	private String	result;
+	private String	level;
+	private String	first_action;
+	private String	duration;
+	private String	review;
+	private int		status;
 
-	public ServerDBCricketMatch(String id, int match_id, int device_id,
-			String match_date, String my_team, String opponent_team,
-			String venue, int overs, int innings, String result, String level,
-			String first_action, String duration, String review, int status) {
+	public ServerDBCricketMatch(String user_id, int match_id, int device_id, String match_date, String my_team, String opponent_team, String venue, int overs, int innings, String result, String level, String first_action, String duration, String review, int status) {
 		super(ServerDBCricketMatch.class);
-		this.id = id;
+		this.user_id = user_id;
 		this.match_id = match_id;
 		this.device_id = device_id;
 		this.match_date = match_date;
@@ -42,8 +39,8 @@ public class ServerDBCricketMatch extends StackMobModel {
 		this.status = status;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String user_id) {
+		this.user_id = user_id;
 	}
 
 	public void setMatchId(int match_id) {
@@ -103,7 +100,7 @@ public class ServerDBCricketMatch extends StackMobModel {
 	}
 
 	public String getId() {
-		return this.id;
+		return this.user_id;
 	}
 
 	public int getMatchId() {

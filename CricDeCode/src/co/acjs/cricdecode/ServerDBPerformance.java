@@ -3,60 +3,49 @@ package co.acjs.cricdecode;
 import com.stackmob.sdk.model.StackMobModel;
 
 public class ServerDBPerformance extends StackMobModel {
-	String id;
-	int match_id;
-	int device_id;
-	int per_id;
-	int inning;
-	int bat_num;
-	int bat_runs;
-	int bat_balls;
-	int bat_time;
-	int fours;
-	int sixes;
-	String bat_dismissal;
-	String bat_bowler_type;
-	String bat_feilding_position;
-	int bat_chances;
-	int bowl_balls;
-	int bowl_spells;
-	int bowl_maidens;
-	int bowl_runs;
-	int bowl_fours;
-	int bowl_sixes;
-	int bowl_wkts_left;
-	int bowl_wkts_right;
-	int bowl_catches_dropped;
-	int bowl_no_balls;
-	int bowl_wides;
-	int field_slip_catch;
-	int field_close_catch;
-	int field_circle_catch;
-	int field_deep_catch;
-	int field_ro_circle;
-	int field_ro_direct_circle;
-	int field_ro_deep;
-	int field_ro_direct_deep;
-	int field_stumpings;
-	int field_byes;
-	int field_misfield;
-	int field_catches_dropped;
-	int status;
+	String	user_id;
+	int		match_id;
+	int		device_id;
+	int		per_id;
+	int		inning;
+	int		bat_num;
+	int		bat_runs;
+	int		bat_balls;
+	int		bat_time;
+	int		fours;
+	int		sixes;
+	String	bat_dismissal;
+	String	bat_bowler_type;
+	String	bat_feilding_position;
+	int		bat_chances;
+	int		bowl_balls;
+	int		bowl_spells;
+	int		bowl_maidens;
+	int		bowl_runs;
+	int		bowl_fours;
+	int		bowl_sixes;
+	int		bowl_wkts_left;
+	int		bowl_wkts_right;
+	int		bowl_catches_dropped;
+	int		bowl_no_balls;
+	int		bowl_wides;
+	int		field_slip_catch;
+	int		field_close_catch;
+	int		field_circle_catch;
+	int		field_deep_catch;
+	int		field_ro_circle;
+	int		field_ro_direct_circle;
+	int		field_ro_deep;
+	int		field_ro_direct_deep;
+	int		field_stumpings;
+	int		field_byes;
+	int		field_misfield;
+	int		field_catches_dropped;
+	int		status;
 
-	public ServerDBPerformance(String id, int match_id, int device_id,
-			int per_id, int inning, int bat_num, int bat_runs, int bat_balls,
-			int bat_time, int fours, int sixes, String bat_dismissal,
-			String bat_bowler_type, String bat_feilding_position,
-			int bat_chances, int bowl_balls, int bowl_spells, int bowl_maidens,
-			int bowl_runs, int bowl_fours, int bowl_sixes, int bowl_wkts_left,
-			int bowl_wkts_right, int bowl_catches_dropped, int bowl_no_balls,
-			int bowl_wides, int field_slip_catch, int field_close_catch,
-			int field_circle_catch, int field_deep_catch, int field_ro_circle,
-			int field_ro_direct_circle, int field_ro_deep,
-			int field_ro_direct_deep, int field_stumpings, int field_byes,
-			int field_misfield, int field_catches_dropped, int status) {
+	public ServerDBPerformance(String user_id, int match_id, int device_id, int per_id, int inning, int bat_num, int bat_runs, int bat_balls, int bat_time, int fours, int sixes, String bat_dismissal, String bat_bowler_type, String bat_feilding_position, int bat_chances, int bowl_balls, int bowl_spells, int bowl_maidens, int bowl_runs, int bowl_fours, int bowl_sixes, int bowl_wkts_left, int bowl_wkts_right, int bowl_catches_dropped, int bowl_no_balls, int bowl_wides, int field_slip_catch, int field_close_catch, int field_circle_catch, int field_deep_catch, int field_ro_circle, int field_ro_direct_circle, int field_ro_deep, int field_ro_direct_deep, int field_stumpings, int field_byes, int field_misfield, int field_catches_dropped, int status) {
 		super(ServerDBPerformance.class);
-		this.id = id;
+		this.user_id = user_id;
 		this.match_id = match_id;
 		this.device_id = device_id;
 		this.per_id = per_id;
@@ -97,8 +86,8 @@ public class ServerDBPerformance extends StackMobModel {
 		this.status = status;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String user_id) {
+		this.user_id = user_id;
 	}
 
 	public void setMatchId(int match_id) {
@@ -250,7 +239,7 @@ public class ServerDBPerformance extends StackMobModel {
 	}
 
 	public String getId() {
-		return this.id;
+		return this.user_id;
 	}
 
 	public int getMatchId() {

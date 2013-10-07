@@ -197,7 +197,10 @@ public class GCMRegistrarCompat {
 
 		protected void sendRegistrationIdToServer(String regid) {
 			if (regid != null) {
-				LogIn.startApp(regid);
+				try {
+					LogIn.startApp(regid);
+				} catch (Exception e) {
+				}
 			}
 			// no-op -- subclasses should override and send
 			// registration id to server by some means

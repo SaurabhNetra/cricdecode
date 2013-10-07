@@ -193,12 +193,14 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//TODO encrypt
 		StackMobAndroid.init(getApplicationContext(), 0,
 				"c52a9f47-baae-41e3-aa63-72177b0c23f7");
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
+		//TODO encrypt
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7sFvSEgBW48CoI2EnAgRscQOFXEhB7cx76L8aKJvVoIRvs1vaWwLh1FYD8WxxIkxmbtGCxEQonHOEJXi+oy6KVFCvWijINbrX7XLj8XNpBalVt/z7mjU+omimgzDthlDiAC2Zx8xr/Tsxe1twaZfVSIICB8vyI6xCANOlTYGBJx3LwY07N3eeTVCU6kWj7SELS8ZaiPuj83ybkLQe4BSvCYTaUH3It+fZKuJ4RbhDeR2eQ4RNJfHcqI9JKmLiMb8YmYkSid6tt+5jKt3P+zjUfIeslKeVB1LODO4ISuSpgJzb5xH4j2VIh/phyFFLQ3v6gJoo29A/OApP1wFYR9/1wIDAQAB";
 		mHelper = new IabHelper(this, base64EncodedPublicKey);
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
