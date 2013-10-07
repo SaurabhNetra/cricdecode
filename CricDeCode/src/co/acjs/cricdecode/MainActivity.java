@@ -134,6 +134,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			PERFORMANCE_FRAGMENT_EDIT = 7, PERFORMANCE_FRAGMENT_VIEW = 8,
 			PROFILE_EDIT = 9;
 
+	static int root_fragment = CAREER_FRAGMENT;
+
 	// Request Codes
 	static final int PURCHASE_REMOVE_ADS = 398457, PURCHASE_INFI = 34809,
 			PURCHASE_INFI_SYNC = 37867;
@@ -553,10 +555,15 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		tx = (TextView) findViewById(R.id.page_name);
 
+		if (!AccessSharedPrefs.mPrefs.getBoolean("matches_exist", false)) {
+			root_fragment = ONGOING_MATCHES_FRAGMENT;
+		} else {
+			root_fragment = CAREER_FRAGMENT;
+		}
 		if (savedInstanceState == null) {
 			Log.d("Debug", "Saved is null");
 
-			currentFragment = CAREER_FRAGMENT;
+			currentFragment = root_fragment;
 			preFragment = NO_FRAGMENT;
 			ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
 			selectItem(currentFragment, true);
@@ -2397,12 +2404,18 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void onBackPressed() {
+		if (currentFragment == root_fragment) {
+			super.onBackPressed();
+			return;
+		}
 		switch (currentFragment) {
-		case CAREER_FRAGMENT:
-			break;
 		case MATCH_CREATION_FRAGMENT:
 			currentFragment = ONGOING_MATCHES_FRAGMENT;
-			preFragment = CAREER_FRAGMENT;
+			if (root_fragment == CAREER_FRAGMENT) {
+				preFragment = CAREER_FRAGMENT;
+			} else {
+				preFragment = NO_FRAGMENT;
+			}
 			selectItem(ONGOING_MATCHES_FRAGMENT, true);
 			onPrepareOptionsMenu(current_menu);
 			return;
@@ -2412,7 +2425,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			return;
 		case PERFORMANCE_FRAGMENT_VIEW:
 			currentFragment = DIARY_MATCHES_FRAGMENT;
-			preFragment = CAREER_FRAGMENT;
+			preFragment = root_fragment;
 			selectItem(currentFragment, true);
 			onPrepareOptionsMenu(current_menu);
 			return;
@@ -2433,9 +2446,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			case DIARY_MATCHES_FRAGMENT:
 			case PURCHASE_FRAGMENT:
 			case ONGOING_MATCHES_FRAGMENT:
-				currentFragment = CAREER_FRAGMENT;
+				currentFragment = root_fragment;
 				preFragment = NO_FRAGMENT;
-				selectItem(CAREER_FRAGMENT, true);
+				selectItem(root_fragment, true);
 				onPrepareOptionsMenu(current_menu);
 				return;
 			}

@@ -1197,7 +1197,11 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 
 		// Go to Ongoing Matches
 		((MainActivity) getSherlockActivity()).currentFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
-		((MainActivity) getSherlockActivity()).preFragment = MainActivity.CAREER_FRAGMENT;
+		if (MainActivity.root_fragment == MainActivity.CAREER_FRAGMENT) {
+			((MainActivity) getSherlockActivity()).preFragment = MainActivity.CAREER_FRAGMENT;
+		} else {
+			((MainActivity) getSherlockActivity()).preFragment = MainActivity.NO_FRAGMENT;
+		}
 		((MainActivity) getSherlockActivity()).selectItem(
 				MainActivity.ONGOING_MATCHES_FRAGMENT, true);
 

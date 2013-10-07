@@ -239,7 +239,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 					+ "/" + str + "/" + d_str);
 			getSherlockActivity().getContentResolver().update(uri, values,
 					null, null);
-			if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")) {
+			if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
+					"yes")) {
 				AccessSharedPrefs.setString(getSherlockActivity(),
 						"MatchHistorySyncServiceCalled",
 						CDCAppClass.NEEDS_TO_BE_CALLED);

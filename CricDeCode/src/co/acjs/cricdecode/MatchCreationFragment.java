@@ -204,12 +204,14 @@ public class MatchCreationFragment extends SherlockFragment {
 		// Increment Ongoing Matches Count
 		AccessSharedPrefs.setInt(getSherlockActivity(), "ongoingMatches",
 				AccessSharedPrefs.mPrefs.getInt("ongoingMatches", 0) + 1);
+		AccessSharedPrefs.setBoolean(getSherlockActivity(), "matches_exist",
+				true);
 
 		// Go to Ongoing Matches
 		Date d = new Date();
 		if (date.after(d) || date.equals(d)) {
 			((MainActivity) getSherlockActivity()).currentFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
-			((MainActivity) getSherlockActivity()).preFragment = MainActivity.MATCH_CREATION_FRAGMENT;
+			((MainActivity) getSherlockActivity()).preFragment = MainActivity.root_fragment;
 			((MainActivity) getSherlockActivity()).selectItem(
 					MainActivity.ONGOING_MATCHES_FRAGMENT, true);
 		} else if (date.before(d)) {
@@ -221,7 +223,7 @@ public class MatchCreationFragment extends SherlockFragment {
 			PerformanceFragmentEdit.performanceFragmentEdit
 					.setArguments(bundle);
 			((MainActivity) getSherlockActivity()).currentFragment = MainActivity.PERFORMANCE_FRAGMENT_EDIT;
-			((MainActivity) getSherlockActivity()).preFragment = MainActivity.MATCH_CREATION_FRAGMENT;
+			((MainActivity) getSherlockActivity()).preFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
 			((MainActivity) getSherlockActivity())
 					.onPrepareOptionsMenu(((MainActivity) getSherlockActivity()).current_menu);
 			((MainActivity) getSherlockActivity()).selectItem(

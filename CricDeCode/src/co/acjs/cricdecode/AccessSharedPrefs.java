@@ -42,4 +42,16 @@ public class AccessSharedPrefs {
 			e.printStackTrace();
 		}
 	}
+
+	public static void setBoolean(Context cont, String key, boolean value) {
+		try {
+			s.acquire();
+			init(cont);
+			editor.putBoolean(key, value);
+			editor.commit();
+			s.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
