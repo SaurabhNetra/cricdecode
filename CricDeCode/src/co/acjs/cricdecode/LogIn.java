@@ -38,11 +38,11 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 public class LogIn extends SherlockActivity {
-	static GraphUser user;
-	static Context login_activity;
-	ContentProviderClient client;
-	SQLiteDatabase dbHandle;
-	static TextView progressText;
+	static GraphUser		user;
+	static Context			login_activity;
+	ContentProviderClient	client;
+	SQLiteDatabase			dbHandle;
+	static TextView			progressText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +67,7 @@ public class LogIn extends SherlockActivity {
 				R.string.fb_app_id));
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
 			@Override
-			public void call(Session session, SessionState state,
-					Exception exception) {
+			public void call(Session session, SessionState state, Exception exception) {
 				if (session.isOpened()) {
 					loginButton.setVisibility(View.GONE);
 					((ProgressBar) findViewById(R.id.progress_bar))
@@ -79,8 +78,7 @@ public class LogIn extends SherlockActivity {
 								// callback after Graph API response with user
 								// object
 								@Override
-								public void onCompleted(GraphUser user,
-										Response response) {
+								public void onCompleted(GraphUser user, Response response) {
 									if (user != null) {
 										Log.w("Face Book Login Complete",
 												"LogIn: " + user.getBirthday());
@@ -115,19 +113,19 @@ public class LogIn extends SherlockActivity {
 			Session session = Session.getActiveSession();
 			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
 			try {
-				if (session.isOpened()) {
-					loginButton.setVisibility(View.GONE);
-					((ProgressBar) findViewById(R.id.progress_bar))
-							.setVisibility(View.VISIBLE);
-					// make request to the /me API
+				if (loginButton.getVisibility() != View.GONE)
+					if (session.isOpened()) {
+						loginButton.setVisibility(View.GONE);
+						((ProgressBar) findViewById(R.id.progress_bar))
+								.setVisibility(View.VISIBLE);
+						// make request to the /me API
 					Request.newMeRequest(session,
 							new Request.GraphUserCallback() {
 
 								// callback after Graph API response with user
 								// object
 								@Override
-								public void onCompleted(GraphUser user,
-										Response response) {
+								public void onCompleted(GraphUser user, Response response) {
 									if (user != null) {
 										Log.w("Face Book Login Complete",
 												"LogIn: " + user.getBirthday());
@@ -165,18 +163,10 @@ public class LogIn extends SherlockActivity {
 		if (BuildConfig.DEBUG) {
 			GCMRegistrarCompat.checkManifest(this);
 		}
-		final String regId = GCMRegistrarCompat.getRegistrationId(this);
-		if (regId.length() == 0) {
-			new RegisterTask(this).execute(getResources().getString(
-					R.string.projno));
-		} else {
-			Log.d(getClass().getSimpleName(), "Existing registration: " + regId);
-			startApp(regId);
-		}
+		new RegisterTask(this).execute(getResources().getString(R.string.projno));
 	}
 
-	private static class RegisterTask extends
-			GCMRegistrarCompat.BaseRegisterTask {
+	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask {
 		RegisterTask(Context context) {
 			super(context);
 		}
@@ -184,10 +174,9 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
-			if ((regid == "") | (regid == null))
+			if (regid.length() == 0)
 				((LogIn) login_activity).GCMRegistration();
-			else
-				startApp(regid);
+			else startApp(regid);
 		}
 	}
 
@@ -203,22 +192,20 @@ public class LogIn extends SherlockActivity {
 					public void failure(StackMobException arg0) {
 						Log.w("chk if user existing", arg0);
 						new AlertDialog.Builder(login_activity)
-						.setTitle(
-								"Weak Internet Connection")
-						.setMessage(
-								"Check your internet connection and restart app.")
-						.setNeutralButton(
-								"Ok",
-								new DialogInterface.OnClickListener() {
-									public void onClick(
-											DialogInterface dialog,
-											int which) {
-										dialog.dismiss();
-										Intent i = new Intent(login_activity, LogIn.class);
-							            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							            login_activity.startActivity(i);
-									}
-								}).show();
+								.setTitle("Weak Internet Connection")
+								.setMessage(
+										"Check your internet connection and restart app.")
+								.setNeutralButton("Ok",
+										new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.dismiss();
+												Intent i = new Intent(
+														login_activity,
+														LogIn.class);
+												i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												login_activity.startActivity(i);
+											}
+										}).show();
 					}
 
 					@Override
@@ -246,13 +233,14 @@ public class LogIn extends SherlockActivity {
 											.setNeutralButton(
 													"Ok",
 													new DialogInterface.OnClickListener() {
-														public void onClick(
-																DialogInterface dialog,
-																int which) {
+														public void onClick(DialogInterface dialog, int which) {
 															dialog.dismiss();
-															Intent i = new Intent(login_activity, LogIn.class);
-												            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-												            login_activity.startActivity(i);
+															Intent i = new Intent(
+																	login_activity,
+																	LogIn.class);
+															i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+															login_activity
+																	.startActivity(i);
 														}
 													}).show();
 								}
@@ -264,27 +252,28 @@ public class LogIn extends SherlockActivity {
 
 							returenedVar.get(0).save(
 									new StackMobModelCallback() {
-										
+
 										@Override
-										public void failure(
-												StackMobException arg0) {
-											new AlertDialog.Builder(login_activity)
-											.setTitle(
-													"Weak Internet Connection")
-											.setMessage(
-													"Check your internet connection and restart app.")
-											.setNeutralButton(
-													"Ok",
-													new DialogInterface.OnClickListener() {
-														public void onClick(
-																DialogInterface dialog,
-																int which) {
-															dialog.dismiss();
-															Intent i = new Intent(login_activity, LogIn.class);
-												            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-												            login_activity.startActivity(i);
-														}
-													}).show();
+										public void failure(StackMobException arg0) {
+											new AlertDialog.Builder(
+													login_activity)
+													.setTitle(
+															"Weak Internet Connection")
+													.setMessage(
+															"Check your internet connection and restart app.")
+													.setNeutralButton(
+															"Ok",
+															new DialogInterface.OnClickListener() {
+																public void onClick(DialogInterface dialog, int which) {
+																	dialog.dismiss();
+																	Intent i = new Intent(
+																			login_activity,
+																			LogIn.class);
+																	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																	login_activity
+																			.startActivity(i);
+																}
+															}).show();
 										}
 
 										@Override
@@ -301,33 +290,34 @@ public class LogIn extends SherlockActivity {
 															new StackMobQueryCallback<ServerDBRemoveAds>() {
 
 																@Override
-																public void failure(
-																		StackMobException arg0) {
+																public void failure(StackMobException arg0) {
 																	Log.w("LoginIn",
 																			"remove_ads_chk failure!!");
-																	new AlertDialog.Builder(login_activity)
-																	.setTitle(
-																			"Weak Internet Connection")
-																	.setMessage(
-																			"Check your internet connection and restart app.")
-																	.setNeutralButton(
-																			"Ok",
-																			new DialogInterface.OnClickListener() {
-																				public void onClick(
-																						DialogInterface dialog,
-																						int which) {
-																					dialog.dismiss();
-																					Intent i = new Intent(login_activity, LogIn.class);
-																		            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																		            login_activity.startActivity(i);
-																				}
-																			}).show();
+																	new AlertDialog.Builder(
+																			login_activity)
+																			.setTitle(
+																					"Weak Internet Connection")
+																			.setMessage(
+																					"Check your internet connection and restart app.")
+																			.setNeutralButton(
+																					"Ok",
+																					new DialogInterface.OnClickListener() {
+																						public void onClick(DialogInterface dialog, int which) {
+																							dialog.dismiss();
+																							Intent i = new Intent(
+																									login_activity,
+																									LogIn.class);
+																							i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																							login_activity
+																									.startActivity(i);
+																						}
+																					})
+																			.show();
 
 																}
 
 																@Override
-																public void success(
-																		List<ServerDBRemoveAds> arg0) {
+																public void success(List<ServerDBRemoveAds> arg0) {
 																	Log.w("LoginIn",
 																			"remove_ads_chk success!!");
 																	if (arg0.size() > 0)
@@ -347,35 +337,36 @@ public class LogIn extends SherlockActivity {
 																					new StackMobQueryCallback<ServerDBSubInfi>() {
 
 																						@Override
-																						public void failure(
-																								StackMobException arg0) {
+																						public void failure(StackMobException arg0) {
 																							Log.w("LoginIn",
 																									"sub_infi_chk failure!!");
-																							new AlertDialog.Builder(login_activity)
-																							.setTitle(
-																									"Weak Internet Connection")
-																							.setMessage(
-																									"Check your internet connection and restart app.")
-																							.setNeutralButton(
-																									"Ok",
-																									new DialogInterface.OnClickListener() {
-																										public void onClick(
-																												DialogInterface dialog,
-																												int which) {
-																											dialog.dismiss();
-																											Intent i = new Intent(login_activity, LogIn.class);
-																								            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																								            login_activity.startActivity(i);
-																										}
-																									}).show();
+																							new AlertDialog.Builder(
+																									login_activity)
+																									.setTitle(
+																											"Weak Internet Connection")
+																									.setMessage(
+																											"Check your internet connection and restart app.")
+																									.setNeutralButton(
+																											"Ok",
+																											new DialogInterface.OnClickListener() {
+																												public void onClick(DialogInterface dialog, int which) {
+																													dialog.dismiss();
+																													Intent i = new Intent(
+																															login_activity,
+																															LogIn.class);
+																													i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																													login_activity
+																															.startActivity(i);
+																												}
+																											})
+																									.show();
 																						}
 
 																						@Override
-																						public void success(
-																								List<ServerDBSubInfi> arg0) {
+																						public void success(List<ServerDBSubInfi> arg0) {
 																							Log.w("LoginIn",
-																									"sub_infi_chk success!!"
-																											+ arg0.size());
+																									"sub_infi_chk success!!" + arg0
+																											.size());
 																							long t = new Date()
 																									.getTime();
 																							if ((arg0
@@ -406,33 +397,34 @@ public class LogIn extends SherlockActivity {
 																											new StackMobQueryCallback<ServerDBSubInfiSync>() {
 
 																												@Override
-																												public void failure(
-																														StackMobException arg0) {
+																												public void failure(StackMobException arg0) {
 																													Log.w("LoginIn",
 																															"sub_sync_chk failure!!");
-																													new AlertDialog.Builder(login_activity)
-																													.setTitle(
-																															"Weak Internet Connection")
-																													.setMessage(
-																															"Check your internet connection and restart app.")
-																													.setNeutralButton(
-																															"Ok",
-																															new DialogInterface.OnClickListener() {
-																																public void onClick(
-																																		DialogInterface dialog,
-																																		int which) {
-																																	dialog.dismiss();
-																																	Intent i = new Intent(login_activity, LogIn.class);
-																														            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																														            login_activity.startActivity(i);
-																																}
-																															}).show();
+																													new AlertDialog.Builder(
+																															login_activity)
+																															.setTitle(
+																																	"Weak Internet Connection")
+																															.setMessage(
+																																	"Check your internet connection and restart app.")
+																															.setNeutralButton(
+																																	"Ok",
+																																	new DialogInterface.OnClickListener() {
+																																		public void onClick(DialogInterface dialog, int which) {
+																																			dialog.dismiss();
+																																			Intent i = new Intent(
+																																					login_activity,
+																																					LogIn.class);
+																																			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																																			login_activity
+																																					.startActivity(i);
+																																		}
+																																	})
+																															.show();
 
 																												}
 
 																												@Override
-																												public void success(
-																														List<ServerDBSubInfiSync> arg0) {
+																												public void success(List<ServerDBSubInfiSync> arg0) {
 																													Log.w("LoginIn",
 																															"sub_sync_chk success!!");
 																													long t = new Date()
@@ -459,33 +451,34 @@ public class LogIn extends SherlockActivity {
 																																	new StackMobQueryCallback<ServerDBCricketMatch>() {
 
 																																		@Override
-																																		public void failure(
-																																				StackMobException arg0) {
+																																		public void failure(StackMobException arg0) {
 																																			Log.w("LoginIn",
 																																					"cricket_match failure!!");
-																																			new AlertDialog.Builder(login_activity)
-																																			.setTitle(
-																																					"Weak Internet Connection")
-																																			.setMessage(
-																																					"Check your internet connection and restart app.")
-																																			.setNeutralButton(
-																																					"Ok",
-																																					new DialogInterface.OnClickListener() {
-																																						public void onClick(
-																																								DialogInterface dialog,
-																																								int which) {
-																																							dialog.dismiss();
-																																							Intent i = new Intent(login_activity, LogIn.class);
-																																				            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																																				            login_activity.startActivity(i);
-																																						}
-																																					}).show();
+																																			new AlertDialog.Builder(
+																																					login_activity)
+																																					.setTitle(
+																																							"Weak Internet Connection")
+																																					.setMessage(
+																																							"Check your internet connection and restart app.")
+																																					.setNeutralButton(
+																																							"Ok",
+																																							new DialogInterface.OnClickListener() {
+																																								public void onClick(DialogInterface dialog, int which) {
+																																									dialog.dismiss();
+																																									Intent i = new Intent(
+																																											login_activity,
+																																											LogIn.class);
+																																									i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																																									login_activity
+																																											.startActivity(i);
+																																								}
+																																							})
+																																					.show();
 
 																																		}
 
 																																		@Override
-																																		public void success(
-																																				List<ServerDBCricketMatch> arg0) {
+																																		public void success(List<ServerDBCricketMatch> arg0) {
 																																			Log.w("LoginIn",
 																																					"cricket_match success!!");
 																																			for (int i = 0; i < arg0
@@ -580,33 +573,34 @@ public class LogIn extends SherlockActivity {
 																																							new StackMobQueryCallback<ServerDBPerformance>() {
 
 																																								@Override
-																																								public void failure(
-																																										StackMobException arg0) {
+																																								public void failure(StackMobException arg0) {
 																																									Log.w("LoginIn",
 																																											"performance failure!!");
-																																									new AlertDialog.Builder(login_activity)
-																																									.setTitle(
-																																											"Weak Internet Connection")
-																																									.setMessage(
-																																											"Check your internet connection and restart app.")
-																																									.setNeutralButton(
-																																											"Ok",
-																																											new DialogInterface.OnClickListener() {
-																																												public void onClick(
-																																														DialogInterface dialog,
-																																														int which) {
-																																													dialog.dismiss();
-																																													Intent i = new Intent(login_activity, LogIn.class);
-																																										            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																																										            login_activity.startActivity(i);
-																																												}
-																																											}).show();
+																																									new AlertDialog.Builder(
+																																											login_activity)
+																																											.setTitle(
+																																													"Weak Internet Connection")
+																																											.setMessage(
+																																													"Check your internet connection and restart app.")
+																																											.setNeutralButton(
+																																													"Ok",
+																																													new DialogInterface.OnClickListener() {
+																																														public void onClick(DialogInterface dialog, int which) {
+																																															dialog.dismiss();
+																																															Intent i = new Intent(
+																																																	login_activity,
+																																																	LogIn.class);
+																																															i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																																															login_activity
+																																																	.startActivity(i);
+																																														}
+																																													})
+																																											.show();
 
 																																								}
 
 																																								@Override
-																																								public void success(
-																																										List<ServerDBPerformance> arg0) {
+																																								public void success(List<ServerDBPerformance> arg0) {
 																																									Log.w("LoginIn",
 																																											"performance success!!");
 																																									for (int i = 0; i < arg0
@@ -865,27 +859,26 @@ public class LogIn extends SherlockActivity {
 							public void failure(StackMobException arg0) {
 								Log.w("LogIn gcmid", arg0);
 								new AlertDialog.Builder(login_activity)
-								.setTitle(
-										"Weak Internet Connection")
-								.setMessage(
-										"Check your internet connection and restart app.")
-								.setNeutralButton(
-										"Restart",
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												dialog.dismiss();
-												Intent i = new Intent(login_activity, LogIn.class);
-									            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-									            login_activity.startActivity(i);
-											}
-										}).show();
+										.setTitle("Weak Internet Connection")
+										.setMessage(
+												"Check your internet connection and restart app.")
+										.setNeutralButton(
+												"Restart",
+												new DialogInterface.OnClickListener() {
+													public void onClick(DialogInterface dialog, int which) {
+														dialog.dismiss();
+														Intent i = new Intent(
+																login_activity,
+																LogIn.class);
+														i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+														login_activity
+																.startActivity(i);
+													}
+												}).show();
 							}
 
 							@Override
-							public void success(
-									List<ServerDBAndroidDevices> returenedVar) {
+							public void success(List<ServerDBAndroidDevices> returenedVar) {
 								Log.w("LogIn gcmid",
 										"success1" + returenedVar.size());
 								// progressText.setText("Phase 4...");
@@ -902,27 +895,28 @@ public class LogIn extends SherlockActivity {
 												}
 
 												@Override
-												public void failure(
-														StackMobException arg0) {
+												public void failure(StackMobException arg0) {
 													Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
 															arg0);
-													new AlertDialog.Builder(login_activity)
-													.setTitle(
-															"Weak Internet Connection")
-													.setMessage(
-															"Check your internet connection and restart app.")
-													.setNeutralButton(
-															"Ok",
-															new DialogInterface.OnClickListener() {
-																public void onClick(
-																		DialogInterface dialog,
-																		int which) {
-																	dialog.dismiss();
-																	Intent i = new Intent(login_activity, LogIn.class);
-														            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-														            login_activity.startActivity(i);
-																}
-															}).show();
+													new AlertDialog.Builder(
+															login_activity)
+															.setTitle(
+																	"Weak Internet Connection")
+															.setMessage(
+																	"Check your internet connection and restart app.")
+															.setNeutralButton(
+																	"Ok",
+																	new DialogInterface.OnClickListener() {
+																		public void onClick(DialogInterface dialog, int which) {
+																			dialog.dismiss();
+																			Intent i = new Intent(
+																					login_activity,
+																					LogIn.class);
+																			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+																			login_activity
+																					.startActivity(i);
+																		}
+																	}).show();
 												}
 											});
 								} else {
