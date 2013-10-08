@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +42,12 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 public class LogIn extends SherlockActivity {
-	static GraphUser		user;
-	static Context			login_activity;
-	ContentProviderClient	client;
-	SQLiteDatabase			dbHandle;
-	static TextView			progressText;
-	static Boolean			GCMInProgress	= false;
+	static GraphUser user;
+	static Context login_activity;
+	ContentProviderClient client;
+	SQLiteDatabase dbHandle;
+	static TextView progressText;
+	static Boolean onActivityResult = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,8 @@ public class LogIn extends SherlockActivity {
 				R.string.fb_app_id));
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
 			@Override
-			public void call(Session session, SessionState state, Exception exception) {
+			public void call(Session session, SessionState state,
+					Exception exception) {
 				if (session.isOpened()) {
 					loginButton.setVisibility(View.GONE);
 					((ProgressBar) findViewById(R.id.progress_bar))
@@ -79,10 +84,12 @@ public class LogIn extends SherlockActivity {
 								// callback after Graph API response with user
 								// object
 								@Override
-								public void onCompleted(GraphUser user, Response response) {
+								public void onCompleted(GraphUser user,
+										Response response) {
 									if (user != null) {
-										Log.w("Face Book Login Complete",
+										Log.w("Face Book Login Complete 1",
 												"LogIn: " + user.getBirthday());
+										writeToFile("Face Book Login Complete");
 										LogIn.user = user;
 										progressText.setText("Phase 1...");
 										GCMRegistration();
@@ -109,8 +116,7 @@ public class LogIn extends SherlockActivity {
 						FBRefreshService.class));
 			}
 			openMainActivity();
-		} else { // if (!AccessSharedPrefs.mPrefs.getString("user_permitted",
-					// "").equals("")) {
+		} else if (!onActivityResult) {
 			Session session = Session.getActiveSession();
 			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
 			try {
@@ -120,23 +126,26 @@ public class LogIn extends SherlockActivity {
 						((ProgressBar) findViewById(R.id.progress_bar))
 								.setVisibility(View.VISIBLE);
 						// make request to the /me API
-					Request.newMeRequest(session,
-							new Request.GraphUserCallback() {
+						Request.newMeRequest(session,
+								new Request.GraphUserCallback() {
 
-								// callback after Graph API response with user
-								// object
-								@Override
-								public void onCompleted(GraphUser user, Response response) {
-									if (user != null) {
-										Log.w("Face Book Login Complete",
-												"LogIn: " + user.getBirthday());
-										LogIn.user = user;
-										progressText.setText("Phase 1...");
-										GCMRegistration();
+									// callback after Graph API response with
+									// user
+									// object
+									@Override
+									public void onCompleted(GraphUser user,
+											Response response) {
+										if (user != null) {
+											Log.w("Face Book Login Complete 2",
+													"LogIn: "
+															+ user.getBirthday());
+											LogIn.user = user;
+											progressText.setText("Phase 1...");
+											GCMRegistration();
+										}
 									}
-								}
-							}).executeAsync();
-				}
+								}).executeAsync();
+					}
 			} catch (Exception e) {
 			}
 		}
@@ -147,32 +156,32 @@ public class LogIn extends SherlockActivity {
 		super.onStop();
 		// Google Analytics Stop
 		EasyTracker.getInstance().activityStop(this);
+		onActivityResult=false;
 	}
 
 	void GCMRegistration() {
-		if (!GCMInProgress) {
-			GCMInProgress = true;
-			progressText.setText("Phase 2...");
-			// TODO encrypt
-			StackMobAndroid.init(login_activity, 0,
-					"c52a9f47-baae-41e3-aa63-72177b0c23f7");
-			client = getContentResolver().acquireContentProviderClient(
-					CricDeCodeContentProvider.AUTHORITY);
-			dbHandle = ((CricDeCodeContentProvider) client
-					.getLocalContentProvider()).getDbHelper()
-					.getReadableDatabase();
-			AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences(
-					"CricDeCode", Context.MODE_PRIVATE);
-			GCMRegistrarCompat.checkDevice(this);
-			if (BuildConfig.DEBUG) {
-				GCMRegistrarCompat.checkManifest(this);
-			}
-			new RegisterTask(this).execute(getResources().getString(
-					R.string.projno));
+		writeToFile("GCMRegistration");
+
+		progressText.setText("Phase 2...");
+		// TODO encrypt
+		StackMobAndroid.init(login_activity, 0,
+				"c52a9f47-baae-41e3-aa63-72177b0c23f7");
+		client = getContentResolver().acquireContentProviderClient(
+				CricDeCodeContentProvider.AUTHORITY);
+		dbHandle = ((CricDeCodeContentProvider) client
+				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
+		AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences(
+				"CricDeCode", Context.MODE_PRIVATE);
+		GCMRegistrarCompat.checkDevice(this);
+		if (BuildConfig.DEBUG) {
+			GCMRegistrarCompat.checkManifest(this);
 		}
+		new RegisterTask(this).execute(getResources()
+				.getString(R.string.projno));
 	}
 
-	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask {
+	private static class RegisterTask extends
+			GCMRegistrarCompat.BaseRegisterTask {
 		RegisterTask(Context context) {
 			super(context);
 		}
@@ -180,14 +189,17 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
-			if (regid.length() == 0)
+			if (regid==null)
 				((LogIn) login_activity).GCMRegistration();
-			else startApp(regid);
+			else {
+				startApp(regid);
+				writeToFile("On Post Execute startApp");
+			}
 		}
 	}
 
 	static void chkAll() {
-
+		writeToFile("chk all called");
 		Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
 				"success");
 		ServerDBUserTable.query(ServerDBUserTable.class,
@@ -203,7 +215,9 @@ public class LogIn extends SherlockActivity {
 										"Check your internet connection and restart app.")
 								.setNeutralButton("Ok",
 										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int which) {
+											public void onClick(
+													DialogInterface dialog,
+													int which) {
 												dialog.dismiss();
 												Intent i = new Intent(
 														login_activity,
@@ -239,7 +253,9 @@ public class LogIn extends SherlockActivity {
 											.setNeutralButton(
 													"Ok",
 													new DialogInterface.OnClickListener() {
-														public void onClick(DialogInterface dialog, int which) {
+														public void onClick(
+																DialogInterface dialog,
+																int which) {
 															dialog.dismiss();
 															Intent i = new Intent(
 																	login_activity,
@@ -260,7 +276,8 @@ public class LogIn extends SherlockActivity {
 									new StackMobModelCallback() {
 
 										@Override
-										public void failure(StackMobException arg0) {
+										public void failure(
+												StackMobException arg0) {
 											new AlertDialog.Builder(
 													login_activity)
 													.setTitle(
@@ -270,7 +287,9 @@ public class LogIn extends SherlockActivity {
 													.setNeutralButton(
 															"Ok",
 															new DialogInterface.OnClickListener() {
-																public void onClick(DialogInterface dialog, int which) {
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
 																	dialog.dismiss();
 																	Intent i = new Intent(
 																			login_activity,
@@ -296,7 +315,8 @@ public class LogIn extends SherlockActivity {
 															new StackMobQueryCallback<ServerDBRemoveAds>() {
 
 																@Override
-																public void failure(StackMobException arg0) {
+																public void failure(
+																		StackMobException arg0) {
 																	Log.w("LoginIn",
 																			"remove_ads_chk failure!!");
 																	new AlertDialog.Builder(
@@ -308,7 +328,9 @@ public class LogIn extends SherlockActivity {
 																			.setNeutralButton(
 																					"Ok",
 																					new DialogInterface.OnClickListener() {
-																						public void onClick(DialogInterface dialog, int which) {
+																						public void onClick(
+																								DialogInterface dialog,
+																								int which) {
 																							dialog.dismiss();
 																							Intent i = new Intent(
 																									login_activity,
@@ -323,7 +345,8 @@ public class LogIn extends SherlockActivity {
 																}
 
 																@Override
-																public void success(List<ServerDBRemoveAds> arg0) {
+																public void success(
+																		List<ServerDBRemoveAds> arg0) {
 																	Log.w("LoginIn",
 																			"remove_ads_chk success!!");
 																	if (arg0.size() > 0)
@@ -343,7 +366,8 @@ public class LogIn extends SherlockActivity {
 																					new StackMobQueryCallback<ServerDBSubInfi>() {
 
 																						@Override
-																						public void failure(StackMobException arg0) {
+																						public void failure(
+																								StackMobException arg0) {
 																							Log.w("LoginIn",
 																									"sub_infi_chk failure!!");
 																							new AlertDialog.Builder(
@@ -355,7 +379,9 @@ public class LogIn extends SherlockActivity {
 																									.setNeutralButton(
 																											"Ok",
 																											new DialogInterface.OnClickListener() {
-																												public void onClick(DialogInterface dialog, int which) {
+																												public void onClick(
+																														DialogInterface dialog,
+																														int which) {
 																													dialog.dismiss();
 																													Intent i = new Intent(
 																															login_activity,
@@ -369,10 +395,11 @@ public class LogIn extends SherlockActivity {
 																						}
 
 																						@Override
-																						public void success(List<ServerDBSubInfi> arg0) {
+																						public void success(
+																								List<ServerDBSubInfi> arg0) {
 																							Log.w("LoginIn",
-																									"sub_infi_chk success!!" + arg0
-																											.size());
+																									"sub_infi_chk success!!"
+																											+ arg0.size());
 																							long t = new Date()
 																									.getTime();
 																							if ((arg0
@@ -403,7 +430,8 @@ public class LogIn extends SherlockActivity {
 																											new StackMobQueryCallback<ServerDBSubInfiSync>() {
 
 																												@Override
-																												public void failure(StackMobException arg0) {
+																												public void failure(
+																														StackMobException arg0) {
 																													Log.w("LoginIn",
 																															"sub_sync_chk failure!!");
 																													new AlertDialog.Builder(
@@ -415,7 +443,9 @@ public class LogIn extends SherlockActivity {
 																															.setNeutralButton(
 																																	"Ok",
 																																	new DialogInterface.OnClickListener() {
-																																		public void onClick(DialogInterface dialog, int which) {
+																																		public void onClick(
+																																				DialogInterface dialog,
+																																				int which) {
 																																			dialog.dismiss();
 																																			Intent i = new Intent(
 																																					login_activity,
@@ -430,7 +460,8 @@ public class LogIn extends SherlockActivity {
 																												}
 
 																												@Override
-																												public void success(List<ServerDBSubInfiSync> arg0) {
+																												public void success(
+																														List<ServerDBSubInfiSync> arg0) {
 																													Log.w("LoginIn",
 																															"sub_sync_chk success!!");
 																													long t = new Date()
@@ -457,7 +488,8 @@ public class LogIn extends SherlockActivity {
 																																	new StackMobQueryCallback<ServerDBCricketMatch>() {
 
 																																		@Override
-																																		public void failure(StackMobException arg0) {
+																																		public void failure(
+																																				StackMobException arg0) {
 																																			Log.w("LoginIn",
 																																					"cricket_match failure!!");
 																																			new AlertDialog.Builder(
@@ -469,7 +501,9 @@ public class LogIn extends SherlockActivity {
 																																					.setNeutralButton(
 																																							"Ok",
 																																							new DialogInterface.OnClickListener() {
-																																								public void onClick(DialogInterface dialog, int which) {
+																																								public void onClick(
+																																										DialogInterface dialog,
+																																										int which) {
 																																									dialog.dismiss();
 																																									Intent i = new Intent(
 																																											login_activity,
@@ -484,7 +518,8 @@ public class LogIn extends SherlockActivity {
 																																		}
 
 																																		@Override
-																																		public void success(List<ServerDBCricketMatch> arg0) {
+																																		public void success(
+																																				List<ServerDBCricketMatch> arg0) {
 																																			Log.w("LoginIn",
 																																					"cricket_match success!!");
 																																			for (int i = 0; i < arg0
@@ -579,7 +614,8 @@ public class LogIn extends SherlockActivity {
 																																							new StackMobQueryCallback<ServerDBPerformance>() {
 
 																																								@Override
-																																								public void failure(StackMobException arg0) {
+																																								public void failure(
+																																										StackMobException arg0) {
 																																									Log.w("LoginIn",
 																																											"performance failure!!");
 																																									new AlertDialog.Builder(
@@ -591,7 +627,9 @@ public class LogIn extends SherlockActivity {
 																																											.setNeutralButton(
 																																													"Ok",
 																																													new DialogInterface.OnClickListener() {
-																																														public void onClick(DialogInterface dialog, int which) {
+																																														public void onClick(
+																																																DialogInterface dialog,
+																																																int which) {
 																																															dialog.dismiss();
 																																															Intent i = new Intent(
 																																																	login_activity,
@@ -606,7 +644,8 @@ public class LogIn extends SherlockActivity {
 																																								}
 
 																																								@Override
-																																								public void success(List<ServerDBPerformance> arg0) {
+																																								public void success(
+																																										List<ServerDBPerformance> arg0) {
 																																									Log.w("LoginIn",
 																																											"performance success!!");
 																																									for (int i = 0; i < arg0
@@ -843,6 +882,7 @@ public class LogIn extends SherlockActivity {
 
 	static void startApp(final String gcm_reg_id) {
 		Log.w("Start App", "called");
+		writeToFile("Inside StartApp");
 		progressText.setText("Phase 3...");
 		Log.w("Start App", "else ");
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
@@ -871,7 +911,9 @@ public class LogIn extends SherlockActivity {
 										.setNeutralButton(
 												"Restart",
 												new DialogInterface.OnClickListener() {
-													public void onClick(DialogInterface dialog, int which) {
+													public void onClick(
+															DialogInterface dialog,
+															int which) {
 														dialog.dismiss();
 														Intent i = new Intent(
 																login_activity,
@@ -884,7 +926,9 @@ public class LogIn extends SherlockActivity {
 							}
 
 							@Override
-							public void success(List<ServerDBAndroidDevices> returenedVar) {
+							public void success(
+									List<ServerDBAndroidDevices> returenedVar) {
+								writeToFile("ServerDBAndroidDevices success"+returenedVar.size());
 								Log.w("LogIn gcmid",
 										"success1" + returenedVar.size());
 								// progressText.setText("Phase 4...");
@@ -897,11 +941,13 @@ public class LogIn extends SherlockActivity {
 											.save(new StackMobCallback() {
 												@Override
 												public void success(String arg0) {
+													writeToFile("ServerDBAndroidDevices success");
 													chkAll();
 												}
 
 												@Override
-												public void failure(StackMobException arg0) {
+												public void failure(
+														StackMobException arg0) {
 													Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
 															arg0);
 													new AlertDialog.Builder(
@@ -913,7 +959,9 @@ public class LogIn extends SherlockActivity {
 															.setNeutralButton(
 																	"Ok",
 																	new DialogInterface.OnClickListener() {
-																		public void onClick(DialogInterface dialog, int which) {
+																		public void onClick(
+																				DialogInterface dialog,
+																				int which) {
 																			dialog.dismiss();
 																			Intent i = new Intent(
 																					login_activity,
@@ -926,6 +974,8 @@ public class LogIn extends SherlockActivity {
 												}
 											});
 								} else {
+									
+									writeToFile("Already Existing user");
 									chkAll();
 								}
 							}
@@ -937,11 +987,31 @@ public class LogIn extends SherlockActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode,
 				resultCode, data);
+		onActivityResult=true;
 	}
 
 	public static void openMainActivity() {
 		Intent intent = new Intent(login_activity, MainActivity.class);
 		login_activity.startActivity(intent);
 		((LogIn) login_activity).finish();
+	}
+
+	private static void writeToFile(String data) {
+		try {
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "pagalpan.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 }

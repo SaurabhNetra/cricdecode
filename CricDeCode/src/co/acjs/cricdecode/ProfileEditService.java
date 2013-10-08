@@ -26,8 +26,7 @@ public class ProfileEditService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		who = this;
-		StackMobAndroid.init(who, 0,
-				"c52a9f47-baae-41e3-aa63-72177b0c23f7");
+		StackMobAndroid.init(who, 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
 		Log.w("ProfileEditService", "Started");
 	}
 
@@ -61,6 +60,13 @@ public class ProfileEditService extends IntentService {
 							if (arg0.size() != 0) {
 								ServerDBUserTable d = new ServerDBUserTable();
 								d.setID(arg0.get(0).getID());
+								d.setDeviceNo(arg0.get(0).getDeviceNo());
+								d.setDob(arg0.get(0).getDob());
+								d.setFbLink(arg0.get(0).getFbLink());
+								d.setFirstName(arg0.get(0).getFirstName());
+								d.setLastName(arg0.get(0).getLastName());
+								d.setHasAndroid(arg0.get(0).getHasAndroid());
+								d.setId(arg0.get(0).getId());
 								d.setBattingStyle(AccessSharedPrefs.mPrefs
 										.getString("battingStyle", ""));
 								d.setBowlingStyle(AccessSharedPrefs.mPrefs
@@ -75,7 +81,7 @@ public class ProfileEditService extends IntentService {
 									public void failure(StackMobException arg0) {
 										Log.w("ProfileEditService",
 												"Update failed");
-										who.notify();
+										// who.notify();
 									}
 
 									@Override
@@ -111,7 +117,7 @@ public class ProfileEditService extends IntentService {
 																				"ProfileEditServiceCalled",
 																				CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 
-																//who.notify();
+																// who.notify();
 															}
 														});
 
@@ -122,13 +128,11 @@ public class ProfileEditService extends IntentService {
 						}
 					});
 
-		/*	try {
-				Log.w("ProfileEditService", "wait called");
-				//who.wait();
-				
-			} catch (InterruptedException e) {
-			e.printStackTrace();
-			} */
+			/*
+			 * try { Log.w("ProfileEditService", "wait called"); //who.wait();
+			 * 
+			 * } catch (InterruptedException e) { e.printStackTrace(); }
+			 */
 			Log.w("ProfileEditService", "wait resumed");
 			/*
 			 * final JSONParser jsonParser = new JSONParser();
