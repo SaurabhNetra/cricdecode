@@ -89,6 +89,10 @@ public class ServerDBPerformance extends StackMobModel {
 	public void setId(String user_id) {
 		this.user_id = user_id;
 	}
+	
+	public void setDeviceId(int device_id) {
+		this.device_id = device_id;
+	}
 
 	public void setMatchId(int match_id) {
 		this.match_id = match_id;
@@ -142,7 +146,7 @@ public class ServerDBPerformance extends StackMobModel {
 		this.bat_chances = bat_chances;
 	}
 
-	public void setBat(int bowl_balls) {
+	public void setBowlBalls(int bowl_balls) {
 		this.bowl_balls = bowl_balls;
 	}
 
@@ -241,7 +245,9 @@ public class ServerDBPerformance extends StackMobModel {
 	public String getId() {
 		return this.user_id;
 	}
-
+	public int getDeviceId() {
+		return this.device_id;
+	}
 	public int getMatchId() {
 		return this.match_id;
 	}
@@ -294,7 +300,7 @@ public class ServerDBPerformance extends StackMobModel {
 		return this.bat_chances;
 	}
 
-	public int getBat() {
+	public int getBowlBalls() {
 		return this.bowl_balls;
 	}
 

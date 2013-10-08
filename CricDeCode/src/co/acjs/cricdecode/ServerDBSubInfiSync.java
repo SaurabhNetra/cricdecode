@@ -13,7 +13,7 @@ public class ServerDBSubInfiSync extends StackMobModel {
 
 	public ServerDBSubInfiSync(String user_id, String order_id, String token, String sign, int purchaseTime, int initiation_ts_msec, int validUntil_ts_msec) {
 		super(ServerDBSubInfiSync.class);
-		this.id = user_id;
+		this.user_id = user_id;
 		this.order_id = order_id;
 		this.token = token;
 		this.sign = sign;

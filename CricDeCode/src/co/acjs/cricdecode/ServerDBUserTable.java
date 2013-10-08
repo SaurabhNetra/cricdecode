@@ -31,7 +31,7 @@ public class ServerDBUserTable extends StackMobModel {
 	}
 
 	public void setId(String user_id) {
-		this.id = user_id;
+		this.user_id = user_id;
 	}
 
 	public void setDeviceNo(int device_no) {
