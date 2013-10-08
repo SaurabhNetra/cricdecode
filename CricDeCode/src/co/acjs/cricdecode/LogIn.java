@@ -43,6 +43,7 @@ public class LogIn extends SherlockActivity {
 	ContentProviderClient	client;
 	SQLiteDatabase			dbHandle;
 	static TextView			progressText;
+	static Boolean			GCMInProgress	= false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,21 +150,26 @@ public class LogIn extends SherlockActivity {
 	}
 
 	void GCMRegistration() {
-		progressText.setText("Phase 2...");
-		// TODO encrypt
-		StackMobAndroid.init(login_activity, 0,
-				"c52a9f47-baae-41e3-aa63-72177b0c23f7");
-		client = getContentResolver().acquireContentProviderClient(
-				CricDeCodeContentProvider.AUTHORITY);
-		dbHandle = ((CricDeCodeContentProvider) client
-				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
-		AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences(
-				"CricDeCode", Context.MODE_PRIVATE);
-		GCMRegistrarCompat.checkDevice(this);
-		if (BuildConfig.DEBUG) {
-			GCMRegistrarCompat.checkManifest(this);
+		if (!GCMInProgress) {
+			GCMInProgress = true;
+			progressText.setText("Phase 2...");
+			// TODO encrypt
+			StackMobAndroid.init(login_activity, 0,
+					"c52a9f47-baae-41e3-aa63-72177b0c23f7");
+			client = getContentResolver().acquireContentProviderClient(
+					CricDeCodeContentProvider.AUTHORITY);
+			dbHandle = ((CricDeCodeContentProvider) client
+					.getLocalContentProvider()).getDbHelper()
+					.getReadableDatabase();
+			AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences(
+					"CricDeCode", Context.MODE_PRIVATE);
+			GCMRegistrarCompat.checkDevice(this);
+			if (BuildConfig.DEBUG) {
+				GCMRegistrarCompat.checkManifest(this);
+			}
+			new RegisterTask(this).execute(getResources().getString(
+					R.string.projno));
 		}
-		new RegisterTask(this).execute(getResources().getString(R.string.projno));
 	}
 
 	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask {
