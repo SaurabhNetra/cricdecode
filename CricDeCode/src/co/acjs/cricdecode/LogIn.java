@@ -36,11 +36,11 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 public class LogIn extends SherlockActivity {
-	static GraphUser		user;
-	static Context			login_activity;
-	ContentProviderClient	client;
-	SQLiteDatabase			dbHandle;
-	static TextView			progressText;
+	static GraphUser user;
+	static Context login_activity;
+	ContentProviderClient client;
+	SQLiteDatabase dbHandle;
+	static TextView progressText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,8 @@ public class LogIn extends SherlockActivity {
 				R.string.fb_app_id));
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
 			@Override
-			public void call(Session session, SessionState state, Exception exception) {
+			public void call(Session session, SessionState state,
+					Exception exception) {
 				if (session.isOpened()) {
 					loginButton.setVisibility(View.GONE);
 					((ProgressBar) findViewById(R.id.progress_bar))
@@ -76,7 +77,8 @@ public class LogIn extends SherlockActivity {
 								// callback after Graph API response with user
 								// object
 								@Override
-								public void onCompleted(GraphUser user, Response response) {
+								public void onCompleted(GraphUser user,
+										Response response) {
 									if (user != null) {
 										Log.w("Face Book Login Complete",
 												"LogIn: " + user.getBirthday());
@@ -165,7 +167,8 @@ public class LogIn extends SherlockActivity {
 		}
 	}
 
-	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask {
+	private static class RegisterTask extends
+			GCMRegistrarCompat.BaseRegisterTask {
 		RegisterTask(Context context) {
 			super(context);
 		}
@@ -175,8 +178,525 @@ public class LogIn extends SherlockActivity {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
 			if ((regid == "") | (regid == null))
 				((LogIn) login_activity).GCMRegistration();
-			else startApp(regid);
+			else
+				startApp(regid);
 		}
+	}
+
+	static void chkAll() {
+
+		Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
+				"success");
+		ServerDBUserTable.query(ServerDBUserTable.class,
+				new StackMobQuery().field(new StackMobQueryField("user_id")
+						.isEqualTo(user.getId())),
+				new StackMobQueryCallback<ServerDBUserTable>() {
+					@Override
+					public void failure(StackMobException arg0) {
+						Log.w("chk if user existing", arg0);
+					}
+
+					@Override
+					public void success(List<ServerDBUserTable> returenedVar) {
+						Log.w("chk if user existing", "success");
+						if (returenedVar.size() == 0)
+							new ServerDBUserTable(user.getId(), 1, user
+									.getFirstName(), user.getLastName(), "",
+									user.getLink(), user.getBirthday(), "", "",
+									"", 1).save(new StackMobCallback() {
+								@Override
+								public void success(String arg0) {
+									AccessSharedPrefs.setString(login_activity,
+											"device_id", "1");
+									openMainActivity();
+								}
+
+								@Override
+								public void failure(StackMobException arg0) {
+								}
+							});
+						else {
+							// Bigggg else
+							returenedVar.get(0).setDeviceNo(
+									returenedVar.get(0).getDeviceNo() + 1);
+
+							returenedVar.get(0).save(
+									new StackMobModelCallback() {
+
+										@Override
+										public void failure(
+												StackMobException arg0) {
+											Log.w("LogIn", "DeviceId failure");
+
+										}
+
+										@Override
+										public void success() {
+											Log.w("LogIn", "DeviceId success");
+
+											ServerDBRemoveAds
+													.query(ServerDBRemoveAds.class,
+															new StackMobQuery()
+																	.field(new StackMobQueryField(
+																			"user_id")
+																			.isEqualTo(user
+																					.getId())),
+															new StackMobQueryCallback<ServerDBRemoveAds>() {
+
+																@Override
+																public void failure(
+																		StackMobException arg0) {
+																	Log.w("LoginIn",
+																			"remove_ads_chk failure!!");
+
+																}
+
+																@Override
+																public void success(
+																		List<ServerDBRemoveAds> arg0) {
+																	Log.w("LoginIn",
+																			"remove_ads_chk success!!");
+																	if (arg0.size() > 0)
+																		AccessSharedPrefs
+																				.setString(
+																						login_activity,
+																						"ad_free",
+																						"yes");
+
+																	ServerDBSubInfi
+																			.query(ServerDBSubInfi.class,
+																					new StackMobQuery()
+																							.field(new StackMobQueryField(
+																									"user_id")
+																									.isEqualTo(user
+																											.getId())),
+																					new StackMobQueryCallback<ServerDBSubInfi>() {
+
+																						@Override
+																						public void failure(
+																								StackMobException arg0) {
+																							Log.w("LoginIn",
+																									"sub_infi_chk failure!!");
+																						}
+
+																						@Override
+																						public void success(
+																								List<ServerDBSubInfi> arg0) {
+																							Log.w("LoginIn",
+																									"sub_infi_chk success!!"
+																											+ arg0.size());
+																							long t = new Date()
+																									.getTime();
+																							if ((arg0
+																									.size() > 0)) {
+																								if ((t < arg0
+																										.get(0).validUntil_ts_msec))
+
+																								{
+																									AccessSharedPrefs
+																											.setString(
+																													login_activity,
+																													"infi_use",
+																													"yes");
+																									Log.w("LoginIn",
+																											"sub_infi_chk success!! 2");
+																								}
+																							}
+																							Log.w("LoginIn",
+																									"sub_infi_chk success!! 3");
+
+																							ServerDBSubInfiSync
+																									.query(ServerDBSubInfiSync.class,
+																											new StackMobQuery()
+																													.field(new StackMobQueryField(
+																															"user_id")
+																															.isEqualTo(user
+																																	.getId())),
+																											new StackMobQueryCallback<ServerDBSubInfiSync>() {
+
+																												@Override
+																												public void failure(
+																														StackMobException arg0) {
+																													Log.w("LoginIn",
+																															"sub_sync_chk failure!!");
+
+																												}
+
+																												@Override
+																												public void success(
+																														List<ServerDBSubInfiSync> arg0) {
+																													Log.w("LoginIn",
+																															"sub_sync_chk success!!");
+																													long t = new Date()
+																															.getTime();
+																													if (arg0.size() > 0) {
+																														if (t < arg0
+																																.get(0).validUntil_ts_msec)
+																															AccessSharedPrefs
+																																	.setString(
+																																			login_activity,
+																																			"infi_sync",
+																																			"yes");
+																													}
+																													ServerDBCricketMatch
+																															.query(ServerDBCricketMatch.class,
+																																	new StackMobQuery()
+																																			.field(new StackMobQueryField(
+																																					"user_id")
+																																					.isEqualTo(user
+																																							.getId()))
+																																			.field(new StackMobQueryField(
+																																					"status")
+																																					.isLessThan(2)),
+																																	new StackMobQueryCallback<ServerDBCricketMatch>() {
+
+																																		@Override
+																																		public void failure(
+																																				StackMobException arg0) {
+																																			Log.w("LoginIn",
+																																					"cricket_match failure!!");
+
+																																		}
+
+																																		@Override
+																																		public void success(
+																																				List<ServerDBCricketMatch> arg0) {
+																																			Log.w("LoginIn",
+																																					"cricket_match success!!");
+																																			for (int i = 0; i < arg0
+																																					.size(); i++) {
+																																				ContentValues values = new ContentValues();
+																																				values.put(
+																																						MatchDb.KEY_ROWID,
+																																						arg0.get(
+																																								i)
+																																								.getMatchId());
+																																				values.put(
+																																						MatchDb.KEY_DEVICE_ID,
+																																						arg0.get(
+																																								i)
+																																								.getDeviceId());
+																																				values.put(
+																																						MatchDb.KEY_MATCH_DATE,
+																																						arg0.get(
+																																								i)
+																																								.getMatchDate());
+																																				values.put(
+																																						MatchDb.KEY_MY_TEAM,
+																																						arg0.get(
+																																								i)
+																																								.getMyTeam());
+																																				values.put(
+																																						MatchDb.KEY_OPPONENT_TEAM,
+																																						arg0.get(
+																																								i)
+																																								.getOpponentTeam());
+																																				values.put(
+																																						MatchDb.KEY_VENUE,
+																																						arg0.get(
+																																								i)
+																																								.getVenue());
+																																				values.put(
+																																						MatchDb.KEY_OVERS,
+																																						arg0.get(
+																																								i)
+																																								.getOvers());
+																																				values.put(
+																																						MatchDb.KEY_INNINGS,
+																																						arg0.get(
+																																								i)
+																																								.getInnings());
+																																				values.put(
+																																						MatchDb.KEY_RESULT,
+																																						arg0.get(
+																																								i)
+																																								.getResult());
+																																				values.put(
+																																						MatchDb.KEY_LEVEL,
+																																						arg0.get(
+																																								i)
+																																								.getLevel());
+																																				values.put(
+																																						MatchDb.KEY_FIRST_ACTION,
+																																						arg0.get(
+																																								i)
+																																								.getFirstAction());
+																																				values.put(
+																																						MatchDb.KEY_DURATION,
+																																						arg0.get(
+																																								i)
+																																								.getDuration());
+																																				values.put(
+																																						MatchDb.KEY_REVIEW,
+																																						arg0.get(
+																																								i)
+																																								.getReview());
+																																				values.put(
+																																						MatchDb.KEY_STATUS,
+																																						arg0.get(
+																																								i)
+																																								.getStatus());
+
+																																				login_activity
+																																						.getContentResolver()
+																																						.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
+																																								values);
+																																			}
+																																			ServerDBPerformance
+																																					.query(ServerDBPerformance.class,
+																																							new StackMobQuery()
+																																									.field(new StackMobQueryField(
+																																											"user_id")
+																																											.isEqualTo(user
+																																													.getId()))
+																																									.field(new StackMobQueryField(
+																																											"status")
+																																											.isLessThan(2)),
+																																							new StackMobQueryCallback<ServerDBPerformance>() {
+
+																																								@Override
+																																								public void failure(
+																																										StackMobException arg0) {
+																																									Log.w("LoginIn",
+																																											"performance failure!!");
+
+																																								}
+
+																																								@Override
+																																								public void success(
+																																										List<ServerDBPerformance> arg0) {
+																																									Log.w("LoginIn",
+																																											"performance success!!");
+																																									for (int i = 0; i < arg0
+																																											.size(); i++) {
+																																										ContentValues values = new ContentValues();
+
+																																										values.put(
+																																												PerformanceDb.KEY_MATCHID,
+																																												arg0.get(
+																																														i)
+																																														.getMatchId());
+																																										values.put(
+																																												PerformanceDb.KEY_DEVICE_ID,
+																																												arg0.get(
+																																														i)
+																																														.getDeviceId());
+																																										values.put(
+																																												PerformanceDb.KEY_ROWID,
+																																												arg0.get(
+																																														i)
+																																														.getPerId());
+																																										values.put(
+																																												PerformanceDb.KEY_INNING,
+																																												arg0.get(
+																																														i)
+																																														.getInning());
+
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_NUM,
+																																												arg0.get(
+																																														i)
+																																														.getBatNum());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_RUNS,
+																																												arg0.get(
+																																														i)
+																																														.getBatRuns());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_BALLS,
+																																												arg0.get(
+																																														i)
+																																														.getBatBalls());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_TIME,
+																																												arg0.get(
+																																														i)
+																																														.getBatTime());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_FOURS,
+																																												arg0.get(
+																																														i)
+																																														.getBatFours());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_SIXES,
+																																												arg0.get(
+																																														i)
+																																														.getBatSixes());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_HOW_OUT,
+																																												arg0.get(
+																																														i)
+																																														.getBatDismissal());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_BOWLER_TYPE,
+																																												arg0.get(
+																																														i)
+																																														.getBatBowlerType());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_FIELDING_POSITION,
+																																												arg0.get(
+																																														i)
+																																														.getBatFieldingPosition());
+																																										values.put(
+																																												PerformanceDb.KEY_BAT_CHANCES,
+																																												arg0.get(
+																																														i)
+																																														.getBatChances());
+
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_BALLS,
+																																												arg0.get(
+																																														i)
+																																														.getBowlBalls());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_SPELLS,
+																																												arg0.get(
+																																														i)
+																																														.getBowlSpells());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_MAIDENS,
+																																												arg0.get(
+																																														i)
+																																														.getBowlMaidens());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_RUNS,
+																																												arg0.get(
+																																														i)
+																																														.getBowlRuns());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_FOURS,
+																																												arg0.get(
+																																														i)
+																																														.getBowlFours());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_SIXES,
+																																												arg0.get(
+																																														i)
+																																														.getBowlSixes());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_WKTS_LEFT,
+																																												arg0.get(
+																																														i)
+																																														.getBowlWktsLeft());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_WKTS_RIGHT,
+																																												arg0.get(
+																																														i)
+																																														.getBowlWktsRight());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
+																																												arg0.get(
+																																														i)
+																																														.getBowlCatchesDropped());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_NOBALLS,
+																																												arg0.get(
+																																														i)
+																																														.getNoBalls());
+																																										values.put(
+																																												PerformanceDb.KEY_BOWL_WIDES,
+																																												arg0.get(
+																																														i)
+																																														.getBowlWides());
+
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_SLIP_CATCH,
+																																												arg0.get(
+																																														i)
+																																														.getFieldSlipCatch());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_CLOSE_CATCH,
+																																												arg0.get(
+																																														i)
+																																														.getFieldCloseCatch());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
+																																												arg0.get(
+																																														i)
+																																														.getFieldCircleCatch());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_DEEP_CATCH,
+																																												arg0.get(
+																																														i)
+																																														.getFieldDeepCatch());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_RO_CIRCLE,
+																																												arg0.get(
+																																														i)
+																																														.getFieldRoCircle());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
+																																												arg0.get(
+																																														i)
+																																														.getFieldRoDirectCircle());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_RO_DEEP,
+																																												arg0.get(
+																																														i)
+																																														.getFieldRoDeep());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
+																																												arg0.get(
+																																														i)
+																																														.getFieldRoDirectDeep());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_STUMPINGS,
+																																												arg0.get(
+																																														i)
+																																														.getFieldStumping());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_BYES,
+																																												arg0.get(
+																																														i)
+																																														.getFieldByes());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_MISFIELDS,
+																																												arg0.get(
+																																														i)
+																																														.getMisFields());
+																																										values.put(
+																																												PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
+																																												arg0.get(
+																																														i)
+																																														.getCatchedDropped());
+
+																																										values.put(
+																																												PerformanceDb.KEY_STATUS,
+																																												arg0.get(
+																																														i)
+																																														.getStatus());
+
+																																										login_activity
+																																												.getApplicationContext()
+																																												.getContentResolver()
+																																												.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
+																																														values);
+
+																																									}
+																																									openMainActivity();
+
+																																								}
+																																							});
+
+																																		}
+																																	});
+
+																												}
+																											});
+
+																						}
+																					});
+
+																}
+															});
+
+										}
+									});
+
+						}
+					}
+				});
+
 	}
 
 	static void startApp(final String gcm_reg_id) {
@@ -193,9 +713,9 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
 		ServerDBAndroidDevices
 				.query(ServerDBAndroidDevices.class,
-						new StackMobQuery()/*.field(
+						new StackMobQuery().field(
 								new StackMobQueryField("user_id")
-										.isEqualTo(user.getId()))*/.field(
+										.isEqualTo(user.getId())).field(
 								new StackMobQueryField("gcm_id")
 										.isEqualTo(gcm_reg_id)),
 						new StackMobQueryCallback<ServerDBAndroidDevices>() {
@@ -205,9 +725,13 @@ public class LogIn extends SherlockActivity {
 							}
 
 							@Override
-							public void success(List<ServerDBAndroidDevices> returenedVar) {
-								Log.w("LogIn gcmid", "success");
-								progressText.setText("Phase 4...");
+							public void success(
+									List<ServerDBAndroidDevices> returenedVar) {
+								Log.w("LogIn gcmid",
+										"success1" + returenedVar.size());
+								// progressText.setText("Phase 4...");
+								Log.w("LogIn gcmid",
+										"success2" + returenedVar.size());
 								if (returenedVar.size() == 0) {
 									Log.w("Login gcmid", "size = 0");
 									new ServerDBAndroidDevices(user.getId(),
@@ -215,527 +739,18 @@ public class LogIn extends SherlockActivity {
 											.save(new StackMobCallback() {
 												@Override
 												public void success(String arg0) {
-													Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
-															"success");
-													ServerDBUserTable
-															.query(ServerDBUserTable.class,
-																	new StackMobQuery()
-																			.field(new StackMobQueryField(
-																					"user_id")
-																					.isEqualTo(user
-																							.getId())),
-																	new StackMobQueryCallback<ServerDBUserTable>() {
-																		@Override
-																		public void failure(StackMobException arg0) {
-																			Log.w("chk if user existing",
-																					arg0);
-																		}
-
-																		@Override
-																		public void success(List<ServerDBUserTable> returenedVar) {
-																			Log.w("chk if user existing",
-																					"success");
-																			if (returenedVar
-																					.size() == 0)
-																				new ServerDBUserTable(
-																						user.getId(),
-																						1,
-																						user.getFirstName(),
-																						user.getLastName(),
-																						"",
-																						user.getLink(),
-																						user.getBirthday(),
-																						"",
-																						"",
-																						"",
-																						1)
-																						.save(new StackMobCallback() {
-																							@Override
-																							public void success(String arg0) {
-																								AccessSharedPrefs
-																										.setString(
-																												login_activity,
-																												"device_id",
-																												"1");
-																								openMainActivity();
-																							}
-
-																							@Override
-																							public void failure(StackMobException arg0) {
-																							}
-																						});
-																			else {
-																				// Bigggg else
-																				returenedVar
-																						.get(0)
-																						.setDeviceNo(
-																								returenedVar
-																										.get(0)
-																										.getDeviceNo() + 1);
-
-																				returenedVar
-																						.get(0)
-																						.save(new StackMobModelCallback() {
-
-																							@Override
-																							public void failure(StackMobException arg0) {
-																								Log.w("LogIn",
-																										"DeviceId failure");
-
-																							}
-
-																							@Override
-																							public void success() {
-																								Log.w("LogIn",
-																										"DeviceId success");
-
-																								ServerDBRemoveAds
-																										.query(ServerDBRemoveAds.class,
-																												new StackMobQuery()
-																														.field(new StackMobQueryField(
-																																"user_id")
-																																.isEqualTo(user
-																																		.getId())),
-																												new StackMobQueryCallback<ServerDBRemoveAds>() {
-
-																													@Override
-																													public void failure(StackMobException arg0) {
-																														Log.w("LoginIn",
-																																"remove_ads_chk failure!!");
-
-																													}
-
-																													@Override
-																													public void success(List<ServerDBRemoveAds> arg0) {
-																														Log.w("LoginIn",
-																																"remove_ads_chk success!!");
-																														if (arg0.size() > 0)
-																															AccessSharedPrefs
-																																	.setString(
-																																			login_activity,
-																																			"ad_free",
-																																			"yes");
-
-																														ServerDBSubInfi
-																																.query(ServerDBSubInfi.class,
-																																		new StackMobQuery()
-																																				.field(new StackMobQueryField(
-																																						"user_id")
-																																						.isEqualTo(user
-																																								.getId())),
-																																		new StackMobQueryCallback<ServerDBSubInfi>() {
-
-																																			@Override
-																																			public void failure(StackMobException arg0) {
-																																				Log.w("LoginIn",
-																																						"sub_infi_chk failure!!");
-																																			}
-
-																																			@Override
-																																			public void success(List<ServerDBSubInfi> arg0) {
-																																				Log.w("LoginIn",
-																																						"sub_infi_chk success!!");
-																																				long t = new Date()
-																																						.getTime();
-																																				if ((arg0
-																																						.size() > 0) & (t < arg0
-																																						.get(0).validUntil_ts_msec))
-																																					AccessSharedPrefs
-																																							.setString(
-																																									login_activity,
-																																									"infi_use",
-																																									"yes");
-																																				ServerDBSubInfiSync
-																																						.query(ServerDBSubInfiSync.class,
-																																								new StackMobQuery()
-																																										.field(new StackMobQueryField(
-																																												"user_id")
-																																												.isEqualTo(user
-																																														.getId())),
-																																								new StackMobQueryCallback<ServerDBSubInfiSync>() {
-
-																																									@Override
-																																									public void failure(StackMobException arg0) {
-																																										Log.w("LoginIn",
-																																												"sub_sync_ads_chk failure!!");
-
-																																									}
-
-																																									@Override
-																																									public void success(List<ServerDBSubInfiSync> arg0) {
-																																										Log.w("LoginIn",
-																																												"sub_sync_chk success!!");
-																																										long t = new Date()
-																																												.getTime();
-																																										if ((arg0
-																																												.size() > 0) & (t < arg0
-																																												.get(0).validUntil_ts_msec))
-																																											AccessSharedPrefs
-																																													.setString(
-																																															login_activity,
-																																															"infi_sync",
-																																															"yes");
-																																										ServerDBCricketMatch
-																																												.query(ServerDBCricketMatch.class,
-																																														new StackMobQuery()
-																																																.field(new StackMobQueryField(
-																																																		"user_id")
-																																																		.isEqualTo(user
-																																																				.getId()))
-																																																.field(new StackMobQueryField(
-																																																		"status")
-																																																		.isLessThan(2)),
-																																														new StackMobQueryCallback<ServerDBCricketMatch>() {
-
-																																															@Override
-																																															public void failure(StackMobException arg0) {
-																																																Log.w("LoginIn",
-																																																		"cricket_match failure!!");
-
-																																															}
-
-																																															@Override
-																																															public void success(List<ServerDBCricketMatch> arg0) {
-																																																Log.w("LoginIn",
-																																																		"cricket_match success!!");
-																																																for (int i = 0; i < arg0
-																																																		.size(); i++) {
-																																																	ContentValues values = new ContentValues();
-																																																	values.put(
-																																																			MatchDb.KEY_ROWID,
-																																																			arg0.get(
-																																																					i)
-																																																					.getMatchId());
-																																																	values.put(
-																																																			MatchDb.KEY_DEVICE_ID,
-																																																			arg0.get(
-																																																					i)
-																																																					.getDeviceId());
-																																																	values.put(
-																																																			MatchDb.KEY_MATCH_DATE,
-																																																			arg0.get(
-																																																					i)
-																																																					.getMatchDate());
-																																																	values.put(
-																																																			MatchDb.KEY_MY_TEAM,
-																																																			arg0.get(
-																																																					i)
-																																																					.getMyTeam());
-																																																	values.put(
-																																																			MatchDb.KEY_OPPONENT_TEAM,
-																																																			arg0.get(
-																																																					i)
-																																																					.getOpponentTeam());
-																																																	values.put(
-																																																			MatchDb.KEY_VENUE,
-																																																			arg0.get(
-																																																					i)
-																																																					.getVenue());
-																																																	values.put(
-																																																			MatchDb.KEY_OVERS,
-																																																			arg0.get(
-																																																					i)
-																																																					.getOvers());
-																																																	values.put(
-																																																			MatchDb.KEY_INNINGS,
-																																																			arg0.get(
-																																																					i)
-																																																					.getInnings());
-																																																	values.put(
-																																																			MatchDb.KEY_RESULT,
-																																																			arg0.get(
-																																																					i)
-																																																					.getResult());
-																																																	values.put(
-																																																			MatchDb.KEY_LEVEL,
-																																																			arg0.get(
-																																																					i)
-																																																					.getLevel());
-																																																	values.put(
-																																																			MatchDb.KEY_FIRST_ACTION,
-																																																			arg0.get(
-																																																					i)
-																																																					.getFirstAction());
-																																																	values.put(
-																																																			MatchDb.KEY_DURATION,
-																																																			arg0.get(
-																																																					i)
-																																																					.getDuration());
-																																																	values.put(
-																																																			MatchDb.KEY_REVIEW,
-																																																			arg0.get(
-																																																					i)
-																																																					.getReview());
-																																																	values.put(
-																																																			MatchDb.KEY_STATUS,
-																																																			arg0.get(
-																																																					i)
-																																																					.getStatus());
-
-																																																	login_activity
-																																																			.getContentResolver()
-																																																			.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
-																																																					values);
-																																																	ServerDBPerformance
-																																																			.query(ServerDBPerformance.class,
-																																																					new StackMobQuery()
-																																																							.field(new StackMobQueryField(
-																																																									"user_id")
-																																																									.isEqualTo(user
-																																																											.getId()))
-																																																							.field(new StackMobQueryField(
-																																																									"status")
-																																																									.isLessThan(2)),
-																																																					new StackMobQueryCallback<ServerDBPerformance>() {
-
-																																																						@Override
-																																																						public void failure(StackMobException arg0) {
-																																																							Log.w("LoginIn",
-																																																									"performance failure!!");
-
-																																																						}
-
-																																																						@Override
-																																																						public void success(List<ServerDBPerformance> arg0) {
-																																																							Log.w("LoginIn",
-																																																									"performance failure!!");
-																																																							for (int i = 0; i < arg0
-																																																									.size(); i++) {
-																																																								ContentValues values = new ContentValues();
-
-																																																								values.put(
-																																																										PerformanceDb.KEY_MATCHID,
-																																																										arg0.get(
-																																																												i)
-																																																												.getMatchId());
-																																																								values.put(
-																																																										PerformanceDb.KEY_DEVICE_ID,
-																																																										arg0.get(
-																																																												i)
-																																																												.getDeviceId());
-																																																								values.put(
-																																																										PerformanceDb.KEY_ROWID,
-																																																										arg0.get(
-																																																												i)
-																																																												.getPerId());
-																																																								values.put(
-																																																										PerformanceDb.KEY_INNING,
-																																																										arg0.get(
-																																																												i)
-																																																												.getInning());
-
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_NUM,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatNum());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_RUNS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatRuns());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_BALLS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatBalls());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_TIME,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatTime());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_FOURS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatFours());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_SIXES,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatSixes());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_HOW_OUT,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatDismissal());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_BOWLER_TYPE,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatBowlerType());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_FIELDING_POSITION,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatFieldingPosition());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BAT_CHANCES,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBatChances());
-
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_BALLS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlBalls());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_SPELLS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlSpells());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_MAIDENS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlMaidens());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_RUNS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlRuns());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_FOURS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlFours());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_SIXES,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlSixes());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_WKTS_LEFT,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlWktsLeft());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlWktsRight());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlCatchesDropped());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_NOBALLS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getNoBalls());
-																																																								values.put(
-																																																										PerformanceDb.KEY_BOWL_WIDES,
-																																																										arg0.get(
-																																																												i)
-																																																												.getBowlWides());
-
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_SLIP_CATCH,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldSlipCatch());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldCloseCatch());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldCircleCatch());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_DEEP_CATCH,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldDeepCatch());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_RO_CIRCLE,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldRoCircle());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldRoDirectCircle());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_RO_DEEP,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldRoDeep());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldRoDirectDeep());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_STUMPINGS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldStumping());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_BYES,
-																																																										arg0.get(
-																																																												i)
-																																																												.getFieldByes());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_MISFIELDS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getMisFields());
-																																																								values.put(
-																																																										PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
-																																																										arg0.get(
-																																																												i)
-																																																												.getCatchedDropped());
-
-																																																								values.put(
-																																																										PerformanceDb.KEY_STATUS,
-																																																										arg0.get(
-																																																												i)
-																																																												.getStatus());
-
-																																																								login_activity
-																																																										.getApplicationContext()
-																																																										.getContentResolver()
-																																																										.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
-																																																												values);
-																																																								openMainActivity();
-																																																							}
-
-																																																						}
-																																																					});
-																																																}
-
-																																															}
-																																														});
-
-																																									}
-																																								});
-
-																																			}
-																																		});
-
-																													}
-																												});
-
-																							}
-																						});
-
-																			}
-																		}
-																	});
+													chkAll();
 												}
 
 												@Override
-												public void failure(StackMobException arg0) {
+												public void failure(
+														StackMobException arg0) {
 													Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
 															arg0);
 												}
 											});
+								} else {
+									chkAll();
 								}
 							}
 						});
