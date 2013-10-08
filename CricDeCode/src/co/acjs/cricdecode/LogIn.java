@@ -108,7 +108,7 @@ public class LogIn extends SherlockActivity {
 						FBRefreshService.class));
 			}
 			openMainActivity();
-		} else if (!AccessSharedPrefs.mPrefs.getString("id", "").equals("")) {
+		} else if (!AccessSharedPrefs.mPrefs.getString("user_permitted", "").equals("")) {
 			Session session = Session.getActiveSession();
 			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
 			if (session.isOpened()) {
