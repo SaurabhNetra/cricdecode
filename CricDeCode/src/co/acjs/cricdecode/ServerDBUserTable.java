@@ -14,6 +14,11 @@ public class ServerDBUserTable extends StackMobModel {
 	String	battingStyle;
 	String	bowlingStyle;
 	int		hasAndroid;
+	
+	public ServerDBUserTable()
+	{
+		super(ServerDBUserTable.class);
+	}
 
 	public ServerDBUserTable(String user_id, int device_no, String first_name, String last_name, String nick_name, String fb_link, String dob, String role, String battingStyle, String bowlingStyle, int hasAndroid) {
 		super(ServerDBUserTable.class);
