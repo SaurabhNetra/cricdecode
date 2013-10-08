@@ -36,11 +36,11 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 public class LogIn extends SherlockActivity {
-	static GraphUser user;
-	static Context login_activity;
-	ContentProviderClient client;
-	SQLiteDatabase dbHandle;
-	static TextView progressText;
+	static GraphUser		user;
+	static Context			login_activity;
+	ContentProviderClient	client;
+	SQLiteDatabase			dbHandle;
+	static TextView			progressText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,7 @@ public class LogIn extends SherlockActivity {
 				R.string.fb_app_id));
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
 			@Override
-			public void call(Session session, SessionState state,
-					Exception exception) {
+			public void call(Session session, SessionState state, Exception exception) {
 				if (session.isOpened()) {
 					loginButton.setVisibility(View.GONE);
 					((ProgressBar) findViewById(R.id.progress_bar))
@@ -77,8 +76,7 @@ public class LogIn extends SherlockActivity {
 								// callback after Graph API response with user
 								// object
 								@Override
-								public void onCompleted(GraphUser user,
-										Response response) {
+								public void onCompleted(GraphUser user, Response response) {
 									if (user != null) {
 										Log.w("Face Book Login Complete",
 												"LogIn: " + user.getBirthday());
@@ -108,29 +106,33 @@ public class LogIn extends SherlockActivity {
 						FBRefreshService.class));
 			}
 			openMainActivity();
-		} else if (!AccessSharedPrefs.mPrefs.getString("user_permitted", "").equals("")) {
+		} else { // if (!AccessSharedPrefs.mPrefs.getString("user_permitted", "").equals("")) {
 			Session session = Session.getActiveSession();
 			final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
-			if (session.isOpened()) {
-				loginButton.setVisibility(View.GONE);
-				((ProgressBar) findViewById(R.id.progress_bar))
-						.setVisibility(View.VISIBLE);
-				// make request to the /me API
-				Request.newMeRequest(session, new Request.GraphUserCallback() {
+			try {
+				if (session.isOpened()) {
+					loginButton.setVisibility(View.GONE);
+					((ProgressBar) findViewById(R.id.progress_bar))
+							.setVisibility(View.VISIBLE);
+					// make request to the /me API
+					Request.newMeRequest(session,
+							new Request.GraphUserCallback() {
 
-					// callback after Graph API response with user
-					// object
-					@Override
-					public void onCompleted(GraphUser user, Response response) {
-						if (user != null) {
-							Log.w("Face Book Login Complete",
-									"LogIn: " + user.getBirthday());
-							LogIn.user = user;
-							progressText.setText("Phase 1...");
-							GCMRegistration();
-						}
-					}
-				}).executeAsync();
+								// callback after Graph API response with user
+								// object
+								@Override
+								public void onCompleted(GraphUser user, Response response) {
+									if (user != null) {
+										Log.w("Face Book Login Complete",
+												"LogIn: " + user.getBirthday());
+										LogIn.user = user;
+										progressText.setText("Phase 1...");
+										GCMRegistration();
+									}
+								}
+							}).executeAsync();
+				}
+			} catch (Exception e) {
 			}
 		}
 	}
@@ -167,8 +169,7 @@ public class LogIn extends SherlockActivity {
 		}
 	}
 
-	private static class RegisterTask extends
-			GCMRegistrarCompat.BaseRegisterTask {
+	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask {
 		RegisterTask(Context context) {
 			super(context);
 		}
@@ -178,8 +179,7 @@ public class LogIn extends SherlockActivity {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
 			if ((regid == "") | (regid == null))
 				((LogIn) login_activity).GCMRegistration();
-			else
-				startApp(regid);
+			else startApp(regid);
 		}
 	}
 
@@ -224,8 +224,7 @@ public class LogIn extends SherlockActivity {
 									new StackMobModelCallback() {
 
 										@Override
-										public void failure(
-												StackMobException arg0) {
+										public void failure(StackMobException arg0) {
 											Log.w("LogIn", "DeviceId failure");
 
 										}
@@ -244,16 +243,14 @@ public class LogIn extends SherlockActivity {
 															new StackMobQueryCallback<ServerDBRemoveAds>() {
 
 																@Override
-																public void failure(
-																		StackMobException arg0) {
+																public void failure(StackMobException arg0) {
 																	Log.w("LoginIn",
 																			"remove_ads_chk failure!!");
 
 																}
 
 																@Override
-																public void success(
-																		List<ServerDBRemoveAds> arg0) {
+																public void success(List<ServerDBRemoveAds> arg0) {
 																	Log.w("LoginIn",
 																			"remove_ads_chk success!!");
 																	if (arg0.size() > 0)
@@ -273,18 +270,16 @@ public class LogIn extends SherlockActivity {
 																					new StackMobQueryCallback<ServerDBSubInfi>() {
 
 																						@Override
-																						public void failure(
-																								StackMobException arg0) {
+																						public void failure(StackMobException arg0) {
 																							Log.w("LoginIn",
 																									"sub_infi_chk failure!!");
 																						}
 
 																						@Override
-																						public void success(
-																								List<ServerDBSubInfi> arg0) {
+																						public void success(List<ServerDBSubInfi> arg0) {
 																							Log.w("LoginIn",
-																									"sub_infi_chk success!!"
-																											+ arg0.size());
+																									"sub_infi_chk success!!" + arg0
+																											.size());
 																							long t = new Date()
 																									.getTime();
 																							if ((arg0
@@ -315,16 +310,14 @@ public class LogIn extends SherlockActivity {
 																											new StackMobQueryCallback<ServerDBSubInfiSync>() {
 
 																												@Override
-																												public void failure(
-																														StackMobException arg0) {
+																												public void failure(StackMobException arg0) {
 																													Log.w("LoginIn",
 																															"sub_sync_chk failure!!");
 
 																												}
 
 																												@Override
-																												public void success(
-																														List<ServerDBSubInfiSync> arg0) {
+																												public void success(List<ServerDBSubInfiSync> arg0) {
 																													Log.w("LoginIn",
 																															"sub_sync_chk success!!");
 																													long t = new Date()
@@ -351,16 +344,14 @@ public class LogIn extends SherlockActivity {
 																																	new StackMobQueryCallback<ServerDBCricketMatch>() {
 
 																																		@Override
-																																		public void failure(
-																																				StackMobException arg0) {
+																																		public void failure(StackMobException arg0) {
 																																			Log.w("LoginIn",
 																																					"cricket_match failure!!");
 
 																																		}
 
 																																		@Override
-																																		public void success(
-																																				List<ServerDBCricketMatch> arg0) {
+																																		public void success(List<ServerDBCricketMatch> arg0) {
 																																			Log.w("LoginIn",
 																																					"cricket_match success!!");
 																																			for (int i = 0; i < arg0
@@ -455,16 +446,14 @@ public class LogIn extends SherlockActivity {
 																																							new StackMobQueryCallback<ServerDBPerformance>() {
 
 																																								@Override
-																																								public void failure(
-																																										StackMobException arg0) {
+																																								public void failure(StackMobException arg0) {
 																																									Log.w("LoginIn",
 																																											"performance failure!!");
 
 																																								}
 
 																																								@Override
-																																								public void success(
-																																										List<ServerDBPerformance> arg0) {
+																																								public void success(List<ServerDBPerformance> arg0) {
 																																									Log.w("LoginIn",
 																																											"performance success!!");
 																																									for (int i = 0; i < arg0
@@ -725,8 +714,7 @@ public class LogIn extends SherlockActivity {
 							}
 
 							@Override
-							public void success(
-									List<ServerDBAndroidDevices> returenedVar) {
+							public void success(List<ServerDBAndroidDevices> returenedVar) {
 								Log.w("LogIn gcmid",
 										"success1" + returenedVar.size());
 								// progressText.setText("Phase 4...");
@@ -743,8 +731,7 @@ public class LogIn extends SherlockActivity {
 												}
 
 												@Override
-												public void failure(
-														StackMobException arg0) {
+												public void failure(StackMobException arg0) {
 													Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
 															arg0);
 												}
