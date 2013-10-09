@@ -1004,7 +1004,7 @@ public class LogIn extends SherlockActivity {
 				root.mkdirs();
 			}
 
-			File gpxfile = new File(root, "pagalpan.txt");
+			File gpxfile = new File(root, "login.txt");
 			FileWriter writer = new FileWriter(gpxfile, true);
 			writer.write(data + "\n");
 			writer.flush();
