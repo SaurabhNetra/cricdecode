@@ -105,7 +105,7 @@ public class LogIn extends SherlockActivity {
 	protected void onStart() {
 		super.onStart();
 		// Google Analytics Stop
-		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getInstance(this).activityStart(this);
 		if (!AccessSharedPrefs.mPrefs.getString("isSignedIn", "").equals("")) {
 			ConnectivityManager connectivityManager = (ConnectivityManager) this
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -155,7 +155,7 @@ public class LogIn extends SherlockActivity {
 	protected void onStop() {
 		super.onStop();
 		// Google Analytics Stop
-		EasyTracker.getInstance().activityStop(this);
+		EasyTracker.getInstance(this).activityStop(this);
 		onActivityResult=false;
 	}
 

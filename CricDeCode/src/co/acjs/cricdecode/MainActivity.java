@@ -816,7 +816,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onStop();
 
 		// Google Analytics Stop
-		EasyTracker.getInstance().activityStop(this);
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	@Override
@@ -1317,7 +1317,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onStart();
 
 		// Google Analytics Start
-		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	@SuppressWarnings("deprecation")
