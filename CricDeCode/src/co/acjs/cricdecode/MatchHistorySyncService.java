@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -149,7 +151,6 @@ public class MatchHistorySyncService extends IntentService {
 
 						@Override
 						public void failure(StackMobException arg0) {
-							
 
 						}
 
@@ -302,7 +303,39 @@ public class MatchHistorySyncService extends IntentService {
 										@Override
 										public void success(String arg0) {
 											if (cnt_MatchPerformance() == getMatchPerformance()) {
-												//TODO update db
+												// TODO update db 
+												//DONE by Saurabh
+												Uri uri = Uri
+														.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+																+ "/"
+																+ matchId
+																+ "/"
+																+ deviceId);
+												ContentValues matchvalues = new ContentValues();
+												matchvalues
+														.put(MatchDb.KEY_SYNCED,
+																"1");
+												getApplicationContext()
+														.getContentResolver()
+														.update(uri,
+																matchvalues,
+																null, null);
+
+												uri = Uri
+														.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+																+ "/"
+																+ matchId
+																+ "/"
+																+ deviceId);
+												ContentValues values = new ContentValues();
+												values.put(
+														PerformanceDb.KEY_SYNCED,
+														"1");
+												getApplicationContext()
+														.getContentResolver()
+														.update(uri, values,
+																null, null);
+
 												init_cnt_MatchPerformance();
 
 											}
