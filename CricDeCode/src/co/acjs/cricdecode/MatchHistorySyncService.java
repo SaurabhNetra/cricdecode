@@ -204,9 +204,9 @@ public class MatchHistorySyncService extends IntentService {
 													+ MatchDb.MATCH_HISTORY
 													+ "' and "
 													+ PerformanceDb.KEY_MATCHID
-													+ "= '"
+													+ "= "
 													+ getMatchId()
-													+ "' and "
+													+ " and "
 													+ PerformanceDb.KEY_DEVICE_ID
 													+ "= '" + getDeviceId()
 													+ "'", null, null);
@@ -303,8 +303,8 @@ public class MatchHistorySyncService extends IntentService {
 										@Override
 										public void success(String arg0) {
 											if (cnt_MatchPerformance() == getMatchPerformance()) {
-												// TODO update db 
-												//DONE by Saurabh
+												// TODO update db
+												// DONE by Saurabh
 												Uri uri = Uri
 														.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
 																+ "/"
