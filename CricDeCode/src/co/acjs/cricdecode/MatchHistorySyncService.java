@@ -52,7 +52,7 @@ public class MatchHistorySyncService extends IntentService {
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
 
-			Cursor c = getContentResolver().query(
+			final Cursor c = getContentResolver().query(
 					CricDeCodeContentProvider.CONTENT_URI_MATCH,
 					new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
 							MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
@@ -65,7 +65,7 @@ public class MatchHistorySyncService extends IntentService {
 					MatchDb.KEY_SYNCED + "=" + "0 and " + MatchDb.KEY_STATUS
 							+ "='" + MatchDb.MATCH_HISTORY + "'", null,
 					MatchDb.KEY_ROWID);
-			Cursor t = getContentResolver()
+			final Cursor t = getContentResolver()
 					.query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 							new String[] { PerformanceDb.KEY_ROWID,
 									PerformanceDb.KEY_BAT_BALLS,
@@ -148,6 +148,10 @@ public class MatchHistorySyncService extends IntentService {
 					setDeviceId(AccessSharedPrefs.mPrefs.getString("device_id",
 							""));
 					cm.save(new StackMobCallback() {
+
+						// Here Sheetal
+						String matchId = c.getString(c
+								.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID));
 
 						@Override
 						public void failure(StackMobException arg0) {
