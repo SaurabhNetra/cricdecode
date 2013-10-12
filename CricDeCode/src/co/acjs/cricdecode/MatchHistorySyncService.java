@@ -24,7 +24,6 @@ public class MatchHistorySyncService extends IntentService {
 	static int tot_mat_per = 0;
 	static int cnt_tot_per = 0;
 	static int cnt_tot_mat_per = 0;
-	static String matchId;
 	static String deviceId;
 	ArrayList<String> match_id_arr = new ArrayList<String>();
 	ArrayList<String> performance_id_arr = new ArrayList<String>();
@@ -143,8 +142,6 @@ public class MatchHistorySyncService extends IntentService {
 							c.getString(c
 									.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)),
 							0);
-					setMatchId(c.getString(c
-							.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)));
 					setDeviceId(AccessSharedPrefs.mPrefs.getString("device_id",
 							""));
 					cm.save(new StackMobCallback() {
@@ -160,7 +157,7 @@ public class MatchHistorySyncService extends IntentService {
 
 						@Override
 						public void success(String arg0) {
-							Cursor c1 = getContentResolver()
+							final Cursor c1 = getContentResolver()
 									.query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 											new String[] {
 													PerformanceDb.KEY_ROWID,
@@ -209,7 +206,7 @@ public class MatchHistorySyncService extends IntentService {
 													+ "' and "
 													+ PerformanceDb.KEY_MATCHID
 													+ "= "
-													+ getMatchId()
+													+ matchId
 													+ " and "
 													+ PerformanceDb.KEY_DEVICE_ID
 													+ "= '" + getDeviceId()
@@ -298,6 +295,9 @@ public class MatchHistorySyncService extends IntentService {
 											1);
 									sp.save(new StackMobCallback() {
 
+										String matchId = c1.getString(c1
+												.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID));
+
 										@Override
 										public void failure(
 												StackMobException arg0) {
@@ -314,7 +314,7 @@ public class MatchHistorySyncService extends IntentService {
 																+ "/"
 																+ matchId
 																+ "/"
-																+ deviceId);
+																+ getDeviceId());
 												ContentValues matchvalues = new ContentValues();
 												matchvalues
 														.put(MatchDb.KEY_SYNCED,
@@ -330,7 +330,7 @@ public class MatchHistorySyncService extends IntentService {
 																+ "/"
 																+ matchId
 																+ "/"
-																+ deviceId);
+																+ getDeviceId());
 												ContentValues values = new ContentValues();
 												values.put(
 														PerformanceDb.KEY_SYNCED,
@@ -593,16 +593,8 @@ public class MatchHistorySyncService extends IntentService {
 		return tot_mat_per;
 	}
 
-	static String getMatchId() {
-		return matchId;
-	}
-
 	static String getDeviceId() {
 		return deviceId;
-	}
-
-	static void setMatchId(String m) {
-		matchId = m;
 	}
 
 	static void setDeviceId(String d) {
