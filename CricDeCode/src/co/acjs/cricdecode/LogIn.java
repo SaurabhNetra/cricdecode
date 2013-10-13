@@ -156,7 +156,7 @@ public class LogIn extends SherlockActivity {
 		super.onStop();
 		// Google Analytics Stop
 		EasyTracker.getInstance(this).activityStop(this);
-		onActivityResult=false;
+		onActivityResult = false;
 	}
 
 	void GCMRegistration() {
@@ -189,7 +189,7 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
-			if (regid==null)
+			if (regid == null)
 				((LogIn) login_activity).GCMRegistration();
 			else {
 				startApp(regid);
@@ -928,7 +928,8 @@ public class LogIn extends SherlockActivity {
 							@Override
 							public void success(
 									List<ServerDBAndroidDevices> returenedVar) {
-								writeToFile("ServerDBAndroidDevices success"+returenedVar.size());
+								writeToFile("ServerDBAndroidDevices success"
+										+ returenedVar.size());
 								Log.w("LogIn gcmid",
 										"success1" + returenedVar.size());
 								// progressText.setText("Phase 4...");
@@ -974,7 +975,7 @@ public class LogIn extends SherlockActivity {
 												}
 											});
 								} else {
-									
+
 									writeToFile("Already Existing user");
 									chkAll();
 								}
@@ -987,7 +988,7 @@ public class LogIn extends SherlockActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode,
 				resultCode, data);
-		onActivityResult=true;
+		onActivityResult = true;
 	}
 
 	public static void openMainActivity() {

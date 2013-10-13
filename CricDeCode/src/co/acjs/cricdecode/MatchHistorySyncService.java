@@ -108,7 +108,7 @@ public class MatchHistorySyncService extends IntentService {
 									+ MatchDb.MATCH_HISTORY + "'", null,
 							PerformanceDb.KEY_MATCHID);
 			settotPerformance(t.getCount());
-
+			Log.d("Debug", "Number of Un Synced Matches " + c.getCount());
 			if (c.getCount() != 0) {
 				c.moveToFirst();
 				do {
@@ -116,7 +116,7 @@ public class MatchHistorySyncService extends IntentService {
 					ServerDBCricketMatch cm = new ServerDBCricketMatch(
 							AccessSharedPrefs.mPrefs.getString("id", ""),
 							Integer.parseInt(c.getString(c
-									.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))),
+									.getColumnIndexOrThrow(MatchDb.KEY_ROWID))),
 							Integer.parseInt(AccessSharedPrefs.mPrefs
 									.getString("device_id", "")),
 							c.getString(c
@@ -148,11 +148,11 @@ public class MatchHistorySyncService extends IntentService {
 
 						// Here Sheetal
 						String matchId = c.getString(c
-								.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID));
+								.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 
 						@Override
 						public void failure(StackMobException arg0) {
-
+							Log.d("Debug", "Match Sync Failure");
 						}
 
 						@Override
@@ -301,7 +301,8 @@ public class MatchHistorySyncService extends IntentService {
 										@Override
 										public void failure(
 												StackMobException arg0) {
-
+											Log.d("Debug",
+													"Performance Sync Failure");
 										}
 
 										@Override
@@ -341,6 +342,8 @@ public class MatchHistorySyncService extends IntentService {
 																null, null);
 
 												init_cnt_MatchPerformance();
+												Log.d("Debug",
+														"Performance Sync Update Success");
 
 											}
 											if (cnt_totPerformance() == gettotPerformance()) {
@@ -350,14 +353,17 @@ public class MatchHistorySyncService extends IntentService {
 																"MatchHistorySyncServiceCalled",
 																CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 											}
+											Log.d("Debug",
+													"Performance Sync Success");
 										}
 									});
 									c1.moveToNext();
 								} while (!c1.isAfterLast());
 							}
 							c1.close();
-
+							Log.d("Debug", "Match Sync Success");
 						}
+
 					});
 
 					c.moveToNext();

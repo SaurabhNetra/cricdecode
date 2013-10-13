@@ -239,6 +239,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 					+ "/" + str + "/" + d_str);
 			getSherlockActivity().getContentResolver().update(uri, values,
 					null, null);
+			// Comment this condition for testing
 			if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
 					"yes")) {
 				AccessSharedPrefs.setString(getSherlockActivity(),

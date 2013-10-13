@@ -200,7 +200,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-	
+
 		// TODO encrypt
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7sFvSEgBW48CoI2EnAgRscQOFXEhB7cx76L8aKJvVoIRvs1vaWwLh1FYD8WxxIkxmbtGCxEQonHOEJXi+oy6KVFCvWijINbrX7XLj8XNpBalVt/z7mjU+omimgzDthlDiAC2Zx8xr/Tsxe1twaZfVSIICB8vyI6xCANOlTYGBJx3LwY07N3eeTVCU6kWj7SELS8ZaiPuj83ybkLQe4BSvCYTaUH3It+fZKuJ4RbhDeR2eQ4RNJfHcqI9JKmLiMb8YmYkSid6tt+5jKt3P+zjUfIeslKeVB1LODO4ISuSpgJzb5xH4j2VIh/phyFFLQ3v6gJoo29A/OApP1wFYR9/1wIDAQAB";
 		mHelper = new IabHelper(this, base64EncodedPublicKey);
@@ -2515,10 +2515,12 @@ public class MainActivity extends SherlockFragmentActivity {
 				}
 			}
 			c.close();
+			// Comment this condition and Uncomment if true for testing
 			if (AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals(
 					"yes")
 					| AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-							.equals("yes") | !matchLimitExceeeded) {
+							.equals("yes") | !matchLimitExceeeded)
+			/* if (true) */{
 				preFragment = currentFragment;
 				currentFragment = MATCH_CREATION_FRAGMENT;
 				selectItem(MATCH_CREATION_FRAGMENT, true);

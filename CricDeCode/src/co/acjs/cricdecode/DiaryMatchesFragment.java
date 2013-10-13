@@ -257,7 +257,8 @@ public class DiaryMatchesFragment extends SherlockFragment implements
 		String str = child.getText().toString();
 		child = (TextView) vwParentRow.getChildAt(1);
 		String d_str = child.getText().toString();
-		if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")) {
+		if (!AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+				.equals("yes")) {
 			Uri uri = Uri
 					.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
 							+ "/" + str + "/" + d_str);
