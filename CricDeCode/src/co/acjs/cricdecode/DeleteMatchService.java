@@ -3,31 +3,27 @@ package co.acjs.cricdecode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.stackmob.android.sdk.common.StackMobAndroid;
-import com.stackmob.sdk.api.StackMobQuery;
-import com.stackmob.sdk.api.StackMobQueryField;
-import com.stackmob.sdk.callback.StackMobCallback;
-import com.stackmob.sdk.callback.StackMobQueryCallback;
-import com.stackmob.sdk.exception.StackMobException;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
+
+import com.stackmob.android.sdk.common.StackMobAndroid;
+import com.stackmob.sdk.callback.StackMobCallback;
+import com.stackmob.sdk.exception.StackMobException;
 
 public class DeleteMatchService extends IntentService {
 	public static boolean started = true;
-	static List<ServerDBCricketMatch> match_list = new ArrayList<ServerDBCricketMatch>();
+	// static List<ServerDBCricketMatch> match_list = new
+	// ArrayList<ServerDBCricketMatch>();
 
-	static int delete_match_count, delete_performance_count;
+	static int delete_match_count, match_deleted, delete_performance_count,
+			performance_deleted;
 	static boolean all_match_done = false, all_performance_done = false;
-	static List<ServerDBPerformance> performance_list = new ArrayList<ServerDBPerformance>();
+
+	// static List<ServerDBPerformance> performance_list = new
+	// ArrayList<ServerDBPerformance>();
 
 	public DeleteMatchService() {
 		super("DeleteMatchService");
@@ -55,14 +51,23 @@ public class DeleteMatchService extends IntentService {
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
 
-			// TODO Make array for status=deleted
-			// create json array of dev, id , mid
-			// JSONArray jsonArray = new JSONArray();
-			Cursor c = MainActivity.dbHandle.rawQuery("select "
-					+ MatchDb.KEY_DEVICE_ID + "," + MatchDb.KEY_ROWID
-					+ " from " + MatchDb.SQLITE_TABLE + " where "
-					+ MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_DELETED + "'",
-					null);
+			/*
+			 * // TODO Make array for status=deleted // create json array of
+			 * dev, id , mid // JSONArray jsonArray = new JSONArray();
+			 */
+
+			final Cursor c = getContentResolver().query(
+					CricDeCodeContentProvider.CONTENT_URI_MATCH,
+					new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
+							MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
+							MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE,
+							MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS,
+							MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL,
+							MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION,
+							MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS,
+							MatchDb.KEY_SYNCED },
+					MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_DELETED + "'",
+					null, MatchDb.KEY_ROWID);
 			Log.d("Debug", "Matches to be deleted" + c.getCount());
 			if (c.getCount() != 0) {
 				delete_match_count = c.getCount();
@@ -70,100 +75,127 @@ public class DeleteMatchService extends IntentService {
 				c.moveToFirst();
 				do {
 
-					// Delete Object from StackMob
-					ServerDBCricketMatch
-							.query(ServerDBCricketMatch.class,
-									new StackMobQuery()
-											.fieldIsEqualTo(
-													"match_id",
-													c.getInt(c
-															.getColumnIndexOrThrow(MatchDb.KEY_ROWID)))
-											.fieldIsEqualTo(
-													MatchDb.KEY_DEVICE_ID,
-													c.getInt(c
-															.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID))),
-									new StackMobQueryCallback<ServerDBCricketMatch>() {
-										@Override
-										public void success(
-												List<ServerDBCricketMatch> result) {
-											Log.d("Debug",
-													"Match fetch success");
-											for (int i = 0; i < result.size(); i++) {
-												match_list.add(result.get(i));
-											}
-											if (match_list.size() == delete_match_count) {
-												all_match_done = true;
-											}
-											if (all_match_done
-													&& all_performance_done) {
-												Log.d("Debug",
-														"Destroy Objects from Match Success");
-												for (int i = 0; i < match_list
-														.size(); i++) {
-													match_list.get(i)
-															.setStatus(2);
-													match_list
-															.get(i)
-															.save(new StackMobCallback() {
+					// Delete By ID
+					ServerDBCricketMatch cm = new ServerDBCricketMatch(
+							AccessSharedPrefs.mPrefs.getString("id", ""),
+							Integer.parseInt(c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_ROWID))),
+							Integer.parseInt(c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID))),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_MY_TEAM)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_VENUE)),
+							Integer.parseInt(c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_OVERS))),
+							Integer.parseInt(c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_INNINGS))),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_RESULT)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_LEVEL)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_DURATION)),
+							c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)),
+							1);
 
-																@Override
-																public void success(
-																		String arg0) {
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
+					// Set The StackMob Primary Key ID
+					cm.setID(c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID))
+							+ "A"
+							+ c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
 
-																}
+					cm.save(new StackMobCallback() {
 
-																@Override
-																public void failure(
-																		StackMobException arg0) {
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
+						String match_id = c.getString(c
+								.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
+						String device_id = c.getString(c
+								.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID));
 
-																}
-															});
-												}
-												for (int i = 0; i < performance_list
-														.size(); i++) {
-													performance_list.get(i)
-															.setStatus(2);
-													performance_list
-															.get(i)
-															.save(new StackMobCallback() {
+						@Override
+						public void success(String arg0) {
+							match_deleted++;
+							if (match_deleted == delete_match_count) {
+								all_match_done = true;
+							}
+							if (all_match_done && all_performance_done) {
+								Uri uri = Uri
+										.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+												+ "/"
+												+ match_id
+												+ "/"
+												+ device_id);
+								getContentResolver().delete(uri, null, null);
+								uri = Uri
+										.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+												+ "/"
+												+ match_id
+												+ "/"
+												+ device_id);
+								getContentResolver().delete(uri, null, null);
+								deleteGCM();
+							}
+						}
 
-																@Override
-																public void success(
-																		String arg0) {
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
+						@Override
+						public void failure(StackMobException arg0) {
 
-																}
+						}
+					});
 
-																@Override
-																public void failure(
-																		StackMobException arg0) {
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
-
-																}
-															});
-												}
-											}
-										}
-
-										@Override
-										public void failure(StackMobException e) {
-											Log.d("Debug", e.toString());
-										}
-									});
+					/*
+					 * // Delete Object from StackMob ServerDBCricketMatch
+					 * .query(ServerDBCricketMatch.class, new StackMobQuery()
+					 * .fieldIsEqualTo( "match_id", c.getInt(c
+					 * .getColumnIndexOrThrow(MatchDb.KEY_ROWID)))
+					 * .fieldIsEqualTo( MatchDb.KEY_DEVICE_ID, c.getInt(c
+					 * .getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID))), new
+					 * StackMobQueryCallback<ServerDBCricketMatch>() {
+					 * 
+					 * @Override public void success( List<ServerDBCricketMatch>
+					 * result) { Log.d("Debug", "Match fetch success"); for (int
+					 * i = 0; i < result.size(); i++) {
+					 * match_list.add(result.get(i)); } if (match_list.size() ==
+					 * delete_match_count) { all_match_done = true; } if
+					 * (all_match_done && all_performance_done) { Log.d("Debug",
+					 * "Destroy Objects from Match Success"); for (int i = 0; i
+					 * < match_list .size(); i++) { match_list.get(i)
+					 * .setStatus(2); match_list .get(i) .save(new
+					 * StackMobCallback() {
+					 * 
+					 * @Override public void success( String arg0) { // TODO //
+					 * Auto-generated // method // stub
+					 * 
+					 * }
+					 * 
+					 * @Override public void failure( StackMobException arg0) {
+					 * // TODO // Auto-generated // method // stub
+					 * 
+					 * } }); } for (int i = 0; i < performance_list .size();
+					 * i++) { performance_list.get(i) .setStatus(2);
+					 * performance_list .get(i) .save(new StackMobCallback() {
+					 * 
+					 * @Override public void success( String arg0) { // TODO //
+					 * Auto-generated // method // stub
+					 * 
+					 * }
+					 * 
+					 * @Override public void failure( StackMobException arg0) {
+					 * // TODO // Auto-generated // method // stub
+					 * 
+					 * } }); } } }
+					 * 
+					 * @Override public void failure(StackMobException e) {
+					 * Log.d("Debug", e.toString()); } });
+					 */
 
 					/*
 					 * JSONObject jsonObject = new JSONObject(); try {
@@ -179,103 +211,225 @@ public class DeleteMatchService extends IntentService {
 			}
 			c.close();
 
-			c = MainActivity.dbHandle.rawQuery("select "
-					+ PerformanceDb.KEY_DEVICE_ID + ","
-					+ PerformanceDb.KEY_MATCHID + " from "
-					+ PerformanceDb.SQLITE_TABLE + " where "
-					+ PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_DELETED
-					+ "'", null);
+			final Cursor c1 = getContentResolver()
+					.query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
+							new String[] { PerformanceDb.KEY_ROWID,
+									PerformanceDb.KEY_BAT_BALLS,
+									PerformanceDb.KEY_BAT_BOWLER_TYPE,
+									PerformanceDb.KEY_BAT_CHANCES,
+									PerformanceDb.KEY_BAT_FIELDING_POSITION,
+									PerformanceDb.KEY_BAT_FOURS,
+									PerformanceDb.KEY_BAT_HOW_OUT,
+									PerformanceDb.KEY_BAT_NUM,
+									PerformanceDb.KEY_BAT_RUNS,
+									PerformanceDb.KEY_BAT_SIXES,
+									PerformanceDb.KEY_BAT_TIME,
+									PerformanceDb.KEY_BOWL_BALLS,
+									PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
+									PerformanceDb.KEY_BOWL_FOURS,
+									PerformanceDb.KEY_BOWL_MAIDENS,
+									PerformanceDb.KEY_BOWL_NOBALLS,
+									PerformanceDb.KEY_BOWL_RUNS,
+									PerformanceDb.KEY_BOWL_SIXES,
+									PerformanceDb.KEY_BOWL_SPELLS,
+									PerformanceDb.KEY_BOWL_WIDES,
+									PerformanceDb.KEY_BOWL_WKTS_LEFT,
+									PerformanceDb.KEY_BOWL_WKTS_RIGHT,
+									PerformanceDb.KEY_FIELD_BYES,
+									PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
+									PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
+									PerformanceDb.KEY_FIELD_CLOSE_CATCH,
+									PerformanceDb.KEY_FIELD_DEEP_CATCH,
+									PerformanceDb.KEY_FIELD_MISFIELDS,
+									PerformanceDb.KEY_FIELD_RO_CIRCLE,
+									PerformanceDb.KEY_FIELD_RO_DEEP,
+									PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
+									PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
+									PerformanceDb.KEY_FIELD_SLIP_CATCH,
+									PerformanceDb.KEY_FIELD_STUMPINGS,
+									PerformanceDb.KEY_INNING,
+									PerformanceDb.KEY_MATCHID,
+									PerformanceDb.KEY_STATUS },
+							PerformanceDb.KEY_STATUS + "='"
+									+ MatchDb.MATCH_DELETED + "'", null,
+							PerformanceDb.KEY_MATCHID);
 
-			if (c.getCount() != 0) {
-				delete_performance_count = c.getCount();
+			if (c1.getCount() != 0) {
+				delete_performance_count = c1.getCount();
 				int i = 0;
-				c.moveToFirst();
+				c1.moveToFirst();
 				do {
 
-					// Delete Object from StackMob
-					ServerDBPerformance
-							.query(ServerDBPerformance.class,
-									new StackMobQuery()
-											.fieldIsEqualTo(
-													PerformanceDb.KEY_MATCHID,
-													c.getInt(c
-															.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)))
-											.fieldIsEqualTo(
-													PerformanceDb.KEY_DEVICE_ID,
-													c.getInt(c
-															.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID))),
-									new StackMobQueryCallback<ServerDBPerformance>() {
-										@Override
-										public void success(
-												List<ServerDBPerformance> result) {
-											Log.d("Debug",
-													"Performance Success");
-											for (int i = 0; i < result.size(); i++) {
-												performance_list.add(result
-														.get(i));
-											}
-											if (performance_list.size() == delete_performance_count) {
-												all_performance_done = true;
-											}
-											if (all_match_done
-													&& all_performance_done) {
-												Log.d("Debug",
-														"Destroy Objects from Performance Success");
-												for (int i = 0; i < match_list
-														.size(); i++) {
-													match_list.get(i)
-															.setStatus(2);
-													match_list
-															.get(i)
-															.save(new StackMobCallback() {
+					// Delete by ID
+					ServerDBPerformance sp = new ServerDBPerformance(
+							AccessSharedPrefs.mPrefs.getString("id", ""),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))),
+							Integer.parseInt(AccessSharedPrefs.mPrefs
+									.getString("device_id", "")),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_NUM))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_RUNS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BALLS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_TIME))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FOURS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_SIXES))),
+							c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_HOW_OUT)),
+							c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE)),
+							c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FIELDING_POSITION)),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_CHANCES))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_BALLS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SPELLS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_RUNS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_FOURS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SIXES))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_LEFT))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_CATCHES_DROPPED))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_NOBALLS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WIDES))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_SLIP_CATCH))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CLOSE_CATCH))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CIRCLE_CATCH))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_CIRCLE))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DEEP))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_STUMPINGS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS))),
+							Integer.parseInt(c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))),
+							1);
 
-																@Override
-																public void success(
-																		String arg0) {
+					// Set The StackMob Primary Key ID
+					sp.setID(c1.getString(c1
+							.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID))
+							+ "A"
+							+ c1.getString(c1
+									.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)));
 
-																}
+					sp.save(new StackMobCallback() {
 
-																@Override
-																public void failure(
-																		StackMobException arg0) {
+						String match_id = c1.getString(c1
+								.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID));
+						String device_id = c1.getString(c1
+								.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID));
 
-																}
-															});
-												}
-												for (int i = 0; i < performance_list
-														.size(); i++) {
-													performance_list.get(i)
-															.setStatus(2);
-													performance_list
-															.get(i)
-															.save(new StackMobCallback() {
+						@Override
+						public void success(String arg0) {
+							// TODO Auto-generated method stub
+							performance_deleted++;
+							if (performance_deleted == delete_performance_count) {
+								all_performance_done = true;
+							}
+							if (all_match_done && all_performance_done) {
+								Uri uri = Uri
+										.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+												+ "/"
+												+ match_id
+												+ "/"
+												+ device_id);
+								getContentResolver().delete(uri, null, null);
+								uri = Uri
+										.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+												+ "/"
+												+ match_id
+												+ "/"
+												+ device_id);
+								getContentResolver().delete(uri, null, null);
+								deleteGCM();
+							}
 
-																@Override
-																public void success(
-																		String arg0) {
-																}
+						}
 
-																@Override
-																public void failure(
-																		StackMobException arg0) {
-																}
-															});
-												}
-											}
-										}
+						@Override
+						public void failure(StackMobException arg0) {
+							// TODO Auto-generated method stub
 
-										@Override
-										public void failure(StackMobException e) {
-											Log.d("Debug",
-													"Performance Failure");
-										}
-									});
-					c.moveToNext();
-				} while (!c.isAfterLast());
+						}
+					});
+
+					/*
+					 * // Delete Object from StackMob ServerDBPerformance
+					 * .query(ServerDBPerformance.class, new StackMobQuery()
+					 * .fieldIsEqualTo( PerformanceDb.KEY_MATCHID, c.getInt(c
+					 * .getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)))
+					 * .fieldIsEqualTo( PerformanceDb.KEY_DEVICE_ID, c.getInt(c
+					 * .getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID))),
+					 * new StackMobQueryCallback<ServerDBPerformance>() {
+					 * 
+					 * @Override public void success( List<ServerDBPerformance>
+					 * result) { Log.d("Debug", "Performance Success"); for (int
+					 * i = 0; i < result.size(); i++) {
+					 * performance_list.add(result .get(i)); } if
+					 * (performance_list.size() == delete_performance_count) {
+					 * all_performance_done = true; } if (all_match_done &&
+					 * all_performance_done) { Log.d("Debug",
+					 * "Destroy Objects from Performance Success"); for (int i =
+					 * 0; i < match_list .size(); i++) { match_list.get(i)
+					 * .setStatus(2); match_list .get(i) .save(new
+					 * StackMobCallback() {
+					 * 
+					 * @Override public void success( String arg0) {
+					 * 
+					 * }
+					 * 
+					 * @Override public void failure( StackMobException arg0) {
+					 * 
+					 * } }); } for (int i = 0; i < performance_list .size();
+					 * i++) { performance_list.get(i) .setStatus(2);
+					 * performance_list .get(i) .save(new StackMobCallback() {
+					 * 
+					 * @Override public void success( String arg0) { }
+					 * 
+					 * @Override public void failure( StackMobException arg0) {
+					 * } }); } } }
+					 * 
+					 * @Override public void failure(StackMobException e) {
+					 * Log.d("Debug", "Performance Failure"); } });
+					 */
+					c1.moveToNext();
+				} while (!c1.isAfterLast());
 			}
-			c.close();
-
-			// TODO GCM for Match Delete
+			c1.close();
 
 			/*
 			 * JSONObject jo = new JSONObject(); try { jo.put("json",
@@ -296,5 +450,9 @@ public class DeleteMatchService extends IntentService {
 			 * (InterruptedException e) { } trial++; }
 			 */
 		}
+	}
+
+	void deleteGCM() {
+		// TODO GCM for Match Delete
 	}
 }

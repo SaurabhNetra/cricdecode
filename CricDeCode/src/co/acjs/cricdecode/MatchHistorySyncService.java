@@ -142,6 +142,14 @@ public class MatchHistorySyncService extends IntentService {
 							c.getString(c
 									.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)),
 							0);
+
+					// Set The StackMob Primary Key ID
+					cm.setID(AccessSharedPrefs.mPrefs
+							.getString("device_id", "")
+							+ "A"
+							+ c.getString(c
+									.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
+
 					setDeviceId(AccessSharedPrefs.mPrefs.getString("device_id",
 							""));
 					cm.save(new StackMobCallback() {
@@ -292,7 +300,15 @@ public class MatchHistorySyncService extends IntentService {
 													.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS))),
 											Integer.parseInt(c1.getString(c1
 													.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))),
-											1);
+											0);
+
+									// Set The StackMob Primary Key ID
+									sp.setID(AccessSharedPrefs.mPrefs
+											.getString("device_id", "")
+											+ "A"
+											+ c1.getString(c1
+													.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)));
+
 									sp.save(new StackMobCallback() {
 
 										String matchId = c1.getString(c1
