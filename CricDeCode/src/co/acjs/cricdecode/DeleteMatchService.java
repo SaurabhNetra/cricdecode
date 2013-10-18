@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
@@ -123,24 +120,17 @@ public class DeleteMatchService extends IntentService {
 						@Override
 						public void success(String arg0) {
 							match_deleted++;
+
+							// Delete That Match
+							Uri uri = Uri
+									.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+											+ "/" + match_id + "/" + device_id);
+							getContentResolver().delete(uri, null, null);
+
 							if (match_deleted == delete_match_count) {
 								all_match_done = true;
 							}
 							if (all_match_done && all_performance_done) {
-								Uri uri = Uri
-										.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-												+ "/"
-												+ match_id
-												+ "/"
-												+ device_id);
-								getContentResolver().delete(uri, null, null);
-								uri = Uri
-										.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
-												+ "/"
-												+ match_id
-												+ "/"
-												+ device_id);
-								getContentResolver().delete(uri, null, null);
 								deleteGCM();
 							}
 						}
@@ -355,26 +345,18 @@ public class DeleteMatchService extends IntentService {
 
 						@Override
 						public void success(String arg0) {
-							// TODO Auto-generated method stub
 							performance_deleted++;
+
+							// Delete The Performance
+							Uri uri = Uri
+									.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+											+ "/" + match_id + "/" + device_id);
+							getContentResolver().delete(uri, null, null);
+
 							if (performance_deleted == delete_performance_count) {
 								all_performance_done = true;
 							}
 							if (all_match_done && all_performance_done) {
-								Uri uri = Uri
-										.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-												+ "/"
-												+ match_id
-												+ "/"
-												+ device_id);
-								getContentResolver().delete(uri, null, null);
-								uri = Uri
-										.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
-												+ "/"
-												+ match_id
-												+ "/"
-												+ device_id);
-								getContentResolver().delete(uri, null, null);
 								deleteGCM();
 							}
 
