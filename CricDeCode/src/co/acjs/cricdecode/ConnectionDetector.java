@@ -12,9 +12,6 @@ public class ConnectionDetector extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		AccessSharedPrefs.mPrefs = context.getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		boolean NotSignedIn = AccessSharedPrefs.mPrefs.getString(
-				"SignInServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED)
-				.equals(CDCAppClass.NEEDS_TO_BE_CALLED);
 		boolean NotSyncedEditProfile = AccessSharedPrefs.mPrefs.getString(
 				"ProfileEditServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
@@ -39,7 +36,7 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"PurchaseInfiSyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
-		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced | NotSignedIn) {
+		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced) {
 			boolean isConnected = isOnline(context);
 			if (isConnected)
 				Log.w("Connection Detector", "detected");
@@ -75,10 +72,6 @@ public class ConnectionDetector extends BroadcastReceiver {
 				Log.w("Starting PurchasedInfiSyncService", "ConnectionDetector");
 				context.startService(new Intent(context,
 						PurchasedInfiSyncService.class));
-			}
-			if (NotSignedIn & isConnected) {
-				Log.w("Starting SignInService", "ConnectionDetector");
-				context.startService(new Intent(context, SignInService.class));
 			}
 		}
 	}
