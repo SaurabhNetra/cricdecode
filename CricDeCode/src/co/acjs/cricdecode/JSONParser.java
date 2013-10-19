@@ -49,22 +49,37 @@ public class JSONParser {
 			this.cont = cont;
 			// check for request method
 			if (method == "POST") {
-				
-				if(isOnline(cont)) {
-					Log.w("JSONParser","sending post request");
 				DefaultHttpClient httpClient = new DefaultHttpClient();
-				ResponseHandler<String> resonseHandler = new BasicResponseHandler();
-				HttpPost postMethod = new HttpPost(url);
-			    postMethod.setEntity(new UrlEncodedFormEntity(params));
-				String authorizationString = "Basic " + Base64.encodeToString(("bhajji" + ":" + "__tube_l8").getBytes(), Base64.NO_WRAP); //this line is diffe
-				postMethod.setHeader("Authorization", authorizationString);
-			    response = httpClient.execute(postMethod,resonseHandler);
-				Log.w("HTTP respone","response: "+response);
-				}
-				else
-				{
+				String paramString = URLEncodedUtils.format(params, "utf-8");
+				url += "?" + paramString;
+				HttpPost httpPost = new HttpPost(url);
+
+				if (isOnline(cont)) {
+
+					Log.w("Is Online", "JSONParser");
+					HttpResponse httpResponse = httpClient.execute(httpPost);
+					Log.d("Login: Response",
+							EntityUtils.toString(httpResponse.getEntity()));
+					HttpEntity httpEntity = httpResponse.getEntity();
+					is = httpEntity.getContent();
+				} else {
 					Log.w("Not Online", "JSONParser");
 				}
+				/*
+				 * if(isOnline(cont)) {
+				 * Log.w("JSONParser","sending post request"); DefaultHttpClient
+				 * httpClient = new DefaultHttpClient(); ResponseHandler<String>
+				 * resonseHandler = new BasicResponseHandler(); HttpPost
+				 * postMethod = new HttpPost(url); postMethod.setEntity(new
+				 * UrlEncodedFormEntity(params)); String authorizationString =
+				 * "Basic " + Base64.encodeToString(("bhajji" + ":" +
+				 * "__tube_l8").getBytes(), Base64.NO_WRAP); //this line is
+				 * diffe postMethod.setHeader("Authorization",
+				 * authorizationString); response =
+				 * httpClient.execute(postMethod,resonseHandler);
+				 * Log.w("HTTP respone","response: "+response); } else {
+				 * Log.w("Not Online", "JSONParser"); }
+				 */
 
 			} else if (method == "GET") {
 				// request method is GET
@@ -78,7 +93,8 @@ public class JSONParser {
 
 					Log.w("Is Online", "JSONParser");
 					HttpResponse httpResponse = httpClient.execute(httpGet);
-					Log.d("Login: Response", EntityUtils.toString(httpResponse.getEntity()));
+					Log.d("Login: Response",
+							EntityUtils.toString(httpResponse.getEntity()));
 					HttpEntity httpEntity = httpResponse.getEntity();
 					is = httpEntity.getContent();
 				} else {
@@ -94,32 +110,23 @@ public class JSONParser {
 			e.printStackTrace();
 		}
 
-	/*	try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "iso-8859-1"), 8);
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			is.close();
-			json = sb.toString();
-		} catch (Exception e) {
-			Log.e("Buffer Error", "Error converting result " + e.toString());
-		}
-
-		// try parse the string to a JSON object
-		try {
-			jObj = new JSONObject(json);
-		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
-		}
-		*/
+		/*
+		 * try { BufferedReader reader = new BufferedReader(new
+		 * InputStreamReader( is, "iso-8859-1"), 8); StringBuilder sb = new
+		 * StringBuilder(); String line = null; while ((line =
+		 * reader.readLine()) != null) { sb.append(line + "\n"); } is.close();
+		 * json = sb.toString(); } catch (Exception e) { Log.e("Buffer Error",
+		 * "Error converting result " + e.toString()); }
+		 * 
+		 * // try parse the string to a JSON object try { jObj = new
+		 * JSONObject(json); } catch (JSONException e) { Log.e("JSON Parser",
+		 * "Error parsing data " + e.toString()); }
+		 */
 
 		// return JSON String
-		JSONObject k=null;
+		JSONObject k = null;
 		try {
-			k=new JSONObject(response);
+			k = new JSONObject(response);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

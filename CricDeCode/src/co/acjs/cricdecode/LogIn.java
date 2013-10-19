@@ -484,7 +484,7 @@ public class LogIn extends SherlockActivity {
 																																							.getId()))
 																																			.field(new StackMobQueryField(
 																																					"status")
-																																					.isLessThan(2)),
+																																					.isEqualTo(0)),
 																																	new StackMobQueryCallback<ServerDBCricketMatch>() {
 
 																																		@Override
@@ -610,7 +610,7 @@ public class LogIn extends SherlockActivity {
 																																													.getId()))
 																																									.field(new StackMobQueryField(
 																																											"status")
-																																											.isLessThan(2)),
+																																											.isEqualTo(0)),
 																																							new StackMobQueryCallback<ServerDBPerformance>() {
 
 																																								@Override

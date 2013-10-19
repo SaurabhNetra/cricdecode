@@ -27,5 +27,4 @@ public class ServerDBAndroidDevices extends StackMobModel {
 	public String getGcmId() {
 		return this.gcm_id;
 	}
-
 }

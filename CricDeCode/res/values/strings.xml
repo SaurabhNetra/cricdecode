@@ -9,16 +9,19 @@
     <string name="fb_app_id">682146731813576</string>
 
     <!-- Links -->
-    <string name="initdata">http://cdc.acjs.co/sync/initdata.php</string>
+    
+    <!--  <string name="initdata">http://cdc.acjs.co/sync/initdata.php</string>
     <string name="edit_profile_sync">http://www.cdc.acjs.co/sync/upload_profiledata.php</string>
     <string name="match_create_sync">http://cdc.acjs.co/sync/upload_matchcreate.php</string>
     <string name="match_delete">http://cdc.acjs.co/sync/delete_match.php</string>
-    <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
+     --> <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
     <string name="purchase_infi_sync">http://cdc.acjs.co/sync/uPinfi.php</string>
     <string name="purchase_infi">http://cdc.acjs.co/sync/uPinfiSync.php</string>
     <string name="check_purchase_remove_ads">http://cdc.acjs.co/sync/chkPurchaseRemoveAds.php</string>
     <string name="check_purchase_infi_use">http://cdc.acjs.co/sync/chkPurchaseInfiUse.php</string>
     <string name="check_purchase_infi_sync">http://cdc.acjs.co/sync/chkPurchaseInfiSync.php</string>
+
+    <string name="edit_profile_sync">http://acjs.azurewebsites.net/acjs/CDCgcm.php</string>
 
     <!-- Sign In Service -->
     <string name="projno">899334271790</string>
@@ -298,6 +301,7 @@
 
     <!-- Career -->
 
+
     <!-- General -->
     <string name="matches">Matches</string>
     <string name="wins">Wins</string>
@@ -438,7 +442,6 @@
     <string name="select_data">Select Data</string>
     <string name="cricdecode_dir">CricDeCode</string>
     <string name="adjust">Touch To Move/Zoom Image</string>
-
     <string name="showing_filtered_results">Showing Filtered Results</string>
     <!-- Actionbar -->
     <string name="home_icon">Icon Here</string>
