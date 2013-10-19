@@ -8,18 +8,16 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
-import com.google.ads.AdView;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
 import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 public class CheckPurchaseInfiService extends IntentService {
-	public static boolean started = true;
-	public static Context who;
-	public String orderId, token, sign;
+	public static boolean	started	= true;
+	public static Context	who;
+	public String			orderId, token, sign;
 
 	public CheckPurchaseInfiService() {
 		super("CheckPurchaseInfiService");
@@ -28,7 +26,7 @@ public class CheckPurchaseInfiService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		who=this;
+		who = this;
 	}
 
 	@Override
@@ -69,33 +67,17 @@ public class CheckPurchaseInfiService extends IntentService {
 							@Override
 							public void success(List<ServerDBSubInfi> arg0) {
 								if (arg0.size() == 0) {
-									AccessSharedPrefs.setString(who, "infi_use",
-											"no");
-									
+									AccessSharedPrefs.setString(who,
+											"infi_use", "no");
 
 								} else {
-									AccessSharedPrefs.setString(who, "infi_use",
-											"yes");								
+									AccessSharedPrefs.setString(who,
+											"infi_use", "yes");
 								}
 
 							}
 						});
-		/*final JSONParser jsonParser = new JSONParser();
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs
-				.getString("id", "")));
-		params.add(new BasicNameValuePair("json", intent.getExtras().getString(
-				"json")));
-		JSONObject jn = null;
-		jn = jsonParser.makeHttpRequest(
-				getResources().getString(R.string.check_purchase_infi_use),
-				"POST", params, this);
-		try {
-			if (jn.getInt("status") == 1) {
-				AccessSharedPrefs.setString(this, "infi_use", "no");
-
-			}
-		} catch (Exception e) {
-		}*/
+		/*
+		 * final JSONParser jsonParser = new JSONParser(); List<NameValuePair> params = new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs .getString("id", ""))); params.add(new BasicNameValuePair("json", intent.getExtras().getString( "json"))); JSONObject jn = null; jn = jsonParser.makeHttpRequest( getResources().getString(R.string.check_purchase_infi_use), "POST", params, this); try { if (jn.getInt("status") == 1) { AccessSharedPrefs.setString(this, "infi_use", "no"); } } catch (Exception e) { } */
 	}
 }

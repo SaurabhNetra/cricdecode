@@ -8,7 +8,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.JsonObject;
+import android.app.IntentService;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
 import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
@@ -16,14 +20,9 @@ import com.stackmob.sdk.callback.StackMobCallback;
 import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
-import android.app.IntentService;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-
 public class ProfileEditService extends IntentService {
-	public static boolean started = true;
-	public static Context who;
+	public static boolean	started	= true;
+	public static Context	who;
 
 	public ProfileEditService() {
 		super("ProfileEditService");
@@ -106,24 +105,20 @@ public class ProfileEditService extends IntentService {
 														new StackMobQueryCallback<ServerDBAndroidDevices>() {
 
 															@Override
-															public void failure(
-																	StackMobException arg0) {
+															public void failure(StackMobException arg0) {
 															}
 
 															@Override
-															public void success(
-																	List<ServerDBAndroidDevices> arg0) {
+															public void success(List<ServerDBAndroidDevices> arg0) {
 																Log.w("ProfileEditService",
-																		"GCM Ids fetched"
-																				+ arg0.size());
+																		"GCM Ids fetched" + arg0
+																				.size());
 																String regids = "";
 																for (int i = 0; i < arg0
 																		.size(); i++) {
-																	regids = regids
-																			+ " "
-																			+ arg0.get(
-																					i)
-																					.getGcmId();
+																	regids = regids + " " + arg0
+																			.get(i)
+																			.getGcmId();
 																}
 																JSONObject msg = new JSONObject();
 																try {
@@ -152,18 +147,31 @@ public class ProfileEditService extends IntentService {
 
 																	final JSONParser jsonParser = new JSONParser();
 																	List<NameValuePair> params = new ArrayList<NameValuePair>();
-																	params.add(new BasicNameValuePair("SEND_TO_IDS", regids));
-																	params.add(new BasicNameValuePair("MESSAGE_TO_BE_SEND",msg.toString()));
+																	params.add(new BasicNameValuePair(
+																			"SendToArrays",
+																			regids));
+																	params.add(new BasicNameValuePair(
+																			"MsgToSend",
+																			msg.toString()));
 																	Log.w("Sending User Data...",
-																			"ProfileEditService:" + jsonParser.isOnline(who));
+																			"ProfileEditService:" + jsonParser
+																					.isOnline(who));
 																	int trial = 1;
 																	JSONObject jn = null;
-																	while (jsonParser.isOnline(who)) {
-																		jn = jsonParser.makeHttpRequest(
-																				getResources().getString(R.string.edit_profile_sync),
-																				"POST", params, who);
-																		Log.w("JSON returned", "ProfileEditService: " + jn);
-																		Log.w("trial value", "ProfileEditService: " + trial);
+																	while (jsonParser
+																			.isOnline(who)) {
+																		jn = jsonParser
+																				.makeHttpRequest(
+																						getResources()
+																								.getString(
+																										R.string.edit_profile_sync),
+																						"POST",
+																						params,
+																						who);
+																		Log.w("JSON returned",
+																				"ProfileEditService: " + jn);
+																		Log.w("trial value",
+																				"ProfileEditService: " + trial);
 																		if (jn != null)
 																			break;
 																		try {
@@ -174,9 +182,11 @@ public class ProfileEditService extends IntentService {
 																	}
 																	try {
 																		if (jn.getInt("status") == 1)
-																			AccessSharedPrefs.setString(who,
-																					"ProfileEditServiceCalled",
-																					CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+																			AccessSharedPrefs
+																					.setString(
+																							who,
+																							"ProfileEditServiceCalled",
+																							CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 																	} catch (NullPointerException e) {
 																	} catch (JSONException e) {
 																		e.printStackTrace();
@@ -200,13 +210,8 @@ public class ProfileEditService extends IntentService {
 						}
 					});
 
-			/*
-			 * try { Log.w("ProfileEditService", "wait called"); //who.wait();
-			 * 
-			 * } catch (InterruptedException e) { e.printStackTrace(); }
-			 */
+			/* try { Log.w("ProfileEditService", "wait called"); //who.wait(); } catch (InterruptedException e) { e.printStackTrace(); } */
 			Log.w("ProfileEditService", "wait resumed");
-
 
 		}
 	}
