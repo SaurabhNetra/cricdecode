@@ -21,8 +21,8 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 public class ProfileEditService extends IntentService {
-	public static boolean	started	= true;
-	public static Context	who;
+	public static boolean started = true;
+	public static Context who;
 
 	public ProfileEditService() {
 		super("ProfileEditService");
@@ -105,22 +105,27 @@ public class ProfileEditService extends IntentService {
 														new StackMobQueryCallback<ServerDBAndroidDevices>() {
 
 															@Override
-															public void failure(StackMobException arg0) {
+															public void failure(
+																	StackMobException arg0) {
 															}
 
 															@Override
-															public void success(List<ServerDBAndroidDevices> arg0) {
+															public void success(
+																	List<ServerDBAndroidDevices> arg0) {
 																Log.w("ProfileEditService",
-																		"GCM Ids fetched" + arg0
-																				.size());
+																		"GCM Ids fetched"
+																				+ arg0.size());
 																String regids = "";
 																for (int i = 0; i < arg0
 																		.size(); i++) {
-																	regids = regids + " " + arg0
-																			.get(i)
-																			.getGcmId();
+																	regids = regids
+																			+ " "
+																			+ arg0.get(
+																					i)
+																					.getGcmId();
 																}
 																JSONObject msg = new JSONObject();
+																Log.w("ProfileEditService: ",""+regids);
 																try {
 																	msg.put("gcmid",
 																			1);
@@ -144,7 +149,7 @@ public class ProfileEditService extends IntentService {
 																					.getString(
 																							"battingStyle",
 																							""));
-
+																	Log.w("ProfileEditService: ",""+msg.toString());
 																	final JSONParser jsonParser = new JSONParser();
 																	List<NameValuePair> params = new ArrayList<NameValuePair>();
 																	params.add(new BasicNameValuePair(
@@ -154,12 +159,16 @@ public class ProfileEditService extends IntentService {
 																			"MsgToSend",
 																			msg.toString()));
 																	Log.w("Sending User Data...",
-																			"ProfileEditService:" + jsonParser
-																					.isOnline(who));
+																			"ProfileEditService:"
+																					+ jsonParser
+																							.isOnline(who));
 																	int trial = 1;
 																	JSONObject jn = null;
 																	while (jsonParser
 																			.isOnline(who)) {
+																		Log.w("JSONParser",
+																				"ProfileEditService: Called"
+																						);
 																		jn = jsonParser
 																				.makeHttpRequest(
 																						getResources()
@@ -169,9 +178,11 @@ public class ProfileEditService extends IntentService {
 																						params,
 																						who);
 																		Log.w("JSON returned",
-																				"ProfileEditService: " + jn);
+																				"ProfileEditService: "
+																						+ jn);
 																		Log.w("trial value",
-																				"ProfileEditService: " + trial);
+																				"ProfileEditService: "
+																						+ trial);
 																		if (jn != null)
 																			break;
 																		try {
@@ -210,7 +221,10 @@ public class ProfileEditService extends IntentService {
 						}
 					});
 
-			/* try { Log.w("ProfileEditService", "wait called"); //who.wait(); } catch (InterruptedException e) { e.printStackTrace(); } */
+			/*
+			 * try { Log.w("ProfileEditService", "wait called"); //who.wait(); }
+			 * catch (InterruptedException e) { e.printStackTrace(); }
+			 */
 			Log.w("ProfileEditService", "wait resumed");
 
 		}

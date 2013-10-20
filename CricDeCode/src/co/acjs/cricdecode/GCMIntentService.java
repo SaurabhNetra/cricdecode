@@ -61,8 +61,11 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 		final String gcmString = message.getStringExtra("cricdecode");
 		try {
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
-			JSONObject gcmData = new JSONObject(gcmString.toString());
-			writeToFile(gcmString.toString());
+			String s=gcmString.toString();
+			s=s.replace("\\","");
+			s=s.substring(1, s.length()-1);
+			JSONObject gcmData = new JSONObject(s);
+			writeToFile(gcmData.toString());
 
 			switch (gcmData.getInt("gcmid")) {
 			case UPDATE_PROFILE_DATA:
@@ -74,6 +77,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						gcmData.getString("battingStyle"));
 				AccessSharedPrefs.setString(context, "bowlingStyle",
 						gcmData.getString("bowlingStyle"));
+				Log.w("Updating profile data","with gcm data");
 				try {
 					((MainActivity) MainActivity.main_context)
 							.runOnUiThread(new Runnable() {
@@ -278,6 +282,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 				break;
 			}
 		} catch (JSONException e) {
+			Log.w("Json exception",""+e);
 		}
 
 		try {
