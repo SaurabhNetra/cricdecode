@@ -27,7 +27,7 @@ import com.stackmob.sdk.exception.StackMobException;
 
 public class DeleteMatchService extends IntentService{
 	public static boolean	started	= true;
-	public static Context who;
+	public static Context	who;
 	// static List<ServerDBCricketMatch> match_list = new
 	// ArrayList<ServerDBCricketMatch>();
 	static int				delete_match_count, match_deleted, delete_performance_count, performance_deleted;
@@ -43,7 +43,7 @@ public class DeleteMatchService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("DeleteMatchService", "Started");
-		who =this;
+		who = this;
 	}
 
 	@Override
@@ -86,7 +86,6 @@ public class DeleteMatchService extends IntentService{
 								all_match_done = true;
 							}
 							if(all_match_done && all_performance_done){
-
 								Log.d("Debug", "Deleted Success ALL");
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
@@ -136,14 +135,23 @@ public class DeleteMatchService extends IntentService{
 											trial++;
 										}
 										try{
-											if(jn.getInt("status") == 1)
-												AccessSharedPrefs.setString(who,"DeleteMatchServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+											if(jn.getInt("status") == 1){
+												c2.moveToFirst();
+												do{
+													Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
+													getApplicationContext().getContentResolver().delete(uri, null, null);
+													uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
+													getApplicationContext().getContentResolver().delete(uri, null, null);
+													c2.moveToNext();
+												}while(!c2.isAfterLast());
+												c2.close();
+												AccessSharedPrefs.setString(who, "DeleteMatchServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+											}
 										}catch(NullPointerException e){}catch(JSONException e){
 											e.printStackTrace();
 										}
 									}
 								});
-							
 							}
 						}
 
@@ -230,7 +238,6 @@ public class DeleteMatchService extends IntentService{
 								all_performance_done = true;
 							}
 							if(all_match_done && all_performance_done){
-								
 								Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + match_id + "/" + device_id);
 								getContentResolver().delete(uri, null, null);
 							}
