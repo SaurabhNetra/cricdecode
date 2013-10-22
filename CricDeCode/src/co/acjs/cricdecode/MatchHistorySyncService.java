@@ -67,7 +67,6 @@ public class MatchHistorySyncService extends IntentService{
 					cm.setID(AccessSharedPrefs.mPrefs.getString("device_id", "") + "A" + c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "B" + AccessSharedPrefs.mPrefs.getString("id", ""));
 					setDeviceId(AccessSharedPrefs.mPrefs.getString("device_id", ""));
 					cm.save(new StackMobCallback(){
-						// Here Sheetal
 						String	matchId	= c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 
 						@Override
@@ -151,7 +150,8 @@ public class MatchHistorySyncService extends IntentService{
 															trial++;
 														}
 														try{
-															if(jn.getInt("status") == 1) c2.moveToFirst();
+															if(jn.getInt("status") == 1)
+																c2.moveToFirst();
 															do{
 																Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
 																ContentValues matchvalues = new ContentValues();

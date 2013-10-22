@@ -89,6 +89,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					}catch(Exception e){}
 					break;
 				case MATCH_N_PERFORMANCE_DATA:
+					Log.w("Match and Per Sync", "GCM");
 					if(!AccessSharedPrefs.mPrefs.getString("GCMMatchData", "").equals("")){
 						JSONArray ja_d = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
 						JSONArray ja_s = gcmData.getJSONArray("matches");
@@ -103,6 +104,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 						jo.put("matches", gcmData.getJSONArray("matches"));
 						AccessSharedPrefs.setString(context, "GCMMatchData", jo.toString());
 					}
+					Log.w("Match and Per Sync", "starting service: " + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
 					AccessSharedPrefs.setString(context, "GCMSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 					startService(new Intent(this, GCMSyncService.class));
 					/*
@@ -235,15 +237,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 		}catch(JSONException e){
 			Log.w("Json exception", "" + e);
 		}
-		try{
-			((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
-				public void run(){
-					try{
-						DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
-					}catch(Exception e){}
-				}
-			});
-		}catch(Exception e){}
 	}
 
 	@Override

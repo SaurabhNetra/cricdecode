@@ -45,6 +45,7 @@ public class GCMSyncService extends IntentService{
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+		Log.w("GCMSync","fff");
 		if(AccessSharedPrefs.mPrefs.getString("GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			JSONArray ja;
 			try{
@@ -52,12 +53,14 @@ public class GCMSyncService extends IntentService{
 
 				for(int i = 0; i < ja.length(); i++){
 					JSONObject jo = ja.getJSONObject(i);
+					Log.w("GCMSync",""+jo.toString());
 					ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(Integer.parseInt(jo.getString("mid")))).field(new StackMobQueryField("device_id").isEqualTo(Integer.parseInt(jo.getString("dev")))).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBCricketMatch>(){
 						@Override
 						public void failure(StackMobException arg0){}
 
 						@Override
 						public void success(List<ServerDBCricketMatch> arg0){
+							Log.w("GCMSync","got match data");
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
 							values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(0).getDeviceId());
@@ -82,6 +85,7 @@ public class GCMSyncService extends IntentService{
 								@Override
 								public void success(List<ServerDBPerformance> arg0){
 									for(int i = 0; i < arg0.size(); i++){
+										Log.w("GCMSync","Performance Data"+i);
 										ContentValues value = new ContentValues();
 										value.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
 										value.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
@@ -133,6 +137,16 @@ public class GCMSyncService extends IntentService{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			Log.w("GCMSync","Updating UI");
+			try{
+				((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+					public void run(){
+						try{
+							DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
+						}catch(Exception e){}
+					}
+				});
+			}catch(Exception e){}
 		}
 	}
 }

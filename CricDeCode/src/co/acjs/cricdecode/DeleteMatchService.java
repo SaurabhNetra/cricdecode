@@ -291,6 +291,15 @@ public class DeleteMatchService extends IntentService{
 				}while(!c1.isAfterLast());
 			}
 			c1.close();
+			try{
+				((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+					public void run(){
+						try{
+							DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
+						}catch(Exception e){}
+					}
+				});
+			}catch(Exception e){}
 			/*
 			 * JSONObject jo = new JSONObject(); try { jo.put("json",
 			 * jsonArray); } catch (JSONException e1) { // TODO Auto-generated
@@ -312,7 +321,4 @@ public class DeleteMatchService extends IntentService{
 		}
 	}
 
-	void deleteGCM(){
-		// TODO GCM for Match Delete
-	}
 }
