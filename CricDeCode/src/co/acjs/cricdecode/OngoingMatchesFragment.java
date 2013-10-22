@@ -241,7 +241,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements
 					null, null);
 			// Comment this condition for testing
 			if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
-					"yes")) {
+					"no")) {
 				AccessSharedPrefs.setString(getSherlockActivity(),
 						"MatchHistorySyncServiceCalled",
 						CDCAppClass.NEEDS_TO_BE_CALLED);

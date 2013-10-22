@@ -106,6 +106,9 @@ public class ServerDBUserTable extends StackMobModel {
 	public String getFbLink() {
 		return this.fb_link;
 	}
+	public String getRole() {
+		return this.role;
+	}
 
 	public String getBowlingStyle() {
 		return this.bowlingStyle;

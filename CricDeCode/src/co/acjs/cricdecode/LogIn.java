@@ -229,7 +229,7 @@ public class LogIn extends SherlockActivity {
 					}
 
 					@Override
-					public void success(List<ServerDBUserTable> returenedVar) {
+					public void success(final List<ServerDBUserTable> returenedVar) {
 						Log.w("chk if user existing", "success");
 						if (returenedVar.size() == 0)
 							new ServerDBUserTable(user.getId(), 1, user
@@ -274,6 +274,13 @@ public class LogIn extends SherlockActivity {
 
 							returenedVar.get(0).save(
 									new StackMobModelCallback() {
+										String dev_no = ""+(returenedVar.get(0)
+												.getDeviceNo() + 1);
+										String nickname=returenedVar.get(0).getNickName();
+										String bat_style=returenedVar.get(0).getBattingStyle();
+										String bowl_style=returenedVar.get(0).getBowlingStyle();
+										String role =returenedVar.get(0).getRole();
+												
 
 										@Override
 										public void failure(
@@ -304,6 +311,21 @@ public class LogIn extends SherlockActivity {
 										@Override
 										public void success() {
 											Log.w("LogIn", "DeviceId success");
+											AccessSharedPrefs.setString(
+													login_activity,
+													"device_id", "" + dev_no);
+											AccessSharedPrefs.setString(
+													login_activity,
+													"role", role);
+											AccessSharedPrefs.setString(
+													login_activity,
+													"battingStyle", bat_style);
+											AccessSharedPrefs.setString(
+													login_activity,
+													"bowlingStyle", bowl_style);
+											AccessSharedPrefs.setString(
+													login_activity,
+													"nickname", nickname);
 
 											ServerDBRemoveAds
 													.query(ServerDBRemoveAds.class,
