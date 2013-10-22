@@ -12,6 +12,9 @@ public class ConnectionDetector extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		AccessSharedPrefs.mPrefs = context.getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+		boolean NotSyncedGCMSync = AccessSharedPrefs.mPrefs.getString(
+				"GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED)
+				.equals(CDCAppClass.NEEDS_TO_BE_CALLED);
 		boolean NotSyncedEditProfile = AccessSharedPrefs.mPrefs.getString(
 				"ProfileEditServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
@@ -36,43 +39,49 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"PurchaseInfiSyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
-		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced) {
+		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced | NotSyncedGCMSync) {
 			boolean isConnected = isOnline(context);
-			if (isConnected)
+			if (isConnected) {
 				Log.w("Connection Detector", "detected");
-			else Log.w("Connection Detector", "no connection");
-
-			if (NotSyncedMatchHistory & isConnected) {
-				Log.w("Starting MatchCreateService", "ConnectionDetector");
-				context.startService(new Intent(context,
-						MatchHistorySyncService.class));
-			}
-			if (NotSyncedEditProfile & isConnected) {
-				Log.w("Starting ProfileEditService", "ConnectionDetector");
-				context.startService(new Intent(context,
-						ProfileEditService.class));
-			}
-			if (NotDeleted & isConnected) {
-				Log.w("Starting DeleteMatch", "ConnectionDetector");
-				context.startService(new Intent(context,
-						DeleteMatchService.class));
-			}
-			if (NotAdRemoved & isConnected) {
-				Log.w("Starting PurchasedAdRemovalService",
-						"ConnectionDetector");
-				context.startService(new Intent(context,
-						PurchasedAdRemovalService.class));
-			}
-			if (NotInfied & isConnected) {
-				Log.w("Starting PurchasedInfiService", "ConnectionDetector");
-				context.startService(new Intent(context,
-						PurchasedInfiService.class));
-			}
-			if (NotInfiSynced & isConnected) {
-				Log.w("Starting PurchasedInfiSyncService", "ConnectionDetector");
-				context.startService(new Intent(context,
-						PurchasedInfiSyncService.class));
-			}
+				if (NotSyncedMatchHistory & isConnected) {
+					Log.w("Starting MatchCreateService", "ConnectionDetector");
+					context.startService(new Intent(context,
+							MatchHistorySyncService.class));
+				}
+				if (NotSyncedEditProfile & isConnected) {
+					Log.w("Starting ProfileEditService", "ConnectionDetector");
+					context.startService(new Intent(context,
+							ProfileEditService.class));
+				}
+				if (NotDeleted & isConnected) {
+					Log.w("Starting DeleteMatch", "ConnectionDetector");
+					context.startService(new Intent(context,
+							DeleteMatchService.class));
+				}
+				if (NotAdRemoved & isConnected) {
+					Log.w("Starting PurchasedAdRemovalService",
+							"ConnectionDetector");
+					context.startService(new Intent(context,
+							PurchasedAdRemovalService.class));
+				}
+				if (NotInfied & isConnected) {
+					Log.w("Starting PurchasedInfiService", "ConnectionDetector");
+					context.startService(new Intent(context,
+							PurchasedInfiService.class));
+				}
+				if (NotInfiSynced & isConnected) {
+					Log.w("Starting PurchasedInfiSyncService",
+							"ConnectionDetector");
+					context.startService(new Intent(context,
+							PurchasedInfiSyncService.class));
+				}
+				if (NotSyncedGCMSync & isConnected) {
+					Log.w("Starting PurchasedInfiSyncService",
+							"ConnectionDetector");
+					context.startService(new Intent(context,
+							GCMSyncService.class));
+				}
+			} else Log.w("Connection Detector", "no connection");
 		}
 	}
 
