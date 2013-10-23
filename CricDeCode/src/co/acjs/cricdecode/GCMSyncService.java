@@ -23,6 +23,8 @@ import android.util.Log;
 
 public class GCMSyncService extends IntentService{
 	public static Context	who;
+	static int				tot_mat			= 0;
+	static int				cnt_mat			= 0;
 
 	public GCMSyncService(){
 		super("GCMSyncService");
@@ -45,22 +47,25 @@ public class GCMSyncService extends IntentService{
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		Log.w("GCMSync","fff");
+		Log.w("GCMSync", "fff");
 		if(AccessSharedPrefs.mPrefs.getString("GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
-			JSONArray ja;
+			JSONArray ja=null;
+			int in=0;
 			try{
 				ja = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
-
-				for(int i = 0; i < ja.length(); i++){
-					JSONObject jo = ja.getJSONObject(i);
-					Log.w("GCMSync",""+jo.toString());
+				tot_mat =ja.length();
+				for(in= 0; in < ja.length(); in++){
+					JSONObject jo = ja.getJSONObject(in);
+					Log.w("GCMSync", "" + jo.toString());
 					ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(Integer.parseInt(jo.getString("mid")))).field(new StackMobQueryField("device_id").isEqualTo(Integer.parseInt(jo.getString("dev")))).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBCricketMatch>(){
 						@Override
-						public void failure(StackMobException arg0){}
+						public void failure(StackMobException arg0){
+							Log.w("GCMSync Cricket Match","failure");
+						}
 
 						@Override
 						public void success(List<ServerDBCricketMatch> arg0){
-							Log.w("GCMSync","got match data");
+							Log.w("GCMSync", "Cricket Match "+arg0.get(0).getDeviceId()+" "+arg0.get(0).getMatchId());
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
 							values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(0).getDeviceId());
@@ -75,17 +80,22 @@ public class GCMSyncService extends IntentService{
 							values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(0).getFirstAction());
 							values.put(MatchDb.KEY_DURATION, arg0.get(0).getDuration());
 							values.put(MatchDb.KEY_REVIEW, arg0.get(0).getReview());
-							values.put(MatchDb.KEY_STATUS, arg0.get(0).getStatus());
+							values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+							values.put(MatchDb.KEY_SYNCED, 1);
 							// insert a record
 							getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 							ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(arg0.get(0).getMatchId())).field(new StackMobQueryField("device_id").isEqualTo(arg0.get(0).getDeviceId())).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBPerformance>(){
+								
 								@Override
-								public void failure(StackMobException arg0){}
+								public void failure(StackMobException arg0){
+									Log.w("Sync failure","nfjf");
+								}
 
 								@Override
 								public void success(List<ServerDBPerformance> arg0){
+									
 									for(int i = 0; i < arg0.size(); i++){
-										Log.w("GCMSync","Performance Data"+i);
+										Log.w("GCMSync", "Performance Data" + i+" "+arg0.get(i).getDeviceId()+" "+arg0.get(i).getMatchId());
 										ContentValues value = new ContentValues();
 										value.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
 										value.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
@@ -124,20 +134,31 @@ public class GCMSyncService extends IntentService{
 										value.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
 										value.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
 										value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-										value.put(PerformanceDb.KEY_STATUS, arg0.get(i).getStatus());
+										value.put(PerformanceDb.KEY_SYNCED, 1);
+										value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
+
+										Log.w("log","jff");
+									
 									}
+									Log.w("log","jfkjf "+cnt_mat+ " "+tot_mat);
+									if(cnt_Match()==gettotMAtch())
+									{
+										Log.w("ASP", "" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
+										AccessSharedPrefs.setString(who, "GCMMatchData", "");
+										Log.w("ASP", "fg" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));										
+									}
+									Log.w("log","jfkjf12");
 								}
 							});
 						}
 					});
 				}
-			
 			}catch(JSONException e){
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w("GCMSync","Updating UI");
+			Log.w("GCMSync", "Updating UI"+in+" "+ja.length());
 			try{
 				((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
 					public void run(){
@@ -147,6 +168,16 @@ public class GCMSyncService extends IntentService{
 					}
 				});
 			}catch(Exception e){}
+			
 		}
+	}
+	
+	static int gettotMAtch(){
+		return tot_mat;
+	}
+
+	static int cnt_Match(){
+		cnt_mat++;
+		return cnt_mat;
 	}
 }

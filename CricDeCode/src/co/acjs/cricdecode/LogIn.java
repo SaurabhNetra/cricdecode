@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -49,6 +51,7 @@ public class LogIn extends SherlockActivity{
 	SQLiteDatabase			dbHandle;
 	static TextView			progressText;
 	static Boolean			onActivityResult	= false;
+	static ContentResolver	cr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -58,6 +61,7 @@ public class LogIn extends SherlockActivity{
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
+		cr = getContentResolver();
 		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.action_bar_login, null);
 		actionBar.setCustomView(view);
@@ -179,14 +183,6 @@ public class LogIn extends SherlockActivity{
 			@Override
 			public void failure(StackMobException arg0){
 				Log.w("chk if user existing", arg0);
-				new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog, int which){
-						dialog.dismiss();
-						Intent i = new Intent(login_activity, LogIn.class);
-						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						login_activity.startActivity(i);
-					}
-				}).show();
 			}
 
 			@Override
@@ -200,16 +196,7 @@ public class LogIn extends SherlockActivity{
 					}
 
 					@Override
-					public void failure(StackMobException arg0){
-						new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-							public void onClick(DialogInterface dialog, int which){
-								dialog.dismiss();
-								Intent i = new Intent(login_activity, LogIn.class);
-								i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								login_activity.startActivity(i);
-							}
-						}).show();
-					}
+					public void failure(StackMobException arg0){}
 				});
 				else{
 					// Bigggg else
@@ -222,16 +209,7 @@ public class LogIn extends SherlockActivity{
 						String	role		= returenedVar.get(0).getRole();
 
 						@Override
-						public void failure(StackMobException arg0){
-							new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog, int which){
-									dialog.dismiss();
-									Intent i = new Intent(login_activity, LogIn.class);
-									i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-									login_activity.startActivity(i);
-								}
-							}).show();
-						}
+						public void failure(StackMobException arg0){}
 
 						@Override
 						public void success(){
@@ -245,14 +223,6 @@ public class LogIn extends SherlockActivity{
 								@Override
 								public void failure(StackMobException arg0){
 									Log.w("LoginIn", "remove_ads_chk failure!!");
-									new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-										public void onClick(DialogInterface dialog, int which){
-											dialog.dismiss();
-											Intent i = new Intent(login_activity, LogIn.class);
-											i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-											login_activity.startActivity(i);
-										}
-									}).show();
 								}
 
 								@Override
@@ -263,14 +233,6 @@ public class LogIn extends SherlockActivity{
 										@Override
 										public void failure(StackMobException arg0){
 											Log.w("LoginIn", "sub_infi_chk failure!!");
-											new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-												public void onClick(DialogInterface dialog, int which){
-													dialog.dismiss();
-													Intent i = new Intent(login_activity, LogIn.class);
-													i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-													login_activity.startActivity(i);
-												}
-											}).show();
 										}
 
 										@Override
@@ -288,14 +250,6 @@ public class LogIn extends SherlockActivity{
 												@Override
 												public void failure(StackMobException arg0){
 													Log.w("LoginIn", "sub_sync_chk failure!!");
-													new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-														public void onClick(DialogInterface dialog, int which){
-															dialog.dismiss();
-															Intent i = new Intent(login_activity, LogIn.class);
-															i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-															login_activity.startActivity(i);
-														}
-													}).show();
 												}
 
 												@Override
@@ -309,25 +263,19 @@ public class LogIn extends SherlockActivity{
 														@Override
 														public void failure(StackMobException arg0){
 															Log.w("LoginIn", "cricket_match failure!!");
-															new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-																public void onClick(DialogInterface dialog, int which){
-																	dialog.dismiss();
-																	Intent i = new Intent(login_activity, LogIn.class);
-																	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																	login_activity.startActivity(i);
-																}
-															}).show();
 														}
 
 														@Override
 														public void success(List<ServerDBCricketMatch> arg0){
-															Log.w("LoginIn", "cricket_match success!!");
+															Log.w("LoginIn", "cricket_match success!!" + arg0.size());
 															for(int i = 0; i < arg0.size(); i++){
+																Log.w("LoginIn", "cricket_match in loop!!" + i);
 																ContentValues values = new ContentValues();
 																values.put(MatchDb.KEY_ROWID, arg0.get(i).getMatchId());
-																values.put(MatchDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
+																values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
 																values.put(MatchDb.KEY_MATCH_DATE, arg0.get(i).getMatchDate());
 																values.put(MatchDb.KEY_MY_TEAM, arg0.get(i).getMyTeam());
+																Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(i).getMyTeam());
 																values.put(MatchDb.KEY_OPPONENT_TEAM, arg0.get(i).getOpponentTeam());
 																values.put(MatchDb.KEY_VENUE, arg0.get(i).getVenue());
 																values.put(MatchDb.KEY_OVERS, arg0.get(i).getOvers());
@@ -337,30 +285,25 @@ public class LogIn extends SherlockActivity{
 																values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(i).getFirstAction());
 																values.put(MatchDb.KEY_DURATION, arg0.get(i).getDuration());
 																values.put(MatchDb.KEY_REVIEW, arg0.get(i).getReview());
-																values.put(MatchDb.KEY_STATUS, arg0.get(i).getStatus());
-																login_activity.getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
+																values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+																values.put(MatchDb.KEY_SYNCED, 0);
+																Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
+																Log.w("Uri inserted", "" + u);
 															}
 															ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
 																@Override
 																public void failure(StackMobException arg0){
 																	Log.w("LoginIn", "performance failure!!");
-																	new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-																		public void onClick(DialogInterface dialog, int which){
-																			dialog.dismiss();
-																			Intent i = new Intent(login_activity, LogIn.class);
-																			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-																			login_activity.startActivity(i);
-																		}
-																	}).show();
 																}
 
 																@Override
 																public void success(List<ServerDBPerformance> arg0){
-																	Log.w("LoginIn", "performance success!!");
+																	Log.w("LoginIn", "performance success!!" + arg0.size());
 																	for(int i = 0; i < arg0.size(); i++){
 																		ContentValues values = new ContentValues();
 																		values.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
-																		values.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
+																		values.put(PerformanceDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
+																		Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(i).getDeviceId());
 																		values.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
 																		values.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
 																		values.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
@@ -396,8 +339,9 @@ public class LogIn extends SherlockActivity{
 																		values.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
 																		values.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
 																		values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-																		values.put(PerformanceDb.KEY_STATUS, arg0.get(i).getStatus());
-																		login_activity.getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
+																		values.put(PerformanceDb.KEY_SYNCED, 0);
+																		Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
+																		Log.w("Uri inserted", "" + u);
 																	}
 																	openMainActivity();
 																}

@@ -58,7 +58,7 @@ public class MatchHistorySyncService extends IntentService{
 			final Cursor c = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_MATCH, new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS, MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION, MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS, MatchDb.KEY_SYNCED}, MatchDb.KEY_SYNCED + "=" + "0 and " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'", null, MatchDb.KEY_ROWID);
 			final Cursor t = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, new String[ ]{PerformanceDb.KEY_ROWID, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_CATCHES_DROPPED, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_INNING, PerformanceDb.KEY_MATCHID, PerformanceDb.KEY_STATUS}, PerformanceDb.KEY_SYNCED + "=" + "0 and " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'", null, PerformanceDb.KEY_MATCHID);
 			settotPerformance(t.getCount());
-			Log.d("Debug", "Number of Un Synced Matches " + c.getCount());
+			Log.w("MatchHistorySync", "Number of Un Synced Matches " + c.getCount());
 			if(c.getCount() != 0){
 				c.moveToFirst();
 				do{
@@ -66,23 +66,24 @@ public class MatchHistorySyncService extends IntentService{
 					// Set The StackMob Primary Key ID
 					cm.setID(AccessSharedPrefs.mPrefs.getString("device_id", "") + "A" + c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "B" + AccessSharedPrefs.mPrefs.getString("id", ""));
 					setDeviceId(AccessSharedPrefs.mPrefs.getString("device_id", ""));
+					Log.w("MatchHistorySync", "Saving Match");
 					cm.save(new StackMobCallback(){
 						String	matchId	= c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 
 						@Override
 						public void failure(StackMobException arg0){
-							Log.d("Debug", "Match Sync Failure");
+							Log.w("MatchHistorySync", "Match Sync Failure");
 						}
 
 						@Override
 						public void success(String arg0){
 							final Cursor c1 = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, new String[ ]{PerformanceDb.KEY_ROWID, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_CATCHES_DROPPED, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_INNING, PerformanceDb.KEY_MATCHID, PerformanceDb.KEY_STATUS}, PerformanceDb.KEY_SYNCED + "=" + "0 and " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_MATCHID + "= " + matchId + " and " + PerformanceDb.KEY_DEVICE_ID + "= '" + getDeviceId() + "'", null, null);
-							Log.w("Count of Performance", "" + c1.getCount());
+							Log.w("MatchHistorySync", "Current Performances " + c1.getCount());
 							setMatchPerformance(c1.getCount());
 							if(c1.getCount() != 0){
 								c1.moveToFirst();
 								do{
-									Log.w("Syncing", "Putting match");
+									Log.w("MatchHistorySync", "Saving Performance");
 									ServerDBPerformance sp = new ServerDBPerformance(AccessSharedPrefs.mPrefs.getString("id", ""), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))), Integer.parseInt(AccessSharedPrefs.mPrefs.getString("device_id", "")), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_NUM))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_RUNS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BALLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_TIME))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FOURS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_SIXES))), c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_HOW_OUT)), c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE)), c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FIELDING_POSITION)), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_CHANCES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_BALLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SPELLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_RUNS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_FOURS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SIXES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_LEFT))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_CATCHES_DROPPED))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_NOBALLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WIDES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_SLIP_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CLOSE_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CIRCLE_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_CIRCLE))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DEEP))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_STUMPINGS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))), 0);
 									// Set The StackMob Primary Key ID
 									sp.setID(AccessSharedPrefs.mPrefs.getString("device_id", "") + "A" + c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)) + "B" + c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID)) + "C" + AccessSharedPrefs.mPrefs.getString("id", ""));
@@ -91,24 +92,50 @@ public class MatchHistorySyncService extends IntentService{
 
 										@Override
 										public void failure(StackMobException arg0){
-											Log.d("Debug", "Performance Sync Failure");
+											Log.w("MatchHistorySync", "Performance Sync Failure");
 										}
 
 										@Override
 										public void success(String arg0){
+											Log.w("MatchHistorySync", "Performance Sync Update Success");
 											if(cnt_MatchPerformance() == getMatchPerformance()){
 												init_cnt_MatchPerformance();
-												Log.d("Debug", "Performance Sync Update Success");
+												Log.w("MatchHistorySync", "Performance Sync Done");
 											}
 											if(cnt_totPerformance() == gettotPerformance()){
-												Log.d("Debug", "Performance Sync Update Success ALL");
+												Log.w("MatchHistorySync", "Performance Sync Update Success ALL");
 												ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 													@Override
 													public void failure(StackMobException arg0){}
+													
+													public void changedSynced(Cursor c2)
+													{
+														c2.moveToFirst();
+														do{
+															Log.w("MatchHistory","jn==11");
+															//Log.w("Marking Synced",""+c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))+" "+c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
+															Log.w("MatchHistory","jn==12");
+															Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
+															ContentValues matchvalues = new ContentValues();
+															Log.w("MatchHistory","jn==13");
+															matchvalues.put(MatchDb.KEY_SYNCED, 1);
+															Log.w("MatchHistory","jn==14");
+															getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
+															Log.w("MatchHistory","jn==15");
+															uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
+															ContentValues values = new ContentValues();
+															Log.w("MatchHistory","jn==16");
+															values.put(PerformanceDb.KEY_SYNCED, 1);
+															getApplicationContext().getContentResolver().update(uri, values, null, null);
+															c2.moveToNext();
+														}while(!c2.isAfterLast());
+														c2.close();
+														AccessSharedPrefs.setString(who, "MatchHistorySyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+													}
 
 													@Override
 													public void success(List<ServerDBAndroidDevices> arg0){
-														Log.w("ProfileEditService", "GCM Ids fetched" + arg0.size());
+														Log.w("MatchHistorySync", "GCM Ids fetched" + arg0.size());
 														String regids = "";
 														for(int i = 0; i < arg0.size(); i++){
 															regids = regids + " " + arg0.get(i).getGcmId();
@@ -150,35 +177,26 @@ public class MatchHistorySyncService extends IntentService{
 															trial++;
 														}
 														try{
-															if(jn.getInt("status") == 1)
-																c2.moveToFirst();
-															do{
-																Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
-																ContentValues matchvalues = new ContentValues();
-																matchvalues.put(MatchDb.KEY_SYNCED, "1");
-																getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
-																uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
-																ContentValues values = new ContentValues();
-																values.put(PerformanceDb.KEY_SYNCED, "1");
-																getApplicationContext().getContentResolver().update(uri, values, null, null);
-																c2.moveToNext();
-															}while(!c2.isAfterLast());
-															c2.close();
-															AccessSharedPrefs.setString(who, "MatchHistorySyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-														}catch(NullPointerException e){}catch(JSONException e){
-															e.printStackTrace();
+															if(jn.getInt("status") == 1){
+																Log.w("MatchHistory","jn==1");
+																changedSynced(c2);
+															}
+															else
+															{
+																Log.w("MatchHistory","jn!=1");
+															}
+														}catch(NullPointerException e){Log.w("exception","np");}catch(JSONException e){
+															Log.w("exception","json");
 														}
 													}
 												});
 											}
-											Log.d("Debug", "Performance Sync Success");
 										}
 									});
 									c1.moveToNext();
 								}while(!c1.isAfterLast());
 							}
 							c1.close();
-							Log.d("Debug", "Match Sync Success");
 						}
 					});
 					c.moveToNext();

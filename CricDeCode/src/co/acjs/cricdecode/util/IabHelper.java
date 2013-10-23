@@ -554,6 +554,8 @@ public class IabHelper {
 
             // if subscriptions are supported, then also query for subscriptions
             if (mSubscriptionsSupported) {
+            	try
+            	{
                 r = queryPurchases(inv, ITEM_TYPE_SUBS);
                 if (r != BILLING_RESPONSE_RESULT_OK) {
                     throw new IabException(r, "Error refreshing inventory (querying owned subscriptions).");
@@ -565,6 +567,10 @@ public class IabHelper {
                         throw new IabException(r, "Error refreshing inventory (querying prices of subscriptions).");
                     }
                 }
+            	}catch(Exception e)
+            	{
+            		
+            	}
             }
 
             return inv;
@@ -830,9 +836,12 @@ public class IabHelper {
 
 
     int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
+    	
         // Query purchases
         logDebug("Querying owned items, item type: " + itemType);
+       
         logDebug("Package name: " + mContext.getPackageName());
+       
         boolean verificationFailed = false;
         String continueToken = null;
 
@@ -888,6 +897,7 @@ public class IabHelper {
             continueToken = ownedItems.getString(INAPP_CONTINUATION_TOKEN);
             logDebug("Continuation token: " + continueToken);
         } while (!TextUtils.isEmpty(continueToken));
+         
 
         return verificationFailed ? IABHELPER_VERIFICATION_FAILED : BILLING_RESPONSE_RESULT_OK;
     }
