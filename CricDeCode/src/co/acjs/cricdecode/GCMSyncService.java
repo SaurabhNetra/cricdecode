@@ -18,6 +18,8 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 
@@ -65,6 +67,7 @@ public class GCMSyncService extends IntentService{
 
 						@Override
 						public void success(List<ServerDBCricketMatch> arg0){
+							final int device_id = arg0.get(0).getDeviceId(), match_id = arg0.get(0).getMatchId();
 							Log.w("GCMSync", "Cricket Match " + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
@@ -80,15 +83,21 @@ public class GCMSyncService extends IntentService{
 							values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(0).getFirstAction());
 							values.put(MatchDb.KEY_DURATION, arg0.get(0).getDuration());
 							values.put(MatchDb.KEY_REVIEW, arg0.get(0).getReview());
-							values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+							values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
 							values.put(MatchDb.KEY_SYNCED, 1);
 							// insert a record
-							try{
+							// Sheetal Test This
+							Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
+							if(c.getCount() == 0){
 								getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
-							}catch(Exception e){
+							}else{
 								Log.w("inserting", "already there");
 							}
+							c.close();
 							ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(arg0.get(0).getMatchId())).field(new StackMobQueryField("device_id").isEqualTo(arg0.get(0).getDeviceId())).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
+								int	m_id	= match_id;
+								int	d_id	= device_id;
+
 								@Override
 								public void failure(StackMobException arg0){
 									Log.w("Sync failure", "nfjf");
@@ -138,15 +147,21 @@ public class GCMSyncService extends IntentService{
 										value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
 										value.put(PerformanceDb.KEY_SYNCED, 1);
 										value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-										try
-										{
-										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
-										}
-										catch(Exception e)
-										{
+										// Sheetal Test
+										Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
+										if(c.getCount() == 0){
+											getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
+										}else{
 											Log.w("log", "jff");
 										}
+										c.close();
 									}
+									// Update status of match to history again
+									Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + m_id + "/" + d_id);
+									ContentValues matchvalues = new ContentValues();
+									matchvalues.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+									// update a record
+									getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
 									Log.w("log", "jfkjf " + cnt_mat + " " + tot_mat);
 									if(cnt_Match() == gettotMAtch()){
 										Log.w("ASP", "" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
