@@ -1888,7 +1888,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					+ team_a + "&tb=" + team_b + "&v=" + venue + "&bat=" + bat
 					+ "&bowl=" + bowl + "&field=" + field);
 			params.putString("description", description);
-			params.putString("picture", "cdc.acjs.co/app-icon.png");
+			params.putString("picture", "https://dl.dropboxusercontent.com/u/15057367/Icons/CDC-icon.png");
 			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
 					MainActivity.main_context, Session.getActiveSession(),
 					params)).setOnCompleteListener(new OnCompleteListener() {
