@@ -213,6 +213,19 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 						uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
 						getApplicationContext().getContentResolver().delete(uri, null, null);
 					}
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
+								}catch(Exception e){
+									Log.w("GCMSync","UI update error"+e);
+								}
+							}
+						});
+					}catch(Exception e){
+						Log.w("GCMSync","UI update error"+e);
+					}
 					break;
 				case REMOVE_ADS:
 					AccessSharedPrefs.setString(this, "ad_free", "yes");

@@ -86,6 +86,7 @@ public class CricDeCodeContentProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
 		long id = db.insert(table, null, values);
+		
 		getContext().getContentResolver().notifyChange(uri, null);
 		return Uri.parse(content_uri + "/" + id);
 

@@ -158,6 +158,7 @@ public class ProfileEditService extends IntentService {
 																	params.add(new BasicNameValuePair(
 																			"MsgToSend",
 																			msg.toString()));
+																	params.add(new BasicNameValuePair("uid", AccessSharedPrefs.mPrefs.getString("id", "")));
 																	Log.w("Sending User Data...",
 																			"ProfileEditService:"
 																					+ jsonParser
