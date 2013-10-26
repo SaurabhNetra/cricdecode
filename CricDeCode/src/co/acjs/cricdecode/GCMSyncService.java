@@ -1,18 +1,11 @@
 package co.acjs.cricdecode;
 
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.stackmob.android.sdk.common.StackMobAndroid;
-import com.stackmob.sdk.api.StackMobQuery;
-import com.stackmob.sdk.api.StackMobQueryField;
-import com.stackmob.sdk.callback.StackMobQueryCallback;
-import com.stackmob.sdk.exception.StackMobException;
 
 import android.app.IntentService;
 import android.content.ContentValues;
@@ -21,6 +14,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+
+import com.stackmob.android.sdk.common.StackMobAndroid;
+import com.stackmob.sdk.api.StackMobQuery;
+import com.stackmob.sdk.api.StackMobQueryField;
+import com.stackmob.sdk.callback.StackMobQueryCallback;
+import com.stackmob.sdk.exception.StackMobException;
 
 
 public class GCMSyncService extends IntentService{
@@ -50,146 +49,159 @@ public class GCMSyncService extends IntentService{
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		Log.w("GCMSync", "fff");
+		long t = new Date().getTime();
 		if(AccessSharedPrefs.mPrefs.getString("GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
-			JSONArray ja = null;
-			int in = 0;
-			try{
-				ja = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
-				tot_mat = ja.length();
-				for(in = 0; in < ja.length(); in++){
-					JSONObject jo = ja.getJSONObject(in);
-					Log.w("GCMSync", "" + jo.toString());
-					ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(Integer.parseInt(jo.getString("mid")))).field(new StackMobQueryField("device_id").isEqualTo(Integer.parseInt(jo.getString("dev")))).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBCricketMatch>(){
-						@Override
-						public void failure(StackMobException arg0){
-							Log.w("GCMSync Cricket Match", "failure");
-						}
+			ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("validuntil_ts_msec").isGreaterThan(t)), new StackMobQueryCallback<ServerDBSubInfiSync>(){
+				@Override
+				public void failure(StackMobException arg0){}
 
-						@Override
-						public void success(List<ServerDBCricketMatch> arg0){
-							final int device_id = arg0.get(0).getDeviceId(), match_id = arg0.get(0).getMatchId();
-							Log.w("GCMSync", "Cricket Match " + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
-							ContentValues values = new ContentValues();
-							values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
-							values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(0).getDeviceId());
-							values.put(MatchDb.KEY_MATCH_DATE, arg0.get(0).getMatchDate());
-							values.put(MatchDb.KEY_MY_TEAM, arg0.get(0).getMyTeam());
-							values.put(MatchDb.KEY_OPPONENT_TEAM, arg0.get(0).getOpponentTeam());
-							values.put(MatchDb.KEY_VENUE, arg0.get(0).getVenue());
-							values.put(MatchDb.KEY_OVERS, arg0.get(0).getOvers());
-							values.put(MatchDb.KEY_INNINGS, arg0.get(0).getInnings());
-							values.put(MatchDb.KEY_RESULT, arg0.get(0).getResult());
-							values.put(MatchDb.KEY_LEVEL, arg0.get(0).getLevel());
-							values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(0).getFirstAction());
-							values.put(MatchDb.KEY_DURATION, arg0.get(0).getDuration());
-							values.put(MatchDb.KEY_REVIEW, arg0.get(0).getReview());
-							values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
-							values.put(MatchDb.KEY_SYNCED, 1);
-							// insert a record
-							// Sheetal Test This
-							Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
-							if(c.getCount() == 0){
-								getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
-							}else{
-								Log.w("inserting", "already there");
-							}
-							c.close();
-							ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(arg0.get(0).getMatchId())).field(new StackMobQueryField("device_id").isEqualTo(arg0.get(0).getDeviceId())).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
-								int	m_id	= match_id;
-								int	d_id	= device_id;
+				@Override
+				public void success(List<ServerDBSubInfiSync> arg0){
+					if(arg0.size() > 0){
+						JSONArray ja = null;
+						int in = 0;
+						try{
+							ja = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
+							tot_mat = ja.length();
+							for(in = 0; in < ja.length(); in++){
+								JSONObject jo = ja.getJSONObject(in);
+								Log.w("GCMSync", "" + jo.toString());
+								ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(Integer.parseInt(jo.getString("mid")))).field(new StackMobQueryField("device_id").isEqualTo(Integer.parseInt(jo.getString("dev")))).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBCricketMatch>(){
+									@Override
+									public void failure(StackMobException arg0){
+										Log.w("GCMSync Cricket Match", "failure");
+									}
 
-								@Override
-								public void failure(StackMobException arg0){
-									Log.w("Sync failure", "nfjf");
-								}
-
-								@Override
-								public void success(List<ServerDBPerformance> arg0){
-									for(int i = 0; i < arg0.size(); i++){
-										Log.w("GCMSync", "Performance Data" + i + " " + arg0.get(i).getDeviceId() + " " + arg0.get(i).getMatchId());
-										ContentValues value = new ContentValues();
-										value.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
-										value.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
-										value.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
-										value.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
-										value.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
-										value.put(PerformanceDb.KEY_BAT_RUNS, arg0.get(i).getBatRuns());
-										value.put(PerformanceDb.KEY_BAT_BALLS, arg0.get(i).getBatBalls());
-										value.put(PerformanceDb.KEY_BAT_TIME, arg0.get(i).getBatTime());
-										value.put(PerformanceDb.KEY_BAT_FOURS, arg0.get(i).getBatFours());
-										value.put(PerformanceDb.KEY_BAT_SIXES, arg0.get(i).getBatSixes());
-										value.put(PerformanceDb.KEY_BAT_HOW_OUT, arg0.get(i).getBatDismissal());
-										value.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, arg0.get(i).getBatBowlerType());
-										value.put(PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get(i).getBatFieldingPosition());
-										value.put(PerformanceDb.KEY_BAT_CHANCES, arg0.get(i).getBatChances());
-										value.put(PerformanceDb.KEY_BOWL_BALLS, arg0.get(i).getBowlBalls());
-										value.put(PerformanceDb.KEY_BOWL_SPELLS, arg0.get(i).getBowlSpells());
-										value.put(PerformanceDb.KEY_BOWL_MAIDENS, arg0.get(i).getBowlMaidens());
-										value.put(PerformanceDb.KEY_BOWL_RUNS, arg0.get(i).getBowlRuns());
-										value.put(PerformanceDb.KEY_BOWL_FOURS, arg0.get(i).getBowlFours());
-										value.put(PerformanceDb.KEY_BOWL_SIXES, arg0.get(i).getBowlSixes());
-										value.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get(i).getBowlWktsLeft());
-										value.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, arg0.get(i).getBowlWktsRight());
-										value.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-										value.put(PerformanceDb.KEY_BOWL_NOBALLS, arg0.get(i).getNoBalls());
-										value.put(PerformanceDb.KEY_BOWL_WIDES, arg0.get(i).getBowlWides());
-										value.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get(i).getFieldSlipCatch());
-										value.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get(i).getFieldCloseCatch());
-										value.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH, arg0.get(i).getFieldCircleCatch());
-										value.put(PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get(i).getFieldDeepCatch());
-										value.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get(i).getFieldRoCircle());
-										value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get(i).getFieldRoDirectCircle());
-										value.put(PerformanceDb.KEY_FIELD_RO_DEEP, arg0.get(i).getFieldRoDeep());
-										value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get(i).getFieldRoDirectDeep());
-										value.put(PerformanceDb.KEY_FIELD_STUMPINGS, arg0.get(i).getFieldStumping());
-										value.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
-										value.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
-										value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-										value.put(PerformanceDb.KEY_SYNCED, 1);
-										value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-										// Sheetal Test
-										Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
+									@Override
+									public void success(List<ServerDBCricketMatch> arg0){
+										final int device_id = arg0.get(0).getDeviceId(), match_id = arg0.get(0).getMatchId();
+										Log.w("GCMSync", "Cricket Match " + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
+										ContentValues values = new ContentValues();
+										values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
+										values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(0).getDeviceId());
+										values.put(MatchDb.KEY_MATCH_DATE, arg0.get(0).getMatchDate());
+										values.put(MatchDb.KEY_MY_TEAM, arg0.get(0).getMyTeam());
+										values.put(MatchDb.KEY_OPPONENT_TEAM, arg0.get(0).getOpponentTeam());
+										values.put(MatchDb.KEY_VENUE, arg0.get(0).getVenue());
+										values.put(MatchDb.KEY_OVERS, arg0.get(0).getOvers());
+										values.put(MatchDb.KEY_INNINGS, arg0.get(0).getInnings());
+										values.put(MatchDb.KEY_RESULT, arg0.get(0).getResult());
+										values.put(MatchDb.KEY_LEVEL, arg0.get(0).getLevel());
+										values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(0).getFirstAction());
+										values.put(MatchDb.KEY_DURATION, arg0.get(0).getDuration());
+										values.put(MatchDb.KEY_REVIEW, arg0.get(0).getReview());
+										values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
+										values.put(MatchDb.KEY_SYNCED, 1);
+										// insert a record
+										// Sheetal Test This
+										Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
 										if(c.getCount() == 0){
-											getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
+											getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 										}else{
-											Log.w("log", "jff");
+											Log.w("inserting", "already there");
 										}
 										c.close();
+										ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("match_id").isEqualTo(arg0.get(0).getMatchId())).field(new StackMobQueryField("device_id").isEqualTo(arg0.get(0).getDeviceId())).field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
+											int	m_id	= match_id;
+											int	d_id	= device_id;
+
+											@Override
+											public void failure(StackMobException arg0){
+												Log.w("Sync failure", "nfjf");
+											}
+
+											@Override
+											public void success(List<ServerDBPerformance> arg0){
+												for(int i = 0; i < arg0.size(); i++){
+													Log.w("GCMSync", "Performance Data" + i + " " + arg0.get(i).getDeviceId() + " " + arg0.get(i).getMatchId());
+													ContentValues value = new ContentValues();
+													value.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
+													value.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
+													value.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
+													value.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
+													value.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
+													value.put(PerformanceDb.KEY_BAT_RUNS, arg0.get(i).getBatRuns());
+													value.put(PerformanceDb.KEY_BAT_BALLS, arg0.get(i).getBatBalls());
+													value.put(PerformanceDb.KEY_BAT_TIME, arg0.get(i).getBatTime());
+													value.put(PerformanceDb.KEY_BAT_FOURS, arg0.get(i).getBatFours());
+													value.put(PerformanceDb.KEY_BAT_SIXES, arg0.get(i).getBatSixes());
+													value.put(PerformanceDb.KEY_BAT_HOW_OUT, arg0.get(i).getBatDismissal());
+													value.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, arg0.get(i).getBatBowlerType());
+													value.put(PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get(i).getBatFieldingPosition());
+													value.put(PerformanceDb.KEY_BAT_CHANCES, arg0.get(i).getBatChances());
+													value.put(PerformanceDb.KEY_BOWL_BALLS, arg0.get(i).getBowlBalls());
+													value.put(PerformanceDb.KEY_BOWL_SPELLS, arg0.get(i).getBowlSpells());
+													value.put(PerformanceDb.KEY_BOWL_MAIDENS, arg0.get(i).getBowlMaidens());
+													value.put(PerformanceDb.KEY_BOWL_RUNS, arg0.get(i).getBowlRuns());
+													value.put(PerformanceDb.KEY_BOWL_FOURS, arg0.get(i).getBowlFours());
+													value.put(PerformanceDb.KEY_BOWL_SIXES, arg0.get(i).getBowlSixes());
+													value.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get(i).getBowlWktsLeft());
+													value.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, arg0.get(i).getBowlWktsRight());
+													value.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
+													value.put(PerformanceDb.KEY_BOWL_NOBALLS, arg0.get(i).getNoBalls());
+													value.put(PerformanceDb.KEY_BOWL_WIDES, arg0.get(i).getBowlWides());
+													value.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get(i).getFieldSlipCatch());
+													value.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get(i).getFieldCloseCatch());
+													value.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH, arg0.get(i).getFieldCircleCatch());
+													value.put(PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get(i).getFieldDeepCatch());
+													value.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get(i).getFieldRoCircle());
+													value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get(i).getFieldRoDirectCircle());
+													value.put(PerformanceDb.KEY_FIELD_RO_DEEP, arg0.get(i).getFieldRoDeep());
+													value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get(i).getFieldRoDirectDeep());
+													value.put(PerformanceDb.KEY_FIELD_STUMPINGS, arg0.get(i).getFieldStumping());
+													value.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
+													value.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
+													value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
+													value.put(PerformanceDb.KEY_SYNCED, 1);
+													value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+													// Sheetal Test
+													Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
+													if(c.getCount() == 0){
+														getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
+													}else{
+														Log.w("log", "jff");
+													}
+													c.close();
+												}
+												// Update status of match to history again
+												Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + m_id + "/" + d_id);
+												ContentValues matchvalues = new ContentValues();
+												matchvalues.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+												// update a record
+												getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
+												Log.w("log", "jfkjf " + cnt_mat + " " + tot_mat);
+												if(cnt_Match() == gettotMAtch()){
+													Log.w("ASP", "" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
+													AccessSharedPrefs.setString(who, "GCMMatchData", "");
+													Log.w("ASP", "fg" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
+												}
+												Log.w("log", "jfkjf12");
+											}
+										});
 									}
-									// Update status of match to history again
-									Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + m_id + "/" + d_id);
-									ContentValues matchvalues = new ContentValues();
-									matchvalues.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-									// update a record
-									getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
-									Log.w("log", "jfkjf " + cnt_mat + " " + tot_mat);
-									if(cnt_Match() == gettotMAtch()){
-										Log.w("ASP", "" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
-										AccessSharedPrefs.setString(who, "GCMMatchData", "");
-										Log.w("ASP", "fg" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
-									}
-									Log.w("log", "jfkjf12");
+								});
+							}
+						}catch(JSONException e){
+							e.printStackTrace();
+						}
+						Log.w("GCMSync", "Updating UI" + in + " " + ja.length());
+						try{
+							((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+								public void run(){
+									try{
+										DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
+									}catch(Exception e){}
 								}
 							});
+						}catch(Exception e){
+							Log.w("GCMSync", "");
 						}
-					});
-				}
-			}catch(JSONException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Log.w("GCMSync", "Updating UI" + in + " " + ja.length());
-			try{
-				((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
-					public void run(){
-						try{
-							DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
-						}catch(Exception e){}
+					}else{
+						//TODO
+						AccessSharedPrefs.setString(who, "infi_use", "no");
 					}
-				});
-			}catch(Exception e){
-				Log.w("GCMSync", "");
-			}
+				}
+			});
 		}
 	}
 

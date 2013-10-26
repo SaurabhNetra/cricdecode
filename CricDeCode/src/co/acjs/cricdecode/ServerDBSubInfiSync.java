@@ -7,17 +7,17 @@ public class ServerDBSubInfiSync extends StackMobModel {
 	String	order_id;
 	String	token;
 	String	sign;
-	int		purchaseTime;
+	int		autorenewing;
 	int		initiation_ts_msec;
 	int		validUntil_ts_msec;
 
-	public ServerDBSubInfiSync(String user_id, String order_id, String token, String sign, int purchaseTime, int initiation_ts_msec, int validUntil_ts_msec) {
+	public ServerDBSubInfiSync(String user_id, String order_id, String token, String sign, int autorenewing, int initiation_ts_msec, int validUntil_ts_msec) {
 		super(ServerDBSubInfiSync.class);
 		this.user_id = user_id;
 		this.order_id = order_id;
 		this.token = token;
 		this.sign = sign;
-		this.purchaseTime = purchaseTime;
+		this.autorenewing= autorenewing;
 		this.initiation_ts_msec = initiation_ts_msec;
 		this.validUntil_ts_msec = validUntil_ts_msec;
 	}
@@ -38,8 +38,8 @@ public class ServerDBSubInfiSync extends StackMobModel {
 		this.sign = sign;
 	}
 
-	public void setPurchaseTime(int purchaseTime) {
-		this.purchaseTime = purchaseTime;
+	public void setAutoRenewal(int autorenewing) {
+		this.autorenewing = autorenewing;
 	}
 
 	public void setInitiationTs(int initiation_ts_msec) {
@@ -66,8 +66,8 @@ public class ServerDBSubInfiSync extends StackMobModel {
 		return this.sign;
 	}
 
-	public int getPurchaseTime() {
-		return this.purchaseTime;
+	public int getAutoRenewing() {
+		return this.autorenewing;
 	}
 
 	public int getInitiationTs() {

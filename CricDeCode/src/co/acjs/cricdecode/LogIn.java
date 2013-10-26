@@ -98,6 +98,25 @@ public class LogIn extends SherlockActivity{
 		});
 	}
 
+	public static void showDialog(){
+		try{
+			((LogIn)login_activity).runOnUiThread(new Runnable(){
+				public void run(){
+					try{
+						new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Restart", new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int which){
+								dialog.dismiss();
+								Intent i = new Intent(login_activity, LogIn.class);
+								i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								login_activity.startActivity(i);
+							}
+						}).show();
+					}catch(Exception e){}
+				}
+			});
+		}catch(Exception e){}
+	}
+
 	@Override
 	protected void onStart(){
 		super.onStart();
@@ -133,7 +152,7 @@ public class LogIn extends SherlockActivity{
 						}
 					}).executeAsync();
 				}
-			}catch(Exception e){}
+			}catch(Exception e){Log.w("Login","Showing logout");}
 		}
 	}
 
@@ -182,7 +201,8 @@ public class LogIn extends SherlockActivity{
 		ServerDBUserTable.query(ServerDBUserTable.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBUserTable>(){
 			@Override
 			public void failure(StackMobException arg0){
-				Log.w("chk if user existing", arg0);
+				Log.w("Login", "failure 1");
+				showDialog();
 			}
 
 			@Override
@@ -196,7 +216,9 @@ public class LogIn extends SherlockActivity{
 					}
 
 					@Override
-					public void failure(StackMobException arg0){}
+					public void failure(StackMobException arg0){
+						Log.w("Login","failure 2");
+						showDialog();}
 				});
 				else{
 					// Bigggg else
@@ -209,7 +231,9 @@ public class LogIn extends SherlockActivity{
 						String	role		= returenedVar.get(0).getRole();
 
 						@Override
-						public void failure(StackMobException arg0){}
+						public void failure(StackMobException arg0){
+							Log.w("Login","failure 3");
+							showDialog();}
 
 						@Override
 						public void success(){
@@ -222,47 +246,53 @@ public class LogIn extends SherlockActivity{
 							ServerDBRemoveAds.query(ServerDBRemoveAds.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBRemoveAds>(){
 								@Override
 								public void failure(StackMobException arg0){
-									Log.w("LoginIn", "remove_ads_chk failure!!");
+									showDialog();
+									Log.w("Login","failure 4");
 								}
 
 								@Override
 								public void success(List<ServerDBRemoveAds> arg0){
 									Log.w("LoginIn", "remove_ads_chk success!!");
+									long t = new Date().getTime();
 									if(arg0.size() > 0) AccessSharedPrefs.setString(login_activity, "ad_free", "yes");
-									ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBSubInfi>(){
+									ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("validuntil_ts_msec").isGreaterThan(t)), new StackMobQueryCallback<ServerDBSubInfi>(){
 										@Override
 										public void failure(StackMobException arg0){
-											Log.w("LoginIn", "sub_infi_chk failure!!");
+											showDialog();
+											Log.w("Login","failure 5");
 										}
 
 										@Override
 										public void success(List<ServerDBSubInfi> arg0){
 											Log.w("LoginIn", "sub_infi_chk success!!" + arg0.size());
-											long t = new Date().getTime();
 											if((arg0.size() > 0)){
-												if((t < arg0.get(0).validUntil_ts_msec)){
-													AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
-													Log.w("LoginIn", "sub_infi_chk success!! 2");
-												}
+												AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
+												Log.w("LoginIn", "sub_infi_chk success!! 2");
+											}else{
+												// TODO
 											}
+											long t = new Date().getTime();
 											Log.w("LoginIn", "sub_infi_chk success!! 3");
-											ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBSubInfiSync>(){
+											ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("validuntil_ts_msec").isGreaterThan(t)), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 												@Override
 												public void failure(StackMobException arg0){
-													Log.w("LoginIn", "sub_sync_chk failure!!");
+													showDialog();
+													Log.w("Login","failure 6");
 												}
 
 												@Override
 												public void success(List<ServerDBSubInfiSync> arg0){
 													Log.w("LoginIn", "sub_sync_chk success!!");
-													long t = new Date().getTime();
 													if(arg0.size() > 0){
-														if(t < arg0.get(0).validUntil_ts_msec) AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
+														AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
+													}else{
+														// TODO
 													}
 													ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBCricketMatch>(){
 														@Override
 														public void failure(StackMobException arg0){
-															Log.w("LoginIn", "cricket_match failure!!");
+															showDialog();
+															Log.w("Login","failure 9");
 														}
 
 														@Override
@@ -293,7 +323,8 @@ public class LogIn extends SherlockActivity{
 															ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
 																@Override
 																public void failure(StackMobException arg0){
-																	Log.w("LoginIn", "performance failure!!");
+																	showDialog();
+																	Log.w("Login","failure 7");
 																}
 
 																@Override
@@ -375,15 +406,9 @@ public class LogIn extends SherlockActivity{
 		ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("gcm_id").isEqualTo(gcm_reg_id)), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 			@Override
 			public void failure(StackMobException arg0){
-				Log.w("LogIn gcmid", arg0);
-				new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Restart", new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog, int which){
-						dialog.dismiss();
-						Intent i = new Intent(login_activity, LogIn.class);
-						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						login_activity.startActivity(i);
-					}
-				}).show();
+				showDialog();
+				Log.w("Login","failure 10");
+				
 			}
 
 			@Override
@@ -403,15 +428,8 @@ public class LogIn extends SherlockActivity{
 
 						@Override
 						public void failure(StackMobException arg0){
-							Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')", arg0);
-							new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Ok", new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog, int which){
-									dialog.dismiss();
-									Intent i = new Intent(login_activity, LogIn.class);
-									i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-									login_activity.startActivity(i);
-								}
-							}).show();
+							Log.w("Login","failure 8");
+							showDialog();
 						}
 					});
 				}else{

@@ -78,8 +78,8 @@ public class ConnectionDetector extends BroadcastReceiver {
 				if (NotSyncedGCMSync & isConnected) {
 					Log.w("Starting PurchasedInfiSyncService",
 							"ConnectionDetector");
-					//context.startService(new Intent(context,
-						//	GCMSyncService.class));
+					context.startService(new Intent(context,
+						GCMSyncService.class));
 				}
 			} else Log.w("Connection Detector", "no connection");
 		}

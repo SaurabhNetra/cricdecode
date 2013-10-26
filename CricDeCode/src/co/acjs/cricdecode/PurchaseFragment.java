@@ -30,7 +30,7 @@ public class PurchaseFragment extends SherlockFragment {
 				.setText("Remove Ads");
 		((TextView) view.findViewById(R.id.remove_ads_descr))
 				.setText(AccessSharedPrefs.mPrefs.getString("pur_remove_adds_descr", ""));
-		/*((TextView) view.findViewById(R.id.infi_price))
+		((TextView) view.findViewById(R.id.infi_price))
 				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_price", ""));
 		((TextView) view.findViewById(R.id.infi_title))
 				.setText("Unlimited Matches");
@@ -41,7 +41,7 @@ public class PurchaseFragment extends SherlockFragment {
 		((TextView) view.findViewById(R.id.infi_sync_title))
 				.setText("Unlimited Matches with Sync");
 		((TextView) view.findViewById(R.id.infi_sync_descr))
-				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));*/
+				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));
 	}
 
 	@Override
