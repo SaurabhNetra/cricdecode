@@ -153,12 +153,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		// TODO encrypt
-		try{
-			StackMobAndroid.init(getApplicationContext(), 0, decrypt("E9M2U7mxrqepLr4F","*˜¡TI:Üè M> „%ÔÑ^üì&Üç¥Ä¹Tè:,ÃG«\nû‰£f uàxV… ” ò".getBytes()));
-		}catch(GeneralSecurityException e1){
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		StackMobAndroid.init(getApplicationContext(), 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
