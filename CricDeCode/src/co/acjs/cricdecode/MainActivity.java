@@ -151,7 +151,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-		mHelper = new IabHelper(this, decrypt("1:3f2iy33JCK:5M24F[OBLBCPGMoycRn0TEZxB9sFMPwPEZhyYGjBD591Ss8BNqZJX8t0YBcQUTyOdUMP92bvy4RtkDZx","JD8oNSWTkMDBnIJcJFL9CRkPJiiMub9FVFCE0T4LwB,KJfq9QKz8pYkSi[,wJtnjB3zb{W7Gj,OfGjk","VTJfPy9BnGIqlfGfYRZZ4hyUY2O9lSJKnWFuqBT:u{cDixCNj0,cuVCbbJe2g6H78[mJ7x[yDldgWCuJLIyXyWuDuEv5Fk8T0h,BKkR87J{L6R53pBC","pywnpCRGQVJDThzh5MvgSBF{7lSRkJwOhELrO49ftPCuWiKw4t2mXiGlg7zmwU5mDjIhcLbZ9EwHdKlfXHDjX:rpMWxCpBjxJpRCMKJDk","5143079682", 1));
+		mHelper = new IabHelper(this, "");
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener(){
 			@Override
 			public void onIabSetupFinished(IabResult result){
