@@ -199,6 +199,7 @@
                 android:gravity="top|left"
                 android:inputType="textMultiLine|textCapSentences"
                 android:lines="5"
+                android:maxLength="2000"
                 android:padding="@dimen/per_num_padding"
                 android:scrollHorizontally="false" />
         </RelativeLayout>

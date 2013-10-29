@@ -3,20 +3,11 @@ package co.acjs.cricdecode;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.ads.AdView;
-import com.stackmob.sdk.api.StackMobQuery;
-import com.stackmob.sdk.api.StackMobQueryField;
-import com.stackmob.sdk.callback.StackMobQueryCallback;
-import com.stackmob.sdk.exception.StackMobException;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,6 +17,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.ads.AdView;
+
 
 public class GCMIntentService extends GCMBaseIntentServiceCompat{
 	public static final int	UPDATE_PROFILE_DATA			= 1;
@@ -34,6 +28,9 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 	public static final int	REMOVE_ADS					= 4;
 	public static final int	SUB_INFI					= 5;
 	public static final int	SUB_INFI_SYNC				= 6;
+	public static final int	NO_REMOVE_ADS				= 7;
+	public static final int	NO_SUB_INFI					= 8;
+	public static final int	NO_SUB_INFI_SYNC			= 9;
 	public static Context	context;
 
 	public GCMIntentService(){
@@ -219,12 +216,12 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 								try{
 									DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
 								}catch(Exception e){
-									Log.w("GCMSync","UI update error"+e);
+									Log.w("GCMSync", "UI update error" + e);
 								}
 							}
 						});
 					}catch(Exception e){
-						Log.w("GCMSync","UI update error"+e);
+						Log.w("GCMSync", "UI update error" + e);
 					}
 					break;
 				case REMOVE_ADS:
@@ -234,7 +231,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							public void run(){
 								try{
 									final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
-									adView.setVisibility(View.INVISIBLE);
+									adView.setVisibility(View.GONE);
 								}catch(Exception e){}
 							}
 						});
@@ -245,6 +242,25 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					break;
 				case SUB_INFI_SYNC:
 					AccessSharedPrefs.setString(this, "infi_sync", "yes");
+					break;
+				case NO_REMOVE_ADS:
+					AccessSharedPrefs.setString(this, "ad_free", "no");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+									adView.setVisibility(View.VISIBLE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
+					break;
+				case NO_SUB_INFI:
+					AccessSharedPrefs.setString(this, "infi_use", "no");
+					break;
+				case NO_SUB_INFI_SYNC:
+					AccessSharedPrefs.setString(this, "infi_sync", "no");
 					break;
 			}
 		}catch(JSONException e){

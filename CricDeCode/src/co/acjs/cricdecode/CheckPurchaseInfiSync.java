@@ -1,15 +1,20 @@
 package co.acjs.cricdecode;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
 import com.stackmob.sdk.callback.StackMobQueryCallback;
@@ -35,10 +40,51 @@ public class CheckPurchaseInfiSync extends IntentService{
 	public void onDestroy(){
 		super.onDestroy();
 	}
+	
+	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
+		String val=val2+val4+val1+val3;
+		int num = val.length() / 10;
+		char h[][] = new char[num+1][10];
+		int start = 0;
+		int end = 10;
+		for(int i = 0; i < num; i++){
+			String s = val.substring(start, end);
+			h[i] = s.toCharArray();
+			start = end;
+			end = end + 10;
+		}	
+		h[num] = val.substring(start, val.length()).toCharArray();
+		char[][] un = new char[10][num];
+		char s[] = seq.toCharArray();
+		for(int i = 0; i < num; i++){
+			for(int j = 0; j < 10; j++){
+				String n= new String(""+s[j]);
+				int ind = Integer.parseInt(n);
+				un[ind][i] = h[i][j];
+				
+			}
+		}
+		String dec="";
+		for(int i=0;i<10;i++)
+		{
+			String n = new String(un[i]);
+			dec=dec+n;
+		}
+		String ex= new String(h[num]);
+		dec=dec+ex;
+		char[] us=dec.toCharArray();
+		char[] sh=new char[us.length];
+		for(int i=0;i<us.length;i++)
+		{
+			sh[i]= (char)(us[i]-ci);
+		}		
+		return new String(sh);
+	}
 
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		try{
 			JSONObject jn = new JSONObject(intent.getExtras().getString("json"));
 			orderId = jn.getString("orderId");
@@ -47,17 +93,78 @@ public class CheckPurchaseInfiSync extends IntentService{
 		}catch(JSONException e1){
 			e1.printStackTrace();
 		}
-		long t = new Date().getTime();
-		ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("order_id").isEqualTo(orderId)).field(new StackMobQueryField("token").isEqualTo(token)).field(new StackMobQueryField("sign").isEqualTo(sign)).field(new StackMobQueryField("validuntil_ts_msec").isGreaterThan(t)), new StackMobQueryCallback<ServerDBSubInfiSync>(){
+		ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 			@Override
 			public void failure(StackMobException arg0){}
 
 			@Override
 			public void success(List<ServerDBSubInfiSync> arg0){
-				if(arg0.size() == 0){
-					AccessSharedPrefs.setString(who, "infi_sync", "no");
+				long now = new Date().getTime();
+				if((arg0.size() > 0)){
+					long t = arg0.get(0).getValidUntilTs();
+					int m = 0;
+					for(int i = 1; i < arg0.size(); i++){
+						if(t < arg0.get(i).getValidUntilTs()){
+							t = arg0.get(i).getValidUntilTs();
+							m = i;
+						}
+					}
+					final ServerDBSubInfiSync max = arg0.get(m);
+					if(now < arg0.get(m).getValidUntilTs()){
+						AccessSharedPrefs.setString(who, "infi_sync", "yes");
+					}else{
+						ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
+							@Override
+							public void failure(StackMobException arg0){
+							}
+
+							@Override
+							public void success(List<ServerDBAndroidDevices> arg0){
+								String regids = "";
+								for(int i = 0; i < arg0.size(); i++){
+									regids = regids + " " + arg0.get(i).getGcmId();
+								}
+								List<NameValuePair> params = new ArrayList<NameValuePair>();
+			 					params.add(new BasicNameValuePair("SendToArrays", regids));
+								params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
+								JSONObject jo = new JSONObject();
+								try{
+									jo.put("orderId", max.getOrderId());
+									jo.put("Token", max.getToken());
+									jo.put("Sign", max.getSign());
+								}catch(JSONException e){}
+								params.add(new BasicNameValuePair("json", jo.toString()));
+								params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+								final JSONParser jsonParser = new JSONParser();
+								int trial = 1;
+								JSONObject jn = null;
+								while(jsonParser.isOnline(who)){
+									Log.w("JSONParser", "SubinfiSync:: Called");
+									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
+									Log.w("JSON returned", "SubinfiSync:: " + jn);
+									Log.w("trial value", "SubinfiSync:: " + trial);
+									if(jn != null) break;
+									try{
+										Thread.sleep(10 * trial);
+									}catch(InterruptedException e){}
+									trial++;
+									if(trial == 50) break;
+								}
+								try{
+									if(jn.getInt("status") == 1){
+										AccessSharedPrefs.setString(who, "infi_sync", "yes");
+									}else{
+										AccessSharedPrefs.setString(who, "infi_sync", "no");
+									}
+								}catch(NullPointerException e){}catch(JSONException e){
+									e.printStackTrace();
+								}
+							}
+						});
+					}
+					Log.w("LoginIn", "sub_infi_chk success!! 2");
 				}else{
-					AccessSharedPrefs.setString(who, "infi_sync", "yes");
+					AccessSharedPrefs.setString(who, "infi_sync", "no");
 				}
 			}
 		});

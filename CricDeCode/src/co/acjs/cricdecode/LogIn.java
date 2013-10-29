@@ -3,9 +3,15 @@ package co.acjs.cricdecode;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.ContentProviderClient;
@@ -103,12 +109,10 @@ public class LogIn extends SherlockActivity{
 			((LogIn)login_activity).runOnUiThread(new Runnable(){
 				public void run(){
 					try{
-						new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("Restart", new DialogInterface.OnClickListener(){
+						new AlertDialog.Builder(login_activity).setTitle("Weak Internet Connection").setMessage("Check your internet connection and restart app.").setNeutralButton("OK", new DialogInterface.OnClickListener(){
 							public void onClick(DialogInterface dialog, int which){
 								dialog.dismiss();
-								Intent i = new Intent(login_activity, LogIn.class);
-								i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								login_activity.startActivity(i);
+								((LogIn)login_activity).finish();
 							}
 						}).show();
 					}catch(Exception e){}
@@ -152,7 +156,9 @@ public class LogIn extends SherlockActivity{
 						}
 					}).executeAsync();
 				}
-			}catch(Exception e){Log.w("Login","Showing logout");}
+			}catch(Exception e){
+				Log.w("Login", "Showing logout");
+			}
 		}
 	}
 
@@ -164,11 +170,50 @@ public class LogIn extends SherlockActivity{
 		onActivityResult = false;
 	}
 
+	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
+		String val=val2+val4+val1+val3;
+		int num = val.length() / 10;
+		char h[][] = new char[num+1][10];
+		int start = 0;
+		int end = 10;
+		for(int i = 0; i < num; i++){
+			String s = val.substring(start, end);
+			h[i] = s.toCharArray();
+			start = end;
+			end = end + 10;
+		}	
+		h[num] = val.substring(start, val.length()).toCharArray();
+		char[][] un = new char[10][num];
+		char s[] = seq.toCharArray();
+		for(int i = 0; i < num; i++){
+			for(int j = 0; j < 10; j++){
+				String n= new String(""+s[j]);
+				int ind = Integer.parseInt(n);
+				un[ind][i] = h[i][j];
+				
+			}
+		}
+		String dec="";
+		for(int i=0;i<10;i++)
+		{
+			String n = new String(un[i]);
+			dec=dec+n;
+		}
+		String ex= new String(h[num]);
+		dec=dec+ex;
+		char[] us=dec.toCharArray();
+		char[] sh=new char[us.length];
+		for(int i=0;i<us.length;i++)
+		{
+			sh[i]= (char)(us[i]-ci);
+		}		
+		return new String(sh);
+	}
+	
 	void GCMRegistration(){
 		writeToFile("GCMRegistration");
 		progressText.setText("Phase 2...");
-		// TODO encrypt
-		StackMobAndroid.init(login_activity, 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		client = getContentResolver().acquireContentProviderClient(CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider)client.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -217,8 +262,9 @@ public class LogIn extends SherlockActivity{
 
 					@Override
 					public void failure(StackMobException arg0){
-						Log.w("Login","failure 2");
-						showDialog();}
+						Log.w("Login", "failure 2");
+						showDialog();
+					}
 				});
 				else{
 					// Bigggg else
@@ -232,8 +278,9 @@ public class LogIn extends SherlockActivity{
 
 						@Override
 						public void failure(StackMobException arg0){
-							Log.w("Login","failure 3");
-							showDialog();}
+							Log.w("Login", "failure 3");
+							showDialog();
+						}
 
 						@Override
 						public void success(){
@@ -247,52 +294,181 @@ public class LogIn extends SherlockActivity{
 								@Override
 								public void failure(StackMobException arg0){
 									showDialog();
-									Log.w("Login","failure 4");
+									Log.w("Login", "failure 4");
 								}
 
 								@Override
 								public void success(List<ServerDBRemoveAds> arg0){
 									Log.w("LoginIn", "remove_ads_chk success!!");
-									long t = new Date().getTime();
-									if(arg0.size() > 0) AccessSharedPrefs.setString(login_activity, "ad_free", "yes");
-									ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("validuntil_ts_msec").isGreaterThan(t)), new StackMobQueryCallback<ServerDBSubInfi>(){
+									if(arg0.size() == 0){
+										AccessSharedPrefs.setString(login_activity, "ad_free", "no");
+									}else{
+										AccessSharedPrefs.setString(login_activity, "ad_free", "yes");
+									}
+									ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBSubInfi>(){
 										@Override
 										public void failure(StackMobException arg0){
 											showDialog();
-											Log.w("Login","failure 5");
+											Log.w("Login", "failure 5");
 										}
 
 										@Override
 										public void success(List<ServerDBSubInfi> arg0){
 											Log.w("LoginIn", "sub_infi_chk success!!" + arg0.size());
+											long now = new Date().getTime();
 											if((arg0.size() > 0)){
-												AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
+												long t = arg0.get(0).getValidUntilTs();
+												int m = 0;
+												for(int i = 1; i < arg0.size(); i++){
+													if(t < arg0.get(i).getValidUntilTs()){
+														t = arg0.get(i).getValidUntilTs();
+														m = i;
+													}
+												}
+												final ServerDBSubInfi max = arg0.get(m);
+												if(now < arg0.get(m).getValidUntilTs()){
+													AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
+												}else{
+													ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
+														@Override
+														public void failure(StackMobException arg0){
+															showDialog();
+														}
+
+														@Override
+														public void success(List<ServerDBAndroidDevices> arg0){
+															String regids = "";
+															for(int i = 0; i < arg0.size(); i++){
+																regids = regids + " " + arg0.get(i).getGcmId();
+															}
+															List<NameValuePair> params = new ArrayList<NameValuePair>();
+															params.add(new BasicNameValuePair("SendToArrays", regids));
+															params.add(new BasicNameValuePair("product_id", "sub_infi"));
+															JSONObject jo = new JSONObject();
+															try{
+																jo.put("orderId", max.getOrderId());
+																jo.put("Token", max.getToken());
+																jo.put("Sign", max.getSign());
+																writeToFile("onPurchase Json: " + jo.toString());
+															}catch(JSONException e){}
+															params.add(new BasicNameValuePair("json", jo.toString()));
+															params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+															final JSONParser jsonParser = new JSONParser();
+															int trial = 1;
+															JSONObject jn = null;
+															while(jsonParser.isOnline(login_activity)){
+																Log.w("JSONParser", "Subinfi:: Called");
+																jn = jsonParser.makeHttpRequest(login_activity.getResources().getString(R.string.purchase_infi), "POST", params, login_activity);
+																Log.w("JSON returned", "Subinfi:: " + jn);
+																Log.w("trial value", "Subinfi:: " + trial);
+																if(jn != null) break;
+																try{
+																	Thread.sleep(10 * trial);
+																}catch(InterruptedException e){}
+																trial++;
+																if(trial == 50) break;
+															}
+															try{
+																if(jn.getInt("status") == 1){
+																	AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
+																}else{
+																	AccessSharedPrefs.setString(login_activity, "infi_use", "no");
+																}
+															}catch(NullPointerException e){}catch(JSONException e){
+																e.printStackTrace();
+															}
+														}
+													});
+												}
 												Log.w("LoginIn", "sub_infi_chk success!! 2");
 											}else{
-												// TODO
+												AccessSharedPrefs.setString(login_activity, "infi_use", "no");
 											}
-											long t = new Date().getTime();
 											Log.w("LoginIn", "sub_infi_chk success!! 3");
-											ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("validuntil_ts_msec").isGreaterThan(t)), new StackMobQueryCallback<ServerDBSubInfiSync>(){
+											ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 												@Override
 												public void failure(StackMobException arg0){
 													showDialog();
-													Log.w("Login","failure 6");
+													Log.w("Login", "failure 6");
 												}
 
 												@Override
 												public void success(List<ServerDBSubInfiSync> arg0){
 													Log.w("LoginIn", "sub_sync_chk success!!");
-													if(arg0.size() > 0){
-														AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
+													long now = new Date().getTime();
+													if((arg0.size() > 0)){
+														long t = arg0.get(0).getValidUntilTs();
+														int m = 0;
+														for(int i = 1; i < arg0.size(); i++){
+															if(t < arg0.get(i).getValidUntilTs()){
+																t = arg0.get(i).getValidUntilTs();
+																m = i;
+															}
+														}
+														final ServerDBSubInfiSync max = arg0.get(m);
+														if(now < arg0.get(m).getValidUntilTs()){
+															AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
+														}else{
+															ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
+																@Override
+																public void failure(StackMobException arg0){
+																	showDialog();
+																}
+
+																@Override
+																public void success(List<ServerDBAndroidDevices> arg0){
+																	String regids = "";
+																	for(int i = 0; i < arg0.size(); i++){
+																		regids = regids + " " + arg0.get(i).getGcmId();
+																	}
+																	List<NameValuePair> params = new ArrayList<NameValuePair>();
+																	params.add(new BasicNameValuePair("SendToArrays", regids));
+																	params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
+																	JSONObject jo = new JSONObject();
+																	try{
+																		jo.put("orderId", max.getOrderId());
+																		jo.put("Token", max.getToken());
+																		jo.put("Sign", max.getSign());
+																		writeToFile("onPurchase Json: " + jo.toString());
+																	}catch(JSONException e){}
+																	params.add(new BasicNameValuePair("json", jo.toString()));
+																	params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+																	final JSONParser jsonParser = new JSONParser();
+																	int trial = 1;
+																	JSONObject jn = null;
+																	while(jsonParser.isOnline(login_activity)){
+																		Log.w("JSONParser", "SubinfiSync:: Called");
+																		jn = jsonParser.makeHttpRequest(login_activity.getResources().getString(R.string.purchase_infi), "POST", params, login_activity);
+																		Log.w("JSON returned", "SubinfiSync:: " + jn);
+																		Log.w("trial value", "SubinfiSync:: " + trial);
+																		if(jn != null) break;
+																		try{
+																			Thread.sleep(10 * trial);
+																		}catch(InterruptedException e){}
+																		trial++;
+																		if(trial == 50) break;
+																	}
+																	try{
+																		if(jn.getInt("status") == 1){
+																			AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
+																		}else{
+																			AccessSharedPrefs.setString(login_activity, "infi_sync", "no");
+																		}
+																	}catch(NullPointerException e){}catch(JSONException e){
+																		e.printStackTrace();
+																	}
+																}
+															});
+														}
+														Log.w("LoginIn", "sub_infi_chk success!! 2");
 													}else{
-														// TODO
+														AccessSharedPrefs.setString(login_activity, "infi_sync", "no");
 													}
 													ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBCricketMatch>(){
 														@Override
 														public void failure(StackMobException arg0){
 															showDialog();
-															Log.w("Login","failure 9");
+															Log.w("Login", "failure 9");
 														}
 
 														@Override
@@ -324,7 +500,7 @@ public class LogIn extends SherlockActivity{
 																@Override
 																public void failure(StackMobException arg0){
 																	showDialog();
-																	Log.w("Login","failure 7");
+																	Log.w("Login", "failure 7");
 																}
 
 																@Override
@@ -407,8 +583,7 @@ public class LogIn extends SherlockActivity{
 			@Override
 			public void failure(StackMobException arg0){
 				showDialog();
-				Log.w("Login","failure 10");
-				
+				Log.w("Login", "failure 10"+arg0);
 			}
 
 			@Override
@@ -428,7 +603,7 @@ public class LogIn extends SherlockActivity{
 
 						@Override
 						public void failure(StackMobException arg0){
-							Log.w("Login","failure 8");
+							Log.w("Login", "failure 8");
 							showDialog();
 						}
 					});

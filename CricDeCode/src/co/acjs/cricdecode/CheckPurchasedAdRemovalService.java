@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.ads.AdView;
+import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
 import com.stackmob.sdk.callback.StackMobQueryCallback;
@@ -38,11 +39,51 @@ public class CheckPurchasedAdRemovalService extends IntentService {
 		super.onDestroy();
 		Log.w("CheckPurchasedAdRemovalService", "Ended");
 	}
+	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
+		String val=val2+val4+val1+val3;
+		int num = val.length() / 10;
+		char h[][] = new char[num+1][10];
+		int start = 0;
+		int end = 10;
+		for(int i = 0; i < num; i++){
+			String s = val.substring(start, end);
+			h[i] = s.toCharArray();
+			start = end;
+			end = end + 10;
+		}	
+		h[num] = val.substring(start, val.length()).toCharArray();
+		char[][] un = new char[10][num];
+		char s[] = seq.toCharArray();
+		for(int i = 0; i < num; i++){
+			for(int j = 0; j < 10; j++){
+				String n= new String(""+s[j]);
+				int ind = Integer.parseInt(n);
+				un[ind][i] = h[i][j];
+				
+			}
+		}
+		String dec="";
+		for(int i=0;i<10;i++)
+		{
+			String n = new String(un[i]);
+			dec=dec+n;
+		}
+		String ex= new String(h[num]);
+		dec=dec+ex;
+		char[] us=dec.toCharArray();
+		char[] sh=new char[us.length];
+		for(int i=0;i<us.length;i++)
+		{
+			sh[i]= (char)(us[i]-ci);
+		}		
+		return new String(sh);
+	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		AccessSharedPrefs.mPrefs = getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		try {
 			JSONObject jn = new JSONObject(intent.getExtras().getString("json"));
 			orderId = jn.getString("orderId");

@@ -23,6 +23,7 @@
             android:background="@drawable/cards_bg"
             android:onClick="onClick"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_top"
             android:paddingLeft="@dimen/padding_left"
             android:paddingRight="@dimen/padding_right"
             android:paddingTop="@dimen/padding_top" >
@@ -30,7 +31,15 @@
             <TextView
                 android:id="@+id/infi_sync_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="8dp"
+                android:background="@color/faint_grey" />
 
             <TextView
                 android:id="@+id/infi_sync_descr"
@@ -40,7 +49,10 @@
             <TextView
                 android:id="@+id/infi_sync_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,7 +83,15 @@
                 <TextView
                     android:id="@+id/infi_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separator_height_one_dp"
+                    android:layout_margin="8dp"
+                    android:background="@color/faint_grey" />
 
                 <TextView
                     android:id="@+id/infi_descr"
@@ -81,7 +101,10 @@
                 <TextView
                     android:id="@+id/infi_price"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout

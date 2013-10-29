@@ -32,7 +32,7 @@ public class ProfileEditService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		who = this;
-		StackMobAndroid.init(who, 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
+		StackMobAndroid.init(who, 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		Log.w("ProfileEditService", "Started");
 	}
 
@@ -41,9 +41,50 @@ public class ProfileEditService extends IntentService {
 		super.onDestroy();
 		Log.w("ProfileEditService", "Ended");
 	}
+	
+	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
+		String val=val2+val4+val1+val3;
+		int num = val.length() / 10;
+		char h[][] = new char[num+1][10];
+		int start = 0;
+		int end = 10;
+		for(int i = 0; i < num; i++){
+			String s = val.substring(start, end);
+			h[i] = s.toCharArray();
+			start = end;
+			end = end + 10;
+		}	
+		h[num] = val.substring(start, val.length()).toCharArray();
+		char[][] un = new char[10][num];
+		char s[] = seq.toCharArray();
+		for(int i = 0; i < num; i++){
+			for(int j = 0; j < 10; j++){
+				String n= new String(""+s[j]);
+				int ind = Integer.parseInt(n);
+				un[ind][i] = h[i][j];
+				
+			}
+		}
+		String dec="";
+		for(int i=0;i<10;i++)
+		{
+			String n = new String(un[i]);
+			dec=dec+n;
+		}
+		String ex= new String(h[num]);
+		dec=dec+ex;
+		char[] us=dec.toCharArray();
+		char[] sh=new char[us.length];
+		for(int i=0;i<us.length;i++)
+		{
+			sh[i]= (char)(us[i]-ci);
+		}		
+		return new String(sh);
+	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5d00e6","97:4fde","5id74d3f56i","h:06::h8<d0","7295013486", 3));
 		AccessSharedPrefs.mPrefs = getApplicationContext()
 				.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if (AccessSharedPrefs.mPrefs.getString("ProfileEditServiceCalled",

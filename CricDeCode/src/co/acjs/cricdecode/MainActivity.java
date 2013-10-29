@@ -3,8 +3,6 @@ package co.acjs.cricdecode;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,14 +14,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentProviderClient;
@@ -152,14 +147,11 @@ public class MainActivity extends SherlockFragmentActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		// TODO encrypt
-		StackMobAndroid.init(getApplicationContext(), 0, "c52a9f47-baae-41e3-aa63-72177b0c23f7");
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-		// TODO encrypt
-		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7sFvSEgBW48CoI2EnAgRscQOFXEhB7cx76L8aKJvVoIRvs1vaWwLh1FYD8WxxIkxmbtGCxEQonHOEJXi+oy6KVFCvWijINbrX7XLj8XNpBalVt/z7mjU+omimgzDthlDiAC2Zx8xr/Tsxe1twaZfVSIICB8vyI6xCANOlTYGBJx3LwY07N3eeTVCU6kWj7SELS8ZaiPuj83ybkLQe4BSvCYTaUH3It+fZKuJ4RbhDeR2eQ4RNJfHcqI9JKmLiMb8YmYkSid6tt+5jKt3P+zjUfIeslKeVB1LODO4ISuSpgJzb5xH4j2VIh/phyFFLQ3v6gJoo29A/OApP1wFYR9/1wIDAQAB";
-		mHelper = new IabHelper(this, base64EncodedPublicKey);
+	/*	mHelper = new IabHelper(this, decrypt("1:3f2iy33JCK:5M24F[OBLBCPGMoycRn0TEZxB9sFMPwPEZhyYGjBD591Ss8BNqZJX8t0YBcQUTyOdUMP92bvy4RtkDZx","JD8oNSWTkMDBnIJcJFL9CRkPJiiMub9FVFCE0T4LwB,KJfq9QKz8pYkSi[,wJtnjB3zb{W7Gj,OfGjk","VTJfPy9BnGIqlfGfYRZZ4hyUY2O9lSJKnWFuqBT:u{cDixCNj0,cuVCbbJe2g6H78[mJ7x[yDldgWCuJLIyXyWuDuEv5Fk8T0h,BKkR87J{L6R53pBC","pywnpCRGQVJDThzh5MvgSBF{7lSRkJwOhELrO49ftPCuWiKw4t2mXiGlg7zmwU5mDjIhcLbZ9EwHdKlfXHDjX:rpMWxCpBjxJpRCMKJDk","5143079682", 1));
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener(){
 			@Override
 			public void onIabSetupFinished(IabResult result){
@@ -181,7 +173,7 @@ public class MainActivity extends SherlockFragmentActivity{
 								AccessSharedPrefs.setString(main_context, "pur_infi_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
 								AccessSharedPrefs.setString(main_context, "pur_infi_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getDescription());
 								AccessSharedPrefs.setString(main_context, "pur_infi_sync_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
-								AccessSharedPrefs.setString(main_context, "pur_infi_sync_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS ).getDescription());
+								AccessSharedPrefs.setString(main_context, "pur_infi_sync_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getDescription());
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
 										if(result.isFailure()){}else{
@@ -247,7 +239,7 @@ public class MainActivity extends SherlockFragmentActivity{
 					});
 				}
 			}
-		});
+		});*/ 
 		// FB Thing
 		callback = new Session.StatusCallback(){
 			@Override
@@ -1239,7 +1231,21 @@ public class MainActivity extends SherlockFragmentActivity{
 				break;
 			case R.id.pur_subscribe_infi_sync:
 				try{
-					mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC, PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
+					try{
+						((MainActivity)main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									new AlertDialog.Builder(main_context).setTitle("Coming Soon!").setMessage("We are building a robust backup for you. You can avail this feature very soon!").setNeutralButton("OK", new DialogInterface.OnClickListener(){
+										public void onClick(DialogInterface dialog, int which){
+											dialog.dismiss();
+										}
+									}).show();
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
+					
+					//mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC, PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
 				}catch(Exception e){
 					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
 				}
@@ -1994,20 +2000,44 @@ public class MainActivity extends SherlockFragmentActivity{
 		}
 	}
 	
-	public static String decrypt(String key, byte[] encrypted) throws GeneralSecurityException{
-		byte[] raw;
-		try{
-			raw = key.getBytes("UTF8");
-			if(raw.length != 16){ throw new IllegalArgumentException("Invalid key size."); }
-			SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-			cipher.init(Cipher.DECRYPT_MODE, skeySpec, new IvParameterSpec(new byte[16]));
-			byte[] original = cipher.doFinal(encrypted);
-			return new String(original, "UTF8");
-		}catch(UnsupportedEncodingException e){
-			e.printStackTrace();
+	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
+		String val=val2+val4+val1+val3;
+		int num = val.length() / 10;
+		char h[][] = new char[num+1][10];
+		int start = 0;
+		int end = 10;
+		for(int i = 0; i < num; i++){
+			String s = val.substring(start, end);
+			h[i] = s.toCharArray();
+			start = end;
+			end = end + 10;
+		}	
+		h[num] = val.substring(start, val.length()).toCharArray();
+		char[][] un = new char[10][num];
+		char s[] = seq.toCharArray();
+		for(int i = 0; i < num; i++){
+			for(int j = 0; j < 10; j++){
+				String n= new String(""+s[j]);
+				int ind = Integer.parseInt(n);
+				un[ind][i] = h[i][j];
+				
+			}
 		}
-		return null;
+		String dec="";
+		for(int i=0;i<10;i++)
+		{
+			String n = new String(un[i]);
+			dec=dec+n;
+		}
+		String ex= new String(h[num]);
+		dec=dec+ex;
+		char[] us=dec.toCharArray();
+		char[] sh=new char[us.length];
+		for(int i=0;i<us.length;i++)
+		{
+			sh[i]= (char)(us[i]-ci);
+		}		
+		return new String(sh);
 	}
 
 	public Boolean isOnline(Context cont){
