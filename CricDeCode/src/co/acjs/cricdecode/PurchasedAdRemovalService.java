@@ -35,14 +35,14 @@ public class PurchasedAdRemovalService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("PurchasedAdRemovalService", "Started");
-		writeToFile("PurchasedAdRemovalService Started");
+		writeToFile("PurAdRemovalService Started");
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
 		Log.w("PurchasedAdRemovalService", "Ended");
-		writeToFile("PurchasedAdRemovalService Ended");
+		writeToFile("PurAdRemovalService Ended");
 	}
 	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
 		String val=val2+val4+val1+val3;
@@ -89,14 +89,17 @@ public class PurchasedAdRemovalService extends IntentService{
 		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if(AccessSharedPrefs.mPrefs.getString("PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+			
+			writeToFile("PurAdRemovalService android devices calling");
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
 				public void failure(StackMobException arg0){
-					// TODO Auto-generated method stub
+					writeToFile("PurAdRemovalService android devices failure "+arg0);
 				}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
+					writeToFile("PurAdRemovalService android devices success ");
 					String regids = "";
 					for(int i = 0; i < arg0.size(); i++){
 						regids = regids + " " + arg0.get(i).getGcmId();
@@ -108,13 +111,14 @@ public class PurchasedAdRemovalService extends IntentService{
 					params.add(new BasicNameValuePair("SendToArrays", regids));
 					params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_ad_data", "")));
 					Log.w("Sending User Data...", "PurchaseAdRemovalServiceCalled:" + jsonParser.isOnline(con));
-					writeToFile("Sending User Data...PurchaseAdRemovalServiceCalled:");
+					writeToFile("PurAdRemovalService http");
 					int trial = 1;
 					JSONObject jn = null;
 					while(jsonParser.isOnline(con)){
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_remove_ads_sync), "POST", params, con);
 						Log.w("JSON returned", "PurchasedAdRemovalService: " + jn);
 						Log.w("trial value", "PurchasedAdRemovalService: " + trial);
+						writeToFile("PurAdRemovalService "+jn+" "+trial);
 						if(jn != null) break;
 						try{
 							Thread.sleep(10 * trial);
@@ -123,19 +127,27 @@ public class PurchasedAdRemovalService extends IntentService{
 					}
 					try{
 						Log.w("PurchaseAdRemovalServiceCalled", "Reply" + jn);
-						writeToFile("PurchaseAdRemovalServiceCalled Reply " + jn.toString());
+						writeToFile("PurAdRemovalService Reply " + jn.toString());
 						if(jn.getInt("status") == 1){
-							AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+							Log.w("PurAdRemoval", "Reply" + jn);
+							writeToFile("PurAdRemovalService mark does not 1");
+							AccessSharedPrefs.setString(con, "PurAdRemovalService", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_ad_data", "");
+							AccessSharedPrefs.setString(con, "ad_free", "yes");
 						}
 						if(jn.getInt("status") == 0)
 						{
+							writeToFile("PurAdRemovalService mark does not 0");
 							AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_ad_data", "");
+							AccessSharedPrefs.setString(con, "ad_free", "no");
 						}
-					}catch(Exception e){}
+					}catch(Exception e){
+						writeToFile("PurAdRemoval jsonexcption");
+					}
 				}
 			});
+			writeToFile("PurAdRemoval towards end");
 		}
 	}
 
@@ -145,9 +157,9 @@ public class PurchasedAdRemovalService extends IntentService{
 			if(!root.exists()){
 				root.mkdirs();
 			}
-			File gpxfile = new File(root, "debug.txt");
+			File gpxfile = new File(root, "purchase.txt");
 			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data);
+			writer.write(data + "\n");
 			writer.flush();
 			writer.close();
 		}catch(IOException e){

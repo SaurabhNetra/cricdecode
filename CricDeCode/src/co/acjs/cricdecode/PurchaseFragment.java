@@ -40,8 +40,12 @@ public class PurchaseFragment extends SherlockFragment {
 				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_price", ""));
 		((TextView) view.findViewById(R.id.infi_sync_title))
 				.setText("Unlimited Matches with Sync");
+		//((TextView) view.findViewById(R.id.infi_sync_descr))
+		//		.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));
 		((TextView) view.findViewById(R.id.infi_sync_descr))
-				.setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));
+			.setText("A robust and secure cloud backup for your data");
+		((TextView) view.findViewById(R.id.infi_sync_descr1))
+		.setText("Coming Very Soon!");
 	}
 
 	@Override

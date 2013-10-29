@@ -89,14 +89,17 @@ public class PurchasedInfiService extends IntentService{
 		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if(AccessSharedPrefs.mPrefs.getString("PurchasedInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+			
+			writeToFile("PurchasedInfiService android devices calling");
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
 				public void failure(StackMobException arg0){
-				
+					writeToFile("PurchasedInfiService android devices failure "+arg0);
 				}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
+					writeToFile("PurchasedInfiService android devices success ");
 					final JSONParser jsonParser = new JSONParser();
 					List<NameValuePair> params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -112,9 +115,11 @@ public class PurchasedInfiService extends IntentService{
 					int trial = 1;
 					JSONObject jn = null;
 					while(jsonParser.isOnline(con)){
+						writeToFile("PurchasedInfiService http");
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi), "POST", params, con);
 						Log.w("JSON returned", "PurchasedInfiServiceService: " + jn);
 						Log.w("trial value", "PurchasedInfiServiceService: " + trial);
+						writeToFile("PurchasedInfiService "+jn+ " "+trial);
 						if(jn != null) break;
 						try{
 							Thread.sleep(10 * trial);
@@ -124,12 +129,14 @@ public class PurchasedInfiService extends IntentService{
 					try{
 						writeToFile("PurchasedInfiService Reply");
 						if(jn.getInt("status") == 1){
+							writeToFile("PurchasedInfiService mark yes");
 							AccessSharedPrefs.setString(con, "PurchasedInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_data", "");
 							AccessSharedPrefs.setString(con, "infi_use", "yes");
 						}
 						if(jn.getInt("status") == 0)
 						{
+							writeToFile("PurchasedInfiService mark no");
 							AccessSharedPrefs.setString(con, "PurchasedInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_data", "");
 							AccessSharedPrefs.setString(con, "infi_use", "no");
@@ -137,6 +144,7 @@ public class PurchasedInfiService extends IntentService{
 					}catch(Exception e){}
 				}
 			});
+			writeToFile("PurchasedInfiService towards end");
 		}
 	}
 

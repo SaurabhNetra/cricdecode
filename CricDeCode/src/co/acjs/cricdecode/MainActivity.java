@@ -151,23 +151,27 @@ public class MainActivity extends SherlockFragmentActivity{
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-	/*	mHelper = new IabHelper(this, decrypt("1:3f2iy33JCK:5M24F[OBLBCPGMoycRn0TEZxB9sFMPwPEZhyYGjBD591Ss8BNqZJX8t0YBcQUTyOdUMP92bvy4RtkDZx","JD8oNSWTkMDBnIJcJFL9CRkPJiiMub9FVFCE0T4LwB,KJfq9QKz8pYkSi[,wJtnjB3zb{W7Gj,OfGjk","VTJfPy9BnGIqlfGfYRZZ4hyUY2O9lSJKnWFuqBT:u{cDixCNj0,cuVCbbJe2g6H78[mJ7x[yDldgWCuJLIyXyWuDuEv5Fk8T0h,BKkR87J{L6R53pBC","pywnpCRGQVJDThzh5MvgSBF{7lSRkJwOhELrO49ftPCuWiKw4t2mXiGlg7zmwU5mDjIhcLbZ9EwHdKlfXHDjX:rpMWxCpBjxJpRCMKJDk","5143079682", 1));
+		mHelper = new IabHelper(this, decrypt("1:3f2iy33JCK:5M24F[OBLBCPGMoycRn0TEZxB9sFMPwPEZhyYGjBD591Ss8BNqZJX8t0YBcQUTyOdUMP92bvy4RtkDZx","JD8oNSWTkMDBnIJcJFL9CRkPJiiMub9FVFCE0T4LwB,KJfq9QKz8pYkSi[,wJtnjB3zb{W7Gj,OfGjk","VTJfPy9BnGIqlfGfYRZZ4hyUY2O9lSJKnWFuqBT:u{cDixCNj0,cuVCbbJe2g6H78[mJ7x[yDldgWCuJLIyXyWuDuEv5Fk8T0h,BKkR87J{L6R53pBC","pywnpCRGQVJDThzh5MvgSBF{7lSRkJwOhELrO49ftPCuWiKw4t2mXiGlg7zmwU5mDjIhcLbZ9EwHdKlfXHDjX:rpMWxCpBjxJpRCMKJDk","5143079682", 1));
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener(){
 			@Override
 			public void onIabSetupFinished(IabResult result){
 				if(!result.isSuccess()){
 					Log.d("Billing", "Problem setting up In-app Billing: " + result);
+					writeToFile("Problem setting up In-app Billing: " + result);
 				}else{
 					Log.d("Billing", "In-app Billing set up: " + result);
+					writeToFile("In-app Billing set up: " + result);
 					ArrayList<String> additionalSkuList = new ArrayList<String>();
 					additionalSkuList.add(MainActivity.SKU_REMOVE_ADS);
 					MainActivity.mHelper.queryInventoryAsync(true, additionalSkuList, new IabHelper.QueryInventoryFinishedListener(){
 						@Override
 						public void onQueryInventoryFinished(IabResult result, Inventory inv){
 							Log.w("onQueryInventoryFinished", "Result: " + result + "Inventory: " + inv);
+							writeToFile("onQueryInventoryFinished "+ "Result: " + result + "Inventory: " + inv);
 							if(result.isFailure()){
 								return;
 							}else{
+								writeToFile("Setting Sharedprefs with SKU");
 								AccessSharedPrefs.setString(main_context, "pur_remove_adds_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
 								AccessSharedPrefs.setString(main_context, "pur_remove_adds_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getDescription());
 								AccessSharedPrefs.setString(main_context, "pur_infi_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
@@ -184,9 +188,11 @@ public class MainActivity extends SherlockFragmentActivity{
 														if(isOnline(MainActivity.main_context)){
 															JSONObject jo = new JSONObject();
 															try{
+																
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
+																writeToFile("Calling Chk Ad Removal Service "+jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -205,6 +211,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
+																writeToFile("Calling Chk Infi "+jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -223,6 +230,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
+																writeToFile("Calling Chk InfiSync"+jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -239,7 +247,7 @@ public class MainActivity extends SherlockFragmentActivity{
 					});
 				}
 			}
-		});*/ 
+		});
 		// FB Thing
 		callback = new Session.StatusCallback(){
 			@Override
@@ -256,7 +264,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				Log.w("MainActivity", "Purchase Test: on purchase listener 1");
 				if(result.isFailure()){
 					Log.w("onPurchase", "Error purchasing: " + result);
-					writeToFile("onPurchase Error purchasing: " + result);
+					writeToFile("onPurchaseFinishedListener: Error purchasing: " + result);
 					return;
 				}else if((purchase.getPurchaseState() == 0) & (getMD5().equals(purchase.getDeveloperPayload()))){
 					JSONObject jo = new JSONObject();
@@ -264,32 +272,32 @@ public class MainActivity extends SherlockFragmentActivity{
 						jo.put("orderId", purchase.getOrderId());
 						jo.put("Token", purchase.getToken());
 						jo.put("Sign", purchase.getSignature());
-						writeToFile("onPurchase Json: " + jo.toString());
+						writeToFile("onPurchaseFinishedListener: "+jo.toString());
 					}catch(JSONException e){}
 					Intent intent = null;
 					if(purchase.getSku().equals(SKU_REMOVE_ADS)){
 						Log.w("MainActivity", "Purchase Test: on purchase remove ads");
-						writeToFile("MainActivity Purchase Test: on purchase remove ads");
+						writeToFile("onPurchaseFinishedListener: remove ads");
 						AccessSharedPrefs.setString(main_context, "PurchaseAdRemovalServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						AccessSharedPrefs.setString(main_context, "pur_ad_data", jo.toString());
 						AccessSharedPrefs.setString(main_context, "ad_free", "yes");
 						intent = new Intent(main_context, PurchasedAdRemovalService.class);
 						findViewById(R.id.adView).setVisibility(View.GONE);
 					}else if(purchase.getSku().equals(SKU_SUB_INFI)){
-						writeToFile("MainActivity Purchase Test: on purchase sub infi");
+						writeToFile("onPurchaseFinishedListener: infi");
 						AccessSharedPrefs.setString(main_context, "PurchaseInfiServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						AccessSharedPrefs.setString(main_context, "pur_infi_data", jo.toString());
 						AccessSharedPrefs.setString(main_context, "infi_use", "yes");
 						intent = new Intent(main_context, PurchasedInfiService.class);
 					}else if(purchase.getSku().equals(SKU_SUB_INFI_SYNC)){
-						writeToFile("MainActivity Purchase Test: on purchase sub infi sync");
+						writeToFile("onPurchaseFinishedListener: infi sync");
 						AccessSharedPrefs.setString(main_context, "PurchaseInfiSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						AccessSharedPrefs.setString(main_context, "pur_infi_sync_data", jo.toString());
 						AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
 						intent = new Intent(main_context, PurchasedInfiSyncService.class);
 					}
 					Log.w("MainActivity", "Purchase Test: on purchase listener starting service");
-					writeToFile("MainActivity Purchase Test: on purchase listener starting service");
+					writeToFile("onPurchaseFinishedListener: starting service");
 					main_context.startService(intent);
 				}
 			}
@@ -1217,6 +1225,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				break;
 			case R.id.pur_remove_ads:
 				try{
+				 writeToFile("onclick remove ads");
 					mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
 				}catch(Exception e){
 					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
@@ -1224,6 +1233,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				break;
 			case R.id.pur_subscribe_infi:
 				try{
+					writeToFile("onclick infi");
 					mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI, PURCHASE_INFI, mPurchaseFinishedListener, getMD5());
 				}catch(Exception e){
 					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
@@ -1231,11 +1241,12 @@ public class MainActivity extends SherlockFragmentActivity{
 				break;
 			case R.id.pur_subscribe_infi_sync:
 				try{
+					writeToFile("onclick infi sync");
 					try{
 						((MainActivity)main_context).runOnUiThread(new Runnable(){
 							public void run(){
 								try{
-									new AlertDialog.Builder(main_context).setTitle("Coming Soon!").setMessage("We are building a robust backup for you. You can avail this feature very soon!").setNeutralButton("OK", new DialogInterface.OnClickListener(){
+									new AlertDialog.Builder(main_context).setTitle("Coming Soon!").setMessage("We are working on a robust cloud backup for you. You can avail this feature very soon!").setNeutralButton("OK", new DialogInterface.OnClickListener(){
 										public void onClick(DialogInterface dialog, int which){
 											dialog.dismiss();
 										}
@@ -1990,7 +2001,7 @@ public class MainActivity extends SherlockFragmentActivity{
 			if(!root.exists()){
 				root.mkdirs();
 			}
-			File gpxfile = new File(root, "debug.txt");
+			File gpxfile = new File(root, "purchase.txt");
 			FileWriter writer = new FileWriter(gpxfile, true);
 			writer.write(data + "\n");
 			writer.flush();

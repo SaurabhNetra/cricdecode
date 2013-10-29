@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +15,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -25,7 +29,7 @@ public class CheckPurchaseInfiService extends IntentService{
 	public static boolean	started	= true;
 	public static Context	who;
 	public String			orderId, token, sign;
-	public JSONObject jn;
+	public JSONObject		jn;
 
 	public CheckPurchaseInfiService(){
 		super("CheckPurchaseInfiService");
@@ -35,16 +39,35 @@ public class CheckPurchaseInfiService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		who = this;
+		writeToFile("chkInfi service started");
+	}
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "purchase.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		writeToFile("chkInfi service ended");
 	}
-	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
-		String val=val2+val4+val1+val3;
+
+	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
+		String val = val2 + val4 + val1 + val3;
 		int num = val.length() / 10;
-		char h[][] = new char[num+1][10];
+		char h[][] = new char[num + 1][10];
 		int start = 0;
 		int end = 10;
 		for(int i = 0; i < num; i++){
@@ -52,78 +75,86 @@ public class CheckPurchaseInfiService extends IntentService{
 			h[i] = s.toCharArray();
 			start = end;
 			end = end + 10;
-		}	
+		}
 		h[num] = val.substring(start, val.length()).toCharArray();
 		char[][] un = new char[10][num];
 		char s[] = seq.toCharArray();
 		for(int i = 0; i < num; i++){
 			for(int j = 0; j < 10; j++){
-				String n= new String(""+s[j]);
+				String n = new String("" + s[j]);
 				int ind = Integer.parseInt(n);
 				un[ind][i] = h[i][j];
-				
 			}
 		}
-		String dec="";
-		for(int i=0;i<10;i++)
-		{
+		String dec = "";
+		for(int i = 0; i < 10; i++){
 			String n = new String(un[i]);
-			dec=dec+n;
+			dec = dec + n;
 		}
-		String ex= new String(h[num]);
-		dec=dec+ex;
-		char[] us=dec.toCharArray();
-		char[] sh=new char[us.length];
-		for(int i=0;i<us.length;i++)
-		{
-			sh[i]= (char)(us[i]-ci);
-		}		
+		String ex = new String(h[num]);
+		dec = dec + ex;
+		char[] us = dec.toCharArray();
+		char[] sh = new char[us.length];
+		for(int i = 0; i < us.length; i++){
+			sh[i] = (char)(us[i] - ci);
+		}
 		return new String(sh);
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
-		jn=null;
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
+		jn = null;
 		try{
-			jn = new JSONObject(intent.getExtras().getString("json"));			
+			jn = new JSONObject(intent.getExtras().getString("json"));
 		}catch(JSONException e1){
 			e1.printStackTrace();
 		}
+		writeToFile("chkInfiService stackmob calling");
 		ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfi>(){
 			@Override
-			public void failure(StackMobException arg0){}
+			public void failure(StackMobException arg0){
+				writeToFile("chkInfiService failure " + arg0);
+			}
 
 			@Override
 			public void success(List<ServerDBSubInfi> arg0){
+				writeToFile("chkInfiService success " + arg0.size());
 				long now = new Date().getTime();
 				if((arg0.size() > 0)){
 					long t = arg0.get(0).getValidUntilTs();
+					writeToFile("chkInfiService success now " + now);
 					int m = 0;
 					for(int i = 1; i < arg0.size(); i++){
+						writeToFile("chkInfiService success loop " + i);
 						if(t < arg0.get(i).getValidUntilTs()){
 							t = arg0.get(i).getValidUntilTs();
 							m = i;
 						}
 					}
+					writeToFile("chkInfiService max valid " + arg0.get(m).getValidUntilTs());
 					if(now < arg0.get(m).getValidUntilTs()){
 						AccessSharedPrefs.setString(who, "infi_use", "yes");
+						writeToFile("chkInfiService mark yes ");
 					}else{
+						writeToFile("chkInfiService calling androiddevices");
 						ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 							@Override
 							public void failure(StackMobException arg0){
+								writeToFile("chkInfiService androiddevices failure "+arg0);
 							}
 
 							@Override
 							public void success(List<ServerDBAndroidDevices> arg0){
+								writeToFile("chkInfiService androiddevices success "+arg0.size());
 								String regids = "";
 								for(int i = 0; i < arg0.size(); i++){
 									regids = regids + " " + arg0.get(i).getGcmId();
 								}
 								List<NameValuePair> params = new ArrayList<NameValuePair>();
 								params.add(new BasicNameValuePair("SendToArrays", regids));
-								params.add(new BasicNameValuePair("product_id", "sub_infi"));							
+								params.add(new BasicNameValuePair("product_id", "sub_infi"));
 								params.add(new BasicNameValuePair("json", jn.toString()));
 								params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
 								final JSONParser jsonParser = new JSONParser();
@@ -131,9 +162,11 @@ public class CheckPurchaseInfiService extends IntentService{
 								JSONObject jn = null;
 								while(jsonParser.isOnline(who)){
 									Log.w("JSONParser", "Subinfi:: Called");
+									writeToFile("chkInfiService http");
 									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
 									Log.w("JSON returned", "Subinfi:: " + jn);
 									Log.w("trial value", "Subinfi:: " + trial);
+									writeToFile("chkInfiService "+jn+" "+trial);
 									if(jn != null) break;
 									try{
 										Thread.sleep(10 * trial);
@@ -143,8 +176,10 @@ public class CheckPurchaseInfiService extends IntentService{
 								}
 								try{
 									if(jn.getInt("status") == 1){
+										writeToFile("chkInfiService mark yes");
 										AccessSharedPrefs.setString(who, "infi_use", "yes");
 									}else{
+										writeToFile("chkInfiService mark no");
 										AccessSharedPrefs.setString(who, "infi_use", "no");
 									}
 								}catch(NullPointerException e){}catch(JSONException e){
@@ -156,10 +191,12 @@ public class CheckPurchaseInfiService extends IntentService{
 					Log.w("LoginIn", "sub_infi_chk success!! 2");
 				}else{
 					AccessSharedPrefs.setString(who, "infi_use", "no");
+					writeToFile("chkInfiService mark no");
 				}
 			}
 		});
 		/*
 		 * final JSONParser jsonParser = new JSONParser(); List<NameValuePair> params = new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs .getString("id", ""))); params.add(new BasicNameValuePair("json", intent.getExtras().getString( "json"))); JSONObject jn = null; jn = jsonParser.makeHttpRequest( getResources().getString(R.string.check_purchase_infi_use), "POST", params, this); try { if (jn.getInt("status") == 1) { AccessSharedPrefs.setString(this, "infi_use", "no"); } } catch (Exception e) { } */
+		writeToFile("chkInfiService towards end");
 	}
 }

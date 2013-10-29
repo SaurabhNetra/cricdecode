@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import org.json.JSONException;
@@ -8,6 +11,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
@@ -26,18 +30,37 @@ public class CheckPurchasedAdRemovalService extends IntentService {
 	public CheckPurchasedAdRemovalService() {
 		super("CheckPurchasedAdRemovalService");
 	}
+	
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "purchase.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		who = this;
 		Log.w("CheckPurchasedAdRemovalService", "Started");
+		writeToFile("chkAdRemoval service started");
+		
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.w("CheckPurchasedAdRemovalService", "Ended");
+		writeToFile("chkAdRemoval service ended");
 	}
 	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
 		String val=val2+val4+val1+val3;
@@ -89,9 +112,11 @@ public class CheckPurchasedAdRemovalService extends IntentService {
 			orderId = jn.getString("orderId");
 			token = jn.getString("Token");
 			sign = jn.getString("Sign");
+			writeToFile("chkAdRemoval service "+jn.toString());
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
+		writeToFile("chkAdRemoval service calling stackmob");
 		ServerDBRemoveAds
 				.query(ServerDBRemoveAds.class,
 						new StackMobQuery()
@@ -108,13 +133,16 @@ public class CheckPurchasedAdRemovalService extends IntentService {
 
 							@Override
 							public void failure(StackMobException arg0) {
+								writeToFile("chkAdRemovalservice failure"+arg0);
 							}
 
 							@Override
 							public void success(List<ServerDBRemoveAds> arg0) {
+								writeToFile("chkAdRemovalservice success "+arg0.size());
 								if (arg0.size() == 0) {
 									AccessSharedPrefs.setString(who, "ad_free",
 											"no");
+									writeToFile("chkAdRemovalservice mark no");
 									try {
 										((MainActivity) MainActivity.main_context)
 												.runOnUiThread(new Runnable() {
@@ -123,16 +151,20 @@ public class CheckPurchasedAdRemovalService extends IntentService {
 															final AdView adView = (AdView) ((MainActivity) MainActivity.main_context)
 																	.findViewById(R.id.adView);
 															adView.setVisibility(View.VISIBLE);
+															writeToFile("chkAdRemovalservice make visible");
 														} catch (Exception e) {
+															writeToFile("chkAdRemovalservice make visible catch");
 														}
 													}
 												});
 									} catch (Exception e) {
+										writeToFile("chkAdRemovalservice outer catch");
 									}
 
 								} else {
 									AccessSharedPrefs.setString(who, "ad_free",
 											"yes");
+									writeToFile("chkAdRemovalservice mark yes");
 									try {
 										((MainActivity) MainActivity.main_context)
 												.runOnUiThread(new Runnable() {
@@ -142,15 +174,18 @@ public class CheckPurchasedAdRemovalService extends IntentService {
 																	.findViewById(R.id.adView);
 															adView.setVisibility(View.GONE);
 														} catch (Exception e) {
+															writeToFile("chkAdRemovalservice make gone");
 														}
 													}
 												});
 									} catch (Exception e) {
+										writeToFile("chkAdRemovalservice outer catch2");
 									}
 								}
 
 							}
 						});
+		writeToFile("chkAdRemoval service towards end");
 		/*
 		 * final JSONParser jsonParser = new JSONParser(); List<NameValuePair>
 		 * params = new ArrayList<NameValuePair>(); params.add(new

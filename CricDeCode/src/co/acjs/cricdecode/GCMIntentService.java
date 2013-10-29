@@ -45,7 +45,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 				root.mkdirs();
 			}
 			File gpxfile = new File(root, "gcm.txt");
-			FileWriter writer = new FileWriter(gpxfile);
+			FileWriter writer = new FileWriter(gpxfile, true);
 			writer.write(data);
 			writer.flush();
 			writer.close();
