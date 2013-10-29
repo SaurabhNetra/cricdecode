@@ -3,7 +3,7 @@
     package="co.acjs.cricdecode"
     android:installLocation="preferExternal"
     android:versionCode="1"
-    android:versionName="d.1" >
+    android:versionName="d.2" >
 
     <permission
         android:name="co.acjs.cricdecode.permission.C2D_MESSAGE"
