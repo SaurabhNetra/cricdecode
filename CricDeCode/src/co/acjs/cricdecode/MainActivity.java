@@ -163,6 +163,8 @@ public class MainActivity extends SherlockFragmentActivity{
 					writeToFile("In-app Billing set up: " + result);
 					ArrayList<String> additionalSkuList = new ArrayList<String>();
 					additionalSkuList.add(MainActivity.SKU_REMOVE_ADS);
+					additionalSkuList.add(MainActivity.SKU_SUB_INFI);
+					additionalSkuList.add(MainActivity.SKU_SUB_INFI_SYNC);
 					MainActivity.mHelper.queryInventoryAsync(true, additionalSkuList, new IabHelper.QueryInventoryFinishedListener(){
 						@Override
 						public void onQueryInventoryFinished(IabResult result, Inventory inv){
