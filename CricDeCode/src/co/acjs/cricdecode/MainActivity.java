@@ -174,10 +174,10 @@ public class MainActivity extends SherlockFragmentActivity{
 								writeToFile("Setting Sharedprefs with SKU");
 								AccessSharedPrefs.setString(main_context, "pur_remove_adds_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
 								AccessSharedPrefs.setString(main_context, "pur_remove_adds_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getDescription());
-								AccessSharedPrefs.setString(main_context, "pur_infi_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
-								AccessSharedPrefs.setString(main_context, "pur_infi_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getDescription());
-								AccessSharedPrefs.setString(main_context, "pur_infi_sync_price", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getPrice());
-								AccessSharedPrefs.setString(main_context, "pur_infi_sync_descr", inv.getSkuDetails(MainActivity.SKU_REMOVE_ADS).getDescription());
+								AccessSharedPrefs.setString(main_context, "pur_infi_price", inv.getSkuDetails(MainActivity.SKU_SUB_INFI).getPrice());
+								AccessSharedPrefs.setString(main_context, "pur_infi_descr", inv.getSkuDetails(MainActivity.SKU_SUB_INFI).getDescription());
+								AccessSharedPrefs.setString(main_context, "pur_infi_sync_price", inv.getSkuDetails(MainActivity.SKU_SUB_INFI_SYNC).getPrice());
+								AccessSharedPrefs.setString(main_context, "pur_infi_sync_descr", inv.getSkuDetails(MainActivity.SKU_SUB_INFI_SYNC).getDescription());
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
 										if(result.isFailure()){}else{

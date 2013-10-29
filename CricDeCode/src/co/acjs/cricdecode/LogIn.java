@@ -94,7 +94,7 @@ public class LogIn extends SherlockActivity{
 								Log.w("Face Book Login Complete 1", "LogIn: " + user.getBirthday());
 								writeToFile("Face Book Login Complete");
 								LogIn.user = user;
-								progressText.setText("Phase 1...");
+								progressText.setText("Phase 1 of 3...");
 								GCMRegistration();
 							}
 						}
@@ -150,7 +150,7 @@ public class LogIn extends SherlockActivity{
 							if(user != null){
 								Log.w("Face Book Login Complete 2", "LogIn: " + user.getBirthday());
 								LogIn.user = user;
-								progressText.setText("Phase 1...");
+								progressText.setText("Phase 1 of 3...");
 								GCMRegistration();
 							}
 						}
@@ -212,7 +212,7 @@ public class LogIn extends SherlockActivity{
 	
 	void GCMRegistration(){
 		writeToFile("GCMRegistration");
-		progressText.setText("Phase 2...");
+		progressText.setText("Phase 2 of 3...");
 		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
 		client = getContentResolver().acquireContentProviderClient(CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider)client.getLocalContentProvider()).getDbHelper().getReadableDatabase();
@@ -571,7 +571,7 @@ public class LogIn extends SherlockActivity{
 	static void startApp(final String gcm_reg_id){
 		Log.w("Start App", "called");
 		writeToFile("Inside StartApp");
-		progressText.setText("Phase 3...");
+		progressText.setText("Phase 3 of 3...");
 		Log.w("Start App", "else ");
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
 		AccessSharedPrefs.setString(login_activity, "f_name", user.getFirstName());
