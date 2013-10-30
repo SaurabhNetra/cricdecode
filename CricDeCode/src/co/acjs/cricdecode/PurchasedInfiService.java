@@ -114,8 +114,9 @@ public class PurchasedInfiService extends IntentService{
 					writeToFile("Sending User Data...ProfileEditService:");
 					int trial = 1;
 					JSONObject jn = null;
+					writeToFile("PurchasedInfiService http to "+getResources().getString(R.string.purchase_infi));
 					while(jsonParser.isOnline(con)){
-						writeToFile("PurchasedInfiService http");
+						
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi), "POST", params, con);
 						Log.w("JSON returned", "PurchasedInfiServiceService: " + jn);
 						Log.w("trial value", "PurchasedInfiServiceService: " + trial);

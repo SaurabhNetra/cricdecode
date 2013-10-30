@@ -14,12 +14,12 @@
     <string name="edit_profile_sync">http://www.cdc.acjs.co/sync/upload_profiledata.php</string>
     <string name="match_create_sync">http://cdc.acjs.co/sync/upload_matchcreate.php</string>
     <string name="match_delete">http://cdc.acjs.co/sync/delete_match.php</string>
-     --> <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
+     <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
     <string name="purchase_infi_sync">http://cdc.acjs.co/sync/uPinfi.php</string>
     <string name="purchase_infi">http://cdc.acjs.co/sync/uPinfiSync.php</string>
     <string name="check_purchase_remove_ads">http://cdc.acjs.co/sync/chkPurchaseRemoveAds.php</string>
     <string name="check_purchase_infi_use">http://cdc.acjs.co/sync/chkPurchaseInfiUse.php</string>
-    <string name="check_purchase_infi_sync">http://cdc.acjs.co/sync/chkPurchaseInfiSync.php</string>
+    <string name="check_purchase_infi_sync">http://cdc.acjs.co/sync/chkPurchaseInfiSync.php</string> -->
 
     <string name="edit_profile_sync">http://acjs.azurewebsites.net/acjs/CDCgcm.php</string>
     <string name="purchase_remove_ads_sync">http://acjs.azurewebsites.net/acjs/CDCInAppPurchase.php</string>

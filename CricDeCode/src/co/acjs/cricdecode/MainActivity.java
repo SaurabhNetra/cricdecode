@@ -151,7 +151,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-		mHelper = new IabHelper(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlQvyVjZFeOcMHpmA/HEpX4Me/D9NfJUfW9dfdk83AORPtjFeK/6gZANGaKRTvJ2b5fdwAG6Df3n43QGJ17ppzwrbbpfrVCZh++NP3v5BI52p5sdKK73ojIX1OJ3enCQ219B3OT9Cg8TIMdrA2ycOGkwtZ1gYc6Gl8MptRjqALR/fEir0mHrsFOE8QkngOId3IJdOBcDX/1JJzWw6GBoXtPI0XMX7vv2MQkySGUEeGADtuYaVbZTdyX3i+DKrreBd63mZzUKhAOS73/t2ecEoefnfjs9utvfY7Sk1Ql93UID6gkgTL7qxl27u4RYrOxnoi1sGNNr+bJ3VX/Eh8pT49wIDAQAB");
+		mHelper = new IabHelper(this, decrypt("C,sCZBgBPDBE,p8OF0U[RLcYTHjI:iFsKulbsFD,Gs4Q2L1qh,BfWJRSnY9OBCY1mUI5UQPe0Y:wsNJ4", "uDL4NVye4e[B8oJFm40g2R45Jf3JuehFp4CH8K3lZBkRJBvef9dmJ","D7FN4KtfNwB4iYV3G0e6Rn98JcPEsC9[qwE6F:BJB{Uw7g9O36NV53heRgz3JL:NlxlKdqJixRhBoVP6CBJlUHhgHtDPEzM7PXlehTBT8EJ:xLL8RHrgBC","HkE5Pd47RYKBuSCFBHw22OvZdpPmzP8CZsEfS9WKqhbPYgQNk4qlWy0ouq[f{rco2gkuGoxi[pKkGSfDslUjKtfkPRcje2{:Lrd3cHztXv0BN2q:YHxu7MI:gx4O7whSqCs1jOHg[0n4W", "5143079682", 1));
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener(){
 			@Override
 			public void onIabSetupFinished(IabResult result){

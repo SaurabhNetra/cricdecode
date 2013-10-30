@@ -140,7 +140,7 @@ public class CheckPurchaseInfiSync extends IntentService{
 								JSONObject jn = null;
 								while(jsonParser.isOnline(who)){
 									Log.w("JSONParser", "SubinfiSync:: Called");
-									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
+									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi_sync), "POST", params, who);
 									Log.w("JSON returned", "SubinfiSync:: " + jn);
 									Log.w("trial value", "SubinfiSync:: " + trial);
 									if(jn != null) break;
