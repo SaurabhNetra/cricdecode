@@ -36,6 +36,7 @@ public class PurchasedInfiService extends IntentService{
 		super.onCreate();
 		Log.w("PurchasedInfiService", "Started");
 		writeToFile("PurchasedInfiService Started");
+		con=this;
 	}
 
 	@Override

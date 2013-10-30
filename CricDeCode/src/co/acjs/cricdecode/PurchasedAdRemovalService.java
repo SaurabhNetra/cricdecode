@@ -36,6 +36,7 @@ public class PurchasedAdRemovalService extends IntentService{
 		super.onCreate();
 		Log.w("PurchasedAdRemovalService", "Started");
 		writeToFile("PurAdRemovalService Started");
+		con=this;
 	}
 
 	@Override
