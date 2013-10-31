@@ -258,6 +258,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				onSessionStateChange(session, state, exception);
 			}
 		};
+		writeToFile("Testing Purchase Service...");
 		try{
 			JSONObject jo = new JSONObject();
 			jo.put("orderId", "12999763169054705758.1398666396207159");
