@@ -147,11 +147,11 @@ public class MainActivity extends SherlockFragmentActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-		mHelper = new IabHelper(this, decrypt("C,sCZBgBPDBE,p8OF0U[RLcYTHjI:iFsKulbsFD,Gs4Q2L1qh,BfWJRSnY9OBCY1mUI5UQPe0Y:wsNJ4", "uDL4NVye4e[B8oJFm40g2R45Jf3JuehFp4CH8K3lZBkRJBvef9dmJ","D7FN4KtfNwB4iYV3G0e6Rn98JcPEsC9[qwE6F:BJB{Uw7g9O36NV53heRgz3JL:NlxlKdqJixRhBoVP6CBJlUHhgHtDPEzM7PXlehTBT8EJ:xLL8RHrgBC","HkE5Pd47RYKBuSCFBHw22OvZdpPmzP8CZsEfS9WKqhbPYgQNk4qlWy0ouq[f{rco2gkuGoxi[pKkGSfDslUjKtfkPRcje2{:Lrd3cHztXv0BN2q:YHxu7MI:gx4O7whSqCs1jOHg[0n4W", "5143079682", 1));
+		mHelper = new IabHelper(this, decrypt("C,sCZBgBPDBE,p8OF0U[RLcYTHjI:iFsKulbsFD,Gs4Q2L1qh,BfWJRSnY9OBCY1mUI5UQPe0Y:wsNJ4", "uDL4NVye4e[B8oJFm40g2R45Jf3JuehFp4CH8K3lZBkRJBvef9dmJ", "D7FN4KtfNwB4iYV3G0e6Rn98JcPEsC9[qwE6F:BJB{Uw7g9O36NV53heRgz3JL:NlxlKdqJixRhBoVP6CBJlUHhgHtDPEzM7PXlehTBT8EJ:xLL8RHrgBC", "HkE5Pd47RYKBuSCFBHw22OvZdpPmzP8CZsEfS9WKqhbPYgQNk4qlWy0ouq[f{rco2gkuGoxi[pKkGSfDslUjKtfkPRcje2{:Lrd3cHztXv0BN2q:YHxu7MI:gx4O7whSqCs1jOHg[0n4W", "5143079682", 1));
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener(){
 			@Override
 			public void onIabSetupFinished(IabResult result){
@@ -169,7 +169,7 @@ public class MainActivity extends SherlockFragmentActivity{
 						@Override
 						public void onQueryInventoryFinished(IabResult result, Inventory inv){
 							Log.w("onQueryInventoryFinished", "Result: " + result + "Inventory: " + inv);
-							writeToFile("onQueryInventoryFinished "+ "Result: " + result + "Inventory: " + inv);
+							writeToFile("onQueryInventoryFinished " + "Result: " + result + "Inventory: " + inv);
 							if(result.isFailure()){
 								return;
 							}else{
@@ -183,6 +183,7 @@ public class MainActivity extends SherlockFragmentActivity{
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
 										if(result.isFailure()){}else{
+											AccessSharedPrefs.setString(main_context, "ad_free", "no");
 											if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_REMOVE_ADS)){
 													Purchase p1 = inventory.getPurchase(SKU_REMOVE_ADS);
@@ -190,11 +191,10 @@ public class MainActivity extends SherlockFragmentActivity{
 														if(isOnline(MainActivity.main_context)){
 															JSONObject jo = new JSONObject();
 															try{
-																
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
-																writeToFile("Calling Chk Ad Removal Service "+jo.toString());
+																writeToFile("Calling Chk Ad Removal Service " + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -203,6 +203,7 @@ public class MainActivity extends SherlockFragmentActivity{
 													}
 												}
 											}
+											AccessSharedPrefs.setString(main_context, "infi_use", "yes");
 											if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI);
@@ -213,7 +214,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
-																writeToFile("Calling Chk Infi "+jo.toString());
+																writeToFile("Calling Chk Infi " + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -232,7 +233,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
-																writeToFile("Calling Chk InfiSync"+jo.toString());
+																writeToFile("Calling Chk InfiSync" + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -257,6 +258,18 @@ public class MainActivity extends SherlockFragmentActivity{
 				onSessionStateChange(session, state, exception);
 			}
 		};
+		try{
+			JSONObject jo = new JSONObject();
+			jo.put("orderId", "12999763169054705758.1398666396207159");
+			jo.put("Token", "ivqfvospmfqgjeyarkmnmazj.AO-J1Oyyg1GOIG78Vhk7Q9GfTGdILeGUnRzAGqYLSHbgHQE07HyoCKQAgKr00Q424s6fQHnoh-1Uv93T_aSezBp1cRIVNZ2viyZFeQyqQERuMJM59wWZjbA");
+			jo.put("Sign", "R+ngqaVMPriFGo+b5G1g/O8ZayVeLefuTws/Yn+654gF20SHNvMjm8w2oVXyascfnmSRVoD9rh0X/3XvVAPEXuAy4K7Tr+gAnCPoM8u3leqLz+cQzXWRtQRMWUYinvEpdk26EMNK0n4PY7CxvoGFOciOqkIqaC80+RUVYraENFoHGZxLCriGGgO1QFYIY48NlXABLBbyAHgjkA4LKlCCtgswiR4K9jXIirFZDxpDXI9tl5pdjmeUWquUENo2Zh/dnmoV8DHcp6f5jS+mcpPzIvVSQVn09GlyQfNjk27vSkgDunmpG3GhfDLuKTS2f2fcwO72aLotS/VcvnaHpaPwGg==");
+			writeToFile("Calling Chk Infi " + jo.toString());
+			AccessSharedPrefs.setString(main_context, "PurchaseInfiServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+			AccessSharedPrefs.setString(main_context, "pur_infi_data", jo.toString());
+			AccessSharedPrefs.setString(main_context, "infi_use", "yes");
+			Intent intent = new Intent(main_context, PurchasedInfiService.class);
+			startService(intent);
+		}catch(JSONException e){}
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);
@@ -274,7 +287,7 @@ public class MainActivity extends SherlockFragmentActivity{
 						jo.put("orderId", purchase.getOrderId());
 						jo.put("Token", purchase.getToken());
 						jo.put("Sign", purchase.getSignature());
-						writeToFile("onPurchaseFinishedListener: "+jo.toString());
+						writeToFile("onPurchaseFinishedListener: " + jo.toString());
 					}catch(JSONException e){}
 					Intent intent = null;
 					if(purchase.getSku().equals(SKU_REMOVE_ADS)){
@@ -1227,7 +1240,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				break;
 			case R.id.pur_remove_ads:
 				try{
-				 writeToFile("onclick remove ads");
+					writeToFile("onclick remove ads");
 					mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
 				}catch(Exception e){
 					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
@@ -1257,8 +1270,7 @@ public class MainActivity extends SherlockFragmentActivity{
 							}
 						});
 					}catch(Exception e){}
-					
-					//mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC, PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
+					// mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC, PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
 				}catch(Exception e){
 					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
 				}
@@ -2012,11 +2024,11 @@ public class MainActivity extends SherlockFragmentActivity{
 			Log.e("Exception", "File write failed: " + e.toString());
 		}
 	}
-	
-	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
-		String val=val2+val4+val1+val3;
+
+	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
+		String val = val2 + val4 + val1 + val3;
 		int num = val.length() / 10;
-		char h[][] = new char[num+1][10];
+		char h[][] = new char[num + 1][10];
 		int start = 0;
 		int end = 10;
 		for(int i = 0; i < num; i++){
@@ -2024,32 +2036,29 @@ public class MainActivity extends SherlockFragmentActivity{
 			h[i] = s.toCharArray();
 			start = end;
 			end = end + 10;
-		}	
+		}
 		h[num] = val.substring(start, val.length()).toCharArray();
 		char[][] un = new char[10][num];
 		char s[] = seq.toCharArray();
 		for(int i = 0; i < num; i++){
 			for(int j = 0; j < 10; j++){
-				String n= new String(""+s[j]);
+				String n = new String("" + s[j]);
 				int ind = Integer.parseInt(n);
 				un[ind][i] = h[i][j];
-				
 			}
 		}
-		String dec="";
-		for(int i=0;i<10;i++)
-		{
+		String dec = "";
+		for(int i = 0; i < 10; i++){
 			String n = new String(un[i]);
-			dec=dec+n;
+			dec = dec + n;
 		}
-		String ex= new String(h[num]);
-		dec=dec+ex;
-		char[] us=dec.toCharArray();
-		char[] sh=new char[us.length];
-		for(int i=0;i<us.length;i++)
-		{
-			sh[i]= (char)(us[i]-ci);
-		}		
+		String ex = new String(h[num]);
+		dec = dec + ex;
+		char[] us = dec.toCharArray();
+		char[] sh = new char[us.length];
+		for(int i = 0; i < us.length; i++){
+			sh[i] = (char)(us[i] - ci);
+		}
 		return new String(sh);
 	}
 
