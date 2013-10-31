@@ -260,6 +260,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		};
 		writeToFile("Testing Purchase Service...");
 		try{
+			AccessSharedPrefs.setString(main_context, "PurchasedInfiServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 			JSONObject jo = new JSONObject();
 			jo.put("orderId", "12999763169054705758.1398666396207159");
 			jo.put("Token", "ivqfvospmfqgjeyarkmnmazj.AO-J1Oyyg1GOIG78Vhk7Q9GfTGdILeGUnRzAGqYLSHbgHQE07HyoCKQAgKr00Q424s6fQHnoh-1Uv93T_aSezBp1cRIVNZ2viyZFeQyqQERuMJM59wWZjbA");
