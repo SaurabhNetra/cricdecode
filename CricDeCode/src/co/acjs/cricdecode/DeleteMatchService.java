@@ -231,6 +231,10 @@ public class DeleteMatchService extends IntentService{
 																				Thread.sleep(10 * trial);
 																			}catch(InterruptedException e){}
 																			trial++;
+																			if(trial==50)
+																			{
+																				break;
+																			}
 																		}
 																		try{
 																			if(jn.getInt("status") == 1){

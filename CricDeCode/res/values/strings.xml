@@ -23,8 +23,8 @@
 
     <string name="edit_profile_sync">http://acjs.azurewebsites.net/acjs/CDCgcm.php</string>
     <string name="purchase_remove_ads_sync">http://acjs.azurewebsites.net/acjs/CDCInAppPurchase.php</string>
-    <string name="purchase_infi_sync">http://acjs.azurewebsites.net/acjs/CDCSubscription.php</string>
-    <string name="purchase_infi">http://acjs.azurewebsites.net/acjs/CDCSubscription.php</string>
+    <string name="purchase_infi_sync">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchase.php</string>
+    <string name="purchase_infi">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchase.php</string>
 
     <!-- Sign In Service -->
     <string name="projno">899334271790</string>
@@ -56,7 +56,8 @@
         <item>Analysis</item>
         <item>History</item>
         <item>Matches</item>
-        <item>Buy Schemes</item>
+        <item>Schemes</item>
+        <item>Support</item>
     </string-array>
 
     <!-- Profile -->
@@ -455,5 +456,8 @@
     <string name="warning_text">Note: This Login will be used only to sync your data across all your devices. No data will be shared on Facebook without your prior consent.</string>
     <string name="title_activity_choose_account">ChooseAccountActivity</string>
     <string name="title_activity_log_in">Log In</string>
+    
+    <!-- Buy Schemes -->
+    <string name="purchased">Purchased</string>
 
 </resources>

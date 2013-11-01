@@ -62,7 +62,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
 			String s = gcmString.toString();
 			s = s.replace("\\", "");
-			s = s.substring(1, s.length() - 1);
 			writeToFile(s);
 			JSONObject gcmData = new JSONObject(s);
 			switch(gcmData.getInt("gcmid")){
@@ -201,6 +200,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					break;
 				case DELETE_MATCH:
 					JSONArray ja2 = gcmData.getJSONArray("todelete");
+					Log.w("GCM delete Match", "with gcm data");
 					for(int i = 0; i < ja2.length(); i++){
 						JSONObject jo = ja2.getJSONObject(i);
 						String str = jo.getString("mid");
@@ -225,6 +225,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					}
 					break;
 				case REMOVE_ADS:
+					Log.w("GCM: ", "gcm remove ads");
 					AccessSharedPrefs.setString(this, "ad_free", "yes");
 					try{
 						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
@@ -232,18 +233,40 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 								try{
 									final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
 									adView.setVisibility(View.GONE);
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.VISIBLE);
 								}catch(Exception e){}
 							}
 						});
 					}catch(Exception e){}
 					break;
 				case SUB_INFI:
+					Log.w("GCM: ", "gcm infi use");
 					AccessSharedPrefs.setString(this, "infi_use", "yes");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
 					break;
 				case SUB_INFI_SYNC:
+					Log.w("GCM: ", "gcm infi sync");
 					AccessSharedPrefs.setString(this, "infi_sync", "yes");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.VISIBLE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
 					break;
 				case NO_REMOVE_ADS:
+					Log.w("GCM: ", "gcm no remove ads");
 					AccessSharedPrefs.setString(this, "ad_free", "no");
 					try{
 						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
@@ -251,16 +274,37 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 								try{
 									final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
 									adView.setVisibility(View.VISIBLE);
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.GONE);
 								}catch(Exception e){}
 							}
 						});
 					}catch(Exception e){}
 					break;
 				case NO_SUB_INFI:
+					Log.w("GCM: ", "gcm no infi use");
 					AccessSharedPrefs.setString(this, "infi_use", "no");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.GONE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
 					break;
 				case NO_SUB_INFI_SYNC:
+					Log.w("GCM: ", "gcm no infi sync");
 					AccessSharedPrefs.setString(this, "infi_sync", "no");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.GONE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
 					break;
 			}
 		}catch(JSONException e){

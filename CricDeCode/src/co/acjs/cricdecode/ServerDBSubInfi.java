@@ -8,8 +8,8 @@ public class ServerDBSubInfi extends StackMobModel {
 	String	token;
 	String	sign;
 	int		autorenewing;
-	int		initiation_ts_msec;
-	int		validUntil_ts_msec;
+	long	initiation_ts_msec;
+	long		validUntil_ts_msec;
 
 	public ServerDBSubInfi(String user_id, String order_id, String token, String sign, int autorenewing, int initiation_ts_msec, int validUntil_ts_msec) {
 		super(ServerDBSubInfi.class);
@@ -42,11 +42,11 @@ public class ServerDBSubInfi extends StackMobModel {
 		this.autorenewing = autorenewing;
 	}
 
-	public void setInitiationTs(int initiation_ts_msec) {
+	public void setInitiationTs(long initiation_ts_msec) {
 		this.initiation_ts_msec = initiation_ts_msec;
 	}
 
-	public void setValidUntilTs(int validUntil_ts_msec) {
+	public void setValidUntilTs(long validUntil_ts_msec) {
 		this.validUntil_ts_msec = validUntil_ts_msec;
 	}
 
@@ -70,11 +70,11 @@ public class ServerDBSubInfi extends StackMobModel {
 		return this.autorenewing;
 	}
 
-	public int getInitiationTs() {
+	public long getInitiationTs() {
 		return this.initiation_ts_msec;
 	}
 
-	public int getValidUntilTs() {
+	public long getValidUntilTs() {
 		return this.validUntil_ts_msec;
 	}
 }

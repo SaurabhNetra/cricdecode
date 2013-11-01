@@ -10,6 +10,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import com.google.ads.AdView;
 import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
@@ -21,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 
 public class PurchasedAdRemovalService extends IntentService{
@@ -36,7 +39,7 @@ public class PurchasedAdRemovalService extends IntentService{
 		super.onCreate();
 		Log.w("PurchasedAdRemovalService", "Started");
 		writeToFile("PurAdRemovalService Started");
-		con=this;
+		con = this;
 	}
 
 	@Override
@@ -102,7 +105,7 @@ public class PurchasedAdRemovalService extends IntentService{
 						String regids = "";
 						for(int i = 0; i < arg0.size(); i++){
 							regids = regids + " " + arg0.get(i).getGcmId();
-							writeToFile("PurAdRemovalService androiddevices "+i);
+							writeToFile("PurAdRemovalService androiddevices " + i);
 						}
 						final JSONParser jsonParser = new JSONParser();
 						List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -125,6 +128,9 @@ public class PurchasedAdRemovalService extends IntentService{
 								Thread.sleep(10 * trial);
 							}catch(InterruptedException e){}
 							trial++;
+							if(trial == 50){
+								break;
+							}
 						}
 						try{
 							Log.w("PurchaseAdRemovalServiceCalled", "Reply" + jn);
@@ -135,12 +141,34 @@ public class PurchasedAdRemovalService extends IntentService{
 								AccessSharedPrefs.setString(con, "PurAdRemovalService", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
 								AccessSharedPrefs.setString(con, "ad_free", "yes");
+								try{
+									((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+										public void run(){
+											try{
+												final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+												adView.setVisibility(View.GONE);
+												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.VISIBLE);
+											}catch(Exception e){}
+										}
+									});
+								}catch(Exception e){}
 							}
 							if(jn.getInt("status") == 0){
 								writeToFile("PurAdRemovalService mark does not 0");
 								AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
 								AccessSharedPrefs.setString(con, "ad_free", "no");
+								try{
+									((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+										public void run(){
+											try{
+												final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+												adView.setVisibility(View.VISIBLE);
+												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.GONE);
+											}catch(Exception e){}
+										}
+									});
+								}catch(Exception e){}
 							}
 						}catch(Exception e){
 							writeToFile("PurAdRemoval jsonexcption");

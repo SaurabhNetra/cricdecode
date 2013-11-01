@@ -17,6 +17,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
@@ -133,6 +135,7 @@ public class CheckPurchaseInfiService extends IntentService{
 							m = i;
 						}
 					}
+					writeToFile("chkInfiService mad id " + arg0.get(m).getID());
 					writeToFile("chkInfiService max valid " + arg0.get(m).getValidUntilTs());
 					if(now < arg0.get(m).getValidUntilTs()){
 						AccessSharedPrefs.setString(who, "infi_use", "yes");
@@ -142,16 +145,19 @@ public class CheckPurchaseInfiService extends IntentService{
 						ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 							@Override
 							public void failure(StackMobException arg0){
-								writeToFile("chkInfiService androiddevices failure "+arg0);
+								writeToFile("chkInfiService androiddevices failure " + arg0);
 							}
 
 							@Override
 							public void success(List<ServerDBAndroidDevices> arg0){
-								writeToFile("chkInfiService androiddevices success "+arg0.size());
+								writeToFile("chkInfiService androiddevices success " + arg0.size());
 								String regids = "";
 								for(int i = 0; i < arg0.size(); i++){
 									regids = regids + " " + arg0.get(i).getGcmId();
 								}
+								writeToFile("ChkInfi data Sending Data...");
+								writeToFile("ChkInfi regids: " + regids);
+								writeToFile("ChkInfi json: " + jn.toString());
 								List<NameValuePair> params = new ArrayList<NameValuePair>();
 								params.add(new BasicNameValuePair("SendToArrays", regids));
 								params.add(new BasicNameValuePair("product_id", "sub_infi"));
@@ -166,7 +172,7 @@ public class CheckPurchaseInfiService extends IntentService{
 									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
 									Log.w("JSON returned", "Subinfi:: " + jn);
 									Log.w("trial value", "Subinfi:: " + trial);
-									writeToFile("chkInfiService "+jn+" "+trial);
+									writeToFile("chkInfiService " + jn + " " + trial);
 									if(jn != null) break;
 									try{
 										Thread.sleep(10 * trial);
@@ -178,9 +184,27 @@ public class CheckPurchaseInfiService extends IntentService{
 									if(jn.getInt("status") == 1){
 										writeToFile("chkInfiService mark yes");
 										AccessSharedPrefs.setString(who, "infi_use", "yes");
+										try{
+											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+												public void run(){
+													try{
+														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+													}catch(Exception e){}
+												}
+											});
+										}catch(Exception e){}
 									}else{
 										writeToFile("chkInfiService mark no");
 										AccessSharedPrefs.setString(who, "infi_use", "no");
+										try{
+											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+												public void run(){
+													try{
+														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.GONE);
+													}catch(Exception e){}
+												}
+											});
+										}catch(Exception e){}
 									}
 								}catch(NullPointerException e){}catch(JSONException e){
 									e.printStackTrace();
