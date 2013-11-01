@@ -106,7 +106,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	FilterDialog									filter_dialog;
 	static ContentProviderClient					client;
 	// Declare Constants
-	static final int								NO_FRAGMENT						= -1, SIGNIN_FRAGMENT = 9, PROFILE_FRAGMENT = 0, CAREER_FRAGMENT = 1, ANALYSIS_FRAGMENT = 2, DIARY_MATCHES_FRAGMENT = 3, ONGOING_MATCHES_FRAGMENT = 4, PURCHASE_FRAGMENT = 5, SUPPORT= 6, MATCH_CREATION_FRAGMENT = 7, PERFORMANCE_FRAGMENT_EDIT = 8, PERFORMANCE_FRAGMENT_VIEW = 9, PROFILE_EDIT = 10;
+	static final int								NO_FRAGMENT						= -1, SIGNIN_FRAGMENT = 9, PROFILE_FRAGMENT = 0, CAREER_FRAGMENT = 1, ANALYSIS_FRAGMENT = 2, DIARY_MATCHES_FRAGMENT = 3, ONGOING_MATCHES_FRAGMENT = 4, PURCHASE_FRAGMENT = 5, SUPPORT = 6, MATCH_CREATION_FRAGMENT = 7, PERFORMANCE_FRAGMENT_EDIT = 8, PERFORMANCE_FRAGMENT_VIEW = 9, PROFILE_EDIT = 10;
 	static int										root_fragment					= CAREER_FRAGMENT;
 	// Request Codes
 	static final int								PURCHASE_REMOVE_ADS				= 398457, PURCHASE_INFI = 34809, PURCHASE_INFI_SYNC = 37867;
@@ -197,7 +197,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																writeToFile("Calling Chk Ad Removal Service " + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
-																startService(i);
+																//startService(i);
 															}catch(JSONException e){}
 														}
 													}
@@ -216,7 +216,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																writeToFile("Calling Chk Infi " + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
-																startService(i);
+																//startService(i);
 															}catch(JSONException e){}
 														}
 													}
@@ -235,7 +235,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																writeToFile("Calling Chk InfiSync" + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
-																startService(i);
+																//startService(i);
 															}catch(JSONException e){}
 														}
 													}
@@ -304,6 +304,18 @@ public class MainActivity extends SherlockFragmentActivity{
 				}
 			}
 		};
+		/*try{
+			JSONObject jo = new JSONObject();
+			jo.put("orderId", "12999763169054705758.1368145703576651");
+			jo.put("Sign", "fgfghf");
+			jo.put("Token", "rnkixibtfiuatjoeozgudvpv.AO-J1OzgW5tthpYWNE-76DkfJ__jnaSSaU32CSwyH5gyzcJDjpwioeWiztbT3ienY3viL2U5IZDi-C8Y9lFOYvpUsLBSMjol8JnfxHPNjpUip7dtNKZ22Hs");
+			writeToFile("Testing remove ads");
+			AccessSharedPrefs.setString(main_context, "PurchaseAdRemovalServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+			AccessSharedPrefs.setString(main_context, "pur_ad_data", jo.toString());
+			AccessSharedPrefs.setString(main_context, "ad_free", "yes");
+			Intent intent = new Intent(main_context, PurchasedAdRemovalService.class);
+			startService(intent);
+		}catch(Exception e){}*/
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -805,7 +817,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				}
 				break;
 			case SUPPORT:
-				//TODO start new fragment
+				// TODO start new fragment
 				break;
 			default:
 				break;
