@@ -197,7 +197,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																writeToFile("Calling Chk Ad Removal Service " + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
-																//startService(i);
+																// startService(i);
 															}catch(JSONException e){}
 														}
 													}
@@ -216,7 +216,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																writeToFile("Calling Chk Infi " + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
-																//startService(i);
+																// startService(i);
 															}catch(JSONException e){}
 														}
 													}
@@ -235,7 +235,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																writeToFile("Calling Chk InfiSync" + jo.toString());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
-																//startService(i);
+																// startService(i);
 															}catch(JSONException e){}
 														}
 													}
@@ -458,6 +458,12 @@ public class MainActivity extends SherlockFragmentActivity{
 					PurchaseFragment.purchaseFragment = (PurchaseFragment)getSupportFragmentManager().getFragment(savedInstanceState, "currentFragmentInstance");
 					tx.setVisibility(View.VISIBLE);
 					tx.setText(R.string.buy_schemes);
+					break;
+				case SUPPORT:
+					spinner.setVisibility(View.GONE);
+					SupportFragment.supportFragment = (SupportFragment)getSupportFragmentManager().getFragment(savedInstanceState, "currentFragmentInstance");
+					tx.setVisibility(View.VISIBLE);
+					tx.setText(R.string.support);
 					break;
 				case PERFORMANCE_FRAGMENT_EDIT:
 					spinner.setVisibility(View.VISIBLE);
@@ -759,6 +765,14 @@ public class MainActivity extends SherlockFragmentActivity{
 					ft.replace(R.id.content_frame, CareerFragment.careerFragment);
 				}
 				break;
+			case SUPPORT:
+				spinner.setVisibility(View.GONE);
+				if(newInstance){
+					ft.replace(R.id.content_frame, new SupportFragment());
+				}else{
+					ft.replace(R.id.content_frame, SupportFragment.supportFragment);
+				}
+				break;
 			case ANALYSIS_FRAGMENT:
 				spinner.setVisibility(View.GONE);
 				if(newInstance){
@@ -815,9 +829,6 @@ public class MainActivity extends SherlockFragmentActivity{
 				}else{
 					ft.replace(R.id.content_frame, PerformanceFragmentView.performanceFragmentView);
 				}
-				break;
-			case SUPPORT:
-				// TODO start new fragment
 				break;
 			default:
 				break;
@@ -908,6 +919,9 @@ public class MainActivity extends SherlockFragmentActivity{
 				break;
 			case CAREER_FRAGMENT:
 				getSupportFragmentManager().putFragment(outState, "currentFragmentInstance", CareerFragment.careerFragment);
+				break;
+			case SUPPORT:
+				getSupportFragmentManager().putFragment(outState, "currentFragmentInstance", SupportFragment.supportFragment);
 				break;
 			case ANALYSIS_FRAGMENT:
 				getSupportFragmentManager().putFragment(outState, "currentFragmentInstance", AnalysisFragment.analysisFragment);
@@ -1841,6 +1855,11 @@ public class MainActivity extends SherlockFragmentActivity{
 				spinner.setVisibility(View.GONE);
 				tx.setVisibility(View.VISIBLE);
 				tx.setText(R.string.buy_schemes);
+				break;
+			case SUPPORT:
+				spinner.setVisibility(View.GONE);
+				tx.setVisibility(View.VISIBLE);
+				tx.setText(R.string.support);
 				break;
 			case PERFORMANCE_FRAGMENT_EDIT:
 				spinner.setVisibility(View.VISIBLE);

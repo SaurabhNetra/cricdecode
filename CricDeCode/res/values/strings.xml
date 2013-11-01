@@ -59,6 +59,15 @@
         <item>Schemes</item>
         <item>Support</item>
     </string-array>
+    
+    <!-- Support List Items -->
+     <string-array name="support_list_item">
+        <item>Terms of Service</item>
+        <item>Privacy Policy</item>
+        <item>Support</item>
+        <item>Share this App</item>
+    </string-array>
+    <string name="support">Support</string>
 
     <!-- Profile -->
     <string name="profile_picture">Profile Picture</string>
