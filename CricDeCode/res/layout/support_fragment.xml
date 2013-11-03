@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/margin_bottom"
-    android:layout_marginLeft="@dimen/analysis_margin_left"
-    android:layout_marginRight="@dimen/analysis_margin_right"
+    android:layout_marginLeft="@dimen/new_match_card_margin_left"
+    android:layout_marginRight="@dimen/new_match_card_margin_right"
     android:background="@drawable/cards_bg"
     android:paddingBottom="@dimen/padding_bottom"
     android:paddingTop="@dimen/padding_top" >
@@ -21,4 +20,4 @@
         android:dividerHeight="@dimen/list_divider_ht" >
     </ListView>
 
-</RelativeLayout>
+</LinearLayout>
