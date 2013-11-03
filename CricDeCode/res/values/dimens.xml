@@ -187,7 +187,7 @@
     <dimen name="toggle_line_height">2dp</dimen>
     <dimen name="per_card_margin_left">16dp</dimen>
     <dimen name="per_card_margin_right">16dp</dimen>
-     <dimen name="per_scrollview_padding_top">20dp</dimen>
+    <dimen name="per_scrollview_padding_top">20dp</dimen>
 
     <!-- All pages -->
     <dimen name="scrollview_padding_top">20dp</dimen>
@@ -213,12 +213,18 @@
     <dimen name="white_padding_bottom">13dp</dimen>
     <dimen name="white_padding_top">13dp</dimen>
     <dimen name="card_radius">1dp</dimen>
-    
+
     <!-- purchase fragment -->
-    
+
     <dimen name="purchase_lower_margin">4dp</dimen>
-    
+
     <!-- Support fragment -->
     <dimen name="list_divider_ht">2dp</dimen>
+    <dimen name="supp_marginTop">20dp</dimen>
+    <dimen name="supp_marginBottom">20dp</dimen>
+    <dimen name="supp_marginLeft">20dp</dimen>
+    <dimen name="supp_marginRight">20dp</dimen>
+    <dimen name="supp_card_marginLeft">30dp</dimen>
+    <dimen name="supp_card_marginRight">30dp</dimen>
 
 </resources>

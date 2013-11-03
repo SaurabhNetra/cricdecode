@@ -468,5 +468,7 @@
     
     <!-- Buy Schemes -->
     <string name="purchased">Purchased</string>
+    
+    <!-- Support Fragment -->
 
 </resources>

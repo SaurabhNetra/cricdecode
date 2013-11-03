@@ -35,6 +35,13 @@
     <dimen name="new_match_card_margin_left">60dp</dimen>
     <dimen name="new_match_card_margin_right">60dp</dimen>
     
+        <!-- Support fragment -->
+    <dimen name="supp_marginTop">20dp</dimen>
+    <dimen name="supp_marginBottom">20dp</dimen>
+    <dimen name="supp_marginLeft">40dp</dimen>
+    <dimen name="supp_marginRight">40dp</dimen>    
+    <dimen name="supp_card_marginLeft">40dp</dimen>
+    <dimen name="supp_card_marginRight">40dp</dimen>
     
 
 </resources>
