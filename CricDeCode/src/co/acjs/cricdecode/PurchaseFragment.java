@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -25,22 +26,26 @@ public class PurchaseFragment extends SherlockFragment{
 	public void onViewCreated(final View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
 		((TextView)view.findViewById(R.id.remove_ads_price)).setText(AccessSharedPrefs.mPrefs.getString("pur_remove_adds_price", ""));
-		((TextView)view.findViewById(R.id.remove_ads_title)).setText("Remove Ads");
+		((TextView)view.findViewById(R.id.remove_ads_title)).setText(AccessSharedPrefs.mPrefs.getString("pur_remove_adds_title", ""));
 		((TextView)view.findViewById(R.id.remove_ads_descr)).setText(AccessSharedPrefs.mPrefs.getString("pur_remove_adds_descr", ""));
 		((TextView)view.findViewById(R.id.infi_price)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_price", ""));
-		((TextView)view.findViewById(R.id.infi_title)).setText("Unlimited Matches");
+		((TextView)view.findViewById(R.id.infi_title)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_title", ""));
 		((TextView)view.findViewById(R.id.infi_descr)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_descr", ""));
 		((TextView)view.findViewById(R.id.infi_sync_price)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_price", ""));
-		((TextView)view.findViewById(R.id.infi_sync_title)).setText("Unlimited Matches with Sync");
-		// ((TextView) view.findViewById(R.id.infi_sync_descr))
-		// .setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));
-		((TextView)view.findViewById(R.id.infi_sync_descr)).setText("A robust and secure cloud backup for your data");
-		((TextView)view.findViewById(R.id.infi_sync_descr1)).setText("Coming Very Soon!");
+		((TextView)view.findViewById(R.id.infi_sync_title)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_title", ""));
+		((TextView)view.findViewById(R.id.infi_sync_descr)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));
+		
 		if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 			((TextView)view.findViewById(R.id.infi_sync_pur)).setVisibility(View.VISIBLE);
+			((TextView)view.findViewById(R.id.infi_pur)).setText("Not Applicable");
+			((TextView)view.findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
 		}
 		if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 			((TextView)view.findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+			((TextView)view.findViewById(R.id.infi_pur)).setText("Purchased");
+			((LinearLayout)view.findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
+			((LinearLayout)view.findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
+		
 		}
 		if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 			((TextView)view.findViewById(R.id.rem_ads_pur)).setVisibility(View.VISIBLE);

@@ -217,5 +217,8 @@
     <!-- purchase fragment -->
     
     <dimen name="purchase_lower_margin">4dp</dimen>
+    
+    <!-- Support fragment -->
+    <dimen name="list_divider_ht">2dp</dimen>
 
 </resources>

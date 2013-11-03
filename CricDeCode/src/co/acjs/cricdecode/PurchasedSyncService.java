@@ -25,27 +25,27 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 
-public class PurchasedInfiSyncService extends IntentService{
+public class PurchasedSyncService extends IntentService{
 	public static boolean	started	= true;
 	public Context			con;
 
-	public PurchasedInfiSyncService(){
-		super("PurchasedInfiSyncService");
+	public PurchasedSyncService(){
+		super("PurchasedSyncService");
 		con = this;
 	}
 
 	@Override
 	public void onCreate(){
 		super.onCreate();
-		Log.w("PurchasedInfiSyncService", "Started");
-		writeToFile("PurchasedInfiSyncService Started");
+		Log.w("PurchasedSyncService", "Started");
+		writeToFile("PurchasedSyncService Started");
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		Log.w("PurchasedInfiSyncService", "Ended");
-		writeToFile("PurchasedInfiSyncService Ended");
+		Log.w("PurchasedSyncService", "Ended");
+		writeToFile("PurchasedSyncService Ended");
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -89,14 +89,14 @@ public class PurchasedInfiSyncService extends IntentService{
 	protected void onHandleIntent(Intent intent){
 		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		if(AccessSharedPrefs.mPrefs.getString("PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+		if(AccessSharedPrefs.mPrefs.getString("PurchasedSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
 				public void failure(StackMobException arg0){}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
-					Log.w("PurchasedInfiSync", "GCM Ids fetched" + arg0.size());
+					Log.w("PurchasedSync", "GCM Ids fetched" + arg0.size());
 					String regids = "";
 					for(int i = 0; i < arg0.size(); i++){
 						regids = regids + " " + arg0.get(i).getGcmId();
@@ -104,16 +104,16 @@ public class PurchasedInfiSyncService extends IntentService{
 					final JSONParser jsonParser = new JSONParser();
 					List<NameValuePair> params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
-					params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
-					params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", "")));
-					Log.w("Sending User Data...", "PurchaseInfiSync:" + jsonParser.isOnline(con));
-					writeToFile("Sending User Data...PurchaseInfiSync:");
+					params.add(new BasicNameValuePair("product_id", "sub_sync"));
+					params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_sync_data", "")));
+					Log.w("Sending User Data...", "PurchaseSync:" + jsonParser.isOnline(con));
+					writeToFile("Sending User Data...PurchaseSync:");
 					int trial = 1;
 					JSONObject jn = null;
 					while(jsonParser.isOnline(con)){
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi_sync), "POST", params, con);
-						Log.w("JSON returned", "PurchasedInfiSyncServiceService: " + jn);
-						Log.w("trial value", "PurchasedInfiSyncServiceService: " + trial);
+						Log.w("JSON returned", "PurchasedSyncServiceService: " + jn);
+						Log.w("trial value", "PurchasedSyncServiceService: " + trial);
 						if(jn != null) break;
 						try{
 							Thread.sleep(10 * trial);
@@ -124,33 +124,30 @@ public class PurchasedInfiSyncService extends IntentService{
 						}
 					}
 					try{
-						writeToFile("PurchasedInfiService Reply" + jn.toString());
+						writeToFile("PurchasedService Reply" + jn.toString());
 						if(jn.getInt("status") == 1){
-							AccessSharedPrefs.setString(con, "PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
-							AccessSharedPrefs.setString(con, "infi_sync", "yes");
+							AccessSharedPrefs.setString(con, "PurchasedSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+							AccessSharedPrefs.setString(con, "pur_sync_data", "");
+							AccessSharedPrefs.setString(con, "sync", "yes");
 							try{
 								((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
 									public void run(){
 										try{
-											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.VISIBLE);
-											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Not Applicable");
-											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.sync_pur)).setVisibility(View.VISIBLE);
 										}catch(Exception e){}
 									}
 								});
 							}catch(Exception e){}
 						}
 						if(jn.getInt("status") == 0){
-							AccessSharedPrefs.setString(con, "PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
-							AccessSharedPrefs.setString(con, "infi_sync", "no");
+							AccessSharedPrefs.setString(con, "PurchasedSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+							AccessSharedPrefs.setString(con, "pur_sync_data", "");
+							AccessSharedPrefs.setString(con, "sync", "no");
 							try{
 								((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
 									public void run(){
 										try{
-											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.GONE);
-										
+											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.sync_pur)).setVisibility(View.GONE);
 										}catch(Exception e){}
 									}
 								});

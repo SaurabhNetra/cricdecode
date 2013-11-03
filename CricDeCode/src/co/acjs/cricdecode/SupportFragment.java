@@ -23,8 +23,8 @@ public class SupportFragment extends SherlockFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		supportFragment = this;
-		View rootView = inflater.inflate(R.layout.list_container, container, false);
-		ListView listView = (ListView)rootView.findViewById(R.id.content_list);
+		View rootView = inflater.inflate(R.layout.support_fragment, container, false);
+		ListView listView = (ListView)rootView.findViewById(R.id.content_list1);
 		String[] values = getResources().getStringArray(R.array.support_list_item);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getSherlockActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
 		listView.setAdapter(adapter);
@@ -42,7 +42,11 @@ public class SupportFragment extends SherlockFragment{
 						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cdc.acjs.co/support.html")));
 						break;
 					case SHARE:
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("cdc.acjs.co")));
+						Intent sendIntent = new Intent();
+						sendIntent.setAction(Intent.ACTION_SEND);
+						sendIntent.putExtra(Intent.EXTRA_TEXT, "Download this awesome app! https://play.google.com/store/apps/details?id=co.acjs.cricdecode");
+						sendIntent.setType("text/plain");
+						startActivity(Intent.createChooser(sendIntent, "Share Via.."));
 						break;
 					default:
 						break;

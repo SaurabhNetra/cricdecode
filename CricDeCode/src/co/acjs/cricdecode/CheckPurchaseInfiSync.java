@@ -29,7 +29,7 @@ public class CheckPurchaseInfiSync extends IntentService{
 	public String			orderId, token, sign;
 
 	public CheckPurchaseInfiSync(){
-		super("CheckPurchasedAdRemovalService");
+		super("CheckPurchaseInfiSync");
 	}
 
 	@Override
@@ -156,6 +156,8 @@ public class CheckPurchaseInfiSync extends IntentService{
 												public void run(){
 													try{
 														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.VISIBLE);
+														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Not Applicable");
+														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
 													}catch(Exception e){}
 												}
 											});

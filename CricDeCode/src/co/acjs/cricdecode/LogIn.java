@@ -170,10 +170,10 @@ public class LogIn extends SherlockActivity{
 		onActivityResult = false;
 	}
 
-	public static String decrypt(String val1,String val2,String val3,String val4, String seq, int ci){
-		String val=val2+val4+val1+val3;
+	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
+		String val = val2 + val4 + val1 + val3;
 		int num = val.length() / 10;
-		char h[][] = new char[num+1][10];
+		char h[][] = new char[num + 1][10];
 		int start = 0;
 		int end = 10;
 		for(int i = 0; i < num; i++){
@@ -181,39 +181,36 @@ public class LogIn extends SherlockActivity{
 			h[i] = s.toCharArray();
 			start = end;
 			end = end + 10;
-		}	
+		}
 		h[num] = val.substring(start, val.length()).toCharArray();
 		char[][] un = new char[10][num];
 		char s[] = seq.toCharArray();
 		for(int i = 0; i < num; i++){
 			for(int j = 0; j < 10; j++){
-				String n= new String(""+s[j]);
+				String n = new String("" + s[j]);
 				int ind = Integer.parseInt(n);
 				un[ind][i] = h[i][j];
-				
 			}
 		}
-		String dec="";
-		for(int i=0;i<10;i++)
-		{
+		String dec = "";
+		for(int i = 0; i < 10; i++){
 			String n = new String(un[i]);
-			dec=dec+n;
+			dec = dec + n;
 		}
-		String ex= new String(h[num]);
-		dec=dec+ex;
-		char[] us=dec.toCharArray();
-		char[] sh=new char[us.length];
-		for(int i=0;i<us.length;i++)
-		{
-			sh[i]= (char)(us[i]-ci);
-		}		
+		String ex = new String(h[num]);
+		dec = dec + ex;
+		char[] us = dec.toCharArray();
+		char[] sh = new char[us.length];
+		for(int i = 0; i < us.length; i++){
+			sh[i] = (char)(us[i] - ci);
+		}
 		return new String(sh);
 	}
-	
+
 	void GCMRegistration(){
 		writeToFile("GCMRegistration");
 		progressText.setText("Phase 2 of 3...");
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
 		client = getContentResolver().acquireContentProviderClient(CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider)client.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -299,7 +296,7 @@ public class LogIn extends SherlockActivity{
 
 								@Override
 								public void success(List<ServerDBRemoveAds> arg0){
-									Log.w("LoginIn", "remove_ads_chk success!!");
+									Log.w("LoginIn", "remove_ads_chk success!!" + arg0.size());
 									if(arg0.size() == 0){
 										AccessSharedPrefs.setString(login_activity, "ad_free", "no");
 									}else{
@@ -394,7 +391,7 @@ public class LogIn extends SherlockActivity{
 
 												@Override
 												public void success(List<ServerDBSubInfiSync> arg0){
-													Log.w("LoginIn", "sub_sync_chk success!!");
+													Log.w("LoginIn", "sub_infi_sync_chk success!!" + arg0.size());
 													long now = new Date().getTime();
 													if((arg0.size() > 0)){
 														long t = arg0.get(0).getValidUntilTs();
@@ -464,93 +461,174 @@ public class LogIn extends SherlockActivity{
 													}else{
 														AccessSharedPrefs.setString(login_activity, "infi_sync", "no");
 													}
-													ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBCricketMatch>(){
+													ServerDBSubSync.query(ServerDBSubSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBSubSync>(){
 														@Override
 														public void failure(StackMobException arg0){
 															showDialog();
-															Log.w("Login", "failure 9");
+															Log.w("Login", "failure 7");
 														}
 
 														@Override
-														public void success(List<ServerDBCricketMatch> arg0){
-															Log.w("LoginIn", "cricket_match success!!" + arg0.size());
-															for(int i = 0; i < arg0.size(); i++){
-																Log.w("LoginIn", "cricket_match in loop!!" + i);
-																ContentValues values = new ContentValues();
-																values.put(MatchDb.KEY_ROWID, arg0.get(i).getMatchId());
-																values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
-																values.put(MatchDb.KEY_MATCH_DATE, arg0.get(i).getMatchDate());
-																values.put(MatchDb.KEY_MY_TEAM, arg0.get(i).getMyTeam());
-																Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(i).getMyTeam());
-																values.put(MatchDb.KEY_OPPONENT_TEAM, arg0.get(i).getOpponentTeam());
-																values.put(MatchDb.KEY_VENUE, arg0.get(i).getVenue());
-																values.put(MatchDb.KEY_OVERS, arg0.get(i).getOvers());
-																values.put(MatchDb.KEY_INNINGS, arg0.get(i).getInnings());
-																values.put(MatchDb.KEY_RESULT, arg0.get(i).getResult());
-																values.put(MatchDb.KEY_LEVEL, arg0.get(i).getLevel());
-																values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(i).getFirstAction());
-																values.put(MatchDb.KEY_DURATION, arg0.get(i).getDuration());
-																values.put(MatchDb.KEY_REVIEW, arg0.get(i).getReview());
-																values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-																values.put(MatchDb.KEY_SYNCED, 0);
-																Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
-																Log.w("Uri inserted", "" + u);
+														public void success(List<ServerDBSubSync> arg0){
+															Log.w("LoginIn", "sub_sync_chk success!!" + arg0.size());
+															long now = new Date().getTime();
+															if((arg0.size() > 0)){
+																long t = arg0.get(0).getValidUntilTs();
+																int m = 0;
+																for(int i = 1; i < arg0.size(); i++){
+																	if(t < arg0.get(i).getValidUntilTs()){
+																		t = arg0.get(i).getValidUntilTs();
+																		m = i;
+																	}
+																}
+																final ServerDBSubSync max = arg0.get(m);
+																if(now < arg0.get(m).getValidUntilTs()){
+																	AccessSharedPrefs.setString(login_activity, "sync", "yes");
+																}else{
+																	ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
+																		@Override
+																		public void failure(StackMobException arg0){
+																			showDialog();
+																		}
+
+																		@Override
+																		public void success(List<ServerDBAndroidDevices> arg0){
+																			String regids = "";
+																			for(int i = 0; i < arg0.size(); i++){
+																				regids = regids + " " + arg0.get(i).getGcmId();
+																			}
+																			List<NameValuePair> params = new ArrayList<NameValuePair>();
+																			params.add(new BasicNameValuePair("SendToArrays", regids));
+																			params.add(new BasicNameValuePair("product_id", "sub_sync"));
+																			JSONObject jo = new JSONObject();
+																			try{
+																				jo.put("orderId", max.getOrderId());
+																				jo.put("Token", max.getToken());
+																				jo.put("Sign", max.getSign());
+																				writeToFile("onPurchase Json: " + jo.toString());
+																			}catch(JSONException e){}
+																			params.add(new BasicNameValuePair("json", jo.toString()));
+																			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+																			final JSONParser jsonParser = new JSONParser();
+																			int trial = 1;
+																			JSONObject jn = null;
+																			while(jsonParser.isOnline(login_activity)){
+																				Log.w("JSONParser", "SubinfiSync:: Called");
+																				jn = jsonParser.makeHttpRequest(login_activity.getResources().getString(R.string.purchase_infi), "POST", params, login_activity);
+																				Log.w("JSON returned", "SubinfiSync:: " + jn);
+																				Log.w("trial value", "SubinfiSync:: " + trial);
+																				if(jn != null) break;
+																				try{
+																					Thread.sleep(10 * trial);
+																				}catch(InterruptedException e){}
+																				trial++;
+																				if(trial == 50) break;
+																			}
+																			try{
+																				if(jn.getInt("status") == 1){
+																					AccessSharedPrefs.setString(login_activity, "sync", "yes");
+																				}else{
+																					AccessSharedPrefs.setString(login_activity, "sync", "no");
+																				}
+																			}catch(NullPointerException e){}catch(JSONException e){
+																				e.printStackTrace();
+																			}
+																		}
+																	});
+																}
+																Log.w("LoginIn", "sub_sync_chk success!! 2");
+															}else{
+																AccessSharedPrefs.setString(login_activity, "sync", "no");
 															}
-															ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
+															ServerDBCricketMatch.query(ServerDBCricketMatch.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBCricketMatch>(){
 																@Override
 																public void failure(StackMobException arg0){
 																	showDialog();
-																	Log.w("Login", "failure 7");
+																	Log.w("Login", "failure 9");
 																}
 
 																@Override
-																public void success(List<ServerDBPerformance> arg0){
-																	Log.w("LoginIn", "performance success!!" + arg0.size());
+																public void success(List<ServerDBCricketMatch> arg0){
+																	Log.w("LoginIn", "cricket_match success!!" + arg0.size());
 																	for(int i = 0; i < arg0.size(); i++){
+																		Log.w("LoginIn", "cricket_match in loop!!" + i);
 																		ContentValues values = new ContentValues();
-																		values.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
-																		values.put(PerformanceDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
-																		Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(i).getDeviceId());
-																		values.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
-																		values.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
-																		values.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
-																		values.put(PerformanceDb.KEY_BAT_RUNS, arg0.get(i).getBatRuns());
-																		values.put(PerformanceDb.KEY_BAT_BALLS, arg0.get(i).getBatBalls());
-																		values.put(PerformanceDb.KEY_BAT_TIME, arg0.get(i).getBatTime());
-																		values.put(PerformanceDb.KEY_BAT_FOURS, arg0.get(i).getBatFours());
-																		values.put(PerformanceDb.KEY_BAT_SIXES, arg0.get(i).getBatSixes());
-																		values.put(PerformanceDb.KEY_BAT_HOW_OUT, arg0.get(i).getBatDismissal());
-																		values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, arg0.get(i).getBatBowlerType());
-																		values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get(i).getBatFieldingPosition());
-																		values.put(PerformanceDb.KEY_BAT_CHANCES, arg0.get(i).getBatChances());
-																		values.put(PerformanceDb.KEY_BOWL_BALLS, arg0.get(i).getBowlBalls());
-																		values.put(PerformanceDb.KEY_BOWL_SPELLS, arg0.get(i).getBowlSpells());
-																		values.put(PerformanceDb.KEY_BOWL_MAIDENS, arg0.get(i).getBowlMaidens());
-																		values.put(PerformanceDb.KEY_BOWL_RUNS, arg0.get(i).getBowlRuns());
-																		values.put(PerformanceDb.KEY_BOWL_FOURS, arg0.get(i).getBowlFours());
-																		values.put(PerformanceDb.KEY_BOWL_SIXES, arg0.get(i).getBowlSixes());
-																		values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get(i).getBowlWktsLeft());
-																		values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, arg0.get(i).getBowlWktsRight());
-																		values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get(i).getBowlCatchesDropped());
-																		values.put(PerformanceDb.KEY_BOWL_NOBALLS, arg0.get(i).getNoBalls());
-																		values.put(PerformanceDb.KEY_BOWL_WIDES, arg0.get(i).getBowlWides());
-																		values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get(i).getFieldSlipCatch());
-																		values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get(i).getFieldCloseCatch());
-																		values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH, arg0.get(i).getFieldCircleCatch());
-																		values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get(i).getFieldDeepCatch());
-																		values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get(i).getFieldRoCircle());
-																		values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get(i).getFieldRoDirectCircle());
-																		values.put(PerformanceDb.KEY_FIELD_RO_DEEP, arg0.get(i).getFieldRoDeep());
-																		values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get(i).getFieldRoDirectDeep());
-																		values.put(PerformanceDb.KEY_FIELD_STUMPINGS, arg0.get(i).getFieldStumping());
-																		values.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
-																		values.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
-																		values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-																		values.put(PerformanceDb.KEY_SYNCED, 0);
-																		Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
+																		values.put(MatchDb.KEY_ROWID, arg0.get(i).getMatchId());
+																		values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
+																		values.put(MatchDb.KEY_MATCH_DATE, arg0.get(i).getMatchDate());
+																		values.put(MatchDb.KEY_MY_TEAM, arg0.get(i).getMyTeam());
+																		Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(i).getMyTeam());
+																		values.put(MatchDb.KEY_OPPONENT_TEAM, arg0.get(i).getOpponentTeam());
+																		values.put(MatchDb.KEY_VENUE, arg0.get(i).getVenue());
+																		values.put(MatchDb.KEY_OVERS, arg0.get(i).getOvers());
+																		values.put(MatchDb.KEY_INNINGS, arg0.get(i).getInnings());
+																		values.put(MatchDb.KEY_RESULT, arg0.get(i).getResult());
+																		values.put(MatchDb.KEY_LEVEL, arg0.get(i).getLevel());
+																		values.put(MatchDb.KEY_FIRST_ACTION, arg0.get(i).getFirstAction());
+																		values.put(MatchDb.KEY_DURATION, arg0.get(i).getDuration());
+																		values.put(MatchDb.KEY_REVIEW, arg0.get(i).getReview());
+																		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+																		values.put(MatchDb.KEY_SYNCED, 0);
+																		Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 																		Log.w("Uri inserted", "" + u);
 																	}
-																	openMainActivity();
+																	ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
+																		@Override
+																		public void failure(StackMobException arg0){
+																			showDialog();
+																			Log.w("Login", "failure 7");
+																		}
+
+																		@Override
+																		public void success(List<ServerDBPerformance> arg0){
+																			Log.w("LoginIn", "performance success!!" + arg0.size());
+																			for(int i = 0; i < arg0.size(); i++){
+																				ContentValues values = new ContentValues();
+																				values.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
+																				values.put(PerformanceDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
+																				Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(i).getDeviceId());
+																				values.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
+																				values.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
+																				values.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
+																				values.put(PerformanceDb.KEY_BAT_RUNS, arg0.get(i).getBatRuns());
+																				values.put(PerformanceDb.KEY_BAT_BALLS, arg0.get(i).getBatBalls());
+																				values.put(PerformanceDb.KEY_BAT_TIME, arg0.get(i).getBatTime());
+																				values.put(PerformanceDb.KEY_BAT_FOURS, arg0.get(i).getBatFours());
+																				values.put(PerformanceDb.KEY_BAT_SIXES, arg0.get(i).getBatSixes());
+																				values.put(PerformanceDb.KEY_BAT_HOW_OUT, arg0.get(i).getBatDismissal());
+																				values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, arg0.get(i).getBatBowlerType());
+																				values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get(i).getBatFieldingPosition());
+																				values.put(PerformanceDb.KEY_BAT_CHANCES, arg0.get(i).getBatChances());
+																				values.put(PerformanceDb.KEY_BOWL_BALLS, arg0.get(i).getBowlBalls());
+																				values.put(PerformanceDb.KEY_BOWL_SPELLS, arg0.get(i).getBowlSpells());
+																				values.put(PerformanceDb.KEY_BOWL_MAIDENS, arg0.get(i).getBowlMaidens());
+																				values.put(PerformanceDb.KEY_BOWL_RUNS, arg0.get(i).getBowlRuns());
+																				values.put(PerformanceDb.KEY_BOWL_FOURS, arg0.get(i).getBowlFours());
+																				values.put(PerformanceDb.KEY_BOWL_SIXES, arg0.get(i).getBowlSixes());
+																				values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get(i).getBowlWktsLeft());
+																				values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, arg0.get(i).getBowlWktsRight());
+																				values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get(i).getBowlCatchesDropped());
+																				values.put(PerformanceDb.KEY_BOWL_NOBALLS, arg0.get(i).getNoBalls());
+																				values.put(PerformanceDb.KEY_BOWL_WIDES, arg0.get(i).getBowlWides());
+																				values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get(i).getFieldSlipCatch());
+																				values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get(i).getFieldCloseCatch());
+																				values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH, arg0.get(i).getFieldCircleCatch());
+																				values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get(i).getFieldDeepCatch());
+																				values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get(i).getFieldRoCircle());
+																				values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get(i).getFieldRoDirectCircle());
+																				values.put(PerformanceDb.KEY_FIELD_RO_DEEP, arg0.get(i).getFieldRoDeep());
+																				values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get(i).getFieldRoDirectDeep());
+																				values.put(PerformanceDb.KEY_FIELD_STUMPINGS, arg0.get(i).getFieldStumping());
+																				values.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
+																				values.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
+																				values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
+																				values.put(PerformanceDb.KEY_SYNCED, 0);
+																				Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
+																				Log.w("Uri inserted", "" + u);
+																			}
+																			openMainActivity();
+																		}
+																	});
 																}
 															});
 														}
@@ -583,7 +661,7 @@ public class LogIn extends SherlockActivity{
 			@Override
 			public void failure(StackMobException arg0){
 				showDialog();
-				Log.w("Login", "failure 10"+arg0);
+				Log.w("Login", "failure 10" + arg0);
 			}
 
 			@Override

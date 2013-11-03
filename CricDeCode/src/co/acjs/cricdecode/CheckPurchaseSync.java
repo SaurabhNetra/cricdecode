@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,10 +12,8 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -28,43 +23,24 @@ import com.stackmob.sdk.callback.StackMobQueryCallback;
 import com.stackmob.sdk.exception.StackMobException;
 
 
-public class CheckPurchaseInfiService extends IntentService{
+public class CheckPurchaseSync extends IntentService{
 	public static boolean	started	= true;
 	public static Context	who;
 	public String			orderId, token, sign;
-	public JSONObject		jn;
 
-	public CheckPurchaseInfiService(){
-		super("CheckPurchaseInfiService");
+	public CheckPurchaseSync(){
+		super("CheckPurchaseSyncService");
 	}
 
 	@Override
 	public void onCreate(){
 		super.onCreate();
 		who = this;
-		writeToFile("chkInfi service started");
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "purchase.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		writeToFile("chkInfi service ended");
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -108,72 +84,63 @@ public class CheckPurchaseInfiService extends IntentService{
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
-		jn = null;
 		try{
-			jn = new JSONObject(intent.getExtras().getString("json"));
+			JSONObject jn = new JSONObject(intent.getExtras().getString("json"));
+			orderId = jn.getString("orderId");
+			token = jn.getString("Token");
+			sign = jn.getString("Sign");
 		}catch(JSONException e1){
 			e1.printStackTrace();
 		}
-		writeToFile("chkInfiService stackmob calling");
-		ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfi>(){
+		ServerDBSubSync.query(ServerDBSubSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubSync>(){
 			@Override
-			public void failure(StackMobException arg0){
-				writeToFile("chkInfiService failure " + arg0);
-			}
+			public void failure(StackMobException arg0){}
 
 			@Override
-			public void success(List<ServerDBSubInfi> arg0){
-				writeToFile("chkInfiService success " + arg0.size());
+			public void success(List<ServerDBSubSync> arg0){
 				long now = new Date().getTime();
 				if((arg0.size() > 0)){
 					long t = arg0.get(0).getValidUntilTs();
-					writeToFile("chkInfiService success now " + now);
 					int m = 0;
 					for(int i = 1; i < arg0.size(); i++){
-						writeToFile("chkInfiService success loop " + i);
 						if(t < arg0.get(i).getValidUntilTs()){
 							t = arg0.get(i).getValidUntilTs();
 							m = i;
 						}
 					}
-					writeToFile("chkInfiService mad id " + arg0.get(m).getID());
-					writeToFile("chkInfiService max valid " + arg0.get(m).getValidUntilTs());
+					final ServerDBSubSync max = arg0.get(m);
 					if(now < arg0.get(m).getValidUntilTs()){
-						AccessSharedPrefs.setString(who, "infi_use", "yes");
-						writeToFile("chkInfiService mark yes ");
+						AccessSharedPrefs.setString(who, "sync", "yes");
 					}else{
-						writeToFile("chkInfiService calling androiddevices");
 						ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 							@Override
-							public void failure(StackMobException arg0){
-								writeToFile("chkInfiService androiddevices failure " + arg0);
-							}
+							public void failure(StackMobException arg0){}
 
 							@Override
 							public void success(List<ServerDBAndroidDevices> arg0){
-								writeToFile("chkInfiService androiddevices success " + arg0.size());
 								String regids = "";
 								for(int i = 0; i < arg0.size(); i++){
 									regids = regids + " " + arg0.get(i).getGcmId();
 								}
-								writeToFile("ChkInfi data Sending Data...");
-								writeToFile("ChkInfi regids: " + regids);
-								writeToFile("ChkInfi json: " + jn.toString());
 								List<NameValuePair> params = new ArrayList<NameValuePair>();
 								params.add(new BasicNameValuePair("SendToArrays", regids));
-								params.add(new BasicNameValuePair("product_id", "sub_infi"));
-								params.add(new BasicNameValuePair("json", jn.toString()));
+								params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
+								JSONObject jo = new JSONObject();
+								try{
+									jo.put("orderId", max.getOrderId());
+									jo.put("Token", max.getToken());
+									jo.put("Sign", max.getSign());
+								}catch(JSONException e){}
+								params.add(new BasicNameValuePair("json", jo.toString()));
 								params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
 								final JSONParser jsonParser = new JSONParser();
 								int trial = 1;
 								JSONObject jn = null;
 								while(jsonParser.isOnline(who)){
-									Log.w("JSONParser", "Subinfi:: Called");
-									writeToFile("chkInfiService http");
-									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
-									Log.w("JSON returned", "Subinfi:: " + jn);
-									Log.w("trial value", "Subinfi:: " + trial);
-									writeToFile("chkInfiService " + jn + " " + trial);
+									Log.w("JSONParser", "SubinfiSync:: Called");
+									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi_sync), "POST", params, who);
+									Log.w("JSON returned", "SubinfiSync:: " + jn);
+									Log.w("trial value", "SubinfiSync:: " + trial);
 									if(jn != null) break;
 									try{
 										Thread.sleep(10 * trial);
@@ -183,27 +150,23 @@ public class CheckPurchaseInfiService extends IntentService{
 								}
 								try{
 									if(jn.getInt("status") == 1){
-										writeToFile("chkInfiService mark yes");
-										AccessSharedPrefs.setString(who, "infi_use", "yes");
+										AccessSharedPrefs.setString(who, "sync", "yes");
 										try{
 											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
 												public void run(){
 													try{
-														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
-														((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
-														((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
+														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.sync_pur)).setVisibility(View.VISIBLE);
 													}catch(Exception e){}
 												}
 											});
 										}catch(Exception e){}
 									}else{
-										writeToFile("chkInfiService mark no");
-										AccessSharedPrefs.setString(who, "infi_use", "no");
+										AccessSharedPrefs.setString(who, "sync", "no");
 										try{
 											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
 												public void run(){
 													try{
-														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.GONE);
+														((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.sync_pur)).setVisibility(View.GONE);
 													}catch(Exception e){}
 												}
 											});
@@ -217,13 +180,10 @@ public class CheckPurchaseInfiService extends IntentService{
 					}
 					Log.w("LoginIn", "sub_infi_chk success!! 2");
 				}else{
-					AccessSharedPrefs.setString(who, "infi_use", "no");
-					writeToFile("chkInfiService mark no");
+					AccessSharedPrefs.setString(who, "sync", "no");
 				}
 			}
 		});
-		/*
-		 * final JSONParser jsonParser = new JSONParser(); List<NameValuePair> params = new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs .getString("id", ""))); params.add(new BasicNameValuePair("json", intent.getExtras().getString( "json"))); JSONObject jn = null; jn = jsonParser.makeHttpRequest( getResources().getString(R.string.check_purchase_infi_use), "POST", params, this); try { if (jn.getInt("status") == 1) { AccessSharedPrefs.setString(this, "infi_use", "no"); } } catch (Exception e) { } */
-		writeToFile("chkInfiService towards end");
+		/* final JSONParser jsonParser = new JSONParser(); List<NameValuePair> params = new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs .getString("id", ""))); params.add(new BasicNameValuePair("json", intent.getExtras().getString( "json"))); JSONObject jn = null; jn = jsonParser.makeHttpRequest( getResources().getString(R.string.check_purchase_infi_sync), "POST", params, this); try { if (jn.getInt("status") == 1) { AccessSharedPrefs.setString(this, "infi_sync", "no"); } } catch (Exception e) { } */
 	}
 }

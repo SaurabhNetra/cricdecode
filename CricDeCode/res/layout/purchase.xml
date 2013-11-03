@@ -7,16 +7,15 @@
     android:paddingBottom="@dimen/scrollview_padding_bottom"
     android:paddingTop="@dimen/scrollview_padding_top" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/pur_subscribe_infi_sync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/margin_bottom"
             android:layout_marginLeft="@dimen/new_match_card_margin_left"
             android:layout_marginRight="@dimen/new_match_card_margin_right"
@@ -58,28 +57,72 @@
                 android:gravity="center_horizontal" />
 
             <TextView
-                android:id="@+id/infi_sync_descr1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:padding="10dp"
-                android:textSize="16sp" />
-
-            <TextView
                 android:id="@+id/infi_sync_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/pur_subscribe_sync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/pur_subscribe_infi_sync"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_marginLeft="@dimen/new_match_card_margin_left"
+            android:layout_marginRight="@dimen/new_match_card_margin_right"
+            android:background="@drawable/cards_bg"
+            android:onClick="onClick"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_top"
+            android:paddingLeft="@dimen/padding_left"
+            android:paddingRight="@dimen/padding_right"
+            android:paddingTop="@dimen/padding_top"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/sync_pur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/purchased"
+                android:textColor="@color/dark_red"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/sync_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator_height_one_dp"
+                android:layout_margin="8dp"
+                android:background="@color/faint_grey" />
+
+            <TextView
+                android:id="@+id/sync_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/sync_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/purchase_lower"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="2" >
@@ -190,6 +233,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>

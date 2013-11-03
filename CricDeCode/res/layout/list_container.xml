@@ -62,6 +62,6 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="@dimen/list_divider_height" >
-    </ListView>
+    </ListView>   
 
 </LinearLayout>

@@ -39,7 +39,11 @@ public class ConnectionDetector extends BroadcastReceiver {
 				"PurchaseInfiSyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
-		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced | NotSyncedGCMSync) {
+		boolean NotSynced = AccessSharedPrefs.mPrefs.getString(
+				"PurchaseSyncServiceCalled",
+				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted | NotAdRemoved | NotInfied | NotInfiSynced | NotSyncedGCMSync|NotSynced) {
 			boolean isConnected = isOnline(context);
 			if (isConnected) {
 				Log.w("Connection Detector", "detected");
@@ -80,6 +84,12 @@ public class ConnectionDetector extends BroadcastReceiver {
 							"ConnectionDetector");
 					context.startService(new Intent(context,
 						GCMSyncService.class));
+				}
+				if (NotSynced & isConnected) {
+					Log.w("Starting PurchasedSyncService",
+							"ConnectionDetector");
+					context.startService(new Intent(context,
+						PurchasedSyncService.class));
 				}
 			} else Log.w("Connection Detector", "no connection");
 		}

@@ -632,7 +632,14 @@ public class IabHelper {
                 if (!mDisposed && listener != null) {
                     handler.post(new Runnable() {
                         public void run() {
+                        	try
+                        	{
                             listener.onQueryInventoryFinished(result_f, inv_f);
+                        	}
+                        	catch(NullPointerException e)
+                        	{
+                        		
+                        	}
                         }
                     });
                 }

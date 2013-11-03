@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -142,6 +143,9 @@ public class PurchasedInfiService extends IntentService{
 										public void run(){
 											try{
 												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Purchased");
+												((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
+												((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
 											}catch(Exception e){}
 										}
 									});

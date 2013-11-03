@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/list_item_margin_bottom"
+    android:background="@drawable/cards_bg"
+    android:padding="@dimen/list_item_padding" >
+
+    <ListView
+        android:id="@+id/content_list1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/card_bottom_margin"
+        android:layout_marginLeft="@dimen/card_left_margin"
+        android:layout_marginRight="@dimen/card_right_margin"
+        android:layout_marginTop="@dimen/card_bottom_margin"
+        android:cacheColorHint="@color/transparent"
+        android:dividerHeight="@dimen/list_divider_ht" >
+    </ListView>
+
+</RelativeLayout>

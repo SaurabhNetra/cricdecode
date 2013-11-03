@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -31,6 +32,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 	public static final int	NO_REMOVE_ADS				= 7;
 	public static final int	NO_SUB_INFI					= 8;
 	public static final int	NO_SUB_INFI_SYNC			= 9;
+	public static final int	SUB_SYNC					= 10;
+	public static final int	NO_SUB_SYNC					= 11;
 	public static Context	context;
 
 	public GCMIntentService(){
@@ -86,142 +89,52 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					break;
 				case MATCH_N_PERFORMANCE_DATA:
 					Log.w("Match and Per Sync", "GCM");
-					if(!AccessSharedPrefs.mPrefs.getString("GCMMatchData", "").equals("")){
-						JSONArray ja_d = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
-						JSONArray ja_s = gcmData.getJSONArray("matches");
-						for(int i = 0; i < ja_s.length(); i++){
-							ja_d.put(ja_s.get(i));
+					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
+						if(!AccessSharedPrefs.mPrefs.getString("GCMMatchData", "").equals("")){
+							JSONArray ja_d = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
+							JSONArray ja_s = gcmData.getJSONArray("matches");
+							for(int i = 0; i < ja_s.length(); i++){
+								ja_d.put(ja_s.get(i));
+							}
+							JSONObject jo = new JSONObject();
+							jo.put("matches", ja_d);
+							AccessSharedPrefs.setString(context, "GCMMatchData", jo.toString());
+						}else{
+							JSONObject jo = new JSONObject();
+							jo.put("matches", gcmData.getJSONArray("matches"));
+							AccessSharedPrefs.setString(context, "GCMMatchData", jo.toString());
 						}
-						JSONObject jo = new JSONObject();
-						jo.put("matches", ja_d);
-						AccessSharedPrefs.setString(context, "GCMMatchData", jo.toString());
-					}else{
-						JSONObject jo = new JSONObject();
-						jo.put("matches", gcmData.getJSONArray("matches"));
-						AccessSharedPrefs.setString(context, "GCMMatchData", jo.toString());
+						Log.w("Match and Per Sync", "starting service: " + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
+						AccessSharedPrefs.setString(context, "GCMSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+						startService(new Intent(this, GCMSyncService.class));
 					}
-					Log.w("Match and Per Sync", "starting service: " + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
-					AccessSharedPrefs.setString(context, "GCMSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
-					startService(new Intent(this, GCMSyncService.class));
-					/*
-					 * if (!AccessSharedPrefs.mPrefs.getString("device_id", "")
-					 * .equals(gcmData.getInt("dev") + "")) {
-					 * 
-					 * JSONArray ja1 = gcmData.getJSONArray("per"); for (int i = 0;
-					 * i < ja1.length(); i++) { JSONObject jo =
-					 * ja1.getJSONObject(i); ContentValues value = new
-					 * ContentValues();
-					 * 
-					 * value.put(PerformanceDb.KEY_MATCHID,
-					 * Integer.parseInt(jo.getString("mid")));
-					 * value.put(PerformanceDb.KEY_DEVICE_ID,
-					 * gcmData.getString("dev")); value.put(PerformanceDb.KEY_ROWID,
-					 * Integer.parseInt(jo.getString("pid")));
-					 * value.put(PerformanceDb.KEY_INNING,
-					 * Integer.parseInt(jo.getString("inn")));
-					 * 
-					 * value.put(PerformanceDb.KEY_BAT_NUM,
-					 * Integer.parseInt(jo.getString("bn")));
-					 * value.put(PerformanceDb.KEY_BAT_RUNS,
-					 * Integer.parseInt(jo.getString("br")));
-					 * value.put(PerformanceDb.KEY_BAT_BALLS,
-					 * Integer.parseInt(jo.getString("bb")));
-					 * value.put(PerformanceDb.KEY_BAT_TIME,
-					 * Integer.parseInt(jo.getString("bt")));
-					 * value.put(PerformanceDb.KEY_BAT_FOURS,
-					 * Integer.parseInt(jo.getString("bf")));
-					 * value.put(PerformanceDb.KEY_BAT_SIXES,
-					 * Integer.parseInt(jo.getString("bs")));
-					 * value.put(PerformanceDb.KEY_BAT_HOW_OUT,
-					 * jo.getString("bho"));
-					 * value.put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
-					 * jo.getString("bbt"));
-					 * value.put(PerformanceDb.KEY_BAT_FIELDING_POSITION,
-					 * jo.getString("bfp"));
-					 * value.put(PerformanceDb.KEY_BAT_CHANCES,
-					 * Integer.parseInt(jo.getString("bc")));
-					 * 
-					 * value.put(PerformanceDb.KEY_BOWL_BALLS,
-					 * Integer.parseInt(jo.getString("ob")));
-					 * value.put(PerformanceDb.KEY_BOWL_SPELLS,
-					 * Integer.parseInt(jo.getString("osp")));
-					 * value.put(PerformanceDb.KEY_BOWL_MAIDENS,
-					 * Integer.parseInt(jo.getString("om")));
-					 * value.put(PerformanceDb.KEY_BOWL_RUNS,
-					 * Integer.parseInt(jo.getString("oru")));
-					 * value.put(PerformanceDb.KEY_BOWL_FOURS,
-					 * Integer.parseInt(jo.getString("of")));
-					 * value.put(PerformanceDb.KEY_BOWL_SIXES,
-					 * Integer.parseInt(jo.getString("osx")));
-					 * value.put(PerformanceDb.KEY_BOWL_WKTS_LEFT,
-					 * Integer.parseInt(jo.getString("owl")));
-					 * value.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-					 * Integer.parseInt(jo.getString("owr")));
-					 * value.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-					 * Integer.parseInt(jo.getString("ocd")));
-					 * value.put(PerformanceDb.KEY_BOWL_NOBALLS,
-					 * Integer.parseInt(jo.getString("ono")));
-					 * value.put(PerformanceDb.KEY_BOWL_WIDES,
-					 * Integer.parseInt(jo.getString("ow")));
-					 * 
-					 * value.put(PerformanceDb.KEY_FIELD_SLIP_CATCH,
-					 * Integer.parseInt(jo.getString("fsc")));
-					 * value.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-					 * Integer.parseInt(jo.getString("fco")));
-					 * value.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-					 * Integer.parseInt(jo.getString("fcc")));
-					 * value.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,
-					 * Integer.parseInt(jo.getString("fdc")));
-					 * value.put(PerformanceDb.KEY_FIELD_RO_CIRCLE,
-					 * Integer.parseInt(jo.getString("frc")));
-					 * value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-					 * Integer.parseInt(jo.getString("fci")));
-					 * value.put(PerformanceDb.KEY_FIELD_RO_DEEP,
-					 * Integer.parseInt(jo.getString("frd")));
-					 * value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-					 * Integer.parseInt(jo.getString("fdd")));
-					 * value.put(PerformanceDb.KEY_FIELD_STUMPINGS,
-					 * Integer.parseInt(jo.getString("fs")));
-					 * value.put(PerformanceDb.KEY_FIELD_BYES,
-					 * Integer.parseInt(jo.getString("fb")));
-					 * value.put(PerformanceDb.KEY_FIELD_MISFIELDS,
-					 * Integer.parseInt(jo.getString("fmf")));
-					 * value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
-					 * jo.getString("fcd"));
-					 * 
-					 * value.put(PerformanceDb.KEY_STATUS, jo.getString("sts"));
-					 * 
-					 * getApplicationContext() .getContentResolver()
-					 * .insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
-					 * value);
-					 * 
-					 * } }
-					 */
 					break;
 				case DELETE_MATCH:
 					JSONArray ja2 = gcmData.getJSONArray("todelete");
 					Log.w("GCM delete Match", "with gcm data");
-					for(int i = 0; i < ja2.length(); i++){
-						JSONObject jo = ja2.getJSONObject(i);
-						String str = jo.getString("mid");
-						String d_str = jo.getString("dev");
-						Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str + "/" + d_str);
-						getApplicationContext().getContentResolver().delete(uri, null, null);
-						uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
-						getApplicationContext().getContentResolver().delete(uri, null, null);
-					}
-					try{
-						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
-							public void run(){
-								try{
-									DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
-								}catch(Exception e){
-									Log.w("GCMSync", "UI update error" + e);
+					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
+						for(int i = 0; i < ja2.length(); i++){
+							JSONObject jo = ja2.getJSONObject(i);
+							String str = jo.getString("mid");
+							String d_str = jo.getString("dev");
+							Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str + "/" + d_str);
+							getApplicationContext().getContentResolver().delete(uri, null, null);
+							uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
+							getApplicationContext().getContentResolver().delete(uri, null, null);
+						}
+						try{
+							((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+								public void run(){
+									try{
+										DiaryMatchesFragment.loader_diary_list.restartLoader(0, null, DiaryMatchesFragment.diary_matches_fragment);
+									}catch(Exception e){
+										Log.w("GCMSync", "UI update error" + e);
+									}
 								}
-							}
-						});
-					}catch(Exception e){
-						Log.w("GCMSync", "UI update error" + e);
+							});
+						}catch(Exception e){
+							Log.w("GCMSync", "UI update error" + e);
+						}
 					}
 					break;
 				case REMOVE_ADS:
@@ -246,7 +159,10 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
 							public void run(){
 								try{
+									((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
+									((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
 									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Purchased");
 								}catch(Exception e){}
 							}
 						});
@@ -260,6 +176,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							public void run(){
 								try{
 									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.VISIBLE);
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Not Applicable");
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
 								}catch(Exception e){}
 							}
 						});
@@ -301,6 +219,32 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							public void run(){
 								try{
 									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.GONE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
+					break;
+				case NO_SUB_SYNC:
+					Log.w("GCM: ", "gcm no sync");
+					AccessSharedPrefs.setString(this, "sync", "no");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.sync_pur)).setVisibility(View.GONE);
+								}catch(Exception e){}
+							}
+						});
+					}catch(Exception e){}
+					break;
+				case SUB_SYNC:
+					Log.w("GCM: ", "gcm sync");
+					AccessSharedPrefs.setString(this, "sync", "yes");
+					try{
+						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.sync_pur)).setVisibility(View.VISIBLE);
 								}catch(Exception e){}
 							}
 						});

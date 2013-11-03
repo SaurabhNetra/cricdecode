@@ -204,12 +204,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 			is_synced = true;
 		}
 		c.close();
-		if(!AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes") || !is_synced){
-			Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str + "/" + d_str);
-			getSherlockActivity().getContentResolver().delete(uri, null, null);
-			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
-			getSherlockActivity().getContentResolver().delete(uri, null, null);
-		}else{
+		if((AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")) && is_synced){
 			Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
 			ContentValues values = new ContentValues();
 			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_DELETED);
@@ -220,16 +215,21 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 			getSherlockActivity().getContentResolver().update(uri, value, null, null);
 			AccessSharedPrefs.setString(getSherlockActivity(), "DeleteMatchServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 			Intent i = new Intent(MainActivity.main_context, DeleteMatchService.class);
-			i.putExtra("mid", str);
-			i.putExtra("dev", d_str);
 			try{
 				if(DeleteMatchService.started){
 					MainActivity.main_context.stopService(i);
+					MainActivity.main_context.startService(i);
+				}else{
 					MainActivity.main_context.startService(i);
 				}
 			}catch(NullPointerException e){
 				MainActivity.main_context.startService(i);
 			}
+		}else{
+			Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str + "/" + d_str);
+			getSherlockActivity().getContentResolver().delete(uri, null, null);
+			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
+			getSherlockActivity().getContentResolver().delete(uri, null, null);
 		}
 		AccessSharedPrefs.mPrefs = getSherlockActivity().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setInt(getSherlockActivity(), "diaryMatches", AccessSharedPrefs.mPrefs.getInt("diaryMatches", 0) - 1);
