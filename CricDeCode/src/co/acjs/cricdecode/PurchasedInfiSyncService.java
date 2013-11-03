@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -38,14 +34,14 @@ public class PurchasedInfiSyncService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("PurchasedInfiSyncService", "Started");
-		writeToFile("PurchasedInfiSyncService Started");
+		
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
 		Log.w("PurchasedInfiSyncService", "Ended");
-		writeToFile("PurchasedInfiSyncService Ended");
+		
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -87,7 +83,7 @@ public class PurchasedInfiSyncService extends IntentService{
 
 	@Override
 	protected void onHandleIntent(Intent intent){
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if(AccessSharedPrefs.mPrefs.getString("PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
@@ -107,7 +103,7 @@ public class PurchasedInfiSyncService extends IntentService{
 					params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
 					params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", "")));
 					Log.w("Sending User Data...", "PurchaseInfiSync:" + jsonParser.isOnline(con));
-					writeToFile("Sending User Data...PurchaseInfiSync:");
+					
 					int trial = 1;
 					JSONObject jn = null;
 					while(jsonParser.isOnline(con)){
@@ -124,7 +120,7 @@ public class PurchasedInfiSyncService extends IntentService{
 						}
 					}
 					try{
-						writeToFile("PurchasedInfiService Reply" + jn.toString());
+						
 						if(jn.getInt("status") == 1){
 							AccessSharedPrefs.setString(con, "PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
@@ -162,19 +158,4 @@ public class PurchasedInfiSyncService extends IntentService{
 		}
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "debug.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data);
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
 }

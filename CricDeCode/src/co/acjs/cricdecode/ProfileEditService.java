@@ -32,7 +32,7 @@ public class ProfileEditService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		who = this;
-		StackMobAndroid.init(who, 0, decrypt("00e65id7", "97:4fdeh","4d3f56i:",":06::h8<d05d", "7295013486", 3));
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		Log.w("ProfileEditService", "Started");
 	}
 

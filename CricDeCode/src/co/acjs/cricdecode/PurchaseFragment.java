@@ -34,7 +34,9 @@ public class PurchaseFragment extends SherlockFragment{
 		((TextView)view.findViewById(R.id.infi_sync_price)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_price", ""));
 		((TextView)view.findViewById(R.id.infi_sync_title)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_title", ""));
 		((TextView)view.findViewById(R.id.infi_sync_descr)).setText(AccessSharedPrefs.mPrefs.getString("pur_infi_sync_descr", ""));
-		
+		((TextView)view.findViewById(R.id.sync_price)).setText(AccessSharedPrefs.mPrefs.getString("pur_sync_price", ""));
+		((TextView)view.findViewById(R.id.sync_title)).setText(AccessSharedPrefs.mPrefs.getString("pur_sync_title", ""));
+		((TextView)view.findViewById(R.id.sync_descr)).setText(AccessSharedPrefs.mPrefs.getString("pur_sync_descr", ""));
 		if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 			((TextView)view.findViewById(R.id.infi_sync_pur)).setVisibility(View.VISIBLE);
 			((TextView)view.findViewById(R.id.infi_pur)).setText("Not Applicable");
@@ -45,10 +47,12 @@ public class PurchaseFragment extends SherlockFragment{
 			((TextView)view.findViewById(R.id.infi_pur)).setText("Purchased");
 			((LinearLayout)view.findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
 			((LinearLayout)view.findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
-		
 		}
 		if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 			((TextView)view.findViewById(R.id.rem_ads_pur)).setVisibility(View.VISIBLE);
+		}
+		if(AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
+			((TextView)view.findViewById(R.id.sync_pur)).setVisibility(View.VISIBLE);
 		}
 	}
 

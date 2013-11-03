@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -42,7 +38,7 @@ public class GCMSyncService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		who = this;
-		StackMobAndroid.init(who, 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		Log.w("GCMSyncService", "Started");
 	}
 
@@ -129,7 +125,7 @@ public class GCMSyncService extends IntentService{
 						// insert a record
 						// Sheetal Test This
 						Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
-						writeToFile("GCMSyncService: Already there Match " + c.getCount());
+					
 						if(c.getCount() == 0){
 							getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 						}
@@ -189,7 +185,7 @@ public class GCMSyncService extends IntentService{
 									value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 									// Sheetal Test
 									Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
-									writeToFile("GCMSyncService: Already there Per " + c.getCount());
+									
 									if(c.getCount() == 0){
 										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
 									}
@@ -231,21 +227,6 @@ public class GCMSyncService extends IntentService{
 	
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "gcm_sync.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data);
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
 
 	@Override
 	protected void onHandleIntent(Intent intent){

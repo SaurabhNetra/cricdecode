@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -25,7 +22,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,7 +88,7 @@ public class LogIn extends SherlockActivity{
 						public void onCompleted(GraphUser user, Response response){
 							if(user != null){
 								Log.w("Face Book Login Complete 1", "LogIn: " + user.getBirthday());
-								writeToFile("Face Book Login Complete");
+							
 								LogIn.user = user;
 								progressText.setText("Phase 1 of 3...");
 								GCMRegistration();
@@ -208,9 +204,9 @@ public class LogIn extends SherlockActivity{
 	}
 
 	void GCMRegistration(){
-		writeToFile("GCMRegistration");
+		
 		progressText.setText("Phase 2 of 3...");
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("00e65id7", "97:4fdeh", "4d3f56i:", ":06::h8<d05d", "7295013486", 3));
+		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		client = getContentResolver().acquireContentProviderClient(CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider)client.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -232,13 +228,13 @@ public class LogIn extends SherlockActivity{
 			if(regid == null) ((LogIn)login_activity).GCMRegistration();
 			else{
 				startApp(regid);
-				writeToFile("On Post Execute startApp");
+				
 			}
 		}
 	}
 
 	static void chkAll(){
-		writeToFile("chk all called");
+		
 		Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')", "success");
 		ServerDBUserTable.query(ServerDBUserTable.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBUserTable>(){
 			@Override
@@ -346,7 +342,7 @@ public class LogIn extends SherlockActivity{
 																jo.put("orderId", max.getOrderId());
 																jo.put("Token", max.getToken());
 																jo.put("Sign", max.getSign());
-																writeToFile("onPurchase Json: " + jo.toString());
+															
 															}catch(JSONException e){}
 															params.add(new BasicNameValuePair("json", jo.toString()));
 															params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -426,7 +422,7 @@ public class LogIn extends SherlockActivity{
 																		jo.put("orderId", max.getOrderId());
 																		jo.put("Token", max.getToken());
 																		jo.put("Sign", max.getSign());
-																		writeToFile("onPurchase Json: " + jo.toString());
+																		
 																	}catch(JSONException e){}
 																	params.add(new BasicNameValuePair("json", jo.toString()));
 																	params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -505,7 +501,7 @@ public class LogIn extends SherlockActivity{
 																				jo.put("orderId", max.getOrderId());
 																				jo.put("Token", max.getToken());
 																				jo.put("Sign", max.getSign());
-																				writeToFile("onPurchase Json: " + jo.toString());
+																				
 																			}catch(JSONException e){}
 																			params.add(new BasicNameValuePair("json", jo.toString()));
 																			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -648,7 +644,7 @@ public class LogIn extends SherlockActivity{
 
 	static void startApp(final String gcm_reg_id){
 		Log.w("Start App", "called");
-		writeToFile("Inside StartApp");
+	
 		progressText.setText("Phase 3 of 3...");
 		Log.w("Start App", "else ");
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
@@ -666,7 +662,7 @@ public class LogIn extends SherlockActivity{
 
 			@Override
 			public void success(List<ServerDBAndroidDevices> returenedVar){
-				writeToFile("ServerDBAndroidDevices success" + returenedVar.size());
+			
 				Log.w("LogIn gcmid", "success1" + returenedVar.size());
 				// progressText.setText("Phase 4...");
 				Log.w("LogIn gcmid", "success2" + returenedVar.size());
@@ -675,7 +671,7 @@ public class LogIn extends SherlockActivity{
 					new ServerDBAndroidDevices(user.getId(), gcm_reg_id).save(new StackMobCallback(){
 						@Override
 						public void success(String arg0){
-							writeToFile("ServerDBAndroidDevices success");
+							
 							chkAll();
 						}
 
@@ -686,7 +682,7 @@ public class LogIn extends SherlockActivity{
 						}
 					});
 				}else{
-					writeToFile("Already Existing user");
+					
 					chkAll();
 				}
 			}
@@ -706,19 +702,4 @@ public class LogIn extends SherlockActivity{
 		((LogIn)login_activity).finish();
 	}
 
-	private static void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "login.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
 }

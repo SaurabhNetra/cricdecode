@@ -1,9 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -41,21 +36,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 		context = this;
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "gcm.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data);
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
+	
 
 	@Override
 	protected void onMessage(Intent message){
@@ -65,7 +46,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
 			String s = gcmString.toString();
 			s = s.replace("\\", "");
-			writeToFile(s);
+			
 			JSONObject gcmData = new JSONObject(s);
 			switch(gcmData.getInt("gcmid")){
 				case UPDATE_PROFILE_DATA:

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.acjs.cricdecode"
     android:installLocation="preferExternal"
-    android:versionCode="4"
-    android:versionName="d.4" >
+    android:versionCode="5"
+    android:versionName="1.0" >
 
     <permission
         android:name="co.acjs.cricdecode.permission.C2D_MESSAGE"
@@ -21,7 +21,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <application
         android:name="co.acjs.cricdecode.CDCAppClass"
