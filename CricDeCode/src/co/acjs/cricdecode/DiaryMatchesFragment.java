@@ -204,7 +204,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 			is_synced = true;
 		}
 		c.close();
-		if((AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")) && is_synced){
+		if((AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes") || AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")) && is_synced){
 			Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
 			ContentValues values = new ContentValues();
 			values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_DELETED);

@@ -88,7 +88,7 @@ public class CareerFragment extends SherlockFragment implements
 				getSherlockActivity(), CareerFieldingFragment.class.getName()));
 
 		this.mPagerAdapter = new CricDeCodePagerAdapter(
-				getFragmentManager(), fragments);
+				getChildFragmentManager(), fragments);
 
 		this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		this.mViewPager.setAdapter(this.mPagerAdapter);

@@ -36,8 +36,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 		context = this;
 	}
 
-	
-
 	@Override
 	protected void onMessage(Intent message){
 		AccessSharedPrefs.mPrefs = context.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -46,7 +44,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
 			String s = gcmString.toString();
 			s = s.replace("\\", "");
-			
 			JSONObject gcmData = new JSONObject(s);
 			switch(gcmData.getInt("gcmid")){
 				case UPDATE_PROFILE_DATA:
@@ -70,7 +67,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					break;
 				case MATCH_N_PERFORMANCE_DATA:
 					Log.w("Match and Per Sync", "GCM");
-					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
+					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes") || AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
 						if(!AccessSharedPrefs.mPrefs.getString("GCMMatchData", "").equals("")){
 							JSONArray ja_d = (new JSONObject(AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""))).getJSONArray("matches");
 							JSONArray ja_s = gcmData.getJSONArray("matches");
@@ -93,7 +90,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 				case DELETE_MATCH:
 					JSONArray ja2 = gcmData.getJSONArray("todelete");
 					Log.w("GCM delete Match", "with gcm data");
-					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
+					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes") || AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
 						for(int i = 0; i < ja2.length(); i++){
 							JSONObject jo = ja2.getJSONObject(i);
 							String str = jo.getString("mid");

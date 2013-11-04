@@ -25,44 +25,39 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-public class JSONParser {
 
-	static InputStream is = null;
-	static JSONObject jObj = null;
-	static String json = "";
-	Context cont;
-	String response;
+public class JSONParser{
+	static InputStream	is		= null;
+	static JSONObject	jObj	= null;
+	static String		json	= "";
+	Context				cont;
+	String				response;
 
 	// constructor
-	public JSONParser() {
-
-	}
+	public JSONParser(){}
 
 	// function get json from url
 	// by making HTTP POST or GET mehtod
-	public JSONObject makeHttpRequest(String url, String method,
-			List<NameValuePair> params, Context cont) {
-
+	public JSONObject makeHttpRequest(String url, String method, List<NameValuePair> params, Context cont){
 		// Making HTTP request
-		try {
+		try{
 			this.cont = cont;
 			// check for request method
-			if (method == "POST") {
-				if (isOnline(cont)) {
+			if(method == "POST"){
+				if(isOnline(cont)){
 					Log.w("Is Online", "JSONParser");
 					DefaultHttpClient httpClient = new DefaultHttpClient();
 					HttpPost httpPost = new HttpPost(url);
 					httpPost.setEntity(new UrlEncodedFormEntity(params));
-					if (isOnline(cont)) {
+					if(isOnline(cont)){
 						Log.w("Is Online", "JSONParser");
-						HttpResponse httpResponse = httpClient
-								.execute(httpPost);
+						HttpResponse httpResponse = httpClient.execute(httpPost);
 						HttpEntity httpEntity = httpResponse.getEntity();
 						is = httpEntity.getContent();
-					} else {
+					}else{
 						Log.w("Not Online", "JSONParser");
 					}
-				} else {
+				}else{
 					Log.w("Not Online", "JSONParser");
 				}
 				/*
@@ -80,69 +75,58 @@ public class JSONParser {
 				 * Log.w("HTTP respone","response: "+response); } else {
 				 * Log.w("Not Online", "JSONParser"); }
 				 */
-
-			} else if (method == "GET") {
+			}else if(method == "GET"){
 				// request method is GET
-
 				DefaultHttpClient httpClient = new DefaultHttpClient();
 				String paramString = URLEncodedUtils.format(params, "utf-8");
 				url += "?" + paramString;
 				HttpGet httpGet = new HttpGet(url);
-
-				if (isOnline(cont)) {
-
+				if(isOnline(cont)){
 					Log.w("Is Online", "JSONParser");
 					HttpResponse httpResponse = httpClient.execute(httpGet);
-					Log.w("JSONParser Response",
-							EntityUtils.toString(httpResponse.getEntity()));
+					Log.w("JSONParser Response", EntityUtils.toString(httpResponse.getEntity()));
 					HttpEntity httpEntity = httpResponse.getEntity();
 					is = httpEntity.getContent();
 					Log.w("JSONParser Response", "2");
-				} else {
+				}else{
 					Log.w("Not Online", "JSONParser");
 				}
 			}
-
-		} catch (UnsupportedEncodingException e) {
+		}catch(UnsupportedEncodingException e){
 			e.printStackTrace();
 			Log.w("Error", "Parsing");
-		} catch (ClientProtocolException e) {
+		}catch(ClientProtocolException e){
 			e.printStackTrace();
 			Log.w("Error", "Parsing");
-		} catch (IOException e) {
+		}catch(IOException e){
 			e.printStackTrace();
 			Log.w("Error", "Parsing");
 		}
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "iso-8859-1"), 8);
+		try{
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
 			StringBuilder sb = new StringBuilder();
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while((line = reader.readLine()) != null){
 				sb.append(line + "\n");
 			}
 			is.close();
 			json = sb.toString();
-		} catch (Exception e) {
+		}catch(Exception e){
 			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}
-
 		// try parse the string to a JSON object
-		try {
+		try{
 			jObj = new JSONObject(json);
-		} catch (JSONException e) {
+		}catch(JSONException e){
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
-
 		// return JSON String
 		return jObj;
 	}
 
-	public Boolean isOnline(Context cont) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) cont
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager
-				.getActiveNetworkInfo();
+	public Boolean isOnline(Context cont){
+		ConnectivityManager connectivityManager = (ConnectivityManager)cont.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 }

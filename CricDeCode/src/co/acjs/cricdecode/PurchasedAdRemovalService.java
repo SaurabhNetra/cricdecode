@@ -85,11 +85,9 @@ public class PurchasedAdRemovalService extends IntentService{
 		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if(AccessSharedPrefs.mPrefs.getString("PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
-		
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
-				public void failure(StackMobException arg0){
-				}
+				public void failure(StackMobException arg0){}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
@@ -104,14 +102,12 @@ public class PurchasedAdRemovalService extends IntentService{
 						params.add(new BasicNameValuePair("product_id", "ad_removal"));
 						params.add(new BasicNameValuePair("SendToArrays", regids));
 						params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_ad_data", "")));
-						
 						int trial = 1;
 						JSONObject jn = null;
 						while(jsonParser.isOnline(con)){
 							jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_remove_ads_sync), "POST", params, con);
 							Log.w("JSON returned", "PurchasedAdRemovalService: " + jn);
 							Log.w("trial value", "PurchasedAdRemovalService: " + trial);
-							
 							if(jn != null) break;
 							try{
 								Thread.sleep(10 * trial);
@@ -123,10 +119,8 @@ public class PurchasedAdRemovalService extends IntentService{
 						}
 						try{
 							Log.w("PurchaseAdRemovalServiceCalled", "Reply" + jn);
-						
 							if(jn.getInt("status") == 1){
 								Log.w("PurAdRemoval", "Reply" + jn);
-								
 								AccessSharedPrefs.setString(con, "PurAdRemovalService", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
 								AccessSharedPrefs.setString(con, "ad_free", "yes");
@@ -143,7 +137,6 @@ public class PurchasedAdRemovalService extends IntentService{
 								}catch(Exception e){}
 							}
 							if(jn.getInt("status") == 0){
-								
 								AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
 								AccessSharedPrefs.setString(con, "ad_free", "no");
@@ -159,15 +152,10 @@ public class PurchasedAdRemovalService extends IntentService{
 									});
 								}catch(Exception e){}
 							}
-						}catch(Exception e){
-						}
-					}catch(Exception e){
-						
-					}
+						}catch(Exception e){}
+					}catch(Exception e){}
 				}
 			});
 		}
 	}
-
-	
 }

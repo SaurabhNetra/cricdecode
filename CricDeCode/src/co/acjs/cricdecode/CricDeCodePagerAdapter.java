@@ -7,15 +7,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class CricDeCodePagerAdapter extends FragmentPagerAdapter {
-	private List<SherlockFragment> fragments;
+
+public class CricDeCodePagerAdapter extends FragmentPagerAdapter{
+	private List<SherlockFragment>	fragments;
 
 	/**
 	 * @param fm
 	 * @param fragments
 	 */
-	public CricDeCodePagerAdapter(FragmentManager fm,
-			List<SherlockFragment> fragments) {
+	public CricDeCodePagerAdapter(FragmentManager fm, List<SherlockFragment> fragments){
 		super(fm);
 		this.fragments = fragments;
 	}
@@ -26,7 +26,7 @@ public class CricDeCodePagerAdapter extends FragmentPagerAdapter {
 	 * @see android.support.v4.app.FragmentPagerAdapter#getItem(int)
 	 */
 	@Override
-	public SherlockFragment getItem(int position) {
+	public SherlockFragment getItem(int position){
 		return this.fragments.get(position);
 	}
 
@@ -36,8 +36,7 @@ public class CricDeCodePagerAdapter extends FragmentPagerAdapter {
 	 * @see android.support.v4.view.PagerAdapter#getCount()
 	 */
 	@Override
-	public int getCount() {
+	public int getCount(){
 		return this.fragments.size();
 	}
-
 }

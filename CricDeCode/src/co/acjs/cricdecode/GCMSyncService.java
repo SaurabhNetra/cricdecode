@@ -84,10 +84,8 @@ public class GCMSyncService extends IntentService{
 		}
 		return new String(sh);
 	}
-	
-	void getGCMData()
-	{
 
+	void getGCMData(){
 		JSONArray ja = null;
 		int in = 0;
 		try{
@@ -125,7 +123,6 @@ public class GCMSyncService extends IntentService{
 						// insert a record
 						// Sheetal Test This
 						Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
-					
 						if(c.getCount() == 0){
 							getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 						}
@@ -185,7 +182,6 @@ public class GCMSyncService extends IntentService{
 									value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 									// Sheetal Test
 									Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
-									
 									if(c.getCount() == 0){
 										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
 									}
@@ -224,9 +220,7 @@ public class GCMSyncService extends IntentService{
 		}catch(Exception e){
 			Log.w("GCMSync", "");
 		}
-	
 	}
-
 
 	@Override
 	protected void onHandleIntent(Intent intent){
@@ -234,89 +228,84 @@ public class GCMSyncService extends IntentService{
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		Log.w("GCMSync", "fff");
 		if(AccessSharedPrefs.mPrefs.getString("GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
-			
-			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes"))
-			{
-			ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
-				@Override
-				public void failure(StackMobException arg0){}
+			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
+				ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
+					@Override
+					public void failure(StackMobException arg0){}
 
-				@Override
-				public void success(List<ServerDBSubInfiSync> arg0){
-					long now = new Date().getTime();
-					if((arg0.size() > 0)){
-						long t = arg0.get(0).getValidUntilTs();
-						int m = 0;
-						for(int i = 1; i < arg0.size(); i++){
-							if(t < arg0.get(i).getValidUntilTs()){
-								t = arg0.get(i).getValidUntilTs();
-								m = i;
-							}
-						}
-						final ServerDBSubInfiSync max = arg0.get(m);
-						if(now < arg0.get(m).getValidUntilTs()){
-							AccessSharedPrefs.setString(who, "infi_sync", "yes");
-							getGCMData();
-						}else{
-							ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
-								@Override
-								public void failure(StackMobException arg0){}
-
-								@Override
-								public void success(List<ServerDBAndroidDevices> arg0){
-									String regids = "";
-									for(int i = 0; i < arg0.size(); i++){
-										regids = regids + " " + arg0.get(i).getGcmId();
-									}
-									List<NameValuePair> params = new ArrayList<NameValuePair>();
-									params.add(new BasicNameValuePair("SendToArrays", regids));
-									params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
-									JSONObject jo = new JSONObject();
-									try{
-										jo.put("orderId", max.getOrderId());
-										jo.put("Token", max.getToken());
-										jo.put("Sign", max.getSign());
-									}catch(JSONException e){}
-									params.add(new BasicNameValuePair("json", jo.toString()));
-									params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
-									final JSONParser jsonParser = new JSONParser();
-									int trial = 1;
-									JSONObject jn = null;
-									while(jsonParser.isOnline(who)){
-										Log.w("JSONParser", "SubinfiSync:: Called");
-										jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
-										Log.w("JSON returned", "SubinfiSync:: " + jn);
-										Log.w("trial value", "SubinfiSync:: " + trial);
-										if(jn != null) break;
-										try{
-											Thread.sleep(10 * trial);
-										}catch(InterruptedException e){}
-										trial++;
-										if(trial == 50) break;
-									}
-									try{
-										if(jn.getInt("status") == 1){
-											AccessSharedPrefs.setString(who, "infi_sync", "yes");
-											getGCMData();
-										}else{
-											AccessSharedPrefs.setString(who, "infi_sync", "no");
-										}
-									}catch(NullPointerException e){}catch(JSONException e){
-										e.printStackTrace();
-									}
+					@Override
+					public void success(List<ServerDBSubInfiSync> arg0){
+						long now = new Date().getTime();
+						if((arg0.size() > 0)){
+							long t = arg0.get(0).getValidUntilTs();
+							int m = 0;
+							for(int i = 1; i < arg0.size(); i++){
+								if(t < arg0.get(i).getValidUntilTs()){
+									t = arg0.get(i).getValidUntilTs();
+									m = i;
 								}
-							});
-						}
-					}else{
-						AccessSharedPrefs.setString(who, "infi_sync", "no");
-					}
-				}
-			});
-		}
-		}
-		else if(AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes"))
-		{
+							}
+							final ServerDBSubInfiSync max = arg0.get(m);
+							if(now < arg0.get(m).getValidUntilTs()){
+								AccessSharedPrefs.setString(who, "infi_sync", "yes");
+								getGCMData();
+							}else{
+								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
+									@Override
+									public void failure(StackMobException arg0){}
 
+									@Override
+									public void success(List<ServerDBAndroidDevices> arg0){
+										String regids = "";
+										for(int i = 0; i < arg0.size(); i++){
+											regids = regids + " " + arg0.get(i).getGcmId();
+										}
+										List<NameValuePair> params = new ArrayList<NameValuePair>();
+										params.add(new BasicNameValuePair("SendToArrays", regids));
+										params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
+										JSONObject jo = new JSONObject();
+										try{
+											jo.put("orderId", max.getOrderId());
+											jo.put("Token", max.getToken());
+											jo.put("Sign", max.getSign());
+										}catch(JSONException e){}
+										params.add(new BasicNameValuePair("json", jo.toString()));
+										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+										final JSONParser jsonParser = new JSONParser();
+										int trial = 1;
+										JSONObject jn = null;
+										while(jsonParser.isOnline(who)){
+											Log.w("JSONParser", "SubinfiSync:: Called");
+											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
+											Log.w("JSON returned", "SubinfiSync:: " + jn);
+											Log.w("trial value", "SubinfiSync:: " + trial);
+											if(jn != null) break;
+											try{
+												Thread.sleep(10 * trial);
+											}catch(InterruptedException e){}
+											trial++;
+											if(trial == 50) break;
+										}
+										try{
+											if(jn.getInt("status") == 1){
+												AccessSharedPrefs.setString(who, "infi_sync", "yes");
+												getGCMData();
+											}else{
+												AccessSharedPrefs.setString(who, "infi_sync", "no");
+											}
+										}catch(NullPointerException e){}catch(JSONException e){
+											e.printStackTrace();
+										}
+									}
+								});
+							}
+						}else{
+							AccessSharedPrefs.setString(who, "infi_sync", "no");
+						}
+					}
+				});
+			}
+		}else if(AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
 			ServerDBSubSync.query(ServerDBSubSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubSync>(){
 				@Override
 				public void failure(StackMobException arg0){}
@@ -392,10 +381,7 @@ public class GCMSyncService extends IntentService{
 					}
 				}
 			});
-		
-		}
-		else
-		{
+		}else{
 			AccessSharedPrefs.setString(who, "GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 		}
 	}

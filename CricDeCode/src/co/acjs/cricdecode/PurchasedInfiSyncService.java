@@ -34,14 +34,12 @@ public class PurchasedInfiSyncService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("PurchasedInfiSyncService", "Started");
-		
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
 		Log.w("PurchasedInfiSyncService", "Ended");
-		
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -103,7 +101,6 @@ public class PurchasedInfiSyncService extends IntentService{
 					params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
 					params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", "")));
 					Log.w("Sending User Data...", "PurchaseInfiSync:" + jsonParser.isOnline(con));
-					
 					int trial = 1;
 					JSONObject jn = null;
 					while(jsonParser.isOnline(con)){
@@ -120,7 +117,6 @@ public class PurchasedInfiSyncService extends IntentService{
 						}
 					}
 					try{
-						
 						if(jn.getInt("status") == 1){
 							AccessSharedPrefs.setString(con, "PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
@@ -146,7 +142,6 @@ public class PurchasedInfiSyncService extends IntentService{
 									public void run(){
 										try{
 											((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_sync_pur)).setVisibility(View.GONE);
-										
 										}catch(Exception e){}
 									}
 								});
@@ -157,5 +152,4 @@ public class PurchasedInfiSyncService extends IntentService{
 			});
 		}
 	}
-
 }

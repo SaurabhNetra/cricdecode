@@ -20,7 +20,8 @@ import java.util.Set;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-public class GCMRegistrarCompat {
+
+public class GCMRegistrarCompat{
 	private static final String	TAG									= "GCMRegistrar";
 	private static final String	INTENT_FROM_GCM_MESSAGE				= "com.google.android.c2dm.intent.RECEIVE";
 	private static final String	PERMISSION_GCM_INTENTS				= "com.google.android.c2dm.permission.SEND";
@@ -30,82 +31,61 @@ public class GCMRegistrarCompat {
 	private static final String	PROPERTY_ON_SERVER_EXPIRATION_TIME	= "onServerExpirationTime";
 	private static final long	REGISTRATION_EXPIRY_TIME_MS			= 1000 * 3600 * 24 * 7;
 
-	public static void checkDevice(Context context) {
+	public static void checkDevice(Context context){
 		int version = Build.VERSION.SDK_INT;
-		if (version < 8) {
-			throw new UnsupportedOperationException(
-					"Device must be at least " + "API Level 8 (instead of " + version + ")");
-		}
+		if(version < 8){ throw new UnsupportedOperationException("Device must be at least " + "API Level 8 (instead of " + version + ")"); }
 	}
 
-	public static void checkManifest(Context context) {
+	public static void checkManifest(Context context){
 		PackageManager packageManager = context.getPackageManager();
 		String packageName = context.getPackageName();
 		String permissionName = packageName + ".permission.C2D_MESSAGE";
 		// check permission
-		try {
-			packageManager.getPermissionInfo(permissionName,
-					PackageManager.GET_PERMISSIONS);
-		} catch (NameNotFoundException e) {
-			throw new IllegalStateException(
-					"Application does not define permission " + permissionName);
+		try{
+			packageManager.getPermissionInfo(permissionName, PackageManager.GET_PERMISSIONS);
+		}catch(NameNotFoundException e){
+			throw new IllegalStateException("Application does not define permission " + permissionName);
 		}
 		// check receivers
 		PackageInfo receiversInfo;
-		try {
-			receiversInfo = packageManager.getPackageInfo(packageName,
-					PackageManager.GET_RECEIVERS);
-		} catch (NameNotFoundException e) {
-			throw new IllegalStateException(
-					"Could not get receivers for package " + packageName);
+		try{
+			receiversInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_RECEIVERS);
+		}catch(NameNotFoundException e){
+			throw new IllegalStateException("Could not get receivers for package " + packageName);
 		}
 		ActivityInfo[] receivers = receiversInfo.receivers;
-		if (receivers == null || receivers.length == 0) {
-			throw new IllegalStateException(
-					"No receiver for package " + packageName);
-		}
-		if (Log.isLoggable(TAG, Log.VERBOSE)) {
-			Log.v(TAG,
-					"number of receivers for " + packageName + ": " + receivers.length);
+		if(receivers == null || receivers.length == 0){ throw new IllegalStateException("No receiver for package " + packageName); }
+		if(Log.isLoggable(TAG, Log.VERBOSE)){
+			Log.v(TAG, "number of receivers for " + packageName + ": " + receivers.length);
 		}
 		Set<String> allowedReceivers = new HashSet<String>();
-		for (ActivityInfo receiver : receivers) {
-			if (PERMISSION_GCM_INTENTS.equals(receiver.permission)) {
+		for(ActivityInfo receiver: receivers){
+			if(PERMISSION_GCM_INTENTS.equals(receiver.permission)){
 				allowedReceivers.add(receiver.name);
 			}
 		}
-		if (allowedReceivers.isEmpty()) {
-			throw new IllegalStateException(
-					"No receiver allowed to receive " + PERMISSION_GCM_INTENTS);
-		}
+		if(allowedReceivers.isEmpty()){ throw new IllegalStateException("No receiver allowed to receive " + PERMISSION_GCM_INTENTS); }
 		checkReceiver(context, allowedReceivers, INTENT_FROM_GCM_MESSAGE);
 	}
 
-	private static void checkReceiver(Context context, Set<String> allowedReceivers, String action) {
+	private static void checkReceiver(Context context, Set<String> allowedReceivers, String action){
 		PackageManager pm = context.getPackageManager();
 		String packageName = context.getPackageName();
 		Intent intent = new Intent(action);
 		intent.setPackage(packageName);
-		List<ResolveInfo> receivers = pm.queryBroadcastReceivers(intent,
-				PackageManager.GET_INTENT_FILTERS);
-		if (receivers.isEmpty()) {
-			throw new IllegalStateException("No receivers for action " + action);
-		}
-		if (Log.isLoggable(TAG, Log.VERBOSE)) {
-			Log.v(TAG,
-					"Found " + receivers.size() + " receivers for action " + action);
+		List<ResolveInfo> receivers = pm.queryBroadcastReceivers(intent, PackageManager.GET_INTENT_FILTERS);
+		if(receivers.isEmpty()){ throw new IllegalStateException("No receivers for action " + action); }
+		if(Log.isLoggable(TAG, Log.VERBOSE)){
+			Log.v(TAG, "Found " + receivers.size() + " receivers for action " + action);
 		}
 		// make sure receivers match
-		for (ResolveInfo receiver : receivers) {
+		for(ResolveInfo receiver: receivers){
 			String name = receiver.activityInfo.name;
-			if (!allowedReceivers.contains(name)) {
-				throw new IllegalStateException(
-						"Receiver " + name + " is not set with permission " + PERMISSION_GCM_INTENTS);
-			}
+			if(!allowedReceivers.contains(name)){ throw new IllegalStateException("Receiver " + name + " is not set with permission " + PERMISSION_GCM_INTENTS); }
 		}
 	}
 
-	public static String getRegistrationId(Context context) {
+	public static String getRegistrationId(Context context){
 		final SharedPreferences prefs = getGCMPreferences(context);
 		String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 		// check if app was updated; if so, it must clear
@@ -113,12 +93,11 @@ public class GCMRegistrarCompat {
 		// avoid a race condition if GCM sends a message
 		int oldVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 		int newVersion = getAppVersion(context);
-		if (oldVersion != Integer.MIN_VALUE && oldVersion != newVersion) {
-			Log.v(TAG,
-					"App version changed from " + oldVersion + " to " + newVersion + "; resetting registration id");
+		if(oldVersion != Integer.MIN_VALUE && oldVersion != newVersion){
+			Log.v(TAG, "App version changed from " + oldVersion + " to " + newVersion + "; resetting registration id");
 			clearRegistrationId(context);
 			registrationId = "";
-		} else if (isRegistrationExpired(context)) {
+		}else if(isRegistrationExpired(context)){
 			Log.v(TAG, "Registration expired; resetting registration id");
 			clearRegistrationId(context);
 			registrationId = "";
@@ -126,86 +105,77 @@ public class GCMRegistrarCompat {
 		return registrationId;
 	}
 
-	public static String clearRegistrationId(Context context) {
+	public static String clearRegistrationId(Context context){
 		return setRegistrationId(context, "");
 	}
 
-	private static String setRegistrationId(Context context, String regId) {
+	private static String setRegistrationId(Context context, String regId){
 		final SharedPreferences prefs = getGCMPreferences(context);
 		String oldRegistrationId = prefs.getString(PROPERTY_REG_ID, "");
 		int appVersion = getAppVersion(context);
 		long expirationTime = System.currentTimeMillis() + REGISTRATION_EXPIRY_TIME_MS;
 		Editor editor = prefs.edit();
-
 		editor.putString(PROPERTY_REG_ID, regId);
 		editor.putInt(PROPERTY_APP_VERSION, appVersion);
 		editor.putLong(PROPERTY_ON_SERVER_EXPIRATION_TIME, expirationTime);
 		editor.commit();
-
 		return oldRegistrationId;
 	}
 
-	private static int getAppVersion(Context context) {
-		try {
-			PackageInfo packageInfo = context.getPackageManager()
-					.getPackageInfo(context.getPackageName(), 0);
+	private static int getAppVersion(Context context){
+		try{
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			return packageInfo.versionCode;
-		} catch (NameNotFoundException e) {
+		}catch(NameNotFoundException e){
 			// should never happen
 			throw new RuntimeException("Coult not get package name: " + e);
 		}
 	}
 
-	private static boolean isRegistrationExpired(Context context) {
+	private static boolean isRegistrationExpired(Context context){
 		final SharedPreferences prefs = getGCMPreferences(context);
 		// checks if the information is not stale
-		long expirationTime = prefs.getLong(PROPERTY_ON_SERVER_EXPIRATION_TIME,
-				-1);
+		long expirationTime = prefs.getLong(PROPERTY_ON_SERVER_EXPIRATION_TIME, -1);
 		return System.currentTimeMillis() > expirationTime;
 	}
 
-	private static SharedPreferences getGCMPreferences(Context context) {
+	private static SharedPreferences getGCMPreferences(Context context){
 		return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 	}
 
-	private GCMRegistrarCompat() {
+	private GCMRegistrarCompat(){
 		throw new UnsupportedOperationException();
 	}
 
-	static public class BaseRegisterTask extends AsyncTask<String, Void, String> {
+	static public class BaseRegisterTask extends AsyncTask<String, Void, String>{
 		protected Context	context	= null;
 
-		BaseRegisterTask(Context context) {
+		BaseRegisterTask(Context context){
 			this.context = context;
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
-			GoogleCloudMessaging gcm = GoogleCloudMessaging
-					.getInstance(context);
+		protected String doInBackground(String ... params){
+			GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
 			String regid = null;
-			try {
+			try{
 				gcm.unregister();
 				regid = gcm.register(params[0]);
 				setRegistrationId(context, regid);
 				sendRegistrationIdToServer(regid);
-			} catch (IOException e) {
-			}
-
-			return (regid);
+			}catch(IOException e){}
+			return(regid);
 		}
 
-		protected void sendRegistrationIdToServer(String regid) {
+		protected void sendRegistrationIdToServer(String regid){
 			// no-op -- subclasses should override and send
 			// registration id to server by some means
 		}
 
 		// override this to do something more, note that it
 		// is called on a background thread!
-
-		protected void onError(IOException e) {
-			Log.e(getClass().getSimpleName(), "Exception registering for GCM",
-					e);
+		protected void onError(IOException e){
+			Log.e(getClass().getSimpleName(), "Exception registering for GCM", e);
 		}
 	}
 }

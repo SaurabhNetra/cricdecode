@@ -91,19 +91,16 @@ public class MatchHistorySyncService extends IntentService{
 		return new String(sh);
 	}
 
-	
 	public void sendData(){
 		final Cursor c = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_MATCH, new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS, MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION, MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS, MatchDb.KEY_SYNCED}, MatchDb.KEY_SYNCED + "=" + "0 and " + MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'", null, MatchDb.KEY_ROWID);
 		final Cursor t = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, new String[ ]{PerformanceDb.KEY_ROWID, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_CATCHES_DROPPED, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_INNING, PerformanceDb.KEY_MATCHID, PerformanceDb.KEY_STATUS}, PerformanceDb.KEY_SYNCED + "=" + "0 and " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'", null, PerformanceDb.KEY_MATCHID);
 		settotPerformance(t.getCount());
 		Log.w("MatchHistorySync", "Number of Un Synced Matches " + c.getCount());
 		Log.w("MatchHistorySync", "Number of Un Synced Performances " + t.getCount());
-		
 		if(c.getCount() != 0){
 			c.moveToFirst();
 			do{
 				ServerDBCricketMatch cm = new ServerDBCricketMatch(AccessSharedPrefs.mPrefs.getString("id", ""), Integer.parseInt(c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID))), Integer.parseInt(AccessSharedPrefs.mPrefs.getString("device_id", "")), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_MY_TEAM)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_VENUE)), Integer.parseInt(c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_OVERS))), Integer.parseInt(c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_INNINGS))), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_RESULT)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_LEVEL)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_DURATION)), c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)), 0);
-				
 				cm.setID(AccessSharedPrefs.mPrefs.getString("device_id", "") + "A" + c.getString(c.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "B" + AccessSharedPrefs.mPrefs.getString("id", ""));
 				Log.w("MatchHistorySync", "Saving Match");
 				cm.save(new StackMobCallback(){
@@ -119,12 +116,10 @@ public class MatchHistorySyncService extends IntentService{
 					public void success(String arg0){
 						final Cursor c1 = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, new String[ ]{PerformanceDb.KEY_ROWID, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_CATCHES_DROPPED, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_INNING, PerformanceDb.KEY_MATCHID, PerformanceDb.KEY_STATUS}, PerformanceDb.KEY_SYNCED + "=" + "0 and " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_MATCHID + "= " + matchId + " and " + PerformanceDb.KEY_DEVICE_ID + "= '" + devid + "'", null, null);
 						Log.w("MatchHistorySync", "Current Performances " + c1.getCount());
-					
 						setMatchPerformance(c1.getCount());
 						if(c1.getCount() != 0){
 							c1.moveToFirst();
 							do{
-							
 								Log.w("MatchHistorySync", "Saving Performance");
 								ServerDBPerformance sp = new ServerDBPerformance(AccessSharedPrefs.mPrefs.getString("id", ""), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))), Integer.parseInt(AccessSharedPrefs.mPrefs.getString("device_id", "")), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_NUM))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_RUNS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BALLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_TIME))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FOURS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_SIXES))), c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_HOW_OUT)), c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE)), c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FIELDING_POSITION)), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_CHANCES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_BALLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SPELLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_RUNS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_FOURS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SIXES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_LEFT))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_CATCHES_DROPPED))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_NOBALLS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WIDES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_SLIP_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CLOSE_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CIRCLE_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_CIRCLE))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DEEP))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_STUMPINGS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS))), Integer.parseInt(c1.getString(c1.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))), 0);
 								// Set The StackMob Primary Key ID
@@ -138,18 +133,15 @@ public class MatchHistorySyncService extends IntentService{
 									@Override
 									public void success(String arg0){
 										Log.w("MatchHistorySync", "Performance Sync Update Success");
-									
 										Log.w("inv", "cnt mat per" + cnt_tot_mat_per + " tot" + tot_mat_per);
 										if(cnt_MatchPerformance() == getMatchPerformance()){
 											init_cnt_MatchPerformance();
 											Log.w("MatchHistorySync", "Performance Sync Done");
-										
 										}
 										Log.w("inv", "cnt per" + cnt_tot_per + " tot" + tot_per);
 										if(cnt_totPerformance() == gettotPerformance()){
 											init_cnt_TotPerformance();
 											Log.w("MatchHistorySync", "Performance Sync Update Success ALL");
-											
 											ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 												@Override
 												public void failure(StackMobException arg0){
@@ -265,13 +257,10 @@ public class MatchHistorySyncService extends IntentService{
 			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 				ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 					@Override
-					public void failure(StackMobException arg0){
-					
-					}
+					public void failure(StackMobException arg0){}
 
 					@Override
 					public void success(List<ServerDBSubInfiSync> arg0){
-						
 						long now = new Date().getTime();
 						if((arg0.size() > 0)){
 							long t1 = arg0.get(0).getValidUntilTs();
@@ -284,19 +273,15 @@ public class MatchHistorySyncService extends IntentService{
 							}
 							final ServerDBSubInfiSync max = arg0.get(m);
 							if(now < arg0.get(m).getValidUntilTs()){
-							
 								AccessSharedPrefs.setString(who, "infi_sync", "yes");
 								sendData();
 							}else{
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
-									public void failure(StackMobException arg0){
-										
-									}
+									public void failure(StackMobException arg0){}
 
 									@Override
 									public void success(List<ServerDBAndroidDevices> arg0){
-										
 										String regids = "";
 										for(int i = 0; i < arg0.size(); i++){
 											regids = regids + " " + arg0.get(i).getGcmId();
@@ -317,7 +302,6 @@ public class MatchHistorySyncService extends IntentService{
 										JSONObject jn = null;
 										while(jsonParser.isOnline(who)){
 											Log.w("JSONParser", "SubinfiSync:: Called");
-											
 											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi_sync), "POST", params, who);
 											Log.w("JSON returned", "SubinfiSync:: " + jn);
 											Log.w("trial value", "SubinfiSync:: " + trial);
@@ -333,7 +317,6 @@ public class MatchHistorySyncService extends IntentService{
 												AccessSharedPrefs.setString(who, "infi_sync", "yes");
 												sendData();
 											}else{
-												
 												AccessSharedPrefs.setString(who, "infi_sync", "no");
 											}
 										}catch(NullPointerException e){}catch(JSONException e){
@@ -343,7 +326,6 @@ public class MatchHistorySyncService extends IntentService{
 								});
 							}
 						}else{
-							
 							AccessSharedPrefs.setString(who, "infi_sync", "no");
 						}
 					}
@@ -351,13 +333,10 @@ public class MatchHistorySyncService extends IntentService{
 			}else if(AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
 				ServerDBSubSync.query(ServerDBSubSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubSync>(){
 					@Override
-					public void failure(StackMobException arg0){
-						
-					}
+					public void failure(StackMobException arg0){}
 
 					@Override
 					public void success(List<ServerDBSubSync> arg0){
-						
 						long now = new Date().getTime();
 						if((arg0.size() > 0)){
 							long t1 = arg0.get(0).getValidUntilTs();
@@ -369,21 +348,16 @@ public class MatchHistorySyncService extends IntentService{
 								}
 							}
 							final ServerDBSubSync max = arg0.get(m);
-							
 							if(now < arg0.get(m).getValidUntilTs()){
-								
 								AccessSharedPrefs.setString(who, "infi_sync", "yes");
 								sendData();
 							}else{
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
-									public void failure(StackMobException arg0){
-										
-									}
+									public void failure(StackMobException arg0){}
 
 									@Override
 									public void success(List<ServerDBAndroidDevices> arg0){
-										
 										String regids = "";
 										for(int i = 0; i < arg0.size(); i++){
 											regids = regids + " " + arg0.get(i).getGcmId();
@@ -404,7 +378,6 @@ public class MatchHistorySyncService extends IntentService{
 										JSONObject jn = null;
 										while(jsonParser.isOnline(who)){
 											Log.w("JSONParser", "SubSync:: Called");
-										
 											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi_sync), "POST", params, who);
 											Log.w("JSON returned", "SubSync:: " + jn);
 											Log.w("trial value", "SubSync:: " + trial);
@@ -420,7 +393,6 @@ public class MatchHistorySyncService extends IntentService{
 												AccessSharedPrefs.setString(who, "sync", "yes");
 												sendData();
 											}else{
-												
 												AccessSharedPrefs.setString(who, "sync", "no");
 											}
 										}catch(NullPointerException e){}catch(JSONException e){
@@ -430,7 +402,6 @@ public class MatchHistorySyncService extends IntentService{
 								});
 							}
 						}else{
-						
 							AccessSharedPrefs.setString(who, "sync", "no");
 						}
 					}

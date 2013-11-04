@@ -181,9 +181,8 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 			getSherlockActivity().getContentResolver().update(uri, values, null, null);
 			uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str + "/" + d_str);
 			getSherlockActivity().getContentResolver().update(uri, values, null, null);
-			Log.w("MatchHistorySync","service calling123");
-			
-			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")||AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
+			Log.w("MatchHistorySync", "service calling123");
+			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes") || AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")){
 				AccessSharedPrefs.setString(getSherlockActivity(), "MatchHistorySyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 				Intent intent = new Intent(MainActivity.main_context, MatchHistorySyncService.class);
 				try{
@@ -202,7 +201,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 			getSherlockActivity().getSupportLoaderManager().restartLoader(0, null, this);
 		}
 	}
-	
+
 	public void deleteMatch(View view){
 		RelativeLayout vwParentRow = (RelativeLayout)view.getParent().getParent();
 		TextView child = (TextView)vwParentRow.getChildAt(0);
