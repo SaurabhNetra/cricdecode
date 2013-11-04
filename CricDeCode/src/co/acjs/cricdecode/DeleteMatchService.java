@@ -335,7 +335,7 @@ public class DeleteMatchService extends IntentService{
 
 	@Override
 	protected void onHandleIntent(Intent intent){
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
+		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		Log.w("DeleteMatchService: ", "DeleteMatchService: " + AccessSharedPrefs.mPrefs.getString("DeleteMatchServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED));
 		if(AccessSharedPrefs.mPrefs.getString("DeleteMatchServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			Log.w("DeleteMatchService", "polo");

@@ -88,7 +88,6 @@ public class LogIn extends SherlockActivity{
 						public void onCompleted(GraphUser user, Response response){
 							if(user != null){
 								Log.w("Face Book Login Complete 1", "LogIn: " + user.getBirthday());
-							
 								LogIn.user = user;
 								progressText.setText("Phase 1 of 3...");
 								GCMRegistration();
@@ -204,9 +203,8 @@ public class LogIn extends SherlockActivity{
 	}
 
 	void GCMRegistration(){
-		
 		progressText.setText("Phase 2 of 3...");
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
+		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		client = getContentResolver().acquireContentProviderClient(CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider)client.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		AccessSharedPrefs.mPrefs = login_activity.getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -228,13 +226,11 @@ public class LogIn extends SherlockActivity{
 			if(regid == null) ((LogIn)login_activity).GCMRegistration();
 			else{
 				startApp(regid);
-				
 			}
 		}
 	}
 
 	static void chkAll(){
-		
 		Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')", "success");
 		ServerDBUserTable.query(ServerDBUserTable.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBUserTable>(){
 			@Override
@@ -342,7 +338,6 @@ public class LogIn extends SherlockActivity{
 																jo.put("orderId", max.getOrderId());
 																jo.put("Token", max.getToken());
 																jo.put("Sign", max.getSign());
-															
 															}catch(JSONException e){}
 															params.add(new BasicNameValuePair("json", jo.toString()));
 															params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -422,7 +417,6 @@ public class LogIn extends SherlockActivity{
 																		jo.put("orderId", max.getOrderId());
 																		jo.put("Token", max.getToken());
 																		jo.put("Sign", max.getSign());
-																		
 																	}catch(JSONException e){}
 																	params.add(new BasicNameValuePair("json", jo.toString()));
 																	params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -501,7 +495,6 @@ public class LogIn extends SherlockActivity{
 																				jo.put("orderId", max.getOrderId());
 																				jo.put("Token", max.getToken());
 																				jo.put("Sign", max.getSign());
-																				
 																			}catch(JSONException e){}
 																			params.add(new BasicNameValuePair("json", jo.toString()));
 																			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -644,7 +637,6 @@ public class LogIn extends SherlockActivity{
 
 	static void startApp(final String gcm_reg_id){
 		Log.w("Start App", "called");
-	
 		progressText.setText("Phase 3 of 3...");
 		Log.w("Start App", "else ");
 		AccessSharedPrefs.setString(login_activity, "id", user.getId());
@@ -662,7 +654,6 @@ public class LogIn extends SherlockActivity{
 
 			@Override
 			public void success(List<ServerDBAndroidDevices> returenedVar){
-			
 				Log.w("LogIn gcmid", "success1" + returenedVar.size());
 				// progressText.setText("Phase 4...");
 				Log.w("LogIn gcmid", "success2" + returenedVar.size());
@@ -671,7 +662,6 @@ public class LogIn extends SherlockActivity{
 					new ServerDBAndroidDevices(user.getId(), gcm_reg_id).save(new StackMobCallback(){
 						@Override
 						public void success(String arg0){
-							
 							chkAll();
 						}
 
@@ -682,7 +672,6 @@ public class LogIn extends SherlockActivity{
 						}
 					});
 				}else{
-					
 					chkAll();
 				}
 			}
@@ -701,5 +690,4 @@ public class LogIn extends SherlockActivity{
 		login_activity.startActivity(intent);
 		((LogIn)login_activity).finish();
 	}
-
 }

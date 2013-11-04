@@ -38,7 +38,7 @@ public class GCMSyncService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		who = this;
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
+		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		Log.w("GCMSyncService", "Started");
 	}
 

@@ -85,7 +85,7 @@ public class CheckPurchaseInfiService extends IntentService{
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
+		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		jn = null;
 		try{
 			jn = new JSONObject(intent.getExtras().getString("json"));
