@@ -32,7 +32,7 @@ public class PerformanceFieldingFragmentEdit extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
-		((PerformanceFragmentEdit) getParentFragment())
+		((PerformanceFragmentEdit) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.FIELDING);
 	}
 

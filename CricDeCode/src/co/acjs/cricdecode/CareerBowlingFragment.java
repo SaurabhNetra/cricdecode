@@ -29,7 +29,7 @@ public class CareerBowlingFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
 		Log.d("Debug", "Career Bowling Fragment Created");
-		((CareerFragment) getParentFragment())
+		((CareerFragment) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.BOWLING);
 
 	}

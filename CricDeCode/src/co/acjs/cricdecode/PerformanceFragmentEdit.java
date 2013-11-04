@@ -530,7 +530,7 @@ public class PerformanceFragmentEdit extends SherlockFragment implements
 				PerformanceFieldingFragmentEdit.class.getName()));
 
 		this.mPagerAdapter = new CricDeCodePagerAdapter(
-				getChildFragmentManager(), fragments);
+				getFragmentManager(), fragments);
 
 		this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		this.mViewPager.setAdapter(this.mPagerAdapter);

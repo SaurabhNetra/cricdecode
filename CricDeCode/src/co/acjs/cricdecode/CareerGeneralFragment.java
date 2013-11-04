@@ -27,7 +27,7 @@ public class CareerGeneralFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
 		Log.d("Debug", "Career General Fragment Created");
-		((CareerFragment) getParentFragment())
+		((CareerFragment) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.GENERAL);
 
 	}

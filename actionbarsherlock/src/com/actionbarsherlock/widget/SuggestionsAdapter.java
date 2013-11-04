@@ -42,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.actionbarsherlock.R;
 
 import java.io.FileNotFoundException;
@@ -65,7 +66,8 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
     static final int REFINE_BY_ENTRY = 1;
     static final int REFINE_ALL = 2;
 
-    private SearchManager mSearchManager;
+    @SuppressWarnings("unused")
+	private SearchManager mSearchManager;
     private SearchableInfo mSearchable;
     private SearchView mSearchView;
     private Context mProviderContext;
@@ -685,7 +687,8 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements OnClickListene
      * @return A drawable, or {@code null} if neither the activity nor the application
      *         has an icon set.
      */
-    private Drawable getActivityIconWithCache(ComponentName component) {
+    @SuppressWarnings("unused")
+	private Drawable getActivityIconWithCache(ComponentName component) {
         // First check the icon cache
         String componentIconKey = component.flattenToShortString();
         // Using containsKey() since we also store null values.

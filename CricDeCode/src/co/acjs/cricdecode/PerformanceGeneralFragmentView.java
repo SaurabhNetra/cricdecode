@@ -27,7 +27,7 @@ public class PerformanceGeneralFragmentView extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
-		((PerformanceFragmentView) getParentFragment())
+		((PerformanceFragmentView) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.GENERAL);
 
 	}

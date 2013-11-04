@@ -28,7 +28,7 @@ public class CareerBattingFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		Log.d("Debug", "Career Batting Fragment Created");
 		init(view);
-		((CareerFragment) getParentFragment())
+		((CareerFragment) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.BATTING);
 
 	}

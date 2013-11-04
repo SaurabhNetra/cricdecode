@@ -38,7 +38,7 @@ public class PerformanceBowlingFragmentEdit extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
-		((PerformanceFragmentEdit) getParentFragment())
+		((PerformanceFragmentEdit) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.BOWLING);
 		// Set Input Filter
 		overs.setFilters(new InputFilter[] { new OversInputFilter() });

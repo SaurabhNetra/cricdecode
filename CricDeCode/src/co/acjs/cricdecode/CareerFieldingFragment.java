@@ -31,7 +31,7 @@ public class CareerFieldingFragment extends SherlockFragment {
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
 		Log.d("Debug", "Career Fielding Fragment Created");
-		((CareerFragment) getParentFragment())
+		((CareerFragment) getTargetFragment())
 				.viewInfo(PerformanceFragmentEdit.FIELDING);
 
 	}

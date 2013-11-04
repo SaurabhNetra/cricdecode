@@ -35,13 +35,13 @@ public class ProfileFragment extends SherlockFragment {
 		if (savedInstanceState != null) {
 			switch (currentProfileFragment) {
 			case PROFILE_VIEW_FRAGMENT:
-				ProfileViewFragment.profileViewFragment = (ProfileViewFragment) getChildFragmentManager()
+				ProfileViewFragment.profileViewFragment = (ProfileViewFragment) getFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				
 				break;
 			case PROFILE_EDIT_FRAGMENT:
-				ProfileEditFragment.profileEditFragment = (ProfileEditFragment) getChildFragmentManager()
+				ProfileEditFragment.profileEditFragment = (ProfileEditFragment) getFragmentManager()
 						.getFragment(savedInstanceState,
 								"currentFragmentInstance");
 				break;
@@ -65,13 +65,13 @@ public class ProfileFragment extends SherlockFragment {
 		super.onSaveInstanceState(outState);
 		switch (currentProfileFragment) {
 		case PROFILE_VIEW_FRAGMENT:
-			getChildFragmentManager().putFragment(outState,
+			getFragmentManager().putFragment(outState,
 					"currentFragmentInstance",
 					ProfileViewFragment.profileViewFragment);
 			((MainActivity) getSherlockActivity()).setPageName(0);
 			break;
 		case PROFILE_EDIT_FRAGMENT:
-			getChildFragmentManager().putFragment(outState,
+			getFragmentManager().putFragment(outState,
 					"currentFragmentInstance",
 					ProfileEditFragment.profileEditFragment);
 			((MainActivity) getSherlockActivity()).setPageName(1);
@@ -82,7 +82,7 @@ public class ProfileFragment extends SherlockFragment {
 	}
 
 	public void viewFragment() {
-		FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		if (currentProfileFragment == PROFILE_VIEW_FRAGMENT) {
 			ProfileViewFragment profileViewFragment;
 			if (ProfileViewFragment.profileViewFragment == null) {
