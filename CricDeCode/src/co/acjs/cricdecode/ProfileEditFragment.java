@@ -3,6 +3,8 @@ package co.acjs.cricdecode;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,15 @@ public class ProfileEditFragment extends SherlockFragment{
 		role = (Spinner)view.findViewById(R.id.role);
 		batting_style = (Spinner)view.findViewById(R.id.batting_style);
 		bowling_style = (Spinner)view.findViewById(R.id.bowling_style);
+		InputFilter filter = new InputFilter(){
+			public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend){
+				for(int i = start; i < end; i++){
+					if(!Character.isLetterOrDigit(source.charAt(i))&&!(source.charAt(i)==' ')){ return ""; }
+				}
+				return null;
+			}
+		};
+		nickname.setFilters(new InputFilter[ ]{filter});
 	}
 
 	public void onProfileEditing(){

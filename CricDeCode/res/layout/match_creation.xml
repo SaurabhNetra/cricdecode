@@ -74,7 +74,7 @@
                 android:layout_marginBottom="@dimen/my_team_margin_bottom"
                 android:layout_marginLeft="@dimen/my_team_margin_left"
                 android:imeOptions="actionNext"
-                android:inputType="textCapWords"
+                android:inputType="text"
                 android:maxLength="10"
                 android:minWidth="@dimen/my_team_min_width"
                 android:padding="@dimen/my_team_padding"

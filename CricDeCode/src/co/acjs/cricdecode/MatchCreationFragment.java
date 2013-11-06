@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +96,17 @@ public class MatchCreationFragment extends SherlockFragment{
 				return;
 			}
 		});
+		InputFilter filter = new InputFilter(){
+			public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend){
+				for(int i = start; i < end; i++){
+					if(!Character.isLetterOrDigit(source.charAt(i))&&!(source.charAt(i)==' ')){ return ""; }
+				}
+				return null;
+			}
+		};
+		venue.setFilters(new InputFilter[ ]{filter});
+		myTeam.setFilters(new InputFilter[ ]{filter});
+		opponentTeam.setFilters(new InputFilter[ ]{filter});
 	}
 
 	public void insertMatch(){

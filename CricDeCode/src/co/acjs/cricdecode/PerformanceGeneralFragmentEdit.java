@@ -1,6 +1,8 @@
 package co.acjs.cricdecode;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,16 @@ public class PerformanceGeneralFragmentEdit extends SherlockFragment{
 		super.onViewCreated(view, savedInstanceState);
 		init(view);
 		((PerformanceFragmentEdit)getParentFragment()).viewInfo(PerformanceFragmentEdit.GENERAL);
+	
+		InputFilter filter = new InputFilter(){
+			public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend){
+				for(int i = start; i < end; i++){
+					if(!Character.isLetterOrDigit(source.charAt(i))&&!(source.charAt(i)==' ')&&!(source.charAt(i)==',')&&!(source.charAt(i)=='.')){ return ""; }
+				}
+				return null;
+			}
+		};
+		match_review.setFilters(new InputFilter[ ]{filter});
 	}
 
 	public void init(View view){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -20,18 +20,63 @@
         android:visibility="gone" >
 
         <TextView
-            android:id="@+id/no_match_add"
+            android:id="@+id/no_match_added"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:maxLines="2"
-            android:text="@string/no_matches_add" />
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/no_match_add" />
+
+        <LinearLayout
+            android:id="@+id/empty_ll1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/no_match_added"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/click_on1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/click_on"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/button_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:padding="@dimen/menu_padding"
+                android:src="@drawable/addtohist"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/in_matches"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/in_matches"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/to_add_to_hist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/to_add_to_hist"
+                android:textSize="18sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/no_matches_created"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/list_margin_bottom"
         android:layout_marginLeft="@dimen/list_margin_left"
         android:layout_marginRight="@dimen/list_margin_right"
@@ -46,9 +91,182 @@
             android:id="@+id/no_match_create"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:maxLines="2"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
             android:text="@string/no_matches_create" />
+
+        <LinearLayout
+            android:id="@+id/empty_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/no_match_create"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/click_on"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/click_on"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/button_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/gradient_action_bar"
+                android:contentDescription="@string/new_match"
+                android:onClick="onMenuButtonClick"
+                android:padding="@dimen/menu_padding"
+                android:src="@drawable/add"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/to_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/to_create"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fb_tip_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_margin_left"
+        android:layout_marginRight="@dimen/list_margin_right"
+        android:background="@drawable/cards_bg"
+        android:paddingBottom="@dimen/no_item_padding_bottom"
+        android:paddingLeft="@dimen/no_item_padding_left"
+        android:paddingRight="@dimen/no_item_padding_right"
+        android:paddingTop="@dimen/no_item_padding_top"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/fb_tip_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fb_tip_ll_click" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/post_to_fb" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fb_tip_ll_to_share" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_fb_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fb_tip_ll"
+            android:gravity="center_horizontal"
+            android:text="@string/fb_tip_ll_fff" />
+
+        <LinearLayout
+            android:id="@+id/btn_fb_got_it_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_fb_tip"
+            android:layout_margin="8dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_fb_got_it"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_action_bar"
+                android:onClick="onClick"
+                android:padding="5dp"
+                android:text="@string/txt_ok_got_it"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_to_hist_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_margin_left"
+        android:layout_marginRight="@dimen/list_margin_right"
+        android:background="@drawable/cards_bg"
+        android:paddingBottom="@dimen/no_item_padding_bottom"
+        android:paddingLeft="@dimen/no_item_padding_left"
+        android:paddingRight="@dimen/no_item_padding_right"
+        android:paddingTop="@dimen/no_item_padding_top"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/add_to_hist_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fb_tip_ll_click" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/addtohist" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_add_to_hist" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/add_to_hist1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_to_hist_ll"
+            android:gravity="center_horizontal"
+            android:text="@string/txt1_add_to_hist" />
+
+        <LinearLayout
+            android:id="@+id/btn_add_to_hist_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_to_hist1"
+            android:layout_margin="8dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_add_to_hist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_action_bar"
+                android:onClick="onClick"
+                android:padding="5dp"
+                android:text="@string/txt_ok_got_it"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </RelativeLayout>
 
     <ListView
@@ -62,6 +280,6 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="@dimen/list_divider_height" >
-    </ListView>   
+    </ListView>
 
 </LinearLayout>

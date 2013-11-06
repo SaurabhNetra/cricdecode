@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -11,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -22,9 +26,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,6 +44,8 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
@@ -212,7 +221,39 @@ public class LogIn extends SherlockActivity{
 		if(BuildConfig.DEBUG){
 			GCMRegistrarCompat.checkManifest(this);
 		}
-		new RegisterTask(this).execute(getResources().getString(R.string.projno));
+		if(isServiceAvailable()){
+			new RegisterTask(this).execute(getResources().getString(R.string.projno));
+		}
+	}
+
+	boolean isServiceAvailable(){
+		int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		writeToFile("Checking for PlayServices: " + isAvailable + " " + ConnectionResult.SUCCESS + " " + ConnectionResult.SERVICE_MISSING + " " + ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED);
+		if(isAvailable == ConnectionResult.SUCCESS){
+			return true;
+		}else if(isAvailable == ConnectionResult.SERVICE_MISSING || isAvailable == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED){
+			progressText.setText("Restart App after installing Google Play Services");
+			final Dialog dialog = new Dialog(this);
+			dialog.setContentView(R.layout.dialog_play_service_chk);
+			dialog.setTitle("Missing Vital App");
+			((TextView)dialog.findViewById(R.id.dialog_text)).setText("Google Play Services App is not found/updated on your phone.");
+			((Button)dialog.findViewById(R.id.yes)).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v){
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.gms")));
+					dialog.dismiss();
+				}
+			});
+			((Button)dialog.findViewById(R.id.no)).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v){
+					dialog.dismiss();
+					finish();
+				}
+			});
+			dialog.show();
+		}
+		return false;
 	}
 
 	private static class RegisterTask extends GCMRegistrarCompat.BaseRegisterTask{
@@ -227,6 +268,22 @@ public class LogIn extends SherlockActivity{
 			else{
 				startApp(regid);
 			}
+		}
+	}
+
+	private static void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "login.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
 		}
 	}
 
@@ -645,6 +702,7 @@ public class LogIn extends SherlockActivity{
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "gcm_reg_id", gcm_reg_id);
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
+		writeToFile(user.getId() + " " + gcm_reg_id);
 		ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("gcm_id").isEqualTo(gcm_reg_id)), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 			@Override
 			public void failure(StackMobException arg0){

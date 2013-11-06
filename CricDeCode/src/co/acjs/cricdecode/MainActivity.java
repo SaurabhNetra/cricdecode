@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
@@ -73,6 +74,8 @@ import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.stackmob.android.sdk.common.StackMobAndroid;
 
 
@@ -974,6 +977,37 @@ public class MainActivity extends SherlockFragmentActivity{
 		super.onStart();
 		// Google Analytics Start
 		EasyTracker.getInstance(this).activityStart(this);
+		int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if(isAvailable == ConnectionResult.SUCCESS){}else if(isAvailable == ConnectionResult.SERVICE_MISSING || isAvailable == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED){
+			final Dialog dialog = new Dialog(this);
+			dialog.setContentView(R.layout.dialog_play_service_chk);
+			dialog.setTitle("Missing Vital App");
+			((TextView)dialog.findViewById(R.id.dialog_text)).setText("Google Play Services App is not found/updated on your phone.");
+			((Button)dialog.findViewById(R.id.yes)).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v){
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.gms")));
+					dialog.dismiss();
+					finish();
+				}
+			});
+			((Button)dialog.findViewById(R.id.no)).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v){
+					dialog.dismiss();
+					finish();
+				}
+			});
+			dialog.setCancelable(false);
+			dialog.show();
+		}else{
+			new AlertDialog.Builder(this).setTitle("Google Play Service Error").setMessage("Unable to start app").setNeutralButton("OK", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which){
+					dialog.dismiss();
+					finish();
+				}
+			}).show();
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -1107,6 +1141,14 @@ public class MainActivity extends SherlockFragmentActivity{
 						break;
 				}
 				break;
+			case R.id.btn_fb_got_it:
+				AccessSharedPrefs.setString(main_context, "fb_got_it", "yes");
+				((RelativeLayout)findViewById(R.id.fb_tip_rl)).setVisibility(View.GONE);
+				break;
+			case R.id.btn_add_to_hist:
+				AccessSharedPrefs.setString(main_context, "hist_got_it", "yes");
+				((RelativeLayout)findViewById(R.id.add_to_hist_rl)).setVisibility(View.GONE);
+				break;
 			case R.id.filter:
 				showFilterDialog(currentFragment);
 				break;
@@ -1121,9 +1163,9 @@ public class MainActivity extends SherlockFragmentActivity{
 				dialog = new Dialog(this);
 				finalview = view;
 				dialog.setContentView(R.layout.dialog_confirmation);
-				dialog.setTitle("Add to Career");
+				dialog.setTitle("Add to History");
 				TextView dialogText = (TextView)dialog.findViewById(R.id.dialog_text);
-				dialogText.setText("Are you sure you want to Add this Match to your Career?");
+				dialogText.setText("Are you sure you want to Add this Match to History? You will not be able to edit this match again!");
 				Button yes = (Button)dialog.findViewById(R.id.yes);
 				yes.setOnClickListener(new OnClickListener(){
 					@Override

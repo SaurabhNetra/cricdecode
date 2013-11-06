@@ -36,7 +36,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class OngoingMatchesFragment extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 	static OngoingMatchesFragment	ongoingMatchesFragment;
 	private SimpleCursorAdapter		dataAdapter;
-	RelativeLayout					no_matches_created;
+	RelativeLayout					no_matches_created, add_to_hist;
 	ListView						listView;
 
 	@Override
@@ -62,7 +62,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 	private void displayListView(View view){
 		Log.d("Debug", "displayListView called");
 		// The desired columns to be bound
-		String[] columns = new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS};
+		String[] columns = new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS, MatchDb.KEY_SYNCED};
 		// the XML defined views which the data will be bound to
 		int[] to = new int[ ]{R.id._id, R.id.device_id, R.id.innings, R.id.day, R.id.month, R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue, R.id.level, R.id.overs};
 		// create an adapter from the SimpleCursorAdapter
@@ -70,6 +70,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 		// get reference to the ListView
 		listView = (ListView)view.findViewById(R.id.content_list);
 		no_matches_created = (RelativeLayout)view.findViewById(R.id.no_matches_created);
+		add_to_hist = (RelativeLayout)view.findViewById(R.id.add_to_hist_rl);
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
 		// Ensures a loader is initialized and active.
@@ -98,7 +99,7 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args){
 		Log.d("Debug", "on Create Loader");
-		String[] projection = {MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS};
+		String[] projection = {MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS, MatchDb.KEY_SYNCED};
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(), CricDeCodeContentProvider.CONTENT_URI_MATCH, projection, MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_CURRENT + "'", null, null);
 		return cursorLoader;
 	}
@@ -151,6 +152,14 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 				no_matches_created.setVisibility(View.GONE);
 			}
 		}
+		Log.w("hist_got_it", "valu: " + AccessSharedPrefs.mPrefs.getString("hist_got_it", "no"));
+		if(AccessSharedPrefs.mPrefs.getString("hist_got_it", "no").equals("no")){
+			add_to_hist.setVisibility(View.VISIBLE);
+		}else{
+			add_to_hist.setVisibility(View.GONE);
+		}
+		
+		
 	}
 
 	@Override

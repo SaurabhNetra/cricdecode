@@ -34,7 +34,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class DiaryMatchesFragment extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 	static DiaryMatchesFragment	diaryMatchesFragment;
-	RelativeLayout				no_matches_added;
+	RelativeLayout				no_matches_added, fb_tip_added;
 	ListView					listView;
 	static LoaderManager		loader_diary_list;
 	static DiaryMatchesFragment	diary_matches_fragment;
@@ -68,14 +68,15 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 	private void displayListView(View view){
 		Log.d("Debug", "displayListView called");
 		// The desired columns to be bound
-		String[] columns = new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS};
+		String[] columns = new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS, MatchDb.KEY_SYNCED};
 		// the XML defined views which the data will be bound to
-		int[] to = new int[ ]{R.id._id, R.id.device_id, R.id.innings, R.id.day, R.id.month, R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue, R.id.level, R.id.overs};
+		int[] to = new int[ ]{R.id._id, R.id.device_id, R.id.innings, R.id.day, R.id.month, R.id.year, R.id.my_team, R.id.opponent_team, R.id.venue, R.id.level, R.id.overs, R.id.txt_synced};
 		// create an adapter from the SimpleCursorAdapter
 		dataAdapter = new SimpleCursorAdapter(getSherlockActivity(), R.layout.diary_match_list_item, null, columns, to, 0);
 		// get reference to the ListView
 		listView = (ListView)view.findViewById(R.id.content_list);
 		no_matches_added = (RelativeLayout)view.findViewById(R.id.no_matches_added);
+		fb_tip_added = (RelativeLayout)view.findViewById(R.id.fb_tip_rl);
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
 		// Ensures a loader is initialized and active.
@@ -105,7 +106,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 	public Loader<Cursor> onCreateLoader(int id, Bundle args){
 		Log.d("Debug", "on Create Loader");
 		MainActivity mainActivity = (MainActivity)getSherlockActivity();
-		String[] projection = {MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS};
+		String[] projection = {MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_INNINGS, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_DURATION, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_LEVEL, MatchDb.KEY_OVERS, MatchDb.KEY_SYNCED};
 		CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(), CricDeCodeContentProvider.CONTENT_URI_MATCH, projection, MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "'" + mainActivity.myteam_whereClause + mainActivity.opponent_whereClause + mainActivity.venue_whereClause + mainActivity.overs_whereClause + mainActivity.innings_whereClause + mainActivity.level_whereClause + mainActivity.duration_whereClause + mainActivity.first_whereClause + mainActivity.season_whereClause + mainActivity.result_whereClause, null, MatchDb.KEY_MATCH_DATE + " DESC");
 		return cursorLoader;
 	}
@@ -137,6 +138,12 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 							e.printStackTrace();
 							Log.d("Debug", "Date Exception");
 						}
+					}else if(i == data.getColumnIndex(MatchDb.KEY_SYNCED)){
+						if(data.getInt(i) == 1){
+							values[i] = "Synced";
+						}else{
+							values[i] = "";
+						}
 					}else{
 						values[i] = data.getString(i);
 						if(i == data.getColumnIndexOrThrow(MatchDb.KEY_OVERS) && values[i].equals("-1")){
@@ -158,6 +165,13 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 			}else{
 				no_matches_added.setVisibility(View.GONE);
 			}
+			for(int i = 0; i < listView.getCount(); i++){}
+		}
+		Log.w("fb_got_it", "valu: " + AccessSharedPrefs.mPrefs.getString("fb_got_it", "no"));
+		if(AccessSharedPrefs.mPrefs.getString("fb_got_it", "no").equals("no")){
+			fb_tip_added.setVisibility(View.VISIBLE);
+		}else{
+			fb_tip_added.setVisibility(View.GONE);
 		}
 	}
 
