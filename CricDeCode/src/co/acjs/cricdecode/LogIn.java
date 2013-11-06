@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,7 +23,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -228,7 +224,6 @@ public class LogIn extends SherlockActivity{
 
 	boolean isServiceAvailable(){
 		int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		writeToFile("Checking for PlayServices: " + isAvailable + " " + ConnectionResult.SUCCESS + " " + ConnectionResult.SERVICE_MISSING + " " + ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED);
 		if(isAvailable == ConnectionResult.SUCCESS){
 			return true;
 		}else if(isAvailable == ConnectionResult.SERVICE_MISSING || isAvailable == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED){
@@ -268,22 +263,6 @@ public class LogIn extends SherlockActivity{
 			else{
 				startApp(regid);
 			}
-		}
-	}
-
-	private static void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "login.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
 		}
 	}
 
@@ -702,7 +681,6 @@ public class LogIn extends SherlockActivity{
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "gcm_reg_id", gcm_reg_id);
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
-		writeToFile(user.getId() + " " + gcm_reg_id);
 		ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("gcm_id").isEqualTo(gcm_reg_id)), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 			@Override
 			public void failure(StackMobException arg0){
