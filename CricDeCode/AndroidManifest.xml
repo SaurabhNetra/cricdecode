@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.acjs.cricdecode"
     android:installLocation="preferExternal"
-    android:versionCode="9"
-    android:versionName="1.0.3" >
+    android:versionCode="10"
+    android:versionName="1.0.4" >
 
     <permission
         android:name="co.acjs.cricdecode.permission.C2D_MESSAGE"

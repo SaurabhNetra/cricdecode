@@ -1409,7 +1409,7 @@ public class MainActivity extends SherlockFragmentActivity{
 					if(error == null){
 						final String postId = values.getString("post_id");
 						if(postId != null){
-							Toast.makeText(MainActivity.main_context, "Shared Successfully",Toast.LENGTH_SHORT).show();
+							Toast.makeText(MainActivity.main_context, "Shared Successfully", Toast.LENGTH_SHORT).show();
 						}else{
 							Toast.makeText(MainActivity.main_context, "Publish cancelled", Toast.LENGTH_SHORT).show();
 						}
@@ -1741,13 +1741,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	}
 
 	public boolean onKeyUp(int keyCode, KeyEvent event){
-		if(keyCode == KeyEvent.KEYCODE_MENU){
-			toggleNavigationDrawer();
-			return true;
-		}
-		if(keyCode == KeyEvent.KEYCODE_BACK)
-		{
-
+		if(keyCode == KeyEvent.KEYCODE_BACK){
 			if(currentFragment == root_fragment){
 				super.onBackPressed();
 				return true;
@@ -1798,66 +1792,69 @@ public class MainActivity extends SherlockFragmentActivity{
 					}
 					break;
 			}
-		
+		}else if(keyCode == KeyEvent.KEYCODE_MENU){
+			toggleNavigationDrawer();
+			return true;
 		}
 		return super.onKeyUp(keyCode, event);
 	}
-/*
-	@Override
-	public void onBackPressed(){
-		if(currentFragment == root_fragment){
-			super.onBackPressed();
-			return;
-		}
-		switch(currentFragment){
-			case MATCH_CREATION_FRAGMENT:
-				currentFragment = ONGOING_MATCHES_FRAGMENT;
-				if(root_fragment == CAREER_FRAGMENT){
-					preFragment = CAREER_FRAGMENT;
-				}else{
-					preFragment = NO_FRAGMENT;
-				}
-				selectItem(ONGOING_MATCHES_FRAGMENT, true);
-				onPrepareOptionsMenu(current_menu);
+
+	/*
+		@Override
+		public void onBackPressed(){
+			if(currentFragment == root_fragment){
+				super.onBackPressed();
 				return;
-			case PERFORMANCE_FRAGMENT_EDIT:
-				PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
-				onPrepareOptionsMenu(current_menu);
-				return;
-			case PERFORMANCE_FRAGMENT_VIEW:
-				currentFragment = DIARY_MATCHES_FRAGMENT;
-				preFragment = root_fragment;
-				selectItem(currentFragment, true);
-				onPrepareOptionsMenu(current_menu);
-				return;
-			case PROFILE_FRAGMENT:
-				if(ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT){
-					Log.d("Debug", "Profile Edit Hi");
-					ProfileEditFragment.profileEditFragment.saveEditedProfile();
-					ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
-					onPrepareOptionsMenu(current_menu);
-					ProfileFragment.profileFragment.viewFragment();
-					return;
-				}
-			default:
-				switch(preFragment){
-					case PROFILE_FRAGMENT:
-					case ANALYSIS_FRAGMENT:
-					case CAREER_FRAGMENT:
-					case DIARY_MATCHES_FRAGMENT:
-					case PURCHASE_FRAGMENT:
-					case ONGOING_MATCHES_FRAGMENT:
-						currentFragment = root_fragment;
+			}
+			switch(currentFragment){
+				case MATCH_CREATION_FRAGMENT:
+					currentFragment = ONGOING_MATCHES_FRAGMENT;
+					if(root_fragment == CAREER_FRAGMENT){
+						preFragment = CAREER_FRAGMENT;
+					}else{
 						preFragment = NO_FRAGMENT;
-						selectItem(root_fragment, true);
+					}
+					selectItem(ONGOING_MATCHES_FRAGMENT, true);
+					onPrepareOptionsMenu(current_menu);
+					return;
+				case PERFORMANCE_FRAGMENT_EDIT:
+					PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
+					onPrepareOptionsMenu(current_menu);
+					return;
+				case PERFORMANCE_FRAGMENT_VIEW:
+					currentFragment = DIARY_MATCHES_FRAGMENT;
+					preFragment = root_fragment;
+					selectItem(currentFragment, true);
+					onPrepareOptionsMenu(current_menu);
+					return;
+				case PROFILE_FRAGMENT:
+					if(ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT){
+						Log.d("Debug", "Profile Edit Hi");
+						ProfileEditFragment.profileEditFragment.saveEditedProfile();
+						ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
 						onPrepareOptionsMenu(current_menu);
+						ProfileFragment.profileFragment.viewFragment();
 						return;
-				}
-				break;
+					}
+				default:
+					switch(preFragment){
+						case PROFILE_FRAGMENT:
+						case ANALYSIS_FRAGMENT:
+						case CAREER_FRAGMENT:
+						case DIARY_MATCHES_FRAGMENT:
+						case PURCHASE_FRAGMENT:
+						case ONGOING_MATCHES_FRAGMENT:
+							currentFragment = root_fragment;
+							preFragment = NO_FRAGMENT;
+							selectItem(root_fragment, true);
+							onPrepareOptionsMenu(current_menu);
+							return;
+					}
+					break;
+			}
+			super.onBackPressed();
 		}
-		super.onBackPressed();
-	}
-*/
+	*/
 	public void make_directory(){
 		String state = Environment.getExternalStorageState();
 		if(Environment.MEDIA_MOUNTED.equals(state)){
