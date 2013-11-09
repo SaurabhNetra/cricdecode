@@ -34,12 +34,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -1234,7 +1235,7 @@ public class MainActivity extends SherlockFragmentActivity{
 				dialog.show();
 				break;
 			case R.id.post_to_fb:
-				RelativeLayout vwParentRow = (RelativeLayout)view.getParent().getParent();
+				RelativeLayout vwParentRow = (RelativeLayout)view.getParent().getParent().getParent();
 				TextView child = (TextView)vwParentRow.getChildAt(0);
 				String str = child.getText().toString();
 				child = (TextView)vwParentRow.getChildAt(1);
@@ -1739,6 +1740,69 @@ public class MainActivity extends SherlockFragmentActivity{
 		dialog.show();
 	}
 
+	public boolean onKeyUp(int keyCode, KeyEvent event){
+		if(keyCode == KeyEvent.KEYCODE_MENU){
+			toggleNavigationDrawer();
+			return true;
+		}
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+
+			if(currentFragment == root_fragment){
+				super.onBackPressed();
+				return true;
+			}
+			switch(currentFragment){
+				case MATCH_CREATION_FRAGMENT:
+					currentFragment = ONGOING_MATCHES_FRAGMENT;
+					if(root_fragment == CAREER_FRAGMENT){
+						preFragment = CAREER_FRAGMENT;
+					}else{
+						preFragment = NO_FRAGMENT;
+					}
+					selectItem(ONGOING_MATCHES_FRAGMENT, true);
+					onPrepareOptionsMenu(current_menu);
+					return true;
+				case PERFORMANCE_FRAGMENT_EDIT:
+					PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
+					onPrepareOptionsMenu(current_menu);
+					return true;
+				case PERFORMANCE_FRAGMENT_VIEW:
+					currentFragment = DIARY_MATCHES_FRAGMENT;
+					preFragment = root_fragment;
+					selectItem(currentFragment, true);
+					onPrepareOptionsMenu(current_menu);
+					return true;
+				case PROFILE_FRAGMENT:
+					if(ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT){
+						Log.d("Debug", "Profile Edit Hi");
+						ProfileEditFragment.profileEditFragment.saveEditedProfile();
+						ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
+						onPrepareOptionsMenu(current_menu);
+						ProfileFragment.profileFragment.viewFragment();
+						return true;
+					}
+				default:
+					switch(preFragment){
+						case PROFILE_FRAGMENT:
+						case ANALYSIS_FRAGMENT:
+						case CAREER_FRAGMENT:
+						case DIARY_MATCHES_FRAGMENT:
+						case PURCHASE_FRAGMENT:
+						case ONGOING_MATCHES_FRAGMENT:
+							currentFragment = root_fragment;
+							preFragment = NO_FRAGMENT;
+							selectItem(root_fragment, true);
+							onPrepareOptionsMenu(current_menu);
+							return true;
+					}
+					break;
+			}
+		
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+/*
 	@Override
 	public void onBackPressed(){
 		if(currentFragment == root_fragment){
@@ -1793,7 +1857,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		}
 		super.onBackPressed();
 	}
-
+*/
 	public void make_directory(){
 		String state = Environment.getExternalStorageState();
 		if(Environment.MEDIA_MOUNTED.equals(state)){
