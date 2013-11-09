@@ -1409,7 +1409,7 @@ public class MainActivity extends SherlockFragmentActivity{
 					if(error == null){
 						final String postId = values.getString("post_id");
 						if(postId != null){
-							Toast.makeText(MainActivity.main_context, "Posted story, id: " + postId, Toast.LENGTH_SHORT).show();
+							Toast.makeText(MainActivity.main_context, "Shared Successfully",Toast.LENGTH_SHORT).show();
 						}else{
 							Toast.makeText(MainActivity.main_context, "Publish cancelled", Toast.LENGTH_SHORT).show();
 						}
