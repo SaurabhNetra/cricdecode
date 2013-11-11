@@ -59,6 +59,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/fb_app_id" />
+        <meta-data
+            android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"
+            android:value="true" />
 
         <service android:name="SignInService" />
         <service android:name="FBRefreshService" />
