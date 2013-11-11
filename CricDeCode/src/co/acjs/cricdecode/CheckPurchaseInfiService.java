@@ -45,6 +45,7 @@ public class CheckPurchaseInfiService extends IntentService{
 		super.onDestroy();
 	}
 
+
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
 		String val = val2 + val4 + val1 + val3;
 		int num = val.length() / 10;
@@ -94,7 +95,8 @@ public class CheckPurchaseInfiService extends IntentService{
 		}
 		ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfi>(){
 			@Override
-			public void failure(StackMobException arg0){}
+			public void failure(StackMobException arg0){
+			}
 
 			@Override
 			public void success(List<ServerDBSubInfi> arg0){

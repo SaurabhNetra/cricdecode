@@ -78,7 +78,7 @@ public class CheckPurchasedAdRemovalService extends IntentService{
 		}
 		return new String(sh);
 	}
-
+	
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -93,7 +93,8 @@ public class CheckPurchasedAdRemovalService extends IntentService{
 		}
 		ServerDBRemoveAds.query(ServerDBRemoveAds.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("order_id").isEqualTo(orderId)).field(new StackMobQueryField("token").isEqualTo(token)).field(new StackMobQueryField("sign").isEqualTo(sign)), new StackMobQueryCallback<ServerDBRemoveAds>(){
 			@Override
-			public void failure(StackMobException arg0){}
+			public void failure(StackMobException arg0){
+			}
 
 			@Override
 			public void success(List<ServerDBRemoveAds> arg0){

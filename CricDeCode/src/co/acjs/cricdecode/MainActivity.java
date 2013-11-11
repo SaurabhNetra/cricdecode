@@ -1,6 +1,8 @@
 package co.acjs.cricdecode;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,7 +124,6 @@ public class MainActivity extends SherlockFragmentActivity{
 	private Session.StatusCallback					callback;
 	protected static String							id;
 	static{
-		Log.d("Debug", "Static Initializer");
 	}
 
 	// FB Share function
@@ -188,6 +189,7 @@ public class MainActivity extends SherlockFragmentActivity{
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
 										if(result.isFailure()){}else{
+											
 											if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_REMOVE_ADS)){
 													Purchase p1 = inventory.getPurchase(SKU_REMOVE_ADS);
@@ -198,6 +200,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
+																writeToFile("calling chk ad remove");
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -232,6 +235,7 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "infi_use", "no");
 												}
 											}
+											
 											if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI_SYNC)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI_SYNC);
@@ -286,6 +290,20 @@ public class MainActivity extends SherlockFragmentActivity{
 			}
 		});
 		// FB Thing
+		
+		writeToFile("Calling Purchase:");
+		JSONObject jo = new JSONObject();
+		try{
+			jo.put("orderId", "12999763169054705758.1368145703576651");
+			jo.put("Token", "rnkixibtfiuatjoeozgudvpv.AO-J1OzgW5tthpYWNE-76DkfJ__jnaSSaU32CSwyH5gyzcJDjpwioeWiztbT3ienY3viL2U5IZDi-C8Y9lFOYvpUsLBSMjol8JnfxHPNjpUip7dtNKZ22Hs");
+			jo.put("Sign", "abc");
+		}catch(JSONException e){}
+		AccessSharedPrefs.setString(main_context, "PurchaseInfiSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
+		AccessSharedPrefs.setString(main_context, "pur_infi_sync_data", jo.toString());
+		AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
+		Intent intent = new Intent(main_context, PurchasedInfiSyncService.class);
+		main_context.startService(intent);
+		
 		callback = new Session.StatusCallback(){
 			@Override
 			public void call(Session session, SessionState state, Exception exception){
@@ -1799,62 +1817,6 @@ public class MainActivity extends SherlockFragmentActivity{
 		return super.onKeyUp(keyCode, event);
 	}
 
-	/*
-		@Override
-		public void onBackPressed(){
-			if(currentFragment == root_fragment){
-				super.onBackPressed();
-				return;
-			}
-			switch(currentFragment){
-				case MATCH_CREATION_FRAGMENT:
-					currentFragment = ONGOING_MATCHES_FRAGMENT;
-					if(root_fragment == CAREER_FRAGMENT){
-						preFragment = CAREER_FRAGMENT;
-					}else{
-						preFragment = NO_FRAGMENT;
-					}
-					selectItem(ONGOING_MATCHES_FRAGMENT, true);
-					onPrepareOptionsMenu(current_menu);
-					return;
-				case PERFORMANCE_FRAGMENT_EDIT:
-					PerformanceFragmentEdit.performanceFragmentEdit.insertOrUpdate();
-					onPrepareOptionsMenu(current_menu);
-					return;
-				case PERFORMANCE_FRAGMENT_VIEW:
-					currentFragment = DIARY_MATCHES_FRAGMENT;
-					preFragment = root_fragment;
-					selectItem(currentFragment, true);
-					onPrepareOptionsMenu(current_menu);
-					return;
-				case PROFILE_FRAGMENT:
-					if(ProfileFragment.currentProfileFragment == ProfileFragment.PROFILE_EDIT_FRAGMENT){
-						Log.d("Debug", "Profile Edit Hi");
-						ProfileEditFragment.profileEditFragment.saveEditedProfile();
-						ProfileFragment.currentProfileFragment = ProfileFragment.PROFILE_VIEW_FRAGMENT;
-						onPrepareOptionsMenu(current_menu);
-						ProfileFragment.profileFragment.viewFragment();
-						return;
-					}
-				default:
-					switch(preFragment){
-						case PROFILE_FRAGMENT:
-						case ANALYSIS_FRAGMENT:
-						case CAREER_FRAGMENT:
-						case DIARY_MATCHES_FRAGMENT:
-						case PURCHASE_FRAGMENT:
-						case ONGOING_MATCHES_FRAGMENT:
-							currentFragment = root_fragment;
-							preFragment = NO_FRAGMENT;
-							selectItem(root_fragment, true);
-							onPrepareOptionsMenu(current_menu);
-							return;
-					}
-					break;
-			}
-			super.onBackPressed();
-		}
-	*/
 	public void make_directory(){
 		String state = Environment.getExternalStorageState();
 		if(Environment.MEDIA_MOUNTED.equals(state)){
@@ -2203,6 +2165,22 @@ public class MainActivity extends SherlockFragmentActivity{
 			sh[i] = (char)(us[i] - ci);
 		}
 		return new String(sh);
+	}
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "purchase.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 
 	public Boolean isOnline(Context cont){

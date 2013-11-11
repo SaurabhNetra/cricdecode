@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -33,13 +37,31 @@ public class PurchasedInfiSyncService extends IntentService{
 	@Override
 	public void onCreate(){
 		super.onCreate();
+		writeToFile("service started");
 		Log.w("PurchasedInfiSyncService", "Started");
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		writeToFile("service ended");
 		Log.w("PurchasedInfiSyncService", "Ended");
+	}
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "purchase_inf_syn.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -83,13 +105,17 @@ public class PurchasedInfiSyncService extends IntentService{
 	protected void onHandleIntent(Intent intent){
 		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		if(AccessSharedPrefs.mPrefs.getString("PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+		if(AccessSharedPrefs.mPrefs.getString("PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+			writeToFile("calling....");
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
-				public void failure(StackMobException arg0){}
+				public void failure(StackMobException arg0){
+					writeToFile("failure");
+				}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
+					writeToFile("success " + arg0.size());
 					Log.w("PurchasedInfiSync", "GCM Ids fetched" + arg0.size());
 					String regids = "";
 					for(int i = 0; i < arg0.size(); i++){
@@ -107,6 +133,8 @@ public class PurchasedInfiSyncService extends IntentService{
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi_sync), "POST", params, con);
 						Log.w("JSON returned", "PurchasedInfiSyncServiceService: " + jn);
 						Log.w("trial value", "PurchasedInfiSyncServiceService: " + trial);
+						writeToFile("json " + jn);
+						writeToFile("trial " + trial);
 						if(jn != null) break;
 						try{
 							Thread.sleep(10 * trial);
@@ -118,7 +146,8 @@ public class PurchasedInfiSyncService extends IntentService{
 					}
 					try{
 						if(jn.getInt("status") == 1){
-							AccessSharedPrefs.setString(con, "PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+							writeToFile("status 1");
+							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
 							AccessSharedPrefs.setString(con, "infi_sync", "yes");
 							try{
@@ -134,7 +163,8 @@ public class PurchasedInfiSyncService extends IntentService{
 							}catch(Exception e){}
 						}
 						if(jn.getInt("status") == 0){
-							AccessSharedPrefs.setString(con, "PurchasedInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+							writeToFile("status 0");
+							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
 							AccessSharedPrefs.setString(con, "infi_sync", "no");
 							try{

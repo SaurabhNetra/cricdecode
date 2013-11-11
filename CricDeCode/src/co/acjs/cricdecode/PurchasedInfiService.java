@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -34,6 +38,7 @@ public class PurchasedInfiService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("PurchasedInfiService", "Started");
+		writeToFile("infi service started");
 		con = this;
 	}
 
@@ -41,7 +46,25 @@ public class PurchasedInfiService extends IntentService{
 	public void onDestroy(){
 		super.onDestroy();
 		Log.w("PurchasedInfiService", "Ended");
+		writeToFile("Infi service ended");
 	}
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "purchase_infi.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
+	
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
 		String val = val2 + val4 + val1 + val3;
@@ -84,13 +107,18 @@ public class PurchasedInfiService extends IntentService{
 	protected void onHandleIntent(Intent intent){
 		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
-		if(AccessSharedPrefs.mPrefs.getString("PurchasedInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+		
+		if(AccessSharedPrefs.mPrefs.getString("PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
+			
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
-				public void failure(StackMobException arg0){}
+				public void failure(StackMobException arg0){
+			
+				}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
+			
 					try{
 						final JSONParser jsonParser = new JSONParser();
 						List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -108,6 +136,8 @@ public class PurchasedInfiService extends IntentService{
 							jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi), "POST", params, con);
 							Log.w("JSON returned", "PurchasedInfiServiceService: " + jn);
 							Log.w("trial value", "PurchasedInfiServiceService: " + trial);
+			
+			
 							if(jn != null) break;
 							try{
 								Thread.sleep(10 * trial);
@@ -117,9 +147,10 @@ public class PurchasedInfiService extends IntentService{
 								break;
 							}
 						}
+						writeToFile("infi service status "+jn);
 						try{
 							if(jn.getInt("status") == 1){
-								AccessSharedPrefs.setString(con, "PurchasedInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+								AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_infi_data", "");
 								AccessSharedPrefs.setString(con, "infi_use", "yes");
 								try{
@@ -136,7 +167,7 @@ public class PurchasedInfiService extends IntentService{
 								}catch(Exception e){}
 							}
 							if(jn.getInt("status") == 0){
-								AccessSharedPrefs.setString(con, "PurchasedInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+								AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_infi_data", "");
 								AccessSharedPrefs.setString(con, "infi_use", "no");
 								try{
