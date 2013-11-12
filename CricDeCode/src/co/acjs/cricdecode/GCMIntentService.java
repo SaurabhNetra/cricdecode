@@ -252,7 +252,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 					break;
 			}
 		}catch(JSONException e){
-			Log.w("Json exception", "" + e);
+			Log.w("Json exception", "ex in gcm" + e);
 		}
 	}
 

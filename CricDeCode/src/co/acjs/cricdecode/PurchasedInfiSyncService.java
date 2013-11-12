@@ -180,7 +180,7 @@ public class PurchasedInfiSyncService extends IntentService{
 								});
 							}catch(Exception e){}
 						}
-						if(jn.getInt("status") == 0){
+						else if(jn.getInt("status") == 0){
 							writeToFile("PIS status 0");
 							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
@@ -194,9 +194,6 @@ public class PurchasedInfiSyncService extends IntentService{
 									}
 								});
 							}catch(Exception e){}
-						}
-						if(jn.getInt("status") == 3){
-							writeToFile("PIS status 3");
 						}
 					}catch(Exception e){}
 				}

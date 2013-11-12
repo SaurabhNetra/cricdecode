@@ -179,7 +179,7 @@ public class PurchasedAdRemovalService extends IntentService{
 									});
 								}catch(Exception e){}
 							}
-							if(jn.getInt("status") == 0){
+							else if(jn.getInt("status") == 0){
 								writeToFile("PurchasedAdRemovalService in status 0");
 								AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
@@ -195,9 +195,6 @@ public class PurchasedAdRemovalService extends IntentService{
 										}
 									});
 								}catch(Exception e){}
-							}
-							if(jn.getInt("status") == 3){
-								writeToFile("PurchasedAdRemovalService in status 3");
 							}
 						}catch(Exception e){}
 					}catch(Exception e){}

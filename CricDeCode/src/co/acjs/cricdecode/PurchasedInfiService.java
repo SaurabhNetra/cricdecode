@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.IntentService;
@@ -148,9 +149,11 @@ public class PurchasedInfiService extends IntentService{
 								break;
 							}
 						}
-						try{
+						try
+						{
+							try{
 							if(jn != null){
-								params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+								params1.add(new BasicNameValuePair("jn", "" + jn));
 							}else{
 								params1.add(new BasicNameValuePair("jn", "null"));
 							}
@@ -177,7 +180,7 @@ public class PurchasedInfiService extends IntentService{
 									});
 								}catch(Exception e){}
 							}
-							if(jn.getInt("status") == 0){
+							else if(jn.getInt("status") == 0){
 								writeToFile("PurchasedInfiService in status 0 ");
 								AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_infi_data", "");
@@ -191,10 +194,11 @@ public class PurchasedInfiService extends IntentService{
 										}
 									});
 								}catch(Exception e){}
-							}
-							if(jn.getInt("status") == 3){
-								writeToFile("PurchasedInfiService in status 3");
-							}
+							}	
+						}
+						catch(JSONException e){
+							Log.w("PurchaseInfiService","Caught JSON Exeption");
+						}
 						}catch(Exception e){}
 					}catch(Exception e){}
 				}
