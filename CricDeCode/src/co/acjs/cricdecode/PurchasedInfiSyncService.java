@@ -37,14 +37,14 @@ public class PurchasedInfiSyncService extends IntentService{
 	@Override
 	public void onCreate(){
 		super.onCreate();
-		writeToFile("service started");
+		writeToFile("PIS service started");
 		Log.w("PurchasedInfiSyncService", "Started");
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		writeToFile("service ended");
+		writeToFile("PIS service ended");
 		Log.w("PurchasedInfiSyncService", "Ended");
 	}
 
@@ -106,16 +106,16 @@ public class PurchasedInfiSyncService extends IntentService{
 		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if(AccessSharedPrefs.mPrefs.getString("PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
-			writeToFile("calling....");
+			writeToFile("PIS calling....");
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
 				public void failure(StackMobException arg0){
-					writeToFile("failure");
+					writeToFile("PIS failure1");
 				}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
-					writeToFile("success " + arg0.size());
+					writeToFile("PIS success " + arg0.size());
 					Log.w("PurchasedInfiSync", "GCM Ids fetched" + arg0.size());
 					String regids = "";
 					for(int i = 0; i < arg0.size(); i++){
@@ -124,17 +124,25 @@ public class PurchasedInfiSyncService extends IntentService{
 					final JSONParser jsonParser = new JSONParser();
 					List<NameValuePair> params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+					params.add(new BasicNameValuePair("SendToArrays", regids));
 					params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
 					params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", "")));
+					List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+					params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+					params1.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", "")));
+					params1.add(new BasicNameValuePair("filname", "PurchaseInfiSyncService"));
 					Log.w("Sending User Data...", "PurchaseInfiSync:" + jsonParser.isOnline(con));
 					int trial = 1;
 					JSONObject jn = null;
+					writeToFile("PIS Sending data: ");
+					writeToFile("PIS regids: " + regids);
+					writeToFile("PIS json: " + AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", ""));
 					while(jsonParser.isOnline(con)){
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi_sync), "POST", params, con);
 						Log.w("JSON returned", "PurchasedInfiSyncServiceService: " + jn);
 						Log.w("trial value", "PurchasedInfiSyncServiceService: " + trial);
-						writeToFile("json " + jn);
-						writeToFile("trial " + trial);
+						writeToFile("PIS json " + jn);
+						writeToFile("PIS trial " + trial);
 						if(jn != null) break;
 						try{
 							Thread.sleep(10 * trial);
@@ -145,8 +153,18 @@ public class PurchasedInfiSyncService extends IntentService{
 						}
 					}
 					try{
+						if(jn != null){
+							params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+						}else{
+							params1.add(new BasicNameValuePair("jn", "null"));
+						}
+						params1.add(new BasicNameValuePair("trial", "" + trial));
+						writeToFile("sending mail");
+						jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, con);
+					}catch(Exception e){}
+					try{
 						if(jn.getInt("status") == 1){
-							writeToFile("status 1");
+							writeToFile("PIS status 1");
 							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
 							AccessSharedPrefs.setString(con, "infi_sync", "yes");
@@ -163,7 +181,7 @@ public class PurchasedInfiSyncService extends IntentService{
 							}catch(Exception e){}
 						}
 						if(jn.getInt("status") == 0){
-							writeToFile("status 0");
+							writeToFile("PIS status 0");
 							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
 							AccessSharedPrefs.setString(con, "infi_sync", "no");
@@ -176,6 +194,9 @@ public class PurchasedInfiSyncService extends IntentService{
 									}
 								});
 							}catch(Exception e){}
+						}
+						if(jn.getInt("status") == 3){
+							writeToFile("PIS status 3");
 						}
 					}catch(Exception e){}
 				}

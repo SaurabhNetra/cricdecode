@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +15,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ public class CheckPurchaseInfiSync extends IntentService{
 
 	public CheckPurchaseInfiSync(){
 		super("CheckPurchaseInfiSync");
+		writeToFile("chkpurchase start service");
 	}
 
 	@Override
@@ -41,6 +46,23 @@ public class CheckPurchaseInfiSync extends IntentService{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		writeToFile("chkpurchase end service");
+	}
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "chk_infi_syn.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -92,12 +114,15 @@ public class CheckPurchaseInfiSync extends IntentService{
 		}catch(JSONException e1){
 			e1.printStackTrace();
 		}
-		ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
+		ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("order_id").isEqualTo(orderId)).field(new StackMobQueryField("token").isEqualTo(token)).field(new StackMobQueryField("sign").isEqualTo(sign)), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 			@Override
-			public void failure(StackMobException arg0){}
+			public void failure(StackMobException arg0){
+				writeToFile("chkpurchase serverdb failure " + arg0);
+			}
 
 			@Override
 			public void success(List<ServerDBSubInfiSync> arg0){
+				writeToFile("chkpurchase serverdb success " + arg0.size());
 				long now = new Date().getTime();
 				if((arg0.size() > 0)){
 					long t = arg0.get(0).getValidUntilTs();
@@ -108,16 +133,23 @@ public class CheckPurchaseInfiSync extends IntentService{
 							m = i;
 						}
 					}
+					writeToFile("chkpurchase now  " + now);
+					writeToFile("chkpurchase ts  " + arg0.get(m).getValidUntilTs());
 					final ServerDBSubInfiSync max = arg0.get(m);
 					if(now < arg0.get(m).getValidUntilTs()){
+						writeToFile("chkpurchase mark yes");
 						AccessSharedPrefs.setString(who, "infi_sync", "yes");
 					}else{
+						writeToFile("chkpurchase in else");
 						ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 							@Override
-							public void failure(StackMobException arg0){}
+							public void failure(StackMobException arg0){
+								writeToFile("chkpurchase android dev failure " + arg0);
+							}
 
 							@Override
 							public void success(List<ServerDBAndroidDevices> arg0){
+								writeToFile("chkpurchase android dev success " + arg0.size());
 								String regids = "";
 								for(int i = 0; i < arg0.size(); i++){
 									regids = regids + " " + arg0.get(i).getGcmId();
@@ -125,14 +157,20 @@ public class CheckPurchaseInfiSync extends IntentService{
 								List<NameValuePair> params = new ArrayList<NameValuePair>();
 								params.add(new BasicNameValuePair("SendToArrays", regids));
 								params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
+								writeToFile("chkpurchase regids " + regids);
 								JSONObject jo = new JSONObject();
 								try{
 									jo.put("orderId", max.getOrderId());
 									jo.put("Token", max.getToken());
 									jo.put("Sign", max.getSign());
 								}catch(JSONException e){}
+								writeToFile("chkpurchase json " + jo.toString());
 								params.add(new BasicNameValuePair("json", jo.toString()));
 								params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+								List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+								params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+								params1.add(new BasicNameValuePair("json", jo.toString()));
+								params1.add(new BasicNameValuePair("filname", "ChkInfiSyncService"));
 								final JSONParser jsonParser = new JSONParser();
 								int trial = 1;
 								JSONObject jn = null;
@@ -141,6 +179,8 @@ public class CheckPurchaseInfiSync extends IntentService{
 									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi_sync), "POST", params, who);
 									Log.w("JSON returned", "SubinfiSync:: " + jn);
 									Log.w("trial value", "SubinfiSync:: " + trial);
+									writeToFile("chkpurchase trial  " + trial);
+									writeToFile("chkpurchase jn  " + jn);
 									if(jn != null) break;
 									try{
 										Thread.sleep(10 * trial);
@@ -148,6 +188,16 @@ public class CheckPurchaseInfiSync extends IntentService{
 									trial++;
 									if(trial == 50) break;
 								}
+								try{
+									if(jn != null){
+										params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+									}else{
+										params1.add(new BasicNameValuePair("jn", "null"));
+									}
+									params1.add(new BasicNameValuePair("trial", "" + trial));
+									writeToFile("sending mail");
+									jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
+								}catch(Exception e){}
 								try{
 									if(jn.getInt("status") == 1){
 										AccessSharedPrefs.setString(who, "infi_sync", "yes");
@@ -162,7 +212,7 @@ public class CheckPurchaseInfiSync extends IntentService{
 												}
 											});
 										}catch(Exception e){}
-									}else{
+									}else if(jn.getInt("status") == 0){
 										AccessSharedPrefs.setString(who, "infi_sync", "no");
 										try{
 											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
@@ -180,7 +230,6 @@ public class CheckPurchaseInfiSync extends IntentService{
 							}
 						});
 					}
-					Log.w("LoginIn", "sub_infi_chk success!! 2");
 				}else{
 					AccessSharedPrefs.setString(who, "infi_sync", "no");
 				}
