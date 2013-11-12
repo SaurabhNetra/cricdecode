@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -38,31 +34,13 @@ public class PurchasedAdRemovalService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("PurchasedAdRemovalService", "Started");
-		writeToFile("PurchasedAdRemovalService started");
 		con = this;
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		writeToFile("PurchasedAdRemovalService ended");
 		Log.w("PurchasedAdRemovalService", "Ended");
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "purchase_ads.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -109,9 +87,7 @@ public class PurchasedAdRemovalService extends IntentService{
 		if(AccessSharedPrefs.mPrefs.getString("PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
-				public void failure(StackMobException arg0){
-					writeToFile("PurchasedAdRemovalService and dev failure");
-				}
+				public void failure(StackMobException arg0){}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
@@ -130,15 +106,12 @@ public class PurchasedAdRemovalService extends IntentService{
 						params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
 						params1.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_ad_data", "")));
 						params1.add(new BasicNameValuePair("filname", "PurchaseAdRemovalService"));
-						writeToFile("PurchasedAdRemovalService json:" + AccessSharedPrefs.mPrefs.getString("pur_ad_data", ""));
 						int trial = 1;
 						JSONObject jn = null;
 						while(jsonParser.isOnline(con)){
 							jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_remove_ads_sync), "POST", params, con);
 							Log.w("JSON returned", "PurchasedAdRemovalService: " + jn);
 							Log.w("trial value", "PurchasedAdRemovalService: " + trial);
-							writeToFile("PurchasedAdRemovalService jn:" + jn);
-							writeToFile("PurchasedAdRemovalService trial:" + trial);
 							if(jn != null) break;
 							try{
 								Thread.sleep(10 * trial);
@@ -155,15 +128,12 @@ public class PurchasedAdRemovalService extends IntentService{
 								params1.add(new BasicNameValuePair("jn", "null"));
 							}
 							params1.add(new BasicNameValuePair("trial", "" + trial));
-							writeToFile("sending mail");
 							jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, con);
 						}catch(Exception e){}
 						try{
-							writeToFile("reply " + jn);
 							Log.w("PurchaseAdRemovalServiceCalled", "Reply" + jn);
 							if(jn.getInt("status") == 1){
 								Log.w("PurAdRemoval", "Reply" + jn);
-								writeToFile("PurchasedAdRemovalService in status 1");
 								AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
 								AccessSharedPrefs.setString(con, "ad_free", "yes");
@@ -178,9 +148,7 @@ public class PurchasedAdRemovalService extends IntentService{
 										}
 									});
 								}catch(Exception e){}
-							}
-							else if(jn.getInt("status") == 0){
-								writeToFile("PurchasedAdRemovalService in status 0");
+							}else if(jn.getInt("status") == 0){
 								AccessSharedPrefs.setString(con, "PurchaseAdRemovalServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								AccessSharedPrefs.setString(con, "pur_ad_data", "");
 								AccessSharedPrefs.setString(con, "ad_free", "no");

@@ -1,8 +1,6 @@
 package co.acjs.cricdecode;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -188,7 +186,7 @@ public class MainActivity extends SherlockFragmentActivity{
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
 										if(result.isFailure()){}else{
-											writeToFile("ad_free: " + AccessSharedPrefs.mPrefs.getString("infi_use", "no"));
+											
 											if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_REMOVE_ADS)){
 													Purchase p1 = inventory.getPurchase(SKU_REMOVE_ADS);
@@ -198,11 +196,7 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());
-																writeToFile("calling chkadremove: ");
-																writeToFile("orderid:" + p1.getOrderId());
-																writeToFile("token:" + p1.getToken());
-																writeToFile("sign:" + p1.getSignature());
+																jo.put("Sign", p1.getSignature());																
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -215,7 +209,7 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "ad_free", "no");
 												}
 											}
-											writeToFile("infi_use: " + AccessSharedPrefs.mPrefs.getString("infi_use", "no"));
+											
 											if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI);
@@ -226,13 +220,8 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
 																jo.put("Sign", p1.getSignature());
-																writeToFile("calling chkinfiuse: ");
-																writeToFile("orderid:" + p1.getOrderId());
-																writeToFile("token:" + p1.getToken());
-																writeToFile("sign:" + p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
-																writeToFile("json: " + jo.toString());
 																startService(i);
 															}catch(JSONException e){}
 														}
@@ -243,7 +232,7 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "infi_use", "no");
 												}
 											}
-											writeToFile("infi_sync: " + AccessSharedPrefs.mPrefs.getString("infi_sync", "no"));
+											
 											if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI_SYNC)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI_SYNC);
@@ -253,11 +242,7 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());
-																writeToFile("calling chkinfisync: ");
-																writeToFile("orderid:" + p1.getOrderId());
-																writeToFile("token:" + p1.getToken());
-																writeToFile("sign:" + p1.getSignature());
+																jo.put("Sign", p1.getSignature());															
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -328,20 +313,17 @@ public class MainActivity extends SherlockFragmentActivity{
 					Intent intent = null;
 					if(purchase.getSku().equals(SKU_REMOVE_ADS)){
 						Log.w("MainActivity", "Purchase Test: on purchase remove ads");
-						writeToFile("On Purchase Listener remove ads ");
 						AccessSharedPrefs.setString(main_context, "PurchaseAdRemovalServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						AccessSharedPrefs.setString(main_context, "pur_ad_data", jo.toString());
 						AccessSharedPrefs.setString(main_context, "ad_free", "yes");
 						intent = new Intent(main_context, PurchasedAdRemovalService.class);
 						findViewById(R.id.adView).setVisibility(View.GONE);
 					}else if(purchase.getSku().equals(SKU_SUB_INFI)){
-						writeToFile("On Purchase Listener infi ");
 						AccessSharedPrefs.setString(main_context, "PurchaseInfiServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						AccessSharedPrefs.setString(main_context, "pur_infi_data", jo.toString());
 						AccessSharedPrefs.setString(main_context, "infi_use", "yes");
 						intent = new Intent(main_context, PurchasedInfiService.class);
 					}else if(purchase.getSku().equals(SKU_SUB_INFI_SYNC)){
-						writeToFile("On Purchase Listener infi sync");
 						AccessSharedPrefs.setString(main_context, "PurchaseInfiSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						AccessSharedPrefs.setString(main_context, "pur_infi_sync_data", jo.toString());
 						AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
@@ -607,45 +589,36 @@ public class MainActivity extends SherlockFragmentActivity{
 			boolean isConnected = isOnline(main_context);
 			if(isConnected){
 				Log.w("restart service", "mainactivity");
-				writeToFile("restart service mainactivity");
 				if(NotSyncedMatchHistory & isConnected){
 					Log.w("Starting MatchCreateService", "restart service");
-					writeToFile("Starting MatchCreateService restart service");
 					startService(new Intent(main_context, MatchHistorySyncService.class));
 				}
 				if(NotSyncedEditProfile & isConnected){
 					Log.w("Starting ProfileEditService", "restart service");
-					writeToFile("Starting ProfileEditService restart service");
 					startService(new Intent(main_context, ProfileEditService.class));
 				}
 				if(NotDeleted & isConnected){
 					Log.w("Starting DeleteMatch", "restart service");
-					writeToFile("Starting DeleteMatch restart service");
 					startService(new Intent(main_context, DeleteMatchService.class));
 				}
 				if(NotAdRemoved & isConnected){
 					Log.w("Starting PurchasedAdRemovalService", "restart service");
-					writeToFile("Starting PurchasedAdRemovalService restart service");
 					startService(new Intent(main_context, PurchasedAdRemovalService.class));
 				}
 				if(NotInfied & isConnected){
 					Log.w("Starting PurchasedInfiService", "restart service");
-					writeToFile("Starting PurchasedInfiService restart service");
 					startService(new Intent(main_context, PurchasedInfiService.class));
 				}
 				if(NotInfiSynced & isConnected){
 					Log.w("Starting PurchasedInfiSyncService", "restart service");
-					writeToFile("Starting PurchasedInfiSyncService restart service");
 					startService(new Intent(main_context, PurchasedInfiSyncService.class));
 				}
 				if(NotSyncedGCMSync & isConnected){
 					Log.w("Starting PurchasedInfiSyncService", "restart service");
-					writeToFile("Starting PurchasedInfiSyncService restart service");
 					startService(new Intent(main_context, GCMSyncService.class));
 				}
 				if(NotSynced & isConnected){
 					Log.w("Starting PurchasedSyncService", "restart service");
-					writeToFile("Starting PurchasedSyncService restart service");
 					startService(new Intent(main_context, PurchasedSyncService.class));
 				}
 			}else Log.w("no connection", "restart service");
@@ -2225,22 +2198,6 @@ public class MainActivity extends SherlockFragmentActivity{
 			sh[i] = (char)(us[i] - ci);
 		}
 		return new String(sh);
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "main.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	public Boolean isOnline(Context cont){

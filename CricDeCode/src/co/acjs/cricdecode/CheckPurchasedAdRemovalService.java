@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 import org.json.JSONException;
@@ -11,7 +8,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -83,22 +79,6 @@ public class CheckPurchasedAdRemovalService extends IntentService{
 		return new String(sh);
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "chk_ads.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
-
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -108,9 +88,6 @@ public class CheckPurchasedAdRemovalService extends IntentService{
 			orderId = jn.getString("orderId");
 			token = jn.getString("Token");
 			sign = jn.getString("Sign");
-			writeToFile("chk purchase orderId: " + orderId);
-			writeToFile("chk purchase sign: " + sign);
-			writeToFile("chk purchase token: " + token);
 		}catch(JSONException e1){
 			e1.printStackTrace();
 		}
@@ -120,9 +97,7 @@ public class CheckPurchasedAdRemovalService extends IntentService{
 
 			@Override
 			public void success(List<ServerDBRemoveAds> arg0){
-				writeToFile("chk ads server db " + arg0.size());
 				if(arg0.size() == 0){
-					writeToFile("chk ads server db no ");
 					AccessSharedPrefs.setString(who, "ad_free", "no");
 					try{
 						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
@@ -136,7 +111,6 @@ public class CheckPurchasedAdRemovalService extends IntentService{
 						});
 					}catch(Exception e){}
 				}else{
-					writeToFile("chk ads server db yes");
 					AccessSharedPrefs.setString(who, "ad_free", "yes");
 					try{
 						((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){

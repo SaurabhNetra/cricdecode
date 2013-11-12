@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,7 +35,6 @@ public class PurchasedInfiService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("PurchasedInfiService", "Started");
-		writeToFile("PurchasedInfiService started");
 		con = this;
 	}
 
@@ -47,23 +42,6 @@ public class PurchasedInfiService extends IntentService{
 	public void onDestroy(){
 		super.onDestroy();
 		Log.w("PurchasedInfiService", "Ended");
-		writeToFile("PurchasedInfiService ended");
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "purchase_infi.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -110,9 +88,7 @@ public class PurchasedInfiService extends IntentService{
 		if(AccessSharedPrefs.mPrefs.getString("PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
-				public void failure(StackMobException arg0){
-					writeToFile("PurchaseInfiService and dev failure");
-				}
+				public void failure(StackMobException arg0){}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
@@ -127,7 +103,6 @@ public class PurchasedInfiService extends IntentService{
 						params.add(new BasicNameValuePair("SendToArrays", regids));
 						params.add(new BasicNameValuePair("product_id", "sub_infi"));
 						params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_data", "")));
-						writeToFile("PurchasedInfiService json: " + AccessSharedPrefs.mPrefs.getString("pur_infi_data", ""));
 						List<NameValuePair> params1 = new ArrayList<NameValuePair>();
 						params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
 						params1.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_data", "")));
@@ -138,8 +113,6 @@ public class PurchasedInfiService extends IntentService{
 							jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi), "POST", params, con);
 							Log.w("JSON returned", "PurchasedInfiServiceService: " + jn);
 							Log.w("trial value", "PurchasedInfiServiceService: " + trial);
-							writeToFile("PurchasedInfiService jn: " + jn);
-							writeToFile("PurchasedInfiService trial: " + trial);
 							if(jn != null) break;
 							try{
 								Thread.sleep(10 * trial);
@@ -149,56 +122,50 @@ public class PurchasedInfiService extends IntentService{
 								break;
 							}
 						}
-						try
-						{
-							try{
-							if(jn != null){
-								params1.add(new BasicNameValuePair("jn", "" + jn));
-							}else{
-								params1.add(new BasicNameValuePair("jn", "null"));
-							}
-							params1.add(new BasicNameValuePair("trial", "" + trial));
-							writeToFile("sending mail");
-							jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, con);
-						}catch(Exception e){}
 						try{
-							if(jn.getInt("status") == 1){
-								writeToFile("PurchasedInfiService in status 1 ");
-								AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-								AccessSharedPrefs.setString(con, "pur_infi_data", "");
-								AccessSharedPrefs.setString(con, "infi_use", "yes");
-								try{
-									((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
-										public void run(){
-											try{
-												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
-												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Purchased");
-												((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
-												((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
-											}catch(Exception e){}
-										}
-									});
-								}catch(Exception e){}
+							try{
+								if(jn != null){
+									params1.add(new BasicNameValuePair("jn", "" + jn));
+								}else{
+									params1.add(new BasicNameValuePair("jn", "null"));
+								}
+								params1.add(new BasicNameValuePair("trial", "" + trial));
+								jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, con);
+							}catch(Exception e){}
+							try{
+								if(jn.getInt("status") == 1){
+									AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+									AccessSharedPrefs.setString(con, "pur_infi_data", "");
+									AccessSharedPrefs.setString(con, "infi_use", "yes");
+									try{
+										((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+											public void run(){
+												try{
+													((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
+													((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setText("Purchased");
+													((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);
+													((LinearLayout)((MainActivity)MainActivity.main_context).findViewById(R.id.pur_subscribe_infi_sync)).setVisibility(View.GONE);
+												}catch(Exception e){}
+											}
+										});
+									}catch(Exception e){}
+								}else if(jn.getInt("status") == 0){
+									AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+									AccessSharedPrefs.setString(con, "pur_infi_data", "");
+									AccessSharedPrefs.setString(con, "infi_use", "no");
+									try{
+										((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
+											public void run(){
+												try{
+													((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.GONE);
+												}catch(Exception e){}
+											}
+										});
+									}catch(Exception e){}
+								}
+							}catch(JSONException e){
+								Log.w("PurchaseInfiService", "Caught JSON Exeption");
 							}
-							else if(jn.getInt("status") == 0){
-								writeToFile("PurchasedInfiService in status 0 ");
-								AccessSharedPrefs.setString(con, "PurchaseInfiServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-								AccessSharedPrefs.setString(con, "pur_infi_data", "");
-								AccessSharedPrefs.setString(con, "infi_use", "no");
-								try{
-									((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
-										public void run(){
-											try{
-												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.infi_pur)).setVisibility(View.GONE);
-											}catch(Exception e){}
-										}
-									});
-								}catch(Exception e){}
-							}	
-						}
-						catch(JSONException e){
-							Log.w("PurchaseInfiService","Caught JSON Exeption");
-						}
 						}catch(Exception e){}
 					}catch(Exception e){}
 				}

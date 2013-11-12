@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -37,31 +33,13 @@ public class PurchasedInfiSyncService extends IntentService{
 	@Override
 	public void onCreate(){
 		super.onCreate();
-		writeToFile("PIS service started");
 		Log.w("PurchasedInfiSyncService", "Started");
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		writeToFile("PIS service ended");
 		Log.w("PurchasedInfiSyncService", "Ended");
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "purchase_inf_syn.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -106,16 +84,12 @@ public class PurchasedInfiSyncService extends IntentService{
 		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		if(AccessSharedPrefs.mPrefs.getString("PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
-			writeToFile("PIS calling....");
 			ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 				@Override
-				public void failure(StackMobException arg0){
-					writeToFile("PIS failure1");
-				}
+				public void failure(StackMobException arg0){}
 
 				@Override
 				public void success(List<ServerDBAndroidDevices> arg0){
-					writeToFile("PIS success " + arg0.size());
 					Log.w("PurchasedInfiSync", "GCM Ids fetched" + arg0.size());
 					String regids = "";
 					for(int i = 0; i < arg0.size(); i++){
@@ -134,15 +108,10 @@ public class PurchasedInfiSyncService extends IntentService{
 					Log.w("Sending User Data...", "PurchaseInfiSync:" + jsonParser.isOnline(con));
 					int trial = 1;
 					JSONObject jn = null;
-					writeToFile("PIS Sending data: ");
-					writeToFile("PIS regids: " + regids);
-					writeToFile("PIS json: " + AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data", ""));
 					while(jsonParser.isOnline(con)){
 						jn = jsonParser.makeHttpRequest(getResources().getString(R.string.purchase_infi_sync), "POST", params, con);
 						Log.w("JSON returned", "PurchasedInfiSyncServiceService: " + jn);
 						Log.w("trial value", "PurchasedInfiSyncServiceService: " + trial);
-						writeToFile("PIS json " + jn);
-						writeToFile("PIS trial " + trial);
 						if(jn != null) break;
 						try{
 							Thread.sleep(10 * trial);
@@ -159,12 +128,10 @@ public class PurchasedInfiSyncService extends IntentService{
 							params1.add(new BasicNameValuePair("jn", "null"));
 						}
 						params1.add(new BasicNameValuePair("trial", "" + trial));
-						writeToFile("sending mail");
 						jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, con);
 					}catch(Exception e){}
 					try{
 						if(jn.getInt("status") == 1){
-							writeToFile("PIS status 1");
 							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
 							AccessSharedPrefs.setString(con, "infi_sync", "yes");
@@ -179,9 +146,7 @@ public class PurchasedInfiSyncService extends IntentService{
 									}
 								});
 							}catch(Exception e){}
-						}
-						else if(jn.getInt("status") == 0){
-							writeToFile("PIS status 0");
+						}else if(jn.getInt("status") == 0){
 							AccessSharedPrefs.setString(con, "PurchaseInfiSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 							AccessSharedPrefs.setString(con, "pur_infi_sync_data", "");
 							AccessSharedPrefs.setString(con, "infi_sync", "no");

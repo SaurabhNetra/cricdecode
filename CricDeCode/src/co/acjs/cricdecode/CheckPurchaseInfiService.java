@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +12,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -36,7 +32,6 @@ public class CheckPurchaseInfiService extends IntentService{
 
 	public CheckPurchaseInfiService(){
 		super("CheckPurchaseInfiService");
-		writeToFile("chk service started");
 	}
 
 	@Override
@@ -48,7 +43,6 @@ public class CheckPurchaseInfiService extends IntentService{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		writeToFile("chk service ended");
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -88,22 +82,6 @@ public class CheckPurchaseInfiService extends IntentService{
 		return new String(sh);
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "chk_infi.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
-
 	@Override
 	protected void onHandleIntent(Intent intent){
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
@@ -119,13 +97,10 @@ public class CheckPurchaseInfiService extends IntentService{
 		}
 		ServerDBSubInfi.query(ServerDBSubInfi.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))).field(new StackMobQueryField("order_id").isEqualTo(orderId)).field(new StackMobQueryField("token").isEqualTo(token)).field(new StackMobQueryField("sign").isEqualTo(sign)), new StackMobQueryCallback<ServerDBSubInfi>(){
 			@Override
-			public void failure(StackMobException arg0){
-				writeToFile("chk server db failure:");
-			}
+			public void failure(StackMobException arg0){}
 
 			@Override
 			public void success(List<ServerDBSubInfi> arg0){
-				writeToFile("chk server db success: " + arg0.size());
 				long now = new Date().getTime();
 				if((arg0.size() > 0)){
 					long t = arg0.get(0).getValidUntilTs();
@@ -138,7 +113,6 @@ public class CheckPurchaseInfiService extends IntentService{
 					}
 					if(now < arg0.get(m).getValidUntilTs()){
 						AccessSharedPrefs.setString(who, "infi_use", "yes");
-						writeToFile("direct yes");
 					}else{
 						ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 							@Override
@@ -167,8 +141,6 @@ public class CheckPurchaseInfiService extends IntentService{
 									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
 									Log.w("JSON returned", "Subinfi:: " + jn);
 									Log.w("trial value", "Subinfi:: " + trial);
-									writeToFile("JSON returned Subinfi:: " + jn);
-									writeToFile("trial value Subinfi:: " + trial);
 									if(jn != null) break;
 									try{
 										Thread.sleep(10 * trial);
@@ -183,7 +155,6 @@ public class CheckPurchaseInfiService extends IntentService{
 										params1.add(new BasicNameValuePair("jn", "null"));
 									}
 									params1.add(new BasicNameValuePair("trial", "" + trial));
-									writeToFile("sending mail");
 									jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
 								}catch(Exception e){}
 								try{
