@@ -18,6 +18,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -55,7 +56,7 @@ public class LogIn extends SherlockActivity{
 	static GraphUser		user;
 	static Context			login_activity;
 	ContentProviderClient	client;
-	SQLiteDatabase			dbHandle;
+	static SQLiteDatabase			dbHandle;
 	static TextView			progressText;
 	static Boolean			onActivityResult	= false;
 	static ContentResolver	cr;
@@ -638,9 +639,21 @@ public class LogIn extends SherlockActivity{
 																		values.put(MatchDb.KEY_DURATION, arg0.get(i).getDuration());
 																		values.put(MatchDb.KEY_REVIEW, arg0.get(i).getReview());
 																		values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
-																		values.put(MatchDb.KEY_SYNCED, 0);
-																		Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
-																		Log.w("Uri inserted", "" + u);
+																		values.put(MatchDb.KEY_SYNCED, 1);
+																		try
+																		{
+																		Cursor c = LogIn.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(i).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "'", null);
+																		Log.w("LoginIn", "count of matches: "+c.getCount()); 
+																		if(c.getCount() == 0){
+																			Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
+																			Log.w("Uri inserted", "" + u);
+																		}
+																		c.close();
+																		}
+																		catch(Exception e)
+																		{
+																			Log.w("login","Exception e"+e);
+																		}
 																	}
 																	ServerDBPerformance.query(ServerDBPerformance.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(user.getId())).field(new StackMobQueryField("status").isEqualTo(0)), new StackMobQueryCallback<ServerDBPerformance>(){
 																		@Override
@@ -692,10 +705,17 @@ public class LogIn extends SherlockActivity{
 																				values.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
 																				values.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
 																				values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-																				values.put(PerformanceDb.KEY_SYNCED, 0);
-																				Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
-																				Log.w("Uri inserted", "" + u);
+																				values.put(PerformanceDb.KEY_SYNCED, 1);
+																				values.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+																				Cursor c = LogIn.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
+																				Log.w("LoginIn", "count of performance: "+c.getCount()); 
+																				if(c.getCount() == 0){
+																					Uri u = cr.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
+																					Log.w("Uri inserted", "" + u);
+																				}
+																				c.close();
 																			}
+																			Log.w("LogIn","Opening Activity");
 																			openMainActivity();
 																		}
 																	});

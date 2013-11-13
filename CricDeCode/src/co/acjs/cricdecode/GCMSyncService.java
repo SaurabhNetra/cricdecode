@@ -203,7 +203,7 @@ public class GCMSyncService extends IntentService{
 									value.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
 									value.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
 									value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-									value.put(PerformanceDb.KEY_SYNCED, 1);
+									value.put(PerformanceDb.KEY_SYNCED, 1);									
 									value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 									// Sheetal Test
 									Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
