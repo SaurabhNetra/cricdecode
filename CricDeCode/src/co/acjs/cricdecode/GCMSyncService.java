@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,12 +11,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.IntentService;
+import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -33,6 +31,8 @@ public class GCMSyncService extends IntentService{
 	public static Context	who;
 	static int				tot_mat	= 0;
 	static int				cnt_mat	= 0;
+	ContentProviderClient	client;
+	static SQLiteDatabase	dbHandle;
 
 	public GCMSyncService(){
 		super("GCMSyncService");
@@ -46,25 +46,11 @@ public class GCMSyncService extends IntentService{
 		Log.w("GCMSyncService", "Started");
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "gcmsync.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
-
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		cnt_mat = 0;
+		tot_mat = 0;
 		Log.w("GCMSyncService", "Ended");
 	}
 
@@ -118,14 +104,12 @@ public class GCMSyncService extends IntentService{
 					@Override
 					public void failure(StackMobException arg0){
 						Log.w("GCMSync Cricket Match", "failure");
-						writeToFile("GCMSync Cricket Match failure");
 					}
 
 					@Override
 					public void success(List<ServerDBCricketMatch> arg0){
 						final int device_id = arg0.get(0).getDeviceId(), match_id = arg0.get(0).getMatchId();
 						Log.w("GCMSync", "Cricket Match " + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
-						writeToFile("GCMSync Cricket Match success" + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
 						ContentValues values = new ContentValues();
 						values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
 						values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(0).getDeviceId());
@@ -144,9 +128,8 @@ public class GCMSyncService extends IntentService{
 						values.put(MatchDb.KEY_SYNCED, 1);
 						// insert a record
 						// Sheetal Test This
-						Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
+						Cursor c = dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
 						if(c.getCount() == 0){
-							writeToFile("inserting ");
 							getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 						}
 						c.close();
@@ -157,59 +140,56 @@ public class GCMSyncService extends IntentService{
 							@Override
 							public void failure(StackMobException arg0){
 								Log.w("Sync failure", "nfjf");
-								writeToFile("performance sync failure ");
 							}
 
 							@Override
 							public void success(List<ServerDBPerformance> arg0){
 								for(int i = 0; i < arg0.size(); i++){
 									Log.w("GCMSync", "Performance Data" + i + " " + arg0.get(i).getDeviceId() + " " + arg0.get(i).getMatchId());
-									writeToFile("GCMSync Performance Data" + i + " " + arg0.get(i).getDeviceId() + " " + arg0.get(i).getMatchId());
-									ContentValues value = new ContentValues();
-									value.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
-									value.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
-									value.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
-									value.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
-									value.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
-									value.put(PerformanceDb.KEY_BAT_RUNS, arg0.get(i).getBatRuns());
-									value.put(PerformanceDb.KEY_BAT_BALLS, arg0.get(i).getBatBalls());
-									value.put(PerformanceDb.KEY_BAT_TIME, arg0.get(i).getBatTime());
-									value.put(PerformanceDb.KEY_BAT_FOURS, arg0.get(i).getBatFours());
-									value.put(PerformanceDb.KEY_BAT_SIXES, arg0.get(i).getBatSixes());
-									value.put(PerformanceDb.KEY_BAT_HOW_OUT, arg0.get(i).getBatDismissal());
-									value.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, arg0.get(i).getBatBowlerType());
-									value.put(PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get(i).getBatFieldingPosition());
-									value.put(PerformanceDb.KEY_BAT_CHANCES, arg0.get(i).getBatChances());
-									value.put(PerformanceDb.KEY_BOWL_BALLS, arg0.get(i).getBowlBalls());
-									value.put(PerformanceDb.KEY_BOWL_SPELLS, arg0.get(i).getBowlSpells());
-									value.put(PerformanceDb.KEY_BOWL_MAIDENS, arg0.get(i).getBowlMaidens());
-									value.put(PerformanceDb.KEY_BOWL_RUNS, arg0.get(i).getBowlRuns());
-									value.put(PerformanceDb.KEY_BOWL_FOURS, arg0.get(i).getBowlFours());
-									value.put(PerformanceDb.KEY_BOWL_SIXES, arg0.get(i).getBowlSixes());
-									value.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get(i).getBowlWktsLeft());
-									value.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, arg0.get(i).getBowlWktsRight());
-									value.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-									value.put(PerformanceDb.KEY_BOWL_NOBALLS, arg0.get(i).getNoBalls());
-									value.put(PerformanceDb.KEY_BOWL_WIDES, arg0.get(i).getBowlWides());
-									value.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get(i).getFieldSlipCatch());
-									value.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get(i).getFieldCloseCatch());
-									value.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH, arg0.get(i).getFieldCircleCatch());
-									value.put(PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get(i).getFieldDeepCatch());
-									value.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get(i).getFieldRoCircle());
-									value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get(i).getFieldRoDirectCircle());
-									value.put(PerformanceDb.KEY_FIELD_RO_DEEP, arg0.get(i).getFieldRoDeep());
-									value.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get(i).getFieldRoDirectDeep());
-									value.put(PerformanceDb.KEY_FIELD_STUMPINGS, arg0.get(i).getFieldStumping());
-									value.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
-									value.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
-									value.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
-									value.put(PerformanceDb.KEY_SYNCED, 1);									
-									value.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
+									ContentValues values = new ContentValues();
+									values.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
+									values.put(PerformanceDb.KEY_DEVICE_ID, "" + arg0.get(i).getDeviceId());
+									values.put(PerformanceDb.KEY_ROWID, arg0.get(i).getPerId());
+									values.put(PerformanceDb.KEY_INNING, arg0.get(i).getInning());
+									values.put(PerformanceDb.KEY_BAT_NUM, arg0.get(i).getBatNum());
+									values.put(PerformanceDb.KEY_BAT_RUNS, arg0.get(i).getBatRuns());
+									values.put(PerformanceDb.KEY_BAT_BALLS, arg0.get(i).getBatBalls());
+									values.put(PerformanceDb.KEY_BAT_TIME, arg0.get(i).getBatTime());
+									values.put(PerformanceDb.KEY_BAT_FOURS, arg0.get(i).getBatFours());
+									values.put(PerformanceDb.KEY_BAT_SIXES, arg0.get(i).getBatSixes());
+									values.put(PerformanceDb.KEY_BAT_HOW_OUT, arg0.get(i).getBatDismissal());
+									values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, arg0.get(i).getBatBowlerType());
+									values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get(i).getBatFieldingPosition());
+									values.put(PerformanceDb.KEY_BAT_CHANCES, arg0.get(i).getBatChances());
+									values.put(PerformanceDb.KEY_BOWL_BALLS, arg0.get(i).getBowlBalls());
+									values.put(PerformanceDb.KEY_BOWL_SPELLS, arg0.get(i).getBowlSpells());
+									values.put(PerformanceDb.KEY_BOWL_MAIDENS, arg0.get(i).getBowlMaidens());
+									values.put(PerformanceDb.KEY_BOWL_RUNS, arg0.get(i).getBowlRuns());
+									values.put(PerformanceDb.KEY_BOWL_FOURS, arg0.get(i).getBowlFours());
+									values.put(PerformanceDb.KEY_BOWL_SIXES, arg0.get(i).getBowlSixes());
+									values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get(i).getBowlWktsLeft());
+									values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, arg0.get(i).getBowlWktsRight());
+									values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get(i).getBowlCatchesDropped());
+									values.put(PerformanceDb.KEY_BOWL_NOBALLS, arg0.get(i).getNoBalls());
+									values.put(PerformanceDb.KEY_BOWL_WIDES, arg0.get(i).getBowlWides());
+									values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get(i).getFieldSlipCatch());
+									values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get(i).getFieldCloseCatch());
+									values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH, arg0.get(i).getFieldCircleCatch());
+									values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get(i).getFieldDeepCatch());
+									values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get(i).getFieldRoCircle());
+									values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get(i).getFieldRoDirectCircle());
+									values.put(PerformanceDb.KEY_FIELD_RO_DEEP, arg0.get(i).getFieldRoDeep());
+									values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get(i).getFieldRoDirectDeep());
+									values.put(PerformanceDb.KEY_FIELD_STUMPINGS, arg0.get(i).getFieldStumping());
+									values.put(PerformanceDb.KEY_FIELD_BYES, arg0.get(i).getFieldByes());
+									values.put(PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get(i).getMisFields());
+									values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get(i).getCatchedDropped());
+									values.put(PerformanceDb.KEY_SYNCED, 1);
+									values.put(PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 									// Sheetal Test
-									Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
+									Cursor c = dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
 									if(c.getCount() == 0){
-										writeToFile("inserting performance");
-										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
+										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
 									}
 									c.close();
 								}
@@ -220,13 +200,13 @@ public class GCMSyncService extends IntentService{
 								// update a record
 								getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
 								Log.w("log", "jfkjf " + cnt_mat + " " + tot_mat);
-								writeToFile("cnt match: " + cnt_mat + " tot match:" + tot_mat);
 								if(cnt_Match() == gettotMAtch()){
 									Log.w("ASP", "" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
 									AccessSharedPrefs.setString(who, "GCMMatchData", "");
 									Log.w("ASP", "fg" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
 									AccessSharedPrefs.setString(who, "GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-									writeToFile("all done");
+									cnt_mat = 0;
+									tot_mat = 0;
 								}
 								Log.w("log", "jfkjf12");
 							}
@@ -255,18 +235,17 @@ public class GCMSyncService extends IntentService{
 	protected void onHandleIntent(Intent intent){
 		StackMobAndroid.init(getApplicationContext(), 0, decrypt("5d00e6", "97:4fde", "5id74d3f56i", "h:06::h8<d0", "7295013486", 3));
 		AccessSharedPrefs.mPrefs = getApplicationContext().getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
+		client = getContentResolver().acquireContentProviderClient(CricDeCodeContentProvider.AUTHORITY);
+		dbHandle = ((CricDeCodeContentProvider)client.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		Log.w("GCMSync", "fff");
 		if(AccessSharedPrefs.mPrefs.getString("GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(CDCAppClass.NEEDS_TO_BE_CALLED)){
 			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 				ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 					@Override
-					public void failure(StackMobException arg0){
-						writeToFile("ServerDBSubInfiSync failure");
-					}
+					public void failure(StackMobException arg0){}
 
 					@Override
 					public void success(List<ServerDBSubInfiSync> arg0){
-						writeToFile("ServerDBSubInfiSync success: " + arg0.size());
 						long now = new Date().getTime();
 						if((arg0.size() > 0)){
 							long t = arg0.get(0).getValidUntilTs();
@@ -278,21 +257,16 @@ public class GCMSyncService extends IntentService{
 								}
 							}
 							final ServerDBSubInfiSync max = arg0.get(m);
-							//TODO
-							if(now > arg0.get(m).getValidUntilTs()){
+							if(now < arg0.get(m).getValidUntilTs()){
 								AccessSharedPrefs.setString(who, "infi_sync", "yes");
-								writeToFile("direct yes");
 								getGCMData();
 							}else{
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
-									public void failure(StackMobException arg0){
-										writeToFile("android dev failure");
-									}
+									public void failure(StackMobException arg0){}
 
 									@Override
 									public void success(List<ServerDBAndroidDevices> arg0){
-										writeToFile("android dev success " + arg0.size());
 										String regids = "";
 										for(int i = 0; i < arg0.size(); i++){
 											regids = regids + " " + arg0.get(i).getGcmId();
@@ -306,7 +280,6 @@ public class GCMSyncService extends IntentService{
 											jo.put("Token", max.getToken());
 											jo.put("Sign", max.getSign());
 										}catch(JSONException e){}
-										writeToFile("Sending json: " + jo.toString());
 										params.add(new BasicNameValuePair("json", jo.toString()));
 										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
 										List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -321,8 +294,6 @@ public class GCMSyncService extends IntentService{
 											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
 											Log.w("JSON returned", "SubinfiSync:: " + jn);
 											Log.w("trial value", "SubinfiSync:: " + trial);
-											writeToFile("SubinfiSync:: " + jn);
-											writeToFile("SubinfiSync:: " + trial);
 											if(jn != null) break;
 											try{
 												Thread.sleep(10 * trial);
@@ -331,7 +302,6 @@ public class GCMSyncService extends IntentService{
 											if(trial == 50) break;
 										}
 										try{
-											writeToFile("Sending mail");
 											if(jn != null){
 												params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
 											}else{
@@ -342,11 +312,9 @@ public class GCMSyncService extends IntentService{
 										}catch(Exception e){}
 										try{
 											if(jn.getInt("status") == 1){
-												writeToFile("in status 1");
 												AccessSharedPrefs.setString(who, "infi_sync", "yes");
 												getGCMData();
 											}else if(jn.getInt("status") == 0){
-												writeToFile("in status 0");
 												AccessSharedPrefs.setString(who, "infi_sync", "no");
 											}
 										}catch(NullPointerException e){}catch(JSONException e){

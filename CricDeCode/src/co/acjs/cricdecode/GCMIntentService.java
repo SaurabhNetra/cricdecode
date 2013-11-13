@@ -1,9 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,22 +34,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 	public GCMIntentService(){
 		super("GCMIntentService");
 		context = this;
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "gcm.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	@Override
@@ -104,7 +83,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							AccessSharedPrefs.setString(context, "GCMMatchData", jo.toString());
 						}
 						Log.w("Match and Per Sync", "starting service: " + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
-						writeToFile("Match and Performace: " + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
 						AccessSharedPrefs.setString(context, "GCMSyncServiceCalled", CDCAppClass.NEEDS_TO_BE_CALLED);
 						startService(new Intent(this, GCMSyncService.class));
 					}
@@ -117,7 +95,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							JSONObject jo = ja2.getJSONObject(i);
 							String str = jo.getString("mid");
 							String d_str = jo.getString("dev");
-							writeToFile("marking deleted: mid-"+str+" did-"+d_str);
 							Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + str + "/" + d_str);
 							getApplicationContext().getContentResolver().delete(uri, null, null);
 							uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);

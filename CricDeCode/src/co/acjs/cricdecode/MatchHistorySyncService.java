@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -49,28 +45,11 @@ public class MatchHistorySyncService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		who = this;
-		writeToFile("MatchHistorySync started");
 	}
 
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "history_sync.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
-	}
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		writeToFile("MatchHistorySync ended");
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -116,8 +95,6 @@ public class MatchHistorySyncService extends IntentService{
 		settotPerformance(t.getCount());
 		Log.w("MatchHistorySync", "Number of Un Synced Matches " + c.getCount());
 		Log.w("MatchHistorySync", "Number of Un Synced Performances " + t.getCount());
-		writeToFile("Number of Un Synced Matches " + c.getCount());
-		writeToFile("Number of Un Synced Performances " + t.getCount());
 		if(c.getCount() != 0){
 			c.moveToFirst();
 			do{
@@ -131,14 +108,12 @@ public class MatchHistorySyncService extends IntentService{
 					@Override
 					public void failure(StackMobException arg0){
 						Log.w("MatchHistorySync", "Match Sync Failure" + arg0);
-						writeToFile("Match Sync Failure" + arg0);
 					}
 
 					@Override
 					public void success(String arg0){
 						final Cursor c1 = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, new String[ ]{PerformanceDb.KEY_ROWID, PerformanceDb.KEY_BAT_BALLS, PerformanceDb.KEY_BAT_BOWLER_TYPE, PerformanceDb.KEY_BAT_CHANCES, PerformanceDb.KEY_BAT_FIELDING_POSITION, PerformanceDb.KEY_BAT_FOURS, PerformanceDb.KEY_BAT_HOW_OUT, PerformanceDb.KEY_BAT_NUM, PerformanceDb.KEY_BAT_RUNS, PerformanceDb.KEY_BAT_SIXES, PerformanceDb.KEY_BAT_TIME, PerformanceDb.KEY_BOWL_BALLS, PerformanceDb.KEY_BOWL_CATCHES_DROPPED, PerformanceDb.KEY_BOWL_FOURS, PerformanceDb.KEY_BOWL_MAIDENS, PerformanceDb.KEY_BOWL_NOBALLS, PerformanceDb.KEY_BOWL_RUNS, PerformanceDb.KEY_BOWL_SIXES, PerformanceDb.KEY_BOWL_SPELLS, PerformanceDb.KEY_BOWL_WIDES, PerformanceDb.KEY_BOWL_WKTS_LEFT, PerformanceDb.KEY_BOWL_WKTS_RIGHT, PerformanceDb.KEY_FIELD_BYES, PerformanceDb.KEY_FIELD_CATCHES_DROPPED, PerformanceDb.KEY_FIELD_CIRCLE_CATCH, PerformanceDb.KEY_FIELD_CLOSE_CATCH, PerformanceDb.KEY_FIELD_DEEP_CATCH, PerformanceDb.KEY_FIELD_MISFIELDS, PerformanceDb.KEY_FIELD_RO_CIRCLE, PerformanceDb.KEY_FIELD_RO_DEEP, PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, PerformanceDb.KEY_FIELD_SLIP_CATCH, PerformanceDb.KEY_FIELD_STUMPINGS, PerformanceDb.KEY_INNING, PerformanceDb.KEY_MATCHID, PerformanceDb.KEY_STATUS}, PerformanceDb.KEY_SYNCED + "=" + "0 and " + PerformanceDb.KEY_STATUS + "='" + MatchDb.MATCH_HISTORY + "' and " + PerformanceDb.KEY_MATCHID + "= " + matchId + " and " + PerformanceDb.KEY_DEVICE_ID + "= '" + devid + "'", null, null);
 						Log.w("MatchHistorySync", "Current Performances " + c1.getCount());
-						writeToFile("Current Performances " + c1.getCount());
 						setMatchPerformance(c1.getCount());
 						if(c1.getCount() != 0){
 							c1.moveToFirst();
@@ -151,34 +126,27 @@ public class MatchHistorySyncService extends IntentService{
 									@Override
 									public void failure(StackMobException arg0){
 										Log.w("MatchHistorySync", "Performance Sync Failure");
-										writeToFile("Performance Sync Failure");
 									}
 
 									@Override
 									public void success(String arg0){
 										Log.w("MatchHistorySync", "Performance Sync Update Success");
 										Log.w("inv", "cnt mat per" + cnt_tot_mat_per + " tot" + tot_mat_per);
-										writeToFile("cnt mat per" + cnt_tot_mat_per + " tot" + tot_mat_per);
 										if(cnt_MatchPerformance() == getMatchPerformance()){
 											init_cnt_MatchPerformance();
 											Log.w("MatchHistorySync", "Performance Sync Done");
-											writeToFile("current performance synced");
 										}
 										Log.w("inv", "cnt per" + cnt_tot_per + " tot" + tot_per);
-										writeToFile("cnt per" + cnt_tot_per + " tot" + tot_per);
 										if(cnt_totPerformance() == gettotPerformance()){
 											init_cnt_TotPerformance();
 											Log.w("MatchHistorySync", "Performance Sync Update Success ALL");
-											writeToFile("Performance Sync Update Success ALL");
 											ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 												@Override
 												public void failure(StackMobException arg0){
 													Log.w("MatchHistory", "Failure" + arg0);
-													writeToFile("Android dev failure");
 												}
 
 												public void changedSynced(Cursor c2){
-													writeToFile("Changing to Synced");
 													c2.moveToFirst();
 													do{
 														Log.w("MatchHistory", "jn==11");
@@ -198,7 +166,6 @@ public class MatchHistorySyncService extends IntentService{
 															Log.w("MatchHistory", "jn==16" + uri.toString());
 															values.put(PerformanceDb.KEY_SYNCED, 1);
 															getApplicationContext().getContentResolver().update(uri, values, null, null);
-															writeToFile("Changed to synced: "+c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
 														}catch(Exception e){
 															Log.w("exception", "" + e);
 														}
@@ -238,7 +205,6 @@ public class MatchHistorySyncService extends IntentService{
 													params.add(new BasicNameValuePair("MsgToSend", j.toString()));
 													params.add(new BasicNameValuePair("uid", AccessSharedPrefs.mPrefs.getString("id", "")));
 													final JSONParser jsonParser = new JSONParser();
-													writeToFile("msg to send: "+j.toString());
 													int trial = 1;
 													JSONObject jn = null;
 													while(jsonParser.isOnline(who)){
@@ -246,8 +212,6 @@ public class MatchHistorySyncService extends IntentService{
 														jn = jsonParser.makeHttpRequest(getResources().getString(R.string.edit_profile_sync), "POST", params, who);
 														Log.w("JSON returned", "MatchHistory: " + jn);
 														Log.w("trial value", "MatchHistory: " + trial);
-														writeToFile("MatchHistory: " + jn);
-														writeToFile("MatchHistory: " + trial);
 														if(jn != null) break;
 														try{
 															Thread.sleep(10 * trial);
@@ -257,11 +221,9 @@ public class MatchHistorySyncService extends IntentService{
 													try{
 														if(jn.getInt("status") == 1){
 															Log.w("MatchHistory", "jn==1");
-															writeToFile("MatchHistory jn=1");
 															changedSynced(c2);
 														}else{
 															Log.w("MatchHistory", "jn!=1");
-															writeToFile("MatchHistory jn!=1");
 														}
 													}catch(NullPointerException e){
 														Log.w("exception", "np");
@@ -292,13 +254,10 @@ public class MatchHistorySyncService extends IntentService{
 			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 				ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 					@Override
-					public void failure(StackMobException arg0){
-						writeToFile("Server db failure");
-					}
+					public void failure(StackMobException arg0){}
 
 					@Override
 					public void success(List<ServerDBSubInfiSync> arg0){
-						writeToFile("Server db success "+arg0.size());
 						long now = new Date().getTime();
 						if((arg0.size() > 0)){
 							long t1 = arg0.get(0).getValidUntilTs();
@@ -310,21 +269,16 @@ public class MatchHistorySyncService extends IntentService{
 								}
 							}
 							final ServerDBSubInfiSync max = arg0.get(m);
-							//TODO
-							if(now > arg0.get(m).getValidUntilTs()){
+							if(now < arg0.get(m).getValidUntilTs()){
 								AccessSharedPrefs.setString(who, "infi_sync", "yes");
-								writeToFile("direct yes");
 								sendData();
 							}else{
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
-									public void failure(StackMobException arg0){
-										writeToFile("android dev failure");
-									}
+									public void failure(StackMobException arg0){}
 
 									@Override
 									public void success(List<ServerDBAndroidDevices> arg0){
-										writeToFile("android dev success "+arg0.size());
 										String regids = "";
 										for(int i = 0; i < arg0.size(); i++){
 											regids = regids + " " + arg0.get(i).getGcmId();
@@ -338,7 +292,6 @@ public class MatchHistorySyncService extends IntentService{
 											jo.put("Token", max.getToken());
 											jo.put("Sign", max.getSign());
 										}catch(JSONException e){}
-										writeToFile("sending json "+jo.toString());
 										params.add(new BasicNameValuePair("json", jo.toString()));
 										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
 										List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -353,8 +306,6 @@ public class MatchHistorySyncService extends IntentService{
 											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi_sync), "POST", params, who);
 											Log.w("JSON returned", "SubinfiSync:: " + jn);
 											Log.w("trial value", "SubinfiSync:: " + trial);
-											writeToFile("JSON returned "+jn);
-											writeToFile("trial value "+trial);
 											if(jn != null) break;
 											try{
 												Thread.sleep(10 * trial);
@@ -362,7 +313,6 @@ public class MatchHistorySyncService extends IntentService{
 											trial++;
 											if(trial == 50) break;
 										}
-										writeToFile("sending mail");
 										try{
 											if(jn != null){
 												params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
@@ -374,11 +324,9 @@ public class MatchHistorySyncService extends IntentService{
 										}catch(Exception e){}
 										try{
 											if(jn.getInt("status") == 1){
-												writeToFile("in status 1");
 												AccessSharedPrefs.setString(who, "infi_sync", "yes");
 												sendData();
 											}else if(jn.getInt("status") == 0){
-												writeToFile("in status 0");
 												AccessSharedPrefs.setString(who, "infi_sync", "no");
 												AccessSharedPrefs.setString(who, "MatchHistorySyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 											}

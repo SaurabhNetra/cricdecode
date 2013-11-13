@@ -186,7 +186,6 @@ public class MainActivity extends SherlockFragmentActivity{
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
 										if(result.isFailure()){}else{
-											
 											if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_REMOVE_ADS)){
 													Purchase p1 = inventory.getPurchase(SKU_REMOVE_ADS);
@@ -196,10 +195,10 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());																
+																jo.put("Sign", p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
-																//startService(i);
+																startService(i);
 															}catch(JSONException e){}
 														}
 													}else{
@@ -209,7 +208,6 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "ad_free", "no");
 												}
 											}
-											
 											if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI);
@@ -222,7 +220,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("Sign", p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
-																//startService(i);
+																startService(i);
 															}catch(JSONException e){}
 														}
 													}else{
@@ -232,7 +230,6 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "infi_use", "no");
 												}
 											}
-											
 											if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI_SYNC)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI_SYNC);
@@ -242,10 +239,10 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());															
+																jo.put("Sign", p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
-																//startService(i);
+																startService(i);
 															}catch(JSONException e){}
 														}
 													}else{
@@ -293,8 +290,6 @@ public class MainActivity extends SherlockFragmentActivity{
 				onSessionStateChange(session, state, exception);
 			}
 		};
-		//TODO remove
-		AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);

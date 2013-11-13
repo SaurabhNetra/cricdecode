@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -47,7 +43,6 @@ public class DeleteMatchService extends IntentService{
 	public void onCreate(){
 		super.onCreate();
 		Log.w("DeleteMatchService", "Started");
-		writeToFile("delete service started");
 		who = this;
 	}
 
@@ -55,23 +50,6 @@ public class DeleteMatchService extends IntentService{
 	public void onDestroy(){
 		super.onDestroy();
 		Log.w("DeleteMatchService", "Ended");
-		writeToFile("delete service ended");
-	}
-
-	private void writeToFile(String data){
-		try{
-			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
-			if(!root.exists()){
-				root.mkdirs();
-			}
-			File gpxfile = new File(root, "delete_match.txt");
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-			writer.close();
-		}catch(IOException e){
-			Log.e("Exception", "File write failed: " + e.toString());
-		}
 	}
 
 	public static String decrypt(String val1, String val2, String val3, String val4, String seq, int ci){
@@ -115,7 +93,6 @@ public class DeleteMatchService extends IntentService{
 		final Cursor c = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_MATCH, new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS, MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION, MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS, MatchDb.KEY_SYNCED}, MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_DELETED + "'", null, MatchDb.KEY_ROWID);
 		final Cursor c2 = getContentResolver().query(CricDeCodeContentProvider.CONTENT_URI_MATCH, new String[ ]{MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID, MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM, MatchDb.KEY_OPPONENT_TEAM, MatchDb.KEY_VENUE, MatchDb.KEY_OVERS, MatchDb.KEY_INNINGS, MatchDb.KEY_RESULT, MatchDb.KEY_LEVEL, MatchDb.KEY_FIRST_ACTION, MatchDb.KEY_DURATION, MatchDb.KEY_REVIEW, MatchDb.KEY_STATUS, MatchDb.KEY_SYNCED}, MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_DELETED + "'", null, MatchDb.KEY_ROWID);
 		Log.w("Debug", "Matches to be deleted" + c.getCount());
-		writeToFile("total matches to delete");
 		if(c.getCount() != 0){
 			delete_match_count = c.getCount();
 			c.moveToFirst();
@@ -133,26 +110,20 @@ public class DeleteMatchService extends IntentService{
 					public void success(String arg0){
 						match_deleted++;
 						Log.w("Match Delete", "success");
-						writeToFile("Match delete success mid:" + match_id + " div:" + device_id);
 						// Delete That Match
 						Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + match_id + "/" + device_id);
 						getContentResolver().delete(uri, null, null);
 						if(match_deleted == delete_match_count){
 							all_match_done = true;
-							writeToFile("marked all done");
 						}
 						if(all_match_done && all_performance_done){
 							Log.w("Debug", "Deleted Success ALL");
-							writeToFile("deleted all now send gcm");
 							ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 								@Override
-								public void failure(StackMobException arg0){
-									writeToFile("android dev failure");
-								}
+								public void failure(StackMobException arg0){}
 
 								@Override
 								public void success(List<ServerDBAndroidDevices> arg0){
-									writeToFile("android dev success " + arg0.size());
 									Log.w("DeleteMatch", "GCM Ids fetched" + arg0.size());
 									String regids = "";
 									for(int i = 0; i < arg0.size(); i++){
@@ -176,7 +147,6 @@ public class DeleteMatchService extends IntentService{
 									}catch(JSONException e){}
 									Log.w("Json tosend", "" + j.toString());
 									List<NameValuePair> params = new ArrayList<NameValuePair>();
-									writeToFile("gcm msg to send:" + j.toString());
 									params.add(new BasicNameValuePair("SendToArrays", regids));
 									params.add(new BasicNameValuePair("MsgToSend", j.toString()));
 									params.add(new BasicNameValuePair("uid", AccessSharedPrefs.mPrefs.getString("id", "")));
@@ -189,8 +159,6 @@ public class DeleteMatchService extends IntentService{
 										jn = jsonParser.makeHttpRequest(getResources().getString(R.string.edit_profile_sync), "POST", params, who);
 										Log.w("JSON returned", "DeleteMatch:: " + jn);
 										Log.w("trial value", "DeleteMatch:: " + trial);
-										writeToFile("DeleteMatch:: " + jn);
-										writeToFile("DeleteMatch:: " + trial);
 										if(jn != null) break;
 										try{
 											Thread.sleep(10 * trial);
@@ -202,10 +170,8 @@ public class DeleteMatchService extends IntentService{
 									}
 									try{
 										if(jn.getInt("status") == 1){
-											writeToFile("in status 1");
 											c2.moveToFirst();
 											do{
-												writeToFile("marking delete: mid-" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + " did: " + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
 												Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
 												getApplicationContext().getContentResolver().delete(uri, null, null);
 												uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_ROWID)) + "/" + c2.getString(c2.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
@@ -357,13 +323,10 @@ public class DeleteMatchService extends IntentService{
 			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 				ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 					@Override
-					public void failure(StackMobException arg0){
-						writeToFile("ServerDBSubInfiSync failure");
-					}
+					public void failure(StackMobException arg0){}
 
 					@Override
 					public void success(List<ServerDBSubInfiSync> arg0){
-						writeToFile("ServerDBSubInfiSync success");
 						long now = new Date().getTime();
 						if((arg0.size() > 0)){
 							long t = arg0.get(0).getValidUntilTs();
@@ -375,21 +338,16 @@ public class DeleteMatchService extends IntentService{
 								}
 							}
 							final ServerDBSubInfiSync max = arg0.get(m);
-							//TODO
-							if(now > arg0.get(m).getValidUntilTs()){
+							if(now < arg0.get(m).getValidUntilTs()){
 								AccessSharedPrefs.setString(who, "infi_sync", "yes");
-								writeToFile("direct yes");
 								deleteData();
 							}else{
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
-									public void failure(StackMobException arg0){
-										writeToFile("android dev failure");
-									}
+									public void failure(StackMobException arg0){}
 
 									@Override
 									public void success(List<ServerDBAndroidDevices> arg0){
-										writeToFile("android dev success");
 										String regids = "";
 										for(int i = 0; i < arg0.size(); i++){
 											regids = regids + " " + arg0.get(i).getGcmId();
@@ -403,7 +361,6 @@ public class DeleteMatchService extends IntentService{
 											jo.put("Token", max.getToken());
 											jo.put("Sign", max.getSign());
 										}catch(JSONException e){}
-										writeToFile("sending json:" + jo.toString());
 										params.add(new BasicNameValuePair("json", jo.toString()));
 										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
 										List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -418,8 +375,6 @@ public class DeleteMatchService extends IntentService{
 											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
 											Log.w("JSON returned", "SubinfiSync:: " + jn);
 											Log.w("trial value", "SubinfiSync:: " + trial);
-											writeToFile("SubinfiSync:: " + jn);
-											writeToFile("SubinfiSync:: " + trial);
 											if(jn != null) break;
 											try{
 												Thread.sleep(10 * trial);
@@ -428,7 +383,6 @@ public class DeleteMatchService extends IntentService{
 											if(trial == 50) break;
 										}
 										try{
-											writeToFile("sending mail");
 											if(jn != null){
 												params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
 											}else{
@@ -439,11 +393,9 @@ public class DeleteMatchService extends IntentService{
 										}catch(Exception e){}
 										try{
 											if(jn.getInt("status") == 1){
-												writeToFile("in status 1");
 												AccessSharedPrefs.setString(who, "infi_sync", "yes");
 												deleteData();
 											}else if(jn.getInt("status") == 0){
-												writeToFile("in status 0");
 												AccessSharedPrefs.setString(who, "infi_sync", "no");
 												AccessSharedPrefs.setString(who, "DeleteMatchServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 											}
