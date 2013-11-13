@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,6 +18,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -203,6 +207,22 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 		return sb.toString();
 	}
 
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "diary_match.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
+
 	public void deleteMatch(View view){
 		RelativeLayout vwParentRow = (RelativeLayout)view.getParent().getParent();
 		Log.w("DiaryMatchFragment", "delete");
@@ -218,6 +238,7 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 			is_synced = true;
 		}
 		c.close();
+		writeToFile("delete pressed: infi_syc: " + AccessSharedPrefs.mPrefs.getString("infi_sync", "no"));
 		if((AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes") || AccessSharedPrefs.mPrefs.getString("sync", "no").equals("yes")) && is_synced){
 			Uri uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH + "/" + str + "/" + d_str);
 			ContentValues values = new ContentValues();
@@ -231,9 +252,11 @@ public class DiaryMatchesFragment extends SherlockFragment implements LoaderMana
 			Intent i = new Intent(MainActivity.main_context, DeleteMatchService.class);
 			try{
 				if(DeleteMatchService.started){
+					writeToFile("delete service stop start");
 					MainActivity.main_context.stopService(i);
 					MainActivity.main_context.startService(i);
 				}else{
+					writeToFile("delete service start");
 					MainActivity.main_context.startService(i);
 				}
 			}catch(NullPointerException e){
