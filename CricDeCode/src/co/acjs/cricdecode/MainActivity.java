@@ -199,7 +199,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("Sign", p1.getSignature());																
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
-																startService(i);
+																//startService(i);
 															}catch(JSONException e){}
 														}
 													}else{
@@ -222,7 +222,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("Sign", p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiService.class);
 																i.putExtra("json", jo.toString());
-																startService(i);
+																//startService(i);
 															}catch(JSONException e){}
 														}
 													}else{
@@ -245,7 +245,7 @@ public class MainActivity extends SherlockFragmentActivity{
 																jo.put("Sign", p1.getSignature());															
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
-																startService(i);
+																//startService(i);
 															}catch(JSONException e){}
 														}
 													}else{
@@ -293,6 +293,8 @@ public class MainActivity extends SherlockFragmentActivity{
 				onSessionStateChange(session, state, exception);
 			}
 		};
+		//TODO remove
+		AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);

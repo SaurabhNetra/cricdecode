@@ -377,6 +377,10 @@ public class LogIn extends SherlockActivity{
 															}catch(JSONException e){}
 															params.add(new BasicNameValuePair("json", jo.toString()));
 															params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+															List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+															params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+															params1.add(new BasicNameValuePair("json", jo.toString()));
+															params1.add(new BasicNameValuePair("filname", "Login-SubInfi"));
 															final JSONParser jsonParser = new JSONParser();
 															int trial = 1;
 															JSONObject jn = null;
@@ -393,10 +397,21 @@ public class LogIn extends SherlockActivity{
 																if(trial == 50) break;
 															}
 															try{
+																if(jn != null){
+																	params1.add(new BasicNameValuePair("jn", "" + jn));
+																}else{
+																	params1.add(new BasicNameValuePair("jn", "null"));
+																}
+																params1.add(new BasicNameValuePair("trial", "" + trial));
+																jsonParser.makeHttpRequest(login_activity.getResources().getString(R.string.send_mail), "POST", params1, login_activity);
+															}catch(Exception e){}
+															try{
 																if(jn.getInt("status") == 1){
 																	AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
-																}else{
+																}else if(jn.getInt("status") == 0){
 																	AccessSharedPrefs.setString(login_activity, "infi_use", "no");
+																}else if(jn.getInt("status") == 2 || jn.getInt("status") == 3){
+																	AccessSharedPrefs.setString(login_activity, "infi_use", "yes");
 																}
 															}catch(NullPointerException e){}catch(JSONException e){
 																e.printStackTrace();
@@ -456,6 +471,10 @@ public class LogIn extends SherlockActivity{
 																	}catch(JSONException e){}
 																	params.add(new BasicNameValuePair("json", jo.toString()));
 																	params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+																	List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+																	params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+																	params1.add(new BasicNameValuePair("json", jo.toString()));
+																	params1.add(new BasicNameValuePair("filname", "Login-InfiSync"));
 																	final JSONParser jsonParser = new JSONParser();
 																	int trial = 1;
 																	JSONObject jn = null;
@@ -472,10 +491,21 @@ public class LogIn extends SherlockActivity{
 																		if(trial == 50) break;
 																	}
 																	try{
+																		if(jn != null){
+																			params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+																		}else{
+																			params1.add(new BasicNameValuePair("jn", "null"));
+																		}
+																		params1.add(new BasicNameValuePair("trial", "" + trial));
+																		jsonParser.makeHttpRequest(login_activity.getResources().getString(R.string.send_mail), "POST", params1, login_activity);
+																	}catch(Exception e){}
+																	try{
 																		if(jn.getInt("status") == 1){
 																			AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
-																		}else{
+																		}else if(jn.getInt("status") == 0){
 																			AccessSharedPrefs.setString(login_activity, "infi_sync", "no");
+																		}else if(jn.getInt("status") == 2 || jn.getInt("status") == 3){
+																			AccessSharedPrefs.setString(login_activity, "infi_sync", "yes");
 																		}
 																	}catch(NullPointerException e){}catch(JSONException e){
 																		e.printStackTrace();
@@ -534,6 +564,10 @@ public class LogIn extends SherlockActivity{
 																			}catch(JSONException e){}
 																			params.add(new BasicNameValuePair("json", jo.toString()));
 																			params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+																			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+																			params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+																			params1.add(new BasicNameValuePair("json", jo.toString()));
+																			params1.add(new BasicNameValuePair("filname", "Login-Sync"));
 																			final JSONParser jsonParser = new JSONParser();
 																			int trial = 1;
 																			JSONObject jn = null;
@@ -550,10 +584,21 @@ public class LogIn extends SherlockActivity{
 																				if(trial == 50) break;
 																			}
 																			try{
+																				if(jn != null){
+																					params1.add(new BasicNameValuePair("jn", "" + jn));
+																				}else{
+																					params1.add(new BasicNameValuePair("jn", "null"));
+																				}
+																				params1.add(new BasicNameValuePair("trial", "" + trial));
+																				jsonParser.makeHttpRequest(login_activity.getResources().getString(R.string.send_mail), "POST", params1, login_activity);
+																			}catch(Exception e){}
+																			try{
 																				if(jn.getInt("status") == 1){
 																					AccessSharedPrefs.setString(login_activity, "sync", "yes");
-																				}else{
+																				}else if(jn.getInt("status") == 0){
 																					AccessSharedPrefs.setString(login_activity, "sync", "no");
+																				}else if(jn.getInt("status") == 2 || jn.getInt("status") == 3){
+																					AccessSharedPrefs.setString(login_activity, "sync", "yes");
 																				}
 																			}catch(NullPointerException e){}catch(JSONException e){
 																				e.printStackTrace();

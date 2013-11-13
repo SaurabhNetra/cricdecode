@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -15,6 +18,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -38,6 +42,22 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 	private SimpleCursorAdapter		dataAdapter;
 	RelativeLayout					no_matches_created, add_to_hist;
 	ListView						listView;
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "ongoing.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -158,8 +178,6 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 		}else{
 			add_to_hist.setVisibility(View.GONE);
 		}
-		
-		
 	}
 
 	@Override
@@ -196,10 +214,12 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 				Intent intent = new Intent(MainActivity.main_context, MatchHistorySyncService.class);
 				try{
 					if(MatchHistorySyncService.started){
+						writeToFile("MatchHistorySync stop start");
 						MainActivity.main_context.stopService(intent);
 						MainActivity.main_context.startService(intent);
 					}
 				}catch(NullPointerException e){
+					writeToFile("MatchHistorySync start");
 					MainActivity.main_context.startService(intent);
 				}
 			}

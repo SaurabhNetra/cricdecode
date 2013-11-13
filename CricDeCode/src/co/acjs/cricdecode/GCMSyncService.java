@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import com.stackmob.android.sdk.common.StackMobAndroid;
@@ -40,6 +44,22 @@ public class GCMSyncService extends IntentService{
 		who = this;
 		StackMobAndroid.init(getApplicationContext(), 1, decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5", "6103927458", 5));
 		Log.w("GCMSyncService", "Started");
+	}
+
+	private void writeToFile(String data){
+		try{
+			File root = new File(Environment.getExternalStorageDirectory(), "CricDeCode");
+			if(!root.exists()){
+				root.mkdirs();
+			}
+			File gpxfile = new File(root, "gcmsync.txt");
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+			writer.close();
+		}catch(IOException e){
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
 	}
 
 	@Override
@@ -98,12 +118,14 @@ public class GCMSyncService extends IntentService{
 					@Override
 					public void failure(StackMobException arg0){
 						Log.w("GCMSync Cricket Match", "failure");
+						writeToFile("GCMSync Cricket Match failure");
 					}
 
 					@Override
 					public void success(List<ServerDBCricketMatch> arg0){
 						final int device_id = arg0.get(0).getDeviceId(), match_id = arg0.get(0).getMatchId();
 						Log.w("GCMSync", "Cricket Match " + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
+						writeToFile("GCMSync Cricket Match success" + arg0.get(0).getDeviceId() + " " + arg0.get(0).getMatchId());
 						ContentValues values = new ContentValues();
 						values.put(MatchDb.KEY_ROWID, arg0.get(0).getMatchId());
 						values.put(MatchDb.KEY_DEVICE_ID, "" + arg0.get(0).getDeviceId());
@@ -124,6 +146,7 @@ public class GCMSyncService extends IntentService{
 						// Sheetal Test This
 						Cursor c = MainActivity.dbHandle.rawQuery("select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE + " where " + MatchDb.KEY_ROWID + " = " + arg0.get(0).getMatchId() + " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get(0).getDeviceId() + "'", null);
 						if(c.getCount() == 0){
+							writeToFile("inserting ");
 							getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
 						}
 						c.close();
@@ -134,12 +157,14 @@ public class GCMSyncService extends IntentService{
 							@Override
 							public void failure(StackMobException arg0){
 								Log.w("Sync failure", "nfjf");
+								writeToFile("performance sync failure ");
 							}
 
 							@Override
 							public void success(List<ServerDBPerformance> arg0){
 								for(int i = 0; i < arg0.size(); i++){
 									Log.w("GCMSync", "Performance Data" + i + " " + arg0.get(i).getDeviceId() + " " + arg0.get(i).getMatchId());
+									writeToFile("GCMSync Performance Data" + i + " " + arg0.get(i).getDeviceId() + " " + arg0.get(i).getMatchId());
 									ContentValues value = new ContentValues();
 									value.put(PerformanceDb.KEY_MATCHID, arg0.get(i).getMatchId());
 									value.put(PerformanceDb.KEY_DEVICE_ID, arg0.get(i).getDeviceId());
@@ -183,6 +208,7 @@ public class GCMSyncService extends IntentService{
 									// Sheetal Test
 									Cursor c = MainActivity.dbHandle.rawQuery("select " + PerformanceDb.KEY_ROWID + " from " + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID + " = " + arg0.get(i).getMatchId() + " and " + PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get(i).getDeviceId() + "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get(i).getInning(), null);
 									if(c.getCount() == 0){
+										writeToFile("inserting performance");
 										getApplicationContext().getContentResolver().insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, value);
 									}
 									c.close();
@@ -194,10 +220,13 @@ public class GCMSyncService extends IntentService{
 								// update a record
 								getApplicationContext().getContentResolver().update(uri, matchvalues, null, null);
 								Log.w("log", "jfkjf " + cnt_mat + " " + tot_mat);
+								writeToFile("cnt match: " + cnt_mat + " tot match:" + tot_mat);
 								if(cnt_Match() == gettotMAtch()){
 									Log.w("ASP", "" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
 									AccessSharedPrefs.setString(who, "GCMMatchData", "");
 									Log.w("ASP", "fg" + AccessSharedPrefs.mPrefs.getString("GCMMatchData", ""));
+									AccessSharedPrefs.setString(who, "GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+									writeToFile("all done");
 								}
 								Log.w("log", "jfkjf12");
 							}
@@ -231,10 +260,13 @@ public class GCMSyncService extends IntentService{
 			if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 				ServerDBSubInfiSync.query(ServerDBSubInfiSync.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBSubInfiSync>(){
 					@Override
-					public void failure(StackMobException arg0){}
+					public void failure(StackMobException arg0){
+						writeToFile("ServerDBSubInfiSync failure");
+					}
 
 					@Override
 					public void success(List<ServerDBSubInfiSync> arg0){
+						writeToFile("ServerDBSubInfiSync success: " + arg0.size());
 						long now = new Date().getTime();
 						if((arg0.size() > 0)){
 							long t = arg0.get(0).getValidUntilTs();
@@ -246,16 +278,21 @@ public class GCMSyncService extends IntentService{
 								}
 							}
 							final ServerDBSubInfiSync max = arg0.get(m);
-							if(now < arg0.get(m).getValidUntilTs()){
+							//TODO
+							if(now > arg0.get(m).getValidUntilTs()){
 								AccessSharedPrefs.setString(who, "infi_sync", "yes");
+								writeToFile("direct yes");
 								getGCMData();
 							}else{
 								ServerDBAndroidDevices.query(ServerDBAndroidDevices.class, new StackMobQuery().field(new StackMobQueryField("user_id").isEqualTo(AccessSharedPrefs.mPrefs.getString("id", ""))), new StackMobQueryCallback<ServerDBAndroidDevices>(){
 									@Override
-									public void failure(StackMobException arg0){}
+									public void failure(StackMobException arg0){
+										writeToFile("android dev failure");
+									}
 
 									@Override
 									public void success(List<ServerDBAndroidDevices> arg0){
+										writeToFile("android dev success " + arg0.size());
 										String regids = "";
 										for(int i = 0; i < arg0.size(); i++){
 											regids = regids + " " + arg0.get(i).getGcmId();
@@ -269,8 +306,13 @@ public class GCMSyncService extends IntentService{
 											jo.put("Token", max.getToken());
 											jo.put("Sign", max.getSign());
 										}catch(JSONException e){}
+										writeToFile("Sending json: " + jo.toString());
 										params.add(new BasicNameValuePair("json", jo.toString()));
 										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+										List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+										params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+										params1.add(new BasicNameValuePair("json", jo.toString()));
+										params1.add(new BasicNameValuePair("filname", "GCMSync-InfiSync"));
 										final JSONParser jsonParser = new JSONParser();
 										int trial = 1;
 										JSONObject jn = null;
@@ -279,6 +321,8 @@ public class GCMSyncService extends IntentService{
 											jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
 											Log.w("JSON returned", "SubinfiSync:: " + jn);
 											Log.w("trial value", "SubinfiSync:: " + trial);
+											writeToFile("SubinfiSync:: " + jn);
+											writeToFile("SubinfiSync:: " + trial);
 											if(jn != null) break;
 											try{
 												Thread.sleep(10 * trial);
@@ -287,10 +331,22 @@ public class GCMSyncService extends IntentService{
 											if(trial == 50) break;
 										}
 										try{
+											writeToFile("Sending mail");
+											if(jn != null){
+												params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+											}else{
+												params1.add(new BasicNameValuePair("jn", "null"));
+											}
+											params1.add(new BasicNameValuePair("trial", "" + trial));
+											jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
+										}catch(Exception e){}
+										try{
 											if(jn.getInt("status") == 1){
+												writeToFile("in status 1");
 												AccessSharedPrefs.setString(who, "infi_sync", "yes");
 												getGCMData();
-											}else{
+											}else if(jn.getInt("status") == 0){
+												writeToFile("in status 0");
 												AccessSharedPrefs.setString(who, "infi_sync", "no");
 											}
 										}catch(NullPointerException e){}catch(JSONException e){
@@ -348,6 +404,10 @@ public class GCMSyncService extends IntentService{
 									}catch(JSONException e){}
 									params.add(new BasicNameValuePair("json", jo.toString()));
 									params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
+									List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+									params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+									params1.add(new BasicNameValuePair("json", jo.toString()));
+									params1.add(new BasicNameValuePair("filname", "GCMSync-Sync"));
 									final JSONParser jsonParser = new JSONParser();
 									int trial = 1;
 									JSONObject jn = null;
@@ -364,11 +424,21 @@ public class GCMSyncService extends IntentService{
 										if(trial == 50) break;
 									}
 									try{
+										if(jn != null){
+											params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+										}else{
+											params1.add(new BasicNameValuePair("jn", "null"));
+										}
+										params1.add(new BasicNameValuePair("trial", "" + trial));
+										jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
+									}catch(Exception e){}
+									try{
 										if(jn.getInt("status") == 1){
 											AccessSharedPrefs.setString(who, "sync", "yes");
 											getGCMData();
-										}else{
+										}else if(jn.getInt("status") == 0){
 											AccessSharedPrefs.setString(who, "sync", "no");
+											AccessSharedPrefs.setString(who, "GCMSyncServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 										}
 									}catch(NullPointerException e){}catch(JSONException e){
 										e.printStackTrace();
