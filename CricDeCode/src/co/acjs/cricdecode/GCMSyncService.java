@@ -281,11 +281,7 @@ public class GCMSyncService extends IntentService{
 											jo.put("Sign", max.getSign());
 										}catch(JSONException e){}
 										params.add(new BasicNameValuePair("json", jo.toString()));
-										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
-										List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-										params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
-										params1.add(new BasicNameValuePair("json", jo.toString()));
-										params1.add(new BasicNameValuePair("filname", "GCMSync-InfiSync"));
+										params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));										
 										final JSONParser jsonParser = new JSONParser();
 										int trial = 1;
 										JSONObject jn = null;
@@ -302,12 +298,14 @@ public class GCMSyncService extends IntentService{
 											if(trial == 50) break;
 										}
 										try{
-											if(jn != null){
-												params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+											List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+											String body1 = "User Id:" + AccessSharedPrefs.mPrefs.getString("id", "") + "<br /> JSON:" + jo.toString() + "<br />reply: " + jn.toString() + "<br />trial: " + trial;
+											params1.add(new BasicNameValuePair("body1", body1));
+											if(jn.getInt("status") == 1){
+												params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " GCMSyncService success"));
 											}else{
-												params1.add(new BasicNameValuePair("jn", "null"));
+												params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " GCMSyncService failure"));
 											}
-											params1.add(new BasicNameValuePair("trial", "" + trial));
 											jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
 										}catch(Exception e){}
 										try{

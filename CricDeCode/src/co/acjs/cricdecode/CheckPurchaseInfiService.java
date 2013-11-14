@@ -128,20 +128,16 @@ public class CheckPurchaseInfiService extends IntentService{
 								params.add(new BasicNameValuePair("SendToArrays", regids));
 								params.add(new BasicNameValuePair("product_id", "sub_infi"));
 								params.add(new BasicNameValuePair("json", jn.toString()));
-								params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));
-								List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-								params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
-								params1.add(new BasicNameValuePair("json", jn.toString()));
-								params1.add(new BasicNameValuePair("filname", "ChkPurchaseInfiService"));
+								params.add(new BasicNameValuePair("id", AccessSharedPrefs.mPrefs.getString("id", "")));								
 								final JSONParser jsonParser = new JSONParser();
 								int trial = 1;
-								JSONObject jn = null;
+								JSONObject jn1 = null;
 								while(jsonParser.isOnline(who)){
 									Log.w("JSONParser", "Subinfi:: Called");
-									jn = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
-									Log.w("JSON returned", "Subinfi:: " + jn);
+									jn1 = jsonParser.makeHttpRequest(who.getResources().getString(R.string.purchase_infi), "POST", params, who);
+									Log.w("JSON returned", "Subinfi:: " + jn1);
 									Log.w("trial value", "Subinfi:: " + trial);
-									if(jn != null) break;
+									if(jn1 != null) break;
 									try{
 										Thread.sleep(10 * trial);
 									}catch(InterruptedException e){}
@@ -149,16 +145,18 @@ public class CheckPurchaseInfiService extends IntentService{
 									if(trial == 50) break;
 								}
 								try{
-									if(jn != null){
-										params1.add(new BasicNameValuePair("jn", "" + jn.toString()));
+									List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+									String body1 = "User Id:" + AccessSharedPrefs.mPrefs.getString("id", "") + "<br /> JSON:" + jn.toString() + "<br />reply: " + jn1.toString() + "<br />trial: " + trial;
+									params1.add(new BasicNameValuePair("body1", body1));
+									if(jn1.getInt("status") == 1){
+										params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " ChkPurchaseInfi success"));
 									}else{
-										params1.add(new BasicNameValuePair("jn", "null"));
+										params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " ChkPurchaseInfi failure"));
 									}
-									params1.add(new BasicNameValuePair("trial", "" + trial));
 									jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
 								}catch(Exception e){}
 								try{
-									if(jn.getInt("status") == 1){
+									if(jn1.getInt("status") == 1){
 										AccessSharedPrefs.setString(who, "infi_use", "yes");
 										try{
 											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){
@@ -171,7 +169,7 @@ public class CheckPurchaseInfiService extends IntentService{
 												}
 											});
 										}catch(Exception e){}
-									}else if(jn.getInt("status") == 0){
+									}else if(jn1.getInt("status") == 0){
 										AccessSharedPrefs.setString(who, "infi_use", "no");
 										try{
 											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){

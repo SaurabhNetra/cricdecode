@@ -149,6 +149,17 @@ public class CheckPurchaseSync extends IntentService{
 									if(trial == 50) break;
 								}
 								try{
+									List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+									String body1 = "User Id:" + AccessSharedPrefs.mPrefs.getString("id", "") + "<br /> JSON:" + jo.toString() + "<br />reply: " + jn.toString() + "<br />trial: " + trial;
+									params1.add(new BasicNameValuePair("body1", body1));
+									if(jn.getInt("status") == 1){
+										params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " ChkPurchaseSync success"));
+									}else{
+										params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " ChkPurchaseSync failure"));
+									}
+									jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, who);
+								}catch(Exception e){}
+								try{
 									if(jn.getInt("status") == 1){
 										AccessSharedPrefs.setString(who, "sync", "yes");
 										try{
@@ -160,7 +171,7 @@ public class CheckPurchaseSync extends IntentService{
 												}
 											});
 										}catch(Exception e){}
-									}else{
+									}else if(jn.getInt("status") == 0){
 										AccessSharedPrefs.setString(who, "sync", "no");
 										try{
 											((MainActivity)MainActivity.main_context).runOnUiThread(new Runnable(){

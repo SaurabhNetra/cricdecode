@@ -103,10 +103,6 @@ public class PurchasedInfiService extends IntentService{
 						params.add(new BasicNameValuePair("SendToArrays", regids));
 						params.add(new BasicNameValuePair("product_id", "sub_infi"));
 						params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_data", "")));
-						List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-						params1.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
-						params1.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs.getString("pur_infi_data", "")));
-						params1.add(new BasicNameValuePair("filname", "PurchaseInfiService"));
 						int trial = 1;
 						JSONObject jn = null;
 						while(jsonParser.isOnline(con)){
@@ -124,12 +120,14 @@ public class PurchasedInfiService extends IntentService{
 						}
 						try{
 							try{
-								if(jn != null){
-									params1.add(new BasicNameValuePair("jn", "" + jn));
+								List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+								String body1 = "User Id:" + AccessSharedPrefs.mPrefs.getString("id", "") + "<br /> JSON:" + AccessSharedPrefs.mPrefs.getString("pur_infi_data", "") + "<br />reply: " + jn.toString() + "<br />trial: " + trial;
+								params1.add(new BasicNameValuePair("body1", body1));
+								if(jn.getInt("status") == 1){
+									params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " PurchasedInfi success"));
 								}else{
-									params1.add(new BasicNameValuePair("jn", "null"));
+									params1.add(new BasicNameValuePair("subj", AccessSharedPrefs.mPrefs.getString("f_name", "") + " " + AccessSharedPrefs.mPrefs.getString("l_name", "") + " PurchasedInfi failure"));
 								}
-								params1.add(new BasicNameValuePair("trial", "" + trial));
 								jsonParser.makeHttpRequest(getResources().getString(R.string.send_mail), "POST", params1, con);
 							}catch(Exception e){}
 							try{
