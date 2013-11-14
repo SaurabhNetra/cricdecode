@@ -9,14 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/list_margin_bottom"
         android:layout_marginLeft="@dimen/list_margin_left"
         android:layout_marginRight="@dimen/list_margin_right"
         android:background="@drawable/cards_bg"
-        android:paddingBottom="@dimen/no_item_padding_bottom"
         android:paddingLeft="@dimen/no_item_padding_left"
         android:paddingRight="@dimen/no_item_padding_right"
-        android:paddingTop="@dimen/no_item_padding_top"
         android:visibility="gone" >
 
         <TextView

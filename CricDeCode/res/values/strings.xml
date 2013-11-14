@@ -68,7 +68,8 @@
         <item>Terms of Service</item>
         <item>Privacy Policy</item>
         <item>Support</item>
-        <item>Share this App</item>
+        <item>Share this App</item>        
+        <item>Version</item>
     </string-array>
 
     <string name="support">Support</string>

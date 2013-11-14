@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
     android:layout_marginLeft="@dimen/new_match_card_margin_left"
     android:layout_marginRight="@dimen/new_match_card_margin_right"
     android:background="@drawable/cards_bg"
