@@ -66,7 +66,7 @@ import java.util.List;
  * attempting to start a second asynchronous operation while the first one
  * has not yet completed will result in an exception being thrown.
  *
- * @author Bruno Oliveira (Google)
+ * @author Bruno Oliveira (Joker) (Google)
  *
  */
 public class IabHelper {
@@ -263,6 +263,7 @@ public class IabHelper {
         };
 
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
         if (!mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
             // service available to handle that Intent
             mContext.bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);

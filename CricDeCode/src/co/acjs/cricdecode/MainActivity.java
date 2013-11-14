@@ -185,7 +185,8 @@ public class MainActivity extends SherlockFragmentActivity{
 								AccessSharedPrefs.setString(main_context, "pur_sync_descr", "Keep your data safe with cloud backup.");
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
-										if(result.isFailure()){}else{
+										Log.w("MAinActivity","hahahahah");
+										if(result.isFailure()){}else{											
 											if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_REMOVE_ADS)){
 													Purchase p1 = inventory.getPurchase(SKU_REMOVE_ADS);
@@ -195,7 +196,7 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());
+																jo.put("Sign", p1.getSignature());																
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -208,6 +209,7 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "ad_free", "no");
 												}
 											}
+											
 											if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI);
@@ -230,6 +232,7 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "infi_use", "no");
 												}
 											}
+											
 											if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI_SYNC)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI_SYNC);
@@ -239,7 +242,7 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());
+																jo.put("Sign", p1.getSignature());															
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
