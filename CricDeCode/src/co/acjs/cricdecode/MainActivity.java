@@ -185,8 +185,8 @@ public class MainActivity extends SherlockFragmentActivity{
 								AccessSharedPrefs.setString(main_context, "pur_sync_descr", "Keep your data safe with cloud backup.");
 								MainActivity.mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener(){
 									public void onQueryInventoryFinished(IabResult result, Inventory inventory){
-										Log.w("MAinActivity","hahahahah");
-										if(result.isFailure()){}else{											
+										Log.w("MAinActivity", "hahahahah");
+										if(result.isFailure()){}else{
 											if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_REMOVE_ADS)){
 													Purchase p1 = inventory.getPurchase(SKU_REMOVE_ADS);
@@ -196,7 +196,7 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());																
+																jo.put("Sign", p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchasedAdRemovalService.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -209,7 +209,6 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "ad_free", "no");
 												}
 											}
-											
 											if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI);
@@ -232,7 +231,6 @@ public class MainActivity extends SherlockFragmentActivity{
 													AccessSharedPrefs.setString(main_context, "infi_use", "no");
 												}
 											}
-											
 											if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
 												if(inventory.hasPurchase(SKU_SUB_INFI_SYNC)){
 													Purchase p1 = inventory.getPurchase(SKU_SUB_INFI_SYNC);
@@ -242,7 +240,7 @@ public class MainActivity extends SherlockFragmentActivity{
 															try{
 																jo.put("orderId", p1.getOrderId());
 																jo.put("Token", p1.getToken());
-																jo.put("Sign", p1.getSignature());															
+																jo.put("Sign", p1.getSignature());
 																Intent i = new Intent(MainActivity.main_context, CheckPurchaseInfiSync.class);
 																i.putExtra("json", jo.toString());
 																startService(i);
@@ -1367,56 +1365,94 @@ public class MainActivity extends SherlockFragmentActivity{
 				publishStory(bat, bowl, field, match_lvl, team_a, team_b, venue, date);
 				break;
 			case R.id.pur_remove_ads:
-				try{
-					mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
-				}catch(Exception e){
-					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+				if(mHelper != null){
+					mHelper.flagEndAsync();
+					try{
+						mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
+					}catch(IllegalStateException ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
+				}else{
+					try{
+						mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
+					}catch(Exception ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
 				}
 				break;
 			case R.id.pur_subscribe_infi:
-				try{
-					if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
-						try{
-							((MainActivity)main_context).runOnUiThread(new Runnable(){
-								public void run(){
-									try{
-										new AlertDialog.Builder(main_context).setTitle("Not Applicable!").setMessage("This item is not applicable for you as you have already purchased a pack which contains this feature").setNeutralButton("OK", new DialogInterface.OnClickListener(){
-											public void onClick(DialogInterface dialog, int which){
-												dialog.dismiss();
-											}
-										}).show();
-									}catch(Exception e){}
-								}
-							});
-						}catch(Exception e){}
-					}else{
-						mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI, PURCHASE_INFI, mPurchaseFinishedListener, getMD5());
+				if(mHelper != null){
+					mHelper.flagEndAsync();
+					try{
+						if(AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals("yes")){
+							try{
+								((MainActivity)main_context).runOnUiThread(new Runnable(){
+									public void run(){
+										try{
+											new AlertDialog.Builder(main_context).setTitle("Not Applicable!").setMessage("This item is not applicable for you as you have already purchased a pack which contains this feature").setNeutralButton("OK", new DialogInterface.OnClickListener(){
+												public void onClick(DialogInterface dialog, int which){
+													dialog.dismiss();
+												}
+											}).show();
+										}catch(Exception e){}
+									}
+								});
+							}catch(Exception e){}
+						}else{
+							mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI, PURCHASE_INFI, mPurchaseFinishedListener, getMD5());
+						}
+					}catch(IllegalStateException ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
 					}
-				}catch(Exception e){
-					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+				}else{
+					try{
+						mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
+					}catch(Exception ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
 				}
 				break;
 			case R.id.pur_subscribe_infi_sync:
-				try{
-					mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC, PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
-				}catch(Exception e){
-					Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+				if(mHelper != null){
+					mHelper.flagEndAsync();
+					try{
+						mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_INFI_SYNC, PURCHASE_INFI_SYNC, mPurchaseFinishedListener, getMD5());
+					}catch(IllegalStateException ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
+				}else{
+					try{
+						mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
+					}catch(Exception ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
 				}
 				break;
 			case R.id.pur_subscribe_sync:
-				try{
-					((MainActivity)main_context).runOnUiThread(new Runnable(){
-						public void run(){
-							try{
-								new AlertDialog.Builder(main_context).setTitle("Coming Soon!").setMessage("This feature is in the making. You can avail it very soon!").setNeutralButton("OK", new DialogInterface.OnClickListener(){
-									public void onClick(DialogInterface dialog, int which){
-										dialog.dismiss();
-									}
-								}).show();
-							}catch(Exception e){}
-						}
-					});
-				}catch(Exception e){}
+				if(mHelper != null){
+					mHelper.flagEndAsync();
+					try{
+						((MainActivity)main_context).runOnUiThread(new Runnable(){
+							public void run(){
+								try{
+									new AlertDialog.Builder(main_context).setTitle("Coming Soon!").setMessage("This feature is in the making. You can avail it very soon!").setNeutralButton("OK", new DialogInterface.OnClickListener(){
+										public void onClick(DialogInterface dialog, int which){
+											dialog.dismiss();
+										}
+									}).show();
+								}catch(Exception e){}
+							}
+						});
+					}catch(IllegalStateException ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
+				}else{
+					try{
+						mHelper.launchPurchaseFlow((MainActivity)main_context, SKU_REMOVE_ADS, PURCHASE_REMOVE_ADS, mPurchaseFinishedListener, getMD5());
+					}catch(Exception ex){
+						Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+					}
+				}
 				/*try{
 					writeToFile("onclick sync");
 					mHelper.launchSubscriptionPurchaseFlow(this, SKU_SUB_SYNC, PURCHASE_SYNC, mPurchaseFinishedListener, getMD5());
@@ -1432,46 +1468,62 @@ public class MainActivity extends SherlockFragmentActivity{
 	private void publishStory(final String bat, final String bowl, final String field, final String match_lvl, final String team_a, final String team_b, final String venue, final String date){
 		Session session = Session.getActiveSession();
 		Log.w("FBShare", "Publish Story");
-		if(session != null){
-			// Check for publish permissions
-			Log.w("FBShare", "Publish Story not null");
-			List<String> permissions = session.getPermissions();
-			if(!isSubsetOf(PERMISSIONS, permissions)){
-				pendingPublishReauthorization = true;
-				Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(this, PERMISSIONS);
-				session.requestNewPublishPermissions(newPermissionsRequest);
-				Log.w("FBShare", "has permission");
-				return;
-			}
-			String fname = AccessSharedPrefs.mPrefs.getString("f_name", "");
-			String lname = AccessSharedPrefs.mPrefs.getString("l_name", "");
-			String title = String.format("Highlights of %s's peformance on %s!", fname, date);
-			String caption = String.format("%s match, %s vs %s, at %s", match_lvl, team_a, team_b, venue);
-			String description = String.format("Batting: %s<center/> Bowling: %s<center/> Fielding: %s", bat, bowl, field);
-			Bundle params = new Bundle();
-			params.putString("name", title);
-			params.putString("caption", caption);
-			params.putString("link", "cdc.acjs.co/sharedHighlights.php?fn=" + fname + "&ln=" + lname + "&lvl=" + match_lvl + "&ta=" + team_a + "&tb=" + team_b + "&v=" + venue + "&bat=" + bat + "&bowl=" + bowl + "&field=" + field);
-			params.putString("description", description);
-			params.putString("picture", "https://dl.dropboxusercontent.com/u/15057367/Icons/CDC-icon.png");
-			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(MainActivity.main_context, Session.getActiveSession(), params)).setOnCompleteListener(new OnCompleteListener(){
-				@Override
-				public void onComplete(final Bundle values, final FacebookException error){
-					if(error == null){
-						final String postId = values.getString("post_id");
-						if(postId != null){
-							Toast.makeText(MainActivity.main_context, "Shared Successfully", Toast.LENGTH_SHORT).show();
-						}else{
-							Toast.makeText(MainActivity.main_context, "Publish cancelled", Toast.LENGTH_SHORT).show();
-						}
-					}else if(error instanceof FacebookOperationCanceledException){
-						Toast.makeText(MainActivity.main_context, "Publish cancelled", Toast.LENGTH_SHORT).show();
-					}else{
-						Toast.makeText(MainActivity.main_context, "Error posting story", Toast.LENGTH_SHORT).show();
-					}
+		try{
+			if(session != null){
+				// Check for publish permissions
+				Log.w("FBShare", "Publish Story not null");
+				List<String> permissions = session.getPermissions();
+				if(!isSubsetOf(PERMISSIONS, permissions)){
+					pendingPublishReauthorization = true;
+					Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(this, PERMISSIONS);
+					session.requestNewPublishPermissions(newPermissionsRequest);
+					Log.w("FBShare", "has permission");
+					return;
 				}
-			}).build();
-			feedDialog.show();
+				String fname = AccessSharedPrefs.mPrefs.getString("f_name", "");
+				String lname = AccessSharedPrefs.mPrefs.getString("l_name", "");
+				String title = String.format("Highlights of %s's peformance on %s!", fname, date);
+				String caption = String.format("%s match, %s vs %s, at %s", match_lvl, team_a, team_b, venue);
+				String description = String.format("Batting: %s<center/> Bowling: %s<center/> Fielding: %s", bat, bowl, field);
+				Bundle params = new Bundle();
+				params.putString("name", title);
+				params.putString("caption", caption);
+				params.putString("link", "cdc.acjs.co/sharedHighlights.php?fn=" + fname + "&ln=" + lname + "&lvl=" + match_lvl + "&ta=" + team_a + "&tb=" + team_b + "&v=" + venue + "&bat=" + bat + "&bowl=" + bowl + "&field=" + field);
+				params.putString("description", description);
+				params.putString("picture", "https://dl.dropboxusercontent.com/u/15057367/Icons/CDC-icon.png");
+				WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(MainActivity.main_context, Session.getActiveSession(), params)).setOnCompleteListener(new OnCompleteListener(){
+					@Override
+					public void onComplete(final Bundle values, final FacebookException error){
+						if(error == null){
+							final String postId = values.getString("post_id");
+							if(postId != null){
+								Toast.makeText(MainActivity.main_context, "Shared Successfully", Toast.LENGTH_SHORT).show();
+							}else{
+								Toast.makeText(MainActivity.main_context, "Publish cancelled", Toast.LENGTH_SHORT).show();
+							}
+						}else if(error instanceof FacebookOperationCanceledException){
+							Toast.makeText(MainActivity.main_context, "Publish cancelled", Toast.LENGTH_SHORT).show();
+						}else{
+							Toast.makeText(MainActivity.main_context, "Error posting story", Toast.LENGTH_SHORT).show();
+						}
+					}
+				}).build();
+				feedDialog.show();
+			}
+		}catch(NullPointerException ne){
+			try{
+				((MainActivity)main_context).runOnUiThread(new Runnable(){
+					public void run(){
+						try{
+							new AlertDialog.Builder(main_context).setTitle("Unable to post").setMessage("Check your internet connection and try again").setNeutralButton("OK", new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int which){
+									dialog.dismiss();
+								}
+							}).show();
+						}catch(Exception e){}
+					}
+				});
+			}catch(Exception e){}
 		}
 	}
 
