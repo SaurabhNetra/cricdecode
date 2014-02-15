@@ -1,6 +1,5 @@
 package co.acjs.cricdecode;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,7 +61,6 @@ public class SupportFragment extends SherlockFragment{
 										try{
 											versionName = MainActivity.main_context.getPackageManager().getPackageInfo(MainActivity.main_context.getPackageName(), 0).versionName;
 										}catch(NameNotFoundException e1){
-											// TODO Auto-generated catch block
 											e1.printStackTrace();
 										}
 										new AlertDialog.Builder(MainActivity.main_context).setTitle("App Version").setMessage("Version "+versionName).setNeutralButton("OK", new DialogInterface.OnClickListener(){

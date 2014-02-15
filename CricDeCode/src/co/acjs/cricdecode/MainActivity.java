@@ -33,7 +33,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Looper;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -72,8 +71,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
+import com.google.android.gms.ads.*;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -550,12 +548,15 @@ public class MainActivity extends SherlockFragmentActivity{
 			}
 		}
 		final AdView adView = (AdView)findViewById(R.id.adView);
+	    adView.setAdUnitId(R.string.publisher_id+"");
+	    adView.setAdSize(AdSize.BANNER);
+		/*final AdView adView = (AdView)findViewById(R.id.adView);
 		(new Thread(){
 			public void run(){
 				Looper.prepare();
 				adView.loadAd(new AdRequest());
 			}
-		}).start();
+		}).start();*/
 		// If AdRemovePerchased do it //ad_free //infi_use //infi_sync
 		if(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")){
 			adView.setVisibility(View.GONE);

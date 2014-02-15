@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.ads.AdView;
+import com.google.android.gms.ads.*;
 import com.stackmob.android.sdk.common.StackMobAndroid;
 import com.stackmob.sdk.api.StackMobQuery;
 import com.stackmob.sdk.api.StackMobQueryField;
@@ -140,6 +140,8 @@ public class PurchasedAdRemovalService extends IntentService{
 										public void run(){
 											try{
 												final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+												adView.setAdUnitId(R.string.publisher_id+"");
+											    adView.setAdSize(AdSize.BANNER);
 												adView.setVisibility(View.GONE);
 												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.VISIBLE);
 											}catch(Exception e){}
@@ -155,6 +157,8 @@ public class PurchasedAdRemovalService extends IntentService{
 										public void run(){
 											try{
 												final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+												adView.setAdUnitId(R.string.publisher_id+"");
+											    adView.setAdSize(AdSize.BANNER);
 												adView.setVisibility(View.VISIBLE);
 												((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.GONE);
 											}catch(Exception e){}

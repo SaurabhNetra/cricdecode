@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.ads.AdView;
+import com.google.android.gms.ads.*;
 
 
 public class GCMIntentService extends GCMBaseIntentServiceCompat{
@@ -123,6 +123,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							public void run(){
 								try{
 									final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+									adView.setAdUnitId(R.string.publisher_id + "");
+									adView.setAdSize(AdSize.BANNER);
 									adView.setVisibility(View.GONE);
 									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.VISIBLE);
 								}catch(Exception e){}
@@ -169,6 +171,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat{
 							public void run(){
 								try{
 									final AdView adView = (AdView)((MainActivity)MainActivity.main_context).findViewById(R.id.adView);
+									adView.setAdUnitId(R.string.publisher_id + "");
+									adView.setAdSize(AdSize.BANNER);
 									adView.setVisibility(View.VISIBLE);
 									((TextView)((MainActivity)MainActivity.main_context).findViewById(R.id.rem_ads_pur)).setVisibility(View.GONE);
 								}catch(Exception e){}
