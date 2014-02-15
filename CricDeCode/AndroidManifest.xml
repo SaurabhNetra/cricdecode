@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.acjs.cricdecode"
     android:installLocation="preferExternal"
-    android:versionCode="13"
-    android:versionName="1.1.1" >
+    android:versionCode="14"
+    android:versionName="1.2" >
 
     <permission
         android:name="co.acjs.cricdecode.permission.C2D_MESSAGE"
@@ -46,7 +46,7 @@
         <activity android:name="co.acjs.cricdecode.DisplayLineChart" >
         </activity>
         <activity
-            android:name="com.google.ads.AdActivity"
+            android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <provider
