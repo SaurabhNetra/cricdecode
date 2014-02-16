@@ -561,8 +561,8 @@ public class MainActivity extends SherlockFragmentActivity{
 					@Override
 					public void run(){
 						Bundle bundle = new Bundle();
-						bundle.putString("color_bg", "bf2b22");
-						bundle.putString("color_text", "fefefe");
+						bundle.putString("color_bg", String.format("#%06X", (0xFFFFFF & getResources().getColor(R.color.dark_red))));
+						bundle.putString("color_text", String.format("#%06X", (0xFFFFFF & getResources().getColor(R.color.white))));
 						AdMobExtras extras = new AdMobExtras(bundle);
 						AdRequest adRequest = new AdRequest.Builder().addNetworkExtras(extras).build();
 						adView.loadAd(adRequest);

@@ -23,7 +23,7 @@ public class SupportFragment extends SherlockFragment {
 	static SupportFragment supportFragment;
 	static int currentProfileFragment;
 	static final int TERMS_OF_SERVICE = 0, PRIVACY_POLICY = 1, SUPPORT = 2,
-			SHARE = 3, GOOGLE_PL = 4, TWITTER = 5, FB = 6, VERSION = 7;
+			SHARE = 3, VERSION = 4;
 	LinearLayout fb, gp, tw;
 
 	@Override
