@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -26,6 +27,7 @@ import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -45,6 +47,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -339,6 +342,23 @@ public class MainActivity extends SherlockFragmentActivity{
 				}
 			}
 		};
+		// Translucent Bars
+		int height = 0;
+		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if(resourceId > 0){
+			height = getResources().getDimensionPixelSize(resourceId) + getSupportActionBar().getHeight();
+		}
+		View paddingView = findViewById(R.id.padding_top_frame);
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)paddingView.getLayoutParams();
+		params.height = height;
+		paddingView.setLayoutParams(params);
+		if(getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android") == 0){
+			// not on KitKat
+			findViewById(R.id.padding_top_frame).setBackgroundColor(0xFFFFFFFF);
+			findViewById(R.id.padding_bottom_frame).setVisibility(View.GONE);
+		}else{
+			makeBarsTranslucent(getWindow());
+		}
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -577,6 +597,22 @@ public class MainActivity extends SherlockFragmentActivity{
 			adView.setVisibility(View.VISIBLE);
 		}
 		restart_services();
+	}
+
+	@TargetApi(19)
+	private void makeBarsTranslucent(Window window){
+		Resources resources = getResources();
+		int h = 0;
+		int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+		if(resourceId > 0){
+			h = resources.getDimensionPixelSize(resourceId);
+		}
+		View paddingView = findViewById(R.id.padding_bottom_frame);
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)paddingView.getLayoutParams();
+		params.height = h;
+		paddingView.setLayoutParams(params);
+		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 
 	protected void onSessionStateChange(Session session, SessionState state, Exception exception){
