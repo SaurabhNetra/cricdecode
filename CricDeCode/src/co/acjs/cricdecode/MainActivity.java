@@ -850,8 +850,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		}
 		adView = (AdView) findViewById(R.id.adView);
-		adView.setAdUnitId(getResources().getString(R.string.publisher_id));
-		adView.setAdSize(AdSize.SMART_BANNER);
+		//adView.setAdUnitId(getResources().getString(R.string.publisher_id));
+		//adView.setAdSize(AdSize.SMART_BANNER);
 
 		(new Thread() {
 			public void run() {
