@@ -15,7 +15,8 @@
             android:id="@+id/padding_top_frame"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="@color/dark_red" />
+            android:background="@color/dark_red"
+            android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/content_frame"
@@ -35,7 +36,8 @@
             android:id="@+id/padding_bottom_frame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/dark_red" />
+            android:background="@color/dark_red"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ListView
@@ -48,7 +50,7 @@
         android:choiceMode="singleChoice"
         android:divider="@color/dark_grey"
         android:dividerHeight="@dimen/left_drawer_divider_height"
-        android:listSelector="@layout/drawer_list_selected_selector"
+        android:listSelector="@layout/drawer_list_selected_selector"        
         android:paddingLeft="@dimen/left_drawer_padding_left"
         android:paddingRight="@dimen/left_drawer_padding_right" />
 

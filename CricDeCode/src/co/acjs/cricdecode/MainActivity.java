@@ -27,7 +27,6 @@ import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -42,10 +41,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -573,14 +574,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		};
 		// Translucent Bars
 
-		if (getResources().getIdentifier("config_enableTranslucentDecor",
-				"bool", "android") == 0) {
-			// not on KitKat
-			findViewById(R.id.padding_top_frame).setVisibility(View.GONE);
-			findViewById(R.id.padding_bottom_frame).setVisibility(View.GONE);
-		} else {
+		if (!(getResources().getIdentifier("config_enableTranslucentDecor",
+				"bool", "android") == 0))
 			makeBarsTranslucent(getWindow());
-		}
+
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -903,6 +900,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private void makeBarsTranslucent(Window window) {
 
 		int height = 0;
+		findViewById(R.id.padding_top_frame).setVisibility(View.VISIBLE);
 		int resourceId = getResources().getIdentifier("status_bar_height",
 				"dimen", "android");
 		if (resourceId > 0) {
@@ -914,18 +912,25 @@ public class MainActivity extends SherlockFragmentActivity {
 				.getLayoutParams();
 		params.height = height;
 		paddingView.setLayoutParams(params);
+		mDrawerList.setPadding(20, height, 20, 0);
 
-		Resources resources = getResources();
-		int h = 0;
-		resourceId = resources.getIdentifier("navigation_bar_height", "dimen",
-				"android");
-		if (resourceId > 0) {
-			h = resources.getDimensionPixelSize(resourceId);
+		if (!ViewConfiguration.get(MainActivity.main_context)
+				.hasPermanentMenuKey()
+				&& !KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)) {
+
+			int h = 0;
+			findViewById(R.id.padding_bottom_frame).setVisibility(View.VISIBLE);
+			int resourceId1 = getResources().getIdentifier(
+					"navigation_bar_height", "dimen", "android");
+			if (resourceId1 > 0) {
+				h = getResources().getDimensionPixelSize(resourceId);
+			}
+			paddingView = (FrameLayout) findViewById(R.id.padding_bottom_frame);
+			params = (LinearLayout.LayoutParams) paddingView.getLayoutParams();
+			params.height = h;
+			paddingView.setLayoutParams(params);
 		}
-		paddingView = (FrameLayout) findViewById(R.id.padding_bottom_frame);
-		params = (LinearLayout.LayoutParams) paddingView.getLayoutParams();
-		params.height = h;
-		paddingView.setLayoutParams(params);
+
 		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
