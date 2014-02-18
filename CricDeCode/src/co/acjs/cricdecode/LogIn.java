@@ -160,6 +160,7 @@ public class LogIn extends SherlockActivity{
 			}catch(Exception e){
 				Log.w("Login", "Showing logout");
 			}
+			
 		}
 	}
 

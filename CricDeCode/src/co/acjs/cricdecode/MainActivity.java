@@ -41,6 +41,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -504,6 +505,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		// InAppBilling Stuff
 		mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
 			public void onIabPurchaseFinished(IabResult result,
@@ -574,9 +576,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		};
 		// Translucent Bars
 
-		if (!(getResources().getIdentifier("config_enableTranslucentDecor",
-				"bool", "android") == 0))
-			makeBarsTranslucent(getWindow());
+		// TODO translucent bar for kitkat
+		/*if (getResources().getIdentifier("config_enableTranslucentDecor",
+		"bool", "android") != 0)
+		makeBarsTranslucent(getWindow());*/
 
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
@@ -615,7 +618,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		// Locate DrawerLayout in drawer_main.xml
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		// Locate ListView in drawer_main.xml
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
 		// Set a custom shadow that overlays the main content when the drawer
 		// opens
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
@@ -901,20 +904,40 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		int height = 0;
 		findViewById(R.id.padding_top_frame).setVisibility(View.VISIBLE);
+		findViewById(R.id.padding_left_top_frame).setVisibility(View.VISIBLE);
 		int resourceId = getResources().getIdentifier("status_bar_height",
 				"dimen", "android");
+
+		TypedValue tv = new TypedValue();
+		int actionBarHeight = 0;
+		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+			actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+					getResources().getDisplayMetrics());
+
+		if (actionBarHeight == 0
+				&& getTheme().resolveAttribute(
+						com.actionbarsherlock.R.attr.actionBarSize, tv, true)) {
+			actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+					getResources().getDisplayMetrics());
+		}
+
 		if (resourceId > 0) {
 			height = getResources().getDimensionPixelSize(resourceId)
-					+ getSupportActionBar().getHeight();
+					+ actionBarHeight;
 		}
 		FrameLayout paddingView = (FrameLayout) findViewById(R.id.padding_top_frame);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) paddingView
 				.getLayoutParams();
 		params.height = height;
 		paddingView.setLayoutParams(params);
-		mDrawerList.setPadding(20, height, 20, 0);
 
-		if (!ViewConfiguration.get(MainActivity.main_context)
+		FrameLayout paddingView1 = (FrameLayout) findViewById(R.id.padding_left_top_frame);
+		LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) paddingView
+				.getLayoutParams();
+		params1.height = height;
+		paddingView1.setLayoutParams(params1);
+
+		if (!ViewConfiguration.get(getApplicationContext())
 				.hasPermanentMenuKey()
 				&& !KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)) {
 

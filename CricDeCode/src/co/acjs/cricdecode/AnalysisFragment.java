@@ -180,7 +180,7 @@ public class AnalysisFragment extends SherlockFragment{
 
 	@Override
 	public void onResume(){
-		// TODO Auto-generated method stub
+		
 		super.onResume();
 		XAxis = "";
 		YAxis = "";

@@ -39,6 +39,12 @@
             android:background="@color/dark_red"
             android:visibility="gone" />
     </LinearLayout>
+    <FrameLayout
+            android:id="@+id/padding_left_top_frame"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/transparent"
+            android:visibility="gone" />
 
     <ListView
         android:id="@+id/left_drawer"
