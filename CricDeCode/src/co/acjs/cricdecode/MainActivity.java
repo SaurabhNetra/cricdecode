@@ -593,7 +593,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	private void makeBarsTranslucent(Window window){
 		int height = 0;
 		findViewById(R.id.padding_top_frame).setVisibility(View.VISIBLE);
-		findViewById(R.id.padding_left_top_frame).setVisibility(View.VISIBLE);
+		//findViewById(R.id.padding_left_top_frame).setVisibility(View.VISIBLE);
 		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
 		TypedValue tv = new TypedValue();
 		int actionBarHeight = 0;
@@ -608,10 +608,11 @@ public class MainActivity extends SherlockFragmentActivity{
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
 		params.height = height;
 		paddingView.setLayoutParams(params);
-		FrameLayout paddingView1 = (FrameLayout)findViewById(R.id.padding_left_top_frame);
-		LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
-		params1.height = height;
-		paddingView1.setLayoutParams(params1);
+		//FrameLayout paddingView1 = (FrameLayout)findViewById(R.id.padding_left_top_frame);
+		//LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
+		//params1.height = height;
+		//paddingView1.setLayoutParams(params1);
+		mDrawerList.setPadding(20, height, 20, 0);
 		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey() && !KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)){
 			int h = 0;
 			findViewById(R.id.padding_bottom_frame).setVisibility(View.VISIBLE);

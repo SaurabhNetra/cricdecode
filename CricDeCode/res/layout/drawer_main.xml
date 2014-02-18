@@ -39,24 +39,18 @@
             android:background="@color/dark_red"
             android:visibility="gone" />
     </LinearLayout>
-    <FrameLayout
-            android:id="@+id/padding_left_top_frame"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:background="@color/transparent"
-            android:visibility="gone" />
 
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="@dimen/left_drawer_width"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:background="@color/snow_grey"
+        android:background="@drawable/drawer_left"
         android:cacheColorHint="@color/snow_grey"
         android:choiceMode="singleChoice"
         android:divider="@color/dark_grey"
         android:dividerHeight="@dimen/left_drawer_divider_height"
-        android:listSelector="@layout/drawer_list_selected_selector"        
+        android:listSelector="@layout/drawer_list_selected_selector"
         android:paddingLeft="@dimen/left_drawer_padding_left"
         android:paddingRight="@dimen/left_drawer_padding_right" />
 
