@@ -43,7 +43,7 @@
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="@dimen/left_drawer_width"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@drawable/drawer_left"
         android:cacheColorHint="@color/snow_grey"
