@@ -12,16 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/page_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <TableLayout
             android:id="@+id/tablelay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/page_desc"
             android:layout_marginBottom="@dimen/margin_bottom"
             android:layout_marginLeft="@dimen/analysis_margin_left"
             android:layout_marginRight="@dimen/analysis_margin_right"
