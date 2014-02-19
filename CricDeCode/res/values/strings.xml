@@ -67,9 +67,11 @@
     <string-array name="support_list_item">
         <item>Terms of Service</item>
         <item>Privacy Policy</item>
-        <item>Support</item>
-        <item>Share this App</item>        
+        <item>Support</item>        
+        <item>Share this App</item>
         <item>Version</item>
+        <item>Feedback</item>
+        <item>Rate Us</item>
     </string-array>
 
     <string name="support">Support</string>

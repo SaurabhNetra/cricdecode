@@ -10,6 +10,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
@@ -25,10 +26,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -73,6 +79,9 @@ public class LogIn extends SherlockActivity{
 		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.action_bar_login, null);
 		actionBar.setCustomView(view);
+		if (getResources().getIdentifier("config_enableTranslucentDecor",
+				"bool", "android") != 0)
+			makeBarsTranslucent(getWindow());
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		login_activity = this;
 		final LoginButton loginButton = (LoginButton)findViewById(R.id.login);
@@ -788,5 +797,45 @@ public class LogIn extends SherlockActivity{
 		Intent intent = new Intent(login_activity, MainActivity.class);
 		login_activity.startActivity(intent);
 		((LogIn)login_activity).finish();
+	}
+	
+	@TargetApi(19)
+	private void makeBarsTranslucent(Window window) {
+		int height = 0;
+		findViewById(R.id.padding_top_frame1).setVisibility(View.VISIBLE);
+		// findViewById(R.id.padding_left_top_frame).setVisibility(View.VISIBLE);
+		int resourceId = getResources().getIdentifier("status_bar_height",
+				"dimen", "android");
+		TypedValue tv = new TypedValue();
+		int actionBarHeight = 0;
+		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+			actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+					getResources().getDisplayMetrics());
+		if (actionBarHeight == 0
+				&& getTheme().resolveAttribute(
+						com.actionbarsherlock.R.attr.actionBarSize, tv, true)) {
+			actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+					getResources().getDisplayMetrics());
+		}
+		if (resourceId > 0) {
+			height = getResources().getDimensionPixelSize(resourceId)
+					+ actionBarHeight;
+		}
+		FrameLayout paddingView = (FrameLayout) findViewById(R.id.padding_top_frame1);
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) paddingView
+				.getLayoutParams();
+		params.height = height;
+		paddingView.setLayoutParams(params);
+		// FrameLayout paddingView1 =
+		// (FrameLayout)findViewById(R.id.padding_left_top_frame);
+		// LinearLayout.LayoutParams params1 =
+		// (LinearLayout.LayoutParams)paddingView.getLayoutParams();
+		// params1.height = height;
+		// paddingView1.setLayoutParams(params1);
+		
+		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 }

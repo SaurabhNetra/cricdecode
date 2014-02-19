@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -22,8 +23,8 @@ public class SupportFragment extends SherlockFragment {
 	// Declare Variables
 	static SupportFragment supportFragment;
 	static int currentProfileFragment;
-	static final int TERMS_OF_SERVICE = 0, PRIVACY_POLICY = 1, SUPPORT = 2,
-			SHARE = 3, VERSION = 4;
+	static final int TERMS_OF_SERVICE = 0, PRIVACY_POLICY = 1, SUPPORT = 2, SHARE = 3, VERSION = 4,
+			FEEDBACK = 5, RATE_NOW=6;
 	LinearLayout fb, gp, tw;
 
 	@Override
@@ -59,15 +60,14 @@ public class SupportFragment extends SherlockFragment {
 
 			}
 		});
-		
+
 		tw.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				startActivity(new Intent(
-						Intent.ACTION_VIEW,
-						Uri.parse("https://twitter.com/CricDeCode")));
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri
+						.parse("https://twitter.com/CricDeCode")));
 
 			}
 		});
@@ -94,6 +94,22 @@ public class SupportFragment extends SherlockFragment {
 				case SUPPORT:
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri
 							.parse("http://cdc.acjs.co/support.html")));
+					break;
+				case FEEDBACK:
+					Intent i = new Intent(Intent.ACTION_SEND);
+					i.setType("message/rfc822");
+					i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"<CricDeCode>excellentmathematics@gmail.com"});
+					i.putExtra(Intent.EXTRA_SUBJECT, "Feedback for CricDeCode");
+					i.putExtra(Intent.EXTRA_TEXT   , "Hello CricDeCode Team, ");
+					try {
+					    startActivity(Intent.createChooser(i, "Send mail..."));
+					} catch (android.content.ActivityNotFoundException ex) {
+					    Toast.makeText(MainActivity.main_context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+					}
+					break;
+				case RATE_NOW:
+					//TODO
+					//AppRater.rateNow(MainActivity.main_context);
 					break;
 				case SHARE:
 					Intent sendIntent = new Intent();
