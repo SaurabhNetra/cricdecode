@@ -14,7 +14,7 @@
         <FrameLayout
             android:id="@+id/padding_top_frame"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="23dp"
             android:background="@color/dark_red"
             android:visibility="gone" />
 

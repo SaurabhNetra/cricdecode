@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import org.codechimp.apprater.AppRater;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -604,6 +605,9 @@ public class MainActivity extends SherlockFragmentActivity{
 			adView.setVisibility(View.VISIBLE);
 		}
 		restart_services();
+		// Rate Us
+		AppRater.setLightTheme();
+		AppRater.app_launched(this);
 		// Translucent Bars
 		if(getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android") != 0) makeBarsTranslucent(getWindow());
 	}
@@ -622,10 +626,6 @@ public class MainActivity extends SherlockFragmentActivity{
 		if(resourceId > 0){
 			height = getResources().getDimensionPixelSize(resourceId) + actionBarHeight;
 		}
-		FrameLayout paddingView = (FrameLayout)findViewById(R.id.padding_top_frame);
-		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
-		params.height = height;
-		paddingView.setLayoutParams(params);
 		Resources r = getResources();
 		int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics());
 		mDrawerList.setPadding(px, height, px, 0);
@@ -636,8 +636,8 @@ public class MainActivity extends SherlockFragmentActivity{
 			if(resourceId1 > 0){
 				h = getResources().getDimensionPixelSize(resourceId1);
 			}
-			paddingView = (FrameLayout)findViewById(R.id.padding_bottom_frame);
-			params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
+			FrameLayout paddingView = (FrameLayout)findViewById(R.id.padding_bottom_frame);
+			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
 			params.height = h;
 			paddingView.setLayoutParams(params);
 		}

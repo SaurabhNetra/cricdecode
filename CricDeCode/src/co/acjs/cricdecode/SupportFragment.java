@@ -1,5 +1,7 @@
 package co.acjs.cricdecode;
 
+import org.codechimp.apprater.AppRater;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -108,8 +110,7 @@ public class SupportFragment extends SherlockFragment {
 					}
 					break;
 				case RATE_NOW:
-					//TODO
-					//AppRater.rateNow(MainActivity.main_context);
+					AppRater.rateNow(MainActivity.main_context);
 					break;
 				case SHARE:
 					Intent sendIntent = new Intent();
