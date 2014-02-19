@@ -8,21 +8,18 @@
     <FrameLayout
         android:id="@+id/padding_top_frame1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_height="25dp"
         android:background="@color/dark_red"
         android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/scrollview_padding_top"
-        android:layout_marginLeft="20dip"
-        android:layout_marginRight="20dip"
-        android:layout_marginTop="@dimen/scrollview_padding_top"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/cards_bg"
-        android:gravity="center_vertical"
         android:padding="@dimen/login_screen_padding" >
 
         <TextView
