@@ -244,6 +244,7 @@
             android:id="@+id/btn_add_to_hist_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/add_to_hist_ll"
             android:layout_margin="8dp"
             android:gravity="center"
             android:orientation="vertical" >
@@ -252,8 +253,8 @@
                 android:id="@+id/add_to_hist1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
                 android:text="@string/txt1_add_to_hist" />
 
             <Button

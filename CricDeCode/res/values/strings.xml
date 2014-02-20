@@ -126,7 +126,7 @@
 
     <!-- Match -->
     <string name="txt_add_to_hist">to Add to <b>History</b></string>
-    <string name="txt1_add_to_hist">once complete performance is entered, to make match available for analysis.</string>
+    <string name="txt1_add_to_hist">to make match available for analysis.</string>
     <string name="in_matches">in <b>Matches</b></string>
     <string name="to_add_to_hist">to Add Match to History</string>
     <string name="no_matches_create">No Ongoing Matches!</string>

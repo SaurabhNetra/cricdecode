@@ -7,13 +7,22 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +58,8 @@ public class DisplayPieChart extends SherlockFragmentActivity{
 		mRenderer.setFitLegend(true);
 		mRenderer.setMargins(new int[ ]{2, 50, 20, 50});
 		mRenderer.setDisplayValues(true);
+		mRenderer.setAxesColor(Color.BLACK);
+		mRenderer.setLabelsColor(Color.BLACK);
 		String labels[] = getIntent().getExtras().getStringArray("labels");
 		double values[] = getIntent().getExtras().getDoubleArray("values");
 		Log.w("DisplayPieChart", "onCreate called");
@@ -76,6 +87,28 @@ public class DisplayPieChart extends SherlockFragmentActivity{
 		});
 		layout.addView(mChartView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		mChartView.repaint();
+		
+		if(getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android") != 0) makeBarsTranslucent(getWindow());
+	}
+	
+	@TargetApi(19)
+	private void makeBarsTranslucent(Window window){
+		findViewById(R.id.padding_top_frame).setVisibility(View.VISIBLE);
+		
+		if(!ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey() | !KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)){
+			int h = 0;
+			findViewById(R.id.padding_bottom_frame).setVisibility(View.VISIBLE);
+			int resourceId1 = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+			if(resourceId1 > 0){
+				h = getResources().getDimensionPixelSize(resourceId1);
+			}
+			FrameLayout paddingView = (FrameLayout)findViewById(R.id.padding_bottom_frame);
+			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
+			params.height = h;
+			paddingView.setLayoutParams(params);
+		}
+		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 
 	@Override
