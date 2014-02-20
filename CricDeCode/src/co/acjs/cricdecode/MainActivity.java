@@ -626,6 +626,10 @@ public class MainActivity extends SherlockFragmentActivity{
 		if(resourceId > 0){
 			height = getResources().getDimensionPixelSize(resourceId) + actionBarHeight;
 		}
+		FrameLayout paddingView = (FrameLayout)findViewById(R.id.padding_top_frame);
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
+		params.height = height;
+		paddingView.setLayoutParams(params);
 		Resources r = getResources();
 		int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics());
 		mDrawerList.setPadding(px, height, px, 0);
@@ -636,8 +640,8 @@ public class MainActivity extends SherlockFragmentActivity{
 			if(resourceId1 > 0){
 				h = getResources().getDimensionPixelSize(resourceId1);
 			}
-			FrameLayout paddingView = (FrameLayout)findViewById(R.id.padding_bottom_frame);
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
+			paddingView = (FrameLayout)findViewById(R.id.padding_bottom_frame);
+			params = (LinearLayout.LayoutParams)paddingView.getLayoutParams();
 			params.height = h;
 			paddingView.setLayoutParams(params);
 		}
