@@ -107,6 +107,11 @@ public class LogIn extends SherlockActivity{
 			}
 		});
 		if(getResources().getIdentifier("config_enableTranslucentDecor", "bool", "android") != 0) makeBarsTranslucent(getWindow());
+
+		//TODO
+		/*CDCAppClass.init_serverdbusertable();
+		CDCAppClass.init_serverdbandroiddevices();*/
+	
 	}
 
 	public static void showDialog(){
