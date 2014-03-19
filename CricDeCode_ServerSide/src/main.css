@@ -1,3 +1,21 @@
+a#homeLogo	{ 
+	position:absolute;
+	width:300px;
+	text-indent:-3000px; 
+	background:url(app-icon.png) 0 0 no-repeat; 
+	display:block;
+	left: 1%;
+	bottom:0%;
+	z-index:2;
+}
+a#homeLogo span { 
+	float:left;
+	display:block;
+	background-image:url(app-icon.png); 
+	background-repeat:no-repeat;
+}
+.clear { clear:both; }
+
 html {
 	background: url(haze.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
@@ -112,10 +130,18 @@ html {
 #appname {
 	position: absolute;
 	font-size: 2em;
-	margin-left: 42%;
+	margin-left: 10%;
 	font-weight: bold;
 	color: #ffffff;
 	margin-top: 0.5%;
+}
+#tagline {
+	position: absolute;
+	font-size: 1.3em;
+	margin-left: 55%;
+	font-weight: bold;
+	color: #ffffff;
+	margin-top: 1%;
 }
 
 #bottomCard {
@@ -132,6 +158,22 @@ html {
 	padding:2%;
 	font-size:0.8em;
 }
+#indexCard {
+	margin-left: 20%;
+	width: 57%;
+	height: 68%;
+	margin-top: 8%;
+	box-shadow: 10px 10px 5px #888888;
+	position: absolute;
+	background-color: #fff;
+	border-color: #cccccc;
+	border: 1px solid;
+	color:#555555;
+	padding:2%;
+text-align:justify;
+	font-size:0.8em;
+overflow:auto;
+}
 #getApp {
 	position: absolute;
 	margin-left: 75%;
@@ -141,6 +183,25 @@ html {
 	font-weight:bold;
 	padding:0.8%;
 	border-radius:5px;
+}
+a:link {text-decoration:none;
+text-decoration:underline;
+color:#000;}
+a:visited {text-decoration:none;
+text-decoration:underline;
+color:#000;}
+a:hover {text-decoration:underline;
+text-decoration:underline;
+color:#000;}
+a:active {text-decoration:underline;
+text-decoration:underline;
+color:#000;}
+#menuStrip
+{
+    margin-left: 85%;
+	width: 10%;
+	margin-top:10%;
+	position: absolute;
 }
 #topbar {
 	position: absolute;

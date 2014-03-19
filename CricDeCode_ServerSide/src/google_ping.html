@@ -1,0 +1,47 @@
+<!--  <!DOCTYPE html>
+<html>
+<head>
+
+<script language="javascript" src="a.js"></script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+		
+			$.get("http://www.acjs.co/index.html", function(data, status) {
+				alert("Data: " + data + "\nStatus: " + status);
+			});
+		});
+	});
+</script>
+</head>
+<body>
+	<button>Send an HTTP GET request to a page and get the result
+		back</button>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+	var t1 = new Date().getTime();
+document.getElementById('datar').innerHTML=document.getElementById('datar').innerHTML+t1;
+    $.get("http://www.cdc.acjs.co/show_text.html",function(data,status){    
+      var t2 = new Date().getTime();
+      document.getElementById('datar').innerHTML=document.getElementById('datar').innerHTML+data;
+      document.getElementById('datar').innerHTML=document.getElementById('datar').innerHTML+t2;
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<button>Send an HTTP GET request to a page and get the result back</button>
+<div id="datapr">
+</div>
+</body>
+</html>

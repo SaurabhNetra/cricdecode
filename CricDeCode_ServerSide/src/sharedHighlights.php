@@ -1,4 +1,18 @@
 <html>
+<script language="javascript">(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+(function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 <head>
 <link rel="stylesheet" type="text/css" href="main.css">
 <script type="text/javascript" src="GlAna.js"></script>
@@ -20,7 +34,10 @@ if (($bat == "") && ($bowl == "") && ($field == "")) {
 <div id="topbar"></div>
 <img id="logo" src="icon.png" />
 <div id="appname">CricDeCode</div>
-<a id="getApp" href="www.google.com">Get it on PlayStore</a>
+<a id="getApp" href="https://play.google.com/store/apps/details?id=co.acjs.cricdecode">
+  <img alt="Get it on Google Play"
+       src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
+</a>
 <div id="info_l">
 	<div id="info_l_top">
 <? echo $fn.'<br />'; ?>
@@ -86,4 +103,8 @@ if (($bat == "") && ($bowl == "") && ($field == "")) {
 	profiling. Your data is secured with cloud backup and inter device data
 	syncing. CricDeCode also provides a platform to post the highlights of
 	your performances on Facebook.</div>
+<div id="menuStrip"><a href="http://cdc.acjs.co/index.html">Home</a><br /><br /><a href="http://cdc.acjs.co/privacy.html">Privacy</a><br /><br /><a href="http://cdc.acjs.co/terms_of_service.html">Terms</a><br /><br /><a href="http://cdc.acjs.co/support.html">Support</a></div>
+<div style="position:absolute; left: 50px; top: 220px; ">
+<div class="fb-like" data-href="https://www.facebook.com/CricDeCode" data-send="true" data-layout="button_count" data-width="34" data-show-faces="true" data-font="trebuchet ms"></div></div>
+</body>
 </html>
