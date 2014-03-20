@@ -670,7 +670,7 @@ public class LogIn extends SherlockActivity {
 			@Override
 			public void run() {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("reg_id", gcm_reg_id));
+				params.add(new BasicNameValuePair("gcm_id", gcm_reg_id));
 				params.add(new BasicNameValuePair("os", "1"));
 				params.add(new BasicNameValuePair("l_name", user.getLastName()));
 				params.add(new BasicNameValuePair("f_name", user.getFirstName()));
