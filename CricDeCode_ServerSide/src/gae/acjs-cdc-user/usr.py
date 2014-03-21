@@ -47,5 +47,10 @@ class usr_insert(webapp2.RequestHandler):
             usr_obj.put()
             self.response.write('{"status":1}')
         else:
-            self.response.write('{"status":2}')
+{
+ //TODO         
+/* 1. Increment device number in the db
+2. Send json object with new device_no, role, batting_style,bowling_style, nickname */
+
+}
 application = webapp2.WSGIApplication([('/insert', usr_insert)], debug=True)

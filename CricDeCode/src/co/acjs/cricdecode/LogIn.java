@@ -2,7 +2,6 @@ package co.acjs.cricdecode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -111,12 +110,6 @@ public class LogIn extends SherlockActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
-
-		// TODO
-		/*
-		 * CDCAppClass.init_serverdbusertable();
-		 * CDCAppClass.init_serverdbandroiddevices();
-		 */
 
 	}
 
@@ -726,7 +719,7 @@ public class LogIn extends SherlockActivity {
 						jn = null;
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_removeads:: Called");
-							// ping to gae purchaseads table
+							// ping to gae ads table
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
 											R.string.purchase_infi), "POST",
@@ -760,7 +753,7 @@ public class LogIn extends SherlockActivity {
 						jn = null;
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_subinfi:: Called");
-							// Ping to gae purchase infi table
+							// Ping to gae purchase infi table 
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
 											R.string.purchase_infi), "POST",
@@ -782,50 +775,8 @@ public class LogIn extends SherlockActivity {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_use", "no");
 						} else {
-							long now = new Date().getTime();
-							params = new ArrayList<NameValuePair>();
-							params.add(new BasicNameValuePair("user_id",
-									AccessSharedPrefs.mPrefs
-											.getString("id", "")));
-							params.add(new BasicNameValuePair("now",
-									AccessSharedPrefs.mPrefs.getString("id", ""
-											+ now)));
-							jsonParser = new JSONParser();
-							trial = 1;
-							jn = null;
-							while (jsonParser.isOnline(login_activity)) {
-								Log.w("JSONParser", "Subinfi:: Called");
-								// chk purchase infi and with now, ping to
-								// azure, insert
-								// if new,send mail,report back
-								jn = jsonParser
-										.makeHttpRequest(
-												login_activity
-														.getResources()
-														.getString(
-																R.string.purchase_infi),
-												"POST", params, login_activity);
-								Log.w("JSON returned", "Subinfi:: " + jn);
-								Log.w("trial value", "Subinfi:: " + trial);
-								if (jn != null)
-									break;
-								try {
-									Thread.sleep(10 * trial);
-								} catch (InterruptedException e) {
-								}
-								trial++;
-								if (trial == 50)
-									break;
-							}
-
-							if (jn.getInt("status") == 0) {
-								AccessSharedPrefs.setString(login_activity,
-										"infi_use", "no");
-							} else {
-								AccessSharedPrefs.setString(login_activity,
-										"infi_use", "yes");
-							}
-
+							AccessSharedPrefs.setString(login_activity,
+									"infi_use", "yes");
 						}
 
 						params = new ArrayList<NameValuePair>();
@@ -858,50 +809,8 @@ public class LogIn extends SherlockActivity {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_sync", "no");
 						} else {
-							long now = new Date().getTime();
-							params = new ArrayList<NameValuePair>();
-							params.add(new BasicNameValuePair("user_id",
-									AccessSharedPrefs.mPrefs
-											.getString("id", "")));
-							params.add(new BasicNameValuePair("now",
-									AccessSharedPrefs.mPrefs.getString("id", ""
-											+ now)));
-							jsonParser = new JSONParser();
-							trial = 1;
-							jn = null;
-							while (jsonParser.isOnline(login_activity)) {
-								Log.w("JSONParser", "Subinfisync:: Called");
-								// chk purchase infi and with now, ping to
-								// azure, insert
-								// if new,send mail,report back
-								jn = jsonParser
-										.makeHttpRequest(
-												login_activity
-														.getResources()
-														.getString(
-																R.string.purchase_infi),
-												"POST", params, login_activity);
-								Log.w("JSON returned", "Subinfisync:: " + jn);
-								Log.w("trial value", "Subinfisync:: " + trial);
-								if (jn != null)
-									break;
-								try {
-									Thread.sleep(10 * trial);
-								} catch (InterruptedException e) {
-								}
-								trial++;
-								if (trial == 50)
-									break;
-							}
-
-							if (jn.getInt("status") == 0) {
-								AccessSharedPrefs.setString(login_activity,
-										"infi_sync", "no");
-							} else {
-								AccessSharedPrefs.setString(login_activity,
-										"infi_sync", "yes");
-							}
-
+							AccessSharedPrefs.setString(login_activity,
+									"infi_sync", "yes");
 						}
 
 						params = new ArrayList<NameValuePair>();
@@ -934,50 +843,8 @@ public class LogIn extends SherlockActivity {
 							AccessSharedPrefs.setString(login_activity, "sync",
 									"no");
 						} else {
-							long now = new Date().getTime();
-							params = new ArrayList<NameValuePair>();
-							params.add(new BasicNameValuePair("user_id",
-									AccessSharedPrefs.mPrefs
-											.getString("id", "")));
-							params.add(new BasicNameValuePair("now",
-									AccessSharedPrefs.mPrefs.getString("id", ""
-											+ now)));
-							jsonParser = new JSONParser();
-							trial = 1;
-							jn = null;
-							while (jsonParser.isOnline(login_activity)) {
-								Log.w("JSONParser", "Subsync:: Called");
-								// chk purchase infi and with now, ping to
-								// azure, insert
-								// if new,send mail,report back
-								jn = jsonParser
-										.makeHttpRequest(
-												login_activity
-														.getResources()
-														.getString(
-																R.string.purchase_infi),
-												"POST", params, login_activity);
-								Log.w("JSON returned", "Subsync:: " + jn);
-								Log.w("trial value", "Subsync:: " + trial);
-								if (jn != null)
-									break;
-								try {
-									Thread.sleep(10 * trial);
-								} catch (InterruptedException e) {
-								}
-								trial++;
-								if (trial == 50)
-									break;
-							}
-
-							if (jn.getInt("status") == 0) {
-								AccessSharedPrefs.setString(login_activity,
-										"sync", "no");
-							} else {
-								AccessSharedPrefs.setString(login_activity,
-										"sync", "yes");
-							}
-
+							AccessSharedPrefs.setString(login_activity, "sync",
+									"yes");
 						}
 
 						params = new ArrayList<NameValuePair>();
@@ -1116,54 +983,75 @@ public class LogIn extends SherlockActivity {
 									jo.getInt("bat_sixes"));
 							values.put(PerformanceDb.KEY_BAT_HOW_OUT,
 									jo.getString("bat_dismissal"));
-							values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE, jo.getString("bat_bowler_type"));
+							values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
+									jo.getString("bat_bowler_type"));
 							values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION,
 									jo.getString("bat_fielding_position"));
 							values.put(PerformanceDb.KEY_BAT_CHANCES,
 									jo.getInt("bat_chances"));
-							values.put(PerformanceDb.KEY_BOWL_BALLS, jo.getInt("bowl_balls"));
+							values.put(PerformanceDb.KEY_BOWL_BALLS,
+									jo.getInt("bowl_balls"));
 							values.put(PerformanceDb.KEY_BOWL_SPELLS,
 									jo.getInt("bowl_spells"));
-							values.put(PerformanceDb.KEY_BOWL_MAIDENS, jo.getInt("bowl_maidens"));
-							values.put(PerformanceDb.KEY_BOWL_RUNS, jo.getInt("bowl_runs"));
-							values.put(PerformanceDb.KEY_BOWL_FOURS,jo.getInt("bowl_fours"));
-							values.put(PerformanceDb.KEY_BOWL_SIXES, jo.getInt("bowl_sixes"));
-							values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT, jo.getInt("bowl_wkts_left"));
-							values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT, jo.getInt("bowl_wkts_right"));
+							values.put(PerformanceDb.KEY_BOWL_MAIDENS,
+									jo.getInt("bowl_maidens"));
+							values.put(PerformanceDb.KEY_BOWL_RUNS,
+									jo.getInt("bowl_runs"));
+							values.put(PerformanceDb.KEY_BOWL_FOURS,
+									jo.getInt("bowl_fours"));
+							values.put(PerformanceDb.KEY_BOWL_SIXES,
+									jo.getInt("bowl_sixes"));
+							values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT,
+									jo.getInt("bowl_wkts_left"));
+							values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT,
+									jo.getInt("bowl_wkts_right"));
 							values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
 									jo.getInt("bowl_catches_dropped"));
-							values.put(PerformanceDb.KEY_BOWL_NOBALLS, jo.getInt("bowl_no_balls"));
-							values.put(PerformanceDb.KEY_BOWL_WIDES,jo.getInt("bowl_wides"));
-							values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH, jo.getInt("field_slip_catch"));
+							values.put(PerformanceDb.KEY_BOWL_NOBALLS,
+									jo.getInt("bowl_no_balls"));
+							values.put(PerformanceDb.KEY_BOWL_WIDES,
+									jo.getInt("bowl_wides"));
+							values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH,
+									jo.getInt("field_slip_catch"));
 							values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH,
 									jo.getInt("field_close_catch"));
 							values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
 									jo.getInt("field_circle_catch"));
-							values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,jo.getInt("field_deep_catch"));
-							values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE, jo.getInt("field_ro_circle"));
+							values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,
+									jo.getInt("field_deep_catch"));
+							values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE,
+									jo.getInt("field_ro_circle"));
 							values.put(
 									PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
 									jo.getInt("field_ro_direct_circle"));
-							values.put(PerformanceDb.KEY_FIELD_RO_DEEP, jo.getInt("field_ro_deep"));
+							values.put(PerformanceDb.KEY_FIELD_RO_DEEP,
+									jo.getInt("field_ro_deep"));
 							values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
 									jo.getInt("field_ro_direct_deep"));
-							values.put(PerformanceDb.KEY_FIELD_STUMPINGS, jo.getInt("field_stumpings"));
-							values.put(PerformanceDb.KEY_FIELD_BYES, jo.getInt("field_byes"));
-							values.put(PerformanceDb.KEY_FIELD_MISFIELDS, jo.getInt("field_misfields"));
+							values.put(PerformanceDb.KEY_FIELD_STUMPINGS,
+									jo.getInt("field_stumpings"));
+							values.put(PerformanceDb.KEY_FIELD_BYES,
+									jo.getInt("field_byes"));
+							values.put(PerformanceDb.KEY_FIELD_MISFIELDS,
+									jo.getInt("field_misfields"));
 							values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
 									jo.getInt("field_catches_dropped"));
 							values.put(PerformanceDb.KEY_SYNCED, 1);
 							values.put(PerformanceDb.KEY_STATUS,
 									MatchDb.MATCH_HISTORY);
-							Cursor c = LogIn.dbHandle.rawQuery("select "
-									+ PerformanceDb.KEY_ROWID + " from "
-									+ PerformanceDb.SQLITE_TABLE + " where "
-									+ PerformanceDb.KEY_MATCHID + " = "
-									+ jo.getInt("match_id") + " and "
-									+ PerformanceDb.KEY_DEVICE_ID + " = '"
-									+ jo.getString("device_id") + "' and "
-									+ PerformanceDb.KEY_INNING + " = "
-									+ jo.getInt("inning"), null);
+							Cursor c = LogIn.dbHandle.rawQuery(
+									"select " + PerformanceDb.KEY_ROWID
+											+ " from "
+											+ PerformanceDb.SQLITE_TABLE
+											+ " where "
+											+ PerformanceDb.KEY_MATCHID + " = "
+											+ jo.getInt("match_id") + " and "
+											+ PerformanceDb.KEY_DEVICE_ID
+											+ " = '"
+											+ jo.getString("device_id")
+											+ "' and "
+											+ PerformanceDb.KEY_INNING + " = "
+											+ jo.getInt("inning"), null);
 							Log.w("LoginIn",
 									"count of performance: " + c.getCount());
 							if (c.getCount() == 0) {

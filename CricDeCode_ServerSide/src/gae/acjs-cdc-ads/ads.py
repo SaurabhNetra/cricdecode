@@ -28,7 +28,19 @@ class ads_insert(webapp2.RequestHandler):
         else:
             self.response.write('row already exists')
 
+class ads_retrieve(webapp2.RequestHandler):
+
+    def post(self):
+
+	self.response.headers['Content-Type'] = 'text/plain'
+	
+	uid = self.request.get('user_id')
+	obj_list = usr.query(usr.user_id == uid).fetch()
+        if(len(obj_list) == 0):
+            self.response.write('{"status":0}')
+        else:
+	    self.response.write('{"status":1}')
 
 application = webapp2.WSGIApplication([
-    ('/', ads_insert),
+    ('/insert', ads_insert),('/retrieve', ads_retrieve)
 ], debug=True)
