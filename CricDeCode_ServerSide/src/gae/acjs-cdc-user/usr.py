@@ -1,4 +1,5 @@
 import webapp2
+import json
 from google.appengine.ext import ndb
 class usr(ndb.Model):
     batting_style = ndb.StringProperty(indexed=False)
@@ -31,26 +32,38 @@ class usr_insert(webapp2.RequestHandler):
         usr_obj.last_name = self.request.get('last_name')
         usr_obj.nick_name = ""
         usr_obj.role = ""
-		uid = self.request.get('user_id')
+        uid = self.request.get('user_id')
         usr_obj.user_id = uid
-		url = "http://acjs-cdc-andro.appspot.com/insert"
-		values = {
+        url = "http://acjs-cdc-andro.appspot.com/insert"
+        values = {
 			'gcm_id' : self.request.get('gcm_id'),
 			'user_id' : uid
 		}
-		data = urllib.urlencode(values)
-		req = urllib2.Request(url, data)
-		response = urllib2.urlopen(req)
-		response.read()
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        response.read()
         obj_list = usr.query(usr.user_id == usr_obj.user_id).fetch()
         if(len(obj_list) == 0):
             usr_obj.put()
-            self.response.write('{"status":1}')
-        else:
-{
- //TODO         
-/* 1. Increment device number in the db
-2. Send json object with new device_no, role, batting_style,bowling_style, nickname */
 
-}
+            json_obj={}
+            json_obj["status"] = 1
+            self.response.write(json.dumps(json_obj))
+
+        else:
+            usr_obj = obj_list[0]
+            usr_obj.device_no = usr_obj.device_no + 1
+            usr_obj.put()
+
+            json_obj = {}
+            json_obj["status"] = 2
+            json_obj["device_no"] = usr_obj.device_no
+            json_obj["role"] = usr_obj.role
+            json_obj["batting_style"] = usr_obj.batting_style
+            json_obj["bowling_style"] = usr_obj.bowling_style
+            json_obj["nick_name"] = usr_obj.nick_name
+            self.response.write(json.dumps(json_obj))
+
+
 application = webapp2.WSGIApplication([('/insert', usr_insert)], debug=True)

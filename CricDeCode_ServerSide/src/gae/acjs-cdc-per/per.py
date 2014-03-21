@@ -1,4 +1,5 @@
 import webapp2
+import json
 from google.appengine.ext import ndb
 
 class per(ndb.Model):
@@ -43,7 +44,7 @@ class per(ndb.Model):
     inning = ndb.IntegerProperty(indexed=True)
     match_id = ndb.IntegerProperty(indexed=True)
     per_id = ndb.IntegerProperty(indexed=False)
-    status = ndb.IntegerProperty(indexed=False)
+    status = ndb.IntegerProperty(indexed=True)
     user_id = ndb.StringProperty(indexed=True)
 
 class per_insert(webapp2.RequestHandler):
@@ -113,6 +114,72 @@ class per_insert(webapp2.RequestHandler):
             self.response.write('row already exists')
 
 
+class per_fetch(webapp2.RequestHandler):
+
+     def post(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+
+        user_id = self.request.get("user_id")
+        obj_list = per.query(ndb.AND(
+        per.user_id == user_id,
+        per.status == 0
+        )).fetch()
+
+        json_obj = {}
+        per_array = []
+        for obj in obj_list:
+            per_obj = {}
+
+            per_obj["bat_balls"] = obj.bat_balls
+            per_obj["bat_bowler_type"] = obj.bat_bowler_type
+            per_obj["bat_chances"] = obj.bat_chances
+            per_obj["bat_dismissal"] = obj.bat_dismissal
+            per_obj["bat_fielding_position"] = obj.bat_fielding_position
+            per_obj["bat_num"] = obj.bat_num
+            per_obj["bat_runs"] = obj.bat_runs
+            per_obj["bat_time"] = obj.bat_time
+            per_obj["bat_fours"] = obj.bat_fours
+            per_obj["bat_sixes"] = obj.bat_sixes
+
+            per_obj["bowl_balls"] = obj.bowl_balls
+            per_obj["bowl_catches_dropped"] = obj.bowl_catches_dropped
+            per_obj["bowl_fours"] = obj.bowl_fours
+            per_obj["bowl_maidens"] = obj.bowl_maidens
+            per_obj["bowl_no_balls"] = obj.bowl_no_balls
+            per_obj["bowl_runs"] = obj.bowl_runs
+            per_obj["bowl_sixes"] = obj.bowl_sixes
+            per_obj["bowl_spells"] = obj.bowl_spells
+            per_obj["bowl_wides"] = obj.bowl_wides
+            per_obj["bowl_wkts_left"] = obj.bowl_wkts_left
+            per_obj["bowl_wkts_right"] = obj.bowl_wkts_right
+
+            per_obj["field_byes"] = obj.field_byes
+            per_obj["field_catches_dropped"] = obj.field_catches_dropped
+            per_obj["field_circle_catch"] = obj.field_circle_catch
+            per_obj["field_close_catch"] = obj.field_close_catch
+            per_obj["field_deep_catch"] = obj.field_deep_catch
+            per_obj["field_misfield"] = obj.field_misfield
+            per_obj["field_ro_circle"] = obj.field_ro_circle
+            per_obj["field_ro_deep"] = obj.field_ro_deep
+            per_obj["field_ro_direct_circle"] = obj.field_ro_direct_circle
+            per_obj["field_ro_direct_deep"] = obj.field_ro_direct_deep
+            per_obj["field_slip_catch"] = obj.field_slip_catch
+            per_obj["field_stumpings"] = obj.field_stumpings
+
+            per_obj["inning"] = obj.inning
+            per_obj["match_id"] = obj.match_id
+            per_obj["per_id"] = obj.per_id
+            per_obj["status"] = obj.status
+            per_obj["user_id"] = obj.user_id
+
+            per_array.append(per_obj)
+
+
+        json_obj["performances"] = per_array
+        self.response.write(json.dumps(json_obj))
+
+
 application = webapp2.WSGIApplication([
-    ('/', per_insert),
+    ('/insert', per_insert),
+    ('/fetch', per_fetch),
 ], debug=True)
