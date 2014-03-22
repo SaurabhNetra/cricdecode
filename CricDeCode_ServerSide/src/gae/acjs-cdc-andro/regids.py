@@ -3,6 +3,7 @@ from google.appengine.ext import ndb
 class regids(ndb.Model):
     user_id = ndb.StringProperty(indexed=True)
     gcm_id = ndb.StringProperty(indexed=True)
+
 class regids_insert(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
@@ -31,4 +32,16 @@ class regids_insert(webapp2.RequestHandler):
         if(flag):
             regids_obj.put()
             self.response.write('1 row inserted')
-application = webapp2.WSGIApplication([('/insert', regids_insert)], debug=True)
+
+class regids_retrieve(webapp2.RequestHandler):
+    def post(self):
+        user_id = self.request.get('user_id')
+        obj_list = regids.query(regids.user_id == user_id).fetch()
+        regids_str = ''
+        for obj in obj_list:
+            regids_str = regids_str + obj.gcm_id + ' '
+        regids_str = regids_str.strip()
+        self.response.write(regids_str)
+
+application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),
+], debug=True)

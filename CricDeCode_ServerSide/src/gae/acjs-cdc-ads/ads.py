@@ -1,4 +1,5 @@
 import webapp2
+import json
 from google.appengine.ext import ndb
 
 class ads(ndb.Model):
@@ -33,13 +34,16 @@ class ads_retrieve(webapp2.RequestHandler):
     def post(self):
 
 	self.response.headers['Content-Type'] = 'text/plain'
-	
+
 	uid = self.request.get('user_id')
 	obj_list = usr.query(usr.user_id == uid).fetch()
-        if(len(obj_list) == 0):
-            self.response.write('{"status":0}')
-        else:
-	    self.response.write('{"status":1}')
+    json_obj = {}
+    if(len(obj_list) == 0):
+        json_obj["status"] = 0
+        self.response.write(json.dumps(obj))
+    else:
+        json_obj["status"] = 1
+        self.response.write(json.dumps(obj))
 
 application = webapp2.WSGIApplication([
     ('/insert', ads_insert),('/retrieve', ads_retrieve)

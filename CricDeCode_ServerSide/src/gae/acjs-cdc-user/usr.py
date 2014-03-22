@@ -1,5 +1,7 @@
 import webapp2
 import json
+import urllib
+import urllib2
 from google.appengine.ext import ndb
 class usr(ndb.Model):
     batting_style = ndb.StringProperty(indexed=False)
@@ -65,5 +67,17 @@ class usr_insert(webapp2.RequestHandler):
             json_obj["nick_name"] = usr_obj.nick_name
             self.response.write(json.dumps(json_obj))
 
+class usr_update(webapp2.RequestHandler):
+    def post(self):
+        user_id = self.request.get('user_id')
 
-application = webapp2.WSGIApplication([('/insert', usr_insert)], debug=True)
+        obj_list = usr.query(usr.user_id == user_id).fetch()
+        obj = obj_list[0]
+        obj.role = self.request.get('role')
+        obj.nick_name = self.request.get('nick_name')
+        obj.batting_style = self.request.get('batting_style')
+        obj.bowling_style = self.request.get('bowling_style')
+        obj.put()
+
+application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),
+], debug=True)
