@@ -1,5 +1,7 @@
 import webapp2
 import json
+import urllib
+import urllib2
 from google.appengine.ext import ndb
 
 class crkmatch(ndb.Model):
@@ -25,22 +27,24 @@ class crkmatch_insert(webapp2.RequestHandler):
 
         self.response.headers['Content-Type'] = 'text/plain'
 
+        match_json = json.loads(self.request.get('matchData'))
+
         crkmatch_obj = crkmatch()
-        crkmatch_obj.device_id = int(self.request.get('device_id'))
-        crkmatch_obj.duration = self.request.get('duration')
-        crkmatch_obj.first_action = self.request.get('first_action')
-        crkmatch_obj.innings = int(self.request.get('innings'))
-        crkmatch_obj.level = self.request.get('level')
-        crkmatch_obj.match_date = self.request.get('match_date')
-        crkmatch_obj.match_id = int(self.request.get('match_id'))
-        crkmatch_obj.my_team = self.request.get('my_team')
-        crkmatch_obj.opponent_team = self.request.get('opponent_team')
-        crkmatch_obj.overs = int(self.request.get('overs'))
-        crkmatch_obj.result = self.request.get('result')
-        crkmatch_obj.review = self.request.get('review')
-        crkmatch_obj.status = int(self.request.get('status'))
-        crkmatch_obj.user_id = self.request.get('user_id')
-        crkmatch_obj.venue = self.request.get('venue')
+        crkmatch_obj.device_id = match_json['device_id']
+        crkmatch_obj.duration = match_json['duration']
+        crkmatch_obj.first_action = match_json['first_action']
+        crkmatch_obj.innings = match_json['innings']
+        crkmatch_obj.level = match_json['level']
+        crkmatch_obj.match_date = match_json['match_date']
+        crkmatch_obj.match_id = match_json['match_id']
+        crkmatch_obj.my_team = match_json['my_team']
+        crkmatch_obj.opponent_team = match_json['opponent_team']
+        crkmatch_obj.overs = match_json['overs']
+        crkmatch_obj.result = match_json['result']
+        crkmatch_obj.review = match_json['review']
+        crkmatch_obj.status = match_json['status']
+        crkmatch_obj.user_id = match_json['user_id']
+        crkmatch_obj.venue = match_json['venue']
 
         obj_list = crkmatch.query(
         ndb.AND(
@@ -48,11 +52,25 @@ class crkmatch_insert(webapp2.RequestHandler):
         crkmatch.match_id ==crkmatch_obj.match_id,
         crkmatch.device_id ==crkmatch_obj.device_id
         )).fetch()
+
+        per_response = {}
+        per_response["status"] = 0
+
         if(len(obj_list) == 0):
+
             crkmatch_obj.put()
-            self.response.write('1 row inserted')
+
+            url = "http://acjs-cdc-per.appspot.com/insert"
+            values = {}
+            values['perData'] = self.request.get('perData')
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+            per_response = json.loads(response.read())
+
+            self.response.write(json.dumps(per_response))
         else:
-            self.response.write('row already exists')
+             self.response.write(json.dumps(per_response))
 
 class crkmatch_fetch(webapp2.RequestHandler):
 

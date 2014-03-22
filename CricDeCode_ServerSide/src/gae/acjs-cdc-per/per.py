@@ -53,65 +53,70 @@ class per_insert(webapp2.RequestHandler):
 
         self.response.headers['Content-Type'] = 'text/plain'
 
-        per_obj = per()
+        per_json = json.loads(self.request.get('perData'))
+        per_array = per_json["per"]
 
-        per_obj.bat_balls = int(self.request.get('bat_balls'))
-        per_obj.bat_bowler_type = self.request.get('bat_bowler_type')
-        per_obj.bat_chances = int(self.request.get('bat_chances'))
-        per_obj.bat_dismissal = self.request.get('bat_dismissal')
-        per_obj.bat_fielding_position = self.request.get('bat_fielding_position')
-        per_obj.bat_num = int(self.request.get('bat_num'))
-        per_obj.bat_runs = int(self.request.get('bat_runs'))
-        per_obj.bat_time = int(self.request.get('bat_time'))
-        per_obj.bat_fours = int(self.request.get('bat_fours'))
-        per_obj.bat_sixes = int(self.request.get('bat_sixes'))
+        per_response = {}
+        per_response["status"] = 1
 
-        per_obj.bowl_balls = int(self.request.get('bowl_balls'))
-        per_obj.bowl_catches_dropped = int(self.request.get('bowl_catches_dropped'))
-        per_obj.bowl_fours = int(self.request.get('bowl_fours'))
-        per_obj.bowl_maidens = int(self.request.get('bowl_maidens'))
-        per_obj.bowl_no_balls = int(self.request.get('bowl_no_balls'))
-        per_obj.bowl_runs = int(self.request.get('bowl_runs'))
-        per_obj.bowl_sixes = int(self.request.get('bowl_sixes'))
-        per_obj.bowl_spells = int(self.request.get('bowl_spells'))
-        per_obj.bowl_wides = int(self.request.get('bowl_wides'))
-        per_obj.bowl_wkts_left = int(self.request.get('bowl_wkts_left'))
-        per_obj.bowl_wkts_right = int(self.request.get('bowl_wkts_right'))
+        for per_obj in per_array:
+            perf_obj = per()
 
-        per_obj.device_id = int(self.request.get('device_id'))
+            perf_obj.bat_balls = per_obj['bat_balls']
+            perf_obj.bat_bowler_type = per_obj['bat_bowler_type']
+            perf_obj.bat_chances = per_obj['bat_chances']
+            perf_obj.bat_dismissal = per_obj['bat_dismissal']
+            perf_obj.bat_fielding_position = per_obj['bat_fielding_position']
+            perf_obj.bat_num = per_obj['bat_num']
+            perf_obj.bat_runs = per_obj['bat_runs']
+            perf_obj.bat_time = per_obj['bat_time']
+            perf_obj.bat_fours = per_obj['bat_fours']
+            perf_obj.bat_sixes = per_obj['bat_sixes']
 
-        per_obj.field_byes = int(self.request.get('field_byes'))
-        per_obj.field_catches_dropped = int(self.request.get('field_catches_dropped'))
-        per_obj.field_circle_catch = int(self.request.get('field_circle_catch'))
-        per_obj.field_close_catch = int(self.request.get('field_close_catch'))
-        per_obj.field_deep_catch = int(self.request.get('field_deep_catch'))
-        per_obj.field_misfield = int(self.request.get('field_misfield'))
-        per_obj.field_ro_circle = int(self.request.get('field_ro_circle'))
-        per_obj.field_ro_deep = int(self.request.get('field_ro_deep'))
-        per_obj.field_ro_direct_circle = int(self.request.get('field_ro_direct_circle'))
-        per_obj.field_ro_direct_deep = int(self.request.get('field_ro_direct_deep'))
-        per_obj.field_slip_catch = int(self.request.get('field_slip_catch'))
-        per_obj.field_stumpings = int(self.request.get('field_stumpings'))
+            perf_obj.bowl_balls = per_obj['bowl_balls']
+            perf_obj.bowl_catches_dropped = per_obj['bowl_catches_dropped']
+            perf_obj.bowl_fours = per_obj['bowl_fours']
+            perf_obj.bowl_maidens = per_obj['bowl_maidens']
+            perf_obj.bowl_no_balls = per_obj['bowl_no_balls']
+            perf_obj.bowl_runs = per_obj['bowl_runs']
+            perf_obj.bowl_sixes = per_obj['bowl_sixes']
+            perf_obj.bowl_spells = per_obj['bowl_spells']
+            perf_obj.bowl_wides = per_obj['bowl_wides']
+            perf_obj.bowl_wkts_left = per_obj['bowl_wkts_left']
+            perf_obj.bowl_wkts_right = per_obj['bowl_wkts_right']
 
-        per_obj.inning = int(self.request.get('inning'))
-        per_obj.match_id = int(self.request.get('match_id'))
-        per_obj.per_id = int(self.request.get('per_id'))
-        per_obj.status = int(self.request.get('status'))
-        per_obj.user_id = self.request.get('user_id')
+            perf_obj.device_id = per_obj['device_id']
 
+            perf_obj.field_byes = per_obj['field_byes']
+            perf_obj.field_catches_dropped = per_obj['field_catches_dropped']
+            perf_obj.field_circle_catch = per_obj['field_circle_catch']
+            perf_obj.field_close_catch = per_obj['field_close_catch']
+            perf_obj.field_deep_catch = per_obj['field_deep_catch']
+            perf_obj.field_misfield = per_obj['field_misfield']
+            perf_obj.field_ro_circle = per_obj['field_ro_circle']
+            perf_obj.field_ro_deep = per_obj['field_ro_deep']
+            perf_obj.field_ro_direct_circle = per_obj['field_ro_direct_circle']
+            perf_obj.field_ro_direct_deep = per_obj['field_ro_direct_deep']
+            perf_obj.field_slip_catch = per_obj['field_slip_catch']
+            perf_obj.field_stumpings = per_obj['field_stumpings']
+            perf_obj.inning = per_obj['inning']
+            perf_obj.match_id = per_obj['match_id']
+            perf_obj.per_id = per_obj['per_id']
+            perf_obj.status = per_obj['status']
+            perf_obj.user_id = per_obj['user_id']
 
-        obj_list = per.query(
-        ndb.AND(
-        per.user_id == per_obj.user_id,
-        per.match_id == per_obj.match_id,
-        per.device_id == per_obj.device_id,
-        per.inning == per_obj.inning
-        )).fetch()
-        if(len(obj_list) == 0):
-            per_obj.put()
-            self.response.write('1 row inserted')
-        else:
-            self.response.write('row already exists')
+            obj_list = serverdbperformance.query(
+            ndb.AND(
+            per.user_id == perf_obj.user_id,
+            per.match_id == perf_obj.match_id,
+            per.device_id == perf_obj.device_id,
+            per.inning == perf_obj.inning
+            )).fetch()
+            if(len(obj_list) == 0):
+                perf_obj.put()
+            else:
+                per_response["status"] = 0
+        self.response.write(json.dumps(per_response))
 
 
 class per_fetch(webapp2.RequestHandler):
