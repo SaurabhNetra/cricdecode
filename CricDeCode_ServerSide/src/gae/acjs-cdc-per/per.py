@@ -56,9 +56,6 @@ class per_insert(webapp2.RequestHandler):
         per_json = json.loads(self.request.get('perData'))
         per_array = per_json["per"]
 
-        per_response = {}
-        per_response["status"] = 1
-
         for per_obj in per_array:
             perf_obj = per()
 
@@ -114,8 +111,9 @@ class per_insert(webapp2.RequestHandler):
             )).fetch()
             if(len(obj_list) == 0):
                 perf_obj.put()
-            else:
-                per_response["status"] = 0
+
+        per_response = {}
+        per_response["status"] = 1
         self.response.write(json.dumps(per_response))
 
 

@@ -53,9 +53,6 @@ class crkmatch_insert(webapp2.RequestHandler):
         crkmatch.device_id ==crkmatch_obj.device_id
         )).fetch()
 
-        per_response = {}
-        per_response["status"] = 0
-
         if(len(obj_list) == 0):
 
             crkmatch_obj.put()
@@ -68,9 +65,9 @@ class crkmatch_insert(webapp2.RequestHandler):
             response = urllib2.urlopen(req)
             per_response = json.loads(response.read())
 
-            self.response.write(json.dumps(per_response))
-        else:
-             self.response.write(json.dumps(per_response))
+        per_response = {}
+        per_response["status"] = 1
+        self.response.write(json.dumps(per_response))
 
 class crkmatch_fetch(webapp2.RequestHandler):
 
