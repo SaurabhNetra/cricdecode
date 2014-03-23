@@ -199,43 +199,6 @@ public class LogIn extends SherlockActivity {
 		onActivityResult = false;
 	}
 
-	public static String decrypt(String val1, String val2, String val3,
-			String val4, String seq, int ci) {
-		String val = val2 + val4 + val1 + val3;
-		int num = val.length() / 10;
-		char h[][] = new char[num + 1][10];
-		int start = 0;
-		int end = 10;
-		for (int i = 0; i < num; i++) {
-			String s = val.substring(start, end);
-			h[i] = s.toCharArray();
-			start = end;
-			end = end + 10;
-		}
-		h[num] = val.substring(start, val.length()).toCharArray();
-		char[][] un = new char[10][num];
-		char s[] = seq.toCharArray();
-		for (int i = 0; i < num; i++) {
-			for (int j = 0; j < 10; j++) {
-				String n = new String("" + s[j]);
-				int ind = Integer.parseInt(n);
-				un[ind][i] = h[i][j];
-			}
-		}
-		String dec = "";
-		for (int i = 0; i < 10; i++) {
-			String n = new String(un[i]);
-			dec = dec + n;
-		}
-		String ex = new String(h[num]);
-		dec = dec + ex;
-		char[] us = dec.toCharArray();
-		char[] sh = new char[us.length];
-		for (int i = 0; i < us.length; i++) {
-			sh[i] = (char) (us[i] - ci);
-		}
-		return new String(sh);
-	}
 
 	void GCMRegistration() {
 		progressText.setText("Phase 2 of 3...");
@@ -676,9 +639,10 @@ public class LogIn extends SherlockActivity {
 				JSONObject jn = null;
 				while (jsonParser.isOnline(login_activity)) {
 					Log.w("JSONParser", "usertable:: Called");
-					jn = jsonParser.makeHttpRequest(login_activity
-							.getResources().getString(R.string.purchase_infi),
-							"POST", params, login_activity);
+					jn = jsonParser.makeHttpRequest(
+							login_activity.getResources().getString(
+									R.string.gae_user_insert), "POST", params,
+							login_activity);
 					Log.w("JSON returned", "usertable:: " + jn);
 					Log.w("trial value", "usertable:: " + trial);
 					if (jn != null)
@@ -722,7 +686,7 @@ public class LogIn extends SherlockActivity {
 							// ping to gae ads table
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
-											R.string.purchase_infi), "POST",
+											R.string.gae_ads_retrieve), "POST",
 									params, login_activity);
 							Log.w("JSON returned", "chk_removeads:: " + jn);
 							Log.w("trial value", "chk_removeads:: " + trial);
@@ -753,11 +717,11 @@ public class LogIn extends SherlockActivity {
 						jn = null;
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_subinfi:: Called");
-							// Ping to gae purchase infi table 
+							// Ping to gae purchase infi table
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
-											R.string.purchase_infi), "POST",
-									params, login_activity);
+											R.string.gae_infi_retrieve),
+									"POST", params, login_activity);
 							Log.w("JSON returned", "chk_subinfi:: " + jn);
 							Log.w("trial value", "chk_subinfi:: " + trial);
 							if (jn != null)
@@ -790,8 +754,8 @@ public class LogIn extends SherlockActivity {
 							// Ping to gae purchase infisync table
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
-											R.string.purchase_infi), "POST",
-									params, login_activity);
+											R.string.gae_infisync_retrieve), "POST", params,
+									login_activity);
 							Log.w("JSON returned", "chk_subinfisync:: " + jn);
 							Log.w("trial value", "chk_subinfisync:: " + trial);
 							if (jn != null)
@@ -822,10 +786,10 @@ public class LogIn extends SherlockActivity {
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_subsync:: Called");
 							// Ping to gae purchase infisync table
-							jn = jsonParser.makeHttpRequest(
-									login_activity.getResources().getString(
-											R.string.purchase_infi), "POST",
-									params, login_activity);
+							jn = jsonParser.makeHttpRequest(login_activity
+									.getResources()
+									.getString(R.string.gae_sync_retrieve), "POST", params,
+									login_activity);
 							Log.w("JSON returned", "chk_subsync:: " + jn);
 							Log.w("trial value", "chk_subsync:: " + trial);
 							if (jn != null)
@@ -858,7 +822,7 @@ public class LogIn extends SherlockActivity {
 							// fetch matches where status=0
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
-											R.string.purchase_infi), "POST",
+											R.string.gae_match_fetch), "POST",
 									params, login_activity);
 							Log.w("JSON returned", "get_matches:: " + jn);
 							Log.w("trial value", "get_matches:: " + trial);
@@ -942,7 +906,7 @@ public class LogIn extends SherlockActivity {
 							// fetch performances where status=0
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
-											R.string.purchase_infi), "POST",
+											R.string.gae_per_fetch), "POST",
 									params, login_activity);
 							Log.w("JSON returned", "get_performances:: " + jn);
 							Log.w("trial value", "get_performances:: " + trial);

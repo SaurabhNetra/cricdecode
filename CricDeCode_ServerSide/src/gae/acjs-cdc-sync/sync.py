@@ -78,7 +78,7 @@ class sync_check(webapp2.RequestHandler):
                 json_obj["reg_ids"] = regids_str
                 self.response.write(json.dumps(json_obj))
             else:
-                url = "Azure url to be inserted"
+                url = "http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php"
                 values = {}
                 values['order_id'] = obj.order_id
                 values['sign'] = obj.sign

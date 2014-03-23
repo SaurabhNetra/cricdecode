@@ -13,8 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.stackmob.android.sdk.common.StackMobAndroid;
-
 public class ProfileEditService extends IntentService {
 	public static boolean started = true;
 	public static Context who;
@@ -27,11 +25,7 @@ public class ProfileEditService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		who = this;
-		StackMobAndroid.init(
-				getApplicationContext(),
-				1,
-				decrypt("5g28><6hi=2", "26j6jff", "29>5h;<=8>", "f8=f=if5",
-						"6103927458", 5));
+		
 		Log.w("ProfileEditService", "Started");
 	}
 
@@ -39,44 +33,6 @@ public class ProfileEditService extends IntentService {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.w("ProfileEditService", "Ended");
-	}
-
-	public static String decrypt(String val1, String val2, String val3,
-			String val4, String seq, int ci) {
-		String val = val2 + val4 + val1 + val3;
-		int num = val.length() / 10;
-		char h[][] = new char[num + 1][10];
-		int start = 0;
-		int end = 10;
-		for (int i = 0; i < num; i++) {
-			String s = val.substring(start, end);
-			h[i] = s.toCharArray();
-			start = end;
-			end = end + 10;
-		}
-		h[num] = val.substring(start, val.length()).toCharArray();
-		char[][] un = new char[10][num];
-		char s[] = seq.toCharArray();
-		for (int i = 0; i < num; i++) {
-			for (int j = 0; j < 10; j++) {
-				String n = new String("" + s[j]);
-				int ind = Integer.parseInt(n);
-				un[ind][i] = h[i][j];
-			}
-		}
-		String dec = "";
-		for (int i = 0; i < 10; i++) {
-			String n = new String(un[i]);
-			dec = dec + n;
-		}
-		String ex = new String(h[num]);
-		dec = dec + ex;
-		char[] us = dec.toCharArray();
-		char[] sh = new char[us.length];
-		for (int i = 0; i < us.length; i++) {
-			sh[i] = (char) (us[i] - ci);
-		}
-		return new String(sh);
 	}
 
 	@Override
@@ -114,10 +70,9 @@ public class ProfileEditService extends IntentService {
 				JSONObject jn = null;
 				while (jsonParser.isOnline(who)) {
 					Log.w("JSONParser", "ProfileEditService: Called");
-					//TODO ping gae
 					jn = jsonParser.makeHttpRequest(
 							getResources()
-									.getString(R.string.edit_profile_sync),
+									.getString(R.string.gae_user_insert),
 							"POST", params, who);
 					Log.w("JSON returned", "ProfileEditService: " + jn);
 					Log.w("trial value", "ProfileEditService: " + trial);

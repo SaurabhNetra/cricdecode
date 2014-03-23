@@ -8,27 +8,31 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="fb_app_id">682146731813576</string>
 
-    <!-- Links -->
-
-
-    <!--
-    <string name="initdata">http://cdc.acjs.co/sync/initdata.php</string>
-    <string name="edit_profile_sync">http://www.cdc.acjs.co/sync/upload_profiledata.php</string>
-    <string name="match_create_sync">http://cdc.acjs.co/sync/upload_matchcreate.php</string>
-    <string name="match_delete">http://cdc.acjs.co/sync/delete_match.php</string>
-     <string name="purchase_remove_ads_sync">http://cdc.acjs.co/sync/uPremove_ads.php</string>
-    <string name="purchase_infi_sync">http://cdc.acjs.co/sync/uPinfi.php</string>
-    <string name="purchase_infi">http://cdc.acjs.co/sync/uPinfiSync.php</string>
-    <string name="check_purchase_remove_ads">http://cdc.acjs.co/sync/chkPurchaseRemoveAds.php</string>
-    <string name="check_purchase_infi_use">http://cdc.acjs.co/sync/chkPurchaseInfiUse.php</string>
-    <string name="check_purchase_infi_sync">http://cdc.acjs.co/sync/chkPurchaseInfiSync.php</string>
-    -->
-
-    <string name="edit_profile_sync">http://acjs.azurewebsites.net/acjs/CDCgcm.php</string>
-    <string name="purchase_remove_ads_sync">http://acjs.azurewebsites.net/acjs/CDCInAppPurchase.php</string>
-    <string name="purchase_infi_sync">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchase.php</string>
-    <string name="purchase_infi">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchase.php</string>
-    <string name="send_mail">http://www.cdc.acjs.co/EmAiL.php</string>
+  
+    <string name="azure_sendgcm">http://acjs.azurewebsites.net/acjs/CDCgcm_vGAE.php</string>
+    <string name="azure_subscription_chk">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php</string>
+    <string name="azure_inapppurchase">http://acjs.azurewebsites.net/acjs/CDCInAppPurchase_vGAE.php</string>
+    <string name="azure_subscription">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchase_vGAE.php</string>
+    <string name="gae_ads_insert">http://cdc-acjs-ads.appspot.com/insert</string>
+    <string name="gae_ads_retrieve">http://cdc-acjs-ads.appspot.com/retrieve</string>
+    <string name="gae_andro_insert">http://cdc-acjs-andro.appspot.com/insert</string>
+    <string name="gae_andro_retrieve">http://cdc-acjs-andro.appspot.com/retrieve</string>
+    <string name="gae_infi_insert">http://cdc-acjs-infi.appspot.com/insert</string>
+    <string name="gae_infi_retrieve">http://cdc-acjs-infi.appspot.com/retrieve</string>
+    <string name="gae_infi_check">http://cdc-acjs-infi.appspot.com/check</string>
+    <string name="gae_infisync_insert">http://cdc-acjs-infisync.appspot.com/insert</string>
+    <string name="gae_infisync_retrieve">http://cdc-acjs-infisync.appspot.com/retrieve</string>
+    <string name="gae_infisync_check">http://cdc-acjs-infisync.appspot.com/check</string>
+    <string name="gae_match_insert">http://cdc-acjs-match.appspot.com/insert</string>
+    <string name="gae_match_fetch">http://cdc-acjs-match.appspot.com/fetch</string>
+    <string name="gae_per_insert">http://cdc-acjs-per.appspot.com/insert</string>
+    <string name="gae_per_fetch">http://cdc-acjs-per.appspot.com/fetch</string>
+    <string name="gae_sync_insert">http://cdc-acjs-sync.appspot.com/insert</string>
+    <string name="gae_sync_retrieve">http://cdc-acjs-sync.appspot.com/retrieve</string>
+    <string name="gae_sync_check">http://cdc-acjs-sync.appspot.com/check</string>
+    <string name="gae_user_insert">http://cdc-acjs-user.appspot.com/insert</string>
+    <string name="gae_user_update">http://cdc-acjs-user.appspot.com/update</string>
+    
     <!-- Sign In Service -->
     <string name="projno">899334271790</string>
 
@@ -67,7 +71,7 @@
     <string-array name="support_list_item">
         <item>Terms of Service</item>
         <item>Privacy Policy</item>
-        <item>Support</item>        
+        <item>Support</item>
         <item>Share this App</item>
         <item>Version</item>
         <item>Feedback</item>

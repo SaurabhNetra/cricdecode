@@ -313,25 +313,12 @@ public class MainActivity extends SherlockFragmentActivity {
 																			.getPurchase(SKU_REMOVE_ADS);
 																	if (p1.getDeveloperPayload()
 																			.equals(getMD5())) {
-																		if (isOnline(MainActivity.main_context)) {
-																			JSONObject jo = new JSONObject();
-																			try {
-																				jo.put("orderId",
-																						p1.getOrderId());
-																				jo.put("Token",
-																						p1.getToken());
-																				jo.put("Sign",
-																						p1.getSignature());
-																				Intent i = new Intent(
-																						MainActivity.main_context,
-																						CheckPurchasedAdRemovalService.class);
-																				i.putExtra(
-																						"json",
-																						jo.toString());
-																				startService(i);
-																			} catch (JSONException e) {
-																			}
-																		}
+																		AccessSharedPrefs
+																				.setString(
+																						main_context,
+																						"ad_free",
+																						"yes");
+
 																	} else {
 																		AccessSharedPrefs
 																				.setString(
@@ -881,6 +868,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		// If AdRemovePerchased do it //ad_free //infi_use //infi_sync
 		if (AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")) {
 			adView.setVisibility(View.GONE);
+			findViewById(R.id.padding_bottom_frame).setBackgroundColor(getResources().getColor(R.color.transparent));;
 		} else {
 			adView.setVisibility(View.VISIBLE);
 		}
@@ -1026,11 +1014,6 @@ public class MainActivity extends SherlockFragmentActivity {
 							"restart service");
 					startService(new Intent(main_context,
 							PurchasedInfiSyncService.class));
-				}
-				if (NotSyncedGCMSync & isConnected) {
-					Log.w("Starting PurchasedInfiSyncService",
-							"restart service");
-					startService(new Intent(main_context, GCMSyncService.class));
 				}
 				if (NotSynced & isConnected) {
 					Log.w("Starting PurchasedSyncService", "restart service");

@@ -73,12 +73,8 @@
         <service android:name="MatchHistorySyncService" />
         <service android:name="PurchasedAdRemovalService" />
         <service android:name="PurchasedInfiService" />
-        <service android:name="CheckPurchasedAdRemovalService" />
-        <service android:name="CheckPurchaseInfiService" />
-        <service android:name="CheckPurchaseInfiSync" />
         <service android:name="DeleteMatchService" />
         <service android:name="PurchasedInfiSyncService" />
-        <service android:name="GCMSyncService" />
         <service android:name=".GCMIntentService" />
 
         <activity
