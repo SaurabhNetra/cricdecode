@@ -41,23 +41,39 @@ class regids_retrieve(webapp2.RequestHandler):
         for obj in obj_list:
             regids_str = regids_str + obj.gcm_id + ' '
         regids_str = regids_str.strip()
-	json_obj = {}
-	json_obj["reg_ids"] = regids_str
-	self.response.write(json.dumps(json_obj))
+        json_obj = {}
+        json_obj["reg_ids"] = regids_str
+        self.response.write(json.dumps(json_obj))
 
 class regids_delete(webapp2.RequestHandler):
     def post(self):
-	user_id = self.request.get('user_id')
-	reg_id = self.request.get('gcm_id')
-	#Delete the row where user_id and gcm_id
+        user_id = self.request.get('user_id')
+        reg_id = self.request.get('gcm_id')
+        #Delete the row where user_id and gcm_id
+        obj_list = regids.query(ndb.AND(regids.user_id == user_id,regids.gcm_id == reg_id)).fetch()
+        if len(obj_list)!=0:
+            obj_key = obj_list[0].put()
+            obj_key.delete()
 
 class regids_update(webapp2.RequestHandler):
     def post(self):
-	user_id = self.request.get('user_id')
-	old_reg = self.request.get('old_reg')
-	new_reg = self.request.get('new_reg')
-	#Delete the row where user_id and old_reg, if it exists
-	#insert new row - user_id and new_reg (same as regids_insert)
+        user_id = self.request.get('user_id')
+        old_reg = self.request.get('old_reg')
+        new_reg = self.request.get('new_reg')
+        #Delete the row where user_id and old_reg, if it exists
+        obj_list = regids.query(ndb.AND(regids.user_id == user_id,regids.gcm_id == old_reg)).fetch()
+        if len(obj_list)!=0:
+            obj_key = obj_list[0].put()
+            obj_key.delete()
+
+
+        #insert new row - user_id and new_reg (same as regids_insert)
+        regids_obj = regids()
+        regids_obj.user_id = user_id
+        regids_obj.gcm_id = new_reg
+        obj_list = regids.query(ndb.OR(regids.user_id == regids_obj.user_id,regids.gcm_id == regids_obj.gcm_id)).fetch()
+        if(len(obj_list) == 0):
+            regids_obj.put()
 
 
 application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),('/delete', regids_delete),('/update', regids_update)
