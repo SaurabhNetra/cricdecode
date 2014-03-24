@@ -25,9 +25,9 @@ class ads_insert(webapp2.RequestHandler):
         obj_list = ads.query(ads.user_id == ads_obj.user_id).fetch()
         if(len(obj_list) == 0):
             ads_obj.put()
-            self.response.write('1 row inserted')
-        else:
-            self.response.write('row already exists')
+	json_obj = {}
+        json_obj["status"] = 1
+        self.response.write(json.dumps(obj))
 
 class ads_retrieve(webapp2.RequestHandler):
 

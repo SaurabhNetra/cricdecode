@@ -41,7 +41,24 @@ class regids_retrieve(webapp2.RequestHandler):
         for obj in obj_list:
             regids_str = regids_str + obj.gcm_id + ' '
         regids_str = regids_str.strip()
-        self.response.write(regids_str)
+	json_obj = {}
+	json_obj["reg_ids"] = regids_str
+	self.response.write(json.dumps(json_obj))
 
-application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),
+class regids_delete(webapp2.RequestHandler):
+    def post(self):
+	user_id = self.request.get('user_id')
+	reg_id = self.request.get('gcm_id')
+	#Delete the row where user_id and gcm_id
+
+class regids_update(webapp2.RequestHandler):
+    def post(self):
+	user_id = self.request.get('user_id')
+	old_reg = self.request.get('old_reg')
+	new_reg = self.request.get('new_reg')
+	#Delete the row where user_id and old_reg, if it exists
+	#insert new row - user_id and new_reg (same as regids_insert)
+
+
+application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),('/delete', regids_delete),('/update', regids_update)
 ], debug=True)
