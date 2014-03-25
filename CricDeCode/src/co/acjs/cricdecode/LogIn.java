@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +29,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +83,7 @@ public class LogIn extends SherlockActivity {
 		loginButton.setReadPermissions(permissions);
 		loginButton.setApplicationId(getResources().getString(
 				R.string.fb_app_id));
+		writeToFile("On create");
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
 			@Override
 			public void call(Session session, SessionState state,
@@ -96,6 +101,7 @@ public class LogIn extends SherlockActivity {
 								public void onCompleted(GraphUser user,
 										Response response) {
 									if (user != null) {
+										writeToFile("facebook login complete");
 										Log.w("Face Book Login Complete 1",
 												"LogIn: " + user.getBirthday());
 										LogIn.user = user;
@@ -107,6 +113,7 @@ public class LogIn extends SherlockActivity {
 				}
 			}
 		});
+		writeToFile("outside ");
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
@@ -199,10 +206,10 @@ public class LogIn extends SherlockActivity {
 		onActivityResult = false;
 	}
 
-
 	void GCMRegistration() {
 		progressText.setText("Phase 2 of 3...");
 
+		writeToFile("calling gcm register");
 		client = getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider) client
@@ -265,6 +272,7 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
+			writeToFile("calling gcm register : "+regid);
 			if (regid == null)
 				((LogIn) login_activity).GCMRegistration();
 			else {
@@ -621,6 +629,7 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "gcm_reg_id", gcm_reg_id);
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
+		writeToFile("in start app");
 
 		Thread thread = new Thread() {
 			@Override
@@ -634,6 +643,7 @@ public class LogIn extends SherlockActivity {
 				params.add(new BasicNameValuePair("dob", user.getBirthday()));
 				params.add(new BasicNameValuePair("user_id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
+				writeToFile("storing sp: "+user.getFirstName());
 				JSONParser jsonParser = new JSONParser();
 				int trial = 1;
 				JSONObject jn = null;
@@ -645,6 +655,7 @@ public class LogIn extends SherlockActivity {
 							login_activity);
 					Log.w("JSON returned", "usertable:: " + jn);
 					Log.w("trial value", "usertable:: " + trial);
+					writeToFile("usertable:: " + jn);
 					if (jn != null)
 						break;
 					try {
@@ -754,8 +765,8 @@ public class LogIn extends SherlockActivity {
 							// Ping to gae purchase infisync table
 							jn = jsonParser.makeHttpRequest(
 									login_activity.getResources().getString(
-											R.string.gae_infisync_retrieve), "POST", params,
-									login_activity);
+											R.string.gae_infisync_retrieve),
+									"POST", params, login_activity);
 							Log.w("JSON returned", "chk_subinfisync:: " + jn);
 							Log.w("trial value", "chk_subinfisync:: " + trial);
 							if (jn != null)
@@ -786,10 +797,10 @@ public class LogIn extends SherlockActivity {
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_subsync:: Called");
 							// Ping to gae purchase infisync table
-							jn = jsonParser.makeHttpRequest(login_activity
-									.getResources()
-									.getString(R.string.gae_sync_retrieve), "POST", params,
-									login_activity);
+							jn = jsonParser.makeHttpRequest(
+									login_activity.getResources().getString(
+											R.string.gae_sync_retrieve),
+									"POST", params, login_activity);
 							Log.w("JSON returned", "chk_subsync:: " + jn);
 							Log.w("trial value", "chk_subsync:: " + trial);
 							if (jn != null)
@@ -1067,4 +1078,33 @@ public class LogIn extends SherlockActivity {
 		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
+
+public static void writeToFile(String data) {
+
+		try {
+
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+
+			if (!root.exists()) {
+
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "logintest.txt");
+
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+
+			writer.close();
+
+		} catch (IOException e) {
+
+			Log.e("Exception", "File write failed: " + e.toString());
+
+		}
+
+	}
+
 }

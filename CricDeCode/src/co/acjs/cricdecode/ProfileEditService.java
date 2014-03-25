@@ -47,20 +47,20 @@ public class ProfileEditService extends IntentService {
 			try {
 				final JSONParser jsonParser = new JSONParser();
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("uid",
+				params.add(new BasicNameValuePair("user_id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
-				params.add(new BasicNameValuePair("uid",
+				params.add(new BasicNameValuePair("nick_name",
 						AccessSharedPrefs.mPrefs.getString("nickname",
 								AccessSharedPrefs.mPrefs.getString("nickname",
 										""))));
-				params.add(new BasicNameValuePair("uid",
+				params.add(new BasicNameValuePair("role",
 						AccessSharedPrefs.mPrefs.getString("role",
 								AccessSharedPrefs.mPrefs.getString("role", ""))));
-				params.add(new BasicNameValuePair("uid",
+				params.add(new BasicNameValuePair("bowling_style",
 						AccessSharedPrefs.mPrefs.getString("bowlingStyle",
 								AccessSharedPrefs.mPrefs.getString(
 										"bowlingStyle", ""))));
-				params.add(new BasicNameValuePair("uid",
+				params.add(new BasicNameValuePair("batting_style",
 						AccessSharedPrefs.mPrefs.getString("battingStyle",
 								AccessSharedPrefs.mPrefs.getString(
 										"battingStyle", ""))));
@@ -72,7 +72,7 @@ public class ProfileEditService extends IntentService {
 					Log.w("JSONParser", "ProfileEditService: Called");
 					jn = jsonParser.makeHttpRequest(
 							getResources()
-									.getString(R.string.gae_user_insert),
+									.getString(R.string.gae_user_update),
 							"POST", params, who);
 					Log.w("JSON returned", "ProfileEditService: " + jn);
 					Log.w("trial value", "ProfileEditService: " + trial);

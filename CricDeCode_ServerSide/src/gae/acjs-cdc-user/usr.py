@@ -70,7 +70,6 @@ class usr_insert(webapp2.RequestHandler):
 class usr_update(webapp2.RequestHandler):
     def post(self):
         user_id = self.request.get('user_id')
-
         obj_list = usr.query(usr.user_id == user_id).fetch()
         obj = obj_list[0]
         obj.role = self.request.get('role')
@@ -78,6 +77,21 @@ class usr_update(webapp2.RequestHandler):
         obj.batting_style = self.request.get('batting_style')
         obj.bowling_style = self.request.get('bowling_style')
         obj.put()
+        url = "http://acjs-cdc-andro.appspot.com/retrieve"
+        values = {}
+        values['user_id'] = user_id
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        regids_str = response.read()
+        url = "http://acjs.azurewebsites.net/acjs/CDCgcm_vGAE.php"
+        values = {}
+        values['uid'] = user_id
+        values['SendToArrays'] = regids_str
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)        
+        self.response.write('{"status" : 1}')
 
 class pingchk(webapp2.RequestHandler):
     def post(self):
