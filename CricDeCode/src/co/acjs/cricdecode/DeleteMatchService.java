@@ -51,27 +51,24 @@ public class DeleteMatchService extends IntentService {
 				MatchDb.KEY_STATUS + "='" + MatchDb.MATCH_DELETED + "'", null,
 				MatchDb.KEY_ROWID);
 		JSONObject del_matches = new JSONObject();
-		JSONObject del_perf = new JSONObject();
 		JSONObject del_gcm = new JSONObject();
 		JSONArray ja = new JSONArray();
 		JSONArray ja_gcm = new JSONArray();
 
 		try {
+			del_matches.put("user_id",
+					AccessSharedPrefs.mPrefs.getString("id", ""));
 			if (c.getCount() != 0) {
 				c.moveToFirst();
 				do {
 					JSONObject jo = new JSONObject();
 					JSONObject jo_gcm = new JSONObject();
-					jo.put("m_id",
-							c.getString(c
-									.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID))
-									+ "A"
-									+ c.getString(c
-											.getColumnIndexOrThrow(MatchDb.KEY_ROWID))
-									+ "B"
-									+ AccessSharedPrefs.mPrefs.getString("id",
-											""));
-					jo_gcm.put("match_id", c.getString(c
+					jo.put("mid", c.getInt(c
+							.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
+					jo.put("devid", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
+
+					jo_gcm.put("match_id", c.getInt(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
 					jo_gcm.put("device_id", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
@@ -83,85 +80,12 @@ public class DeleteMatchService extends IntentService {
 			}
 			c.close();
 			del_matches.put("matches", ja);
-			del_gcm.put("todel", ja_gcm);
-
-			final Cursor c1 = getContentResolver()
-					.query(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
-							new String[] { PerformanceDb.KEY_MATCHID,
-									PerformanceDb.KEY_DEVICE_ID,
-									PerformanceDb.KEY_INNING,
-									PerformanceDb.KEY_ROWID,
-									PerformanceDb.KEY_BAT_BALLS,
-									PerformanceDb.KEY_BAT_BOWLER_TYPE,
-									PerformanceDb.KEY_BAT_CHANCES,
-									PerformanceDb.KEY_BAT_FIELDING_POSITION,
-									PerformanceDb.KEY_BAT_FOURS,
-									PerformanceDb.KEY_BAT_HOW_OUT,
-									PerformanceDb.KEY_BAT_NUM,
-									PerformanceDb.KEY_BAT_RUNS,
-									PerformanceDb.KEY_BAT_SIXES,
-									PerformanceDb.KEY_BAT_TIME,
-									PerformanceDb.KEY_BOWL_BALLS,
-									PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-									PerformanceDb.KEY_BOWL_FOURS,
-									PerformanceDb.KEY_BOWL_MAIDENS,
-									PerformanceDb.KEY_BOWL_NOBALLS,
-									PerformanceDb.KEY_BOWL_RUNS,
-									PerformanceDb.KEY_BOWL_SIXES,
-									PerformanceDb.KEY_BOWL_SPELLS,
-									PerformanceDb.KEY_BOWL_WIDES,
-									PerformanceDb.KEY_BOWL_WKTS_LEFT,
-									PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-									PerformanceDb.KEY_FIELD_BYES,
-									PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
-									PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-									PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-									PerformanceDb.KEY_FIELD_DEEP_CATCH,
-									PerformanceDb.KEY_FIELD_MISFIELDS,
-									PerformanceDb.KEY_FIELD_RO_CIRCLE,
-									PerformanceDb.KEY_FIELD_RO_DEEP,
-									PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-									PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-									PerformanceDb.KEY_FIELD_SLIP_CATCH,
-									PerformanceDb.KEY_FIELD_STUMPINGS,
-									PerformanceDb.KEY_INNING,
-									PerformanceDb.KEY_MATCHID,
-									PerformanceDb.KEY_STATUS },
-							PerformanceDb.KEY_STATUS + "='"
-									+ MatchDb.MATCH_DELETED + "'", null,
-							PerformanceDb.KEY_MATCHID);
-
-			ja = new JSONArray();
-			if (c1.getCount() != 0) {
-				c1.moveToFirst();
-				do {
-					JSONObject jo = new JSONObject();
-					jo.put("p_id",
-							c1.getString(c1
-									.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID))
-									+ "A"
-									+ c1.getString(c1
-											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))
-									+ "B"
-									+ c1.getString(c1
-											.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))
-									+ "C"
-									+ AccessSharedPrefs.mPrefs.getString("id",
-											""));
-					ja.put(jo);
-
-					c1.moveToNext();
-				} while (!c1.isAfterLast());
-			}
-			c1.close();
-
-			del_perf.put("perf", ja);
+			del_gcm.put("tode", ja_gcm);
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 
 			params.add(new BasicNameValuePair("del_matches", del_matches
 					.toString()));
-			params.add(new BasicNameValuePair("del_perf", del_perf.toString()));
 			JSONParser jsonParser = new JSONParser();
 			int trial = 1;
 			JSONObject jn = null;
@@ -169,8 +93,8 @@ public class DeleteMatchService extends IntentService {
 				Log.w("JSONParser", "DeleteMatch:: Called");
 				// ping gae-matches, gae pings gae-perf
 				jn = jsonParser.makeHttpRequest(
-						getResources().getString(R.string.gae_match_insert)
-								, "POST", params, who);
+						getResources().getString(R.string.gae_match_insert),
+						"POST", params, who);
 				Log.w("JSON returned", "DeleteMatch:: " + jn);
 				Log.w("trial value", "DeleteMatch:: " + trial);
 				if (jn != null)
@@ -189,13 +113,15 @@ public class DeleteMatchService extends IntentService {
 
 				// get regids
 				jsonParser = new JSONParser();
-				params.add(new BasicNameValuePair("user_id", AccessSharedPrefs.mPrefs.getString("id", "")));
+				params.add(new BasicNameValuePair("user_id",
+						AccessSharedPrefs.mPrefs.getString("id", "")));
 				trial = 1;
 				jn = null;
 				while (jsonParser.isOnline(who)) {
 					jn = jsonParser.makeHttpRequest(
-							getResources().getString(R.string.gae_andro_retrieve),
-							"POST", params, who);
+							getResources().getString(
+									R.string.gae_andro_retrieve), "POST",
+							params, who);
 					Log.w("JSON returned", "DeleteMatch:: " + jn);
 					Log.w("trial value", "DeleteMatch:: " + trial);
 					if (jn != null)

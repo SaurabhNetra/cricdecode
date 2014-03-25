@@ -79,5 +79,25 @@ class usr_update(webapp2.RequestHandler):
         obj.bowling_style = self.request.get('bowling_style')
         obj.put()
 
-application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),
+class pingchk(webapp2.RequestHandler):
+    def post(self):
+        self.response.write('{"status" : 1}')
+
+class pingazure(webapp2.RequestHandler):
+    def post(self):
+	url = "http://acjs.azurewebsites.net/acjs/pingChk.php"
+        values = {
+			'gcm_id' : "",
+			'user_id' : ""
+		}
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        res = response.read()
+        self.response.write(res)
+	self.response.write(json.dumps(res))
+	json_res = json.loads(response.read())
+	self.response.write(json_res['status'])
+
+application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/pingchk',pingchk),('/pingazure',pingazure)
 ], debug=True)
