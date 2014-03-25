@@ -17,7 +17,6 @@ class crkmatch(ndb.Model):
     overs = ndb.IntegerProperty(indexed=False)
     result = ndb.StringProperty(indexed=False)
     review = ndb.StringProperty(indexed=False)
-    status = ndb.IntegerProperty(indexed=True)
     user_id = ndb.StringProperty(indexed=True)
     venue = ndb.StringProperty(indexed=False)
 
@@ -30,21 +29,20 @@ class crkmatch_insert(webapp2.RequestHandler):
         match_json = json.loads(self.request.get('matchData'))
 
         crkmatch_obj = crkmatch()
-        crkmatch_obj.device_id = match_json['device_id']
-        crkmatch_obj.duration = match_json['duration']
-        crkmatch_obj.first_action = match_json['first_action']
-        crkmatch_obj.innings = match_json['innings']
-        crkmatch_obj.level = match_json['level']
-        crkmatch_obj.match_date = match_json['match_date']
-        crkmatch_obj.match_id = match_json['match_id']
-        crkmatch_obj.my_team = match_json['my_team']
-        crkmatch_obj.opponent_team = match_json['opponent_team']
-        crkmatch_obj.overs = match_json['overs']
-        crkmatch_obj.result = match_json['result']
-        crkmatch_obj.review = match_json['review']
-        crkmatch_obj.status = match_json['status']
-        crkmatch_obj.user_id = match_json['user_id']
-        crkmatch_obj.venue = match_json['venue']
+        crkmatch_obj.device_id = match_json['did']
+        crkmatch_obj.duration = match_json['dur']
+        crkmatch_obj.first_action = match_json['fa']
+        crkmatch_obj.innings = match_json['in']
+        crkmatch_obj.level = match_json['lv']
+        crkmatch_obj.match_date = match_json['m_dt']
+        crkmatch_obj.match_id = match_json['mid']
+        crkmatch_obj.my_team = match_json['tm']
+        crkmatch_obj.opponent_team = match_json['otm']
+        crkmatch_obj.overs = match_json['ovr']
+        crkmatch_obj.result = match_json['res']
+        crkmatch_obj.review = match_json['rev']
+        crkmatch_obj.user_id = match_json['uid']
+        crkmatch_obj.venue = match_json['vn']
 
         obj_list = crkmatch.query(
         ndb.AND(
@@ -75,10 +73,7 @@ class crkmatch_fetch(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
 
         user_id = self.request.get("user_id")
-        obj_list = crkmatch.query(ndb.AND(
-        crkmatch.user_id == user_id,
-        crkmatch.status == 0
-        )).fetch()
+        obj_list = crkmatch.query(crkmatch.user_id == user_id).fetch()
 
         json_obj = {}
         match_array = []
@@ -96,7 +91,6 @@ class crkmatch_fetch(webapp2.RequestHandler):
             match_obj["overs"] = obj.overs
             match_obj["result"] = obj.result
             match_obj["review"] = obj.review
-            match_obj["status"] = obj.status
             match_obj["user_id"] = obj.user_id
             match_obj["venue"] = obj.venue
             match_array.append(match_obj)

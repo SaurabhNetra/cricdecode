@@ -87,8 +87,8 @@ class pingazure(webapp2.RequestHandler):
     def post(self):
 	url = "http://acjs.azurewebsites.net/acjs/pingChk.php"
         values = {
-			'gcm_id' : "",
-			'user_id' : ""
+			'gcm_id' : "abc",
+			'user_id' : "pqr"
 		}
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)

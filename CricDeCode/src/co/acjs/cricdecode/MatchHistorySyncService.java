@@ -58,42 +58,35 @@ public class MatchHistorySyncService extends IntentService {
 				try {
 					JSONObject cm = new JSONObject();
 					JSONObject per = new JSONObject();
-					cm.put("user_id",
+					cm.put("uid",
 							AccessSharedPrefs.mPrefs.getString("id", ""));
-					cm.put("match_id", Integer.parseInt(c.getString(c
+					cm.put("mid", Integer.parseInt(c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID))));
-					cm.put("device_id",
+					cm.put("did",
 							AccessSharedPrefs.mPrefs.getString("device_id", ""));
-					cm.put("match_date", c.getString(c
+					cm.put("m_dt", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE)));
-					cm.put("my_team", c.getString(c
+					cm.put("tm", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_MY_TEAM)));
-					cm.put("opponent_team", c.getString(c
+					cm.put("otm", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)));
-					cm.put("venue", c.getString(c
+					cm.put("vn", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)));
-					cm.put("overs", Integer.parseInt(c.getString(c
+					cm.put("ovr", Integer.parseInt(c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_OVERS))));
-					cm.put("innings", Integer.parseInt(c.getString(c
+					cm.put("in", Integer.parseInt(c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_INNINGS))));
-					cm.put("result", c.getString(c
+					cm.put("res", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_RESULT)));
-					cm.put("level", c.getString(c
+					cm.put("lv", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_LEVEL)));
-					cm.put("first_action", c.getString(c
+					cm.put("fa", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION)));
-					cm.put("duration", c.getString(c
+					cm.put("dur", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_DURATION)));
-					cm.put("review", c.getString(c
+					cm.put("rev", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)));
-					cm.put("id",
-							AccessSharedPrefs.mPrefs.getString("device_id", "")
-									+ "A"
-									+ c.getString(c
-											.getColumnIndexOrThrow(MatchDb.KEY_ROWID))
-									+ "B"
-									+ AccessSharedPrefs.mPrefs.getString("id",
-											""));
+					
 					String matchId = c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 					String devid = c.getString(c
@@ -151,132 +144,120 @@ public class MatchHistorySyncService extends IntentService {
 						c1.moveToFirst();
 						do {
 							JSONObject jo1 = new JSONObject();
-							jo1.put("user_id", AccessSharedPrefs.mPrefs
+							jo1.put("uid", AccessSharedPrefs.mPrefs
 									.getString("id", ""));
-							jo1.put("match_id",
+							jo1.put("mid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
-							jo1.put("device_id",
+							jo1.put("did",
 									c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
-							jo1.put("per_id",
+							jo1.put("pid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))));
-							jo1.put("inning",
+							jo1.put("in",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))));
-							jo1.put("bat_num",
+							jo1.put("btn",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_NUM))));
-							jo1.put("bat_runs",
+							jo1.put("btr",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_RUNS))));
-							jo1.put("bat_balls",
+							jo1.put("btb",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BALLS))));
-							jo1.put("bat_time",
+							jo1.put("btt",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_TIME))));
-							jo1.put("bat_fours",
+							jo1.put("btf",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FOURS))));
-							jo1.put("bat_sixes",
+							jo1.put("bts",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_SIXES))));
-							jo1.put("bat_dismissal",
+							jo1.put("btd",
 									c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_HOW_OUT)));
-							jo1.put("bat_bowler_type",
+							jo1.put("btbot",
 									c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE)));
-							jo1.put("bat_fielding_position",
+							jo1.put("btfp",
 									c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FIELDING_POSITION)));
-							jo1.put("bat_chances",
+							jo1.put("btc",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_CHANCES))));
-							jo1.put("bowl_balls",
+							jo1.put("bob",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_BALLS))));
-							jo1.put("bowl_spells",
+							jo1.put("bos",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SPELLS))));
-							jo1.put("bowl_maidens",
+							jo1.put("bom",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS))));
-							jo1.put("bowl_runs",
+							jo1.put("bor",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_RUNS))));
-							jo1.put("bowl_fours",
+							jo1.put("bof",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_FOURS))));
-							jo1.put("bowl_sixes",
+							jo1.put("bosx",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SIXES))));
-							jo1.put("bowl_wkts_left",
+							jo1.put("bowl",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_LEFT))));
-							jo1.put("bowl_wkts_right",
+							jo1.put("bowr",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT))));
-							jo1.put("bowl_catches_dropped",
+							jo1.put("bocd",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_CATCHES_DROPPED))));
-							jo1.put("bowl_no_balls",
+							jo1.put("bonb",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_NOBALLS))));
-							jo1.put("bowl_wides",
+							jo1.put("bow",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WIDES))));
-							jo1.put("field_slip_catch",
+							jo1.put("fslc",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_SLIP_CATCH))));
-							jo1.put("field_close_catch",
+							jo1.put("fclc",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CLOSE_CATCH))));
-							jo1.put("field_circle_catch",
+							jo1.put("fcic",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CIRCLE_CATCH))));
-							jo1.put("field_deep_catch",
+							jo1.put("fdc",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH))));
-							jo1.put("field_ro_circle",
+							jo1.put("froci",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_CIRCLE))));
-							jo1.put("field_ro_direct_circle",
+							jo1.put("frodci",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE))));
-							jo1.put("field_ro_deep",
+							jo1.put("frode",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DEEP))));
-							jo1.put("field_ro_direct_deep",
+							jo1.put("frodde",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP))));
-							jo1.put("field_stumpings",
+							jo1.put("fst",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_STUMPINGS))));
-							jo1.put("field_byes",
+							jo1.put("fby",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES))));
-							jo1.put("field_misfield",
+							jo1.put("fmf",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS))));
-							jo1.put("field_catches_dropped",
+							jo1.put("fcd",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))));
-							jo1.put("id",
-									AccessSharedPrefs.mPrefs.getString(
-											"device_id", "")
-											+ "A"
-											+ c1.getString(c1
-													.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))
-											+ "B"
-											+ c1.getString(c1
-													.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))
-											+ "C"
-											+ AccessSharedPrefs.mPrefs
-													.getString("id", ""));
-
+							
 							ja.put(jo1);
 						} while (!c1.isAfterLast());
 					}

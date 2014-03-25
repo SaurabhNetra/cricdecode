@@ -44,7 +44,6 @@ class per(ndb.Model):
     inning = ndb.IntegerProperty(indexed=True)
     match_id = ndb.IntegerProperty(indexed=True)
     per_id = ndb.IntegerProperty(indexed=False)
-    status = ndb.IntegerProperty(indexed=True)
     user_id = ndb.StringProperty(indexed=True)
 
 class per_insert(webapp2.RequestHandler):
@@ -59,48 +58,47 @@ class per_insert(webapp2.RequestHandler):
         for per_obj in per_array:
             perf_obj = per()
 
-            perf_obj.bat_balls = per_obj['bat_balls']
-            perf_obj.bat_bowler_type = per_obj['bat_bowler_type']
-            perf_obj.bat_chances = per_obj['bat_chances']
-            perf_obj.bat_dismissal = per_obj['bat_dismissal']
-            perf_obj.bat_fielding_position = per_obj['bat_fielding_position']
-            perf_obj.bat_num = per_obj['bat_num']
-            perf_obj.bat_runs = per_obj['bat_runs']
-            perf_obj.bat_time = per_obj['bat_time']
-            perf_obj.bat_fours = per_obj['bat_fours']
-            perf_obj.bat_sixes = per_obj['bat_sixes']
+            perf_obj.bat_balls = per_obj['btb']
+            perf_obj.bat_bowler_type = per_obj['btbot']
+            perf_obj.bat_chances = per_obj['btc']
+            perf_obj.bat_dismissal = per_obj['btd']
+            perf_obj.bat_fielding_position = per_obj['btfp']
+            perf_obj.bat_num = per_obj['btn']
+            perf_obj.bat_runs = per_obj['btr']
+            perf_obj.bat_time = per_obj['btt']
+            perf_obj.bat_fours = per_obj['btf']
+            perf_obj.bat_sixes = per_obj['bts']
 
-            perf_obj.bowl_balls = per_obj['bowl_balls']
-            perf_obj.bowl_catches_dropped = per_obj['bowl_catches_dropped']
-            perf_obj.bowl_fours = per_obj['bowl_fours']
-            perf_obj.bowl_maidens = per_obj['bowl_maidens']
-            perf_obj.bowl_no_balls = per_obj['bowl_no_balls']
-            perf_obj.bowl_runs = per_obj['bowl_runs']
-            perf_obj.bowl_sixes = per_obj['bowl_sixes']
-            perf_obj.bowl_spells = per_obj['bowl_spells']
-            perf_obj.bowl_wides = per_obj['bowl_wides']
-            perf_obj.bowl_wkts_left = per_obj['bowl_wkts_left']
-            perf_obj.bowl_wkts_right = per_obj['bowl_wkts_right']
+            perf_obj.bowl_balls = per_obj['bob']
+            perf_obj.bowl_catches_dropped = per_obj['bocd']
+            perf_obj.bowl_fours = per_obj['bof']
+            perf_obj.bowl_maidens = per_obj['bom']
+            perf_obj.bowl_no_balls = per_obj['bonb']
+            perf_obj.bowl_runs = per_obj['bor']
+            perf_obj.bowl_sixes = per_obj['bosx']
+            perf_obj.bowl_spells = per_obj['bos']
+            perf_obj.bowl_wides = per_obj['bow']
+            perf_obj.bowl_wkts_left = per_obj['bowl']
+            perf_obj.bowl_wkts_right = per_obj['bowr']
 
-            perf_obj.device_id = per_obj['device_id']
+            perf_obj.device_id = per_obj['did']
 
-            perf_obj.field_byes = per_obj['field_byes']
-            perf_obj.field_catches_dropped = per_obj['field_catches_dropped']
-            perf_obj.field_circle_catch = per_obj['field_circle_catch']
-            perf_obj.field_close_catch = per_obj['field_close_catch']
-            perf_obj.field_deep_catch = per_obj['field_deep_catch']
-            perf_obj.field_misfield = per_obj['field_misfield']
-            perf_obj.field_ro_circle = per_obj['field_ro_circle']
-            perf_obj.field_ro_deep = per_obj['field_ro_deep']
-            perf_obj.field_ro_direct_circle = per_obj['field_ro_direct_circle']
-            perf_obj.field_ro_direct_deep = per_obj['field_ro_direct_deep']
-            perf_obj.field_slip_catch = per_obj['field_slip_catch']
-            perf_obj.field_stumpings = per_obj['field_stumpings']
-            perf_obj.inning = per_obj['inning']
-            perf_obj.match_id = per_obj['match_id']
-            perf_obj.per_id = per_obj['per_id']
-            perf_obj.status = per_obj['status']
-            perf_obj.user_id = per_obj['user_id']
+            perf_obj.field_byes = per_obj['fby']
+            perf_obj.field_catches_dropped = per_obj['fcd']
+            perf_obj.field_circle_catch = per_obj['fcic']
+            perf_obj.field_close_catch = per_obj['fclc']
+            perf_obj.field_deep_catch = per_obj['fdc']
+            perf_obj.field_misfield = per_obj['fmf']
+            perf_obj.field_ro_circle = per_obj['froci']
+            perf_obj.field_ro_deep = per_obj['frode']
+            perf_obj.field_ro_direct_circle = per_obj['frodci']
+            perf_obj.field_ro_direct_deep = per_obj['frodde']
+            perf_obj.field_slip_catch = per_obj['fslc']
+            perf_obj.field_stumpings = per_obj['fst']
+            perf_obj.inning = per_obj['in']
+            perf_obj.match_id = per_obj['mid']
+            perf_obj.per_id = per_obj['pid']
+            perf_obj.user_id = per_obj['uid']
 
             obj_list = serverdbperformance.query(
             ndb.AND(
@@ -123,10 +121,7 @@ class per_fetch(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
 
         user_id = self.request.get("user_id")
-        obj_list = per.query(ndb.AND(
-        per.user_id == user_id,
-        per.status == 0
-        )).fetch()
+        obj_list = per.query(per.user_id == user_id).fetch()
 
         json_obj = {}
         per_array = []
@@ -172,7 +167,6 @@ class per_fetch(webapp2.RequestHandler):
             per_obj["inning"] = obj.inning
             per_obj["match_id"] = obj.match_id
             per_obj["per_id"] = obj.per_id
-            per_obj["status"] = obj.status
             per_obj["user_id"] = obj.user_id
 
             per_array.append(per_obj)
