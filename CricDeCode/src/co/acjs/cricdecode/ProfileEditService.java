@@ -92,7 +92,8 @@ public class ProfileEditService extends IntentService {
 				writeToFile("jn: " + jn);
 				if (jn != null) {
 					if (jn.getInt("status") == 1) {
-
+						
+						writeToFile("in if ");
 						AccessSharedPrefs.setString(who,
 								"ProfileEditServiceCalled",
 								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);

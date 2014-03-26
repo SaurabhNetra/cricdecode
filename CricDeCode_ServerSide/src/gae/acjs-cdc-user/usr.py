@@ -77,6 +77,7 @@ class usr_update(webapp2.RequestHandler):
         obj.batting_style = self.request.get('batting_style')
         obj.bowling_style = self.request.get('bowling_style')
         obj.put()
+        status = {}
         status['status'] = 1
         url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
         values = {}
