@@ -77,17 +77,16 @@ class usr_update(webapp2.RequestHandler):
         obj.batting_style = self.request.get('batting_style')
         obj.bowling_style = self.request.get('bowling_style')
         obj.put()
-        url = "http://acjs-cdc-andro.appspot.com/retrieve"
+        status['status'] = 1
+        url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
         values = {}
         values['user_id'] = user_id
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)
         response = urllib2.urlopen(req)
         regids_str = response.read()
-        sendToArrays = {}
-        sendToArrays['SendToArrays'] = regids_str
-        sendToArrays['status'] = 1       
-        self.response.write(json.dumps(sendToArrays))
+        status['reg_ids'] = regids_str             
+        self.response.write(status)
 
 class pingchk(webapp2.RequestHandler):
     def post(self):

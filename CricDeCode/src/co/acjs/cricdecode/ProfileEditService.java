@@ -101,7 +101,7 @@ public class ProfileEditService extends IntentService {
 						params.add(new BasicNameValuePair("uid",
 								AccessSharedPrefs.mPrefs.getString("id", "")));
 						params.add(new BasicNameValuePair("SendToArrays", jn
-								.getString("SendToArrays")));
+								.getString("regids")));
 						JSONObject jo = new JSONObject();
 						jo.put("gcmid", 1);
 						jo.put("nickname", AccessSharedPrefs.mPrefs.getString(
@@ -139,6 +139,7 @@ public class ProfileEditService extends IntentService {
 						}
 
 						writeToFile("Ping Azure return " + jn);
+					
 
 					}
 				}

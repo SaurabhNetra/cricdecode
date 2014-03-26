@@ -48,6 +48,16 @@ class regids_retrieve(webapp2.RequestHandler):
         json_obj["reg_ids"] = regids_str
         self.response.write(json.dumps(json_obj))
 
+class regids_wo_json(webapp2.RequestHandler):
+    def post(self):
+        user_id = self.request.get('user_id')
+        obj_list = regids.query(regids.user_id == user_id).fetch()
+        regids_str = ''
+        for obj in obj_list:
+            regids_str = regids_str + obj.gcm_id + ' '
+        regids_str = regids_str.strip()
+        self.response.write(regids_str)
+
 class regids_delete(webapp2.RequestHandler):
     def post(self):
         user_id = self.request.get('user_id')
@@ -79,5 +89,5 @@ class regids_update(webapp2.RequestHandler):
             regids_obj.put()
 
 
-application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),('/delete', regids_delete),('/update', regids_update)
+application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),('/retrieve_wo_json', regids_wo_json),('/delete', regids_delete),('/update', regids_update)
 ], debug=True)
