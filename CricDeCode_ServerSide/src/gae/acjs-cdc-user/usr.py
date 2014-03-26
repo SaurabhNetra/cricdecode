@@ -84,14 +84,10 @@ class usr_update(webapp2.RequestHandler):
         req = urllib2.Request(url, data)
         response = urllib2.urlopen(req)
         regids_str = response.read()
-        url = "http://acjs.azurewebsites.net/acjs/CDCgcm_vGAE.php"
-        values = {}
-        values['uid'] = user_id
-        values['SendToArrays'] = regids_str
-        data = urllib.urlencode(values)
-        req = urllib2.Request(url, data)
-        response = urllib2.urlopen(req)        
-        self.response.write('{"status" : 1}')
+        sendToArrays = {}
+        sendToArrays['SendToArrays'] = regids_str
+        sendToArrays['status'] = 1       
+        self.response.write(json.dumps(sendToArrays))
 
 class pingchk(webapp2.RequestHandler):
     def post(self):
