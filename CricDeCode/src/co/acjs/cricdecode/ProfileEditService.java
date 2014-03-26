@@ -46,7 +46,12 @@ public class ProfileEditService extends IntentService {
 		if (AccessSharedPrefs.mPrefs.getString("ProfileEditServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
-
+			writeToFile("Data stored in sf: "
+					+ AccessSharedPrefs.mPrefs.getString("nickname", "") + " "
+					+ AccessSharedPrefs.mPrefs.getString("role", "") + " "
+					+ AccessSharedPrefs.mPrefs.getString("bowlingStyle", "")
+					+ " "
+					+ AccessSharedPrefs.mPrefs.getString("battingStyle", ""));
 			try {
 				final JSONParser jsonParser = new JSONParser();
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -71,7 +76,7 @@ public class ProfileEditService extends IntentService {
 							"POST", params, who);
 					Log.w("JSON returned", "ProfileEditService: " + jn);
 					Log.w("trial value", "ProfileEditService: " + trial);
-					writeToFile("Ping gae: "+trial);
+					writeToFile("Ping gae: " + trial);
 					if (jn != null)
 						break;
 					try {
@@ -84,7 +89,7 @@ public class ProfileEditService extends IntentService {
 						break;
 				}
 
-				writeToFile("jn: "+jn);
+				writeToFile("jn: " + jn);
 				if (jn != null) {
 					if (jn.getInt("status") == 1) {
 
@@ -109,7 +114,7 @@ public class ProfileEditService extends IntentService {
 								.getString("bowlingStyle", ""));
 						params.add(new BasicNameValuePair("MsgToSend", jo
 								.toString()));
-						writeToFile("Sending gcm msg: "+jo.toString());
+						writeToFile("Sending gcm msg: " + jo.toString());
 						trial = 1;
 						jn = null;
 
@@ -120,7 +125,7 @@ public class ProfileEditService extends IntentService {
 									params, who);
 							Log.w("JSON returned", "ProfileEditService: " + jn);
 							Log.w("trial value", "ProfileEditService: " + trial);
-							writeToFile("Ping Azure: "+trial);
+							writeToFile("Ping Azure: " + trial);
 							if (jn != null)
 								break;
 							try {
@@ -132,8 +137,8 @@ public class ProfileEditService extends IntentService {
 							if (trial == 50)
 								break;
 						}
-						
-						writeToFile("Ping Azure return "+jn);
+
+						writeToFile("Ping Azure return " + jn);
 
 					}
 				}
@@ -143,7 +148,7 @@ public class ProfileEditService extends IntentService {
 			}
 		}
 	}
-	
+
 	public static void writeToFile(String data) {
 
 		try {

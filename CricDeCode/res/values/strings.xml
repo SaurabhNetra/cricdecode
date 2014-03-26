@@ -8,7 +8,6 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="fb_app_id">682146731813576</string>
 
-  
     <string name="azure_sendgcm">http://acjs.azurewebsites.net/acjs/CDCgcm_vGAE.php</string>
     <string name="azure_subscription_chk">http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php</string>
     <string name="azure_inapppurchase">http://acjs.azurewebsites.net/acjs/CDCInAppPurchase_vGAE.php</string>
