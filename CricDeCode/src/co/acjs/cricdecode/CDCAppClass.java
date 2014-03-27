@@ -1,7 +1,12 @@
 package co.acjs.cricdecode;
 
+import java.util.HashMap;
+
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
 import android.app.Application;
 
@@ -15,18 +20,18 @@ public class CDCAppClass extends Application {
 		super.onCreate();
 		ACRA.init(this);
 	}
-	/* public static void init_serverdbusertable() { Kii.initialize("59cf075e",
-	 * "a5266c06b907b176a208d9a9f68d9b1e", Site.JP); }
-	 * 
-	 * public static void init_serverdbandroiddevices() {
-	 * Kii.initialize("e54bbe6d", "cbc395a0f84f1cf262bd3aeec783dd4a", Site.JP);
-	 * }
-	 * 
-	 * public static void init_serverdbpurchases() { Kii.initialize("85b9c85c",
-	 * "2c8a39b84d9023eea94ce59ccfad6686", Site.JP); }
-	 * 
-	 * public static void init_serverdbperformances() {
-	 * Kii.initialize("999ab194", "3c96b002fad4c8c11cb600b60c0ce20a", Site.JP);
-	 * }
-	 */
+	/*public enum TrackerName {
+	    APP_TRACKER
+	  }
+	  HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
+	  synchronized Tracker getTracker(TrackerName trackerId) {
+		    if (!mTrackers.containsKey(trackerId)) {
+
+		      GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+		      Tracker t = analytics.newTracker(R.string.ga_trackingId);
+		      mTrackers.put(trackerId, t);
+
+		    }
+		    return mTrackers.get(trackerId);
+		  }*/
 }

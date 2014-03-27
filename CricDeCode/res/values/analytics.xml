@@ -7,3 +7,12 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
 </resources>
+<!--<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ga_sessionTimeout">300</integer>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <screenName name="co.acjs.cricdecode.MatchCreationFragment">
+        MatchCreationFragment ScreenView
+    </screenName>
+    <string name="ga_trackingId">UA-20280871-5</string>
+</resources>-->
