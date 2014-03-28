@@ -175,8 +175,22 @@ class per_fetch(webapp2.RequestHandler):
         json_obj["performances"] = per_array
         self.response.write(json.dumps(json_obj))
 
+class per_delete(webapp2.RequestHandler):
+
+     def post(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+        del_matches = {}
+        del_matches = self.request.get("del_matches")
+        user_id = del_matches['user_id']
+        matches = del_matches['matches']        
+        for matc in del_matches:
+            mid = matc['mid']
+            dev = matc['devid']
+            ndb.delete_multi(per.query(per.user_id == user_id,per.match_id == mid,per.device_id == dev).fetch(keys_only=True))
+
+
 
 application = webapp2.WSGIApplication([
     ('/insert', per_insert),
-    ('/fetch', per_fetch),
+    ('/fetch', per_fetch), ('/delete', per_delete)
 ], debug=True)

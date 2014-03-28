@@ -67,7 +67,6 @@ public class DeleteMatchService extends IntentService {
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
 					jo.put("devid", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
-
 					jo_gcm.put("match_id", c.getInt(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID)));
 					jo_gcm.put("device_id", c.getString(c
