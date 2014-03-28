@@ -63,10 +63,7 @@ class regids_delete(webapp2.RequestHandler):
         user_id = self.request.get('user_id')
         reg_id = self.request.get('gcm_id')
         #Delete the row where user_id and gcm_id
-        obj_list = regids.query(ndb.AND(regids.user_id == user_id,regids.gcm_id == reg_id)).fetch()
-        if len(obj_list)!=0:
-            obj_key = obj_list[0].put()
-            obj_key.delete()
+        ndb.delete_multi(regids.query(regids.user_id == user_id,regids.gcm_id == reg_id).fetch(keys_only=True))
 
 class regids_update(webapp2.RequestHandler):
     def post(self):
@@ -74,11 +71,7 @@ class regids_update(webapp2.RequestHandler):
         old_reg = self.request.get('old_reg')
         new_reg = self.request.get('new_reg')
         #Delete the row where user_id and old_reg, if it exists
-        obj_list = regids.query(ndb.AND(regids.user_id == user_id,regids.gcm_id == old_reg)).fetch()
-        if len(obj_list)!=0:
-            obj_key = obj_list[0].put()
-            obj_key.delete()
-
+        ndb.delete_multi(regids.query(regids.user_id == user_id,regids.gcm_id == old_reg).fetch(keys_only=True))
 
         #insert new row - user_id and new_reg (same as regids_insert)
         regids_obj = regids()
