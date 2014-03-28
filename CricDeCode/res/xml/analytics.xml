@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ga_trackingId" >UA-20280871-5
+    </string>
+
+    <bool name="ga_autoActivityTracking" >
+true
+    </bool>
+    <bool name="ga_reportUncaughtExceptions" >
+true
+    </bool>
+
+    <screenName name="co.acjs.cricdecode.MatchCreationFragment" >
+CreateMatchFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.LogIn" >
+Login-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.CareerFragment" >
+CareerFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.ProfileViewFragment" >
+ProfileViewFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.ProfileEditFragment" >
+ProfileEditFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.AnalysisFragment" >
+AnalysisFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.DisplayLineChart" >
+DisplayLineChart-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.DisplayPieChart" >
+DisplayPieChart-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.OngoingMatchesFragment" >
+OngoingMatchesFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.PurchaseFragment" >
+PurchaseFragment-cdc
+    </screenName>
+    <screenName name="co.acjs.cricdecode.SupportFragment" >
+SupportFragment-cdc
+    </screenName>
+
+</resources><!--
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ga_sessionTimeout">300</integer>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <screenName name="co.acjs.cricdecode.MatchCreationFragment">
+        MatchCreationFragment ScreenView
+    </screenName>
+    <string name="ga_trackingId">UA-20280871-5</string>
+</resources>
+-->

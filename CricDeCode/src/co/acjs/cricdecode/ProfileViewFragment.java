@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import co.acjs.cricdecode.CDCAppClass.TrackerName;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.facebook.widget.ProfilePictureView;
+import com.google.android.gms.analytics.HitBuilders;
 
 
 public class ProfileViewFragment extends SherlockFragment{
@@ -33,6 +35,11 @@ public class ProfileViewFragment extends SherlockFragment{
 	public void onViewCreated(View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
 		onProfileViewing(view);
+		
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getActivity()
+				.getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(getResources().getString(R.string.analyticsProfileView));
+		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	public void onProfileViewing(View view){

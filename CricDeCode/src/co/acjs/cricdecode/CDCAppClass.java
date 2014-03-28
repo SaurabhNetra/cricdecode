@@ -20,7 +20,7 @@ public class CDCAppClass extends Application {
 		super.onCreate();
 		ACRA.init(this);
 	}
-	/*public enum TrackerName {
+	public enum TrackerName {
 	    APP_TRACKER
 	  }
 	  HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
@@ -28,10 +28,10 @@ public class CDCAppClass extends Application {
 		    if (!mTrackers.containsKey(trackerId)) {
 
 		      GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-		      Tracker t = analytics.newTracker(R.string.ga_trackingId);
+		      Tracker t = analytics.newTracker(R.xml.analytics);
 		      mTrackers.put(trackerId, t);
 
 		    }
 		    return mTrackers.get(trackerId);
-		  }*/
+		  }
 }

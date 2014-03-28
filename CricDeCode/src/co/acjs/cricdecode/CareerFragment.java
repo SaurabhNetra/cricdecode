@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import co.acjs.cricdecode.CDCAppClass.TrackerName;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.android.gms.analytics.HitBuilders;
 
 public class CareerFragment extends SherlockFragment implements
 		ViewPager.OnPageChangeListener {
@@ -66,6 +68,11 @@ public class CareerFragment extends SherlockFragment implements
 		fireQueries();
 
 		this.intialiseViewPager(view);
+		
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getActivity()
+				.getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(getResources().getString(R.string.analyticsCareer));
+		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	@Override

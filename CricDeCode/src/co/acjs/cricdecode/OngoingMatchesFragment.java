@@ -29,8 +29,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import co.acjs.cricdecode.CDCAppClass.TrackerName;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.android.gms.analytics.HitBuilders;
 
 public class OngoingMatchesFragment extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 	static OngoingMatchesFragment	ongoingMatchesFragment;
@@ -50,6 +52,11 @@ public class OngoingMatchesFragment extends SherlockFragment implements LoaderMa
 	public void onViewCreated(View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
 		displayListView(view);
+		
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getActivity()
+				.getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(getResources().getString(R.string.analyticsOngoingMatches));
+		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	@Override

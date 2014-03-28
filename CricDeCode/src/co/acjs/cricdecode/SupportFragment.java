@@ -18,15 +18,17 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+import co.acjs.cricdecode.CDCAppClass.TrackerName;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.android.gms.analytics.HitBuilders;
 
 public class SupportFragment extends SherlockFragment {
 	// Declare Variables
 	static SupportFragment supportFragment;
 	static int currentProfileFragment;
-	static final int TERMS_OF_SERVICE = 0, PRIVACY_POLICY = 1, SUPPORT = 2, SHARE = 3, VERSION = 4,
-			FEEDBACK = 5, RATE_NOW=6;
+	static final int TERMS_OF_SERVICE = 0, PRIVACY_POLICY = 1, SUPPORT = 2,
+			SHARE = 3, VERSION = 4, FEEDBACK = 5, RATE_NOW = 6;
 	LinearLayout fb, gp, tw;
 
 	@Override
@@ -100,13 +102,17 @@ public class SupportFragment extends SherlockFragment {
 				case FEEDBACK:
 					Intent i = new Intent(Intent.ACTION_SEND);
 					i.setType("message/rfc822");
-					i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"<CricDeCode>excellentmathematics@gmail.com"});
+					i.putExtra(
+							Intent.EXTRA_EMAIL,
+							new String[] { "<CricDeCode>excellentmathematics@gmail.com" });
 					i.putExtra(Intent.EXTRA_SUBJECT, "Feedback for CricDeCode");
-					i.putExtra(Intent.EXTRA_TEXT   , "Hello CricDeCode Team, ");
+					i.putExtra(Intent.EXTRA_TEXT, "Hello CricDeCode Team, ");
 					try {
-					    startActivity(Intent.createChooser(i, "Send mail..."));
+						startActivity(Intent.createChooser(i, "Send mail..."));
 					} catch (android.content.ActivityNotFoundException ex) {
-					    Toast.makeText(MainActivity.main_context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+						Toast.makeText(MainActivity.main_context,
+								"There are no email clients installed.",
+								Toast.LENGTH_SHORT).show();
 					}
 					break;
 				case RATE_NOW:
@@ -167,6 +173,11 @@ public class SupportFragment extends SherlockFragment {
 				}
 			}
 		});
+
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getActivity()
+				.getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(getResources().getString(R.string.analyticsSupport));
+		t.send(new HitBuilders.AppViewBuilder().build());
 		return rootView;
 	}
 }

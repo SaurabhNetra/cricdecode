@@ -79,7 +79,6 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.mediation.admob.AdMobExtras;
@@ -1029,7 +1028,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	protected void onStop() {
 		super.onStop();
 		// Google Analytics Stop
-		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	@Override
@@ -1528,7 +1526,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	protected void onStart() {
 		super.onStart();
 		// Google Analytics Start
-		EasyTracker.getInstance(this).activityStart(this);
 		int isAvailable = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(this);
 		if (isAvailable == ConnectionResult.SUCCESS) {

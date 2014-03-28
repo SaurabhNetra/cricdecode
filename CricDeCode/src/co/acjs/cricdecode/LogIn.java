@@ -39,6 +39,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import co.acjs.cricdecode.CDCAppClass.TrackerName;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -48,7 +49,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -117,6 +118,9 @@ public class LogIn extends SherlockActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass)getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(getResources().getString(R.string.analyticsLogin));
+		t.send(new HitBuilders.AppViewBuilder().build());
 
 	}
 
@@ -151,7 +155,6 @@ public class LogIn extends SherlockActivity {
 	protected void onStart() {
 		super.onStart();
 		// Google Analytics Stop
-		EasyTracker.getInstance(this).activityStart(this);
 		if (!AccessSharedPrefs.mPrefs.getString("isSignedIn", "").equals("")) {
 			ConnectivityManager connectivityManager = (ConnectivityManager) this
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -202,7 +205,6 @@ public class LogIn extends SherlockActivity {
 	protected void onStop() {
 		super.onStop();
 		// Google Analytics Stop
-		EasyTracker.getInstance(this).activityStop(this);
 		onActivityResult = false;
 	}
 

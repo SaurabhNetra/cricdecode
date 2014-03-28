@@ -17,9 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+import co.acjs.cricdecode.CDCAppClass.TrackerName;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.android.gms.analytics.HitBuilders;
 
 
 public class AnalysisFragment extends SherlockFragment{
@@ -59,6 +61,12 @@ public class AnalysisFragment extends SherlockFragment{
 		analysisFragment = this;
 		View rootView = inflater.inflate(R.layout.analysis_fragment, container, false);
 		init(rootView, savedInstanceState);
+		
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getActivity()
+				.getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(getResources().getString(R.string.analyticsAnalysis));
+		t.send(new HitBuilders.AppViewBuilder().build());
+		
 		return rootView;
 	}
 
