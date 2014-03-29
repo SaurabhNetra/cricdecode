@@ -301,30 +301,20 @@ public class MainActivity extends SherlockFragmentActivity {
 																"hahahahah");
 														if (result.isFailure()) {
 														} else {
-															if (AccessSharedPrefs.mPrefs
-																	.getString(
-																			"ad_free",
-																			"no")
-																	.equals("yes")) {
-																if (inventory
-																		.hasPurchase(SKU_REMOVE_ADS)) {
-																	Purchase p1 = inventory
-																			.getPurchase(SKU_REMOVE_ADS);
-																	if (p1.getDeveloperPayload()
-																			.equals(getMD5())) {
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"ad_free",
-																						"yes");
 
-																	} else {
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"ad_free",
-																						"no");
-																	}
+															if (inventory
+																	.hasPurchase(SKU_REMOVE_ADS)) {
+
+																Purchase p1 = inventory
+																		.getPurchase(SKU_REMOVE_ADS);
+																if (p1.getDeveloperPayload()
+																		.equals(getMD5())) {
+																	AccessSharedPrefs
+																			.setString(
+																					main_context,
+																					"ad_free",
+																					"yes");
+
 																} else {
 																	AccessSharedPrefs
 																			.setString(
@@ -332,32 +322,29 @@ public class MainActivity extends SherlockFragmentActivity {
 																					"ad_free",
 																					"no");
 																}
+															} else {
+
+																AccessSharedPrefs
+																		.setString(
+																				main_context,
+																				"ad_free",
+																				"no");
 															}
-															if (AccessSharedPrefs.mPrefs
-																	.getString(
-																			"infi_use",
-																			"no")
-																	.equals("yes")) {
-																if (inventory
-																		.hasPurchase(SKU_SUB_INFI)) {
-																	Purchase p1 = inventory
-																			.getPurchase(SKU_SUB_INFI);
-																	if (p1.getDeveloperPayload()
-																			.equals(getMD5())) {
 
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"infi_use",
-																						"yes");
+															if (inventory
+																	.hasPurchase(SKU_SUB_INFI)) {
 
-																	} else {
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"infi_use",
-																						"no");
-																	}
+																Purchase p1 = inventory
+																		.getPurchase(SKU_SUB_INFI);
+																if (p1.getDeveloperPayload()
+																		.equals(getMD5())) {
+
+																	AccessSharedPrefs
+																			.setString(
+																					main_context,
+																					"infi_use",
+																					"yes");
+
 																} else {
 																	AccessSharedPrefs
 																			.setString(
@@ -365,32 +352,29 @@ public class MainActivity extends SherlockFragmentActivity {
 																					"infi_use",
 																					"no");
 																}
+															} else {
+
+																AccessSharedPrefs
+																		.setString(
+																				main_context,
+																				"infi_use",
+																				"no");
 															}
-															if (AccessSharedPrefs.mPrefs
-																	.getString(
-																			"infi_sync",
-																			"no")
-																	.equals("yes")) {
-																if (inventory
-																		.hasPurchase(SKU_SUB_INFI_SYNC)) {
-																	Purchase p1 = inventory
-																			.getPurchase(SKU_SUB_INFI_SYNC);
-																	if (p1.getDeveloperPayload()
-																			.equals(getMD5())) {
 
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"infi_sync",
-																						"yes");
+															if (inventory
+																	.hasPurchase(SKU_SUB_INFI_SYNC)) {
 
-																	} else {
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"infi_sync",
-																						"no");
-																	}
+																Purchase p1 = inventory
+																		.getPurchase(SKU_SUB_INFI_SYNC);
+																if (p1.getDeveloperPayload()
+																		.equals(getMD5())) {
+
+																	AccessSharedPrefs
+																			.setString(
+																					main_context,
+																					"infi_sync",
+																					"yes");
+
 																} else {
 																	AccessSharedPrefs
 																			.setString(
@@ -398,31 +382,28 @@ public class MainActivity extends SherlockFragmentActivity {
 																					"infi_sync",
 																					"no");
 																}
-															}
-															if (AccessSharedPrefs.mPrefs
-																	.getString(
-																			"sync",
-																			"no")
-																	.equals("yes")) {
-																if (inventory
-																		.hasPurchase(SKU_SUB_SYNC)) {
-																	Purchase p1 = inventory
-																			.getPurchase(SKU_SUB_SYNC);
-																	if (p1.getDeveloperPayload()
-																			.equals(getMD5())) {
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"sync",
-																						"yes");
+															} else {
 
-																	} else {
-																		AccessSharedPrefs
-																				.setString(
-																						main_context,
-																						"sync",
-																						"no");
-																	}
+																AccessSharedPrefs
+																		.setString(
+																				main_context,
+																				"infi_sync",
+																				"no");
+															}
+
+															if (inventory
+																	.hasPurchase(SKU_SUB_SYNC)) {
+
+																Purchase p1 = inventory
+																		.getPurchase(SKU_SUB_SYNC);
+																if (p1.getDeveloperPayload()
+																		.equals(getMD5())) {
+																	AccessSharedPrefs
+																			.setString(
+																					main_context,
+																					"sync",
+																					"yes");
+
 																} else {
 																	AccessSharedPrefs
 																			.setString(
@@ -430,7 +411,15 @@ public class MainActivity extends SherlockFragmentActivity {
 																					"sync",
 																					"no");
 																}
+															} else {
+
+																AccessSharedPrefs
+																		.setString(
+																				main_context,
+																				"sync",
+																				"no");
 															}
+
 														}
 													}
 												});
@@ -448,6 +437,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				onSessionStateChange(session, state, exception);
 			}
 		};
+		
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);
@@ -867,7 +857,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		// If AdRemovePerchased do it //ad_free //infi_use //infi_sync
 		if (AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")) {
 			adView.setVisibility(View.GONE);
-			findViewById(R.id.padding_bottom_frame).setBackgroundColor(getResources().getColor(R.color.transparent));;
+			findViewById(R.id.padding_bottom_frame).setBackgroundColor(
+					getResources().getColor(R.color.transparent));
+			;
 		} else {
 			adView.setVisibility(View.VISIBLE);
 		}
@@ -3159,6 +3151,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		return new String(sh);
 	}
+
+	
 
 	public Boolean isOnline(Context cont) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) cont

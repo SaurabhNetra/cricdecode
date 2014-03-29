@@ -102,7 +102,7 @@ class infi_check(webapp2.RequestHandler):
                     infi_obj.token = json_obj["token"]
                     infi_obj.validuntil_ts_msec = json_obj["validuntil_ts_msec"]
                     infi_obj.put()
-                else:
+                if(json_obj['status'] == 0):
                     obj.not_valid = 1
                     obj.put()
         else:

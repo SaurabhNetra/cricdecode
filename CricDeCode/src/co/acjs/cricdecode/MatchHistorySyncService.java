@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 public class MatchHistorySyncService extends IntentService {
@@ -273,7 +277,7 @@ public class MatchHistorySyncService extends IntentService {
 					JSONParser jsonParser = new JSONParser();
 					int trial = 1;
 					JSONObject jn = null;
-					while (jsonParser.isOnline(who) && trial < 20) {
+					while (jsonParser.isOnline(who)) {
 						Log.w("JSONParser", "MatchHistory: Called");
 						
 						jn = jsonParser.makeHttpRequest(getResources()
@@ -288,6 +292,9 @@ public class MatchHistorySyncService extends IntentService {
 						} catch (InterruptedException e) {
 						}
 						trial++;
+						
+						if(trial==50)
+							break;
 					}
 
 					if (jn.getInt("status") == 1) {
@@ -326,7 +333,7 @@ public class MatchHistorySyncService extends IntentService {
 						jsonParser = new JSONParser();
 						trial = 1;
 						jn = null;
-						while (jsonParser.isOnline(who) && trial < 20) {
+						while (jsonParser.isOnline(who)) {
 							Log.w("JSONParser", "Send gcm: Called");
 							jn = jsonParser.makeHttpRequest(getResources()
 									.getString(R.string.azure_sendgcm),
@@ -340,6 +347,9 @@ public class MatchHistorySyncService extends IntentService {
 							} catch (InterruptedException e) {
 							}
 							trial++;
+							
+							if(trial==50)
+								break;
 						}
 						tcount++;
 
@@ -406,6 +416,7 @@ public class MatchHistorySyncService extends IntentService {
 						break;
 				}
 
+				writeToFile("chking inif_sync: "+jn);
 				try {
 					if (jn.getInt("status") == 1) {
 						AccessSharedPrefs.setString(who, "infi_sync", "yes");
@@ -472,6 +483,34 @@ public class MatchHistorySyncService extends IntentService {
 			}
 
 		}
+	}
+	
+	public static void writeToFile(String data) {
+
+		try {
+
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+
+			if (!root.exists()) {
+
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "matchsync.txt");
+
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+
+			writer.close();
+
+		} catch (IOException e) {
+
+			Log.e("Exception", "File write failed: " + e.toString());
+
+		}
+
 	}
 
 }

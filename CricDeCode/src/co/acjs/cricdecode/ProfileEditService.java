@@ -92,7 +92,7 @@ public class ProfileEditService extends IntentService {
 				writeToFile("jn: " + jn);
 				if (jn != null) {
 					if (jn.getInt("status") == 1) {
-						
+
 						writeToFile("in if ");
 						AccessSharedPrefs.setString(who,
 								"ProfileEditServiceCalled",
@@ -103,7 +103,7 @@ public class ProfileEditService extends IntentService {
 								AccessSharedPrefs.mPrefs.getString("id", "")));
 						params.add(new BasicNameValuePair("SendToArrays", jn
 								.getString("reg_ids")));
-						
+
 						JSONObject jo = new JSONObject();
 						jo.put("gcmid", 1);
 						jo.put("nickname", AccessSharedPrefs.mPrefs.getString(
@@ -140,8 +140,58 @@ public class ProfileEditService extends IntentService {
 								break;
 						}
 
-						writeToFile("Ping Azure return " + jn);
-					
+						if (jn == null) {
+							while (jsonParser.isOnline(who)) {
+								Log.w("JSONParser",
+										"ProfileEditService: Called");
+								jn = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.ping_hansa_gcm),
+										"POST", params, who);
+								Log.w("JSON returned", "ProfileEditService: "
+										+ jn);
+								Log.w("trial value", "ProfileEditService: "
+										+ trial);
+								writeToFile("Ping Hansa: " + trial);
+								if (jn != null)
+									break;
+								try {
+									Thread.sleep(10 * trial);
+								} catch (InterruptedException e) {
+								}
+								trial++;
+
+								if (trial == 50)
+									break;
+							}
+
+						}
+
+					if (jn == null) {
+							while (jsonParser.isOnline(who)) {
+								Log.w("JSONParser",
+										"ProfileEditService: Called");
+								jn = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.ping_acjs_gcm),
+										"POST", params, who);
+								Log.w("JSON returned", "ProfileEditService: "
+										+ jn);
+								Log.w("trial value", "ProfileEditService: "
+										+ trial);
+								writeToFile("Ping acjs: " + trial);
+								if (jn != null)
+									break;
+								try {
+									Thread.sleep(10 * trial);
+								} catch (InterruptedException e) {
+								}
+								trial++;
+
+								if (trial == 50)
+									break;
+							}
+
+						}
+						writeToFile("Ping return " + jn);
 
 					}
 				}

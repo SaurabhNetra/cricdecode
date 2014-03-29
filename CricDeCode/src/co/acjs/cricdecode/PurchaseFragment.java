@@ -44,7 +44,7 @@ public class PurchaseFragment extends SherlockFragment{
 			((TextView)view.findViewById(R.id.infi_pur)).setText("Not Applicable");
 			((TextView)view.findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
 		}
-		if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
+		else if(AccessSharedPrefs.mPrefs.getString("infi_use", "no").equals("yes")){
 			((TextView)view.findViewById(R.id.infi_pur)).setVisibility(View.VISIBLE);
 			((TextView)view.findViewById(R.id.infi_pur)).setText("Purchased");
 			((LinearLayout)view.findViewById(R.id.pur_subscribe_sync)).setVisibility(View.VISIBLE);

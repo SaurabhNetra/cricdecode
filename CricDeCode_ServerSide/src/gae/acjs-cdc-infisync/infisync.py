@@ -103,7 +103,7 @@ class infisync_check(webapp2.RequestHandler):
                     infisync_obj.token = json_obj["token"]
                     infisync_obj.validuntil_ts_msec = json_obj["validuntil_ts_msec"]
                     infisync_obj.put()
-                else:
+                if(json_obj['status'] == 0):
                     obj.not_valid = 1
                     obj.put()
         else:
