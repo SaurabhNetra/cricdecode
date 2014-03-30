@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.android.gms.ads.*;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 public class GCMIntentService extends GCMBaseIntentServiceCompat {
 	public static final int UPDATE_PROFILE_DATA = 1;
@@ -38,6 +40,9 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 	public static final int NO_SUB_SYNC = 11;
 	public static Context context;
 	static SQLiteDatabase dbHandle;
+	ContentProviderClient client;
+	Uri uri;
+	String m_devid, p_devid;
 
 	public GCMIntentService() {
 		super("GCMIntentService");
@@ -46,6 +51,11 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 
 	@Override
 	protected void onMessage(Intent message) {
+
+		client = getContentResolver().acquireContentProviderClient(
+				CricDeCodeContentProvider.AUTHORITY);
+		dbHandle = ((CricDeCodeContentProvider) client
+				.getLocalContentProvider()).getDbHelper().getReadableDatabase();
 		AccessSharedPrefs.mPrefs = context.getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
 		final String gcmString = message.getStringExtra("cricdecode");
@@ -53,7 +63,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
 			String s = gcmString.toString();
 			s = s.replace("\\", "");
-			writeToFile("gcm Recieved: "+s);
+			writeToFile("gcm Recieved: " + s);
 			JSONObject gcmData = new JSONObject(s);
 			switch (gcmData.getInt("gcmid")) {
 			case UPDATE_PROFILE_DATA:
@@ -100,20 +110,31 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 				}
 				break;
 			case MATCH_N_PERFORMANCE_DATA:
-				Log.w("Match and Per Sync", "GCM");
-				if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-						.equals("yes")
-						|| AccessSharedPrefs.mPrefs.getString("sync", "no")
-								.equals("yes")) {
-
+				writeToFile("in 2:");
+				// if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+				// .equals("yes")
+				// || AccessSharedPrefs.mPrefs.getString("sync", "no")
+				// .equals("yes")) {
+				try {
 					ContentValues values = new ContentValues();
+					writeToFile("" + gcmData.getInt("mid"));
+					writeToFile(gcmData.getString("did"));
+					writeToFile(gcmData.getString("m_dt"));
+					writeToFile(gcmData.getString("tm"));
+					writeToFile(gcmData.getString("otm"));
+					writeToFile(gcmData.getString("vn"));
+					writeToFile("" + gcmData.getInt("ovr"));
+					writeToFile("" + gcmData.getInt("in"));
+					writeToFile(gcmData.getString("res"));
+					writeToFile(gcmData.getString("lv"));
+					writeToFile(gcmData.getString("fa"));
+					writeToFile(gcmData.getString("dur"));
+					writeToFile(gcmData.getString("rev"));
 					values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
-					values.put(MatchDb.KEY_DEVICE_ID,
-							gcmData.getString("did"));
+					values.put(MatchDb.KEY_DEVICE_ID, gcmData.getString("did"));
 					values.put(MatchDb.KEY_MATCH_DATE,
 							gcmData.getString("m_dt"));
-					values.put(MatchDb.KEY_MY_TEAM,
-							gcmData.getString("tm"));
+					values.put(MatchDb.KEY_MY_TEAM, gcmData.getString("tm"));
 					values.put(MatchDb.KEY_OPPONENT_TEAM,
 							gcmData.getString("otm"));
 					values.put(MatchDb.KEY_VENUE, gcmData.getString("vn"));
@@ -123,39 +144,40 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 					values.put(MatchDb.KEY_LEVEL, gcmData.getString("lv"));
 					values.put(MatchDb.KEY_FIRST_ACTION,
 							gcmData.getString("fa"));
-					values.put(MatchDb.KEY_DURATION, gcmData.getInt("dur"));
+					values.put(MatchDb.KEY_DURATION, gcmData.getString("dur"));
 					values.put(MatchDb.KEY_REVIEW, gcmData.getString("rev"));
 					values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
 					values.put(MatchDb.KEY_SYNCED, 1);
-					Cursor c = dbHandle.rawQuery(
-							"select " + MatchDb.KEY_ROWID + " from "
-									+ MatchDb.SQLITE_TABLE + " where "
-									+ MatchDb.KEY_ROWID + " = "
-									+ gcmData.getInt("mid") + " and "
-									+ MatchDb.KEY_DEVICE_ID + " = '"
-									+ gcmData.getString("did") + "'",
-							null);
+					writeToFile("formed...");
+					Cursor c = dbHandle.rawQuery("select " + MatchDb.KEY_ROWID
+							+ " from " + MatchDb.SQLITE_TABLE + " where "
+							+ MatchDb.KEY_ROWID + " = " + gcmData.getInt("mid")
+							+ " and " + MatchDb.KEY_DEVICE_ID + " = '"
+							+ gcmData.getString("did") + "'", null);
+
+					writeToFile("cnt: " + c.getCount());
 					if (c.getCount() == 0) {
-						getApplicationContext().getContentResolver().insert(
-								CricDeCodeContentProvider.CONTENT_URI_MATCH,
-								values);
+
+						Uri irm = getApplicationContext()
+								.getContentResolver()
+								.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
+										values);
+						writeToFile("Inserting match " + irm);
 					}
 					c.close();
 
 					JSONArray ja1 = gcmData.getJSONArray("per");
+					writeToFile("performance data: " + ja1);
 					for (int j = 0; j < ja1.length(); j++) {
 						JSONObject jo1 = ja1.getJSONObject(j);
 						values = new ContentValues();
 						values.put(PerformanceDb.KEY_MATCHID,
-								jo1.getInt("mid"));
+								gcmData.getInt("mid"));
 						values.put(PerformanceDb.KEY_DEVICE_ID,
-								jo1.getString("did"));
-						values.put(PerformanceDb.KEY_ROWID,
-								jo1.getInt("pid"));
-						values.put(PerformanceDb.KEY_INNING,
-								jo1.getInt("in"));
-						values.put(PerformanceDb.KEY_BAT_NUM,
-								jo1.getInt("btn"));
+								gcmData.getString("did"));
+						values.put(PerformanceDb.KEY_ROWID, jo1.getInt("pid"));
+						values.put(PerformanceDb.KEY_INNING, jo1.getInt("in"));
+						values.put(PerformanceDb.KEY_BAT_NUM, jo1.getInt("btn"));
 						values.put(PerformanceDb.KEY_BAT_RUNS,
 								jo1.getInt("btr"));
 						values.put(PerformanceDb.KEY_BAT_BALLS,
@@ -228,31 +250,35 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 								"select " + PerformanceDb.KEY_ROWID + " from "
 										+ PerformanceDb.SQLITE_TABLE
 										+ " where " + PerformanceDb.KEY_MATCHID
-										+ " = " + jo1.getInt("mid")
+										+ " = " + gcmData.getInt("mid")
 										+ " and " + PerformanceDb.KEY_DEVICE_ID
-										+ " = '" + jo1.getString("did")
+										+ " = '" + gcmData.getString("did")
 										+ "' and " + PerformanceDb.KEY_INNING
 										+ " = " + jo1.getInt("in"), null);
 						if (c.getCount() == 0) {
-							getApplicationContext()
+							writeToFile("Inserting perf...");
+							Uri irm = getApplicationContext()
 									.getContentResolver()
 									.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 											values);
+							writeToFile("Inserting perf..." + irm);
 						}
 						c.close();
 
 					}
 
-					Uri uri = Uri
-							.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
-									+ "/" + gcmData.getInt("mid") + "/"
-									+ gcmData.getString("did"));
+					uri = Uri.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+							+ "/" + gcmData.getInt("mid") + "/"
+							+ gcmData.getString("did"));
 					ContentValues matchvalues = new ContentValues();
 					matchvalues.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 					getApplicationContext().getContentResolver().update(uri,
 							matchvalues, null, null);
-
+				} catch (Exception e) {
+					writeToFile("" + e);
 				}
+
+				// }
 				break;
 			case DELETE_MATCH:
 				JSONArray ja2 = gcmData.getJSONArray("todel");
@@ -265,7 +291,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						JSONObject jo = ja2.getJSONObject(i);
 						String str = jo.getString("match_id");
 						String d_str = jo.getString("device_id");
-						Uri uri = Uri
+						uri = Uri
 								.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
 										+ "/" + str + "/" + d_str);
 						getApplicationContext().getContentResolver().delete(
@@ -492,7 +518,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 							extras.getString(key)));
 		}
 	}
-	
+
 	public static void writeToFile(String data) {
 
 		try {

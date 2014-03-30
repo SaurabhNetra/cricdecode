@@ -25,6 +25,10 @@ public class MatchHistorySyncService extends IntentService {
 	public static boolean started = true;
 	public static Context who;
 	static int match_count;
+	JSONObject jn = null;
+	int trial = 0;
+	JSONParser jsonParser;
+	List<NameValuePair> params;
 
 	public MatchHistorySyncService() {
 		super("MatchCreateService");
@@ -64,11 +68,13 @@ public class MatchHistorySyncService extends IntentService {
 				try {
 					JSONObject cm = new JSONObject();
 					JSONObject per = new JSONObject();
+					JSONObject gcm_cm = new JSONObject();
+					JSONObject gcm_per = new JSONObject();
 					cm.put("uid", AccessSharedPrefs.mPrefs.getString("id", ""));
 					cm.put("mid", Integer.parseInt(c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID))));
-					cm.put("did",
-							Integer.parseInt(AccessSharedPrefs.mPrefs.getString("device_id", "")));
+					cm.put("did", Integer.parseInt(AccessSharedPrefs.mPrefs
+							.getString("device_id", "")));
 					cm.put("m_dt", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE)));
 					cm.put("tm", c.getString(c
@@ -90,6 +96,33 @@ public class MatchHistorySyncService extends IntentService {
 					cm.put("dur", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_DURATION)));
 					cm.put("rev", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)));
+					
+					gcm_cm.put("mid", Integer.parseInt(c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_ROWID))));
+					gcm_cm.put("did", AccessSharedPrefs.mPrefs
+							.getString("device_id", ""));
+					gcm_cm.put("m_dt", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE)));
+					gcm_cm.put("tm", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_MY_TEAM)));
+					gcm_cm.put("otm", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)));
+					gcm_cm.put("vn", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_VENUE)));
+					gcm_cm.put("ovr", Integer.parseInt(c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_OVERS))));
+					gcm_cm.put("in", Integer.parseInt(c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_INNINGS))));
+					gcm_cm.put("res", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_RESULT)));
+					gcm_cm.put("lv", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_LEVEL)));
+					gcm_cm.put("fa", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_FIRST_ACTION)));
+					gcm_cm.put("dur", c.getString(c
+							.getColumnIndexOrThrow(MatchDb.KEY_DURATION)));
+					gcm_cm.put("rev", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)));
 
 					String matchId = c.getString(c
@@ -147,6 +180,7 @@ public class MatchHistorySyncService extends IntentService {
 									+ devid + "'", null, null);
 
 					JSONArray ja = new JSONArray();
+					JSONArray gcm_ja = new JSONArray();
 					writeToFile("No of pers: " + c1.getCount());
 					if (c1.getCount() != 0) {
 						c1.moveToFirst();
@@ -154,8 +188,10 @@ public class MatchHistorySyncService extends IntentService {
 							JSONObject jo1 = new JSONObject();
 							jo1.put("uid", AccessSharedPrefs.mPrefs.getString(
 									"id", ""));
-							writeToFile("Mid:"+Integer.parseInt(c1.getString(c1
-											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
+							writeToFile("Mid:"
+									+ Integer
+											.parseInt(c1.getString(c1
+													.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
 							jo1.put("mid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
@@ -165,7 +201,7 @@ public class MatchHistorySyncService extends IntentService {
 							jo1.put("pid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))));
-						
+
 							jo1.put("in",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))));
@@ -270,31 +306,141 @@ public class MatchHistorySyncService extends IntentService {
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))));
 
 							ja.put(jo1);
+							
+							JSONObject gcm_jo1 = new JSONObject();
+							
+							gcm_jo1.put("pid",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))));
+
+							gcm_jo1.put("in",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))));
+							gcm_jo1.put("btn",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_NUM))));
+							gcm_jo1.put("btr",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_RUNS))));
+							gcm_jo1.put("btb",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BALLS))));
+							gcm_jo1.put("btt",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_TIME))));
+							gcm_jo1.put("btf",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FOURS))));
+							gcm_jo1.put("bts",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_SIXES))));
+							gcm_jo1.put("btd",
+									c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_HOW_OUT)));
+							gcm_jo1.put("btbot",
+									c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_BOWLER_TYPE)));
+							gcm_jo1.put("btfp",
+									c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_FIELDING_POSITION)));
+							gcm_jo1.put("btc",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BAT_CHANCES))));
+							gcm_jo1.put("bob",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_BALLS))));
+							gcm_jo1.put("bos",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SPELLS))));
+							gcm_jo1.put("bom",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_MAIDENS))));
+							gcm_jo1.put("bor",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_RUNS))));
+							gcm_jo1.put("bof",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_FOURS))));
+							gcm_jo1.put("bosx",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_SIXES))));
+							gcm_jo1.put("bowl",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_LEFT))));
+							gcm_jo1.put("bowr",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WKTS_RIGHT))));
+							gcm_jo1.put("bocd",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_CATCHES_DROPPED))));
+							gcm_jo1.put("bonb",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_NOBALLS))));
+							gcm_jo1.put("bow",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_BOWL_WIDES))));
+							gcm_jo1.put("fslc",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_SLIP_CATCH))));
+							gcm_jo1.put("fclc",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CLOSE_CATCH))));
+							gcm_jo1.put("fcic",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CIRCLE_CATCH))));
+							gcm_jo1.put("fdc",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_DEEP_CATCH))));
+							gcm_jo1.put("froci",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_CIRCLE))));
+							gcm_jo1.put("frodci",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE))));
+							gcm_jo1.put("frode",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DEEP))));
+							gcm_jo1.put("frodde",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP))));
+							gcm_jo1.put("fst",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_STUMPINGS))));
+							gcm_jo1.put("fby",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_BYES))));
+							gcm_jo1.put("fmf",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_MISFIELDS))));
+							gcm_jo1.put("fcd",
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))));
+
+							ja.put(jo1);
+							gcm_ja.put(gcm_jo1);
 							c1.moveToNext();
 						} while (!c1.isAfterLast());
 					}
 					c1.close();
 
 					per.put("per", ja);
+					gcm_per.put("per", gcm_ja);
 
-					List<NameValuePair> params = new ArrayList<NameValuePair>();
+					params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("matchData", cm
 							.toString()));
-					params.add(new BasicNameValuePair("perData", per.toString()
-							.toString()));
-					JSONParser jsonParser = new JSONParser();
+					params.add(new BasicNameValuePair("perData", per.toString()));
+					jsonParser = new JSONParser();
 					writeToFile("match data: " + cm.toString());
 					writeToFile("per data: " + per.toString());
-					int trial = 1;
-					JSONObject jn = null;
+					trial = 1;
+					jn = null;
 					while (jsonParser.isOnline(who)) {
 						Log.w("JSONParser", "MatchHistory: Called");
 
 						jn = jsonParser.makeHttpRequest(getResources()
 								.getString(R.string.gae_match_insert), "POST",
 								params, who);
-						Log.w("JSON returned", "MatchHistory: " + jn);
-						Log.w("trial value", "MatchHistory: " + trial);
 
 						writeToFile("gae trial: " + jn);
 						if (jn != null)
@@ -310,77 +456,50 @@ public class MatchHistorySyncService extends IntentService {
 					}
 
 					writeToFile("GAE response: " + jn);
-					if (jn.getInt("status") == 1) {
-						Uri uri = Uri
-								.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
-										+ "/"
-										+ c.getString(c
-												.getColumnIndexOrThrow(MatchDb.KEY_ROWID))
-										+ "/"
-										+ c.getString(c
-												.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
-						ContentValues matchvalues = new ContentValues();
+					if (jn != null) {
+						if (jn.getInt("status") == 1) {
+							Uri uri = Uri
+									.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+											+ "/"
+											+ c.getString(c
+													.getColumnIndexOrThrow(MatchDb.KEY_ROWID))
+											+ "/"
+											+ c.getString(c
+													.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
+							ContentValues matchvalues = new ContentValues();
 
-						matchvalues.put(MatchDb.KEY_SYNCED, 1);
-						getApplicationContext().getContentResolver().update(
-								uri, matchvalues, null, null);
-						uri = Uri
-								.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-										+ "/"
-										+ c.getString(c
-												.getColumnIndexOrThrow(MatchDb.KEY_ROWID))
-										+ "/"
-										+ c.getString(c
-												.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
-						ContentValues values = new ContentValues();
+							matchvalues.put(MatchDb.KEY_SYNCED, 1);
+							getApplicationContext().getContentResolver()
+									.update(uri, matchvalues, null, null);
+							uri = Uri
+									.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+											+ "/"
+											+ c.getString(c
+													.getColumnIndexOrThrow(MatchDb.KEY_ROWID))
+											+ "/"
+											+ c.getString(c
+													.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID)));
+							ContentValues values = new ContentValues();
 
-						values.put(PerformanceDb.KEY_SYNCED, 1);
-						getApplicationContext().getContentResolver().update(
-								uri, values, null, null);
-						cm.put("gcmid", 2);
-						cm.put("per", ja);
-						params = new ArrayList<NameValuePair>();
-						params.add(new BasicNameValuePair("SendToArrays",
-								regids));
-						params.add(new BasicNameValuePair("MsgToSend", cm
-								.toString()));
-						jsonParser = new JSONParser();
-						trial = 1;
-						JSONObject jn1 = null;
-						while (jsonParser.isOnline(who)) {
-							Log.w("JSONParser", "Send gcm: Called");
-							jn1 = jsonParser.makeHttpRequest(getResources()
-									.getString(R.string.azure_sendgcm), "POST",
-									params, who);
-							Log.w("JSON returned", "Send Gcm: " + jn1);
-							Log.w("trial value", "Send Gcm: " + trial);
-							if (jn1 != null)
-								break;
-							try {
-								Thread.sleep(10 * trial);
-							} catch (InterruptedException e) {
-							}
-							trial++;
-
-							if (trial == 50)
-								break;
-						}
-
-						writeToFile("send gcm azure: " + jn1);
-
-						if (jn1 == null) {
+							values.put(PerformanceDb.KEY_SYNCED, 1);
+							getApplicationContext().getContentResolver()
+									.update(uri, values, null, null);
+							gcm_cm.put("gcmid", 2);
+							gcm_cm.put("per", gcm_ja);
+							params = new ArrayList<NameValuePair>();
+							params.add(new BasicNameValuePair("SendToArrays",
+									regids));
+							params.add(new BasicNameValuePair("MsgToSend", gcm_cm
+									.toString()));
+							params.add(new BasicNameValuePair("uid", AccessSharedPrefs.mPrefs.getString("id", "")));
+							jsonParser = new JSONParser();
+							trial = 1;
+							jn = null;
 							while (jsonParser.isOnline(who)) {
-								Log.w("JSONParser",
-										"ProfileEditService: Called");
-								jn1 = jsonParser.makeHttpRequest(getResources()
-										.getString(R.string.ping_hansa_gcm),
+								jn = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.azure_sendgcm),
 										"POST", params, who);
-								Log.w("JSON returned", "ProfileEditService: "
-										+ jn1);
-								Log.w("trial value", "ProfileEditService: "
-										+ trial);
-								writeToFile("Ping Hansa: " + trial);
-								if (jn1 != null)
+								if (jn != null)
 									break;
 								try {
 									Thread.sleep(10 * trial);
@@ -392,45 +511,67 @@ public class MatchHistorySyncService extends IntentService {
 									break;
 							}
 
-						}
+							writeToFile("send gcm azure: " + jn);
 
-						writeToFile("send gcm hansa: " + jn1);
+							if (jn == null) {
+								while (jsonParser.isOnline(who)) {
+									Log.w("JSONParser",
+											"ProfileEditService: Called");
+									jn = jsonParser.makeHttpRequest(
+											getResources().getString(
+													R.string.ping_hansa_gcm),
+											"POST", params, who);
+									writeToFile("Ping Hansa: " + trial);
+									if (jn != null)
+										break;
+									try {
+										Thread.sleep(10 * trial);
+									} catch (InterruptedException e) {
+									}
+									trial++;
 
-						if (jn1 == null) {
-							while (jsonParser.isOnline(who)) {
-								Log.w("JSONParser",
-										"ProfileEditService: Called");
-								jn1 = jsonParser.makeHttpRequest(getResources()
-										.getString(R.string.ping_acjs_gcm),
-										"POST", params, who);
-								Log.w("JSON returned", "ProfileEditService: "
-										+ jn1);
-								Log.w("trial value", "ProfileEditService: "
-										+ trial);
-								writeToFile("Ping acjs: " + trial);
-								if (jn1 != null)
-									break;
-								try {
-									Thread.sleep(10 * trial);
-								} catch (InterruptedException e) {
+									if (trial == 50)
+										break;
 								}
-								trial++;
 
-								if (trial == 50)
-									break;
 							}
 
-						}
-						writeToFile("send gcm acjs: " + jn1);
-						tcount++;
+							writeToFile("send gcm hansa: " + jn);
 
+							if (jn == null) {
+								while (jsonParser.isOnline(who)) {
+									Log.w("JSONParser",
+											"ProfileEditService: Called");
+									jn = jsonParser.makeHttpRequest(
+											getResources().getString(
+													R.string.ping_acjs_gcm),
+											"POST", params, who);
+									writeToFile("Ping acjs: " + trial);
+									if (jn != null)
+										break;
+									try {
+										Thread.sleep(10 * trial);
+									} catch (InterruptedException e) {
+									}
+									trial++;
+
+									if (trial == 50)
+										break;
+								}
+
+							}
+							writeToFile("send gcm acjs: " + jn);
+							tcount++;
+
+						} else {
+							break;
+						}
 					} else {
 						break;
 					}
 				} catch (Exception e) {
-					Log.w("exception", "np");
-					writeToFile("exception: "+e);
-				} 
+					writeToFile("exception: " + e);
+				}
 
 				c.moveToNext();
 			} while (!c.isAfterLast());
@@ -452,13 +593,13 @@ public class MatchHistorySyncService extends IntentService {
 			if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
 					"yes")) {
 
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("user_id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
 
-				final JSONParser jsonParser = new JSONParser();
-				int trial = 1;
-				JSONObject jn = null;
+			    jsonParser = new JSONParser();
+				trial = 1;
+				jn = null;
 				while (jsonParser.isOnline(who)) {
 					Log.w("JSONParser", "SubinfiSync:: Called");
 					// take user_id, max validts, valid? return status=1, not
@@ -498,14 +639,14 @@ public class MatchHistorySyncService extends IntentService {
 
 			} else if (AccessSharedPrefs.mPrefs.getString("sync", "no").equals(
 					"yes")) {
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params = new ArrayList<NameValuePair>();
 
 				params.add(new BasicNameValuePair("id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
 
-				final JSONParser jsonParser = new JSONParser();
-				int trial = 1;
-				JSONObject jn = null;
+				jsonParser = new JSONParser();
+				trial = 1;
+				jn = null;
 				while (jsonParser.isOnline(who)) {
 					// take user_id, max validts, valid? return status=1, not
 					// valid then ping google to chk status=0, status=1, send

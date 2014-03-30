@@ -23,13 +23,10 @@ class crkmatch(ndb.Model):
 class crkmatch_insert(webapp2.RequestHandler):
 
     def post(self):
-{"uid":"100006523547966","res":"Win","rev":"Played well.","tm":"India","fa":"Batting","lv":"International","did":"1","in":1,"vn":"Sri Lanka","dur":"Day","ovr":20,"m_dt":"2014-03-29","mid":1,"otm":"Sri Lanka"}
 
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(self.request.get('matchData'))
         match_json = {}
         match_json = json.loads(self.request.get('matchData'))
-        self.response.write(match_json)
         crkmatch_obj = crkmatch()
         crkmatch_obj.device_id = match_json['did']
         crkmatch_obj.duration = match_json['dur']
@@ -54,18 +51,14 @@ class crkmatch_insert(webapp2.RequestHandler):
         )).fetch()
 
         if(len(obj_list) == 0):
-
             crkmatch_obj.put()
-
             url = "http://acjs-cdc-per.appspot.com/insert"
             values = {}
             values['perData'] = self.request.get('perData')
-            self.response.write(values)
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
             per_response = json.loads(response.read())
-            self.response.write(per_response)
 
         per_response = {}
         per_response["status"] = 1

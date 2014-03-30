@@ -61,6 +61,10 @@ public class LogIn extends SherlockActivity {
 	static TextView progressText;
 	static Boolean onActivityResult = false;
 	static ContentResolver cr;
+	static int trial = 1;
+	static JSONObject jn = null;
+	static JSONParser jsonParser;
+	static List<NameValuePair> params;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +122,8 @@ public class LogIn extends SherlockActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
-		com.google.android.gms.analytics.Tracker t = ((CDCAppClass)getApplication()).getTracker(TrackerName.APP_TRACKER);
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
 		t.setScreenName(getResources().getString(R.string.analyticsLogin));
 		t.send(new HitBuilders.AppViewBuilder().build());
 
@@ -187,6 +192,8 @@ public class LogIn extends SherlockActivity {
 											Log.w("Face Book Login Complete 2",
 													"LogIn: "
 															+ user.getBirthday());
+											writeToFile("LogIn: "
+													+ user.getBirthday());
 											LogIn.user = user;
 											progressText
 													.setText("Phase 1 of 3...");
@@ -274,7 +281,7 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
-			writeToFile("calling gcm register : "+regid);
+			writeToFile("calling gcm register : " + regid);
 			if (regid == null)
 				((LogIn) login_activity).GCMRegistration();
 			else {
@@ -282,342 +289,6 @@ public class LogIn extends SherlockActivity {
 			}
 		}
 	}
-
-	/*
-	 * static void chkAll() {
-	 * Log.w("INSERT INTO user_android_devices values('$id','$gcmid','$tday')",
-	 * "success"); ServerDBUserTable.query(ServerDBUserTable.class, new
-	 * StackMobQuery().field(new StackMobQueryField("user_id")
-	 * .isEqualTo(user.getId())), new StackMobQueryCallback<ServerDBUserTable>()
-	 * {
-	 * 
-	 * @Override public void failure(StackMobException arg0) { Log.w("Login",
-	 * "failure 1"); showDialog(); }
-	 * 
-	 * @Override public void success( final List<ServerDBUserTable>
-	 * returenedVar) { Log.w("chk if user existing", "success"); if
-	 * (returenedVar.size() == 0) new ServerDBUserTable(user.getId(), 1, user
-	 * .getFirstName(), user.getLastName(), "", user.getLink(),
-	 * user.getBirthday(), "", "", "", 1).save(new StackMobCallback() {
-	 * 
-	 * @Override public void success(String arg0) {
-	 * AccessSharedPrefs.setString(login_activity, "device_id", "1");
-	 * openMainActivity(); }
-	 * 
-	 * @Override public void failure(StackMobException arg0) { Log.w("Login",
-	 * "failure 2"); showDialog(); } }); else { // Bigggg else
-	 * returenedVar.get(0).setDeviceNo( returenedVar.get(0).getDeviceNo() + 1);
-	 * returenedVar.get(0).save( new StackMobModelCallback() { String dev_no =
-	 * "" + (returenedVar.get(0) .getDeviceNo() + 1); String nickname =
-	 * returenedVar.get(0) .getNickName(); String bat_style =
-	 * returenedVar.get(0) .getBattingStyle(); String bowl_style =
-	 * returenedVar.get(0) .getBowlingStyle(); String role = returenedVar.get(0)
-	 * .getRole();
-	 * 
-	 * @Override public void failure( StackMobException arg0) { Log.w("Login",
-	 * "failure 3"); showDialog(); }
-	 * 
-	 * @Override public void success() { Log.w("LogIn", "DeviceId success");
-	 * AccessSharedPrefs.setString( login_activity, "device_id", "" + dev_no);
-	 * AccessSharedPrefs.setString( login_activity, "role", role);
-	 * AccessSharedPrefs.setString( login_activity, "battingStyle", bat_style);
-	 * AccessSharedPrefs.setString( login_activity, "bowlingStyle", bowl_style);
-	 * AccessSharedPrefs.setString( login_activity, "nickname", nickname);
-	 * ServerDBRemoveAds .query(ServerDBRemoveAds.class, new StackMobQuery()
-	 * .field(new StackMobQueryField( "user_id") .isEqualTo(user .getId())), new
-	 * StackMobQueryCallback<ServerDBRemoveAds>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog();
-	 * Log.w("Login", "failure 4"); }
-	 * 
-	 * @Override public void success( List<ServerDBRemoveAds> arg0) {
-	 * Log.w("LoginIn", "remove_ads_chk success!!" + arg0.size()); if
-	 * (arg0.size() == 0) { AccessSharedPrefs .setString( login_activity,
-	 * "ad_free", "no"); } else { AccessSharedPrefs .setString( login_activity,
-	 * "ad_free", "yes"); } ServerDBSubInfi .query(ServerDBSubInfi.class, new
-	 * StackMobQuery() .field(new StackMobQueryField( "user_id") .isEqualTo(user
-	 * .getId())), new StackMobQueryCallback<ServerDBSubInfi>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog();
-	 * Log.w("Login", "failure 5"); }
-	 * 
-	 * @Override public void success( List<ServerDBSubInfi> arg0) {
-	 * Log.w("LoginIn", "sub_infi_chk success!!" + arg0.size()); long now = new
-	 * Date() .getTime(); if ((arg0 .size() > 0)) { long t = arg0 .get(0)
-	 * .getValidUntilTs(); int m = 0; for (int i = 1; i < arg0 .size(); i++) {
-	 * if (t < arg0 .get(i) .getValidUntilTs()) { t = arg0.get( i)
-	 * .getValidUntilTs(); m = i; } } final ServerDBSubInfi max = arg0 .get(m);
-	 * if (now < arg0 .get(m) .getValidUntilTs()) { AccessSharedPrefs
-	 * .setString( login_activity, "infi_use", "yes"); } else {
-	 * ServerDBAndroidDevices .query(ServerDBAndroidDevices.class, new
-	 * StackMobQuery() .field(new StackMobQueryField( "user_id")
-	 * .isEqualTo(AccessSharedPrefs.mPrefs .getString( "id", ""))), new
-	 * StackMobQueryCallback<ServerDBAndroidDevices>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog(); }
-	 * 
-	 * @Override public void success( List<ServerDBAndroidDevices> arg0) {
-	 * String regids = ""; for (int i = 0; i < arg0 .size(); i++) { regids =
-	 * regids + " " + arg0.get( i) .getGcmId(); } List<NameValuePair> params =
-	 * new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair(
-	 * "SendToArrays", regids)); params.add(new BasicNameValuePair(
-	 * "product_id", "sub_infi")); JSONObject jo = new JSONObject(); try {
-	 * jo.put("orderId", max.getOrderId()); jo.put("Token", max.getToken());
-	 * jo.put("Sign", max.getSign()); } catch (JSONException e) { }
-	 * params.add(new BasicNameValuePair( "json", jo.toString()));
-	 * params.add(new BasicNameValuePair( "id", AccessSharedPrefs.mPrefs
-	 * .getString( "id", ""))); List<NameValuePair> params1 = new
-	 * ArrayList<NameValuePair>(); params1.add(new BasicNameValuePair(
-	 * "user_id", AccessSharedPrefs.mPrefs .getString( "id", "")));
-	 * params1.add(new BasicNameValuePair( "json", jo.toString()));
-	 * params1.add(new BasicNameValuePair( "filname", "Login-SubInfi")); final
-	 * JSONParser jsonParser = new JSONParser(); int trial = 1; JSONObject jn =
-	 * null; while (jsonParser .isOnline(login_activity)) { Log.w("JSONParser",
-	 * "Subinfi:: Called"); jn = jsonParser .makeHttpRequest( login_activity
-	 * .getResources() .getString( R.string.purchase_infi), "POST", params,
-	 * login_activity); Log.w("JSON returned", "Subinfi:: " + jn);
-	 * Log.w("trial value", "Subinfi:: " + trial); if (jn != null) break; try {
-	 * Thread.sleep(10 * trial); } catch (InterruptedException e) { } trial++;
-	 * if (trial == 50) break; } try { if (jn != null) { params1.add(new
-	 * BasicNameValuePair( "jn", "" + jn)); } else { params1.add(new
-	 * BasicNameValuePair( "jn", "null")); } params1.add(new BasicNameValuePair(
-	 * "trial", "" + trial)); jsonParser .makeHttpRequest( login_activity
-	 * .getResources() .getString( R.string.send_mail), "POST", params1,
-	 * login_activity); } catch (Exception e) { } try { if (jn.getInt("status")
-	 * == 1) { AccessSharedPrefs .setString( login_activity, "infi_use", "yes");
-	 * } else if (jn .getInt("status") == 0) { AccessSharedPrefs .setString(
-	 * login_activity, "infi_use", "no"); } else if (jn .getInt("status") == 2
-	 * || jn.getInt("status") == 3) { AccessSharedPrefs .setString(
-	 * login_activity, "infi_use", "yes"); } } catch (NullPointerException e) {
-	 * } catch (JSONException e) { e.printStackTrace(); } } }); }
-	 * Log.w("LoginIn", "sub_infi_chk success!! 2"); } else { AccessSharedPrefs
-	 * .setString( login_activity, "infi_use", "no"); } Log.w("LoginIn",
-	 * "sub_infi_chk success!! 3"); ServerDBSubInfiSync
-	 * .query(ServerDBSubInfiSync.class, new StackMobQuery() .field(new
-	 * StackMobQueryField( "user_id") .isEqualTo(user .getId())), new
-	 * StackMobQueryCallback<ServerDBSubInfiSync>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog();
-	 * Log.w("Login", "failure 6"); }
-	 * 
-	 * @Override public void success( List<ServerDBSubInfiSync> arg0) {
-	 * Log.w("LoginIn", "sub_infi_sync_chk success!!" + arg0.size()); long now =
-	 * new Date() .getTime(); if ((arg0 .size() > 0)) { long t = arg0 .get(0)
-	 * .getValidUntilTs(); int m = 0; for (int i = 1; i < arg0 .size(); i++) {
-	 * if (t < arg0 .get(i) .getValidUntilTs()) { t = arg0.get( i)
-	 * .getValidUntilTs(); m = i; } } final ServerDBSubInfiSync max = arg0
-	 * .get(m); if (now < arg0 .get(m) .getValidUntilTs()) { AccessSharedPrefs
-	 * .setString( login_activity, "infi_sync", "yes"); } else {
-	 * ServerDBAndroidDevices .query(ServerDBAndroidDevices.class, new
-	 * StackMobQuery() .field(new StackMobQueryField( "user_id")
-	 * .isEqualTo(AccessSharedPrefs.mPrefs .getString( "id", ""))), new
-	 * StackMobQueryCallback<ServerDBAndroidDevices>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog(); }
-	 * 
-	 * @Override public void success( List<ServerDBAndroidDevices> arg0) {
-	 * String regids = ""; for (int i = 0; i < arg0 .size(); i++) { regids =
-	 * regids + " " + arg0.get( i) .getGcmId(); } List<NameValuePair> params =
-	 * new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair(
-	 * "SendToArrays", regids)); params.add(new BasicNameValuePair(
-	 * "product_id", "sub_infi_sync")); JSONObject jo = new JSONObject(); try {
-	 * jo.put("orderId", max.getOrderId()); jo.put("Token", max.getToken());
-	 * jo.put("Sign", max.getSign()); } catch (JSONException e) { }
-	 * params.add(new BasicNameValuePair( "json", jo.toString()));
-	 * params.add(new BasicNameValuePair( "id", AccessSharedPrefs.mPrefs
-	 * .getString( "id", ""))); List<NameValuePair> params1 = new
-	 * ArrayList<NameValuePair>(); params1.add(new BasicNameValuePair(
-	 * "user_id", AccessSharedPrefs.mPrefs .getString( "id", "")));
-	 * params1.add(new BasicNameValuePair( "json", jo.toString()));
-	 * params1.add(new BasicNameValuePair( "filname", "Login-InfiSync")); final
-	 * JSONParser jsonParser = new JSONParser(); int trial = 1; JSONObject jn =
-	 * null; while (jsonParser .isOnline(login_activity)) { Log.w("JSONParser",
-	 * "SubinfiSync:: Called"); jn = jsonParser .makeHttpRequest( login_activity
-	 * .getResources() .getString( R.string.purchase_infi), "POST", params,
-	 * login_activity); Log.w("JSON returned", "SubinfiSync:: " + jn);
-	 * Log.w("trial value", "SubinfiSync:: " + trial); if (jn != null) break;
-	 * try { Thread.sleep(10 * trial); } catch (InterruptedException e) { }
-	 * trial++; if (trial == 50) break; } try { if (jn != null) {
-	 * params1.add(new BasicNameValuePair( "jn", "" + jn.toString())); } else {
-	 * params1.add(new BasicNameValuePair( "jn", "null")); } params1.add(new
-	 * BasicNameValuePair( "trial", "" + trial)); jsonParser .makeHttpRequest(
-	 * login_activity .getResources() .getString( R.string.send_mail), "POST",
-	 * params1, login_activity); } catch (Exception e) { } try { if
-	 * (jn.getInt("status") == 1) { AccessSharedPrefs .setString(
-	 * login_activity, "infi_sync", "yes"); } else if (jn .getInt("status") ==
-	 * 0) { AccessSharedPrefs .setString( login_activity, "infi_sync", "no"); }
-	 * else if (jn .getInt("status") == 2 || jn.getInt("status") == 3) {
-	 * AccessSharedPrefs .setString( login_activity, "infi_sync", "yes"); } }
-	 * catch (NullPointerException e) { } catch (JSONException e) {
-	 * e.printStackTrace(); } } }); } Log.w("LoginIn",
-	 * "sub_infi_chk success!! 2"); } else { AccessSharedPrefs .setString(
-	 * login_activity, "infi_sync", "no"); } ServerDBSubSync
-	 * .query(ServerDBSubSync.class, new StackMobQuery() .field(new
-	 * StackMobQueryField( "user_id") .isEqualTo(user .getId())), new
-	 * StackMobQueryCallback<ServerDBSubSync>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog();
-	 * Log.w("Login", "failure 7"); }
-	 * 
-	 * @Override public void success( List<ServerDBSubSync> arg0) {
-	 * Log.w("LoginIn", "sub_sync_chk success!!" + arg0.size()); long now = new
-	 * Date() .getTime(); if ((arg0 .size() > 0)) { long t = arg0 .get(0)
-	 * .getValidUntilTs(); int m = 0; for (int i = 1; i < arg0 .size(); i++) {
-	 * if (t < arg0 .get(i) .getValidUntilTs()) { t = arg0.get( i)
-	 * .getValidUntilTs(); m = i; } } final ServerDBSubSync max = arg0 .get(m);
-	 * if (now < arg0 .get(m) .getValidUntilTs()) { AccessSharedPrefs
-	 * .setString( login_activity, "sync", "yes"); } else {
-	 * ServerDBAndroidDevices .query(ServerDBAndroidDevices.class, new
-	 * StackMobQuery() .field(new StackMobQueryField( "user_id")
-	 * .isEqualTo(AccessSharedPrefs.mPrefs .getString( "id", ""))), new
-	 * StackMobQueryCallback<ServerDBAndroidDevices>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog(); }
-	 * 
-	 * @Override public void success( List<ServerDBAndroidDevices> arg0) {
-	 * String regids = ""; for (int i = 0; i < arg0 .size(); i++) { regids =
-	 * regids + " " + arg0.get( i) .getGcmId(); } List<NameValuePair> params =
-	 * new ArrayList<NameValuePair>(); params.add(new BasicNameValuePair(
-	 * "SendToArrays", regids)); params.add(new BasicNameValuePair(
-	 * "product_id", "sub_sync")); JSONObject jo = new JSONObject(); try {
-	 * jo.put("orderId", max.getOrderId()); jo.put("Token", max.getToken());
-	 * jo.put("Sign", max.getSign()); } catch (JSONException e) { }
-	 * params.add(new BasicNameValuePair( "json", jo.toString()));
-	 * params.add(new BasicNameValuePair( "id", AccessSharedPrefs.mPrefs
-	 * .getString( "id", ""))); List<NameValuePair> params1 = new
-	 * ArrayList<NameValuePair>(); params1.add(new BasicNameValuePair(
-	 * "user_id", AccessSharedPrefs.mPrefs .getString( "id", "")));
-	 * params1.add(new BasicNameValuePair( "json", jo.toString()));
-	 * params1.add(new BasicNameValuePair( "filname", "Login-Sync")); final
-	 * JSONParser jsonParser = new JSONParser(); int trial = 1; JSONObject jn =
-	 * null; while (jsonParser .isOnline(login_activity)) { Log.w("JSONParser",
-	 * "SubinfiSync:: Called"); jn = jsonParser .makeHttpRequest( login_activity
-	 * .getResources() .getString( R.string.purchase_infi), "POST", params,
-	 * login_activity); Log.w("JSON returned", "SubinfiSync:: " + jn);
-	 * Log.w("trial value", "SubinfiSync:: " + trial); if (jn != null) break;
-	 * try { Thread.sleep(10 * trial); } catch (InterruptedException e) { }
-	 * trial++; if (trial == 50) break; } try { if (jn != null) {
-	 * params1.add(new BasicNameValuePair( "jn", "" + jn)); } else {
-	 * params1.add(new BasicNameValuePair( "jn", "null")); } params1.add(new
-	 * BasicNameValuePair( "trial", "" + trial)); jsonParser .makeHttpRequest(
-	 * login_activity .getResources() .getString( R.string.send_mail), "POST",
-	 * params1, login_activity); } catch (Exception e) { } try { if
-	 * (jn.getInt("status") == 1) { AccessSharedPrefs .setString(
-	 * login_activity, "sync", "yes"); } else if (jn .getInt("status") == 0) {
-	 * AccessSharedPrefs .setString( login_activity, "sync", "no"); } else if
-	 * (jn .getInt("status") == 2 || jn.getInt("status") == 3) {
-	 * AccessSharedPrefs .setString( login_activity, "sync", "yes"); } } catch
-	 * (NullPointerException e) { } catch (JSONException e) {
-	 * e.printStackTrace(); } } }); } Log.w("LoginIn",
-	 * "sub_sync_chk success!! 2"); } else { AccessSharedPrefs .setString(
-	 * login_activity, "sync", "no"); } ServerDBCricketMatch
-	 * .query(ServerDBCricketMatch.class, new StackMobQuery() .field(new
-	 * StackMobQueryField( "user_id") .isEqualTo(user .getId())) .field(new
-	 * StackMobQueryField( "status") .isEqualTo(0)), new
-	 * StackMobQueryCallback<ServerDBCricketMatch>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog();
-	 * Log.w("Login", "failure 9"); }
-	 * 
-	 * @Override public void success( List<ServerDBCricketMatch> arg0) {
-	 * Log.w("LoginIn", "cricket_match success!!" + arg0.size()); for (int i =
-	 * 0; i < arg0 .size(); i++) { Log.w("LoginIn", "cricket_match in loop!!" +
-	 * i); ContentValues values = new ContentValues(); values.put(
-	 * MatchDb.KEY_ROWID, arg0.get( i) .getMatchId()); values.put(
-	 * MatchDb.KEY_DEVICE_ID, "" + arg0.get( i) .getDeviceId()); values.put(
-	 * MatchDb.KEY_MATCH_DATE, arg0.get( i) .getMatchDate()); values.put(
-	 * MatchDb.KEY_MY_TEAM, arg0.get( i) .getMyTeam()); Log.w("LoginIn",
-	 * "cricket_match in loop!!" + arg0.get( i) .getMyTeam()); values.put(
-	 * MatchDb.KEY_OPPONENT_TEAM, arg0.get( i) .getOpponentTeam()); values.put(
-	 * MatchDb.KEY_VENUE, arg0.get( i) .getVenue()); values.put(
-	 * MatchDb.KEY_OVERS, arg0.get( i) .getOvers()); values.put(
-	 * MatchDb.KEY_INNINGS, arg0.get( i) .getInnings()); values.put(
-	 * MatchDb.KEY_RESULT, arg0.get( i) .getResult()); values.put(
-	 * MatchDb.KEY_LEVEL, arg0.get( i) .getLevel()); values.put(
-	 * MatchDb.KEY_FIRST_ACTION, arg0.get( i) .getFirstAction()); values.put(
-	 * MatchDb.KEY_DURATION, arg0.get( i) .getDuration()); values.put(
-	 * MatchDb.KEY_REVIEW, arg0.get( i) .getReview()); values.put(
-	 * MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY); values.put(
-	 * MatchDb.KEY_SYNCED, 1); try { Cursor c = LogIn.dbHandle .rawQuery(
-	 * "select " + MatchDb.KEY_ROWID + " from " + MatchDb.SQLITE_TABLE +
-	 * " where " + MatchDb.KEY_ROWID + " = " + arg0.get( i) .getMatchId() +
-	 * " and " + MatchDb.KEY_DEVICE_ID + " = '" + arg0.get( i) .getDeviceId() +
-	 * "'", null); Log.w("LoginIn", "count of matches: " + c.getCount()); if
-	 * (c.getCount() == 0) { Uri u = cr
-	 * .insert(CricDeCodeContentProvider.CONTENT_URI_MATCH, values);
-	 * Log.w("Uri inserted", "" + u); } c.close(); } catch (Exception e) {
-	 * Log.w("login", "Exception e" + e); } } ServerDBPerformance
-	 * .query(ServerDBPerformance.class, new StackMobQuery() .field(new
-	 * StackMobQueryField( "user_id") .isEqualTo(user .getId())) .field(new
-	 * StackMobQueryField( "status") .isEqualTo(0)), new
-	 * StackMobQueryCallback<ServerDBPerformance>() {
-	 * 
-	 * @Override public void failure( StackMobException arg0) { showDialog();
-	 * Log.w("Login", "failure 7"); }
-	 * 
-	 * @Override public void success( List<ServerDBPerformance> arg0) {
-	 * Log.w("LoginIn", "performance success!!" + arg0.size()); for (int i = 0;
-	 * i < arg0 .size(); i++) { ContentValues values = new ContentValues();
-	 * values.put( PerformanceDb.KEY_MATCHID, arg0.get( i) .getMatchId());
-	 * values.put( PerformanceDb.KEY_DEVICE_ID, "" + arg0.get( i)
-	 * .getDeviceId()); Log.w("LoginIn", "cricket_match in loop!!" + arg0.get(
-	 * i) .getDeviceId()); values.put( PerformanceDb.KEY_ROWID, arg0.get( i)
-	 * .getPerId()); values.put( PerformanceDb.KEY_INNING, arg0.get( i)
-	 * .getInning()); values.put( PerformanceDb.KEY_BAT_NUM, arg0.get( i)
-	 * .getBatNum()); values.put( PerformanceDb.KEY_BAT_RUNS, arg0.get( i)
-	 * .getBatRuns()); values.put( PerformanceDb.KEY_BAT_BALLS, arg0.get( i)
-	 * .getBatBalls()); values.put( PerformanceDb.KEY_BAT_TIME, arg0.get( i)
-	 * .getBatTime()); values.put( PerformanceDb.KEY_BAT_FOURS, arg0.get( i)
-	 * .getBatFours()); values.put( PerformanceDb.KEY_BAT_SIXES, arg0.get( i)
-	 * .getBatSixes()); values.put( PerformanceDb.KEY_BAT_HOW_OUT, arg0.get( i)
-	 * .getBatDismissal()); values.put( PerformanceDb.KEY_BAT_BOWLER_TYPE,
-	 * arg0.get( i) .getBatBowlerType()); values.put(
-	 * PerformanceDb.KEY_BAT_FIELDING_POSITION, arg0.get( i)
-	 * .getBatFieldingPosition()); values.put( PerformanceDb.KEY_BAT_CHANCES,
-	 * arg0.get( i) .getBatChances()); values.put( PerformanceDb.KEY_BOWL_BALLS,
-	 * arg0.get( i) .getBowlBalls()); values.put( PerformanceDb.KEY_BOWL_SPELLS,
-	 * arg0.get( i) .getBowlSpells()); values.put(
-	 * PerformanceDb.KEY_BOWL_MAIDENS, arg0.get( i) .getBowlMaidens());
-	 * values.put( PerformanceDb.KEY_BOWL_RUNS, arg0.get( i) .getBowlRuns());
-	 * values.put( PerformanceDb.KEY_BOWL_FOURS, arg0.get( i) .getBowlFours());
-	 * values.put( PerformanceDb.KEY_BOWL_SIXES, arg0.get( i) .getBowlSixes());
-	 * values.put( PerformanceDb.KEY_BOWL_WKTS_LEFT, arg0.get( i)
-	 * .getBowlWktsLeft()); values.put( PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-	 * arg0.get( i) .getBowlWktsRight()); values.put(
-	 * PerformanceDb.KEY_BOWL_CATCHES_DROPPED, arg0.get( i)
-	 * .getBowlCatchesDropped()); values.put( PerformanceDb.KEY_BOWL_NOBALLS,
-	 * arg0.get( i) .getNoBalls()); values.put( PerformanceDb.KEY_BOWL_WIDES,
-	 * arg0.get( i) .getBowlWides()); values.put(
-	 * PerformanceDb.KEY_FIELD_SLIP_CATCH, arg0.get( i) .getFieldSlipCatch());
-	 * values.put( PerformanceDb.KEY_FIELD_CLOSE_CATCH, arg0.get( i)
-	 * .getFieldCloseCatch()); values.put( PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-	 * arg0.get( i) .getFieldCircleCatch()); values.put(
-	 * PerformanceDb.KEY_FIELD_DEEP_CATCH, arg0.get( i) .getFieldDeepCatch());
-	 * values.put( PerformanceDb.KEY_FIELD_RO_CIRCLE, arg0.get( i)
-	 * .getFieldRoCircle()); values.put(
-	 * PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE, arg0.get( i)
-	 * .getFieldRoDirectCircle()); values.put( PerformanceDb.KEY_FIELD_RO_DEEP,
-	 * arg0.get( i) .getFieldRoDeep()); values.put(
-	 * PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP, arg0.get( i)
-	 * .getFieldRoDirectDeep()); values.put( PerformanceDb.KEY_FIELD_STUMPINGS,
-	 * arg0.get( i) .getFieldStumping()); values.put(
-	 * PerformanceDb.KEY_FIELD_BYES, arg0.get( i) .getFieldByes()); values.put(
-	 * PerformanceDb.KEY_FIELD_MISFIELDS, arg0.get( i) .getMisFields());
-	 * values.put( PerformanceDb.KEY_FIELD_CATCHES_DROPPED, arg0.get( i)
-	 * .getCatchedDropped()); values.put( PerformanceDb.KEY_SYNCED, 1);
-	 * values.put( PerformanceDb.KEY_STATUS, MatchDb.MATCH_HISTORY); Cursor c =
-	 * LogIn.dbHandle .rawQuery( "select " + PerformanceDb.KEY_ROWID + " from "
-	 * + PerformanceDb.SQLITE_TABLE + " where " + PerformanceDb.KEY_MATCHID +
-	 * " = " + arg0.get( i) .getMatchId() + " and " +
-	 * PerformanceDb.KEY_DEVICE_ID + " = '" + arg0.get( i) .getDeviceId() +
-	 * "' and " + PerformanceDb.KEY_INNING + " = " + arg0.get( i) .getInning(),
-	 * null); Log.w("LoginIn", "count of performance: " + c.getCount()); if
-	 * (c.getCount() == 0) { Uri u = cr
-	 * .insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE, values);
-	 * Log.w("Uri inserted", "" + u); } c.close(); } Log.w("LogIn",
-	 * "Opening Activity"); openMainActivity(); } }); } }); } }); } }); } }); }
-	 * }); } }); } } }); }
-	 */
 
 	static void startApp(final String gcm_reg_id) {
 		Log.w("Start App", "called");
@@ -636,7 +307,7 @@ public class LogIn extends SherlockActivity {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("gcm_id", gcm_reg_id));
 				params.add(new BasicNameValuePair("os", "1"));
 				params.add(new BasicNameValuePair("l_name", user.getLastName()));
@@ -645,10 +316,10 @@ public class LogIn extends SherlockActivity {
 				params.add(new BasicNameValuePair("dob", user.getBirthday()));
 				params.add(new BasicNameValuePair("user_id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
-				writeToFile("storing sp: "+user.getFirstName());
-				JSONParser jsonParser = new JSONParser();
-				int trial = 1;
-				JSONObject jn = null;
+				writeToFile("storing sp: " + user.getFirstName());
+				jsonParser = new JSONParser();
+				trial = 1;
+				jn = null;
 				while (jsonParser.isOnline(login_activity)) {
 					Log.w("JSONParser", "usertable:: Called");
 					jn = jsonParser.makeHttpRequest(
@@ -668,7 +339,7 @@ public class LogIn extends SherlockActivity {
 					if (trial == 50)
 						break;
 				}
-
+				writeToFile("Usr insert reply: " + jn);
 				try {
 					if (jn.getInt("status") == 1) {
 						AccessSharedPrefs.setString(login_activity,
@@ -694,6 +365,7 @@ public class LogIn extends SherlockActivity {
 						jsonParser = new JSONParser();
 						trial = 1;
 						jn = null;
+						writeToFile("Calling chk remove ads");
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_removeads:: Called");
 							// ping to gae ads table
@@ -713,11 +385,11 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-
+						writeToFile("remove ads rply: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"ad_free", "no");
-						} else {
+						} else if (jn.getInt("status") == 1) {
 							AccessSharedPrefs.setString(login_activity,
 									"ad_free", "yes");
 						}
@@ -747,11 +419,11 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-
+						writeToFile("infi: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_use", "no");
-						} else {
+						} else if (jn.getInt("status") == 1) {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_use", "yes");
 						}
@@ -781,11 +453,11 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-
+						writeToFile("infisync rply: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_sync", "no");
-						} else {
+						} else if (jn.getInt("status") == 1) {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_sync", "yes");
 						}
@@ -815,11 +487,11 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-
+						writeToFile("sync reply: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity, "sync",
 									"no");
-						} else {
+						} else if (jn.getInt("status") == 1) {
 							AccessSharedPrefs.setString(login_activity, "sync",
 									"yes");
 						}
@@ -849,8 +521,9 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-
+						
 						JSONArray ja = jn.getJSONArray("matches");
+						writeToFile("matches rply: " + ja.length());
 						for (int i = 0; i < ja.length(); i++) {
 
 							Log.w("LoginIn", "cricket_match in loop!!" + i);
@@ -858,7 +531,7 @@ public class LogIn extends SherlockActivity {
 							ContentValues values = new ContentValues();
 							values.put(MatchDb.KEY_ROWID, jo.getInt("match_id"));
 							values.put(MatchDb.KEY_DEVICE_ID,
-									jo.getString("device_id"));
+									"" + jo.getInt("device_id"));
 							values.put(MatchDb.KEY_MATCH_DATE,
 									jo.getString("match_date"));
 							values.put(MatchDb.KEY_MY_TEAM,
@@ -881,6 +554,7 @@ public class LogIn extends SherlockActivity {
 							values.put(MatchDb.KEY_STATUS,
 									MatchDb.MATCH_HISTORY);
 							values.put(MatchDb.KEY_SYNCED, 1);
+							String devid = "" + jo.getInt("device_id");
 							try {
 								Cursor c = LogIn.dbHandle.rawQuery(
 										"select " + MatchDb.KEY_ROWID
@@ -890,16 +564,13 @@ public class LogIn extends SherlockActivity {
 												+ " = " + jo.getInt("match_id")
 												+ " and "
 												+ MatchDb.KEY_DEVICE_ID
-												+ " = '"
-												+ jo.getString("device_id")
-												+ "'", null);
-								Log.w("LoginIn",
-										"count of matches: " + c.getCount());
+												+ " = '" + devid + "'", null);
+								writeToFile("Cnt of matches: " + c.getCount());
 								if (c.getCount() == 0) {
 									Uri u = cr
 											.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
 													values);
-									Log.w("Uri inserted", "" + u);
+									writeToFile("Uri inserted: " + u);
 								}
 								c.close();
 							} catch (Exception e) {
@@ -935,15 +606,16 @@ public class LogIn extends SherlockActivity {
 						}
 
 						ja = jn.getJSONArray("performances");
+						writeToFile("performances response: " + ja.length());
 						for (int i = 0; i < ja.length(); i++) {
 							JSONObject jo = ja.getJSONObject(i);
 							ContentValues values = new ContentValues();
 							values.put(PerformanceDb.KEY_MATCHID,
 									jo.getInt("match_id"));
 							values.put(PerformanceDb.KEY_DEVICE_ID,
-									jo.getString("device_id"));
+									""+jo.getInt("device_id"));
 							values.put(PerformanceDb.KEY_ROWID,
-									jo.getInt("device_id"));
+									jo.getInt("per_id"));
 							values.put(PerformanceDb.KEY_INNING,
 									jo.getInt("inning"));
 							values.put(PerformanceDb.KEY_BAT_NUM,
@@ -1010,12 +682,13 @@ public class LogIn extends SherlockActivity {
 							values.put(PerformanceDb.KEY_FIELD_BYES,
 									jo.getInt("field_byes"));
 							values.put(PerformanceDb.KEY_FIELD_MISFIELDS,
-									jo.getInt("field_misfields"));
+									jo.getInt("field_misfield"));
 							values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
 									jo.getInt("field_catches_dropped"));
 							values.put(PerformanceDb.KEY_SYNCED, 1);
 							values.put(PerformanceDb.KEY_STATUS,
 									MatchDb.MATCH_HISTORY);
+							String dev_per = "" + jo.getInt("device_id");
 							Cursor c = LogIn.dbHandle.rawQuery(
 									"select " + PerformanceDb.KEY_ROWID
 											+ " from "
@@ -1024,18 +697,17 @@ public class LogIn extends SherlockActivity {
 											+ PerformanceDb.KEY_MATCHID + " = "
 											+ jo.getInt("match_id") + " and "
 											+ PerformanceDb.KEY_DEVICE_ID
-											+ " = '"
-											+ jo.getString("device_id")
-											+ "' and "
+											+ " = '" + dev_per + "' and "
 											+ PerformanceDb.KEY_INNING + " = "
 											+ jo.getInt("inning"), null);
 							Log.w("LoginIn",
 									"count of performance: " + c.getCount());
+							writeToFile("Performance count: " + c.getCount());
 							if (c.getCount() == 0) {
 								Uri u = cr
 										.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 												values);
-								Log.w("Uri inserted", "" + u);
+								writeToFile("Uri Inserted: " + u);
 							}
 							c.close();
 						}
@@ -1081,7 +753,7 @@ public class LogIn extends SherlockActivity {
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 
-public static void writeToFile(String data) {
+	public static void writeToFile(String data) {
 
 		try {
 

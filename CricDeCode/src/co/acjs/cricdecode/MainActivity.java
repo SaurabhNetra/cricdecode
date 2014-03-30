@@ -875,7 +875,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
-	}
+		
+	}		
 
 	@TargetApi(19)
 	private void makeBarsTranslucent(Window window) {

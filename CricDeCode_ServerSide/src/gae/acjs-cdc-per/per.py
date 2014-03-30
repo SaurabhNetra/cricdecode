@@ -13,7 +13,6 @@ class per(ndb.Model):
     bat_time = ndb.IntegerProperty(indexed=False)
     bat_fours = ndb.IntegerProperty(indexed=False)
     bat_sixes = ndb.IntegerProperty(indexed=False)
-
     bowl_balls = ndb.IntegerProperty(indexed=False)
     bowl_catches_dropped = ndb.IntegerProperty(indexed=False)
     bowl_fours = ndb.IntegerProperty(indexed=False)
@@ -25,9 +24,7 @@ class per(ndb.Model):
     bowl_wides = ndb.IntegerProperty(indexed=False)
     bowl_wkts_left = ndb.IntegerProperty(indexed=False)
     bowl_wkts_right = ndb.IntegerProperty(indexed=False)
-
     device_id = ndb.IntegerProperty(indexed=True)
-
     field_byes = ndb.IntegerProperty(indexed=False)
     field_catches_dropped = ndb.IntegerProperty(indexed=False)
     field_circle_catch = ndb.IntegerProperty(indexed=False)
@@ -40,7 +37,6 @@ class per(ndb.Model):
     field_ro_direct_deep = ndb.IntegerProperty(indexed=False)
     field_slip_catch = ndb.IntegerProperty(indexed=False)
     field_stumpings = ndb.IntegerProperty(indexed=False)
-
     inning = ndb.IntegerProperty(indexed=True)
     match_id = ndb.IntegerProperty(indexed=True)
     per_id = ndb.IntegerProperty(indexed=False)
@@ -51,7 +47,7 @@ class per_insert(webapp2.RequestHandler):
     def post(self):
 
         self.response.headers['Content-Type'] = 'text/plain'
-
+        per_json = {}
         per_json = json.loads(self.request.get('perData'))
         per_array = per_json["per"]
 
@@ -68,7 +64,6 @@ class per_insert(webapp2.RequestHandler):
             perf_obj.bat_time = per_obj['btt']
             perf_obj.bat_fours = per_obj['btf']
             perf_obj.bat_sixes = per_obj['bts']
-
             perf_obj.bowl_balls = per_obj['bob']
             perf_obj.bowl_catches_dropped = per_obj['bocd']
             perf_obj.bowl_fours = per_obj['bof']
@@ -80,9 +75,7 @@ class per_insert(webapp2.RequestHandler):
             perf_obj.bowl_wides = per_obj['bow']
             perf_obj.bowl_wkts_left = per_obj['bowl']
             perf_obj.bowl_wkts_right = per_obj['bowr']
-
             perf_obj.device_id = per_obj['did']
-
             perf_obj.field_byes = per_obj['fby']
             perf_obj.field_catches_dropped = per_obj['fcd']
             perf_obj.field_circle_catch = per_obj['fcic']
@@ -100,7 +93,7 @@ class per_insert(webapp2.RequestHandler):
             perf_obj.per_id = per_obj['pid']
             perf_obj.user_id = per_obj['uid']
 
-            obj_list = serverdbperformance.query(
+            obj_list = per.query(
             ndb.AND(
             per.user_id == perf_obj.user_id,
             per.match_id == perf_obj.match_id,
@@ -166,7 +159,8 @@ class per_fetch(webapp2.RequestHandler):
 
             per_obj["inning"] = obj.inning
             per_obj["match_id"] = obj.match_id
-            per_obj["per_id"] = obj.per_id
+            per_obj["per_id"] = obj.per_id            
+            per_obj["device_id"] = obj.device_id
             per_obj["user_id"] = obj.user_id
 
             per_array.append(per_obj)
