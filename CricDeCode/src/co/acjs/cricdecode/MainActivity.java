@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
@@ -948,6 +952,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				"MatchHistorySyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
+		writeToFile(""+NotSyncedMatchHistory);
 		boolean NotDeleted = AccessSharedPrefs.mPrefs.getString(
 				"DeleteMatchServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
@@ -3151,7 +3156,33 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		return new String(sh);
 	}
+	public static void writeToFile(String data) {
 
+		try {
+
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+
+			if (!root.exists()) {
+
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "main.txt");
+
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+
+			writer.close();
+
+		} catch (IOException e) {
+
+			Log.e("Exception", "File write failed: " + e.toString());
+
+		}
+
+	}
 	
 
 	public Boolean isOnline(Context cont) {

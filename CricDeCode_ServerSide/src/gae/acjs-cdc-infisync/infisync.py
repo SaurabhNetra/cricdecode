@@ -64,7 +64,7 @@ class infisync_check(webapp2.RequestHandler):
         obj_list = infisync.query(ndb.AND(infisync.user_id == uid,infisync.not_valid == 0)).order(-infisync.validuntil_ts_msec).fetch(1)
         if(len(obj_list) != 0):
             obj = obj_list[0]
-            url = "http://acjs-cdc-andro.appspot.com/retrieve"
+            url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
             values = {}
             values['user_id'] = uid
             data = urllib.urlencode(values)

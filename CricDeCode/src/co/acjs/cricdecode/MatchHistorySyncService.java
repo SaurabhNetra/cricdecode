@@ -40,8 +40,9 @@ public class MatchHistorySyncService extends IntentService {
 	public void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	public void sendData(String regids) {
+		writeToFile("in send data");
 		final Cursor c = getContentResolver().query(
 				CricDeCodeContentProvider.CONTENT_URI_MATCH,
 				new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
@@ -55,6 +56,7 @@ public class MatchHistorySyncService extends IntentService {
 				MatchDb.KEY_SYNCED + "=" + "0 and " + MatchDb.KEY_STATUS + "='"
 						+ MatchDb.MATCH_HISTORY + "'", null, MatchDb.KEY_ROWID);
 		match_count = c.getCount();
+		writeToFile("no of matches" + c.getCount());
 		int tcount = 0;
 		if (c.getCount() != 0) {
 			c.moveToFirst();
@@ -62,12 +64,11 @@ public class MatchHistorySyncService extends IntentService {
 				try {
 					JSONObject cm = new JSONObject();
 					JSONObject per = new JSONObject();
-					cm.put("uid",
-							AccessSharedPrefs.mPrefs.getString("id", ""));
+					cm.put("uid", AccessSharedPrefs.mPrefs.getString("id", ""));
 					cm.put("mid", Integer.parseInt(c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID))));
 					cm.put("did",
-							AccessSharedPrefs.mPrefs.getString("device_id", ""));
+							Integer.parseInt(AccessSharedPrefs.mPrefs.getString("device_id", "")));
 					cm.put("m_dt", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_MATCH_DATE)));
 					cm.put("tm", c.getString(c
@@ -75,7 +76,7 @@ public class MatchHistorySyncService extends IntentService {
 					cm.put("otm", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)));
 					cm.put("vn", c.getString(c
-							.getColumnIndexOrThrow(MatchDb.KEY_OPPONENT_TEAM)));
+							.getColumnIndexOrThrow(MatchDb.KEY_VENUE)));
 					cm.put("ovr", Integer.parseInt(c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_OVERS))));
 					cm.put("in", Integer.parseInt(c.getString(c
@@ -90,11 +91,12 @@ public class MatchHistorySyncService extends IntentService {
 							.getColumnIndexOrThrow(MatchDb.KEY_DURATION)));
 					cm.put("rev", c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_REVIEW)));
-					
+
 					String matchId = c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 					String devid = c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID));
+					writeToFile("mid: " + matchId + " dev: " + devid);
 
 					final Cursor c1 = getContentResolver().query(
 							CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
@@ -134,6 +136,7 @@ public class MatchHistorySyncService extends IntentService {
 									PerformanceDb.KEY_FIELD_STUMPINGS,
 									PerformanceDb.KEY_INNING,
 									PerformanceDb.KEY_MATCHID,
+									PerformanceDb.KEY_DEVICE_ID,
 									PerformanceDb.KEY_STATUS },
 							PerformanceDb.KEY_SYNCED + "=" + "0 and "
 									+ PerformanceDb.KEY_STATUS + "='"
@@ -144,21 +147,25 @@ public class MatchHistorySyncService extends IntentService {
 									+ devid + "'", null, null);
 
 					JSONArray ja = new JSONArray();
+					writeToFile("No of pers: " + c1.getCount());
 					if (c1.getCount() != 0) {
 						c1.moveToFirst();
 						do {
 							JSONObject jo1 = new JSONObject();
-							jo1.put("uid", AccessSharedPrefs.mPrefs
-									.getString("id", ""));
+							jo1.put("uid", AccessSharedPrefs.mPrefs.getString(
+									"id", ""));
+							writeToFile("Mid:"+Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
 							jo1.put("mid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
 							jo1.put("did",
-									c1.getString(c1
-											.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID)));
+									Integer.parseInt(c1.getString(c1
+											.getColumnIndexOrThrow(PerformanceDb.KEY_DEVICE_ID))));
 							jo1.put("pid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_ROWID))));
+						
 							jo1.put("in",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_INNING))));
@@ -261,8 +268,9 @@ public class MatchHistorySyncService extends IntentService {
 							jo1.put("fcd",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))));
-							
+
 							ja.put(jo1);
+							c1.moveToNext();
 						} while (!c1.isAfterLast());
 					}
 					c1.close();
@@ -275,16 +283,20 @@ public class MatchHistorySyncService extends IntentService {
 					params.add(new BasicNameValuePair("perData", per.toString()
 							.toString()));
 					JSONParser jsonParser = new JSONParser();
+					writeToFile("match data: " + cm.toString());
+					writeToFile("per data: " + per.toString());
 					int trial = 1;
 					JSONObject jn = null;
 					while (jsonParser.isOnline(who)) {
 						Log.w("JSONParser", "MatchHistory: Called");
-						
+
 						jn = jsonParser.makeHttpRequest(getResources()
 								.getString(R.string.gae_match_insert), "POST",
 								params, who);
 						Log.w("JSON returned", "MatchHistory: " + jn);
 						Log.w("trial value", "MatchHistory: " + trial);
+
+						writeToFile("gae trial: " + jn);
 						if (jn != null)
 							break;
 						try {
@@ -292,11 +304,12 @@ public class MatchHistorySyncService extends IntentService {
 						} catch (InterruptedException e) {
 						}
 						trial++;
-						
-						if(trial==50)
+
+						if (trial == 50)
 							break;
 					}
 
+					writeToFile("GAE response: " + jn);
 					if (jn.getInt("status") == 1) {
 						Uri uri = Uri
 								.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
@@ -325,48 +338,99 @@ public class MatchHistorySyncService extends IntentService {
 						getApplicationContext().getContentResolver().update(
 								uri, values, null, null);
 						cm.put("gcmid", 2);
+						cm.put("per", ja);
 						params = new ArrayList<NameValuePair>();
 						params.add(new BasicNameValuePair("SendToArrays",
 								regids));
 						params.add(new BasicNameValuePair("MsgToSend", cm
-								.toString()));						
+								.toString()));
 						jsonParser = new JSONParser();
 						trial = 1;
-						jn = null;
+						JSONObject jn1 = null;
 						while (jsonParser.isOnline(who)) {
 							Log.w("JSONParser", "Send gcm: Called");
-							jn = jsonParser.makeHttpRequest(getResources()
-									.getString(R.string.azure_sendgcm),
-									"POST", params, who);
-							Log.w("JSON returned", "Send Gcm: " + jn);
+							jn1 = jsonParser.makeHttpRequest(getResources()
+									.getString(R.string.azure_sendgcm), "POST",
+									params, who);
+							Log.w("JSON returned", "Send Gcm: " + jn1);
 							Log.w("trial value", "Send Gcm: " + trial);
-							if (jn != null)
+							if (jn1 != null)
 								break;
 							try {
 								Thread.sleep(10 * trial);
 							} catch (InterruptedException e) {
 							}
 							trial++;
-							
-							if(trial==50)
+
+							if (trial == 50)
 								break;
 						}
-						tcount++;
 
-						if (jn.getInt("status") == 1) {
-							// TODO
-						} else {
-							// TODO
+						writeToFile("send gcm azure: " + jn1);
+
+						if (jn1 == null) {
+							while (jsonParser.isOnline(who)) {
+								Log.w("JSONParser",
+										"ProfileEditService: Called");
+								jn1 = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.ping_hansa_gcm),
+										"POST", params, who);
+								Log.w("JSON returned", "ProfileEditService: "
+										+ jn1);
+								Log.w("trial value", "ProfileEditService: "
+										+ trial);
+								writeToFile("Ping Hansa: " + trial);
+								if (jn1 != null)
+									break;
+								try {
+									Thread.sleep(10 * trial);
+								} catch (InterruptedException e) {
+								}
+								trial++;
+
+								if (trial == 50)
+									break;
+							}
+
 						}
+
+						writeToFile("send gcm hansa: " + jn1);
+
+						if (jn1 == null) {
+							while (jsonParser.isOnline(who)) {
+								Log.w("JSONParser",
+										"ProfileEditService: Called");
+								jn1 = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.ping_acjs_gcm),
+										"POST", params, who);
+								Log.w("JSON returned", "ProfileEditService: "
+										+ jn1);
+								Log.w("trial value", "ProfileEditService: "
+										+ trial);
+								writeToFile("Ping acjs: " + trial);
+								if (jn1 != null)
+									break;
+								try {
+									Thread.sleep(10 * trial);
+								} catch (InterruptedException e) {
+								}
+								trial++;
+
+								if (trial == 50)
+									break;
+							}
+
+						}
+						writeToFile("send gcm acjs: " + jn1);
+						tcount++;
 
 					} else {
 						break;
 					}
-				} catch (NullPointerException e) {
+				} catch (Exception e) {
 					Log.w("exception", "np");
-				} catch (JSONException e) {
-					Log.w("exception", "json");
-				}
+					writeToFile("exception: "+e);
+				} 
 
 				c.moveToNext();
 			} while (!c.isAfterLast());
@@ -389,7 +453,7 @@ public class MatchHistorySyncService extends IntentService {
 					"yes")) {
 
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("id",
+				params.add(new BasicNameValuePair("user_id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
 
 				final JSONParser jsonParser = new JSONParser();
@@ -416,11 +480,12 @@ public class MatchHistorySyncService extends IntentService {
 						break;
 				}
 
-				writeToFile("chking inif_sync: "+jn);
+				writeToFile("chking inif_sync: " + jn);
 				try {
 					if (jn.getInt("status") == 1) {
+						writeToFile("calling send data");
 						AccessSharedPrefs.setString(who, "infi_sync", "yes");
-						sendData(jn.getString("regids"));
+						sendData(jn.getString("reg_ids"));
 					} else if (jn.getInt("status") == 0) {
 						AccessSharedPrefs.setString(who, "infi_sync", "no");
 						AccessSharedPrefs.setString(who,
@@ -464,7 +529,7 @@ public class MatchHistorySyncService extends IntentService {
 				try {
 					if (jn.getInt("status") == 1) {
 						AccessSharedPrefs.setString(who, "sync", "yes");
-						sendData(jn.getString("regids"));
+						sendData(jn.getString("reg_ids"));
 					} else if (jn.getInt("status") == 0) {
 						AccessSharedPrefs.setString(who, "sync", "no");
 						AccessSharedPrefs.setString(who,
@@ -484,7 +549,7 @@ public class MatchHistorySyncService extends IntentService {
 
 		}
 	}
-	
+
 	public static void writeToFile(String data) {
 
 		try {

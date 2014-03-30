@@ -63,7 +63,7 @@ class infi_check(webapp2.RequestHandler):
         obj_list = infi.query(ndb.AND(infi.user_id == uid,infi.not_valid == 0)).order(-infi.validuntil_ts_msec).fetch(1)
         if(len(obj_list) != 0):
             obj = obj_list[0]
-            url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
+            url = "http://acjs-cdc-andro.appspot.com/retrieve"
             values = {}
             values['user_id'] = uid
             data = urllib.urlencode(values)

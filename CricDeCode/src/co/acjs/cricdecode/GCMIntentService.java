@@ -107,33 +107,33 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 								.equals("yes")) {
 
 					ContentValues values = new ContentValues();
-					values.put(MatchDb.KEY_ROWID, gcmData.getInt("match_id"));
+					values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
 					values.put(MatchDb.KEY_DEVICE_ID,
-							gcmData.getString("device_id"));
+							gcmData.getString("did"));
 					values.put(MatchDb.KEY_MATCH_DATE,
-							gcmData.getString("match_date"));
+							gcmData.getString("m_dt"));
 					values.put(MatchDb.KEY_MY_TEAM,
-							gcmData.getString("my_team"));
+							gcmData.getString("tm"));
 					values.put(MatchDb.KEY_OPPONENT_TEAM,
-							gcmData.getString("my_opponent"));
-					values.put(MatchDb.KEY_VENUE, gcmData.getString("venue"));
-					values.put(MatchDb.KEY_OVERS, gcmData.getInt("overs"));
-					values.put(MatchDb.KEY_INNINGS, gcmData.getInt("innings"));
-					values.put(MatchDb.KEY_RESULT, gcmData.getString("result"));
-					values.put(MatchDb.KEY_LEVEL, gcmData.getString("level"));
+							gcmData.getString("otm"));
+					values.put(MatchDb.KEY_VENUE, gcmData.getString("vn"));
+					values.put(MatchDb.KEY_OVERS, gcmData.getInt("ovr"));
+					values.put(MatchDb.KEY_INNINGS, gcmData.getInt("in"));
+					values.put(MatchDb.KEY_RESULT, gcmData.getString("res"));
+					values.put(MatchDb.KEY_LEVEL, gcmData.getString("lv"));
 					values.put(MatchDb.KEY_FIRST_ACTION,
-							gcmData.getString("first_action"));
-					values.put(MatchDb.KEY_DURATION, gcmData.getInt("duration"));
-					values.put(MatchDb.KEY_REVIEW, gcmData.getString("review"));
+							gcmData.getString("fa"));
+					values.put(MatchDb.KEY_DURATION, gcmData.getInt("dur"));
+					values.put(MatchDb.KEY_REVIEW, gcmData.getString("rev"));
 					values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
 					values.put(MatchDb.KEY_SYNCED, 1);
 					Cursor c = dbHandle.rawQuery(
 							"select " + MatchDb.KEY_ROWID + " from "
 									+ MatchDb.SQLITE_TABLE + " where "
 									+ MatchDb.KEY_ROWID + " = "
-									+ gcmData.getInt("match_id") + " and "
+									+ gcmData.getInt("mid") + " and "
 									+ MatchDb.KEY_DEVICE_ID + " = '"
-									+ gcmData.getString("device_id") + "'",
+									+ gcmData.getString("did") + "'",
 							null);
 					if (c.getCount() == 0) {
 						getApplicationContext().getContentResolver().insert(
@@ -147,79 +147,79 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						JSONObject jo1 = ja1.getJSONObject(j);
 						values = new ContentValues();
 						values.put(PerformanceDb.KEY_MATCHID,
-								jo1.getInt("match_id"));
+								jo1.getInt("mid"));
 						values.put(PerformanceDb.KEY_DEVICE_ID,
-								jo1.getString("device_id"));
+								jo1.getString("did"));
 						values.put(PerformanceDb.KEY_ROWID,
-								jo1.getInt("per_id"));
+								jo1.getInt("pid"));
 						values.put(PerformanceDb.KEY_INNING,
-								jo1.getInt("inning"));
+								jo1.getInt("in"));
 						values.put(PerformanceDb.KEY_BAT_NUM,
-								jo1.getInt("bat_num"));
+								jo1.getInt("btn"));
 						values.put(PerformanceDb.KEY_BAT_RUNS,
-								jo1.getInt("bat_runs"));
+								jo1.getInt("btr"));
 						values.put(PerformanceDb.KEY_BAT_BALLS,
-								jo1.getInt("bat_balls"));
+								jo1.getInt("btb"));
 						values.put(PerformanceDb.KEY_BAT_TIME,
-								jo1.getInt("bat_time"));
+								jo1.getInt("btt"));
 						values.put(PerformanceDb.KEY_BAT_FOURS,
-								jo1.getInt("bat_fours"));
+								jo1.getInt("btf"));
 						values.put(PerformanceDb.KEY_BAT_SIXES,
-								jo1.getInt("bat_sixes"));
+								jo1.getInt("bts"));
 						values.put(PerformanceDb.KEY_BAT_HOW_OUT,
-								jo1.getString("bat_dismissal"));
+								jo1.getString("btd"));
 						values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
-								jo1.getString("bat_bowler_type"));
+								jo1.getString("btbot"));
 						values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION,
-								jo1.getString("bat_fielding_position"));
+								jo1.getString("btfp"));
 						values.put(PerformanceDb.KEY_BAT_CHANCES,
-								jo1.getInt("bat_chances"));
+								jo1.getInt("btc"));
 						values.put(PerformanceDb.KEY_BOWL_BALLS,
-								jo1.getInt("bowl_balls"));
+								jo1.getInt("bob"));
 						values.put(PerformanceDb.KEY_BOWL_SPELLS,
-								jo1.getInt("bowl_spells"));
+								jo1.getInt("bos"));
 						values.put(PerformanceDb.KEY_BOWL_MAIDENS,
-								jo1.getInt("bowl_maidens"));
+								jo1.getInt("bom"));
 						values.put(PerformanceDb.KEY_BOWL_RUNS,
-								jo1.getInt("bowl_runs"));
+								jo1.getInt("bor"));
 						values.put(PerformanceDb.KEY_BOWL_FOURS,
-								jo1.getInt("bowl_fours"));
+								jo1.getInt("bof"));
 						values.put(PerformanceDb.KEY_BOWL_SIXES,
-								jo1.getInt("bowl_sixes"));
+								jo1.getInt("bosx"));
 						values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT,
-								jo1.getInt("bowl_wkts_left"));
+								jo1.getInt("bowl"));
 						values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-								jo1.getInt("bowl_wkts_right"));
+								jo1.getInt("bowr"));
 						values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-								jo1.getInt("bowl_catches_dropped"));
+								jo1.getInt("bocd"));
 						values.put(PerformanceDb.KEY_BOWL_NOBALLS,
-								jo1.getInt("bowl_no_balls"));
+								jo1.getInt("bonb"));
 						values.put(PerformanceDb.KEY_BOWL_WIDES,
-								jo1.getInt("bowl_wides"));
+								jo1.getInt("bow"));
 						values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH,
-								jo1.getInt("field_slip_catch"));
+								jo1.getInt("fslc"));
 						values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-								jo1.getInt("field_close_catch"));
+								jo1.getInt("fclc"));
 						values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-								jo1.getInt("field_circle_catch"));
+								jo1.getInt("fcic"));
 						values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,
-								jo1.getInt("field_deep_catch"));
+								jo1.getInt("fdc"));
 						values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE,
-								jo1.getInt("field_ro_circle"));
+								jo1.getInt("froci"));
 						values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-								jo1.getInt("field_ro_direct_circle"));
+								jo1.getInt("frodci"));
 						values.put(PerformanceDb.KEY_FIELD_RO_DEEP,
-								jo1.getInt("field_ro_deep"));
+								jo1.getInt("frode"));
 						values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-								jo1.getInt("field_ro_direct_deep"));
+								jo1.getInt("frodde"));
 						values.put(PerformanceDb.KEY_FIELD_STUMPINGS,
-								jo1.getInt("field_stumpings"));
+								jo1.getInt("fst"));
 						values.put(PerformanceDb.KEY_FIELD_BYES,
-								jo1.getInt("field_byes"));
+								jo1.getInt("fby"));
 						values.put(PerformanceDb.KEY_FIELD_MISFIELDS,
-								jo1.getInt("field_misfield"));
+								jo1.getInt("fmf"));
 						values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
-								jo1.getInt("field_catches_dropped"));
+								jo1.getInt("fcd"));
 						values.put(PerformanceDb.KEY_SYNCED, 1);
 						values.put(PerformanceDb.KEY_STATUS,
 								MatchDb.MATCH_HISTORY);
@@ -228,11 +228,11 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 								"select " + PerformanceDb.KEY_ROWID + " from "
 										+ PerformanceDb.SQLITE_TABLE
 										+ " where " + PerformanceDb.KEY_MATCHID
-										+ " = " + jo1.getInt("match_id")
+										+ " = " + jo1.getInt("mid")
 										+ " and " + PerformanceDb.KEY_DEVICE_ID
-										+ " = '" + jo1.getInt("device_id")
+										+ " = '" + jo1.getString("did")
 										+ "' and " + PerformanceDb.KEY_INNING
-										+ " = " + jo1.getInt("innings"), null);
+										+ " = " + jo1.getInt("in"), null);
 						if (c.getCount() == 0) {
 							getApplicationContext()
 									.getContentResolver()
@@ -245,8 +245,8 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 
 					Uri uri = Uri
 							.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
-									+ "/" + gcmData.getInt("match_id") + "/"
-									+ gcmData.getInt("device_id"));
+									+ "/" + gcmData.getInt("mid") + "/"
+									+ gcmData.getString("did"));
 					ContentValues matchvalues = new ContentValues();
 					matchvalues.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HISTORY);
 					getApplicationContext().getContentResolver().update(uri,
