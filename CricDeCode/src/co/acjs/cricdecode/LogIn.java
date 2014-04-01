@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
@@ -521,7 +520,7 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-						
+
 						JSONArray ja = jn.getJSONArray("matches");
 						writeToFile("matches rply: " + ja.length());
 						for (int i = 0; i < ja.length(); i++) {
@@ -607,13 +606,14 @@ public class LogIn extends SherlockActivity {
 
 						ja = jn.getJSONArray("performances");
 						writeToFile("performances response: " + ja.length());
+						writeToFile(ja.toString());
 						for (int i = 0; i < ja.length(); i++) {
 							JSONObject jo = ja.getJSONObject(i);
 							ContentValues values = new ContentValues();
 							values.put(PerformanceDb.KEY_MATCHID,
 									jo.getInt("match_id"));
 							values.put(PerformanceDb.KEY_DEVICE_ID,
-									""+jo.getInt("device_id"));
+									"" + jo.getInt("device_id"));
 							values.put(PerformanceDb.KEY_ROWID,
 									jo.getInt("per_id"));
 							values.put(PerformanceDb.KEY_INNING,
@@ -623,7 +623,7 @@ public class LogIn extends SherlockActivity {
 							values.put(PerformanceDb.KEY_BAT_RUNS,
 									jo.getInt("bat_runs"));
 							values.put(PerformanceDb.KEY_BAT_BALLS,
-									jo.getInt("bat_bowls"));
+									jo.getInt("bat_balls"));
 							values.put(PerformanceDb.KEY_BAT_TIME,
 									jo.getInt("bat_time"));
 							values.put(PerformanceDb.KEY_BAT_FOURS,
@@ -715,8 +715,8 @@ public class LogIn extends SherlockActivity {
 					}
 				} catch (NullPointerException e) {
 					showDialog();
-				} catch (JSONException e) {
-
+				} catch (Exception e) {
+					writeToFile("exception: " + e);
 				}
 			}
 		};

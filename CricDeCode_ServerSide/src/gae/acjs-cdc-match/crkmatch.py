@@ -99,19 +99,24 @@ class crkmatch_delete(webapp2.RequestHandler):
      def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
         del_matches = {}
-        del_matches = self.request.get("del_matches")
+        del_matches = json.loads(self.request.get("del_matches"))
         user_id = del_matches['user_id']
         matches = del_matches['matches']
         url = "http://acjs-cdc-per.appspot.com/delete"
         values = {}
-        values['del_matches'] = del_matches
+        values['del_matches'] = self.request.get("del_matches") 
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)
         response = urllib2.urlopen(req)
-        for matc in del_matches:
+        for matc in matches:
             mid = matc['mid']
             dev = matc['devid']
             ndb.delete_multi(crkmatch.query(crkmatch.user_id == user_id,crkmatch.match_id == mid,crkmatch.device_id == dev ).fetch(keys_only=True))
+
+        per_response = {}
+        per_response["status"] = 1
+        self.response.write(json.dumps(per_response))
+
 
 application = webapp2.WSGIApplication([
     ('/insert', crkmatch_insert),

@@ -174,10 +174,10 @@ class per_delete(webapp2.RequestHandler):
      def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
         del_matches = {}
-        del_matches = self.request.get("del_matches")
+        del_matches = json.loads(self.request.get("del_matches"))
         user_id = del_matches['user_id']
         matches = del_matches['matches']        
-        for matc in del_matches:
+        for matc in matches:            
             mid = matc['mid']
             dev = matc['devid']
             ndb.delete_multi(per.query(per.user_id == user_id,per.match_id == mid,per.device_id == dev).fetch(keys_only=True))

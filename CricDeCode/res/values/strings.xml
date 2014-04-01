@@ -23,6 +23,7 @@
     <string name="gae_infisync_check">http://acjs-cdc-infisync.appspot.com/check</string>
     <string name="gae_match_insert">http://acjs-cdc-match.appspot.com/insert</string>
     <string name="gae_match_fetch">http://acjs-cdc-match.appspot.com/fetch</string>
+    <string name="gae_match_delete">http://acjs-cdc-match.appspot.com/delete</string>
     <string name="gae_per_insert">http://acjs-cdc-per.appspot.com/insert</string>
     <string name="gae_per_fetch">http://acjs-cdc-per.appspot.com/fetch</string>
     <string name="gae_sync_insert">http://acjs-cdc-sync.appspot.com/insert</string>
