@@ -298,45 +298,46 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 			case DELETE_MATCH:
 				JSONArray ja2 = gcmData.getJSONArray("todel");
 				writeToFile("in 3: " + ja2.toString());
-				// if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-				// .equals("yes")
-				// || AccessSharedPrefs.mPrefs.getString("sync", "no")
-				// .equals("yes")) {
-				try {
-					for (int i = 0; i < ja2.length(); i++) {
-						JSONObject jo = ja2.getJSONObject(i);
-						String str = ""+jo.getInt("match_id");
-						String d_str = jo.getString("device_id");
-						uri = Uri
-								.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
-										+ "/" + str + "/" + d_str);
-						getApplicationContext().getContentResolver().delete(
-								uri, null, null);
-						uri = Uri
-								.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
-										+ "/" + str + "/" + d_str);
-						getApplicationContext().getContentResolver().delete(
-								uri, null, null);
-					}
+				if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+						.equals("yes")
+						|| AccessSharedPrefs.mPrefs.getString("sync", "no")
+								.equals("yes")) {
+					try {
+						for (int i = 0; i < ja2.length(); i++) {
+							JSONObject jo = ja2.getJSONObject(i);
+							String str = "" + jo.getInt("match_id");
+							String d_str = jo.getString("device_id");
+							uri = Uri
+									.parse(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE
+											+ "/" + str + "/" + d_str);
+							getApplicationContext().getContentResolver()
+									.delete(uri, null, null);
+							uri = Uri
+									.parse(CricDeCodeContentProvider.CONTENT_URI_MATCH
+											+ "/" + str + "/" + d_str);
+							getApplicationContext().getContentResolver()
+									.delete(uri, null, null);
+						}
 
-					((MainActivity) MainActivity.main_context)
-							.runOnUiThread(new Runnable() {
-								public void run() {
-									try {
-										DiaryMatchesFragment.loader_diary_list
-												.restartLoader(
-														0,
-														null,
-														DiaryMatchesFragment.diary_matches_fragment);
-									} catch (Exception e) {
-										Log.w("GCMSync", "UI update error" + e);
+						((MainActivity) MainActivity.main_context)
+								.runOnUiThread(new Runnable() {
+									public void run() {
+										try {
+											DiaryMatchesFragment.loader_diary_list
+													.restartLoader(
+															0,
+															null,
+															DiaryMatchesFragment.diary_matches_fragment);
+										} catch (Exception e) {
+											Log.w("GCMSync", "UI update error"
+													+ e);
+										}
 									}
-								}
-							});
-				} catch (Exception e) {
-					Log.w("GCMSync", ""+e);
+								});
+					} catch (Exception e) {
+						Log.w("GCMSync", "" + e);
+					}
 				}
-				// }
 				break;
 			case REMOVE_ADS:
 				Log.w("GCM: ", "gcm remove ads");
