@@ -29,9 +29,9 @@ class usr_insert(webapp2.RequestHandler):
         usr_obj.device_no = 1
         usr_obj.dob = self.request.get('dob')
         usr_obj.fb_link = self.request.get('fb_link')
-        usr_obj.first_name = self.request.get('first_name')
+        usr_obj.first_name = self.request.get('f_name')
         usr_obj.os = int(self.request.get('os'))
-        usr_obj.last_name = self.request.get('last_name')
+        usr_obj.last_name = self.request.get('l_name')
         usr_obj.nick_name = ""
         usr_obj.role = ""
         uid = self.request.get('user_id')

@@ -13,26 +13,8 @@ class regids_insert(webapp2.RequestHandler):
         regids_obj = regids()
         regids_obj.user_id = self.request.get('user_id')
         regids_obj.gcm_id = self.request.get('gcm_id')
-        obj_list = regids.query(ndb.OR(regids.user_id == regids_obj.user_id,regids.gcm_id == regids_obj.gcm_id)).fetch()
-        flag=True
+        obj_list = regids.query(ndb.AND(regids.user_id == regids_obj.user_id,regids.gcm_id == regids_obj.gcm_id)).fetch()
         if(len(obj_list)==0):
-            regids_obj.put()
-            self.response.write('1 row inserted')
-            flag=False
-        if(flag):
-            for obj in obj_list:
-                if(obj.user_id == regids_obj.user_id and obj.gcm_id == regids_obj.gcm_id):
-                    self.response.write('row already exists')
-                    flag=False
-                    break
-        if(flag):
-            for obj in obj_list:
-                if(obj.gcm_id == regids_obj.gcm_id):
-                    obj.user_id = regids_obj.user_id
-                    obj.put()
-                    flag=False
-                    self.response.write('1 row updated')
-        if(flag):
             regids_obj.put()
             self.response.write('1 row inserted')
 
@@ -63,24 +45,21 @@ class regids_delete(webapp2.RequestHandler):
         user_id = self.request.get('user_id')
         reg_id = self.request.get('gcm_id')
         #Delete the row where user_id and gcm_id
-        ndb.delete_multi(regids.query(regids.user_id == user_id,regids.gcm_id == reg_id).fetch(keys_only=True))
-
+        ndb.delete_multi(ndb.AND(regids.query(regids.user_id == user_id,regids.gcm_id == reg_id)).fetch(keys_only=True))
 class regids_update(webapp2.RequestHandler):
     def post(self):
         user_id = self.request.get('user_id')
         old_reg = self.request.get('old_reg')
         new_reg = self.request.get('new_reg')
         #Delete the row where user_id and old_reg, if it exists
-        ndb.delete_multi(regids.query(regids.user_id == user_id,regids.gcm_id == old_reg).fetch(keys_only=True))
-
+        ndb.delete_multi(ndb.AND(regids.query(regids.user_id == user_id,regids.gcm_id == old_reg)).fetch(keys_only=True))
         #insert new row - user_id and new_reg (same as regids_insert)
         regids_obj = regids()
         regids_obj.user_id = user_id
         regids_obj.gcm_id = new_reg
-        obj_list = regids.query(ndb.OR(regids.user_id == regids_obj.user_id,regids.gcm_id == regids_obj.gcm_id)).fetch()
+        obj_list = regids.query(ndb.AND(regids.user_id == regids_obj.user_id,regids.gcm_id == regids_obj.gcm_id)).fetch()
         if(len(obj_list) == 0):
             regids_obj.put()
-
 
 application = webapp2.WSGIApplication([('/insert', regids_insert),('/retrieve', regids_retrieve),('/retrieve_wo_json', regids_wo_json),('/delete', regids_delete),('/update', regids_update)
 ], debug=True)

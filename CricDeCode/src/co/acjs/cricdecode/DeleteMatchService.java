@@ -142,6 +142,7 @@ public class DeleteMatchService extends IntentService {
 							break;
 						}
 					}
+					writeToFile("gcmids: " + jn);
 					if (jn != null) {
 						del_gcm.put("gcmid", 3);
 						params = new ArrayList<NameValuePair>();
@@ -152,6 +153,7 @@ public class DeleteMatchService extends IntentService {
 						params.add(new BasicNameValuePair("uid",
 								AccessSharedPrefs.mPrefs.getString("id", "")));
 						jsonParser = new JSONParser();
+						writeToFile("Sending gcm: " + del_gcm.toString());
 						trial = 1;
 						jn = null;
 						while (jsonParser.isOnline(who)) {
