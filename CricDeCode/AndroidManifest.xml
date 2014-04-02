@@ -75,6 +75,7 @@
         <service android:name="PurchasedInfiService" />
         <service android:name="DeleteMatchService" />
         <service android:name="PurchasedInfiSyncService" />
+        <service android:name="PurchasedChecko" />
         <service android:name=".GCMIntentService" />
 
         <activity

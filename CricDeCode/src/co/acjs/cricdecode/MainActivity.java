@@ -296,7 +296,7 @@ public class MainActivity extends SherlockFragmentActivity {
 												.setString(main_context,
 														"pur_sync_descr",
 														"Keep your data safe with cloud backup.");
-										MainActivity.mHelper
+										/*MainActivity.mHelper
 												.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
 													public void onQueryInventoryFinished(
 															IabResult result,
@@ -430,7 +430,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 														}
 													}
-												});
+												});*/
 									}
 								}
 							});
@@ -888,14 +888,14 @@ public class MainActivity extends SherlockFragmentActivity {
 			jo.put("Sign",
 					"R+ngqaVMPriFGo+b5G1g/O8ZayVeLefuTws/Yn+654gF20SHNvMjm8w2oVXyascfnmSRVoD9rh0X/3XvVAPEXuAy4K7Tr+gAnCPoM8u3leqLz+cQzXWRtQRMWUYinvEpdk26EMNK0n4PY7CxvoGFOciOqkIqaC80+RUVYraENFoHGZxLCriGGgO1QFYIY48NlXABLBbyAHgjkA4LKlCCtgswiR4K9jXIirFZDxpDXI9tl5pdjmeUWquUENo2Zh/dnmoV8DHcp6f5jS+mcpPzIvVSQVn09GlyQfNjk27vSkgDunmpG3GhfDLuKTS2f2fcwO72aLotS/VcvnaHpaPwGg==");
 
-			AccessSharedPrefs.setString(main_context,
-					"PurchaseInfiServiceCalled",
-					CDCAppClass.NEEDS_TO_BE_CALLED);
+			//AccessSharedPrefs.setString(main_context,
+			//		"PurchaseInfiServiceCalled",
+			//		CDCAppClass.NEEDS_TO_BE_CALLED);
 			AccessSharedPrefs.setString(main_context, "pur_infi_data",
 					jo.toString());
 			AccessSharedPrefs.setString(main_context, "sub_infi", "yes");
 			Intent intent = new Intent(main_context,
-					PurchasedInfiService.class);
+					PurchasedChecko.class);
 			writeToFile("Calling ....");
 			main_context.startService(intent);
 

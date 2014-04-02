@@ -1,7 +1,0 @@
-indexes:
-- kind: infi
-  properties:
-  - name: not_valid
-  - name: user_id
-  - name: validuntil_ts_msec
-    direction: desc

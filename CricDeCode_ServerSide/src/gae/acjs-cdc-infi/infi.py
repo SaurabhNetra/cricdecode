@@ -8,38 +8,43 @@ from google.appengine.ext import ndb
 class infi(ndb.Model):
     autorenewing = ndb.IntegerProperty(indexed=False)
     initiation_ts_msec = ndb.IntegerProperty(indexed=False)
-    order_id = ndb.StringProperty(indexed=True)
+    order_id = ndb.StringProperty(indexed=False)
     sign = ndb.StringProperty(indexed=False)
     token = ndb.StringProperty(indexed=False)
     user_id = ndb.StringProperty(indexed=True)
-    validuntil_ts_msec = ndb.IntegerProperty(indexed=True)
-    not_valid = ndb.IntegerProperty(indexed=True)
+    validuntil_ts_msec = ndb.IntegerProperty(indexed=False)
+    not_valid = ndb.IntegerProperty(indexed=False)
 
 class infi_insert(webapp2.RequestHandler):
 
     def post(self):
 
         self.response.headers['Content-Type'] = 'text/plain'
-
-        infi_obj = infi()
-        infi_obj.autorenewing = int(self.request.get('autorenewing'))
-        infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-        infi_obj.order_id = self.request.get('order_id')
-        infi_obj.sign = self.request.get('sign')
-        infi_obj.token = self.request.get('token')
-        infi_obj.user_id = self.request.get('user_id')
-        infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
-        infi_obj.not_valid = int(self.request.get('not_valid'))
-
-        obj_list = infi.query(
-        ndb.AND(
-        infi.user_id == infi_obj.user_id,
-        infi.order_id == infi_obj.order_id
-        )).fetch()
+        uid = self.request.get('user_id')
+        obj_list = infi.query(infi.user_id == uid).fetch()
         if(len(obj_list) == 0):
-            infisync_obj.put()
+            infi_obj = infi()
+            infi_obj.autorenewing = int(self.request.get('autorenewing'))
+            infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+            infi_obj.order_id = self.request.get('order_id')
+            infi_obj.sign = self.request.get('sign')
+            infi_obj.token = self.request.get('token')
+            infi_obj.user_id = self.request.get('user_id')
+            infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+            infi_obj.not_valid = 0
+            infi_obj.put()
             self.response.write('{"status" : 1}')
         else:
+            infi_obj = obj_list[0]
+            infi_obj.autorenewing = int(self.request.get('autorenewing'))
+            infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+            infi_obj.order_id = self.request.get('order_id')
+            infi_obj.sign = self.request.get('sign')
+            infi_obj.token = self.request.get('token')
+            infi_obj.user_id = self.request.get('user_id')
+            infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+            infi_obj.not_valid = 0
+            infi_obj.put()
             self.response.write('{"status" : 1}')
 
 class infi_retrieve(webapp2.RequestHandler):
@@ -47,12 +52,15 @@ class infi_retrieve(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
         uid = self.request.get('user_id')
-        obj_list = infi.query(ndb.AND(infi.user_id == uid,infi.not_valid == 0)).order(-infi.validuntil_ts_msec).fetch(1)
+        obj_list = infi.query(infi.user_id == uid).fetch()
         json_obj = {}
         if(len(obj_list) == 0):
             json_obj["status"] = 0
         else:
-            json_obj["status"] = 1
+            if(obj_list[0].not_valid==1):
+                json_obj["status"] = 0
+            else:
+                json_obj["status"] = 1
         self.response.write(json.dumps(json_obj))
 
 class infi_check(webapp2.RequestHandler):

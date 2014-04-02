@@ -20,27 +20,31 @@ class sync_insert(webapp2.RequestHandler):
     def post(self):
 
         self.response.headers['Content-Type'] = 'text/plain'
-
-        sync_obj = sync()
-        sync_obj.autorenewing = int(self.request.get('autorenewing'))
-        sync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-        sync_obj.order_id = self.request.get('order_id')
-        sync_obj.sign = self.request.get('sign')
-        sync_obj.token = self.request.get('token')
-        sync_obj.user_id = self.request.get('user_id')
-        sync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
-        sync_obj.not_valid = int(self.request.get('not_valid'))
-
-
-        obj_list = sync.query(
-        ndb.AND(
-        sync.user_id == sync_obj.user_id,
-        sync.order_id == sync_obj.order_id
-        )).fetch()       
+        uid = self.request.get('user_id')
+        obj_list = sync.query(sync.user_id == uid).fetch()
         if(len(obj_list) == 0):
-            infisync_obj.put()
+            sync_obj = sync()
+            sync_obj.autorenewing = int(self.request.get('autorenewing'))
+            sync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+            sync_obj.order_id = self.request.get('order_id')
+            sync_obj.sign = self.request.get('sign')
+            sync_obj.token = self.request.get('token')
+            sync_obj.user_id = self.request.get('user_id')
+            sync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+            sync_obj.not_valid = 0
+            sync_obj.put()
             self.response.write('{"status" : 1}')
         else:
+            sync_obj = obj_list[0]
+            sync_obj.autorenewing = int(self.request.get('autorenewing'))
+            sync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+            sync_obj.order_id = self.request.get('order_id')
+            sync_obj.sign = self.request.get('sign')
+            sync_obj.token = self.request.get('token')
+            sync_obj.user_id = self.request.get('user_id')
+            sync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+            sync_obj.not_valid = 0
+            sync_obj.put()
             self.response.write('{"status" : 1}')
 
 class sync_retrieve(webapp2.RequestHandler):
@@ -48,12 +52,15 @@ class sync_retrieve(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
         uid = self.request.get('user_id')
-        obj_list = sync.query(ndb.AND(sync.user_id == uid,sync.not_valid == 0)).order(-sync.validuntil_ts_msec).fetch(1)
+        obj_list = sync.query(sync.user_id == uid).fetch()
         json_obj = {}
         if(len(obj_list) == 0):
             json_obj["status"] = 0
         else:
-            json_obj["status"] = 1
+            if(obj_list[0].not_valid==1):
+                json_obj["status"] = 0
+            else:
+                json_obj["status"] = 1
         self.response.write(json.dumps(json_obj))
 
 class sync_check(webapp2.RequestHandler):
