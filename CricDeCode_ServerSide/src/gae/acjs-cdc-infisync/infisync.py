@@ -39,9 +39,9 @@ class infisync_insert(webapp2.RequestHandler):
         )).fetch()
         if(len(obj_list) == 0):
             infisync_obj.put()
-            self.response.write('1 row inserted')
+            self.response.write('{"status" : 1}')
         else:
-            self.response.write('row already exists')
+            self.response.write('{"status" : 1}')
 
 class infisync_retrieve(webapp2.RequestHandler):
 

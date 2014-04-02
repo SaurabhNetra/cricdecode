@@ -1,5 +1,8 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +24,9 @@ import com.google.android.gms.ads.AdView;
 public class PurchasedAdRemovalService extends IntentService {
 	public static boolean started = true;
 	public Context con;
+	int trial = 1;
+	JSONObject jn = null;
+	List<NameValuePair> params;
 
 	public PurchasedAdRemovalService() {
 		super("PurchasedAdRemovalService");
@@ -50,22 +57,21 @@ public class PurchasedAdRemovalService extends IntentService {
 
 			try {
 				final JSONParser jsonParser = new JSONParser();
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
 				params.add(new BasicNameValuePair("product_id", "ad_removal"));
 				params.add(new BasicNameValuePair("json",
 						AccessSharedPrefs.mPrefs.getString("pur_ad_data", "")));
-				int trial = 1;
-				JSONObject jn = null;
+				trial = 1;
+				jn = null;
 				while (jsonParser.isOnline(con)) {
-					
+
 					jn = jsonParser.makeHttpRequest(
 							getResources().getString(
 									R.string.azure_inapppurchase), "POST",
 							params, con);
-					Log.w("JSON returned", "PurchasedAdRemovalService: " + jn);
-					Log.w("trial value", "PurchasedAdRemovalService: " + trial);
+					writeToFile("Ping azure: t " + trial);
 					if (jn != null)
 						break;
 					try {
@@ -78,9 +84,10 @@ public class PurchasedAdRemovalService extends IntentService {
 					}
 				}
 				try {
-					Log.w("PurchaseAdRemovalServiceCalled", "Reply" + jn);
+					writeToFile("Reply: " + jn);
 					if (jn.getInt("status") == 1) {
-						Log.w("PurAdRemoval", "Reply" + jn);
+
+						writeToFile("In status=1");
 						AccessSharedPrefs.setString(con,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -107,6 +114,8 @@ public class PurchasedAdRemovalService extends IntentService {
 						} catch (Exception e) {
 						}
 					} else if (jn.getInt("status") == 0) {
+
+						writeToFile("In status=0");
 						AccessSharedPrefs.setString(con,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -132,6 +141,123 @@ public class PurchasedAdRemovalService extends IntentService {
 									});
 						} catch (Exception e) {
 						}
+					} else if (jn.getInt("status") == 4) {
+						writeToFile("In status = 4");
+						// If regids are recieved mean GAE is running, therefore
+						// the row has been inserted into our table. Hence no
+						// need to retry this service
+						if (jn.getString("regids").length() > 20) {
+							AccessSharedPrefs.setString(con,
+									"PurchaseAdRemovalServiceCalled",
+									CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+
+							AccessSharedPrefs.setString(con, "pur_ad_data", "");
+							if (jn.getInt("retry_gcm_id") == 4) {
+								AccessSharedPrefs.setString(con, "ad_free",
+										"yes");
+								try {
+									((MainActivity) MainActivity.main_context)
+											.runOnUiThread(new Runnable() {
+												public void run() {
+													try {
+														final AdView adView = (AdView) ((MainActivity) MainActivity.main_context)
+																.findViewById(R.id.adView);
+														adView.setAdUnitId(R.string.publisher_id
+																+ "");
+														adView.setAdSize(AdSize.BANNER);
+														adView.setVisibility(View.GONE);
+														((TextView) ((MainActivity) MainActivity.main_context)
+																.findViewById(R.id.rem_ads_pur))
+																.setVisibility(View.VISIBLE);
+													} catch (Exception e) {
+													}
+												}
+											});
+								} catch (Exception e) {
+								}
+							} else if (jn.getInt("retry_gcm_id") == 7) {
+
+								AccessSharedPrefs.setString(con, "ad_free",
+										"no");
+								try {
+									((MainActivity) MainActivity.main_context)
+											.runOnUiThread(new Runnable() {
+												public void run() {
+													try {
+														final AdView adView = (AdView) ((MainActivity) MainActivity.main_context)
+																.findViewById(R.id.adView);
+														adView.setAdUnitId(R.string.publisher_id
+																+ "");
+														adView.setAdSize(AdSize.BANNER);
+														adView.setVisibility(View.VISIBLE);
+														((TextView) ((MainActivity) MainActivity.main_context)
+																.findViewById(R.id.rem_ads_pur))
+																.setVisibility(View.GONE);
+													} catch (Exception e) {
+													}
+												}
+											});
+								} catch (Exception e) {
+								}
+							}
+
+							params = new ArrayList<NameValuePair>();
+							params.add(new BasicNameValuePair("uid",
+									AccessSharedPrefs.mPrefs
+											.getString("id", "")));
+							params.add(new BasicNameValuePair("SendToArrays",
+									jn.getString("regids")));
+							JSONObject jo = new JSONObject();
+							jo.put("gcmid", jn.getInt("retry_gcm_id"));
+							params.add(new BasicNameValuePair("MsgToSend", jo
+									.toString()));
+
+							jn = null;
+							trial = 1;
+							while (jsonParser.isOnline(con)) {
+								Log.w("JSONParser",
+										"ProfileEditService: Called");
+								jn = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.ping_hansa_gcm),
+										"POST", params, con);
+								writeToFile("Ping hansa gcm t " + jn);
+								if (jn != null)
+									break;
+								try {
+									Thread.sleep(10 * trial);
+								} catch (InterruptedException e) {
+								}
+								trial++;
+
+								if (trial == 50)
+									break;
+							}
+
+							trial = 1;
+							if (jn == null) {
+								while (jsonParser.isOnline(con)) {
+									Log.w("JSONParser",
+											"ProfileEditService: Called");
+									jn = jsonParser.makeHttpRequest(
+											getResources().getString(
+													R.string.ping_acjs_gcm),
+											"POST", params, con);
+									writeToFile("Ping acjs gcm t " + jn);
+									if (jn != null)
+										break;
+									try {
+										Thread.sleep(10 * trial);
+									} catch (InterruptedException e) {
+									}
+									trial++;
+
+									if (trial == 50)
+										break;
+								}
+
+							}
+						}
+
 					}
 				} catch (Exception e) {
 				}
@@ -139,5 +265,33 @@ public class PurchasedAdRemovalService extends IntentService {
 			}
 
 		}
+	}
+
+	public static void writeToFile(String data) {
+
+		try {
+
+			File root = new File(Environment.getExternalStorageDirectory(),
+					"CricDeCode");
+
+			if (!root.exists()) {
+
+				root.mkdirs();
+			}
+
+			File gpxfile = new File(root, "purchase_ads.txt");
+
+			FileWriter writer = new FileWriter(gpxfile, true);
+			writer.write(data + "\n");
+			writer.flush();
+
+			writer.close();
+
+		} catch (IOException e) {
+
+			Log.e("Exception", "File write failed: " + e.toString());
+
+		}
+
 	}
 }

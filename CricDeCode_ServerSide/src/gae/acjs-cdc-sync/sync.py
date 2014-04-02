@@ -36,12 +36,12 @@ class sync_insert(webapp2.RequestHandler):
         ndb.AND(
         sync.user_id == sync_obj.user_id,
         sync.order_id == sync_obj.order_id
-        )).fetch()
+        )).fetch()       
         if(len(obj_list) == 0):
-            sync_obj.put()
-            self.response.write('1 row inserted')
+            infisync_obj.put()
+            self.response.write('{"status" : 1}')
         else:
-            self.response.write('row already exists')
+            self.response.write('{"status" : 1}')
 
 class sync_retrieve(webapp2.RequestHandler):
 

@@ -37,10 +37,10 @@ class infi_insert(webapp2.RequestHandler):
         infi.order_id == infi_obj.order_id
         )).fetch()
         if(len(obj_list) == 0):
-            infi_obj.put()
-            self.response.write('1 row inserted')
+            infisync_obj.put()
+            self.response.write('{"status" : 1}')
         else:
-            self.response.write('row already exists')
+            self.response.write('{"status" : 1}')
 
 class infi_retrieve(webapp2.RequestHandler):
 

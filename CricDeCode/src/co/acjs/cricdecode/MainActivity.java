@@ -441,7 +441,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				onSessionStateChange(session, state, exception);
 			}
 		};
-		
+
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_main);
@@ -863,7 +863,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			adView.setVisibility(View.GONE);
 			findViewById(R.id.padding_bottom_frame).setBackgroundColor(
 					getResources().getColor(R.color.transparent));
-			;
+
 		} else {
 			adView.setVisibility(View.VISIBLE);
 		}
@@ -875,8 +875,30 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
-		
-	}		
+
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("orderId", "12999763169054705758.1316398223616083");
+			jo.put("Token",
+					"uprgrcdarjhnyxoaywzmmyhn.AO-J1Oxx1KL6h2FTPsTKB8u-hHv2zGctlDysKxl1_icyoyhtLBZkZ1WBMYCF-b5sENroQeoDf1GZQI-kfbiGWWD3tvT5Hrmwf8-ANdmJ-uJdsBJzoPZKlwMILo-byc0b0b_t7yP0pb");
+			jo.put("Sign",
+					"WABHVZZ+AqkHcuij4ikJJ/LhfZTuGQyMz4yOXDeo8QDOgWxxetEax3uqeF9u5KAaC+zsvIgZ1jayzn9dVHLtkTxpWl6PtDdKH8aFHM1AbGB5XtqUlzZb1ENbmyWXJzyRiqxRiMAnkLOnnPg0LREzSecwW5dW4QzAMwc3y8x8EMgMUSF01ASxlULsZWK55Wmshv0KrIWz9KFQ/zCXTQfGr3RrGLWA/kgYulg5nbd+lOlc03jJ+mjFzMX8cHwV9tN2ofwbG0ptd98yC4yfPqraL/mT4M/Rlxs7Qf2RaA7jE0lOpkLEhmkwHHeAPNKw1vW9vKRWYUpH4qKfrrvhZ3boWg==");
+
+			AccessSharedPrefs.setString(main_context,
+					"PurchaseInfiSyncServiceCalled",
+					CDCAppClass.NEEDS_TO_BE_CALLED);
+			AccessSharedPrefs.setString(main_context, "pur_infi_sync_data",
+					jo.toString());
+			AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
+			Intent intent = new Intent(main_context,
+					PurchasedInfiSyncService.class);
+			writeToFile("Calling ....");
+			main_context.startService(intent);
+
+		} catch (JSONException e) {
+		}
+
+	}
 
 	@TargetApi(19)
 	private void makeBarsTranslucent(Window window) {
@@ -953,7 +975,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				"MatchHistorySyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
-		writeToFile(""+NotSyncedMatchHistory);
 		boolean NotDeleted = AccessSharedPrefs.mPrefs.getString(
 				"DeleteMatchServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
@@ -3157,6 +3178,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		return new String(sh);
 	}
+
 	public static void writeToFile(String data) {
 
 		try {
@@ -3184,7 +3206,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 
 	}
-	
 
 	public Boolean isOnline(Context cont) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) cont

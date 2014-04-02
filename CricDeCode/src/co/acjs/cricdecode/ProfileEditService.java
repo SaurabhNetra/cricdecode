@@ -139,7 +139,7 @@ public class ProfileEditService extends IntentService {
 							if (trial == 50)
 								break;
 						}
-
+						trial = 1;
 						if (jn == null) {
 							while (jsonParser.isOnline(who)) {
 								Log.w("JSONParser",
@@ -165,8 +165,8 @@ public class ProfileEditService extends IntentService {
 							}
 
 						}
-
-					if (jn == null) {
+						trial = 1;
+						if (jn == null) {
 							while (jsonParser.isOnline(who)) {
 								Log.w("JSONParser",
 										"ProfileEditService: Called");

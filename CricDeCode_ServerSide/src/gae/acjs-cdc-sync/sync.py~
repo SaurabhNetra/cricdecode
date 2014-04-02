@@ -64,7 +64,7 @@ class sync_check(webapp2.RequestHandler):
         obj_list = sync.query(ndb.AND(sync.user_id == uid,sync.not_valid == 0)).order(-sync.validuntil_ts_msec).fetch(1)
         if(len(obj_list) != 0):
             obj = obj_list[0]
-            url = "http://acjs-cdc-andro.appspot.com/retrieve"
+            url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
             values = {}
             values['user_id'] = uid
             data = urllib.urlencode(values)
