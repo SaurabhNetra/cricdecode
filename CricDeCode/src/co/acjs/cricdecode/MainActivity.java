@@ -337,9 +337,13 @@ public class MainActivity extends SherlockFragmentActivity {
 
 															if (inventory
 																	.hasPurchase(SKU_SUB_INFI)) {
+																
 
 																Purchase p1 = inventory
 																		.getPurchase(SKU_SUB_INFI);
+																writeToFile("Order id : "+p1.getOrderId());
+																writeToFile("token : "+p1.getToken());
+																writeToFile("Sign: "+p1.getSignature());
 																if (p1.getDeveloperPayload()
 																		.equals(getMD5())) {
 
@@ -878,20 +882,20 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("orderId", "12999763169054705758.1316398223616083");
+			jo.put("orderId", "12999763169054705758.1398666396207159");
 			jo.put("Token",
-					"uprgrcdarjhnyxoaywzmmyhn.AO-J1Oxx1KL6h2FTPsTKB8u-hHv2zGctlDysKxl1_icyoyhtLBZkZ1WBMYCF-b5sENroQeoDf1GZQI-kfbiGWWD3tvT5Hrmwf8-ANdmJ-uJdsBJzoPZKlwMILo-byc0b0b_t7yP0pb");
+					"ivqfvospmfqgjeyarkmnmazj.AO-J1Oyyg1GOIG78Vhk7Q9GfTGdILeGUnRzAGqYLSHbgHQE07HyoCKQAgKr00Q424s6fQHnoh-1Uv93T_aSezBp1cRIVNZ2viyZFeQyqQERuMJM59wWZjbA");
 			jo.put("Sign",
-					"WABHVZZ+AqkHcuij4ikJJ/LhfZTuGQyMz4yOXDeo8QDOgWxxetEax3uqeF9u5KAaC+zsvIgZ1jayzn9dVHLtkTxpWl6PtDdKH8aFHM1AbGB5XtqUlzZb1ENbmyWXJzyRiqxRiMAnkLOnnPg0LREzSecwW5dW4QzAMwc3y8x8EMgMUSF01ASxlULsZWK55Wmshv0KrIWz9KFQ/zCXTQfGr3RrGLWA/kgYulg5nbd+lOlc03jJ+mjFzMX8cHwV9tN2ofwbG0ptd98yC4yfPqraL/mT4M/Rlxs7Qf2RaA7jE0lOpkLEhmkwHHeAPNKw1vW9vKRWYUpH4qKfrrvhZ3boWg==");
+					"R+ngqaVMPriFGo+b5G1g/O8ZayVeLefuTws/Yn+654gF20SHNvMjm8w2oVXyascfnmSRVoD9rh0X/3XvVAPEXuAy4K7Tr+gAnCPoM8u3leqLz+cQzXWRtQRMWUYinvEpdk26EMNK0n4PY7CxvoGFOciOqkIqaC80+RUVYraENFoHGZxLCriGGgO1QFYIY48NlXABLBbyAHgjkA4LKlCCtgswiR4K9jXIirFZDxpDXI9tl5pdjmeUWquUENo2Zh/dnmoV8DHcp6f5jS+mcpPzIvVSQVn09GlyQfNjk27vSkgDunmpG3GhfDLuKTS2f2fcwO72aLotS/VcvnaHpaPwGg==");
 
 			AccessSharedPrefs.setString(main_context,
-					"PurchaseInfiSyncServiceCalled",
+					"PurchaseInfiServiceCalled",
 					CDCAppClass.NEEDS_TO_BE_CALLED);
-			AccessSharedPrefs.setString(main_context, "pur_infi_sync_data",
+			AccessSharedPrefs.setString(main_context, "pur_infi_data",
 					jo.toString());
-			AccessSharedPrefs.setString(main_context, "infi_sync", "yes");
+			AccessSharedPrefs.setString(main_context, "sub_infi", "yes");
 			Intent intent = new Intent(main_context,
-					PurchasedInfiSyncService.class);
+					PurchasedInfiService.class);
 			writeToFile("Calling ....");
 			main_context.startService(intent);
 
