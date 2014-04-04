@@ -10,7 +10,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import android.app.Application;
 
-@ReportsCrashes(formKey = "", formUri = "http://buggs.acjs.co/report/index.php")
+@ReportsCrashes(formKey = "", formUri = "http://acjs-cdc-buggs.appspot.com/")
 public class CDCAppClass extends Application {
 	public static final String NEEDS_TO_BE_CALLED = "to_be";
 	public static final String DOESNT_NEED_TO_BE_CALLED = "";

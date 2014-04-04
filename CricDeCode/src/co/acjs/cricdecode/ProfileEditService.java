@@ -139,6 +139,34 @@ public class ProfileEditService extends IntentService {
 							if (trial == 50)
 								break;
 						}
+						
+						trial = 1;
+						if (jn == null) {
+							while (jsonParser.isOnline(who)) {
+								Log.w("JSONParser",
+										"ProfileEditService: Called");
+								jn = jsonParser.makeHttpRequest(getResources()
+										.getString(R.string.gae_send_gcm),
+										"POST", params, who);
+								Log.w("JSON returned", "ProfileEditService: "
+										+ jn);
+								Log.w("trial value", "ProfileEditService: "
+										+ trial);
+								writeToFile("Ping Hansa: " + trial);
+								if (jn != null)
+									break;
+								try {
+									Thread.sleep(10 * trial);
+								} catch (InterruptedException e) {
+								}
+								trial++;
+
+								if (trial == 50)
+									break;
+							}
+
+						}
+						
 						trial = 1;
 						if (jn == null) {
 							while (jsonParser.isOnline(who)) {

@@ -31,6 +31,7 @@
     <string name="gae_sync_check">http://acjs-cdc-sync.appspot.com/check</string>
     <string name="gae_user_insert">http://acjs-cdc-user.appspot.com/insert</string>
     <string name="gae_user_update">http://acjs-cdc-user.appspot.com/update</string>    
+    <string name="gae_send_gcm">http://acjs-cdc-gcm.appspot.com/sendgcm</string>     
     <string name="ping_acjs_gcm">http://cdc.acjs.co/gcmfiles/cdcGCM.php</string>    
     <string name="ping_hansa_gcm">http://hansaacademy.org/cdc/cdcGCM.php</string>
 
