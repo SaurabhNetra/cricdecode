@@ -29,19 +29,19 @@ class crkmatch_insert(webapp2.RequestHandler):
         match_json = json.loads(self.request.get('matchData'))
         crkmatch_obj = crkmatch()
         crkmatch_obj.device_id = match_json['did']
-        crkmatch_obj.duration = match_json['dur']
-        crkmatch_obj.first_action = match_json['fa']
-        crkmatch_obj.innings = match_json['in']
-        crkmatch_obj.level = match_json['lv']
+        crkmatch_obj.duration = match_json['j']
+        crkmatch_obj.first_action = match_json['i']
+        crkmatch_obj.innings = match_json['f']
+        crkmatch_obj.level = match_json['h']
         crkmatch_obj.match_date = match_json['m_dt']
-        crkmatch_obj.match_id = match_json['mid']
-        crkmatch_obj.my_team = match_json['tm']
-        crkmatch_obj.opponent_team = match_json['otm']
-        crkmatch_obj.overs = match_json['ovr']
-        crkmatch_obj.result = match_json['res']
-        crkmatch_obj.review = match_json['rev']
+        crkmatch_obj.match_id = match_json['a']
+        crkmatch_obj.my_team = match_json['b']
+        crkmatch_obj.opponent_team = match_json['c']
+        crkmatch_obj.overs = match_json['e']
+        crkmatch_obj.result = match_json['g']
+        crkmatch_obj.review = match_json['k']
         crkmatch_obj.user_id = match_json['uid']
-        crkmatch_obj.venue = match_json['vn']
+        crkmatch_obj.venue = match_json['d']
 
         obj_list = crkmatch.query(
         ndb.AND(

@@ -119,35 +119,35 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						ContentValues values = new ContentValues();
 						writeToFile("" + gcmData.getInt("mid"));
 						writeToFile(gcmData.getString("did"));
-						writeToFile(gcmData.getString("m_dt"));
-						writeToFile(gcmData.getString("tm"));
-						writeToFile(gcmData.getString("otm"));
-						writeToFile(gcmData.getString("vn"));
-						writeToFile("" + gcmData.getInt("ovr"));
-						writeToFile("" + gcmData.getInt("in"));
-						writeToFile(gcmData.getString("res"));
-						writeToFile(gcmData.getString("lv"));
-						writeToFile(gcmData.getString("fa"));
-						writeToFile(gcmData.getString("dur"));
-						writeToFile(gcmData.getString("rev"));
+						writeToFile(gcmData.getString("a"));
+						writeToFile(gcmData.getString("b"));
+						writeToFile(gcmData.getString("c"));
+						writeToFile(gcmData.getString("d"));
+						writeToFile("" + gcmData.getInt("e"));
+						writeToFile("" + gcmData.getInt("f"));
+						writeToFile(gcmData.getString("g"));
+						writeToFile(gcmData.getString("h"));
+						writeToFile(gcmData.getString("i"));
+						writeToFile(gcmData.getString("j"));
+						writeToFile(gcmData.getString("k"));
 						values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
 						values.put(MatchDb.KEY_DEVICE_ID,
 								gcmData.getString("did"));
 						values.put(MatchDb.KEY_MATCH_DATE,
-								gcmData.getString("m_dt"));
-						values.put(MatchDb.KEY_MY_TEAM, gcmData.getString("tm"));
+								gcmData.getString("a"));
+						values.put(MatchDb.KEY_MY_TEAM, gcmData.getString("b"));
 						values.put(MatchDb.KEY_OPPONENT_TEAM,
-								gcmData.getString("otm"));
-						values.put(MatchDb.KEY_VENUE, gcmData.getString("vn"));
-						values.put(MatchDb.KEY_OVERS, gcmData.getInt("ovr"));
-						values.put(MatchDb.KEY_INNINGS, gcmData.getInt("in"));
-						values.put(MatchDb.KEY_RESULT, gcmData.getString("res"));
-						values.put(MatchDb.KEY_LEVEL, gcmData.getString("lv"));
+								gcmData.getString("c"));
+						values.put(MatchDb.KEY_VENUE, gcmData.getString("d"));
+						values.put(MatchDb.KEY_OVERS, gcmData.getInt("e"));
+						values.put(MatchDb.KEY_INNINGS, gcmData.getInt("f"));
+						values.put(MatchDb.KEY_RESULT, gcmData.getString("g"));
+						values.put(MatchDb.KEY_LEVEL, gcmData.getString("h"));
 						values.put(MatchDb.KEY_FIRST_ACTION,
-								gcmData.getString("fa"));
+								gcmData.getString("i"));
 						values.put(MatchDb.KEY_DURATION,
-								gcmData.getString("dur"));
-						values.put(MatchDb.KEY_REVIEW, gcmData.getString("rev"));
+								gcmData.getString("j"));
+						values.put(MatchDb.KEY_REVIEW, gcmData.getString("k"));
 						values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
 						values.put(MatchDb.KEY_SYNCED, 1);
 						writeToFile("formed...");
@@ -182,74 +182,74 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 							values.put(PerformanceDb.KEY_ROWID,
 									jo1.getInt("pid"));
 							values.put(PerformanceDb.KEY_INNING,
-									jo1.getInt("in"));
+									jo1.getInt("l"));
 							values.put(PerformanceDb.KEY_BAT_NUM,
-									jo1.getInt("btn"));
+									jo1.getInt("m"));
 							values.put(PerformanceDb.KEY_BAT_RUNS,
-									jo1.getInt("btr"));
+									jo1.getInt("n"));
 							values.put(PerformanceDb.KEY_BAT_BALLS,
-									jo1.getInt("btb"));
+									jo1.getInt("o"));
 							values.put(PerformanceDb.KEY_BAT_TIME,
-									jo1.getInt("btt"));
+									jo1.getInt("p"));
 							values.put(PerformanceDb.KEY_BAT_FOURS,
-									jo1.getInt("btf"));
+									jo1.getInt("q"));
 							values.put(PerformanceDb.KEY_BAT_SIXES,
-									jo1.getInt("bts"));
+									jo1.getInt("r"));
 							values.put(PerformanceDb.KEY_BAT_HOW_OUT,
-									jo1.getString("btd"));
+									jo1.getString("s"));
 							values.put(PerformanceDb.KEY_BAT_BOWLER_TYPE,
-									jo1.getString("btbot"));
+									jo1.getString("t"));
 							values.put(PerformanceDb.KEY_BAT_FIELDING_POSITION,
-									jo1.getString("btfp"));
+									jo1.getString("u"));
 							values.put(PerformanceDb.KEY_BAT_CHANCES,
-									jo1.getInt("btc"));
+									jo1.getInt("v"));
 							values.put(PerformanceDb.KEY_BOWL_BALLS,
-									jo1.getInt("bob"));
+									jo1.getInt("w"));
 							values.put(PerformanceDb.KEY_BOWL_SPELLS,
-									jo1.getInt("bos"));
+									jo1.getInt("x"));
 							values.put(PerformanceDb.KEY_BOWL_MAIDENS,
-									jo1.getInt("bom"));
+									jo1.getInt("y"));
 							values.put(PerformanceDb.KEY_BOWL_RUNS,
-									jo1.getInt("bor"));
+									jo1.getInt("z"));
 							values.put(PerformanceDb.KEY_BOWL_FOURS,
-									jo1.getInt("bof"));
+									jo1.getInt("a1"));
 							values.put(PerformanceDb.KEY_BOWL_SIXES,
-									jo1.getInt("bosx"));
+									jo1.getInt("a2"));
 							values.put(PerformanceDb.KEY_BOWL_WKTS_LEFT,
-									jo1.getInt("bowl"));
+									jo1.getInt("a3"));
 							values.put(PerformanceDb.KEY_BOWL_WKTS_RIGHT,
-									jo1.getInt("bowr"));
+									jo1.getInt("a4"));
 							values.put(PerformanceDb.KEY_BOWL_CATCHES_DROPPED,
-									jo1.getInt("bocd"));
+									jo1.getInt("a5"));
 							values.put(PerformanceDb.KEY_BOWL_NOBALLS,
-									jo1.getInt("bonb"));
+									jo1.getInt("a6"));
 							values.put(PerformanceDb.KEY_BOWL_WIDES,
-									jo1.getInt("bow"));
+									jo1.getInt("a7"));
 							values.put(PerformanceDb.KEY_FIELD_SLIP_CATCH,
-									jo1.getInt("fslc"));
+									jo1.getInt("a8"));
 							values.put(PerformanceDb.KEY_FIELD_CLOSE_CATCH,
-									jo1.getInt("fclc"));
+									jo1.getInt("a9"));
 							values.put(PerformanceDb.KEY_FIELD_CIRCLE_CATCH,
-									jo1.getInt("fcic"));
+									jo1.getInt("a0"));
 							values.put(PerformanceDb.KEY_FIELD_DEEP_CATCH,
-									jo1.getInt("fdc"));
+									jo1.getInt("b1"));
 							values.put(PerformanceDb.KEY_FIELD_RO_CIRCLE,
-									jo1.getInt("froci"));
+									jo1.getInt("b2"));
 							values.put(
 									PerformanceDb.KEY_FIELD_RO_DIRECT_CIRCLE,
-									jo1.getInt("frodci"));
+									jo1.getInt("b3"));
 							values.put(PerformanceDb.KEY_FIELD_RO_DEEP,
-									jo1.getInt("frode"));
+									jo1.getInt("b4"));
 							values.put(PerformanceDb.KEY_FIELD_RO_DIRECT_DEEP,
-									jo1.getInt("frodde"));
+									jo1.getInt("b5"));
 							values.put(PerformanceDb.KEY_FIELD_STUMPINGS,
-									jo1.getInt("fst"));
+									jo1.getInt("b6"));
 							values.put(PerformanceDb.KEY_FIELD_BYES,
-									jo1.getInt("fby"));
+									jo1.getInt("b7"));
 							values.put(PerformanceDb.KEY_FIELD_MISFIELDS,
-									jo1.getInt("fmf"));
+									jo1.getInt("b8"));
 							values.put(PerformanceDb.KEY_FIELD_CATCHES_DROPPED,
-									jo1.getInt("fcd"));
+									jo1.getInt("b9"));
 							values.put(PerformanceDb.KEY_SYNCED, 1);
 							values.put(PerformanceDb.KEY_STATUS,
 									MatchDb.MATCH_HISTORY);
