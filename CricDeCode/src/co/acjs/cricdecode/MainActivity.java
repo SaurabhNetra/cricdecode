@@ -894,10 +894,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			AccessSharedPrefs.setString(main_context, "pur_infi_data",
 					jo.toString());
 			AccessSharedPrefs.setString(main_context, "sub_infi", "yes");
-			Intent intent = new Intent(main_context,
-					PurchasedChecko.class);
+			//Intent intent = new Intent(main_context,
+			//		PurchasedChecko.class);
 			writeToFile("Calling ....");
-			main_context.startService(intent);
+			//main_context.startService(intent);
 
 		} catch (JSONException e) {
 		}
