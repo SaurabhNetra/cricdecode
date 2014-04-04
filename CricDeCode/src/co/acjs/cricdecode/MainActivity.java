@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.codechimp.apprater.AppRater;
 import org.json.JSONException;
@@ -296,7 +297,7 @@ public class MainActivity extends SherlockFragmentActivity {
 												.setString(main_context,
 														"pur_sync_descr",
 														"Keep your data safe with cloud backup.");
-										/*MainActivity.mHelper
+										MainActivity.mHelper
 												.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
 													public void onQueryInventoryFinished(
 															IabResult result,
@@ -337,15 +338,35 @@ public class MainActivity extends SherlockFragmentActivity {
 
 															if (inventory
 																	.hasPurchase(SKU_SUB_INFI)) {
-																
 
 																Purchase p1 = inventory
 																		.getPurchase(SKU_SUB_INFI);
-																writeToFile("Order id : "+p1.getOrderId());
-																writeToFile("token : "+p1.getToken());
-																writeToFile("Sign: "+p1.getSignature());
+																writeToFile("Order id : "
+																		+ p1.getOrderId());
+																writeToFile("token : "
+																		+ p1.getToken());
+																writeToFile("Sign: "
+																		+ p1.getSignature());
 																if (p1.getDeveloperPayload()
 																		.equals(getMD5())) {
+
+																	Random r = new Random();
+																	int c = r
+																			.nextInt(3);
+																	if (c == 0) {
+
+																		AccessSharedPrefs
+																				.setString(
+																						MainActivity.main_context,
+																						"InfiChkServiceCalled",
+																						CDCAppClass.NEEDS_TO_BE_CALLED);
+
+																		main_context
+																				.startService(new Intent(
+																						main_context,
+																						InfiCheckService.class));
+
+																	}
 
 																	AccessSharedPrefs
 																			.setString(
@@ -430,7 +451,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 														}
 													}
-												});*/
+												});
 									}
 								}
 							});
@@ -880,28 +901,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
 
-		JSONObject jo = new JSONObject();
-		try {
-			jo.put("orderId", "12999763169054705758.1398666396207159");
-			jo.put("Token",
-					"ivqfvospmfqgjeyarkmnmazj.AO-J1Oyyg1GOIG78Vhk7Q9GfTGdILeGUnRzAGqYLSHbgHQE07HyoCKQAgKr00Q424s6fQHnoh-1Uv93T_aSezBp1cRIVNZ2viyZFeQyqQERuMJM59wWZjbA");
-			jo.put("Sign",
-					"R+ngqaVMPriFGo+b5G1g/O8ZayVeLefuTws/Yn+654gF20SHNvMjm8w2oVXyascfnmSRVoD9rh0X/3XvVAPEXuAy4K7Tr+gAnCPoM8u3leqLz+cQzXWRtQRMWUYinvEpdk26EMNK0n4PY7CxvoGFOciOqkIqaC80+RUVYraENFoHGZxLCriGGgO1QFYIY48NlXABLBbyAHgjkA4LKlCCtgswiR4K9jXIirFZDxpDXI9tl5pdjmeUWquUENo2Zh/dnmoV8DHcp6f5jS+mcpPzIvVSQVn09GlyQfNjk27vSkgDunmpG3GhfDLuKTS2f2fcwO72aLotS/VcvnaHpaPwGg==");
-
-			//AccessSharedPrefs.setString(main_context,
-			//		"PurchaseInfiServiceCalled",
-			//		CDCAppClass.NEEDS_TO_BE_CALLED);
-			AccessSharedPrefs.setString(main_context, "pur_infi_data",
-					jo.toString());
-			AccessSharedPrefs.setString(main_context, "sub_infi", "yes");
-			//Intent intent = new Intent(main_context,
-			//		PurchasedChecko.class);
-			writeToFile("Calling ....");
-			//main_context.startService(intent);
-
-		} catch (JSONException e) {
-		}
-
 	}
 
 	@TargetApi(19)
@@ -999,9 +998,12 @@ public class MainActivity extends SherlockFragmentActivity {
 				"PurchaseSyncServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED);
+		boolean NotChkInfi = AccessSharedPrefs.mPrefs.getString(
+				"InfiChkServiceCalled", CDCAppClass.DOESNT_NEED_TO_BE_CALLED)
+				.equals(CDCAppClass.NEEDS_TO_BE_CALLED);
 		if (NotSyncedMatchHistory | NotSyncedEditProfile | NotDeleted
 				| NotAdRemoved | NotInfied | NotInfiSynced | NotSyncedGCMSync
-				| NotSynced) {
+				| NotSynced | NotChkInfi) {
 			boolean isConnected = isOnline(main_context);
 			if (isConnected) {
 				Log.w("restart service", "mainactivity");
@@ -1041,6 +1043,11 @@ public class MainActivity extends SherlockFragmentActivity {
 					Log.w("Starting PurchasedSyncService", "restart service");
 					startService(new Intent(main_context,
 							PurchasedSyncService.class));
+				}
+				if (NotChkInfi & isConnected) {
+					Log.w("Starting PurchasedSyncService", "restart service");
+					startService(new Intent(main_context,
+							InfiCheckService.class));
 				}
 			} else
 				Log.w("no connection", "restart service");

@@ -74,7 +74,8 @@
         <service android:name="PurchasedAdRemovalService" />
         <service android:name="PurchasedInfiService" />
         <service android:name="DeleteMatchService" />
-        <service android:name="PurchasedInfiSyncService" />
+        <service android:name="PurchasedInfiSyncService" />        
+        <service android:name="InfiCheckService" />
         <service android:name=".GCMIntentService" />
 
         <activity

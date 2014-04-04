@@ -722,6 +722,10 @@ public class MatchHistorySyncService extends IntentService {
 														.getString("id", "")));
 										params.add(new BasicNameValuePair(
 												"token", p1.getToken()));
+										params.add(new BasicNameValuePair(
+												"sign", p1.getSignature()));
+										params.add(new BasicNameValuePair(
+												"orderId", p1.getOrderId()));
 										jsonParser = new JSONParser();
 										trial = 1;
 										jn = null;
@@ -732,6 +736,7 @@ public class MatchHistorySyncService extends IntentService {
 																	.getString(
 																			R.string.gae_infisync_check),
 															"POST", params, who);
+											writeToFile("Pinging infi sync chek: "+jn);
 											if (jn != null)
 												break;
 											try {
@@ -798,6 +803,10 @@ public class MatchHistorySyncService extends IntentService {
 														.getString("id", "")));
 										params.add(new BasicNameValuePair(
 												"token", p1.getToken()));
+										params.add(new BasicNameValuePair(
+												"sign", p1.getSignature()));
+										params.add(new BasicNameValuePair(
+												"orderId", p1.getOrderId()));
 										jsonParser = new JSONParser();
 										trial = 1;
 										jn = null;
@@ -809,6 +818,7 @@ public class MatchHistorySyncService extends IntentService {
 																	.getString(
 																			R.string.gae_sync_check),
 															"POST", params, who);
+											writeToFile("Pinging sync chek: "+trial);
 											if (jn != null)
 												break;
 											try {
@@ -866,109 +876,6 @@ public class MatchHistorySyncService extends IntentService {
 
 			}
 		});
-
-		if (AccessSharedPrefs.mPrefs.getString("MatchHistorySyncServiceCalled",
-				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
-				CDCAppClass.NEEDS_TO_BE_CALLED)) {
-			if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no").equals(
-					"yes")) {
-
-				params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("user_id",
-						AccessSharedPrefs.mPrefs.getString("id", "")));
-
-				jsonParser = new JSONParser();
-				trial = 1;
-				jn = null;
-				while (jsonParser.isOnline(who)) {
-					Log.w("JSONParser", "SubinfiSync:: Called");
-					// take user_id, max validts, valid? return status=1, not
-					// valid then ping google to chk status=0, status=1, send
-					// gcms, also give back regids
-					jn = jsonParser.makeHttpRequest(who.getResources()
-							.getString(R.string.gae_infisync_check), "POST",
-							params, who);
-					Log.w("JSON returned", "SubinfiSync:: " + jn);
-					Log.w("trial value", "SubinfiSync:: " + trial);
-					if (jn != null)
-						break;
-					try {
-						Thread.sleep(10 * trial);
-					} catch (InterruptedException e) {
-					}
-					trial++;
-					if (trial == 50)
-						break;
-				}
-
-				writeToFile("chking inif_sync: " + jn);
-				try {
-					if (jn.getInt("status") == 1) {
-						writeToFile("calling send data");
-						AccessSharedPrefs.setString(who, "infi_sync", "yes");
-						sendData(jn.getString("reg_ids"));
-					} else if (jn.getInt("status") == 0) {
-						AccessSharedPrefs.setString(who, "infi_sync", "no");
-						AccessSharedPrefs.setString(who,
-								"MatchHistorySyncServiceCalled",
-								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-					}
-				} catch (NullPointerException e) {
-				} catch (JSONException e) {
-				}
-
-			} else if (AccessSharedPrefs.mPrefs.getString("sync", "no").equals(
-					"yes")) {
-				params = new ArrayList<NameValuePair>();
-
-				params.add(new BasicNameValuePair("id",
-						AccessSharedPrefs.mPrefs.getString("id", "")));
-
-				jsonParser = new JSONParser();
-				trial = 1;
-				jn = null;
-				while (jsonParser.isOnline(who)) {
-					// take user_id, max validts, valid? return status=1, not
-					// valid then ping google to chk status=0, status=1, send
-					// gcms, also give back regids
-					jn = jsonParser.makeHttpRequest(who.getResources()
-							.getString(R.string.gae_sync_check), "POST",
-							params, who);
-					Log.w("JSON returned", "SubSync:: " + jn);
-					Log.w("trial value", "SubSync:: " + trial);
-					if (jn != null)
-						break;
-					try {
-						Thread.sleep(10 * trial);
-					} catch (InterruptedException e) {
-					}
-					trial++;
-					if (trial == 50)
-						break;
-				}
-
-				try {
-					if (jn.getInt("status") == 1) {
-						AccessSharedPrefs.setString(who, "sync", "yes");
-						sendData(jn.getString("reg_ids"));
-					} else if (jn.getInt("status") == 0) {
-						AccessSharedPrefs.setString(who, "sync", "no");
-						AccessSharedPrefs.setString(who,
-								"MatchHistorySyncServiceCalled",
-								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-					}
-				} catch (NullPointerException e) {
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-
-			} else {
-				AccessSharedPrefs.setString(who,
-						"MatchHistorySyncServiceCalled",
-						CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-			}
-
-		}
 	}
 
 	public static void writeToFile(String data) {

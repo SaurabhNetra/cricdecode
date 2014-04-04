@@ -173,7 +173,7 @@ public class DeleteMatchService extends IntentService {
 							if (trial == 50)
 								break;
 						}
-						trial=1;
+						trial = 1;
 						writeToFile("ping azure: " + jn);
 						if (jn == null) {
 							while (jsonParser.isOnline(who)) {
@@ -195,7 +195,7 @@ public class DeleteMatchService extends IntentService {
 							}
 
 						}
-						trial=1;
+						trial = 1;
 						writeToFile("ping hansa:" + jn);
 						if (jn == null) {
 							while (jsonParser.isOnline(who)) {

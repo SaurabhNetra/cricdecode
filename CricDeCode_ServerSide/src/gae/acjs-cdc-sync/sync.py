@@ -68,55 +68,88 @@ class sync_check(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/plain'
         uid = self.request.get('user_id')
-        obj_list = sync.query(ndb.AND(sync.user_id == uid,sync.not_valid == 0)).order(-sync.validuntil_ts_msec).fetch(1)
+        token = self.request.get('token')
+        sign = self.request.get('sign')
+        orderid = self.request.get('orderId')
+        obj_list = sync.query(sync.user_id == uid).fetch()
+        ret_status = {}
+        url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
+        values = {}
+        values['user_id'] = uid
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        regids_str = response.read()
         if(len(obj_list) != 0):
             obj = obj_list[0]
-            url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
-            values = {}
-            values['user_id'] = uid
-            data = urllib.urlencode(values)
-            req = urllib2.Request(url, data)
-            response = urllib2.urlopen(req)
-            regids_str = response.read()
             now = int(round(time.time()*1000))
             if now < obj.validuntil_ts_msec:
-                json_obj = {}
-                json_obj["status"] = 1
-                json_obj["reg_ids"] = regids_str
-                self.response.write(json.dumps(json_obj))
-            else:
+                ret_status["status"] = 1
+                ret_status["reg_ids"] = regids_str
+            else:                
                 url = "http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php"
                 values = {}
-                values['order_id'] = obj.order_id
-                values['sign'] = obj.sign
                 values['token'] = obj.token
                 values['product_id'] = 'sub_sync'
-                values['reg_ids'] = regids_str
-
+                values['reg_ids'] = regids_str                
+                values['user_id'] = uid
                 data = urllib.urlencode(values)
                 req = urllib2.Request(url, data)
                 response = urllib2.urlopen(req)
                 json_str = response.read()
                 json_obj = json.loads(json_str)
-
-                if(json_obj['status'] == 1):
-                    sync_obj = sync()
-                    sync_obj.user_id = uid
-                    sync_obj.autorenewing = json_obj["autorenewing"]
-                    sync_obj.initiation_ts_msec = json_obj["initiation_ts_msec"]
-                    sync_obj.not_valid = json_obj["not_valid"]
-                    sync_obj.order_id = json_obj["order_id"]
-                    sync_obj.sign = json_obj["sign"]
-                    sync_obj.token = json_obj["token"]
-                    sync_obj.validuntil_ts_msec = json_obj["validuntil_ts_msec"]
-                    sync_obj.put()
+                if(json_obj['status'] == 1):                   
+                    obj.user_id = uid
+                    obj.autorenewing = json_obj["auto_ren"]
+                    obj.initiation_ts_msec = json_obj["init_ts"]
+                    obj.not_valid = 0
+                    obj.order_id = orderid
+                    obj.sign = sign
+                    obj.token = token
+                    obj.validuntil_ts_msec = json_obj["valid_ts"]
+                    obj.put()
+                    ret_status["status"] = 1
+                    ret_status['reg_ids'] = regids_str
                 if(json_obj['status'] == 0):
                     obj.not_valid = 1
                     obj.put()
+                    ret_status["status"] = 0
+                if(json_obj['status'] == 2):
+                    ret_status["status"] = 2
+                 
         else:
-            json_obj = {}
-            json_obj['status'] = 0
-            self.response.write(json.dumps(json_obj))
+            url = "http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php"
+            values = {}
+            values['token'] = token
+            values['product_id'] = 'sub_sync'
+            values['reg_ids'] = regids_str                
+            values['user_id'] = uid
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+            json_str = response.read()
+            json_obj = json.loads(json_str)
+            if(json_obj['status'] == 1):
+                obj = sync()                 
+                obj.user_id = uid
+                obj.autorenewing = json_obj["auto_ren"]
+                obj.initiation_ts_msec = json_obj["init_ts"]
+                obj.not_valid = 0
+                obj.order_id = orderid
+                obj.sign = sign
+                obj.token = token
+                obj.validuntil_ts_msec = json_obj["valid_ts"]
+                obj.put()
+                ret_status["status"] = 1
+                ret_status['reg_ids'] = regids_str
+                if(json_obj['status'] == 0):
+                    obj.not_valid = 1
+                    obj.put()
+                    ret_status["status"] = 0
+                if(json_obj['status'] == 2):
+                    ret_status["status"] = 2
+                      
+        self.response.write(json.dumps(ret_status))
 
 application = webapp2.WSGIApplication([
     ('/insert', sync_insert),('/retrieve', sync_retrieve),('/check',sync_check),

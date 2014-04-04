@@ -69,22 +69,24 @@ class infisync_check(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         uid = self.request.get('user_id')
         token = self.request.get('token')
+        sign = self.request.get('sign')
+        orderid = self.request.get('orderId')
         obj_list = infisync.query(infisync.user_id == uid).fetch()
         ret_status = {}
+        url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
+        values = {}
+        values['user_id'] = uid
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        regids_str = response.read()
         if(len(obj_list) != 0):
             obj = obj_list[0]
             now = int(round(time.time()*1000))
             if now < obj.validuntil_ts_msec:
-                url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
-                values = {}
-                values['user_id'] = uid
-                data = urllib.urlencode(values)
-                req = urllib2.Request(url, data)
-                response = urllib2.urlopen(req)
-                regids_str = response.read()
                 ret_status["status"] = 1
                 ret_status["reg_ids"] = regids_str
-            else:
+            else:                
                 url = "http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php"
                 values = {}
                 values['token'] = obj.token
@@ -96,23 +98,15 @@ class infisync_check(webapp2.RequestHandler):
                 response = urllib2.urlopen(req)
                 json_str = response.read()
                 json_obj = json.loads(json_str)
-
-                if(json_obj['status'] == 1):
-                    url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
-                    values = {}
-                    values['user_id'] = uid
-                    data = urllib.urlencode(values)
-                    req = urllib2.Request(url, data)
-                    response = urllib2.urlopen(req)
-                    regids_str = response.read()
+                if(json_obj['status'] == 1):                   
                     obj.user_id = uid
-                    obj.autorenewing = json_obj["autorenewing"]
-                    obj.initiation_ts_msec = json_obj["initiation_ts_msec"]
+                    obj.autorenewing = json_obj["auto_ren"]
+                    obj.initiation_ts_msec = json_obj["init_ts"]
                     obj.not_valid = 0
-                    obj.order_id = json_obj["order_id"]
-                    obj.sign = json_obj["sign"]
-                    obj.token = json_obj["token"]
-                    obj.validuntil_ts_msec = json_obj["validuntil_ts_msec"]
+                    obj.order_id = orderid
+                    obj.sign = sign
+                    obj.token = token
+                    obj.validuntil_ts_msec = json_obj["valid_ts"]
                     obj.put()
                     ret_status["status"] = 1
                     ret_status['reg_ids'] = regids_str
@@ -123,57 +117,38 @@ class infisync_check(webapp2.RequestHandler):
                 if(json_obj['status'] == 2):
                     ret_status["status"] = 2
                  
-        else:            
-            obj = infisync()
-            now = int(round(time.time()*1000))
-            if now < obj.validuntil_ts_msec:
-                url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
-                values = {}
-                values['user_id'] = uid
-                data = urllib.urlencode(values)
-                req = urllib2.Request(url, data)
-                response = urllib2.urlopen(req)
-                regids_str = response.read()
+        else:
+            url = "http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php"
+            values = {}
+            values['token'] = token
+            values['product_id'] = 'sub_infi_sync'
+            values['reg_ids'] = regids_str                
+            values['user_id'] = uid
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+            json_str = response.read()
+            json_obj = json.loads(json_str)
+            if(json_obj['status'] == 1):
+                obj = infisync()                 
+                obj.user_id = uid
+                obj.autorenewing = json_obj["auto_ren"]
+                obj.initiation_ts_msec = json_obj["init_ts"]
+                obj.not_valid = 0
+                obj.order_id = orderid
+                obj.sign = sign
+                obj.token = token
+                obj.validuntil_ts_msec = json_obj["valid_ts"]
+                obj.put()
                 ret_status["status"] = 1
-                ret_status["reg_ids"] = regids_str
-                self.response.write(json.dumps(ret_status))
-
-            else:
-                url = "http://acjs.azurewebsites.net/acjs/CDCSubscriptionPurchaseChk_vGAE.php"
-                values = {}
-                values['token'] = token
-                values['product_id'] = 'sub_infi_sync'
-                values['reg_ids'] = regids_str                
-                values['user_id'] = uid
-                data = urllib.urlencode(values)
-                req = urllib2.Request(url, data)
-                response = urllib2.urlopen(req)
-                json_str = response.read()
-                json_obj = json.loads(json_str)
-
-                if(json_obj['status'] == 1):
-                    url = "http://acjs-cdc-andro.appspot.com/retrieve_wo_json"
-                    values = {}
-                    values['user_id'] = uid
-                    data = urllib.urlencode(values)
-                    req = urllib2.Request(url, data)
-                    response = urllib2.urlopen(req)
-                    regids_str = response.read()
-                    obj.user_id = uid
-                    obj.autorenewing = json_obj["autorenewing"]
-                    obj.initiation_ts_msec = json_obj["initiation_ts_msec"]
-                    obj.not_valid = json_obj["not_valid"]
-                    obj.order_id = json_obj["order_id"]
-                    obj.sign = json_obj["sign"]
-                    obj.token = json_obj["token"]
-                    obj.validuntil_ts_msec = json_obj["validuntil_ts_msec"]
-                    obj.put()
-                    ret_status["status"] = 1
+                ret_status['reg_ids'] = regids_str
                 if(json_obj['status'] == 0):
+                    obj.not_valid = 1
+                    obj.put()
                     ret_status["status"] = 0
                 if(json_obj['status'] == 2):
                     ret_status["status"] = 2
-                 
+                      
         self.response.write(json.dumps(ret_status))
 
 application = webapp2.WSGIApplication([
