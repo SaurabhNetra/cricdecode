@@ -202,6 +202,11 @@ public class MainActivity extends SherlockFragmentActivity {
 				Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
+		
+		String crashkaro=null;
+		
+		crashkaro.charAt(8);
+		
 		mHelper = new IabHelper(
 				this,
 				decrypt("C,sCZBgBPDBE,p8OF0U[RLcYTHjI:iFsKulbsFD,Gs4Q2L1qh,BfWJRSnY9OBCY1mUI5UQPe0Y:wsNJ4",

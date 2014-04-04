@@ -2,6 +2,8 @@ import webapp2
 import json
 import urllib
 import urllib2
+import re
+import codecs
 from google.appengine.ext import ndb
 class usr(ndb.Model):
     batting_style = ndb.StringProperty(indexed=False)
@@ -89,25 +91,30 @@ class usr_update(webapp2.RequestHandler):
         status['reg_ids'] = regids_str             
         self.response.write(status)
 
-class pingchk(webapp2.RequestHandler):
-    def post(self):
-        self.response.write('{"status" : 1}')
 
-class pingazure(webapp2.RequestHandler):
+class pingmig(webapp2.RequestHandler):
     def post(self):
-	url = "http://acjs.azurewebsites.net/acjs/pingChk.php"
-        values = {
-			'gcm_id' : "abc",
-			'user_id' : "pqr"
-		}
-        data = urllib.urlencode(values)
-        req = urllib2.Request(url, data)
+	url = "http://api.stackmob.com/serverdbremoveads"
+        req = urllib2.Request(url)
+        req.add_header('Accept','application/vnd.stackmob+json; version=1' )
+        req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
+        req.add_header('Content-Type','application/json')
         response = urllib2.urlopen(req)
         res = response.read()
-        self.response.write(res)
-	self.response.write(json.dumps(res))
-	json_res = json.loads(response.read())
-	self.response.write(json_res['status'])
+        datarr = {}
+        datarr = json.loads(res)
+        self.response.write(len(datarr))        
+	url = "http://acjs-cdc-ads.appspot.com/insert"
+        for data in datarr:
+            values = {}
+            values['order_id'] = data['order_id']
+            values['sign'] = data['sign']
+            values['token'] = data['token']
+            values['user_id'] = data['user_id']
+            values['purchasetime'] = data['purchasetime']
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
 
-application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/pingchk',pingchk),('/pingazure',pingazure)
+application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/pingmig',pingmig)
 ], debug=True)
