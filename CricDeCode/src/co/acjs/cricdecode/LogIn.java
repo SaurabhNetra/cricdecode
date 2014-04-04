@@ -70,6 +70,7 @@ public class LogIn extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log_in);
 		ActionBar actionBar = getSupportActionBar();
+		
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
