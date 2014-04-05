@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -48,6 +49,22 @@ public class MatchHistorySyncService extends IntentService {
 					.getInstance("MD5");
 			byte[] array = md.digest(AccessSharedPrefs.mPrefs.getString("id",
 					"").getBytes());
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < array.length; ++i) {
+				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
+						.substring(1, 3));
+			}
+			return sb.toString();
+		} catch (java.security.NoSuchAlgorithmException e) {
+		}
+		return null;
+	}
+
+	String genMD5(String seed) {
+		try {
+			java.security.MessageDigest md = java.security.MessageDigest
+					.getInstance("MD5");
+			byte[] array = md.digest(seed.getBytes());
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < array.length; ++i) {
 				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
@@ -524,10 +541,24 @@ public class MatchHistorySyncService extends IntentService {
 					per.put("per", ja);
 					gcm_per.put("per", gcm_ja);
 
+					Random r = new Random();
+					int rand = 0;
+					while (rand == 0) {
+						rand = r.nextInt(9);
+					}
+					String handkey = AccessSharedPrefs.mPrefs.getString("id",
+							"");
+					for (int i = 0; i < rand; i++) {
+						handkey = genMD5(handkey);
+					}					
+					handkey = handkey.substring(0,3)+rand+handkey.substring(3, handkey.length());
 					params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("matchData", cm
 							.toString()));
 					params.add(new BasicNameValuePair("perData", per.toString()));
+					params.add(new BasicNameValuePair("user_id",
+							AccessSharedPrefs.mPrefs.getString("id", "")));
+					params.add(new BasicNameValuePair("hSAhnedk", handkey));
 					jsonParser = new JSONParser();
 					writeToFile("match data: " + cm.toString());
 					writeToFile("per data: " + per.toString());
@@ -616,11 +647,12 @@ public class MatchHistorySyncService extends IntentService {
 								while (jsonParser.isOnline(who)) {
 									Log.w("JSONParser",
 											"ProfileEditService: Called");
-									jn = jsonParser.makeHttpRequest(getResources()
-											.getString(R.string.gae_send_gcm),
+									jn = jsonParser.makeHttpRequest(
+											getResources().getString(
+													R.string.gae_send_gcm),
 											"POST", params, who);
-									Log.w("JSON returned", "ProfileEditService: "
-											+ jn);
+									Log.w("JSON returned",
+											"ProfileEditService: " + jn);
 									Log.w("trial value", "ProfileEditService: "
 											+ trial);
 									writeToFile("Ping Hansa: " + trial);
@@ -637,10 +669,8 @@ public class MatchHistorySyncService extends IntentService {
 								}
 
 							}
-							
-							trial=1;
-							
-							
+
+							trial = 1;
 
 							if (jn == null) {
 								while (jsonParser.isOnline(who)) {
@@ -765,7 +795,8 @@ public class MatchHistorySyncService extends IntentService {
 																	.getString(
 																			R.string.gae_infisync_check),
 															"POST", params, who);
-											writeToFile("Pinging infi sync chek: "+jn);
+											writeToFile("Pinging infi sync chek: "
+													+ jn);
 											if (jn != null)
 												break;
 											try {
@@ -847,7 +878,8 @@ public class MatchHistorySyncService extends IntentService {
 																	.getString(
 																			R.string.gae_sync_check),
 															"POST", params, who);
-											writeToFile("Pinging sync chek: "+trial);
+											writeToFile("Pinging sync chek: "
+													+ trial);
 											if (jn != null)
 												break;
 											try {

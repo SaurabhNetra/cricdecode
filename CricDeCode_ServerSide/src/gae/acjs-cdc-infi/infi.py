@@ -21,32 +21,40 @@ class infi_insert(webapp2.RequestHandler):
 
         self.response.headers['Content-Type'] = 'text/plain'
         uid = self.request.get('user_id')
-        obj_list = infi.query(infi.user_id == uid).fetch()
-        if(len(obj_list) == 0):
-            infi_obj = infi()
-            infi_obj.autorenewing = int(self.request.get('autorenewing'))
-            infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-            infi_obj.order_id = self.request.get('order_id')
-            infi_obj.sign = self.request.get('sign')
-            infi_obj.token = self.request.get('token')
-            infi_obj.user_id = self.request.get('user_id')
-            infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
-            infi_obj.not_valid = 0
-            infi_obj.put()
-            self.response.write('{"status" : 1}')
-        else:
-            infi_obj = obj_list[0]
-            infi_obj.autorenewing = int(self.request.get('autorenewing'))
-            infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-            infi_obj.order_id = self.request.get('order_id')
-            infi_obj.sign = self.request.get('sign')
-            infi_obj.token = self.request.get('token')
-            infi_obj.user_id = self.request.get('user_id')
-            infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
-            infi_obj.not_valid = 0
-            infi_obj.put()
-            self.response.write('{"status" : 1}')
+        handshake = self.request.get('hSAhnedk')
+        times = int(handshake[3])
+        handkey = handshake[:3]+handshake[4:]
+        key = uid
+        for i in xrange(times):
+            key = md5.new(key).digest()
 
+        if(handkey == key):
+            obj_list = infi.query(infi.user_id == uid).fetch()
+            if(len(obj_list) == 0):
+                infi_obj = infi()
+                infi_obj.autorenewing = int(self.request.get('autorenewing'))
+                infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+                infi_obj.order_id = self.request.get('order_id')
+                infi_obj.sign = self.request.get('sign')
+                infi_obj.token = self.request.get('token')
+                infi_obj.user_id = self.request.get('user_id')
+                infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+                infi_obj.not_valid = 0
+                infi_obj.put()
+                self.response.write('{"status" : 1}')
+            else:
+                infi_obj = obj_list[0]
+                infi_obj.autorenewing = int(self.request.get('autorenewing'))
+                infi_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+                infi_obj.order_id = self.request.get('order_id')
+                infi_obj.sign = self.request.get('sign')
+                infi_obj.token = self.request.get('token')
+                infi_obj.user_id = self.request.get('user_id')
+                infi_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+                infi_obj.not_valid = 0
+                infi_obj.put()
+                self.response.write('{"status" : 1}')
+ 
 class infi_retrieve(webapp2.RequestHandler):
 
     def post(self):

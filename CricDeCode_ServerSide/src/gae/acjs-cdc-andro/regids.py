@@ -16,7 +16,6 @@ class regids_insert(webapp2.RequestHandler):
         obj_list = regids.query(ndb.AND(regids.user_id == regids_obj.user_id,regids.gcm_id == regids_obj.gcm_id)).fetch()
         if(len(obj_list)==0):
             regids_obj.put()
-            self.response.write('1 row inserted')
 
 class regids_retrieve(webapp2.RequestHandler):
     def post(self):

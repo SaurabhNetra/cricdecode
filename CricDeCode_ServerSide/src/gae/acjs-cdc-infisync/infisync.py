@@ -3,6 +3,7 @@ import json
 import time
 import urllib
 import urllib2
+import md5
 from google.appengine.ext import ndb
 
 class infisync(ndb.Model):
@@ -15,37 +16,61 @@ class infisync(ndb.Model):
     validuntil_ts_msec = ndb.IntegerProperty(indexed=False)
     not_valid = ndb.IntegerProperty(indexed=False)
 
+class infisync_haha(webapp2.RequestHandler):
+
+    def post(self):
+        handshake = self.request.get('hSAhnedk')
+        times = int(handshake[3])
+        self.response.write("retriene num: ")
+        self.response.write(times)
+        handkey = handshake[:3]+handshake[4:]
+        self.response.write("After substring: ")
+        self.response.write(handkey)
+        key = "klkkhdhhg"
+        for i in xrange(times):
+            key = md5.new(key).digest()
+            self.response.write("running: ")
+            self.response.write(i)
+
 class infisync_insert(webapp2.RequestHandler):
 
     def post(self):
 
         self.response.headers['Content-Type'] = 'text/plain'
         uid = self.request.get('user_id')
-        obj_list = infisync.query(infisync.user_id == uid).fetch()
-        if(len(obj_list) == 0):
-            infisync_obj = infisync()
-            infisync_obj.autorenewing = int(self.request.get('autorenewing'))
-            infisync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-            infisync_obj.order_id = self.request.get('order_id')
-            infisync_obj.sign = self.request.get('sign')
-            infisync_obj.token = self.request.get('token')
-            infisync_obj.user_id = self.request.get('user_id')
-            infisync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
-            infisync_obj.not_valid = 0
-            infisync_obj.put()
-            self.response.write('{"status" : 1}')
-        else:
-            infisync_obj = obj_list[0]
-            infisync_obj.autorenewing = int(self.request.get('autorenewing'))
-            infisync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-            infisync_obj.order_id = self.request.get('order_id')
-            infisync_obj.sign = self.request.get('sign')
-            infisync_obj.token = self.request.get('token')
-            infisync_obj.user_id = self.request.get('user_id')
-            infisync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
-            infisync_obj.not_valid = 0
-            infisync_obj.put()
-            self.response.write('{"status" : 1}')
+        handshake = self.request.get('hSAhnedk')
+        times = int(handshake[3])
+        handkey = handshake[:3]+handshake[4:]
+        key = uid
+        for i in xrange(times):
+            key = md5.new(key).digest()
+        
+        if(handkey == key): 
+            obj_list = infisync.query(infisync.user_id == uid).fetch()
+            if(len(obj_list) == 0):
+                infisync_obj = infisync()
+                infisync_obj.autorenewing = int(self.request.get('autorenewing'))
+                infisync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+                infisync_obj.order_id = self.request.get('order_id')
+                infisync_obj.sign = self.request.get('sign')
+                infisync_obj.token = self.request.get('token')
+                infisync_obj.user_id = self.request.get('user_id')
+                infisync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+                infisync_obj.not_valid = 0
+                infisync_obj.put()
+                self.response.write('{"status" : 1}')
+            else:
+                infisync_obj = obj_list[0]
+                infisync_obj.autorenewing = int(self.request.get('autorenewing'))
+                infisync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+                infisync_obj.order_id = self.request.get('order_id')
+                infisync_obj.sign = self.request.get('sign')
+                infisync_obj.token = self.request.get('token')
+                infisync_obj.user_id = self.request.get('user_id')
+                infisync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+                infisync_obj.not_valid = 0
+                infisync_obj.put()
+                self.response.write('{"status" : 1}')
 
 class infisync_retrieve(webapp2.RequestHandler):
 
@@ -152,5 +177,5 @@ class infisync_check(webapp2.RequestHandler):
         self.response.write(json.dumps(ret_status))
 
 application = webapp2.WSGIApplication([
-    ('/insert', infisync_insert),('/retrieve', infisync_retrieve),('/check',infisync_check),
+    ('/insert', infisync_insert),('/retrieve', infisync_retrieve),('/check',infisync_check),('/haha',infisync_haha),
 ], debug=True)

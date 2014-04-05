@@ -12,22 +12,27 @@ class ads(ndb.Model):
 class ads_insert(webapp2.RequestHandler):
 
     def post(self):
-
         self.response.headers['Content-Type'] = 'text/plain'
+        uid = self.request.get('user_id')
+        handshake = self.request.get('hSAhnedk')
+        times = int(handshake[3])
+        handkey = handshake[:3]+handshake[4:]
+        key = uid
+        for i in xrange(times):
+            key = md5.new(key).digest()
 
-        ads_obj = ads()
-        ads_obj.order_id = self.request.get('order_id')
-        ads_obj.purchasetime = int(self.request.get('purchasetime'))
-        ads_obj.sign = self.request.get('sign')
-        ads_obj.token = self.request.get('token')
-        ads_obj.user_id = self.request.get('user_id')
+        if(handkey == key):
+            ads_obj = ads()
+            ads_obj.order_id = self.request.get('order_id')
+            ads_obj.purchasetime = int(self.request.get('purchasetime'))
+            ads_obj.sign = self.request.get('sign')
+            ads_obj.token = self.request.get('token')
+            ads_obj.user_id = self.request.get('user_id')
 
-        obj_list = ads.query(ads.user_id == ads_obj.user_id).fetch()
-        if(len(obj_list) == 0):
-            ads_obj.put()
-	json_obj = {}
-        json_obj["status"] = 1
-        self.response.write(json.dumps(json_obj))
+            obj_list = ads.query(ads.user_id == ads_obj.user_id).fetch()
+            if(len(obj_list) == 0):
+                ads_obj.put()
+            self.response.write('{"status" : 1}')
 
 class ads_retrieve(webapp2.RequestHandler):
 
@@ -37,13 +42,10 @@ class ads_retrieve(webapp2.RequestHandler):
 
 	uid = self.request.get('user_id')
 	obj_list = ads.query(ads.user_id == uid).fetch()
-        json_obj = {}
         if(len(obj_list) == 0):
-            json_obj["status"] = 0
-            self.response.write(json.dumps(json_obj))
+            self.response.write('{"status" : 0}')
         else:
-            json_obj["status"] = 1
-            self.response.write(json.dumps(json_obj))
+            self.response.write('{"status" : 1}')
 
 application = webapp2.WSGIApplication([
     ('/insert', ads_insert),('/retrieve', ads_retrieve)

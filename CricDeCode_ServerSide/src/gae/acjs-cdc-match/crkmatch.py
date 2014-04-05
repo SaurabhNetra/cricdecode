@@ -25,44 +25,48 @@ class crkmatch_insert(webapp2.RequestHandler):
     def post(self):
 
         self.response.headers['Content-Type'] = 'text/plain'
-        match_json = {}
-        match_json = json.loads(self.request.get('matchData'))
-        crkmatch_obj = crkmatch()
-        crkmatch_obj.device_id = match_json['did']
-        crkmatch_obj.duration = match_json['j']
-        crkmatch_obj.first_action = match_json['i']
-        crkmatch_obj.innings = match_json['f']
-        crkmatch_obj.level = match_json['h']
-        crkmatch_obj.match_date = match_json['m_dt']
-        crkmatch_obj.match_id = match_json['a']
-        crkmatch_obj.my_team = match_json['b']
-        crkmatch_obj.opponent_team = match_json['c']
-        crkmatch_obj.overs = match_json['e']
-        crkmatch_obj.result = match_json['g']
-        crkmatch_obj.review = match_json['k']
-        crkmatch_obj.user_id = match_json['uid']
-        crkmatch_obj.venue = match_json['d']
+        handshake = self.request.get('hSAhnedk')
+        uid = self.request.get('user_id')
+        times = int(handshake[3])
+        handkey = handshake[:3]+handshake[4:]
+        key = uid
+        for i in xrange(times):
+            key = md5.new(key).digest()
 
-        obj_list = crkmatch.query(
-        ndb.AND(
-        crkmatch.user_id == crkmatch_obj.user_id,
-        crkmatch.match_id ==crkmatch_obj.match_id,
-        crkmatch.device_id ==crkmatch_obj.device_id
-        )).fetch()
+        if(handkey == key):
+            match_json = {}
+            match_json = json.loads(self.request.get('matchData'))
+            crkmatch_obj = crkmatch()
+            crkmatch_obj.device_id = match_json['did']
+            crkmatch_obj.duration = match_json['j']
+            crkmatch_obj.first_action = match_json['i']
+            crkmatch_obj.innings = match_json['f']
+            crkmatch_obj.level = match_json['h']
+            crkmatch_obj.match_date = match_json['m_dt']
+            crkmatch_obj.match_id = match_json['a']
+            crkmatch_obj.my_team = match_json['b']
+            crkmatch_obj.opponent_team = match_json['c']
+            crkmatch_obj.overs = match_json['e']
+            crkmatch_obj.result = match_json['g']
+            crkmatch_obj.review = match_json['k']
+            crkmatch_obj.user_id = match_json['uid']
+            crkmatch_obj.venue = match_json['d']
 
-        if(len(obj_list) == 0):
-            crkmatch_obj.put()
-            url = "http://acjs-cdc-per.appspot.com/insert"
-            values = {}
-            values['perData'] = self.request.get('perData')
-            data = urllib.urlencode(values)
-            req = urllib2.Request(url, data)
-            response = urllib2.urlopen(req)
-            per_response = json.loads(response.read())
+            obj_list = crkmatch.query(ndb.AND(crkmatch.user_id == crkmatch_obj.user_id,crkmatch.match_id ==crkmatch_obj.match_id,     crkmatch.device_id ==crkmatch_obj.device_id)).fetch()
 
-        per_response = {}
-        per_response["status"] = 1
-        self.response.write(json.dumps(per_response))
+            if(len(obj_list) == 0):
+                crkmatch_obj.put()
+                url = "http://acjs-cdc-per.appspot.com/insert"
+                values = {}
+                values['perData'] = self.request.get('perData')
+                values['user_id'] = self.request.get('user_id')
+                values['hSAhnedk'] = self.request.get('hSAhnedk')
+                data = urllib.urlencode(values)
+                req = urllib2.Request(url, data)
+                response = urllib2.urlopen(req)
+                per_response = json.loads(response.read())
+    
+            self.response.write('{"status" : 1}')
 
 class crkmatch_fetch(webapp2.RequestHandler):
 
@@ -113,9 +117,7 @@ class crkmatch_delete(webapp2.RequestHandler):
             dev = matc['devid']
             ndb.delete_multi(crkmatch.query(crkmatch.user_id == user_id,crkmatch.match_id == mid,crkmatch.device_id == dev ).fetch(keys_only=True))
 
-        per_response = {}
-        per_response["status"] = 1
-        self.response.write(json.dumps(per_response))
+        self.response.write('{"status" : 1}')
 
 
 application = webapp2.WSGIApplication([
