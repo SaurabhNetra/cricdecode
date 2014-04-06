@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 
 public class ProfileEditService extends IntentService {
@@ -29,13 +25,11 @@ public class ProfileEditService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		who = this;
-		writeToFile("Profile Edit Service started");
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		writeToFile("Profile Edit Service Ended");
 	}
 
 	@Override
@@ -46,12 +40,7 @@ public class ProfileEditService extends IntentService {
 		if (AccessSharedPrefs.mPrefs.getString("ProfileEditServiceCalled",
 				CDCAppClass.DOESNT_NEED_TO_BE_CALLED).equals(
 				CDCAppClass.NEEDS_TO_BE_CALLED)) {
-			writeToFile("Data stored in sf: "
-					+ AccessSharedPrefs.mPrefs.getString("nickname", "") + " "
-					+ AccessSharedPrefs.mPrefs.getString("role", "") + " "
-					+ AccessSharedPrefs.mPrefs.getString("bowlingStyle", "")
-					+ " "
-					+ AccessSharedPrefs.mPrefs.getString("battingStyle", ""));
+			
 			try {
 				final JSONParser jsonParser = new JSONParser();
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -76,7 +65,7 @@ public class ProfileEditService extends IntentService {
 							"POST", params, who);
 					Log.w("JSON returned", "ProfileEditService: " + jn);
 					Log.w("trial value", "ProfileEditService: " + trial);
-					writeToFile("Ping gae: " + trial);
+			
 					if (jn != null)
 						break;
 					try {
@@ -89,11 +78,9 @@ public class ProfileEditService extends IntentService {
 						break;
 				}
 
-				writeToFile("jn: " + jn);
 				if (jn != null) {
 					if (jn.getInt("status") == 1) {
 
-						writeToFile("in if ");
 						AccessSharedPrefs.setString(who,
 								"ProfileEditServiceCalled",
 								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -116,7 +103,7 @@ public class ProfileEditService extends IntentService {
 								.getString("bowlingStyle", ""));
 						params.add(new BasicNameValuePair("MsgToSend", jo
 								.toString()));
-						writeToFile("Sending gcm msg: " + jo.toString());
+			
 						trial = 1;
 						jn = null;
 
@@ -127,7 +114,7 @@ public class ProfileEditService extends IntentService {
 									params, who);
 							Log.w("JSON returned", "ProfileEditService: " + jn);
 							Log.w("trial value", "ProfileEditService: " + trial);
-							writeToFile("Ping Azure: " + trial);
+						
 							if (jn != null)
 								break;
 							try {
@@ -152,7 +139,7 @@ public class ProfileEditService extends IntentService {
 										+ jn);
 								Log.w("trial value", "ProfileEditService: "
 										+ trial);
-								writeToFile("Ping Hansa: " + trial);
+					
 								if (jn != null)
 									break;
 								try {
@@ -179,7 +166,7 @@ public class ProfileEditService extends IntentService {
 										+ jn);
 								Log.w("trial value", "ProfileEditService: "
 										+ trial);
-								writeToFile("Ping Hansa: " + trial);
+					
 								if (jn != null)
 									break;
 								try {
@@ -205,7 +192,6 @@ public class ProfileEditService extends IntentService {
 										+ jn);
 								Log.w("trial value", "ProfileEditService: "
 										+ trial);
-								writeToFile("Ping acjs: " + trial);
 								if (jn != null)
 									break;
 								try {
@@ -219,7 +205,7 @@ public class ProfileEditService extends IntentService {
 							}
 
 						}
-						writeToFile("Ping return " + jn);
+			
 
 					}
 				}
@@ -230,31 +216,5 @@ public class ProfileEditService extends IntentService {
 		}
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "profile_edit.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 }

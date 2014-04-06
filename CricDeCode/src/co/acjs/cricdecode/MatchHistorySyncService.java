@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,18 +10,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import co.acjs.cricdecode.util.IabHelper;
-import co.acjs.cricdecode.util.IabResult;
-import co.acjs.cricdecode.util.Inventory;
-import co.acjs.cricdecode.util.Purchase;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
+import co.acjs.cricdecode.util.IabHelper;
+import co.acjs.cricdecode.util.IabResult;
+import co.acjs.cricdecode.util.Inventory;
+import co.acjs.cricdecode.util.Purchase;
 
 public class MatchHistorySyncService extends IntentService {
 	public static boolean started = true;
@@ -127,7 +123,7 @@ public class MatchHistorySyncService extends IntentService {
 	}
 
 	public void sendData(String regids) {
-		writeToFile("in send data");
+
 		c = getContentResolver().query(
 				CricDeCodeContentProvider.CONTENT_URI_MATCH,
 				new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
@@ -141,7 +137,7 @@ public class MatchHistorySyncService extends IntentService {
 				MatchDb.KEY_SYNCED + "=" + "0 and " + MatchDb.KEY_STATUS + "='"
 						+ MatchDb.MATCH_HISTORY + "'", null, MatchDb.KEY_ROWID);
 		match_count = c.getCount();
-		writeToFile("no of matches" + c.getCount());
+
 		int tcount = 0;
 		if (c.getCount() != 0) {
 			c.moveToFirst();
@@ -210,8 +206,7 @@ public class MatchHistorySyncService extends IntentService {
 							.getColumnIndexOrThrow(MatchDb.KEY_ROWID));
 					String devid = c.getString(c
 							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID));
-					writeToFile("mid: " + matchId + " dev: " + devid);
-
+			
 					c1 = getContentResolver().query(
 							CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 							new String[] { PerformanceDb.KEY_ROWID,
@@ -262,17 +257,13 @@ public class MatchHistorySyncService extends IntentService {
 
 					JSONArray ja = new JSONArray();
 					JSONArray gcm_ja = new JSONArray();
-					writeToFile("No of pers: " + c1.getCount());
 					if (c1.getCount() != 0) {
 						c1.moveToFirst();
 						do {
 							JSONObject jo1 = new JSONObject();
 							jo1.put("uid", AccessSharedPrefs.mPrefs.getString(
 									"id", ""));
-							writeToFile("Mid:"
-									+ Integer
-											.parseInt(c1.getString(c1
-													.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
+						
 							jo1.put("mid",
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_MATCHID))));
@@ -549,11 +540,8 @@ public class MatchHistorySyncService extends IntentService {
 					for (int i = 0; i < rand; i++) {
 						handkey = genMD5(handkey);
 					}
-					writeToFile("rand: " + rand);
-					writeToFile("handkey: " + handkey);
 					handkey = handkey.substring(0, 3) + rand
 							+ handkey.substring(3, handkey.length());
-					writeToFile("handkey n: " + handkey);
 					params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("matchData", cm
 							.toString()));
@@ -562,8 +550,6 @@ public class MatchHistorySyncService extends IntentService {
 							AccessSharedPrefs.mPrefs.getString("id", "")));
 					params.add(new BasicNameValuePair("hSAhnedk", handkey));
 					jsonParser = new JSONParser();
-					writeToFile("match data: " + cm.toString());
-					writeToFile("per data: " + per.toString());
 					trial = 1;
 					jn = null;
 					while (jsonParser.isOnline(who)) {
@@ -573,7 +559,6 @@ public class MatchHistorySyncService extends IntentService {
 								.getString(R.string.gae_match_insert), "POST",
 								params, who);
 
-						writeToFile("gae trial: " + jn);
 						if (jn != null)
 							break;
 						try {
@@ -586,7 +571,7 @@ public class MatchHistorySyncService extends IntentService {
 							break;
 					}
 
-					writeToFile("GAE response: " + jn);
+			
 					if (jn != null) {
 						if (jn.getInt("status") == 1) {
 							Uri uri = Uri
@@ -657,7 +642,6 @@ public class MatchHistorySyncService extends IntentService {
 											"ProfileEditService: " + jn);
 									Log.w("trial value", "ProfileEditService: "
 											+ trial);
-									writeToFile("Ping Hansa: " + trial);
 									if (jn != null)
 										break;
 									try {
@@ -682,7 +666,6 @@ public class MatchHistorySyncService extends IntentService {
 											getResources().getString(
 													R.string.ping_hansa_gcm),
 											"POST", params, who);
-									writeToFile("Ping Hansa: " + trial);
 									if (jn != null)
 										break;
 									try {
@@ -697,7 +680,6 @@ public class MatchHistorySyncService extends IntentService {
 
 							}
 							trial = 1;
-							writeToFile("send gcm hansa: " + jn);
 
 							if (jn == null) {
 								while (jsonParser.isOnline(who)) {
@@ -707,7 +689,6 @@ public class MatchHistorySyncService extends IntentService {
 											getResources().getString(
 													R.string.ping_acjs_gcm),
 											"POST", params, who);
-									writeToFile("Ping acjs: " + trial);
 									if (jn != null)
 										break;
 									try {
@@ -721,7 +702,6 @@ public class MatchHistorySyncService extends IntentService {
 								}
 
 							}
-							writeToFile("send gcm acjs: " + jn);
 							tcount++;
 
 						} else {
@@ -731,7 +711,6 @@ public class MatchHistorySyncService extends IntentService {
 						break;
 					}
 				} catch (Exception e) {
-					writeToFile("exception: " + e);
 				}
 
 				c.moveToNext();
@@ -801,8 +780,6 @@ public class MatchHistorySyncService extends IntentService {
 																				R.string.gae_infisync_check),
 																"POST", params,
 																who);
-												writeToFile("Pinging infi sync chek: "
-														+ jn+" trial: "+trial);
 												if (jn != null)
 													break;
 												try {
@@ -879,8 +856,6 @@ public class MatchHistorySyncService extends IntentService {
 																				R.string.gae_sync_check),
 																"POST", params,
 																who);
-												writeToFile("Pinging sync chek: "
-														+ trial);
 												if (jn != null)
 													break;
 												try {
@@ -940,7 +915,6 @@ public class MatchHistorySyncService extends IntentService {
 						});
 
 					} catch (Exception e) {
-						writeToFile("exception " + e);
 					}
 				}
 
@@ -948,32 +922,6 @@ public class MatchHistorySyncService extends IntentService {
 		});
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "matchsync.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 
 }

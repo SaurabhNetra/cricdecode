@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +35,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
@@ -544,24 +540,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		};
 		
-		JSONObject jo = new JSONObject();
-		try {
-			jo.put("orderId", "12999763169054705758.1398666396207159");
-			jo.put("Token", "ivqfvospmfqgjeyarkmnmazj.AO-J1Oyyg1GOIG78Vhk7Q9GfTGdILeGUnRzAGqYLSHbgHQE07HyoCKQAgKr00Q424s6fQHnoh-1Uv93T_aSezBp1cRIVNZ2viyZFeQyqQERuMJM59wWZjbA");
-			jo.put("Sign", "R+ngqaVMPriFGo+b5G1g/O8ZayVeLefuTws/Yn+654gF20SHNvMjm8w2oVXyascfnmSRVoD9rh0X/3XvVAPEXuAy4K7Tr+gAnCPoM8u3leqLz+cQzXWRtQRMWUYinvEpdk26EMNK0n4PY7CxvoGFOciOqkIqaC80+RUVYraENFoHGZxLCriGGgO1QFYIY48NlXABLBbyAHgjkA4LKlCCtgswiR4K9jXIirFZDxpDXI9tl5pdjmeUWquUENo2Zh/dnmoV8DHcp6f5jS+mcpPzIvVSQVn09GlyQfNjk27vSkgDunmpG3GhfDLuKTS2f2fcwO72aLotS/VcvnaHpaPwGg==");
-		} catch (JSONException e) {
-		}
-		
-		AccessSharedPrefs.setString(main_context,
-				"PurchaseInfiServiceCalled",
-				CDCAppClass.NEEDS_TO_BE_CALLED);
-		AccessSharedPrefs.setString(main_context,
-				"pur_infi_data", jo.toString());
-		AccessSharedPrefs.setString(main_context, "infi_use",
-				"yes");
-		Intent intent = new Intent(main_context,
-				PurchasedInfiService.class);
-		startService(intent);
+	
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -3212,34 +3191,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		return new String(sh);
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "main.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
-
+	
 	public Boolean isOnline(Context cont) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) cont
 				.getSystemService(Context.CONNECTIVITY_SERVICE);

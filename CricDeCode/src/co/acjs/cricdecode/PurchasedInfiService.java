@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -66,7 +62,6 @@ public class PurchasedInfiService extends IntentService {
 							getResources().getString(
 									R.string.azure_subscription), "POST",
 							params, con);
-					writeToFile("Puchased infi data: "+jn);
 					if (jn != null)
 						break;
 					try {
@@ -82,7 +77,6 @@ public class PurchasedInfiService extends IntentService {
 
 					try {
 						if (jn.getInt("status") == 1) {
-							writeToFile("In status 1");
 							AccessSharedPrefs.setString(con,
 									"PurchaseInfiServiceCalled",
 									CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -113,7 +107,6 @@ public class PurchasedInfiService extends IntentService {
 							} catch (Exception e) {
 							}
 						} else if (jn.getInt("status") == 0) {
-							writeToFile("In status 0");
 							AccessSharedPrefs.setString(con,
 									"PurchaseInfiServiceCalled",
 									CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -135,7 +128,6 @@ public class PurchasedInfiService extends IntentService {
 							} catch (Exception e) {
 							}
 						} else if (jn.getInt("status") == 4) {
-							writeToFile("In status 4");
 							if (jn.getString("regids").length() > 20) {
 								AccessSharedPrefs.setString(con,
 										"PurchaseInfiServiceCalled",
@@ -211,7 +203,6 @@ public class PurchasedInfiService extends IntentService {
 												+ jn);
 										Log.w("trial value", "ProfileEditService: "
 												+ trial);
-										writeToFile("Ping gae: " + trial);
 										if (jn != null)
 											break;
 										try {
@@ -233,7 +224,6 @@ public class PurchasedInfiService extends IntentService {
 									jn = jsonParser.makeHttpRequest(getResources()
 											.getString(R.string.ping_hansa_gcm),
 											"POST", params, con);
-									writeToFile("Ping hansa gcm t " + jn);
 									if (jn != null)
 										break;
 									try {
@@ -254,7 +244,6 @@ public class PurchasedInfiService extends IntentService {
 										jn = jsonParser.makeHttpRequest(getResources()
 												.getString(R.string.ping_acjs_gcm),
 												"POST", params, con);
-										writeToFile("Ping acjs gcm t " + jn);
 										if (jn != null)
 											break;
 										try {
@@ -281,31 +270,5 @@ public class PurchasedInfiService extends IntentService {
 
 	}
 	
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "purchase_infi.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 }

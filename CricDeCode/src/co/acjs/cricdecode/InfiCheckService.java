@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import co.acjs.cricdecode.util.IabHelper;
 import co.acjs.cricdecode.util.IabResult;
@@ -160,8 +156,6 @@ public class InfiCheckService extends IntentService {
 																				R.string.gae_infi_check),
 																"POST", params,
 																who);
-												writeToFile("Pinging infi chek: "
-														+ jn + trial);
 												if (jn != null)
 													break;
 												try {
@@ -227,38 +221,11 @@ public class InfiCheckService extends IntentService {
 					}
 
 				} catch (Exception e) {
-					writeToFile("Exception: " + e);
 				}
 			}
 		});
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "infichk.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 
 }

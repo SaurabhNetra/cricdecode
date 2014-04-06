@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +25,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +84,6 @@ public class LogIn extends SherlockActivity {
 		loginButton.setReadPermissions(permissions);
 		loginButton.setApplicationId(getResources().getString(
 				R.string.fb_app_id));
-		writeToFile("On create");
 		loginButton.setSessionStatusCallback(new Session.StatusCallback() {
 			@Override
 			public void call(Session session, SessionState state,
@@ -106,7 +101,6 @@ public class LogIn extends SherlockActivity {
 								public void onCompleted(GraphUser user,
 										Response response) {
 									if (user != null) {
-										writeToFile("facebook login complete");
 										Log.w("Face Book Login Complete 1",
 												"LogIn: " + user.getBirthday());
 										LogIn.user = user;
@@ -118,7 +112,6 @@ public class LogIn extends SherlockActivity {
 				}
 			}
 		});
-		writeToFile("outside ");
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
@@ -192,8 +185,7 @@ public class LogIn extends SherlockActivity {
 											Log.w("Face Book Login Complete 2",
 													"LogIn: "
 															+ user.getBirthday());
-											writeToFile("LogIn: "
-													+ user.getBirthday());
+										
 											LogIn.user = user;
 											progressText
 													.setText("Phase 1 of 3...");
@@ -218,7 +210,6 @@ public class LogIn extends SherlockActivity {
 	void GCMRegistration() {
 		progressText.setText("Phase 2 of 3...");
 
-		writeToFile("calling gcm register");
 		client = getContentResolver().acquireContentProviderClient(
 				CricDeCodeContentProvider.AUTHORITY);
 		dbHandle = ((CricDeCodeContentProvider) client
@@ -281,7 +272,7 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
-			writeToFile("calling gcm register : " + regid);
+	
 			if (regid == null)
 				((LogIn) login_activity).GCMRegistration();
 			else {
@@ -302,7 +293,7 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "gcm_reg_id", gcm_reg_id);
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
-		writeToFile("in start app");
+
 
 		Thread thread = new Thread() {
 			@Override
@@ -316,7 +307,6 @@ public class LogIn extends SherlockActivity {
 				params.add(new BasicNameValuePair("dob", user.getBirthday()));
 				params.add(new BasicNameValuePair("user_id",
 						AccessSharedPrefs.mPrefs.getString("id", "")));
-				writeToFile("storing sp: " + user.getFirstName());
 				jsonParser = new JSONParser();
 				trial = 1;
 				jn = null;
@@ -328,7 +318,7 @@ public class LogIn extends SherlockActivity {
 							login_activity);
 					Log.w("JSON returned", "usertable:: " + jn);
 					Log.w("trial value", "usertable:: " + trial);
-					writeToFile("usertable:: " + jn);
+		
 					if (jn != null)
 						break;
 					try {
@@ -339,7 +329,7 @@ public class LogIn extends SherlockActivity {
 					if (trial == 50)
 						break;
 				}
-				writeToFile("Usr insert reply: " + jn);
+	
 				try {
 					if (jn.getInt("status") == 1) {
 						AccessSharedPrefs.setString(login_activity,
@@ -365,7 +355,7 @@ public class LogIn extends SherlockActivity {
 						jsonParser = new JSONParser();
 						trial = 1;
 						jn = null;
-						writeToFile("Calling chk remove ads");
+			
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_removeads:: Called");
 							// ping to gae ads table
@@ -385,7 +375,7 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-						writeToFile("remove ads rply: " + jn);
+					
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"ad_free", "no");
@@ -419,7 +409,6 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-						writeToFile("infi: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_use", "no");
@@ -451,7 +440,6 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-						writeToFile("infisync rply: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"infi_sync", "no");
@@ -485,7 +473,6 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-						writeToFile("sync reply: " + jn);
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity, "sync",
 									"no");
@@ -521,7 +508,6 @@ public class LogIn extends SherlockActivity {
 						}
 
 						JSONArray ja = jn.getJSONArray("matches");
-						writeToFile("matches rply: " + ja.length());
 						for (int i = 0; i < ja.length(); i++) {
 
 							Log.w("LoginIn", "cricket_match in loop!!" + i);
@@ -563,12 +549,10 @@ public class LogIn extends SherlockActivity {
 												+ " and "
 												+ MatchDb.KEY_DEVICE_ID
 												+ " = '" + devid + "'", null);
-								writeToFile("Cnt of matches: " + c.getCount());
 								if (c.getCount() == 0) {
 									Uri u = cr
 											.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
 													values);
-									writeToFile("Uri inserted: " + u);
 								}
 								c.close();
 							} catch (Exception e) {
@@ -604,8 +588,6 @@ public class LogIn extends SherlockActivity {
 						}
 
 						ja = jn.getJSONArray("performances");
-						writeToFile("performances response: " + ja.length());
-						writeToFile(ja.toString());
 						for (int i = 0; i < ja.length(); i++) {
 							JSONObject jo = ja.getJSONObject(i);
 							ContentValues values = new ContentValues();
@@ -701,12 +683,10 @@ public class LogIn extends SherlockActivity {
 											+ jo.getInt("inning"), null);
 							Log.w("LoginIn",
 									"count of performance: " + c.getCount());
-							writeToFile("Performance count: " + c.getCount());
 							if (c.getCount() == 0) {
 								Uri u = cr
 										.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 												values);
-								writeToFile("Uri Inserted: " + u);
 							}
 							c.close();
 						}
@@ -715,7 +695,6 @@ public class LogIn extends SherlockActivity {
 				} catch (NullPointerException e) {
 					showDialog();
 				} catch (Exception e) {
-					writeToFile("exception: " + e);
 				}
 			}
 		};
@@ -752,32 +731,6 @@ public class LogIn extends SherlockActivity {
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "logintest.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 
 }

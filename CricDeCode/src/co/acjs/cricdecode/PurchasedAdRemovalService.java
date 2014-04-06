@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,6 @@ import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -71,7 +67,6 @@ public class PurchasedAdRemovalService extends IntentService {
 							getResources().getString(
 									R.string.azure_inapppurchase), "POST",
 							params, con);
-					writeToFile("Ping azure: t " + trial);
 					if (jn != null)
 						break;
 					try {
@@ -84,10 +79,8 @@ public class PurchasedAdRemovalService extends IntentService {
 					}
 				}
 				try {
-					writeToFile("Reply: " + jn);
 					if (jn.getInt("status") == 1) {
 
-						writeToFile("In status=1");
 						AccessSharedPrefs.setString(con,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -115,7 +108,6 @@ public class PurchasedAdRemovalService extends IntentService {
 						}
 					} else if (jn.getInt("status") == 0) {
 
-						writeToFile("In status=0");
 						AccessSharedPrefs.setString(con,
 								"PurchaseAdRemovalServiceCalled",
 								CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
@@ -142,7 +134,7 @@ public class PurchasedAdRemovalService extends IntentService {
 						} catch (Exception e) {
 						}
 					} else if (jn.getInt("status") == 4) {
-						writeToFile("In status = 4");
+						
 						// If regids are recieved mean GAE is running, therefore
 						// the row has been inserted into our table. Hence no
 						// need to retry this service
@@ -226,7 +218,6 @@ public class PurchasedAdRemovalService extends IntentService {
 											+ jn);
 									Log.w("trial value", "ProfileEditService: "
 											+ trial);
-									writeToFile("Ping gae: " + trial);
 									if (jn != null)
 										break;
 									try {
@@ -249,7 +240,6 @@ public class PurchasedAdRemovalService extends IntentService {
 								jn = jsonParser.makeHttpRequest(getResources()
 										.getString(R.string.ping_hansa_gcm),
 										"POST", params, con);
-								writeToFile("Ping hansa gcm t " + jn);
 								if (jn != null)
 									break;
 								try {
@@ -271,7 +261,6 @@ public class PurchasedAdRemovalService extends IntentService {
 											getResources().getString(
 													R.string.ping_acjs_gcm),
 											"POST", params, con);
-									writeToFile("Ping acjs gcm t " + jn);
 									if (jn != null)
 										break;
 									try {
@@ -296,31 +285,5 @@ public class PurchasedAdRemovalService extends IntentService {
 		}
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "purchase_ads.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 }

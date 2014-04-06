@@ -94,6 +94,9 @@ class usr_update(webapp2.RequestHandler):
 
 class pingmig(webapp2.RequestHandler):
     def post(self):
+
+
+        #ADS
 	url = "http://api.stackmob.com/serverdbremoveads"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -111,11 +114,16 @@ class pingmig(webapp2.RequestHandler):
             values['sign'] = data['sign']
             values['token'] = data['token']
             values['user_id'] = data['user_id']
+            handshake = data['user_id']
+            handkey = handshake[:3]+"0"+handshake[4:]
+            values['hSAhnedk'] = handkey
             values['purchasetime'] = data['purchasetime']
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
 
+
+        #USER
 	url = "http://api.stackmob.com/serverdbusertable"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -144,6 +152,7 @@ class pingmig(webapp2.RequestHandler):
             response = urllib2.urlopen(req)
 
 
+        #DEVICES
 	url = "http://api.stackmob.com/serverdbandroiddevices"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -163,25 +172,8 @@ class pingmig(webapp2.RequestHandler):
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
 
-	url = "http://api.stackmob.com/serverdbandroiddevices"
-        req = urllib2.Request(url)
-        req.add_header('Accept','application/vnd.stackmob+json; version=1' )
-        req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
-        req.add_header('Content-Type','application/json')
-        response = urllib2.urlopen(req)
-        res = response.read()
-        datarr = {}
-        datarr = json.loads(res)
-        self.response.write(len(datarr))        
-	url = "http://acjs-cdc-andro.appspot.com/insert"
-        for data in datarr:
-            values = {}
-            values['gcm_id'] = data['gcm_id']
-            values['user_id'] = data['user_id']
-            data = urllib.urlencode(values)
-            req = urllib2.Request(url, data)
-            response = urllib2.urlopen(req)
 
+        #MATCH
 	url = "http://api.stackmob.com/serverdbcricketmatch"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -197,6 +189,9 @@ class pingmig(webapp2.RequestHandler):
             values = {}
             values['device_id'] = data['device_id']
             values['user_id'] = data['user_id']
+            handshake = data['user_id']
+            handkey = handshake[:3]+"0"+handshake[4:]
+            values['hSAhnedk'] = handkey 
             values['duration'] = data['duration']
             values['first_action'] = data['first_action']
             values['innings'] = data['innings']
@@ -213,7 +208,7 @@ class pingmig(webapp2.RequestHandler):
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
 
-
+        #PERF
 	url = "http://api.stackmob.com/serverdbperformance"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -229,6 +224,9 @@ class pingmig(webapp2.RequestHandler):
             values = {}
             values['gcm_id'] = data['device_id']
             values['user_id'] = data['user_id']
+            handshake = data['user_id']
+            handkey = handshake[:3]+"0"+handshake[4:]
+            values['hSAhnedk'] = handkey
             values['user_id'] = data['match_id']
             values['user_id'] = data['per_id']
             values['bat_balls'] = data['bat_balls']
@@ -264,7 +262,61 @@ class pingmig(webapp2.RequestHandler):
             values['field_stumpings'] = data['field_stumpings']
             values['bat_fours'] = data['fours']
             values['bat_sixes'] = data['sixes']
-            values['user_id'] = data['inning']
+            values['inning'] = data['inning']
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+
+
+        #INFISYNC
+        url = "http://api.stackmob.com/serverdbsubinfisync"
+        req = urllib2.Request(url)
+        req.add_header('Accept','application/vnd.stackmob+json; version=1' )
+        req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
+        req.add_header('Content-Type','application/json')
+        response = urllib2.urlopen(req)
+        res = response.read()
+        datarr = {}
+        datarr = json.loads(res)
+        self.response.write(len(datarr))        
+        url = "http://acjs-cdc-infisync.appspot.com/insert"
+        for data in datarr:
+            values = {}
+            values['autorenewing'] = data['autorenewing']
+            values['initiation_ts_msec'] = data['initiation_ts_msec']
+            values['order_id'] = data['order_id']
+            values['sign'] = data['sign']
+            values['token'] = data['token']
+            values['user_id'] = data['user_id']
+            handshake = data['user_id']
+            handkey = handshake[:3]+"0"+handshake[4:]
+            values['hSAhnedk'] = handkey
+            values['validuntil_ts_msec'] = data['validuntil_ts_msec']
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+
+        #INFI
+        url = "http://api.stackmob.com/serverdbsubinfi"
+        req = urllib2.Request(url)
+        req.add_header('Accept','application/vnd.stackmob+json; version=1' )
+        req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
+        req.add_header('Content-Type','application/json')
+        response = urllib2.urlopen(req)
+        res = response.read()
+        datarr = {}
+        datarr = json.loads(res)
+        self.response.write(len(datarr))        
+        url = "http://acjs-cdc-infi.appspot.com/insert"
+        for data in datarr:
+            values = {}
+            values['autorenewing'] = data['autorenewing']
+            values['initiation_ts_msec'] = data['initiation_ts_msec']
+            values['order_id'] = data['order_id']
+            values['sign'] = data['sign']
+            values['token'] = data['token']
+            values['user_id'] = data['user_id']  
+            values['validuntil_ts_msec'] = data['validuntil_ts_msec']
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)

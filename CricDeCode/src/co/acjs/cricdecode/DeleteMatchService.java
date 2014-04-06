@@ -1,8 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
 public class DeleteMatchService extends IntentService {
@@ -62,7 +58,6 @@ public class DeleteMatchService extends IntentService {
 		JSONObject del_gcm = new JSONObject();
 		JSONArray ja = new JSONArray();
 		JSONArray ja_gcm = new JSONArray();
-		writeToFile("del cnt: " + c.getCount());
 		try {
 			del_matches.put("user_id",
 					AccessSharedPrefs.mPrefs.getString("id", ""));
@@ -88,7 +83,6 @@ public class DeleteMatchService extends IntentService {
 			c.close();
 			del_matches.put("matches", ja);
 			del_gcm.put("todel", ja_gcm);
-			writeToFile("" + del_matches.toString());
 
 			params = new ArrayList<NameValuePair>();
 
@@ -142,7 +136,6 @@ public class DeleteMatchService extends IntentService {
 							break;
 						}
 					}
-					writeToFile("gcmids: " + jn);
 					if (jn != null) {
 						del_gcm.put("gcmid", 3);
 						params = new ArrayList<NameValuePair>();
@@ -153,7 +146,6 @@ public class DeleteMatchService extends IntentService {
 						params.add(new BasicNameValuePair("uid",
 								AccessSharedPrefs.mPrefs.getString("id", "")));
 						jsonParser = new JSONParser();
-						writeToFile("Sending gcm: " + del_gcm.toString());
 						trial = 1;
 						jn = null;
 						while (jsonParser.isOnline(who)) {
@@ -162,7 +154,6 @@ public class DeleteMatchService extends IntentService {
 									params, who);
 							Log.w("JSON returned", "DeleteMatch:: " + jn);
 							Log.w("trial value", "DeleteMatch:: " + trial);
-							writeToFile("ping azure t:" + trial);
 							if (jn != null)
 								break;
 							try {
@@ -187,7 +178,6 @@ public class DeleteMatchService extends IntentService {
 										+ jn);
 								Log.w("trial value", "ProfileEditService: "
 										+ trial);
-								writeToFile("Ping gae: " + trial);
 								if (jn != null)
 									break;
 								try {
@@ -203,7 +193,6 @@ public class DeleteMatchService extends IntentService {
 						}
 						
 						trial = 1;
-						writeToFile("ping azure: " + jn);
 						if (jn == null) {
 							while (jsonParser.isOnline(who)) {
 								jn = jsonParser.makeHttpRequest(getResources()
@@ -211,7 +200,6 @@ public class DeleteMatchService extends IntentService {
 										"POST", params, who);
 								Log.w("JSON returned", "DeleteMatch:: " + jn);
 								Log.w("trial value", "DeleteMatch:: " + trial);
-								writeToFile("ping hansa t:" + trial);
 								if (jn != null)
 									break;
 								try {
@@ -225,7 +213,6 @@ public class DeleteMatchService extends IntentService {
 
 						}
 						trial = 1;
-						writeToFile("ping hansa:" + jn);
 						if (jn == null) {
 							while (jsonParser.isOnline(who)) {
 								jn = jsonParser.makeHttpRequest(getResources()
@@ -233,7 +220,6 @@ public class DeleteMatchService extends IntentService {
 										"POST", params, who);
 								Log.w("JSON returned", "DeleteMatch:: " + jn);
 								Log.w("trial value", "DeleteMatch:: " + trial);
-								writeToFile("ping gcm t:" + trial);
 								if (jn != null)
 									break;
 								try {
@@ -245,7 +231,6 @@ public class DeleteMatchService extends IntentService {
 									break;
 							}
 						}
-						writeToFile("ping gcm:" + jn);
 						if (jn != null) {
 
 							c = getContentResolver()
@@ -346,31 +331,5 @@ public class DeleteMatchService extends IntentService {
 		}
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "delete.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 }

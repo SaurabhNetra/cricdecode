@@ -1,9 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +12,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -63,7 +58,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 			Log.w("GCM Received", "GCMData: " + gcmString.toString());
 			String s = gcmString.toString();
 			s = s.replace("\\", "");
-			writeToFile("gcm Recieved: " + s);
 			JSONObject gcmData = new JSONObject(s);
 			switch (gcmData.getInt("gcmid")) {
 			case UPDATE_PROFILE_DATA:
@@ -110,26 +104,13 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 				}
 				break;
 			case MATCH_N_PERFORMANCE_DATA:
-				writeToFile("in 2:");
-			//	if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-			//			.equals("yes")
-			//			|| AccessSharedPrefs.mPrefs.getString("sync", "no")
-			//					.equals("yes")) {
+				if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+						.equals("yes")
+						|| AccessSharedPrefs.mPrefs.getString("sync", "no")
+								.equals("yes")) {
 					try {
 						ContentValues values = new ContentValues();
-						writeToFile("" + gcmData.getInt("mid"));
-						writeToFile(gcmData.getString("did"));
-						writeToFile(gcmData.getString("a"));
-						writeToFile(gcmData.getString("b"));
-						writeToFile(gcmData.getString("c"));
-						writeToFile(gcmData.getString("d"));
-						writeToFile("" + gcmData.getInt("e"));
-						writeToFile("" + gcmData.getInt("f"));
-						writeToFile(gcmData.getString("g"));
-						writeToFile(gcmData.getString("h"));
-						writeToFile(gcmData.getString("i"));
-						writeToFile(gcmData.getString("j"));
-						writeToFile(gcmData.getString("k"));
+	
 						values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
 						values.put(MatchDb.KEY_DEVICE_ID,
 								gcmData.getString("did"));
@@ -145,12 +126,10 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						values.put(MatchDb.KEY_LEVEL, gcmData.getString("h"));
 						values.put(MatchDb.KEY_FIRST_ACTION,
 								gcmData.getString("i"));
-						values.put(MatchDb.KEY_DURATION,
-								gcmData.getString("j"));
+						values.put(MatchDb.KEY_DURATION, gcmData.getString("j"));
 						values.put(MatchDb.KEY_REVIEW, gcmData.getString("k"));
 						values.put(MatchDb.KEY_STATUS, MatchDb.MATCH_HOLD);
 						values.put(MatchDb.KEY_SYNCED, 1);
-						writeToFile("formed...");
 						Cursor c = dbHandle.rawQuery(
 								"select " + MatchDb.KEY_ROWID + " from "
 										+ MatchDb.SQLITE_TABLE + " where "
@@ -159,19 +138,17 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 										+ MatchDb.KEY_DEVICE_ID + " = '"
 										+ gcmData.getString("did") + "'", null);
 
-						writeToFile("cnt: " + c.getCount());
+				
 						if (c.getCount() == 0) {
 
 							Uri irm = getApplicationContext()
 									.getContentResolver()
 									.insert(CricDeCodeContentProvider.CONTENT_URI_MATCH,
 											values);
-							writeToFile("Inserting match " + irm);
 						}
 						c.close();
 
 						JSONArray ja1 = gcmData.getJSONArray("per");
-						writeToFile("performance data: " + ja1);
 						for (int j = 0; j < ja1.length(); j++) {
 							JSONObject jo1 = ja1.getJSONObject(j);
 							values = new ContentValues();
@@ -267,12 +244,10 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 											+ PerformanceDb.KEY_INNING + " = "
 											+ jo1.getInt("l"), null);
 							if (c.getCount() == 0) {
-								writeToFile("Inserting perf...");
 								Uri irm = getApplicationContext()
 										.getContentResolver()
 										.insert(CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 												values);
-								writeToFile("Inserting perf..." + irm);
 							}
 							c.close();
 
@@ -290,18 +265,16 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						getApplicationContext().getContentResolver().update(
 								uri, matchvalues, null, null);
 					} catch (Exception e) {
-						writeToFile("" + e);
 					}
 
-				//}
+				}
 				break;
 			case DELETE_MATCH:
 				JSONArray ja2 = gcmData.getJSONArray("todel");
-				writeToFile("in 3: " + ja2.toString());
-				//if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-				//		.equals("yes")
-				//		|| AccessSharedPrefs.mPrefs.getString("sync", "no")
-				//				.equals("yes")) {
+				if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+						.equals("yes")
+						|| AccessSharedPrefs.mPrefs.getString("sync", "no")
+								.equals("yes")) {
 					try {
 						for (int i = 0; i < ja2.length(); i++) {
 							JSONObject jo = ja2.getJSONObject(i);
@@ -337,7 +310,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 					} catch (Exception e) {
 						Log.w("GCMSync", "" + e);
 					}
-				//}
+				}
 				break;
 			case REMOVE_ADS:
 				Log.w("GCM: ", "gcm remove ads");
@@ -535,31 +508,5 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 		}
 	}
 
-	public static void writeToFile(String data) {
-
-		try {
-
-			File root = new File(Environment.getExternalStorageDirectory(),
-					"CricDeCode");
-
-			if (!root.exists()) {
-
-				root.mkdirs();
-			}
-
-			File gpxfile = new File(root, "gcm.txt");
-
-			FileWriter writer = new FileWriter(gpxfile, true);
-			writer.write(data + "\n");
-			writer.flush();
-
-			writer.close();
-
-		} catch (IOException e) {
-
-			Log.e("Exception", "File write failed: " + e.toString());
-
-		}
-
-	}
+	
 }
