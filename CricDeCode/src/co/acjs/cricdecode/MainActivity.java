@@ -311,11 +311,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
 															if (inventory
 																	.hasPurchase(SKU_REMOVE_ADS)) {
+																
+																
 
 																Purchase p1 = inventory
 																		.getPurchase(SKU_REMOVE_ADS);
 																if (p1.getDeveloperPayload()
 																		.equals(getMD5())) {
+																	
 																	AccessSharedPrefs
 																			.setString(
 																					main_context,
@@ -340,21 +343,16 @@ public class MainActivity extends SherlockFragmentActivity {
 
 															if (inventory
 																	.hasPurchase(SKU_SUB_INFI)) {
-
+																
 																Purchase p1 = inventory
 																		.getPurchase(SKU_SUB_INFI);
-																writeToFile("Order id : "
-																		+ p1.getOrderId());
-																writeToFile("token : "
-																		+ p1.getToken());
-																writeToFile("Sign: "
-																		+ p1.getSignature());
 																if (p1.getDeveloperPayload()
 																		.equals(getMD5())) {
 
 																	Random r = new Random();
 																	int c = r
-																			.nextInt(3);
+																			.nextInt(5);
+																	
 																	if (c == 0) {
 
 																		AccessSharedPrefs
@@ -399,7 +397,7 @@ public class MainActivity extends SherlockFragmentActivity {
 																		.getPurchase(SKU_SUB_INFI_SYNC);
 																if (p1.getDeveloperPayload()
 																		.equals(getMD5())) {
-
+																	
 																	AccessSharedPrefs
 																			.setString(
 																					main_context,
@@ -456,6 +454,8 @@ public class MainActivity extends SherlockFragmentActivity {
 												});
 									}
 								}
+								
+								
 							});
 				}
 			}
@@ -468,6 +468,8 @@ public class MainActivity extends SherlockFragmentActivity {
 				onSessionStateChange(session, state, exception);
 			}
 		};
+		
+		
 
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
@@ -541,6 +543,25 @@ public class MainActivity extends SherlockFragmentActivity {
 				}
 			}
 		};
+		
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("orderId", "12999763169054705758.1398666396207159");
+			jo.put("Token", "ivqfvospmfqgjeyarkmnmazj.AO-J1Oyyg1GOIG78Vhk7Q9GfTGdILeGUnRzAGqYLSHbgHQE07HyoCKQAgKr00Q424s6fQHnoh-1Uv93T_aSezBp1cRIVNZ2viyZFeQyqQERuMJM59wWZjbA");
+			jo.put("Sign", "R+ngqaVMPriFGo+b5G1g/O8ZayVeLefuTws/Yn+654gF20SHNvMjm8w2oVXyascfnmSRVoD9rh0X/3XvVAPEXuAy4K7Tr+gAnCPoM8u3leqLz+cQzXWRtQRMWUYinvEpdk26EMNK0n4PY7CxvoGFOciOqkIqaC80+RUVYraENFoHGZxLCriGGgO1QFYIY48NlXABLBbyAHgjkA4LKlCCtgswiR4K9jXIirFZDxpDXI9tl5pdjmeUWquUENo2Zh/dnmoV8DHcp6f5jS+mcpPzIvVSQVn09GlyQfNjk27vSkgDunmpG3GhfDLuKTS2f2fcwO72aLotS/VcvnaHpaPwGg==");
+		} catch (JSONException e) {
+		}
+		
+		AccessSharedPrefs.setString(main_context,
+				"PurchaseInfiServiceCalled",
+				CDCAppClass.NEEDS_TO_BE_CALLED);
+		AccessSharedPrefs.setString(main_context,
+				"pur_infi_data", jo.toString());
+		AccessSharedPrefs.setString(main_context, "infi_use",
+				"yes");
+		Intent intent = new Intent(main_context,
+				PurchasedInfiService.class);
+		startService(intent);
 		// Action Bar Customization
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
@@ -902,7 +923,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
-
 	}
 
 	@TargetApi(19)

@@ -104,6 +104,7 @@ class per_insert(webapp2.RequestHandler):
                 perf_obj.user_id = per_obj['uid']
 
                 obj_list = per.query(ndb.AND(per.user_id == perf_obj.user_id,per.match_id == perf_obj.match_id,per.device_id == perf_obj.device_id,per.inning == perf_obj.inning)).fetch()
+                self.response.write(len(obj_list))
                 if(len(obj_list) == 0):
                     perf_obj.put()
 

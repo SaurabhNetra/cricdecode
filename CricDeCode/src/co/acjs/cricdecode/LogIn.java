@@ -441,8 +441,6 @@ public class LogIn extends SherlockActivity {
 									login_activity.getResources().getString(
 											R.string.gae_infisync_retrieve),
 									"POST", params, login_activity);
-							Log.w("JSON returned", "chk_subinfisync:: " + jn);
-							Log.w("trial value", "chk_subinfisync:: " + trial);
 							if (jn != null)
 								break;
 							try {

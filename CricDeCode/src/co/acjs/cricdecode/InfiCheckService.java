@@ -118,77 +118,100 @@ public class InfiCheckService extends IntentService {
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
 			@Override
 			public void onIabSetupFinished(IabResult result) {
-				if (!result.isSuccess()) {
-					Log.d("Billing", "Problem setting up In-app Billing: "
-							+ result);
-				} else {
-					mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
-						public void onQueryInventoryFinished(IabResult result,
-								Inventory inventory) {
-							if (result.isFailure()) {
-							} else {
 
-								if (inventory.hasPurchase(SKU_SUB_INFI)) {
+				try {
 
-									Purchase p1 = inventory
-											.getPurchase(SKU_SUB_INFI);
-									if (p1.getDeveloperPayload().equals(
-											getMD5())) {
+					if (!result.isSuccess()) {
+						Log.d("Billing", "Problem setting up In-app Billing: "
+								+ result);
+					} else {
+						mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
+							public void onQueryInventoryFinished(
+									IabResult result, Inventory inventory) {
+								if (result.isFailure()) {
+								} else {
 
-										params = new ArrayList<NameValuePair>();
-										params.add(new BasicNameValuePair(
-												"user_id",
-												AccessSharedPrefs.mPrefs
-														.getString("id", "")));
-										params.add(new BasicNameValuePair(
-												"token", p1.getToken()));
-										params.add(new BasicNameValuePair(
-												"sign", p1.getSignature()));
-										params.add(new BasicNameValuePair(
-												"orderId", p1.getOrderId()));
-										jsonParser = new JSONParser();
-										trial = 1;
-										jn = null;
-										while (jsonParser.isOnline(who)) {
-											jn = jsonParser
-													.makeHttpRequest(
-															who.getResources()
-																	.getString(
-																			R.string.gae_infi_check),
-															"POST", params, who);
-											writeToFile("Pinging infi chek: "
-													+ jn);
-											if (jn != null)
-												break;
+									if (inventory.hasPurchase(SKU_SUB_INFI)) {
+
+										Purchase p1 = inventory
+												.getPurchase(SKU_SUB_INFI);
+										if (p1.getDeveloperPayload().equals(
+												getMD5())) {
+											
+											params = new ArrayList<NameValuePair>();
+											params.add(new BasicNameValuePair(
+													"user_id",
+													AccessSharedPrefs.mPrefs
+															.getString("id", "")));
+											params.add(new BasicNameValuePair(
+													"token", p1.getToken()));
+											params.add(new BasicNameValuePair(
+													"sign", p1.getSignature()));
+											params.add(new BasicNameValuePair(
+													"orderId", p1.getOrderId()));
+											jsonParser = new JSONParser();
+											trial = 1;
+											jn = null;
+											while (jsonParser.isOnline(who)) {
+												jn = jsonParser
+														.makeHttpRequest(
+																who.getResources()
+																		.getString(
+																				R.string.gae_infi_check),
+																"POST", params,
+																who);
+												writeToFile("Pinging infi chek: "
+														+ jn + trial);
+												if (jn != null)
+													break;
+												try {
+													Thread.sleep(10 * trial);
+												} catch (InterruptedException e) {
+												}
+												trial++;
+												if (trial == 50)
+													break;
+											}
+
 											try {
-												Thread.sleep(10 * trial);
-											} catch (InterruptedException e) {
+												if (jn.getInt("status") == 1) {
+													AccessSharedPrefs
+															.setString(who,
+																	"infi_use",
+																	"yes");
+													AccessSharedPrefs
+															.setString(
+																	who,
+																	"InfiChkServiceCalled",
+																	CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+
+												} else if (jn.getInt("status") == 0) {
+													AccessSharedPrefs
+															.setString(who,
+																	"infi_use",
+																	"no");
+													AccessSharedPrefs
+															.setString(
+																	who,
+																	"InfiChkServiceCalled",
+																	CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+												}
+											} catch (NullPointerException e) {
+											} catch (JSONException e) {
+												e.printStackTrace();
 											}
-											trial++;
-											if (trial == 50)
-												break;
+
+										} else {
+											AccessSharedPrefs.setString(who,
+													"infi_use", "no");
+											AccessSharedPrefs
+													.setString(
+															who,
+															"InfiChkServiceCalled",
+															CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 										}
-
-										try {
-											if (jn.getInt("status") == 1) {
-												AccessSharedPrefs.setString(
-														who, "infi_use", "yes");
-
-											} else if (jn.getInt("status") == 0) {
-												AccessSharedPrefs.setString(
-														who, "infi_use", "no");
-												AccessSharedPrefs
-														.setString(
-																who,
-																"InfiChkServiceCalled",
-																CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-											}
-										} catch (NullPointerException e) {
-										} catch (JSONException e) {
-											e.printStackTrace();
-										}
-
 									} else {
+
 										AccessSharedPrefs.setString(who,
 												"infi_use", "no");
 										AccessSharedPrefs
@@ -197,22 +220,15 @@ public class InfiCheckService extends IntentService {
 														"InfiChkServiceCalled",
 														CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 									}
-								} else {
 
-									AccessSharedPrefs.setString(who,
-											"infi_use", "no");
-									AccessSharedPrefs
-											.setString(
-													who,
-													"InfiChkServiceCalled",
-													CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								}
-
 							}
-						}
-					});
-				}
+						});
+					}
 
+				} catch (Exception e) {
+					writeToFile("Exception: " + e);
+				}
 			}
 		});
 	}
@@ -229,7 +245,7 @@ public class InfiCheckService extends IntentService {
 				root.mkdirs();
 			}
 
-			File gpxfile = new File(root, "matchsync.txt");
+			File gpxfile = new File(root, "infichk.txt");
 
 			FileWriter writer = new FileWriter(gpxfile, true);
 			writer.write(data + "\n");

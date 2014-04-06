@@ -111,10 +111,10 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 				break;
 			case MATCH_N_PERFORMANCE_DATA:
 				writeToFile("in 2:");
-				if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-						.equals("yes")
-						|| AccessSharedPrefs.mPrefs.getString("sync", "no")
-								.equals("yes")) {
+			//	if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+			//			.equals("yes")
+			//			|| AccessSharedPrefs.mPrefs.getString("sync", "no")
+			//					.equals("yes")) {
 					try {
 						ContentValues values = new ContentValues();
 						writeToFile("" + gcmData.getInt("mid"));
@@ -265,7 +265,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 											+ " = '" + gcmData.getString("did")
 											+ "' and "
 											+ PerformanceDb.KEY_INNING + " = "
-											+ jo1.getInt("in"), null);
+											+ jo1.getInt("l"), null);
 							if (c.getCount() == 0) {
 								writeToFile("Inserting perf...");
 								Uri irm = getApplicationContext()
@@ -293,15 +293,15 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 						writeToFile("" + e);
 					}
 
-				}
+				//}
 				break;
 			case DELETE_MATCH:
 				JSONArray ja2 = gcmData.getJSONArray("todel");
 				writeToFile("in 3: " + ja2.toString());
-				if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
-						.equals("yes")
-						|| AccessSharedPrefs.mPrefs.getString("sync", "no")
-								.equals("yes")) {
+				//if (AccessSharedPrefs.mPrefs.getString("infi_sync", "no")
+				//		.equals("yes")
+				//		|| AccessSharedPrefs.mPrefs.getString("sync", "no")
+				//				.equals("yes")) {
 					try {
 						for (int i = 0; i < ja2.length(); i++) {
 							JSONObject jo = ja2.getJSONObject(i);
@@ -337,7 +337,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 					} catch (Exception e) {
 						Log.w("GCMSync", "" + e);
 					}
-				}
+				//}
 				break;
 			case REMOVE_ADS:
 				Log.w("GCM: ", "gcm remove ads");

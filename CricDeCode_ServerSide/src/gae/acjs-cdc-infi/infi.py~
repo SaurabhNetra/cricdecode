@@ -3,7 +3,7 @@ import time
 import urllib
 import urllib2
 import json
-import hashlib
+import md5
 from google.appengine.ext import ndb
 
 class infi(ndb.Model):

@@ -30,31 +30,31 @@ class sync_insert(webapp2.RequestHandler):
             key = hashlib.md5(key).hexdigest()
         
         if(handkey == key):
-            obj_list = sync.query(sync.user_id == uid).fetch()
-            if(len(obj_list) == 0):
-                sync_obj = sync()
-                sync_obj.autorenewing = int(self.request.get    ('autorenewing'))
-                sync_obj.initiation_ts_msec = int(self.request.get    ('initiation_ts_msec'))
-                sync_obj.order_id = self.request.get('order_id')
-                sync_obj.sign = self.request.get('sign')
-                sync_obj.token = self.request.get('token')
-                sync_obj.user_id = self.request.get('user_id')
-                sync_obj.validuntil_ts_msec = int(self.request.get    ('validuntil_ts_msec'))
-                sync_obj.not_valid = 0
-                sync_obj.put()
-                self.response.write('{"status" : 1}')
-            else:
-                sync_obj = obj_list[0]
-                sync_obj.autorenewing = int(self.request.get    ('autorenewing'))
-                sync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
-                sync_obj.order_id = self.request.get('order_id')
-                sync_obj.sign = self.request.get('sign')
-                sync_obj.token = self.request.get('token')
-                sync_obj.user_id = self.request.get('user_id')
-                sync_obj.validuntil_ts_msec = int(self.request.get    ('validuntil_ts_msec'))
-                sync_obj.not_valid = 0
-                sync_obj.put()
-                self.response.write('{"status" : 1}')
+        obj_list = sync.query(sync.user_id == uid).fetch()
+        if(len(obj_list) == 0):
+            sync_obj = sync()
+            sync_obj.autorenewing = int(self.request.get('autorenewing'))
+            sync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+            sync_obj.order_id = self.request.get('order_id')
+            sync_obj.sign = self.request.get('sign')
+            sync_obj.token = self.request.get('token')
+            sync_obj.user_id = self.request.get('user_id')
+            sync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+            sync_obj.not_valid = 0
+            sync_obj.put()
+            self.response.write('{"status" : 1}')
+        else:
+            sync_obj = obj_list[0]
+            sync_obj.autorenewing = int(self.request.get('autorenewing'))
+            sync_obj.initiation_ts_msec = int(self.request.get('initiation_ts_msec'))
+            sync_obj.order_id = self.request.get('order_id')
+            sync_obj.sign = self.request.get('sign')
+            sync_obj.token = self.request.get('token')
+            sync_obj.user_id = self.request.get('user_id')
+            sync_obj.validuntil_ts_msec = int(self.request.get('validuntil_ts_msec'))
+            sync_obj.not_valid = 0
+            sync_obj.put()
+            self.response.write('{"status" : 1}')
 
 class sync_retrieve(webapp2.RequestHandler):
 

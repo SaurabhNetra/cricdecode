@@ -33,6 +33,7 @@ public class MatchHistorySyncService extends IntentService {
 	JSONObject jn = null;
 	int trial = 0;
 	JSONParser jsonParser;
+	Cursor c, c1;
 	List<NameValuePair> params;
 	private static IabHelper mHelper;
 	static final String SKU_REMOVE_ADS = "ad_removal",
@@ -127,7 +128,7 @@ public class MatchHistorySyncService extends IntentService {
 
 	public void sendData(String regids) {
 		writeToFile("in send data");
-		final Cursor c = getContentResolver().query(
+		c = getContentResolver().query(
 				CricDeCodeContentProvider.CONTENT_URI_MATCH,
 				new String[] { MatchDb.KEY_ROWID, MatchDb.KEY_DEVICE_ID,
 						MatchDb.KEY_MATCH_DATE, MatchDb.KEY_MY_TEAM,
@@ -211,7 +212,7 @@ public class MatchHistorySyncService extends IntentService {
 							.getColumnIndexOrThrow(MatchDb.KEY_DEVICE_ID));
 					writeToFile("mid: " + matchId + " dev: " + devid);
 
-					final Cursor c1 = getContentResolver().query(
+					c1 = getContentResolver().query(
 							CricDeCodeContentProvider.CONTENT_URI_PERFORMANCE,
 							new String[] { PerformanceDb.KEY_ROWID,
 									PerformanceDb.KEY_BAT_BALLS,
@@ -531,7 +532,6 @@ public class MatchHistorySyncService extends IntentService {
 									Integer.parseInt(c1.getString(c1
 											.getColumnIndexOrThrow(PerformanceDb.KEY_FIELD_CATCHES_DROPPED))));
 
-							ja.put(jo1);
 							gcm_ja.put(gcm_jo1);
 							c1.moveToNext();
 						} while (!c1.isAfterLast());
@@ -542,16 +542,18 @@ public class MatchHistorySyncService extends IntentService {
 					gcm_per.put("per", gcm_ja);
 
 					Random r = new Random();
-					int rand = 0;
-					while (rand == 0) {
-						rand = r.nextInt(9);
-					}
+					int rand = r.nextInt(8) + 1;
+
 					String handkey = AccessSharedPrefs.mPrefs.getString("id",
 							"");
 					for (int i = 0; i < rand; i++) {
 						handkey = genMD5(handkey);
-					}					
-					handkey = handkey.substring(0,3)+rand+handkey.substring(3, handkey.length());
+					}
+					writeToFile("rand: " + rand);
+					writeToFile("handkey: " + handkey);
+					handkey = handkey.substring(0, 3) + rand
+							+ handkey.substring(3, handkey.length());
+					writeToFile("handkey n: " + handkey);
 					params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("matchData", cm
 							.toString()));
@@ -761,156 +763,169 @@ public class MatchHistorySyncService extends IntentService {
 					Log.d("Billing", "Problem setting up In-app Billing: "
 							+ result);
 				} else {
-					mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
-						public void onQueryInventoryFinished(IabResult result,
-								Inventory inventory) {
-							if (result.isFailure()) {
-							} else {
 
-								if (inventory.hasPurchase(SKU_SUB_INFI_SYNC)) {
-
-									Purchase p1 = inventory
-											.getPurchase(SKU_SUB_INFI_SYNC);
-									if (p1.getDeveloperPayload().equals(
-											getMD5())) {
-
-										params = new ArrayList<NameValuePair>();
-										params.add(new BasicNameValuePair(
-												"user_id",
-												AccessSharedPrefs.mPrefs
-														.getString("id", "")));
-										params.add(new BasicNameValuePair(
-												"token", p1.getToken()));
-										params.add(new BasicNameValuePair(
-												"sign", p1.getSignature()));
-										params.add(new BasicNameValuePair(
-												"orderId", p1.getOrderId()));
-										jsonParser = new JSONParser();
-										trial = 1;
-										jn = null;
-										while (jsonParser.isOnline(who)) {
-											jn = jsonParser
-													.makeHttpRequest(
-															who.getResources()
-																	.getString(
-																			R.string.gae_infisync_check),
-															"POST", params, who);
-											writeToFile("Pinging infi sync chek: "
-													+ jn);
-											if (jn != null)
-												break;
-											try {
-												Thread.sleep(10 * trial);
-											} catch (InterruptedException e) {
-											}
-											trial++;
-											if (trial == 50)
-												break;
-										}
-
-										try {
-											if (jn.getInt("status") == 1) {
-												AccessSharedPrefs
-														.setString(who,
-																"infi_sync",
-																"yes");
-												sendData(jn
-														.getString("reg_ids"));
-											} else if (jn.getInt("status") == 0) {
-												AccessSharedPrefs.setString(
-														who, "infi_sync", "no");
-												AccessSharedPrefs
-														.setString(
-																who,
-																"MatchHistorySyncServiceCalled",
-																CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-											}
-										} catch (NullPointerException e) {
-										} catch (JSONException e) {
-											e.printStackTrace();
-										}
-
-									} else {
-										AccessSharedPrefs.setString(who,
-												"infi_sync", "no");
-										AccessSharedPrefs
-												.setString(
-														who,
-														"MatchHistorySyncServiceCalled",
-														CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-									}
+					try {
+						mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
+							public void onQueryInventoryFinished(
+									IabResult result, Inventory inventory) {
+								if (result.isFailure()) {
 								} else {
 
-									AccessSharedPrefs.setString(who,
-											"infi_sync", "no");
-									AccessSharedPrefs
-											.setString(
-													who,
-													"MatchHistorySyncServiceCalled",
-													CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
-								}
+									if (inventory
+											.hasPurchase(SKU_SUB_INFI_SYNC)) {
 
-								if (inventory.hasPurchase(SKU_SUB_SYNC)) {
+										Purchase p1 = inventory
+												.getPurchase(SKU_SUB_INFI_SYNC);
+										if (p1.getDeveloperPayload().equals(
+												getMD5())) {
 
-									Purchase p1 = inventory
-											.getPurchase(SKU_SUB_SYNC);
-									if (p1.getDeveloperPayload().equals(
-											getMD5())) {
-										params = new ArrayList<NameValuePair>();
-										params.add(new BasicNameValuePair(
-												"user_id",
-												AccessSharedPrefs.mPrefs
-														.getString("id", "")));
-										params.add(new BasicNameValuePair(
-												"token", p1.getToken()));
-										params.add(new BasicNameValuePair(
-												"sign", p1.getSignature()));
-										params.add(new BasicNameValuePair(
-												"orderId", p1.getOrderId()));
-										jsonParser = new JSONParser();
-										trial = 1;
-										jn = null;
-										while (jsonParser.isOnline(who)) {
+											params = new ArrayList<NameValuePair>();
+											params.add(new BasicNameValuePair(
+													"user_id",
+													AccessSharedPrefs.mPrefs
+															.getString("id", "")));
+											params.add(new BasicNameValuePair(
+													"token", p1.getToken()));
+											params.add(new BasicNameValuePair(
+													"sign", p1.getSignature()));
+											params.add(new BasicNameValuePair(
+													"orderId", p1.getOrderId()));
+											jsonParser = new JSONParser();
+											trial = 1;
+											jn = null;
+											while (jsonParser.isOnline(who)) {
+												jn = jsonParser
+														.makeHttpRequest(
+																who.getResources()
+																		.getString(
+																				R.string.gae_infisync_check),
+																"POST", params,
+																who);
+												writeToFile("Pinging infi sync chek: "
+														+ jn+" trial: "+trial);
+												if (jn != null)
+													break;
+												try {
+													Thread.sleep(10 * trial);
+												} catch (InterruptedException e) {
+												}
+												trial++;
+												if (trial == 50)
+													break;
+											}
 
-											jn = jsonParser
-													.makeHttpRequest(
-															who.getResources()
-																	.getString(
-																			R.string.gae_sync_check),
-															"POST", params, who);
-											writeToFile("Pinging sync chek: "
-													+ trial);
-											if (jn != null)
-												break;
 											try {
-												Thread.sleep(10 * trial);
-											} catch (InterruptedException e) {
+												if (jn.getInt("status") == 1) {
+													AccessSharedPrefs
+															.setString(
+																	who,
+																	"infi_sync",
+																	"yes");
+													sendData(jn
+															.getString("reg_ids"));
+												} else if (jn.getInt("status") == 0) {
+													AccessSharedPrefs
+															.setString(
+																	who,
+																	"infi_sync",
+																	"no");
+													AccessSharedPrefs
+															.setString(
+																	who,
+																	"MatchHistorySyncServiceCalled",
+																	CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+												}
+											} catch (NullPointerException e) {
+											} catch (JSONException e) {
+												e.printStackTrace();
 											}
-											trial++;
-											if (trial == 50)
-												break;
-										}
 
-										try {
-											if (jn.getInt("status") == 1) {
-												AccessSharedPrefs.setString(
-														who, "sync", "yes");
-												sendData(jn
-														.getString("reg_ids"));
-											} else if (jn.getInt("status") == 0) {
-												AccessSharedPrefs.setString(
-														who, "sync", "no");
-												AccessSharedPrefs
-														.setString(
-																who,
-																"MatchHistorySyncServiceCalled",
-																CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+										} else {
+											AccessSharedPrefs.setString(who,
+													"infi_sync", "no");
+											AccessSharedPrefs
+													.setString(
+															who,
+															"MatchHistorySyncServiceCalled",
+															CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+										}
+									} else if (inventory
+											.hasPurchase(SKU_SUB_SYNC)) {
+
+										Purchase p1 = inventory
+												.getPurchase(SKU_SUB_SYNC);
+										if (p1.getDeveloperPayload().equals(
+												getMD5())) {
+											params = new ArrayList<NameValuePair>();
+											params.add(new BasicNameValuePair(
+													"user_id",
+													AccessSharedPrefs.mPrefs
+															.getString("id", "")));
+											params.add(new BasicNameValuePair(
+													"token", p1.getToken()));
+											params.add(new BasicNameValuePair(
+													"sign", p1.getSignature()));
+											params.add(new BasicNameValuePair(
+													"orderId", p1.getOrderId()));
+											jsonParser = new JSONParser();
+											trial = 1;
+											jn = null;
+											while (jsonParser.isOnline(who)) {
+
+												jn = jsonParser
+														.makeHttpRequest(
+																who.getResources()
+																		.getString(
+																				R.string.gae_sync_check),
+																"POST", params,
+																who);
+												writeToFile("Pinging sync chek: "
+														+ trial);
+												if (jn != null)
+													break;
+												try {
+													Thread.sleep(10 * trial);
+												} catch (InterruptedException e) {
+												}
+												trial++;
+												if (trial == 50)
+													break;
 											}
-										} catch (NullPointerException e) {
-										} catch (JSONException e) {
-											e.printStackTrace();
+
+											try {
+												if (jn.getInt("status") == 1) {
+													AccessSharedPrefs
+															.setString(who,
+																	"sync",
+																	"yes");
+													sendData(jn
+															.getString("reg_ids"));
+												} else if (jn.getInt("status") == 0) {
+													AccessSharedPrefs
+															.setString(who,
+																	"sync",
+																	"no");
+													AccessSharedPrefs
+															.setString(
+																	who,
+																	"MatchHistorySyncServiceCalled",
+																	CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
+												}
+											} catch (NullPointerException e) {
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+										} else {
+											AccessSharedPrefs.setString(who,
+													"sync", "no");
+											AccessSharedPrefs
+													.setString(
+															who,
+															"MatchHistorySyncServiceCalled",
+															CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 										}
 									} else {
+
 										AccessSharedPrefs.setString(who,
 												"sync", "no");
 										AccessSharedPrefs
@@ -919,20 +934,14 @@ public class MatchHistorySyncService extends IntentService {
 														"MatchHistorySyncServiceCalled",
 														CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 									}
-								} else {
 
-									AccessSharedPrefs.setString(who, "sync",
-											"no");
-									AccessSharedPrefs
-											.setString(
-													who,
-													"MatchHistorySyncServiceCalled",
-													CDCAppClass.DOESNT_NEED_TO_BE_CALLED);
 								}
-
 							}
-						}
-					});
+						});
+
+					} catch (Exception e) {
+						writeToFile("exception " + e);
+					}
 				}
 
 			}

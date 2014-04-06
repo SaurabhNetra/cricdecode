@@ -55,9 +55,6 @@ public class PurchasedInfiSyncService extends IntentService {
 			params.add(new BasicNameValuePair("product_id", "sub_infi_sync"));
 			params.add(new BasicNameValuePair("json", AccessSharedPrefs.mPrefs
 					.getString("pur_infi_sync_data", "")));
-			writeToFile("json: "
-					+ AccessSharedPrefs.mPrefs.getString("pur_infi_sync_data",
-							""));
 			int trial = 1;
 			JSONObject jn = null;
 			while (jsonParser.isOnline(con)) {

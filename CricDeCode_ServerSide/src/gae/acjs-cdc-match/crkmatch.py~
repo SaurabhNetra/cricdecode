@@ -32,8 +32,12 @@ class crkmatch_insert(webapp2.RequestHandler):
         handkey = handshake[:3]+handshake[4:]
         key = uid
         for i in xrange(times):
-            key = hashlib.md5(key).hexdigest()
-
+            key = hashlib.md5(key).hexdigest()            
+            self.response.write('times')
+            self.response.write(i)
+        
+        self.response.write(handkey)
+        self.response.write(key)
         if(handkey == key):
             match_json = {}
             match_json = json.loads(self.request.get('matchData'))
