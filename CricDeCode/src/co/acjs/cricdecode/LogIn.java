@@ -1,5 +1,10 @@
 package co.acjs.cricdecode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,12 +24,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,12 +72,77 @@ public class LogIn extends SherlockActivity {
 	static JSONParser jsonParser;
 	static List<NameValuePair> params;
 
+	public static void writeToFile(String data) { 		 
+
+ 		try {
+
+ 
+
+ 			File root = new File(Environment.getExternalStorageDirectory(),
+
+ 					"CricDeCode");
+
+ 
+
+ 			if (!root.exists()) {
+
+ 
+
+ 				root.mkdirs();
+
+ 			}
+
+ 
+
+File gpxfile = new File(root, "matchsync.txt");
+
+ 
+
+ 			FileWriter writer = new FileWriter(gpxfile, true);
+
+ 			writer.write(data + "\n");
+
+ 			writer.flush();
+
+ 
+
+ 			writer.close();
+
+ 
+
+ 		} catch (IOException e) {
+
+ 
+
+ 			Log.e("Exception", "File write failed: " + e.toString());
+
+ 
+
+ 		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		try {
+			PackageInfo info = getPackageManager().getPackageInfo(
+					"co.acjs.cricdecode",
+					PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				writeToFile(""+Base64.encodeToString(md.digest(), Base64.DEFAULT));
+			}
+		} catch (NameNotFoundException e) {
+
+		} catch (NoSuchAlgorithmException e) {
+
+		}
+
 		setContentView(R.layout.activity_log_in);
 		ActionBar actionBar = getSupportActionBar();
-		
+
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
@@ -185,7 +261,7 @@ public class LogIn extends SherlockActivity {
 											Log.w("Face Book Login Complete 2",
 													"LogIn: "
 															+ user.getBirthday());
-										
+
 											LogIn.user = user;
 											progressText
 													.setText("Phase 1 of 3...");
@@ -272,7 +348,7 @@ public class LogIn extends SherlockActivity {
 		@Override
 		public void onPostExecute(String regid) {
 			Log.d(getClass().getSimpleName(), "registered as: " + regid);
-	
+
 			if (regid == null)
 				((LogIn) login_activity).GCMRegistration();
 			else {
@@ -293,7 +369,6 @@ public class LogIn extends SherlockActivity {
 		AccessSharedPrefs.setString(login_activity, "dob", user.getBirthday());
 		AccessSharedPrefs.setString(login_activity, "gcm_reg_id", gcm_reg_id);
 		AccessSharedPrefs.setString(login_activity, "fb_link", user.getLink());
-
 
 		Thread thread = new Thread() {
 			@Override
@@ -318,7 +393,7 @@ public class LogIn extends SherlockActivity {
 							login_activity);
 					Log.w("JSON returned", "usertable:: " + jn);
 					Log.w("trial value", "usertable:: " + trial);
-		
+
 					if (jn != null)
 						break;
 					try {
@@ -329,7 +404,7 @@ public class LogIn extends SherlockActivity {
 					if (trial == 50)
 						break;
 				}
-	
+
 				try {
 					if (jn.getInt("status") == 1) {
 						AccessSharedPrefs.setString(login_activity,
@@ -355,7 +430,7 @@ public class LogIn extends SherlockActivity {
 						jsonParser = new JSONParser();
 						trial = 1;
 						jn = null;
-			
+
 						while (jsonParser.isOnline(login_activity)) {
 							Log.w("JSONParser", "chk_removeads:: Called");
 							// ping to gae ads table
@@ -375,7 +450,7 @@ public class LogIn extends SherlockActivity {
 							if (trial == 50)
 								break;
 						}
-					
+
 						if (jn.getInt("status") == 0) {
 							AccessSharedPrefs.setString(login_activity,
 									"ad_free", "no");
@@ -730,7 +805,5 @@ public class LogIn extends SherlockActivity {
 		window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
-
-	
 
 }

@@ -92,7 +92,7 @@ class usr_update(webapp2.RequestHandler):
 
 class usr_mig(webapp2.RequestHandler):
     def post(self):
-	url = "http://api.stackmob.com/serverdbremoveads"
+	url = "http://api.stackmob.com/serverdbusertable"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
         req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
@@ -102,22 +102,43 @@ class usr_mig(webapp2.RequestHandler):
         datarr = {}
         datarr = json.loads(res)
         self.response.write(len(datarr))        
-	url = "http://acjs-cdc-ads.appspot.com/insert"
+	
         for data in datarr:
-            values = {}
-            values['order_id'] = data['order_id']
-            values['sign'] = data['sign']
+            obj_list = usr.query(usr.user_id == data['user_id']).fetch()
+            if(len(obj_list) == 0):
+                user_obj = usr()
+                user_obj.batting_style = data['battingstyle']
+                user_obj.bowling_style = data['bowlingstyle']
+                user_obj.device_no = int(data['device_no'])
+                try:
+                    user_obj.dob = data['dob']
+                except:
+                    user_obj.dob = ""
+                user_obj.fb_link = data['fb_link']
+                user_obj.first_name = data['first_name']
+                user_obj.os = int(data['hasandroid'])
+                user_obj.last_name = data['last_name']
+                user_obj.nick_name = data['nick_name']
+                user_obj.role = data['role']
+                user_obj.user_id = data['user_id']
+            else:
+                user_obj = obj_list[0]
+                user_obj.batting_style = data['battingstyle']
+                user_obj.bowling_style = data['bowlingstyle']
+                user_obj.device_no = int(data['device_no'])
+                try:
+                    user_obj.dob = data['dob']
+                except:
+                    user_obj.dob = ""
+                user_obj.fb_link = data['fb_link']
+                user_obj.first_name = data['first_name']
+                user_obj.os = int(data['hasandroid'])
+                user_obj.last_name = data['last_name']
+                user_obj.nick_name = data['nick_name']
+                user_obj.role = data['role']
+                user_obj.user_id = data['user_id']
+                user_obj.put()
 
-            values['token'] = data['token']
-            values['user_id'] = data['user_id']
-            handshake = data['user_id']
-            handkey = handshake[:3]+"0"+handshake[3:]
-            values['hSAhnedk'] = handkey
-            values['purchasetime'] = data['purchasetime']
-            data = urllib.urlencode(values)
-            req = urllib2.Request(url, data)
-            response = urllib2.urlopen(req)
-            response.read()
 
 
 class andro_mig(webapp2.RequestHandler):
@@ -338,4 +359,4 @@ class ads_mig(webapp2.RequestHandler):
             response.read()
 
 
-application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/pingmig',pingmig),('/usr_mig',usr_mig),('/andro_mig',andro_mig),('/match_mig',match_mig),('/per_mig',per_mig),('/infisync_mig',infisync_mig),('/infi_mig',infi_mig),('/ads_mig', ads_mig)], debug=True)
+application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/usr_mig',usr_mig),('/andro_mig',andro_mig),('/match_mig',match_mig),('/per_mig',per_mig),('/infisync_mig',infisync_mig),('/infi_mig',infi_mig),('/ads_mig', ads_mig)], debug=True)
