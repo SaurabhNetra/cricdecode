@@ -2,8 +2,7 @@ import webapp2
 import json
 import urllib
 import urllib2
-import re
-import codecs
+
 from google.appengine.ext import ndb
 class usr(ndb.Model):
     batting_style = ndb.StringProperty(indexed=False)
