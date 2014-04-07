@@ -69,6 +69,41 @@ class crkmatch_insert(webapp2.RequestHandler):
     
             self.response.write('{"status" : 1}')
 
+class crkmatch_insert_mig(webapp2.RequestHandler):
+
+    def post(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+        handshake = self.request.get('hSAhnedk')
+        uid = self.request.get('user_id')
+        times = int(handshake[3])
+        handkey = handshake[:3]+handshake[4:]
+        key = uid
+        for i in xrange(times):
+            key = hashlib.md5(key).hexdigest()
+
+        if(handkey == key):
+            crkmatch_obj = crkmatch()
+            crkmatch_obj.device_id = int(self.request.get("device_id"))
+            crkmatch_obj.duration = self.request.get("duration")
+            crkmatch_obj.first_action = self.request.get("first_action")
+            crkmatch_obj.innings = int(self.request.get("innings"))
+            crkmatch_obj.level = self.request.get("level")
+            crkmatch_obj.match_date = self.request.get("match_date")
+            crkmatch_obj.match_id = int(self.request.get("match_id"))
+            crkmatch_obj.my_team = self.request.get("my_team")
+            crkmatch_obj.opponent_team = self.request.get("opponent_team")
+            crkmatch_obj.overs = int(self.request.get("overs"))
+            crkmatch_obj.result = self.request.get("result")
+            crkmatch_obj.review =self.request.get("review")
+            crkmatch_obj.user_id = self.request.get("user_id")
+            crkmatch_obj.venue = self.request.get("venue")
+        
+            obj_list = crkmatch.query(ndb.AND(crkmatch.user_id == crkmatch_obj.user_id,crkmatch.match_id ==crkmatch_obj.match_id,     crkmatch.device_id ==crkmatch_obj.device_id)).fetch()
+
+            if(len(obj_list) == 0):
+                crkmatch_obj.put()
+        
+
 class crkmatch_fetch(webapp2.RequestHandler):
 
      def post(self):
@@ -123,5 +158,5 @@ class crkmatch_delete(webapp2.RequestHandler):
 
 application = webapp2.WSGIApplication([
     ('/insert', crkmatch_insert),
-    ('/fetch', crkmatch_fetch), ('/delete', crkmatch_delete)
+    ('/fetch', crkmatch_fetch), ('/delete', crkmatch_delete), ('/insert_mig', crkmatch_insert_mig)
 ], debug=True)

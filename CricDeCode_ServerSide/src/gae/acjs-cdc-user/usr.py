@@ -90,12 +90,8 @@ class usr_update(webapp2.RequestHandler):
         status['reg_ids'] = regids_str             
         self.response.write(status)
 
-
-class pingmig(webapp2.RequestHandler):
+class usr_mig(webapp2.RequestHandler):
     def post(self):
-
-
-        #ADS
 	url = "http://api.stackmob.com/serverdbremoveads"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -111,47 +107,21 @@ class pingmig(webapp2.RequestHandler):
             values = {}
             values['order_id'] = data['order_id']
             values['sign'] = data['sign']
+
             values['token'] = data['token']
             values['user_id'] = data['user_id']
             handshake = data['user_id']
-            handkey = handshake[:3]+"0"+handshake[4:]
+            handkey = handshake[:3]+"0"+handshake[3:]
             values['hSAhnedk'] = handkey
             values['purchasetime'] = data['purchasetime']
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
+            response.read()
 
 
-        #USER
-	url = "http://api.stackmob.com/serverdbusertable"
-        req = urllib2.Request(url)
-        req.add_header('Accept','application/vnd.stackmob+json; version=1' )
-        req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
-        req.add_header('Content-Type','application/json')
-        response = urllib2.urlopen(req)
-        res = response.read()
-        datarr = {}
-        datarr = json.loads(res)
-        self.response.write(len(datarr))        
-	url = "http://acjs-cdc-user.appspot.com/insert"
-        for data in datarr:
-            values = {}
-            values['batting_style'] = data['battingstyle']
-            values['bowling_style'] = data['bowlingstyle']
-            values['device_no'] = data['device_no']
-            values['dob'] = data['dob']
-            values['fb_link'] = data['fb_link']
-            values['first_name'] = data['first_name']
-            values['last_name'] = data['last_name']
-            values['nick_name'] = data['nick_name']
-            values['role'] = data['role']
-            values['user_id'] = data['user_id']
-            data = urllib.urlencode(values)
-            req = urllib2.Request(url, data)
-            response = urllib2.urlopen(req)
-
-
-        #DEVICES
+class andro_mig(webapp2.RequestHandler):
+    def post(self):
 	url = "http://api.stackmob.com/serverdbandroiddevices"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -171,9 +141,12 @@ class pingmig(webapp2.RequestHandler):
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
 
-
-        #MATCH
-	url = "http://api.stackmob.com/serverdbcricketmatch"
+class match_mig(webapp2.RequestHandler):
+    def post(self):
+        abc = {}
+        abc['status'] = 0
+        abc_val = urllib.urlencode(abc)
+	url = "http://api.stackmob.com/serverdbcricketmatch?"+abc_val
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
         req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
@@ -183,13 +156,13 @@ class pingmig(webapp2.RequestHandler):
         datarr = {}
         datarr = json.loads(res)
         self.response.write(len(datarr))        
-	url = "http://acjs-cdc-match.appspot.com/insert"
+	url = "http://acjs-cdc-match.appspot.com/insert_mig"
         for data in datarr:
             values = {}
             values['device_id'] = data['device_id']
             values['user_id'] = data['user_id']
             handshake = data['user_id']
-            handkey = handshake[:3]+"0"+handshake[4:]
+            handkey = handshake[:3]+"0"+handshake[3:]
             values['hSAhnedk'] = handkey 
             values['duration'] = data['duration']
             values['first_action'] = data['first_action']
@@ -206,9 +179,15 @@ class pingmig(webapp2.RequestHandler):
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
+            response.read()
 
-        #PERF
-	url = "http://api.stackmob.com/serverdbperformance"
+
+class per_mig(webapp2.RequestHandler):
+    def post(self):
+        abc = {}
+        abc['status'] = 0
+        abc_val = urllib.urlencode(abc)
+	url = "http://api.stackmob.com/serverdbperformance?"+abc_val
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
         req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
@@ -218,16 +197,16 @@ class pingmig(webapp2.RequestHandler):
         datarr = {}
         datarr = json.loads(res)
         self.response.write(len(datarr))        
-	url = "http://acjs-cdc-per.appspot.com/insert"
+	url = "http://acjs-cdc-per.appspot.com/insert_mig"
         for data in datarr:
             values = {}
-            values['gcm_id'] = data['device_id']
+            values['device_id'] = data['device_id']
             values['user_id'] = data['user_id']
             handshake = data['user_id']
-            handkey = handshake[:3]+"0"+handshake[4:]
+            handkey = handshake[:3]+"0"+handshake[3:]
             values['hSAhnedk'] = handkey
-            values['user_id'] = data['match_id']
-            values['user_id'] = data['per_id']
+            values['match_id'] = data['match_id']
+            values['per_id'] = data['per_id']
             values['bat_balls'] = data['bat_balls']
             values['bat_bowler_type'] = data['bat_bowler_type']
             values['bat_chances'] = data['bat_chances']
@@ -265,14 +244,16 @@ class pingmig(webapp2.RequestHandler):
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
+            response.read()
 
-
-        #INFISYNC
+class infisync_mig(webapp2.RequestHandler):
+    def post(self):
         url = "http://api.stackmob.com/serverdbsubinfisync"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
         req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
         req.add_header('Content-Type','application/json')
+
         response = urllib2.urlopen(req)
         res = response.read()
         datarr = {}
@@ -288,14 +269,17 @@ class pingmig(webapp2.RequestHandler):
             values['token'] = data['token']
             values['user_id'] = data['user_id']
             handshake = data['user_id']
-            handkey = handshake[:3]+"0"+handshake[4:]
+            handkey = handshake[:3]+"0"+handshake[3:]
             values['hSAhnedk'] = handkey
             values['validuntil_ts_msec'] = data['validuntil_ts_msec']
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
+            response.read()
 
-        #INFI
+
+class infi_mig(webapp2.RequestHandler):
+    def post(self):
         url = "http://api.stackmob.com/serverdbsubinfi"
         req = urllib2.Request(url)
         req.add_header('Accept','application/vnd.stackmob+json; version=1' )
@@ -316,12 +300,42 @@ class pingmig(webapp2.RequestHandler):
             values['token'] = data['token']
             values['user_id'] = data['user_id']
             handshake = data['user_id']
-            handkey = handshake[:3]+"0"+handshake[4:]
+            handkey = handshake[:3]+"0"+handshake[3:]
             values['hSAhnedk'] = handkey  
             values['validuntil_ts_msec'] = data['validuntil_ts_msec']
             data = urllib.urlencode(values)
             req = urllib2.Request(url, data)
             response = urllib2.urlopen(req)
+            response.read()
 
-application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/pingmig',pingmig)
-], debug=True)
+
+class ads_mig(webapp2.RequestHandler):
+    def post(self):
+	url = "http://api.stackmob.com/serverdbremoveads"
+        req = urllib2.Request(url)
+        req.add_header('Accept','application/vnd.stackmob+json; version=1' )
+        req.add_header('X-StackMob-API-Key', 'edc181a0-1ada-4339-a7ab-890e08c67839')
+        req.add_header('Content-Type','application/json')
+        response = urllib2.urlopen(req)
+        res = response.read()
+        datarr = {}
+        datarr = json.loads(res)
+        self.response.write(len(datarr))        
+	url = "http://acjs-cdc-ads.appspot.com/insert"
+        for data in datarr:
+            values = {}
+            values['order_id'] = data['order_id']
+            values['sign'] = data['sign']
+            values['token'] = data['token']
+            values['user_id'] = data['user_id']
+            handshake = data['user_id']
+            handkey = handshake[:3]+"0"+handshake[3:]
+            values['hSAhnedk'] = handkey
+            values['purchasetime'] = data['purchasetime']
+            data = urllib.urlencode(values)
+            req = urllib2.Request(url, data)
+            response = urllib2.urlopen(req)
+            response.read()
+
+
+application = webapp2.WSGIApplication([('/insert', usr_insert),('/update',usr_update),('/usr_mig',usr_mig),('/andro_mig',andro_mig),('/match_mig',match_mig),('/per_mig',per_mig),('/infisync_mig',infisync_mig),('/infi_mig',infi_mig),('/ads_mig', ads_mig)], debug=True)
