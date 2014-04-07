@@ -30,6 +30,8 @@ public class FBRefreshService extends IntentService{
 	@Override
 	protected void onHandleIntent(Intent intent){
 		Session session = Session.getActiveSession();
+		try
+		{
 		if(session.isOpened()){
 			Request.newMeRequest(session, new Request.GraphUserCallback(){
 				@Override
@@ -39,6 +41,11 @@ public class FBRefreshService extends IntentService{
 					}
 				}
 			}).executeAndWait();
+		}
+		}
+		catch(NullPointerException e)
+		{
+			
 		}
 	}
 }
