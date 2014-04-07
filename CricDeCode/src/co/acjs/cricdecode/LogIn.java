@@ -1,10 +1,5 @@
 package co.acjs.cricdecode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,18 +19,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +61,7 @@ public class LogIn extends SherlockActivity {
 	static JSONParser jsonParser;
 	static List<NameValuePair> params;
 
+	/*
 	public static void writeToFile(String data) { 		 
 
  		try {
@@ -119,26 +109,13 @@ File gpxfile = new File(root, "matchsync.txt");
  
 
  		}
-	}
+	} */
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		try {
-			PackageInfo info = getPackageManager().getPackageInfo(
-					"co.acjs.cricdecode",
-					PackageManager.GET_SIGNATURES);
-			for (Signature signature : info.signatures) {
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				writeToFile(""+Base64.encodeToString(md.digest(), Base64.DEFAULT));
-			}
-		} catch (NameNotFoundException e) {
-
-		} catch (NoSuchAlgorithmException e) {
-
-		}
+	
 
 		setContentView(R.layout.activity_log_in);
 		ActionBar actionBar = getSupportActionBar();
