@@ -13,6 +13,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -21,10 +24,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,63 +67,62 @@ public class LogIn extends SherlockActivity {
 	static List<NameValuePair> params;
 
 	/*
-	public static void writeToFile(String data) { 		 
-
- 		try {
-
- 
-
- 			File root = new File(Environment.getExternalStorageDirectory(),
-
- 					"CricDeCode");
-
- 
-
- 			if (!root.exists()) {
-
- 
-
- 				root.mkdirs();
-
- 			}
-
- 
-
-File gpxfile = new File(root, "matchsync.txt");
-
- 
-
- 			FileWriter writer = new FileWriter(gpxfile, true);
-
- 			writer.write(data + "\n");
-
- 			writer.flush();
-
- 
-
- 			writer.close();
-
- 
-
- 		} catch (IOException e) {
-
- 
-
- 			Log.e("Exception", "File write failed: " + e.toString());
-
- 
-
- 		}
-	} */
+	 * public static void writeToFile(String data) {
+	 * 
+	 * try {
+	 * 
+	 * 
+	 * 
+	 * File root = new File(Environment.getExternalStorageDirectory(),
+	 * 
+	 * "CricDeCode");
+	 * 
+	 * 
+	 * 
+	 * if (!root.exists()) {
+	 * 
+	 * 
+	 * 
+	 * root.mkdirs();
+	 * 
+	 * }
+	 * 
+	 * 
+	 * 
+	 * File gpxfile = new File(root, "matchsync.txt");
+	 * 
+	 * 
+	 * 
+	 * FileWriter writer = new FileWriter(gpxfile, true);
+	 * 
+	 * writer.write(data + "\n");
+	 * 
+	 * writer.flush();
+	 * 
+	 * 
+	 * 
+	 * writer.close();
+	 * 
+	 * 
+	 * 
+	 * } catch (IOException e) {
+	 * 
+	 * 
+	 * 
+	 * Log.e("Exception", "File write failed: " + e.toString());
+	 * 
+	 * 
+	 * 
+	 * } }
+	 */
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-	
-
+		login_activity = this;
+		ActionBar actionBar = getSupportActionBar();			
+		
 		setContentView(R.layout.activity_log_in);
-		ActionBar actionBar = getSupportActionBar();
 
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -130,7 +134,7 @@ File gpxfile = new File(root, "matchsync.txt");
 		actionBar.setCustomView(view);
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode",
 				Context.MODE_PRIVATE);
-		login_activity = this;
+
 		final LoginButton loginButton = (LoginButton) findViewById(R.id.login);
 		progressText = (TextView) findViewById(R.id.warning_text);
 		List<String> permissions = Arrays.asList("user_birthday");

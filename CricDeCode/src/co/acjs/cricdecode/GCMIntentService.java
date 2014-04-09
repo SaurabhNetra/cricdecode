@@ -4,14 +4,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,6 +37,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 	public static final int NO_SUB_INFI_SYNC = 9;
 	public static final int SUB_SYNC = 10;
 	public static final int NO_SUB_SYNC = 11;
+	public static final int INTENT_GCM = 12;
 	public static Context context;
 	static SQLiteDatabase dbHandle;
 	ContentProviderClient client;
@@ -110,7 +115,7 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 								.equals("yes")) {
 					try {
 						ContentValues values = new ContentValues();
-	
+
 						values.put(MatchDb.KEY_ROWID, gcmData.getInt("mid"));
 						values.put(MatchDb.KEY_DEVICE_ID,
 								gcmData.getString("did"));
@@ -138,7 +143,6 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 										+ MatchDb.KEY_DEVICE_ID + " = '"
 										+ gcmData.getString("did") + "'", null);
 
-				
 						if (c.getCount() == 0) {
 
 							Uri irm = getApplicationContext()
@@ -483,6 +487,31 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 				} catch (Exception e) {
 				}
 				break;
+
+			case INTENT_GCM:
+
+				final Intent emptyIntent = new Intent(Intent.ACTION_VIEW,
+						Uri.parse(gcmData.getString("link")));
+				PendingIntent pendingIntent = PendingIntent.getActivity(
+						context, 7647, emptyIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+
+				NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+						this)
+						.setSmallIcon(R.drawable.ic_actionbar)
+						.setLargeIcon(
+								BitmapFactory.decodeResource(
+										context.getResources(),
+										R.drawable.ic_launcher))
+						.setContentTitle(gcmData.getString("title"))
+						.setContentText(gcmData.getString("nonexpanded"))
+						.setStyle(
+								new NotificationCompat.BigTextStyle()
+										.bigText(gcmData.getString("expanded")))
+						.setContentIntent(pendingIntent).setAutoCancel(true);
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				notificationManager.notify(545, mBuilder.build());
+				break;
 			}
 		} catch (JSONException e) {
 			Log.w("Json exception", "ex in gcm" + e);
@@ -508,5 +537,4 @@ public class GCMIntentService extends GCMBaseIntentServiceCompat {
 		}
 	}
 
-	
 }
