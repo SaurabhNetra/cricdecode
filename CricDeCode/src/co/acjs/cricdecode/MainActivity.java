@@ -87,6 +87,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends SherlockFragmentActivity {
+	//Constants
+	static int MATCH_LIMIT = 50;
 	// Declare Variables
 	DrawerLayout mDrawerLayout;
 	ListView mDrawerList;
@@ -2826,7 +2828,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			if (c.getCount() != 0) {
 				c.moveToFirst();
 				Log.d("Debug", "Match Count " + c.getInt(0));
-				if (c.getInt(0) >= 5) {
+				if (c.getInt(0) >= MATCH_LIMIT) {
 					matchLimitExceeeded = true;
 				}
 			}
