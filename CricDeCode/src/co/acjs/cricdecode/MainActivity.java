@@ -86,6 +86,11 @@ import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+//Advetisemnet Full screen 
+//To Do DisplayLineChart, DisplayPieChart onBackPressed and OnoptionItemsSelected ka homebutton
+//To Do PerformanceFragmentView onbackpressed
+//To Do here in Onkeyup()
+
 public class MainActivity extends SherlockFragmentActivity {
 	//Constants
 	static int MATCH_LIMIT = 50;
@@ -2743,6 +2748,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentFragment == root_fragment) {
 				super.onBackPressed();
+				//To Do Show full screen advertisement activity
 				return true;
 			}
 			switch (currentFragment) {
