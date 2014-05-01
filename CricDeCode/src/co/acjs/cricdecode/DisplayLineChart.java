@@ -142,6 +142,11 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	}
 
 	@Override
+	public void onBackPressed(){
+		
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -155,7 +160,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 
 	private XYMultipleSeriesDataset mDataset(String[] titles,
 			List<double[]> xValues, List<double[]> yValues) {
-		// TODO Auto-generated method stub
 		XYMultipleSeriesDataset dataset1 = new XYMultipleSeriesDataset();
 		addXYSeries(dataset1, titles, xValues, yValues, 0);
 		return dataset1;
@@ -163,7 +167,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 
 	private void addXYSeries(XYMultipleSeriesDataset dataset, String[] titles,
 			List<double[]> xValues, List<double[]> yValues, int scale) {
-		// TODO Auto-generated method stub
 		int length = titles.length;
 		for (int i = 0; i < length; i++) {
 			double[] xV = xValues.get(i);
@@ -179,7 +182,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 
 	private XYMultipleSeriesRenderer buildRenderer(int[] colors,
 			PointStyle[] styles) {
-		// TODO Auto-generated method stub
 		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 		setRenderer(renderer, colors, styles);
 		return renderer;
@@ -187,7 +189,6 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 
 	private void setRenderer(XYMultipleSeriesRenderer renderer2, int[] colors,
 			PointStyle[] styles) {
-		// TODO Auto-generated method stub
 		renderer2.setAxisTitleTextSize(16);
 		renderer2.setLabelsTextSize(12);
 		renderer2.setLegendTextSize(15);

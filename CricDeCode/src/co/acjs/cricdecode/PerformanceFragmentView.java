@@ -25,8 +25,6 @@ import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-//To Do onbackpressed show advertisemnent activity
-
 public class PerformanceFragmentView extends SherlockFragment implements ViewPager.OnPageChangeListener{
 	static PerformanceFragmentView	performanceFragmentView;
 	public static final String[]	month_str	= {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
