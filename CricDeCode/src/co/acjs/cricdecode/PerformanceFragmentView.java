@@ -201,7 +201,8 @@ public class PerformanceFragmentView extends SherlockFragment implements ViewPag
 
 	@Override
 	public void onStop(){
-		if(!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes"))) MainActivity.createAd();
+		super.onStop();
+		//if(!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes"))) MainActivity.createAd();
 	}
 
 	@Override
