@@ -107,7 +107,7 @@ public class MainActivity extends SherlockFragmentActivity{
 	static SQLiteDatabase							dbHandle;
 	public static Context							main_context;
 	TextView										tx;
-	private InterstitialAd							interstitial;
+	public static InterstitialAd					interstitial;
 	ProgressDialog									progressDialog;
 	private static IabHelper						mHelper;
 	private static OnIabPurchaseFinishedListener	mPurchaseFinishedListener;
@@ -168,12 +168,12 @@ public class MainActivity extends SherlockFragmentActivity{
 		AccessSharedPrefs.mPrefs = getSharedPreferences("CricDeCode", Context.MODE_PRIVATE);
 		AccessSharedPrefs.setString(this, "isSignedIn", "Yes");
 		main_context = this;
-		//Ads
+		// Ads
 		interstitial = new InterstitialAd(this);
 		interstitial.setAdUnitId(getResources().getString(R.string.publisher_id));
 		AdRequest adRequest = new AdRequest.Builder().build();
 		interstitial.loadAd(adRequest);
-		//IAP
+		// IAP
 		mHelper = new IabHelper(this, decrypt("C,sCZBgBPDBE,p8OF0U[RLcYTHjI:iFsKulbsFD,Gs4Q2L1qh,BfWJRSnY9OBCY1mUI5UQPe0Y:wsNJ4", "uDL4NVye4e[B8oJFm40g2R45Jf3JuehFp4CH8K3lZBkRJBvef9dmJ", "D7FN4KtfNwB4iYV3G0e6Rn98JcPEsC9[qwE6F:BJB{Uw7g9O36NV53heRgz3JL:NlxlKdqJixRhBoVP6CBJlUHhgHtDPEzM7PXlehTBT8EJ:xLL8RHrgBC", "HkE5Pd47RYKBuSCFBHw22OvZdpPmzP8CZsEfS9WKqhbPYgQNk4qlWy0ouq[f{rco2gkuGoxi[pKkGSfDslUjKtfkPRcje2{:Lrd3cHztXv0BN2q:YHxu7MI:gx4O7whSqCs1jOHg[0n4W", "5143079682", 1));
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener(){
 			@Override
@@ -1905,9 +1905,7 @@ public class MainActivity extends SherlockFragmentActivity{
 		if(keyCode == KeyEvent.KEYCODE_BACK){
 			if(currentFragment == root_fragment){
 				super.onBackPressed();
-				// TODO Show full screen advertisement activity
-				if(!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes")))
-					createAd();
+				if(!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes"))) createAd();
 				return true;
 			}
 			switch(currentFragment){
@@ -1958,6 +1956,9 @@ public class MainActivity extends SherlockFragmentActivity{
 			}
 		}else if(keyCode == KeyEvent.KEYCODE_MENU){
 			toggleNavigationDrawer();
+			return true;
+		}else if(keyCode == KeyEvent.KEYCODE_HOME){
+			if(!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes"))) createAd();
 			return true;
 		}
 		return super.onKeyUp(keyCode, event);
@@ -2306,8 +2307,8 @@ public class MainActivity extends SherlockFragmentActivity{
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
-	
-	public void createAd(){
+
+	public static void createAd(){
 		if(interstitial.isLoaded()){
 			interstitial.show();
 		}

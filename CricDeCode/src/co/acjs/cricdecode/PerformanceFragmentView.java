@@ -25,6 +25,7 @@ import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+
 public class PerformanceFragmentView extends SherlockFragment implements ViewPager.OnPageChangeListener{
 	static PerformanceFragmentView	performanceFragmentView;
 	public static final String[]	month_str	= {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -196,6 +197,11 @@ public class PerformanceFragmentView extends SherlockFragment implements ViewPag
 			match_overs = "Unlimited";
 		}
 		c.close();
+	}
+
+	@Override
+	public void onStop(){
+		if(!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes"))) MainActivity.createAd();
 	}
 
 	@Override
