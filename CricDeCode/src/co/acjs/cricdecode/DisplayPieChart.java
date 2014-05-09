@@ -28,6 +28,8 @@ import co.acjs.cricdecode.CDCAppClass.TrackerName;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 
 public class DisplayPieChart extends SherlockFragmentActivity {
@@ -40,11 +42,24 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	private DefaultRenderer mRenderer = new DefaultRenderer();
 	/** The chart view that displays the data. */
 	private GraphicalView mChartView;
+	public static InterstitialAd interstitial;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
+		// Ads			
+				
+				if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no")
+						.equals("yes")))
+				{
+					interstitial = new InterstitialAd(this);
+					interstitial.setAdUnitId(getResources()
+							.getString(R.string.publisher_id));
+					AdRequest adRequest = new AdRequest.Builder().build();
+					interstitial.loadAd(adRequest);
+					
+				}	
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -102,6 +117,12 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 		t.setScreenName(getResources().getString(R.string.analyticsPieChart));
 		t.send(new HitBuilders.AppViewBuilder().build());
 
+	}
+	
+	public static void createAd() {
+		if (interstitial.isLoaded()) {
+			interstitial.show();
+		}
 	}
 
 	@TargetApi(19)
@@ -164,6 +185,21 @@ public class DisplayPieChart extends SherlockFragmentActivity {
 	}
 
 	public void endMe(View v) {
+		if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no")
+				.equals("yes")))
+			createAd();
 		finish();
 	}
+	
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			
+				super.onBackPressed();
+				if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no")
+						.equals("yes")))
+					createAd();
+				
+		}
+		return true;
+}
 }

@@ -36,6 +36,8 @@ import co.acjs.cricdecode.CDCAppClass.TrackerName;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 
 public class DisplayLineChart extends SherlockFragmentActivity {
@@ -44,11 +46,22 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	String labels[];
 	double values[];
 	LinearLayout layout;
+	public static InterstitialAd interstitial;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_graph);
+		// Ads
+
+		if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no").equals("yes"))) {
+			interstitial = new InterstitialAd(this);
+			interstitial.setAdUnitId(getResources().getString(
+					R.string.publisher_id));
+			AdRequest adRequest = new AdRequest.Builder().build();
+			interstitial.loadAd(adRequest);
+
+		}
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -108,10 +121,17 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 		if (getResources().getIdentifier("config_enableTranslucentDecor",
 				"bool", "android") != 0)
 			makeBarsTranslucent(getWindow());
-		
-		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getApplication()).getTracker(TrackerName.APP_TRACKER);
+
+		com.google.android.gms.analytics.Tracker t = ((CDCAppClass) getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
 		t.setScreenName(getResources().getString(R.string.analyticsLineChart));
 		t.send(new HitBuilders.AppViewBuilder().build());
+	}
+
+	public static void createAd() {
+		if (interstitial.isLoaded()) {
+			interstitial.show();
+		}
 	}
 
 	@TargetApi(19)
@@ -142,10 +162,10 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public void onBackPressed(){
-		
+	public void onBackPressed() {
+
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -231,6 +251,23 @@ public class DisplayLineChart extends SherlockFragmentActivity {
 	}
 
 	public void endMe(View v) {
+		
+		if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no")
+				.equals("yes")))
+			createAd();
 		finish();
+		
+	}
+
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+			super.onBackPressed();
+			if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no")
+					.equals("yes")))
+				createAd();
+
+		}
+		return true;
 	}
 }

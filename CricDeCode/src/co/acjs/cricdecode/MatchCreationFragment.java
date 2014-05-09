@@ -218,6 +218,10 @@ public class MatchCreationFragment extends SherlockFragment {
 		// Go to Ongoing Matches
 		Date d = new Date();
 		if (date.after(d) || date.equals(d)) {
+
+			if (!(AccessSharedPrefs.mPrefs.getString("ad_free", "no")
+					.equals("yes")))
+				MainActivity.createAd();
 			((MainActivity) getSherlockActivity()).currentFragment = MainActivity.ONGOING_MATCHES_FRAGMENT;
 			((MainActivity) getSherlockActivity()).preFragment = MainActivity.root_fragment;
 			((MainActivity) getSherlockActivity()).selectItem(
