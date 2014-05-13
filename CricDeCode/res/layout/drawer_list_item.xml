@@ -15,7 +15,7 @@
         android:paddingBottom="@dimen/item_padding_bottom"
         android:paddingTop="@dimen/item_padding_top"
         android:singleLine="true"
-        android:textColor="@color/dark_red"
+        android:textColor="@color/snow_grey"
         android:textSize="@dimen/item_txt_size"
         android:textStyle="bold" />
 

@@ -1,9 +1,0 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item android:drawable="@color/transparent"/>
-    <item
-        android:drawable="@color/snow_grey"
-        android:top="50dp"
-        android:bottom="0dp"/>
-
-</layer-list>
