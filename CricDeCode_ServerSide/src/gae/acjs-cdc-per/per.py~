@@ -110,65 +110,6 @@ class per_insert(webapp2.RequestHandler):
             self.response.write('{"status" : 1}')
 
 
-class per_insert_mig(webapp2.RequestHandler):
-
-    def post(self):
-
-        self.response.headers['Content-Type'] = 'text/plain'
-
-        uid = self.request.get('user_id')
-        handshake = self.request.get('hSAhnedk')
-        times = int(handshake[3])
-        handkey = handshake[:3]+handshake[4:]
-        key = uid
-        for i in xrange(times):
-            key = hashlib.md5(key).hexdigest()
-
-        if(handkey == key):
-            perf_obj = per()
-            perf_obj.bat_balls = int(self.request.get('bat_balls'))
-            perf_obj.bat_bowler_type = self.request.get('bat_bowler_type')
-            perf_obj.bat_chances = int(self.request.get('bat_chances'))
-            perf_obj.bat_dismissal = self.request.get('bat_dismissal')
-            perf_obj.bat_fielding_position = self.request.get('bat_fielding_position')
-            perf_obj.bat_num = self.request.get('bat_num')
-            perf_obj.bat_runs = self.request.get('bat_runs')
-            perf_obj.bat_time = self.request.get('bat_time')
-            perf_obj.bat_fours = self.request.get('bat_fours')
-            perf_obj.bat_sixes = self.request.get('bat_sixes')
-            perf_obj.bowl_balls = self.request.get('bowl_balls')
-            perf_obj.bowl_catches_dropped = self.request.get('bowl_catches_dropped')
-            perf_obj.bowl_fours = self.request.get('bowl_fours')
-            perf_obj.bowl_maidens = self.request.get('bowl_maidens')
-            perf_obj.bowl_no_balls = self.request.get('bowl_no_balls')
-            perf_obj.bowl_runs = self.request.get('bowl_runs')
-            perf_obj.bowl_sixes = self.request.get('bowl_sixes')
-            perf_obj.bowl_spells = self.request.get('bowl_spells')
-            perf_obj.bowl_wides = self.request.get('bowl_wides')
-            perf_obj.bowl_wkts_left = self.request.get('bowl_wkts_left')
-            perf_obj.bowl_wkts_right = self.request.get('bowl_wkts_right')
-            perf_obj.device_id = self.request.get('device_id')
-            perf_obj.field_byes = self.request.get('field_byes')
-            perf_obj.field_catches_dropped = self.request.get('field_catches_dropped')
-            perf_obj.field_circle_catch = self.request.get('field_circle_catch')
-            perf_obj.field_close_catch = self.request.get('field_close_catch')
-            perf_obj.field_deep_catch = self.request.get('field_deep_catch')
-            perf_obj.field_misfield = self.request.get('field_misfield')
-            perf_obj.field_ro_circle = self.request.get('field_ro_circle')
-            perf_obj.field_ro_deep = self.request.get('field_ro_deep')
-            perf_obj.field_ro_direct_circle = self.request.get('field_ro_direct_circle')
-            perf_obj.field_ro_direct_deep = self.request.get('field_ro_direct_deep')
-            perf_obj.field_slip_catch = self.request.get('field_slip_catch')
-            perf_obj.field_stumpings = self.request.get('field_stumpings')
-            perf_obj.inning = self.request.get('inning')
-            perf_obj.match_id = self.request.get('match_id')
-            perf_obj.per_id = self.request.get('per_id')
-            perf_obj.user_id = self.request.get('user_id')
-
-            obj_list = per.query(ndb.AND(per.user_id == perf_obj.user_id,per.match_id == perf_obj.match_id,per.device_id == perf_obj.device_id,per.inning == perf_obj.inning)).fetch()
-            if(len(obj_list) == 0):
-                perf_obj.put()
-
 class per_fetch(webapp2.RequestHandler):
 
      def post(self):

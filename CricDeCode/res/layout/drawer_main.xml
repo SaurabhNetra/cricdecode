@@ -46,7 +46,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/dark_red"
-        android:cacheColorHint="@color/snow_grey"
+        android:cacheColorHint="@color/dark_red"
         android:choiceMode="singleChoice"
         android:divider="@color/dark_grey"
         android:dividerHeight="@dimen/left_drawer_divider_height"
